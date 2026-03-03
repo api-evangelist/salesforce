@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/salesforce/refs/heads/main/json-schema/salesforce-query-result-schema.json",
+  "title": "Salesforce SOQL Query Result",
+  "description": "The result of a Salesforce SOQL (Salesforce Object Query Language) query executed via the REST API /query or /queryAll endpoints. Contains the total number of matching records, a pagination flag, an optional URL for the next page of results, and an array of SObject records matching the query.",
+  "type": "object",
+  "required": [
+    "totalSize",
+    "done",
+    "records"
+  ],
+  "properties": {
+    "totalSize": {
+      "type": "integer",
+      "description": "The total number of records matching the SOQL query across all pages. This is the count of all matching records, not just the records in the current page. May be larger than the length of the records array when results are paginated.",
+      "minimum": 0
+    },
+    "done": {
+      "type": "boolean",
+      "description": "Whether all query results have been retrieved and included in the current response. If true, the records array contains all matching records. If false, additional pages of results are available via the nextRecordsUrl."
+    },
+    "nextRecordsUrl": {
+      "type": "string",
+      "format": "uri",
+      "description": "The relative URL to retrieve the next page of query results. Only present when done is false, indicating there are more records beyond the current page. Pass this URL to the GET /query/{queryId} endpoint to retrieve subsequent pages. Continues paginating until done is true."
+    },
+    "records": {
+      "type": "array",
+      "description": "An array of Salesforce SObject records matching the SOQL query. Each record is an object with an attributes property (containing type and url) plus field name/value pairs for all fields included in the SELECT clause. May be an empty array if no records match the query.",
+      "items": {
+        "type": "object",
+        "description": "A single Salesforce SObject record returned by the query. Contains an attributes object with record type metadata, plus field values for all fields requested in the SOQL SELECT clause.",
+        "required": [
+          "attributes"
+        ],
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "description": "Metadata attributes for this SObject record, identifying its type and REST API URL.",
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity). Identifies what kind of record this is."
+              },
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "description": "The relative REST API URL for this specific record. Use this URL to retrieve, update, or delete the record."
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": false
+}

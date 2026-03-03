@@ -1,0 +1,1361 @@
+openapi: 3.1.0
+info:
+  title: Salesforce REST API
+  description: >
+    The Salesforce REST API provides a simple and powerful web service interface
+    to interact with Salesforce org data. It supports creating, reading,
+    updating, deleting, and querying records using SOQL and SOSL, and is the
+    primary API for building connected applications against Salesforce.
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+  - url: https://{instance}.salesforce.com/services/data/v{version}
+    description: Salesforce instance-specific REST API endpoint
+    variables:
+      instance:
+        default: yourInstance
+        description: >
+          The Salesforce instance identifier (e.g., na1, eu3, or a My Domain
+          subdomain like mycompany).
+      version:
+        default: '63.0'
+        description: >
+          The Salesforce API version number (e.g., 63.0). Use the latest
+          supported version for new integrations.
+security:
+  - BearerAuth: []
+tags:
+  - name: Versions
+    description: Retrieve available API versions for the Salesforce instance.
+  - name: SObjects
+    description: >
+      Operations for listing, describing, creating, reading, updating, and
+      deleting Salesforce SObject records and metadata.
+  - name: Query
+    description: Execute SOQL queries against Salesforce data.
+  - name: QueryAll
+    description: >
+      Execute SOQL queryAll to include soft-deleted and archived records in
+      results.
+  - name: Search
+    description: Execute SOSL searches across multiple objects.
+  - name: Limits
+    description: Retrieve current API limit usage and quotas for the org.
+  - name: Recent
+    description: Retrieve recently viewed records for the current user.
+  - name: AppMenu
+    description: Retrieve Salesforce application menu items.
+  - name: Composite
+    description: >
+      Batch and composite request patterns for reducing round trips and
+      supporting dependent multi-step requests.
+paths:
+  /:
+    get:
+      operationId: listApiVersions
+      summary: List available API versions
+      description: >
+        Returns a list of all Salesforce REST API versions available on this
+        instance. Each entry includes the version number, label, and URL. Use
+        this to discover the latest supported version before building
+        integrations.
+      tags:
+        - Versions
+      responses:
+        '200':
+          description: A list of available API versions.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApiVersion'
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /sobjects:
+    get:
+      operationId: listSObjects
+      summary: List all SObjects
+      description: >
+        Returns a list of all available SObject types in the org, including both
+        standard and custom objects. Each entry includes the object name, label,
+        key prefix, and whether the object is queryable, searchable, and
+        retrievable.
+      tags:
+        - SObjects
+      responses:
+        '200':
+          description: A list of all SObject types available in the org.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  encoding:
+                    type: string
+                    description: Character encoding used in the response.
+                  maxBatchSize:
+                    type: integer
+                    description: Maximum number of records returned in a batch.
+                  sobjects:
+                    type: array
+                    description: Array of SObject summary descriptors.
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: API name of the SObject type.
+                        label:
+                          type: string
+                          description: User-facing label for the SObject type.
+                        keyPrefix:
+                          type: string
+                          description: >
+                            Three-character prefix used in Salesforce record IDs
+                            to identify the object type.
+                        queryable:
+                          type: boolean
+                          description: Whether the object supports SOQL queries.
+                        searchable:
+                          type: boolean
+                          description: Whether the object supports SOSL searches.
+                        retrieveable:
+                          type: boolean
+                          description: Whether individual records can be retrieved.
+                        urls:
+                          type: object
+                          description: >
+                            Map of REST endpoint URLs for this object
+                            (sobject, describe, rowTemplate).
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /sobjects/{sobjectType}:
+    get:
+      operationId: describeSObject
+      summary: Describe an SObject
+      description: >
+        Returns metadata about a specific SObject type, including field
+        definitions, relationships, and available REST endpoints. This is
+        equivalent to calling the describe endpoint but returns a shorter
+        summary. For the full field list use /sobjects/{sobjectType}/describe.
+      tags:
+        - SObjects
+      parameters:
+        - $ref: '#/components/parameters/sobjectType'
+      responses:
+        '200':
+          description: Metadata describing the specified SObject type.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SObjectDescribe'
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: The specified SObject type was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: createRecord
+      summary: Create a new record
+      description: >
+        Creates a new record of the specified SObject type. The request body
+        must contain the field values for the new record in JSON format. Returns
+        the ID of the newly created record on success.
+      tags:
+        - SObjects
+      parameters:
+        - $ref: '#/components/parameters/sobjectType'
+      requestBody:
+        required: true
+        description: >
+          Field values for the new SObject record. Required fields depend on the
+          object type.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SObjectRecord'
+      responses:
+        '201':
+          description: Record created successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: The 18-character ID of the newly created record.
+                  success:
+                    type: boolean
+                    description: Whether the record was created successfully.
+                  errors:
+                    type: array
+                    description: List of errors if the creation partially failed.
+                    items:
+                      $ref: '#/components/schemas/Error'
+        '400':
+          description: Bad request. Missing required fields or invalid field values.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /sobjects/{sobjectType}/{id}:
+    get:
+      operationId: getRecord
+      summary: Get a record by ID
+      description: >
+        Retrieves a single SObject record by its 18-character ID. Returns all
+        accessible fields for the record. To retrieve only specific fields, use
+        a SOQL query via the /query endpoint instead.
+      tags:
+        - SObjects
+      parameters:
+        - $ref: '#/components/parameters/sobjectType'
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: The requested SObject record.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SObjectRecord'
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Record not found for the given ID and SObject type.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      operationId: updateRecord
+      summary: Update a record
+      description: >
+        Updates an existing SObject record identified by its 18-character ID.
+        Only the fields included in the request body are updated; omitted fields
+        retain their current values. Returns no body on success.
+      tags:
+        - SObjects
+      parameters:
+        - $ref: '#/components/parameters/sobjectType'
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        required: true
+        description: >
+          Field values to update on the SObject record. Only include fields that
+          should change.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SObjectRecord'
+      responses:
+        '204':
+          description: Record updated successfully. No body is returned.
+        '400':
+          description: Bad request. Invalid field values or field not updateable.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Record not found for the given ID and SObject type.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: deleteRecord
+      summary: Delete a record
+      description: >
+        Deletes an existing SObject record by its 18-character ID. The record is
+        moved to the Recycle Bin unless the object does not support soft delete,
+        in which case it is permanently removed.
+      tags:
+        - SObjects
+      parameters:
+        - $ref: '#/components/parameters/sobjectType'
+        - $ref: '#/components/parameters/id'
+      responses:
+        '204':
+          description: Record deleted successfully. No body is returned.
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Record not found for the given ID and SObject type.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /sobjects/{sobjectType}/{id}/{blobField}:
+    get:
+      operationId: getBlobField
+      summary: Get a blob field value
+      description: >
+        Retrieves the binary content of a blob (binary large object) field on an
+        SObject record. Examples include the Body field on Attachment or
+        VersionData on ContentVersion. Returns the raw binary content with the
+        appropriate MIME type.
+      tags:
+        - SObjects
+      parameters:
+        - $ref: '#/components/parameters/sobjectType'
+        - $ref: '#/components/parameters/id'
+        - name: blobField
+          in: path
+          required: true
+          description: >
+            The API name of the blob field to retrieve (e.g., Body, VersionData,
+            Photo).
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The raw binary content of the blob field.
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+                description: Raw binary content of the blob field.
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Record or blob field not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /sobjects/{sobjectType}/describe:
+    get:
+      operationId: fullDescribeSObject
+      summary: Full describe of an SObject
+      description: >
+        Returns a complete description of the specified SObject type, including
+        all field definitions with their data types, labels, picklist values,
+        relationship metadata, and child relationships. Use this endpoint when
+        you need detailed schema information for a specific object type.
+      tags:
+        - SObjects
+      parameters:
+        - $ref: '#/components/parameters/sobjectType'
+      responses:
+        '200':
+          description: Full metadata describing the SObject type and all its fields.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SObjectDescribe'
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: The specified SObject type was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /query:
+    post:
+      operationId: executeQuery
+      summary: Execute a SOQL query
+      description: >
+        Executes a SOQL (Salesforce Object Query Language) query and returns
+        matching records. The query is passed in the request body as a JSON
+        object with a "q" property. If results span multiple pages, a
+        nextRecordsUrl is included to retrieve the next batch.
+      tags:
+        - Query
+      requestBody:
+        required: true
+        description: SOQL query to execute against Salesforce data.
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - q
+              properties:
+                q:
+                  type: string
+                  description: >
+                    The SOQL query string to execute. Must be a valid SOQL
+                    statement including SELECT, FROM, and optional WHERE, ORDER
+                    BY, LIMIT clauses.
+                  example: SELECT Id, Name, Email FROM Contact WHERE IsDeleted = false LIMIT 200
+      responses:
+        '200':
+          description: Query results with totalSize, done flag, and records array.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResult'
+        '400':
+          description: Bad request. Invalid SOQL syntax or query validation failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /query/{queryId}:
+    get:
+      operationId: getNextQueryPage
+      summary: Get the next page of query results
+      description: >
+        Retrieves the next page of results from a paginated SOQL query. The
+        queryId is obtained from the nextRecordsUrl in a previous query response.
+        Continue calling this endpoint until the done field in the response is
+        true.
+      tags:
+        - Query
+      parameters:
+        - name: queryId
+          in: path
+          required: true
+          description: >
+            The query ID token from the nextRecordsUrl of a previous query
+            response.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: >
+            The next page of query results. Check the done field to determine if
+            more pages remain.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResult'
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Query ID not found or expired.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /queryAll:
+    post:
+      operationId: executeQueryAll
+      summary: Execute a queryAll (includes deleted records)
+      description: >
+        Executes a SOQL query that includes soft-deleted records and archived
+        records in the results, unlike the standard /query endpoint which
+        excludes them. Use this endpoint for data recovery, audit trails, or
+        replication scenarios where deleted records must be included.
+      tags:
+        - QueryAll
+      requestBody:
+        required: true
+        description: SOQL query to execute, including deleted and archived records.
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - q
+              properties:
+                q:
+                  type: string
+                  description: >
+                    The SOQL query string to execute. Deleted and archived
+                    records matching the query criteria will be included in
+                    results.
+                  example: SELECT Id, Name, IsDeleted FROM Contact WHERE IsDeleted = true
+      responses:
+        '200':
+          description: >
+            Query results including deleted and archived records, with totalSize,
+            done flag, and records array.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResult'
+        '400':
+          description: Bad request. Invalid SOQL syntax or query validation failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /search:
+    get:
+      operationId: executeSearch
+      summary: Execute a SOSL search
+      description: >
+        Executes a SOSL (Salesforce Object Search Language) search query across
+        multiple objects simultaneously. The SOSL query is passed as a query
+        parameter. Returns matching records from all specified objects,
+        supporting full-text search capabilities.
+      tags:
+        - Search
+      parameters:
+        - name: q
+          in: query
+          required: true
+          description: >
+            The SOSL search string to execute. Must include a FIND clause and
+            optionally IN, RETURNING, and WITH clauses.
+          schema:
+            type: string
+          example: FIND {Jane Smith} IN ALL FIELDS RETURNING Contact(Id, Name, Email), Account(Id, Name)
+      responses:
+        '200':
+          description: Search results grouped by object type.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResult'
+        '400':
+          description: Bad request. Invalid SOSL syntax or search validation failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /limits:
+    get:
+      operationId: getOrgLimits
+      summary: Get org API limits
+      description: >
+        Returns the current API limit usage and remaining quotas for the
+        Salesforce org. Includes limits for daily API requests, bulk API jobs,
+        streaming API events, and other governor limits. Use this endpoint to
+        monitor API consumption and avoid hitting limits.
+      tags:
+        - Limits
+      responses:
+        '200':
+          description: >
+            A map of limit names to their maximum and remaining values for the
+            current org.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: >
+                  Map of limit names to objects containing Max (maximum allowed)
+                  and Remaining (currently available) values.
+                additionalProperties:
+                  type: object
+                  properties:
+                    Max:
+                      type: integer
+                      description: Maximum allowed value for this limit.
+                    Remaining:
+                      type: integer
+                      description: Remaining available value for this limit.
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /recent:
+    get:
+      operationId: getRecentlyViewedRecords
+      summary: Get recently viewed records
+      description: >
+        Returns a list of recently viewed and referenced records for the
+        currently authenticated user. Records are ordered by the most recently
+        viewed first. Useful for building recently visited navigation features
+        in custom applications.
+      tags:
+        - Recent
+      parameters:
+        - name: recentlyViewedCount
+          in: query
+          required: false
+          description: >
+            The number of recently viewed records to return. Defaults to 200.
+            Maximum is 200.
+          schema:
+            type: integer
+            default: 200
+            maximum: 200
+      responses:
+        '200':
+          description: List of recently viewed records for the current user.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    Id:
+                      type: string
+                      description: 18-character Salesforce record ID.
+                    Name:
+                      type: string
+                      description: Display name of the record.
+                    attributes:
+                      type: object
+                      description: Object type and URL metadata.
+                      properties:
+                        type:
+                          type: string
+                          description: API name of the SObject type.
+                        url:
+                          type: string
+                          format: uri
+                          description: REST API URL for this record.
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /appMenu/AppSwitcher:
+    get:
+      operationId: getAppSwitcherMenu
+      summary: Get the app switcher menu
+      description: >
+        Returns the list of applications available in the Salesforce App
+        Switcher menu for the currently authenticated user. Each entry includes
+        the app label, icon URL, and navigation URL. Use this to build custom
+        navigation or app launchers in connected applications.
+      tags:
+        - AppMenu
+      responses:
+        '200':
+          description: App switcher menu entries available to the current user.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  appMenuItems:
+                    type: array
+                    description: List of app switcher menu items.
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: API name of the application.
+                        label:
+                          type: string
+                          description: Display label of the application.
+                        iconUrl:
+                          type: string
+                          format: uri
+                          description: URL of the application icon.
+                        url:
+                          type: string
+                          format: uri
+                          description: Navigation URL for the application.
+                        type:
+                          type: string
+                          description: Type of menu item (e.g., App, Tab).
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /composite/batch:
+    post:
+      operationId: executeBatchRequest
+      summary: Execute a batch of requests
+      description: >
+        Executes up to 25 independent REST API subrequests in a single HTTP
+        call. All requests are processed independently; failure of one does not
+        affect others. Returns an array of results in the same order as the
+        subrequests. Use this to reduce the number of round trips when making
+        multiple unrelated requests.
+      tags:
+        - Composite
+      requestBody:
+        required: true
+        description: >
+          An array of up to 25 independent subrequests to execute as a batch.
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - batchRequests
+              properties:
+                batchRequests:
+                  type: array
+                  description: >
+                    Array of subrequests to execute. Each subrequest is
+                    independent of the others.
+                  maxItems: 25
+                  items:
+                    type: object
+                    required:
+                      - method
+                      - url
+                    properties:
+                      method:
+                        type: string
+                        enum:
+                          - GET
+                          - POST
+                          - PATCH
+                          - DELETE
+                        description: HTTP method for the subrequest.
+                      url:
+                        type: string
+                        description: >
+                          Relative URL for the subrequest (e.g.,
+                          /services/data/v63.0/sobjects/Account/001...).
+                      richInput:
+                        type: object
+                        description: >
+                          Request body for POST and PATCH subrequests.
+                haltOnError:
+                  type: boolean
+                  default: false
+                  description: >
+                    If true, stop processing subsequent subrequests after the
+                    first error occurs.
+      responses:
+        '200':
+          description: Results for each subrequest in the batch, in the same order.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  hasErrors:
+                    type: boolean
+                    description: Whether any subrequest returned an error response.
+                  results:
+                    type: array
+                    description: >
+                      Array of subrequest results in the same order as the input
+                      batchRequests.
+                    items:
+                      type: object
+                      properties:
+                        statusCode:
+                          type: integer
+                          description: HTTP status code of the subrequest.
+                        result:
+                          description: Response body of the subrequest.
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /composite:
+    post:
+      operationId: executeCompositeRequest
+      summary: Execute a composite request with dependent subrequests
+      description: >
+        Executes a series of REST API requests where later requests can
+        reference the results of earlier requests using reference IDs. Supports
+        up to 25 subrequests. If any subrequest fails and allOrNone is true,
+        all changes are rolled back. Use this for complex multi-step operations
+        where later steps depend on earlier results.
+      tags:
+        - Composite
+      requestBody:
+        required: true
+        description: >
+          A composite request containing ordered subrequests that may reference
+          each other's results.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompositeRequest'
+      responses:
+        '200':
+          description: >
+            Results for each subrequest, including reference IDs, status codes,
+            and response bodies.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompositeResponse'
+        '400':
+          description: >
+            Bad request. Invalid subrequest structure or circular reference
+            detected.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /composite/sobjects:
+    post:
+      operationId: collectionsCreate
+      summary: SObject collections create
+      description: >
+        Creates up to 200 records in a single API call using SObject Collections.
+        All records must be of the same or different SObject types. If allOrNone
+        is true, all records must succeed or none are committed. Returns an array
+        of save results with IDs or errors for each record.
+      tags:
+        - Composite
+      requestBody:
+        required: true
+        description: Array of up to 200 SObject records to create.
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - allOrNone
+                - records
+              properties:
+                allOrNone:
+                  type: boolean
+                  description: >
+                    If true, all records must be created successfully or none
+                    are committed. If false, partial success is allowed.
+                records:
+                  type: array
+                  description: Array of SObject records to create. Maximum 200 records.
+                  maxItems: 200
+                  items:
+                    $ref: '#/components/schemas/SObjectRecord'
+      responses:
+        '200':
+          description: Array of save results with IDs or errors for each record.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      description: The ID of the newly created record on success.
+                    success:
+                      type: boolean
+                      description: Whether this record was created successfully.
+                    errors:
+                      type: array
+                      description: List of errors if the record creation failed.
+                      items:
+                        $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      operationId: collectionsUpdate
+      summary: SObject collections update
+      description: >
+        Updates up to 200 records in a single API call using SObject Collections.
+        Each record must include its ID and the fields to update. If allOrNone
+        is true, all updates must succeed or none are committed. Returns an array
+        of save results for each record.
+      tags:
+        - Composite
+      requestBody:
+        required: true
+        description: Array of up to 200 SObject records to update, each including Id.
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - allOrNone
+                - records
+              properties:
+                allOrNone:
+                  type: boolean
+                  description: >
+                    If true, all records must be updated successfully or none
+                    are committed. If false, partial success is allowed.
+                records:
+                  type: array
+                  description: >
+                    Array of SObject records to update. Each record must include
+                    the Id field. Maximum 200 records.
+                  maxItems: 200
+                  items:
+                    $ref: '#/components/schemas/SObjectRecord'
+      responses:
+        '200':
+          description: Array of save results with success flag or errors for each record.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      description: The ID of the updated record.
+                    success:
+                      type: boolean
+                      description: Whether this record was updated successfully.
+                    errors:
+                      type: array
+                      description: List of errors if the record update failed.
+                      items:
+                        $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: collectionsDelete
+      summary: SObject collections delete
+      description: >
+        Deletes up to 200 records in a single API call using SObject Collections.
+        Record IDs are passed as a comma-separated query parameter. If allOrNone
+        is true, all deletions must succeed or none are committed.
+      tags:
+        - Composite
+      parameters:
+        - name: ids
+          in: query
+          required: true
+          description: >
+            Comma-separated list of up to 200 record IDs to delete.
+          schema:
+            type: string
+          example: 001Dn00000pFakE001,001Dn00000pFakE002
+        - name: allOrNone
+          in: query
+          required: false
+          description: >
+            If true, all records must be deleted successfully or none are
+            committed. Defaults to false.
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Array of delete results with success flag or errors for each record.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      description: The ID of the record that was deleted.
+                    success:
+                      type: boolean
+                      description: Whether this record was deleted successfully.
+                    errors:
+                      type: array
+                      description: List of errors if the record deletion failed.
+                      items:
+                        $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /composite/sobjects/{sobjectType}:
+    get:
+      operationId: collectionsRetrieve
+      summary: SObject collections retrieve
+      description: >
+        Retrieves up to 2000 records of the specified SObject type in a single
+        API call. Record IDs are passed as a comma-separated query parameter.
+        All records must be of the same SObject type. Returns all accessible
+        fields for each record.
+      tags:
+        - Composite
+      parameters:
+        - $ref: '#/components/parameters/sobjectType'
+        - name: ids
+          in: query
+          required: true
+          description: >
+            Comma-separated list of up to 2000 record IDs to retrieve.
+          schema:
+            type: string
+        - name: fields
+          in: query
+          required: false
+          description: >
+            Comma-separated list of field names to return for each record.
+            Returns all accessible fields if not specified.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Array of SObject records for the specified IDs.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SObjectRecord'
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: >
+        OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token
+        endpoint. Include this token in the Authorization header as
+        "Bearer {access_token}".
+  parameters:
+    sobjectType:
+      name: sobjectType
+      in: path
+      required: true
+      description: >
+        The API name of the Salesforce SObject type (e.g., Account, Contact,
+        Opportunity, MyCustomObject__c).
+      schema:
+        type: string
+    id:
+      name: id
+      in: path
+      required: true
+      description: The 18-character Salesforce record ID.
+      schema:
+        type: string
+        minLength: 15
+        maxLength: 18
+  schemas:
+    ApiVersion:
+      type: object
+      description: >
+        Metadata about a single available Salesforce REST API version on this
+        instance.
+      properties:
+        version:
+          type: string
+          description: The API version number (e.g., "63.0").
+        label:
+          type: string
+          description: Descriptive label for this API version (e.g., "Winter '25").
+        url:
+          type: string
+          format: uri
+          description: >
+            The REST endpoint URL for this specific API version on the current
+            instance.
+    SObjectRecord:
+      type: object
+      description: >
+        A Salesforce SObject record. Contains an attributes object describing
+        the record type and URL, plus any number of field name/value pairs
+        depending on the object type.
+      required:
+        - attributes
+      properties:
+        attributes:
+          type: object
+          description: >
+            Metadata attributes for this SObject record, including its type and
+            REST API URL.
+          required:
+            - type
+          properties:
+            type:
+              type: string
+              description: The API name of the SObject type (e.g., Account, Contact).
+            url:
+              type: string
+              format: uri
+              description: The REST API URL for this specific record.
+        Id:
+          type: string
+          description: The 18-character globally unique Salesforce record ID.
+          minLength: 15
+          maxLength: 18
+      additionalProperties: true
+    SObjectDescribe:
+      type: object
+      description: >
+        Metadata describing a Salesforce SObject type, including its fields,
+        relationships, and capabilities.
+      properties:
+        name:
+          type: string
+          description: The API name of the SObject type.
+        label:
+          type: string
+          description: The user-facing singular label for this object type.
+        labelPlural:
+          type: string
+          description: The user-facing plural label for this object type.
+        keyPrefix:
+          type: string
+          description: The three-character key prefix used in record IDs for this type.
+        queryable:
+          type: boolean
+          description: Whether records of this type can be queried with SOQL.
+        searchable:
+          type: boolean
+          description: Whether records of this type can be searched with SOSL.
+        createable:
+          type: boolean
+          description: Whether new records of this type can be created via the API.
+        updateable:
+          type: boolean
+          description: Whether existing records of this type can be updated via the API.
+        deletable:
+          type: boolean
+          description: Whether records of this type can be deleted via the API.
+        fields:
+          type: array
+          description: Detailed metadata for each field on this SObject type.
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: The API name of the field.
+              label:
+                type: string
+                description: The user-facing label for this field.
+              type:
+                type: string
+                description: >
+                  The data type of the field (e.g., string, boolean, date,
+                  reference, picklist).
+              nillable:
+                type: boolean
+                description: Whether this field can be set to null.
+              updateable:
+                type: boolean
+                description: Whether this field can be updated via the API.
+              createable:
+                type: boolean
+                description: Whether this field can be set when creating a record.
+              length:
+                type: integer
+                description: >
+                  Maximum character length for string fields. Zero for
+                  non-string fields.
+        urls:
+          type: object
+          description: Map of REST endpoint URLs for this SObject type.
+    QueryResult:
+      type: object
+      description: >
+        The result of a SOQL query, containing the matching records and
+        pagination metadata.
+      required:
+        - totalSize
+        - done
+        - records
+      properties:
+        totalSize:
+          type: integer
+          description: >
+            The total number of records matching the query. May be larger than
+            the number of records in the current page if the result is paginated.
+        done:
+          type: boolean
+          description: >
+            Whether all query results have been returned. If false, use
+            nextRecordsUrl to retrieve the next page.
+        nextRecordsUrl:
+          type: string
+          format: uri
+          description: >
+            URL to retrieve the next page of results. Only present when done is
+            false.
+        records:
+          type: array
+          description: >
+            Array of SObject records matching the query. May be a partial
+            result if the total exceeds the page size.
+          items:
+            $ref: '#/components/schemas/SObjectRecord'
+    SearchResult:
+      type: object
+      description: >
+        The result of a SOSL search, containing matching records grouped by
+        SObject type.
+      properties:
+        searchRecords:
+          type: array
+          description: >
+            Array of records matching the SOSL search query. Each record
+            includes the object type in its attributes.
+          items:
+            $ref: '#/components/schemas/SObjectRecord'
+    CompositeRequest:
+      type: object
+      description: >
+        A composite request containing an ordered series of subrequests where
+        later requests can reference the results of earlier ones using reference
+        IDs.
+      required:
+        - compositeRequest
+      properties:
+        allOrNone:
+          type: boolean
+          default: false
+          description: >
+            If true, all subrequests must succeed or all changes are rolled back.
+            If false, subrequests are processed independently.
+        collateSubrequests:
+          type: boolean
+          default: false
+          description: >
+            If true, similar subrequests are grouped for more efficient
+            processing.
+        compositeRequest:
+          type: array
+          description: >
+            Ordered array of subrequests. Later subrequests can reference
+            results from earlier ones using @{referenceId.field} syntax.
+          maxItems: 25
+          items:
+            type: object
+            required:
+              - method
+              - url
+              - referenceId
+            properties:
+              method:
+                type: string
+                enum:
+                  - GET
+                  - POST
+                  - PATCH
+                  - DELETE
+                description: HTTP method for this subrequest.
+              url:
+                type: string
+                description: Relative URL for this subrequest.
+              referenceId:
+                type: string
+                description: >
+                  Unique identifier for this subrequest. Used to reference this
+                  subrequest's results in subsequent subrequests.
+              body:
+                type: object
+                description: Request body for POST and PATCH subrequests.
+    CompositeResponse:
+      type: object
+      description: >
+        The result of a composite request, containing results for each
+        subrequest in order.
+      properties:
+        compositeResponse:
+          type: array
+          description: >
+            Array of results corresponding to each subrequest, in the same
+            order as the input compositeRequest array.
+          items:
+            type: object
+            properties:
+              body:
+                description: Response body of the subrequest.
+              httpHeaders:
+                type: object
+                description: Response HTTP headers for the subrequest.
+              httpStatusCode:
+                type: integer
+                description: HTTP status code of the subrequest.
+              referenceId:
+                type: string
+                description: The reference ID of the corresponding subrequest.
+    Error:
+      type: object
+      description: >
+        An error response from the Salesforce REST API, describing the problem
+        with the request.
+      properties:
+        message:
+          type: string
+          description: Human-readable description of the error.
+        errorCode:
+          type: string
+          description: >
+            Salesforce error code (e.g., MALFORMED_QUERY, INVALID_FIELD,
+            REQUIRED_FIELD_MISSING).
+        fields:
+          type: array
+          description: >
+            List of field names related to the error, if applicable (e.g., for
+            field validation errors).
+          items:
+            type: string

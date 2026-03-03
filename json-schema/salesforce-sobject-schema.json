@@ -1,0 +1,262 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/salesforce/refs/heads/main/json-schema/salesforce-sobject-schema.json",
+  "title": "Salesforce SObject Record",
+  "description": "A Salesforce SObject record as returned by the REST API. Contains an attributes object with type and URL metadata, an Id field with the 18-character record identifier, and dynamic fields specific to the object type (e.g., Name, Email, Phone for Contact).",
+  "type": "object",
+  "required": [
+    "attributes"
+  ],
+  "properties": {
+    "attributes": {
+      "$ref": "#/$defs/SObjectAttributes"
+    },
+    "Id": {
+      "type": "string",
+      "description": "The globally unique 18-character Salesforce record identifier. The first three characters are the key prefix identifying the object type, followed by a unique alphanumeric string.",
+      "minLength": 15,
+      "maxLength": 18,
+      "pattern": "^[a-zA-Z0-9]{15,18}$"
+    },
+    "Name": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "The primary display name field for the record. For most standard objects this is the Name field; for Person Accounts and Contacts it may be a combination of first and last name."
+    },
+    "CreatedDate": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time",
+      "description": "The date and time the record was created, in ISO 8601 format with UTC timezone (e.g., 2024-01-15T10:30:00.000+0000)."
+    },
+    "CreatedById": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "The 18-character ID of the Salesforce user who created this record.",
+      "minLength": 15,
+      "maxLength": 18
+    },
+    "LastModifiedDate": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time",
+      "description": "The date and time the record was last modified, in ISO 8601 format with UTC timezone."
+    },
+    "LastModifiedById": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "The 18-character ID of the Salesforce user who last modified this record.",
+      "minLength": 15,
+      "maxLength": 18
+    },
+    "SystemModstamp": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time",
+      "description": "The date and time of the last system-level modification to the record. This is updated by any change to the record including system changes, unlike LastModifiedDate which reflects user changes only."
+    },
+    "IsDeleted": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "description": "Whether the record has been moved to the Recycle Bin (soft deleted). Records where IsDeleted is true are not returned by standard SOQL queries but can be retrieved using queryAll."
+    },
+    "OwnerId": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "The 18-character ID of the user or queue that owns this record. Ownership controls access and assignment rules.",
+      "minLength": 15,
+      "maxLength": 18
+    },
+    "RecordTypeId": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "The 18-character ID of the Record Type applied to this record. Record types allow different picklist values, page layouts, and business processes for the same object.",
+      "minLength": 15,
+      "maxLength": 18
+    },
+    "BillingAddress": {
+      "$ref": "#/$defs/Address",
+      "description": "The billing address for account records. A structured address object with street, city, state, postal code, country, and optional geolocation fields."
+    },
+    "ShippingAddress": {
+      "$ref": "#/$defs/Address",
+      "description": "The shipping address for account records. A structured address object with street, city, state, postal code, country, and optional geolocation fields."
+    },
+    "MailingAddress": {
+      "$ref": "#/$defs/Address",
+      "description": "The mailing address for contact records. A structured address object with street, city, state, postal code, country, and optional geolocation fields."
+    },
+    "OtherAddress": {
+      "$ref": "#/$defs/Address",
+      "description": "An alternate address for contact records. A structured address object with street, city, state, postal code, country, and optional geolocation fields."
+    },
+    "Phone": {
+      "$ref": "#/$defs/Phone",
+      "description": "The primary phone number for the record. Stored as a string to preserve formatting; no specific format is enforced by Salesforce."
+    },
+    "Fax": {
+      "$ref": "#/$defs/Phone",
+      "description": "The fax number for the record. Stored as a string to preserve formatting."
+    },
+    "MobilePhone": {
+      "$ref": "#/$defs/Phone",
+      "description": "The mobile phone number for contact and lead records. Stored as a string to preserve formatting."
+    }
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "SObjectAttributes": {
+      "type": "object",
+      "title": "SObject Attributes",
+      "description": "Metadata attributes included with every Salesforce SObject record, identifying the object type and the REST API URL for the record.",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c). This identifies what kind of record this is."
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "The relative REST API URL for this specific record (e.g., /services/data/v63.0/sobjects/Account/001Dn00000pFakE001). Use this URL to retrieve or update the record via the REST API."
+        }
+      },
+      "additionalProperties": false
+    },
+    "RecordType": {
+      "type": "object",
+      "title": "Record Type",
+      "description": "A Salesforce Record Type, which allows different picklist values, page layouts, and business processes to be configured for the same object type.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The 18-character ID of the Record Type.",
+          "minLength": 15,
+          "maxLength": 18
+        },
+        "name": {
+          "type": "string",
+          "description": "The display name of the Record Type (e.g., Business Account, Person Account)."
+        },
+        "active": {
+          "type": "boolean",
+          "description": "Whether this Record Type is currently active. Inactive record types cannot be assigned to new records."
+        }
+      },
+      "additionalProperties": false
+    },
+    "Address": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "title": "Address",
+      "description": "A structured Salesforce compound address field containing street, city, state, postal code, country, and optional geolocation components.",
+      "properties": {
+        "street": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The street address, including house number, street name, and apartment or suite number. May contain newline characters for multi-line addresses."
+        },
+        "city": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The city component of the address."
+        },
+        "state": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The state or province component of the address (e.g., CA, New York, Ontario)."
+        },
+        "postalCode": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The postal or ZIP code component of the address."
+        },
+        "country": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The country component of the address. May be a full country name or ISO 3166-1 alpha-2 country code depending on org configuration."
+        },
+        "stateCode": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The ISO 3166-2 state/province code if state/country picklists are enabled in the org."
+        },
+        "countryCode": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The ISO 3166-1 alpha-2 country code if state/country picklists are enabled in the org (e.g., US, GB, DE)."
+        },
+        "latitude": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "The latitude component of the geolocation for this address, in decimal degrees. Populated automatically by Salesforce geocoding when enabled.",
+          "minimum": -90,
+          "maximum": 90
+        },
+        "longitude": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "The longitude component of the geolocation for this address, in decimal degrees. Populated automatically by Salesforce geocoding when enabled.",
+          "minimum": -180,
+          "maximum": 180
+        },
+        "geocodeAccuracy": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The accuracy level of the geocoded coordinates (e.g., Address, NearAddress, Block, Street, ExtendedZip, Zip, Neighborhood, City, County, State, Unknown)."
+        }
+      },
+      "additionalProperties": false
+    },
+    "Phone": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "title": "Phone Number",
+      "description": "A telephone number stored as a string. Salesforce does not enforce a specific format; common formats include +1 (555) 123-4567, 555-123-4567, or +15551234567."
+    }
+  }
+}

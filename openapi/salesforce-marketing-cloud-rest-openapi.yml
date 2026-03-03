@@ -1,0 +1,1311 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Marketing Cloud REST API
+  description: >
+    The Salesforce Marketing Cloud REST API provides access to Marketing Cloud
+    resources including contacts, journeys, data extensions, triggered sends,
+    and transactional messaging. It uses OAuth 2.0 for authentication and is
+    the primary interface for programmatic Marketing Cloud integrations.
+  version: v1
+  contact:
+    name: Salesforce Marketing Cloud Developers
+    url: https://developer.salesforce.com/docs/marketing/marketing-cloud/guide/rest-api.html
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+  - url: https://{subdomain}.rest.marketingcloudapis.com
+    description: >
+      Marketing Cloud REST API endpoint. The subdomain is the tenant-specific
+      subdomain for the Marketing Cloud account.
+    variables:
+      subdomain:
+        default: YOUR_SUBDOMAIN
+        description: >
+          The Marketing Cloud tenant subdomain (also known as the MID-specific
+          subdomain). Obtain this from the Marketing Cloud Setup > Company
+          Settings > Account Info.
+security:
+  - BearerAuth: []
+tags:
+  - name: Authentication
+    description: >
+      OAuth 2.0 token operations for obtaining access tokens using client
+      credentials or authorization code flows.
+  - name: Contacts
+    description: >
+      Operations for listing, retrieving, and deleting Marketing Cloud contact
+      records.
+  - name: Data Extensions
+    description: >
+      Operations for reading and writing rows in Marketing Cloud Data
+      Extensions, which are custom tables for storing subscriber data and
+      campaign data.
+  - name: Messaging
+    description: >
+      Operations for creating and tracking email and SMS message sends,
+      including triggered sends and transactional messages.
+  - name: Journeys
+    description: >
+      Operations for listing and retrieving Marketing Cloud Journey Builder
+      journeys (interactions) and firing journey entry events.
+  - name: Assets
+    description: >
+      Operations for managing Marketing Cloud Content Builder assets including
+      emails, images, and other content items.
+paths:
+  /v2/token:
+    post:
+      operationId: getAccessToken
+      summary: Get an access token
+      description: >
+        Obtains an OAuth 2.0 access token for authenticating subsequent API
+        requests. Supports both client credentials (server-to-server) and
+        authorization code grant types. The access token should be included in
+        the Authorization header as "Bearer {access_token}" for all API calls.
+        Tokens expire after a defined period; request a new token when needed.
+      tags:
+        - Authentication
+      security: []
+      requestBody:
+        required: true
+        description: OAuth 2.0 token request parameters.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRequest'
+      responses:
+        '200':
+          description: Access token obtained successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '400':
+          description: >
+            Bad request. Invalid client credentials, grant type, or request
+            parameters.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized. Invalid client ID or client secret.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /contacts/v1/contacts:
+    get:
+      operationId: listContacts
+      summary: List contacts
+      description: >
+        Returns a paginated list of contacts in the Marketing Cloud account.
+        Contacts are the core subscriber entities that can be subscribed to
+        email, SMS, or other channels. Use the page and pageSize parameters to
+        paginate through large contact lists.
+      tags:
+        - Contacts
+      parameters:
+        - name: page
+          in: query
+          required: false
+          description: The page number to retrieve. Defaults to 1.
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+        - name: pageSize
+          in: query
+          required: false
+          description: The number of contacts to return per page. Defaults to 50.
+          schema:
+            type: integer
+            default: 50
+            minimum: 1
+            maximum: 200
+      responses:
+        '200':
+          description: Paginated list of contacts.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    description: Array of contact records.
+                    items:
+                      $ref: '#/components/schemas/Contact'
+                  count:
+                    type: integer
+                    description: Total number of contacts matching the request.
+                  page:
+                    type: integer
+                    description: The current page number.
+                  pageSize:
+                    type: integer
+                    description: The number of items per page.
+        '401':
+          description: Unauthorized. Invalid or expired access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /contacts/v1/contacts/{contactKey}:
+    get:
+      operationId: getContact
+      summary: Get a contact by contact key
+      description: >
+        Retrieves a single Marketing Cloud contact by their contact key. The
+        contact key is a unique identifier for the contact, typically the
+        subscriber key or email address used when the contact was created.
+      tags:
+        - Contacts
+      parameters:
+        - name: contactKey
+          in: path
+          required: true
+          description: >
+            The unique contact key (subscriber key) of the Marketing Cloud
+            contact to retrieve.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The requested Marketing Cloud contact.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+        '401':
+          description: Unauthorized. Invalid or expired access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Contact not found for the specified contact key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /contacts/v1/contacts:
+    delete:
+      operationId: deleteContacts
+      summary: Delete contacts
+      description: >
+        Deletes one or more contacts from Marketing Cloud. Deletion is
+        asynchronous; the response indicates the operation was accepted. Contact
+        deletion removes the contact and their data across all business units
+        in the account.
+      tags:
+        - Contacts
+      requestBody:
+        required: true
+        description: Contact keys identifying the contacts to delete.
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - contactKeys
+              properties:
+                contactKeys:
+                  type: array
+                  description: Array of contact keys (subscriber keys) to delete.
+                  items:
+                    type: string
+                deleteOperationType:
+                  type: string
+                  enum:
+                    - ContactAndAttributes
+                    - BusinessUnit
+                    - Enterprise
+                  description: >
+                    The scope of the deletion operation. ContactAndAttributes
+                    deletes the contact and all attribute data. BusinessUnit
+                    deletes the contact from the current business unit.
+                    Enterprise deletes from all business units.
+      responses:
+        '200':
+          description: Contact deletion request accepted successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  requestServiceMessageID:
+                    type: string
+                    description: >
+                      Unique ID for the deletion request. Use this to track the
+                      deletion status.
+                  resultMessages:
+                    type: array
+                    description: Result messages for the deletion request.
+                    items:
+                      type: string
+        '400':
+          description: Bad request. Invalid contact keys or deletion type.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized. Invalid or expired access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /data/v1/async/dataextensions/key:{key}/rows:
+    get:
+      operationId: getDataExtensionRows
+      summary: Get Data Extension rows
+      description: >
+        Retrieves rows from a Marketing Cloud Data Extension identified by its
+        external key. Data Extensions are custom tables for storing subscriber
+        data, lookup tables, or any structured data used in campaigns and
+        journeys. Use the $pageSize and $page parameters to paginate through
+        large data sets.
+      tags:
+        - Data Extensions
+      parameters:
+        - name: key
+          in: path
+          required: true
+          description: >
+            The external key of the Data Extension. Find this in Marketing
+            Cloud Email Studio under the Data Extension properties.
+          schema:
+            type: string
+        - name: $pageSize
+          in: query
+          required: false
+          description: The number of rows to return per page. Defaults to 50.
+          schema:
+            type: integer
+            default: 50
+        - name: $page
+          in: query
+          required: false
+          description: The page number to retrieve. Defaults to 1.
+          schema:
+            type: integer
+            default: 1
+        - name: $orderBy
+          in: query
+          required: false
+          description: >
+            Field name and direction for sorting results (e.g., "LastName ASC"
+            or "CreatedDate DESC").
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Paginated rows from the Data Extension.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: Total number of rows in the Data Extension.
+                  page:
+                    type: integer
+                    description: The current page number.
+                  pageSize:
+                    type: integer
+                    description: The number of rows per page.
+                  items:
+                    type: array
+                    description: Array of Data Extension row objects.
+                    items:
+                      $ref: '#/components/schemas/DataExtensionRow'
+        '401':
+          description: Unauthorized. Invalid or expired access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Data Extension not found for the specified key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: insertDataExtensionRows
+      summary: Insert rows into a Data Extension
+      description: >
+        Inserts one or more rows into a Marketing Cloud Data Extension. If a row
+        with the same primary key already exists, the operation upserts the row
+        (updates existing values). Returns the number of rows inserted or
+        updated.
+      tags:
+        - Data Extensions
+      parameters:
+        - name: key
+          in: path
+          required: true
+          description: The external key of the Data Extension to insert rows into.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: Array of Data Extension rows to insert or upsert.
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - items
+              properties:
+                items:
+                  type: array
+                  description: >
+                    Array of row objects to insert. Each object contains
+                    key-value pairs matching the Data Extension column names.
+                  items:
+                    $ref: '#/components/schemas/DataExtensionRow'
+      responses:
+        '200':
+          description: Rows inserted or updated successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  requestId:
+                    type: string
+                    description: Unique ID for this insert request.
+        '400':
+          description: >
+            Bad request. Invalid row data, missing required columns, or data
+            type mismatch.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized. Invalid or expired access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Data Extension not found for the specified key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /messaging/v1/email/messages:
+    post:
+      operationId: createEmailSend
+      summary: Create an email send (triggered send)
+      description: >
+        Creates and initiates a triggered email send to one or more recipients.
+        Each send requires a message definition key referencing a triggered send
+        definition configured in Marketing Cloud Email Studio. Supports
+        personalization attributes and subscriber data overrides.
+      tags:
+        - Messaging
+      requestBody:
+        required: true
+        description: Email message send configuration and recipients.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailMessage'
+      responses:
+        '202':
+          description: >
+            Email send request accepted. The send is queued for processing.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  requestId:
+                    type: string
+                    description: Unique ID for this send request.
+                  responses:
+                    type: array
+                    description: >
+                      Array of recipient-level responses indicating acceptance
+                      or errors.
+                    items:
+                      type: object
+                      properties:
+                        recipientSendId:
+                          type: string
+                          description: >
+                            Unique ID for this recipient's send. Use as the
+                            messageKey in status lookups.
+                        hasErrors:
+                          type: boolean
+                          description: Whether this recipient's request had errors.
+                        messages:
+                          type: array
+                          description: >
+                            Error messages if hasErrors is true.
+                          items:
+                            type: string
+        '400':
+          description: Bad request. Invalid message definition or recipient data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized. Invalid or expired access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /messaging/v1/sms/messages:
+    post:
+      operationId: createSmsSend
+      summary: Create an SMS send
+      description: >
+        Creates and initiates an SMS message send to one or more recipients.
+        Requires a message definition key referencing an SMS definition
+        configured in Marketing Cloud MobileConnect. Supports personalization
+        attributes for dynamic message content.
+      tags:
+        - Messaging
+      requestBody:
+        required: true
+        description: SMS message send configuration and recipients.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SMSMessage'
+      responses:
+        '202':
+          description: SMS send request accepted and queued for processing.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  requestId:
+                    type: string
+                    description: Unique ID for this SMS send request.
+                  responses:
+                    type: array
+                    description: Array of recipient-level send responses.
+                    items:
+                      type: object
+                      properties:
+                        recipientSendId:
+                          type: string
+                          description: Unique ID for this recipient's SMS send.
+                        hasErrors:
+                          type: boolean
+                          description: Whether this recipient's request had errors.
+        '400':
+          description: Bad request. Invalid message definition or phone number format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized. Invalid or expired access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /messaging/v1/email/messages/{messageKey}:
+    get:
+      operationId: getMessageStatus
+      summary: Get email message send status
+      description: >
+        Retrieves the status of a triggered email send for a specific recipient
+        using the messageKey (recipientSendId) returned when the send was
+        created. Returns the current delivery status and any error details.
+      tags:
+        - Messaging
+      parameters:
+        - name: messageKey
+          in: path
+          required: true
+          description: >
+            The unique message key (recipientSendId) returned when the email
+            send was created.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Email message send status.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  eventCategoryType:
+                    type: string
+                    description: >
+                      The delivery event type (e.g., SendReady,
+                      NotSent, Sent, Delivered, Bounced, Opened, Clicked).
+                  timestamp:
+                    type: string
+                    format: date-time
+                    description: The timestamp of the most recent status event.
+                  subscriberKey:
+                    type: string
+                    description: The subscriber key of the recipient.
+                  messageKey:
+                    type: string
+                    description: The unique message key for this send.
+        '401':
+          description: Unauthorized. Invalid or expired access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Message not found for the specified message key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /interaction/v1/interactions:
+    get:
+      operationId: listJourneys
+      summary: List journeys
+      description: >
+        Returns a paginated list of Marketing Cloud Journey Builder journeys
+        (interactions). Includes both active and inactive journeys. Use the
+        page and pageSize parameters to paginate. Can filter by journey status.
+      tags:
+        - Journeys
+      parameters:
+        - name: page
+          in: query
+          required: false
+          description: The page number to retrieve. Defaults to 1.
+          schema:
+            type: integer
+            default: 1
+        - name: pageSize
+          in: query
+          required: false
+          description: The number of journeys to return per page. Defaults to 50.
+          schema:
+            type: integer
+            default: 50
+        - name: status
+          in: query
+          required: false
+          description: >
+            Filter journeys by status. Use Draft, Published, ScheduledToSend,
+            Stopped, or Deleted.
+          schema:
+            type: string
+            enum:
+              - Draft
+              - Published
+              - ScheduledToSend
+              - Stopped
+              - Deleted
+      responses:
+        '200':
+          description: Paginated list of journeys.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: Total number of journeys matching the filter.
+                  page:
+                    type: integer
+                    description: The current page number.
+                  pageSize:
+                    type: integer
+                    description: The number of journeys per page.
+                  items:
+                    type: array
+                    description: Array of journey objects.
+                    items:
+                      $ref: '#/components/schemas/Journey'
+        '401':
+          description: Unauthorized. Invalid or expired access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /interaction/v1/interactions/{interactionId}:
+    get:
+      operationId: getJourney
+      summary: Get a journey by ID
+      description: >
+        Retrieves detailed information about a specific Marketing Cloud Journey
+        Builder journey, including its activities, triggers, goals, and current
+        status.
+      tags:
+        - Journeys
+      parameters:
+        - name: interactionId
+          in: path
+          required: true
+          description: The unique ID of the journey (interaction) to retrieve.
+          schema:
+            type: string
+        - name: versionNumber
+          in: query
+          required: false
+          description: >
+            The version number of the journey to retrieve. If not specified,
+            returns the latest version.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Detailed information about the specified journey.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Journey'
+        '401':
+          description: Unauthorized. Invalid or expired access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Journey not found for the specified interaction ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /interaction/v1/events:
+    post:
+      operationId: fireJourneyEvent
+      summary: Fire a journey entry event
+      description: >
+        Fires an event that causes contacts to enter a Marketing Cloud Journey
+        Builder journey at the specified event-triggered entry source. The
+        event definition key must match an API event or custom event configured
+        as the journey's entry source. Supports passing contact data to
+        personalize the journey experience.
+      tags:
+        - Journeys
+      requestBody:
+        required: true
+        description: Journey entry event data including the contact and event details.
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - ContactKey
+                - EventDefinitionKey
+              properties:
+                ContactKey:
+                  type: string
+                  description: >
+                    The subscriber key of the contact entering the journey.
+                EventDefinitionKey:
+                  type: string
+                  description: >
+                    The external key of the event definition configured as the
+                    journey entry source.
+                Data:
+                  type: object
+                  description: >
+                    Additional data attributes to pass with the event for
+                    personalization within the journey.
+                  additionalProperties: true
+      responses:
+        '201':
+          description: Journey entry event fired successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  requestId:
+                    type: string
+                    description: Unique ID for this event request.
+                  eventInstanceId:
+                    type: string
+                    description: Unique ID for this specific event instance.
+        '400':
+          description: >
+            Bad request. Invalid event definition key, contact key, or event
+            data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized. Invalid or expired access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /asset/v1/content/assets:
+    get:
+      operationId: listAssets
+      summary: List content assets
+      description: >
+        Returns a paginated list of Marketing Cloud Content Builder assets
+        including emails, images, documents, and other content items. Supports
+        filtering by asset type and searching by name.
+      tags:
+        - Assets
+      parameters:
+        - name: page
+          in: query
+          required: false
+          description: The page number to retrieve. Defaults to 1.
+          schema:
+            type: integer
+            default: 1
+        - name: pageSize
+          in: query
+          required: false
+          description: The number of assets to return per page. Defaults to 50.
+          schema:
+            type: integer
+            default: 50
+        - name: assetType
+          in: query
+          required: false
+          description: >
+            Filter by asset type name (e.g., templatebasedemail,
+            htmlemail, image, document, block).
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Paginated list of content assets.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: Total number of assets matching the filter.
+                  page:
+                    type: integer
+                    description: The current page number.
+                  pageSize:
+                    type: integer
+                    description: The number of assets per page.
+                  items:
+                    type: array
+                    description: Array of content asset objects.
+                    items:
+                      $ref: '#/components/schemas/ContentAsset'
+        '401':
+          description: Unauthorized. Invalid or expired access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: createAsset
+      summary: Create a content asset
+      description: >
+        Creates a new content asset in Marketing Cloud Content Builder. Assets
+        can be emails, templates, images, blocks, or other content types.
+        The asset type is specified using the assetType object. File content
+        can be provided inline as a base64 string or referenced by URL.
+      tags:
+        - Assets
+      requestBody:
+        required: true
+        description: Content asset definition to create.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContentAsset'
+      responses:
+        '201':
+          description: Content asset created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentAsset'
+        '400':
+          description: Bad request. Invalid asset definition or missing required fields.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized. Invalid or expired access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /asset/v1/content/assets/{id}:
+    get:
+      operationId: getAsset
+      summary: Get a content asset by ID
+      description: >
+        Retrieves a single Marketing Cloud Content Builder asset by its numeric
+        ID. Returns the asset metadata and content.
+      tags:
+        - Assets
+      parameters:
+        - $ref: '#/components/parameters/assetId'
+      responses:
+        '200':
+          description: The requested content asset.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentAsset'
+        '401':
+          description: Unauthorized. Invalid or expired access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Asset not found for the specified ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      operationId: updateAsset
+      summary: Update a content asset
+      description: >
+        Replaces the content and metadata of an existing Marketing Cloud Content
+        Builder asset. The entire asset definition must be provided; partial
+        updates are not supported. Returns the updated asset.
+      tags:
+        - Assets
+      parameters:
+        - $ref: '#/components/parameters/assetId'
+      requestBody:
+        required: true
+        description: Complete updated content asset definition.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContentAsset'
+      responses:
+        '200':
+          description: Content asset updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentAsset'
+        '400':
+          description: Bad request. Invalid asset definition or missing required fields.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized. Invalid or expired access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Asset not found for the specified ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: deleteAsset
+      summary: Delete a content asset
+      description: >
+        Deletes a Marketing Cloud Content Builder asset by its numeric ID.
+        Deletion is permanent and cannot be undone. Ensure the asset is not
+        in use by active journeys or sends before deleting.
+      tags:
+        - Assets
+      parameters:
+        - $ref: '#/components/parameters/assetId'
+      responses:
+        '204':
+          description: Asset deleted successfully. No body is returned.
+        '401':
+          description: Unauthorized. Invalid or expired access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Asset not found for the specified ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: >
+        OAuth 2.0 Bearer token obtained from the /v2/token endpoint. Include
+        this token in the Authorization header as "Bearer {access_token}".
+  parameters:
+    assetId:
+      name: id
+      in: path
+      required: true
+      description: The numeric ID of the Marketing Cloud content asset.
+      schema:
+        type: integer
+  schemas:
+    TokenRequest:
+      type: object
+      description: >
+        OAuth 2.0 token request parameters for obtaining a Marketing Cloud
+        access token.
+      required:
+        - grant_type
+        - client_id
+        - client_secret
+      properties:
+        grant_type:
+          type: string
+          enum:
+            - client_credentials
+            - authorization_code
+            - refresh_token
+          description: >
+            The OAuth 2.0 grant type. Use client_credentials for
+            server-to-server integrations, authorization_code for user-context
+            integrations, or refresh_token to refresh an existing token.
+        client_id:
+          type: string
+          description: >
+            The client ID of the Marketing Cloud installed package API
+            integration.
+        client_secret:
+          type: string
+          description: >
+            The client secret of the Marketing Cloud installed package API
+            integration.
+        code:
+          type: string
+          description: >
+            The authorization code returned by the authorization server.
+            Required when grant_type is authorization_code.
+        redirect_uri:
+          type: string
+          format: uri
+          description: >
+            The redirect URI configured in the installed package. Required
+            when grant_type is authorization_code.
+        refresh_token:
+          type: string
+          description: >
+            The refresh token from a previous token response. Required when
+            grant_type is refresh_token.
+        scope:
+          type: string
+          description: >
+            Space-separated list of permission scopes requested. If not
+            specified, all scopes configured for the installed package are
+            granted.
+    TokenResponse:
+      type: object
+      description: OAuth 2.0 access token response from the Marketing Cloud token endpoint.
+      properties:
+        access_token:
+          type: string
+          description: >
+            The OAuth 2.0 access token for authenticating API requests.
+            Include in the Authorization header as "Bearer {access_token}".
+        token_type:
+          type: string
+          description: The token type. Always "Bearer" for Marketing Cloud.
+        expires_in:
+          type: integer
+          description: The number of seconds until the access token expires.
+        scope:
+          type: string
+          description: Space-separated list of permission scopes granted.
+        refresh_token:
+          type: string
+          description: >
+            A refresh token for obtaining a new access token without
+            re-authentication. Only present for authorization_code grant type.
+        rest_instance_url:
+          type: string
+          format: uri
+          description: >
+            The REST API base URL for this Marketing Cloud account. Use this
+            as the base URL for all subsequent REST API requests.
+        soap_instance_url:
+          type: string
+          format: uri
+          description: The SOAP API base URL for this Marketing Cloud account.
+    Contact:
+      type: object
+      description: >
+        A Marketing Cloud contact record representing a subscriber or customer
+        who can receive communications across email, SMS, and other channels.
+      properties:
+        contactKey:
+          type: string
+          description: >
+            The unique identifier for this contact. Typically the subscriber
+            key or email address.
+        contactId:
+          type: integer
+          description: The internal numeric ID assigned to the contact by Marketing Cloud.
+        contactStatus:
+          type: string
+          description: >
+            The current status of the contact (e.g., Active, Unsubscribed,
+            Held, Bounced).
+        isAnonymous:
+          type: boolean
+          description: Whether the contact is an anonymous (cookie-tracked) contact.
+        attributeSets:
+          type: array
+          description: >
+            Array of attribute sets containing the contact's profile data
+            organized by Data Extension or attribute group.
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: The name of the attribute set.
+              items:
+                type: array
+                description: Array of attribute values in this set.
+                items:
+                  type: object
+                  additionalProperties: true
+    DataExtensionRow:
+      type: object
+      description: >
+        A row in a Marketing Cloud Data Extension. Field names and values are
+        dynamic based on the Data Extension schema.
+      additionalProperties: true
+    EmailMessage:
+      type: object
+      description: >
+        Configuration for a triggered email send to one or more recipients
+        using a Marketing Cloud triggered send definition.
+      required:
+        - definitionKey
+        - recipients
+      properties:
+        definitionKey:
+          type: string
+          description: >
+            The external key of the triggered send definition configured in
+            Marketing Cloud Email Studio.
+        recipients:
+          type: array
+          description: >
+            Array of recipients for this triggered email send. Each recipient
+            can have individual attributes for personalization.
+          items:
+            type: object
+            required:
+              - contactKey
+            properties:
+              contactKey:
+                type: string
+                description: The subscriber key of the email recipient.
+              to:
+                type: string
+                format: email
+                description: >
+                  The recipient email address. Overrides the subscriber's
+                  stored email address if provided.
+              attributes:
+                type: object
+                description: >
+                  Key-value pairs of personalization attributes for this
+                  recipient.
+                additionalProperties: true
+              messageKey:
+                type: string
+                description: >
+                  A unique identifier for this specific recipient's send.
+                  If not provided, one is generated automatically.
+        attributes:
+          type: object
+          description: >
+            Default personalization attributes applied to all recipients unless
+            overridden at the recipient level.
+          additionalProperties: true
+    SMSMessage:
+      type: object
+      description: >
+        Configuration for a triggered SMS send to one or more recipients using
+        a Marketing Cloud MobileConnect message definition.
+      required:
+        - definitionKey
+        - recipients
+      properties:
+        definitionKey:
+          type: string
+          description: >
+            The external key of the SMS message definition configured in
+            Marketing Cloud MobileConnect.
+        recipients:
+          type: array
+          description: >
+            Array of recipients for this triggered SMS send.
+          items:
+            type: object
+            required:
+              - contactKey
+              - to
+            properties:
+              contactKey:
+                type: string
+                description: The subscriber key of the SMS recipient.
+              to:
+                type: string
+                description: >
+                  The recipient phone number in E.164 format (e.g.,
+                  +15551234567).
+              attributes:
+                type: object
+                description: >
+                  Key-value pairs of personalization attributes for this
+                  recipient.
+                additionalProperties: true
+        attributes:
+          type: object
+          description: >
+            Default personalization attributes applied to all recipients unless
+            overridden at the recipient level.
+          additionalProperties: true
+    Journey:
+      type: object
+      description: >
+        A Marketing Cloud Journey Builder journey (interaction) definition,
+        including its entry sources, activities, and configuration.
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the journey.
+        key:
+          type: string
+          description: >
+            The external key of the journey. Used for referencing the journey
+            in API calls.
+        name:
+          type: string
+          description: The display name of the journey.
+        description:
+          type: string
+          description: Optional description of the journey's purpose.
+        version:
+          type: integer
+          description: The version number of this journey definition.
+        status:
+          type: string
+          enum:
+            - Draft
+            - Published
+            - ScheduledToSend
+            - Stopped
+            - Deleted
+          description: The current publishing status of the journey.
+        createdDate:
+          type: string
+          format: date-time
+          description: The date and time the journey was created.
+        modifiedDate:
+          type: string
+          format: date-time
+          description: The date and time the journey was last modified.
+        triggers:
+          type: array
+          description: >
+            Array of entry triggers that cause contacts to enter the journey.
+          items:
+            type: object
+            additionalProperties: true
+        activities:
+          type: array
+          description: Array of journey activities (steps) in the journey flow.
+          items:
+            type: object
+            additionalProperties: true
+    ContentAsset:
+      type: object
+      description: >
+        A Marketing Cloud Content Builder asset such as an email, template,
+        image, block, or document.
+      properties:
+        id:
+          type: integer
+          description: The unique numeric ID of the asset assigned by Marketing Cloud.
+        name:
+          type: string
+          description: The display name of the asset in Content Builder.
+        description:
+          type: string
+          description: Optional description of the asset.
+        assetType:
+          type: object
+          description: Object describing the type of content asset.
+          properties:
+            id:
+              type: integer
+              description: The numeric ID of the asset type.
+            name:
+              type: string
+              description: >
+                The name of the asset type (e.g., templatebasedemail,
+                htmlemail, image, block, document).
+        content:
+          type: string
+          description: >
+            The HTML or text content of the asset. For email assets, this
+            contains the email HTML body.
+        data:
+          type: object
+          description: >
+            Additional structured data for the asset. Content varies by
+            asset type.
+          additionalProperties: true
+        category:
+          type: object
+          description: The Content Builder folder/category the asset belongs to.
+          properties:
+            id:
+              type: integer
+              description: The numeric ID of the category.
+            name:
+              type: string
+              description: The display name of the category.
+        createdDate:
+          type: string
+          format: date-time
+          description: The date and time the asset was created.
+        modifiedDate:
+          type: string
+          format: date-time
+          description: The date and time the asset was last modified.
+        customerKey:
+          type: string
+          description: The external key for this asset, used to reference it in API calls.
+    Error:
+      type: object
+      description: An error response from the Marketing Cloud REST API.
+      properties:
+        message:
+          type: string
+          description: Human-readable description of the error.
+        errorcode:
+          type: integer
+          description: Marketing Cloud numeric error code.
+        documentation:
+          type: string
+          description: URL to documentation about this error.

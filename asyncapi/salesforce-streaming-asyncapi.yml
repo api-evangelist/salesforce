@@ -1,0 +1,157 @@
+asyncapi: 2.6.0
+info:
+  title: Salesforce Streaming API
+  description: >-
+    The Salesforce Streaming API uses a publish-subscribe model based on
+    Bayeux/CometD to push near-real-time event notifications to subscribed
+    clients. It supports PushTopic events (triggered by SOQL queries on record
+    changes) and Generic Streaming events (custom notifications). Clients
+    connect via long-polling over HTTPS to receive events as they occur.
+  version: '44.0'
+  contact:
+    name: Salesforce Developer Support
+    url: https://developer.salesforce.com/developer-centers/integration-apis
+  termsOfService: https://www.salesforce.com/company/legal/agreements/
+servers:
+  salesforce:
+    url: 'https://{instanceName}.salesforce.com/cometd/{apiVersion}'
+    protocol: https
+    description: Salesforce CometD streaming endpoint
+    variables:
+      instanceName:
+        description: Your Salesforce org instance (e.g., na1, eu3, or mydomain)
+        default: myorg
+      apiVersion:
+        description: Salesforce API version
+        default: '59.0'
+    security:
+      - oauthAccessToken: []
+channels:
+  /topic/{pushTopicName}:
+    description: >-
+      Channel for subscribing to a PushTopic that monitors SOQL-defined record
+      changes. Receives events when records matching the PushTopic query are
+      created, updated, deleted, or undeleted in Salesforce.
+    parameters:
+      pushTopicName:
+        description: The developer name of the PushTopic to subscribe to
+        schema:
+          type: string
+          examples:
+            - InvoiceStatementUpdates
+            - OpportunityUpdates
+    subscribe:
+      operationId: receivePushTopicEvent
+      summary: Receive a PushTopic record change event
+      description: >-
+        Fired when a Salesforce record change matches the SOQL query defined
+        in the PushTopic. The event payload includes the changed record data
+        and change metadata.
+      message:
+        $ref: '#/components/messages/PushTopicEvent'
+  /u/{streamingChannelName}:
+    description: >-
+      Channel for subscribing to a Generic Streaming channel. Receives
+      custom events published to this channel by Salesforce Apex or REST API calls.
+    parameters:
+      streamingChannelName:
+        description: The developer name of the Generic Streaming channel
+        schema:
+          type: string
+    subscribe:
+      operationId: receiveGenericStreamingEvent
+      summary: Receive a generic streaming event
+      description: >-
+        Fired when an event is published to a Generic Streaming channel via
+        the Salesforce REST API or Apex code.
+      message:
+        $ref: '#/components/messages/GenericStreamingEvent'
+components:
+  securitySchemes:
+    oauthAccessToken:
+      type: oauth2
+      description: Salesforce OAuth 2.0 access token
+      flows:
+        authorizationCode:
+          authorizationUrl: https://login.salesforce.com/services/oauth2/authorize
+          tokenUrl: https://login.salesforce.com/services/oauth2/token
+          scopes:
+            api: Access and manage Salesforce data
+  messages:
+    PushTopicEvent:
+      name: PushTopicEvent
+      title: Salesforce PushTopic Record Change Event
+      summary: Notification of a Salesforce record change matching a PushTopic query
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/PushTopicEventPayload'
+    GenericStreamingEvent:
+      name: GenericStreamingEvent
+      title: Salesforce Generic Streaming Event
+      summary: Custom event published to a Generic Streaming channel
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/GenericStreamingEventPayload'
+  schemas:
+    PushTopicEventPayload:
+      type: object
+      description: The envelope delivered to CometD subscribers for PushTopic events
+      properties:
+        channel:
+          type: string
+          description: The CometD channel the event was received on
+          examples:
+            - /topic/InvoiceStatementUpdates
+        clientId:
+          type: string
+          description: The CometD client ID of the subscriber
+        data:
+          type: object
+          description: The event data container
+          properties:
+            event:
+              type: object
+              description: Metadata about the record change event
+              properties:
+                type:
+                  type: string
+                  description: The type of DML operation that triggered the event
+                  enum:
+                    - created
+                    - updated
+                    - deleted
+                    - undeleted
+                replayId:
+                  type: integer
+                  description: >-
+                    Monotonically increasing replay ID used to replay missed events.
+                    Use -1 to replay all retained events or -2 for only new events.
+            sobject:
+              type: object
+              description: >-
+                The Salesforce record fields returned, based on the fields
+                in the PushTopic SOQL query
+              additionalProperties: true
+    GenericStreamingEventPayload:
+      type: object
+      description: The envelope for Generic Streaming channel events
+      properties:
+        channel:
+          type: string
+          description: The CometD channel path
+          examples:
+            - /u/BroadcastChannel
+        clientId:
+          type: string
+        data:
+          type: object
+          properties:
+            event:
+              type: object
+              properties:
+                replayId:
+                  type: integer
+                  description: Replay ID for event replay
+            payload:
+              type: string
+              description: Application-defined JSON string payload (max 10,000 characters)

@@ -1,0 +1,156 @@
+asyncapi: 2.6.0
+info:
+  title: Salesforce Platform Events API
+  description: >-
+    Salesforce Platform Events enables event-driven integration architectures
+    on the Salesforce platform. Developers define custom event types as Salesforce
+    objects with the __e suffix and publish or subscribe to events using the REST
+    API, Apex triggers, or CometD subscriptions. Events are durable and stored for
+    72 hours, supporting replay for missed events.
+  version: '59.0'
+  contact:
+    name: Salesforce Developer Support
+    url: https://developer.salesforce.com/docs/atlas.en-us.platform_events.meta/platform_events/
+  termsOfService: https://www.salesforce.com/company/legal/agreements/
+servers:
+  salesforce-cometd:
+    url: 'https://{instanceName}.salesforce.com/cometd/{apiVersion}'
+    protocol: https
+    description: CometD endpoint for subscribing to Platform Events
+    variables:
+      instanceName:
+        description: Salesforce org instance name or custom domain
+        default: myorg
+      apiVersion:
+        description: Salesforce API version
+        default: '59.0'
+    security:
+      - oauthAccessToken: []
+  salesforce-pubsub:
+    url: 'api.pubsub.salesforce.com:443'
+    protocol: grpc
+    description: Pub/Sub API gRPC endpoint (recommended for high-throughput subscriptions)
+    security:
+      - oauthAccessToken: []
+channels:
+  /event/{platformEventApiName}:
+    description: >-
+      CometD channel for subscribing to a Platform Event type. Receives events
+      published to this event type from Apex triggers, flows, REST API calls,
+      or external systems via the REST API.
+    parameters:
+      platformEventApiName:
+        description: >-
+          The API name of the Platform Event object including the __e suffix
+          (e.g., Order_Event__e, Low_Ink__e)
+        schema:
+          type: string
+          pattern: '^[a-zA-Z][a-zA-Z0-9_]*__e$'
+          examples:
+            - Order_Event__e
+            - Low_Ink__e
+    subscribe:
+      operationId: receivePlatformEvent
+      summary: Receive a Platform Event notification
+      description: >-
+        Fired when a Platform Event of this type is published. Includes the
+        event payload fields defined in the custom Platform Event object definition
+        plus system-generated metadata fields.
+      message:
+        $ref: '#/components/messages/PlatformEventMessage'
+    publish:
+      operationId: publishPlatformEvent
+      summary: Publish a Platform Event via CometD (internal use)
+      description: >-
+        Platform Events are typically published via the Salesforce REST API
+        (POST to /sobjects/{EventApiName__e}) or from Apex code. This represents
+        the event structure for publishing.
+      message:
+        $ref: '#/components/messages/PlatformEventPublishMessage'
+components:
+  securitySchemes:
+    oauthAccessToken:
+      type: oauth2
+      description: Salesforce OAuth 2.0 Connected App access token
+      flows:
+        authorizationCode:
+          authorizationUrl: https://login.salesforce.com/services/oauth2/authorize
+          tokenUrl: https://login.salesforce.com/services/oauth2/token
+          scopes:
+            api: Access and manage Salesforce data
+            event_api: Subscribe and publish Platform Events
+  messages:
+    PlatformEventMessage:
+      name: PlatformEventMessage
+      title: Salesforce Platform Event
+      summary: A Platform Event notification received via CometD
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/PlatformEventEnvelope'
+    PlatformEventPublishMessage:
+      name: PlatformEventPublish
+      title: Platform Event Publish Payload
+      summary: Payload structure for publishing a Platform Event via REST API
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/PlatformEventPublishPayload'
+  schemas:
+    PlatformEventEnvelope:
+      type: object
+      description: The CometD envelope wrapping a received Platform Event
+      properties:
+        channel:
+          type: string
+          description: CometD channel path
+          examples:
+            - /event/Low_Ink__e
+        data:
+          type: object
+          description: Event data container
+          properties:
+            schema:
+              type: string
+              description: The Avro schema ID for this event type version
+            event:
+              $ref: '#/components/schemas/PlatformEventData'
+            payload:
+              type: object
+              description: >-
+                The event payload containing the custom fields defined on
+                the Platform Event object, plus standard fields.
+              additionalProperties: true
+    PlatformEventData:
+      type: object
+      description: Event metadata
+      properties:
+        replayId:
+          type: integer
+          description: >-
+            Durable replay ID. Use -1 to replay from the earliest retained event,
+            -2 for only new events, or a specific replayId to replay from that point.
+        createdDate:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp when the event was published
+        createdById:
+          type: string
+          description: Salesforce user ID of the publisher
+    PlatformEventPublishPayload:
+      type: object
+      description: >-
+        Payload for publishing a Platform Event via POST to
+        /services/data/v{version}/sobjects/{EventApiName__e}
+      properties:
+        CreatedDate:
+          type: string
+          format: date-time
+          description: Optional publication timestamp. Defaults to current time.
+        CreatedById:
+          type: string
+          description: Optional publisher identity override (requires special permission)
+      additionalProperties:
+        description: Custom fields defined on the Platform Event object (field API names)
+        oneOf:
+          - type: string
+          - type: number
+          - type: boolean

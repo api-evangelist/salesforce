@@ -1,0 +1,1004 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0
+  description: >
+    Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data
+    operations that improves on the original Bulk API. It uses a straightforward
+    job model and supports CSV format for ingest and query jobs, enabling
+    processing of millions of records asynchronously.
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+  - url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+    description: Salesforce Bulk API 2.0 jobs endpoint
+    variables:
+      instance:
+        default: yourInstance
+        description: >
+          The Salesforce instance identifier (e.g., na1, eu3, or a My Domain
+          subdomain like mycompany).
+      version:
+        default: '63.0'
+        description: >
+          The Salesforce API version number (e.g., 63.0). Use the latest
+          supported version for new integrations.
+security:
+  - BearerAuth: []
+tags:
+  - name: Ingest Jobs
+    description: >
+      Operations for creating and managing ingest jobs that insert, update,
+      upsert, delete, or hard delete records in bulk using CSV data.
+  - name: Ingest Job Data
+    description: >
+      Operations for uploading CSV data to ingest jobs and retrieving job
+      results (successful, failed, and unprocessed records).
+  - name: Query Jobs
+    description: >
+      Operations for creating and managing query jobs that extract large
+      volumes of data from Salesforce using SOQL.
+  - name: Query Job Results
+    description: >
+      Operations for retrieving the results of completed query jobs as CSV
+      data.
+paths:
+  /ingest:
+    post:
+      operationId: createIngestJob
+      summary: Create an ingest job
+      description: >
+        Creates a new ingest job for bulk data operations (insert, update,
+        upsert, delete, or hardDelete). After creating the job, upload data
+        using the PUT /ingest/{jobId}/batches endpoint, then close the job
+        to begin processing. Monitor the job state until it reaches JobComplete
+        or Failed.
+      tags:
+        - Ingest Jobs
+      requestBody:
+        required: true
+        description: Configuration for the new ingest job.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestJobRequest'
+      responses:
+        '200':
+          description: Ingest job created successfully with Open state.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngestJobInfo'
+        '400':
+          description: >
+            Bad request. Invalid operation, object type, or configuration
+            parameters.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      operationId: listIngestJobs
+      summary: List ingest jobs
+      description: >
+        Returns a list of ingest jobs in the org. By default returns all jobs
+        created by all users. Use query parameters to filter by state or other
+        criteria. Results are ordered by creation date descending.
+      tags:
+        - Ingest Jobs
+      parameters:
+        - name: isPkChunkingEnabled
+          in: query
+          required: false
+          description: >
+            Filter results to only jobs with PK chunking enabled (true) or
+            disabled (false).
+          schema:
+            type: boolean
+        - name: jobType
+          in: query
+          required: false
+          description: >
+            Filter results by job type. Use Classic for Bulk API 1.0 jobs or
+            V2Ingest for Bulk API 2.0 ingest jobs.
+          schema:
+            type: string
+            enum:
+              - Classic
+              - V2Ingest
+      responses:
+        '200':
+          description: List of ingest jobs matching the filter criteria.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  done:
+                    type: boolean
+                    description: >
+                      Whether all jobs have been returned. If false, use
+                      nextRecordsUrl to retrieve more.
+                  nextRecordsUrl:
+                    type: string
+                    format: uri
+                    description: URL to retrieve the next page of job results.
+                  records:
+                    type: array
+                    description: Array of ingest job information objects.
+                    items:
+                      $ref: '#/components/schemas/IngestJobInfo'
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /ingest/{jobId}:
+    get:
+      operationId: getIngestJobInfo
+      summary: Get ingest job info
+      description: >
+        Returns detailed information about a specific ingest job, including its
+        current state, number of records processed, number of failures, and
+        any error messages. Use this to monitor job progress and determine when
+        processing is complete.
+      tags:
+        - Ingest Jobs
+      parameters:
+        - $ref: '#/components/parameters/jobId'
+      responses:
+        '200':
+          description: Detailed information about the specified ingest job.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngestJobInfo'
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Job not found for the specified job ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      operationId: updateIngestJob
+      summary: Update or close an ingest job
+      description: >
+        Updates the state of an ingest job. Use this to close the job after
+        uploading all data (set state to UploadComplete), which triggers
+        processing. Can also abort a job that is Open or UploadComplete by
+        setting state to Aborted.
+      tags:
+        - Ingest Jobs
+      parameters:
+        - $ref: '#/components/parameters/jobId'
+      requestBody:
+        required: true
+        description: State update for the ingest job.
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - state
+              properties:
+                state:
+                  type: string
+                  enum:
+                    - UploadComplete
+                    - Aborted
+                  description: >
+                    The new state to set for the job. Use UploadComplete to
+                    close the job and begin processing, or Aborted to cancel
+                    the job.
+      responses:
+        '200':
+          description: Ingest job updated successfully with the new state.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngestJobInfo'
+        '400':
+          description: Bad request. Invalid state transition for the current job state.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Job not found for the specified job ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: deleteIngestJob
+      summary: Delete an ingest job
+      description: >
+        Deletes an ingest job and all associated data. Only jobs in the Aborted
+        state can be deleted. First abort the job if it is in a different state,
+        then delete it.
+      tags:
+        - Ingest Jobs
+      parameters:
+        - $ref: '#/components/parameters/jobId'
+      responses:
+        '204':
+          description: Ingest job deleted successfully. No body is returned.
+        '400':
+          description: >
+            Bad request. Job is not in Aborted state and cannot be deleted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Job not found for the specified job ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /ingest/{jobId}/batches:
+    put:
+      operationId: uploadJobData
+      summary: Upload job data (CSV)
+      description: >
+        Uploads CSV data to an ingest job that is in the Open state. The CSV
+        must include a header row matching the field API names for the object.
+        Multiple upload calls can be made for the same job; data is appended.
+        After uploading all data, close the job with PATCH /ingest/{jobId} to
+        begin processing.
+      tags:
+        - Ingest Job Data
+      parameters:
+        - $ref: '#/components/parameters/jobId'
+      requestBody:
+        required: true
+        description: >
+          CSV data to upload to the ingest job. The first row must be a header
+          row with field API names.
+        content:
+          text/csv:
+            schema:
+              type: string
+              format: binary
+              description: >
+                CSV-formatted data with a header row and one record per
+                subsequent row. Field names in the header must match the
+                Salesforce field API names for the object.
+      responses:
+        '201':
+          description: Data uploaded successfully to the ingest job.
+        '400':
+          description: >
+            Bad request. Invalid CSV format, job not in Open state, or data
+            exceeds size limits.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Job not found for the specified job ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /ingest/{jobId}/successfulResults:
+    get:
+      operationId: getSuccessfulResults
+      summary: Get successful records from an ingest job
+      description: >
+        Returns a CSV file containing the records that were successfully
+        processed by the ingest job. Each row corresponds to a record from the
+        uploaded data that was inserted, updated, upserted, or deleted
+        successfully. Only available after the job reaches JobComplete state.
+      tags:
+        - Ingest Job Data
+      parameters:
+        - $ref: '#/components/parameters/jobId'
+      responses:
+        '200':
+          description: >
+            CSV data containing the successfully processed records, with
+            sf__Id and sf__Created columns added.
+          content:
+            text/csv:
+              schema:
+                type: string
+                description: >
+                  CSV data of successfully processed records. Includes sf__Id
+                  (the Salesforce record ID) and sf__Created (true if created,
+                  false if updated) columns.
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Job not found or job has not completed processing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /ingest/{jobId}/failedResults:
+    get:
+      operationId: getFailedResults
+      summary: Get failed records from an ingest job
+      description: >
+        Returns a CSV file containing the records from the ingest job that
+        failed to process. Each row includes the original record data plus
+        sf__Error and sf__Id columns describing the failure reason. Use this
+        to identify and fix records that need to be resubmitted.
+      tags:
+        - Ingest Job Data
+      parameters:
+        - $ref: '#/components/parameters/jobId'
+      responses:
+        '200':
+          description: >
+            CSV data containing failed records with error details in the
+            sf__Error column.
+          content:
+            text/csv:
+              schema:
+                type: string
+                description: >
+                  CSV data of failed records. Includes sf__Error (error message
+                  describing the failure) and sf__Id (the record ID if
+                  applicable) columns.
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Job not found or job has not completed processing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /ingest/{jobId}/unprocessedrecords:
+    get:
+      operationId: getUnprocessedRecords
+      summary: Get unprocessed records from an ingest job
+      description: >
+        Returns a CSV file containing the records from the ingest job that were
+        not processed, typically because the job was aborted before processing
+        completed. Use these records to resubmit them in a new job.
+      tags:
+        - Ingest Job Data
+      parameters:
+        - $ref: '#/components/parameters/jobId'
+      responses:
+        '200':
+          description: CSV data containing unprocessed records from the aborted job.
+          content:
+            text/csv:
+              schema:
+                type: string
+                description: >
+                  CSV data of unprocessed records in the same format as the
+                  original uploaded data.
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Job not found for the specified job ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /query:
+    post:
+      operationId: createQueryJob
+      summary: Create a query job
+      description: >
+        Creates a new query job to extract large volumes of data from Salesforce
+        using a SOQL query. Query jobs are asynchronous; after creating the job,
+        poll the job status until it reaches JobComplete, then retrieve results
+        using the GET /query/{jobId}/results endpoint.
+      tags:
+        - Query Jobs
+      requestBody:
+        required: true
+        description: Configuration for the new query job including the SOQL query.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryJobRequest'
+      responses:
+        '200':
+          description: Query job created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryJobInfo'
+        '400':
+          description: Bad request. Invalid SOQL query or configuration parameters.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      operationId: listQueryJobs
+      summary: List query jobs
+      description: >
+        Returns a list of query jobs in the org. Results are ordered by creation
+        date descending. Use query parameters to filter by job state.
+      tags:
+        - Query Jobs
+      parameters:
+        - name: jobType
+          in: query
+          required: false
+          description: >
+            Filter results by job type. Use V2Query for Bulk API 2.0 query
+            jobs.
+          schema:
+            type: string
+            enum:
+              - V2Query
+      responses:
+        '200':
+          description: List of query jobs.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  done:
+                    type: boolean
+                    description: Whether all jobs have been returned.
+                  nextRecordsUrl:
+                    type: string
+                    format: uri
+                    description: URL to retrieve the next page of query job results.
+                  records:
+                    type: array
+                    description: Array of query job information objects.
+                    items:
+                      $ref: '#/components/schemas/QueryJobInfo'
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /query/{jobId}:
+    get:
+      operationId: getQueryJobInfo
+      summary: Get query job info
+      description: >
+        Returns detailed information about a specific query job, including its
+        current state, number of records processed, and any error messages. Poll
+        this endpoint until the state reaches JobComplete or Failed before
+        retrieving results.
+      tags:
+        - Query Jobs
+      parameters:
+        - $ref: '#/components/parameters/jobId'
+      responses:
+        '200':
+          description: Detailed information about the specified query job.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryJobInfo'
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Job not found for the specified job ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      operationId: updateQueryJob
+      summary: Abort or close a query job
+      description: >
+        Updates the state of a query job. Use this to abort a query job that is
+        currently running or queued by setting state to Aborted.
+      tags:
+        - Query Jobs
+      parameters:
+        - $ref: '#/components/parameters/jobId'
+      requestBody:
+        required: true
+        description: State update for the query job.
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - state
+              properties:
+                state:
+                  type: string
+                  enum:
+                    - Aborted
+                  description: >
+                    The new state to set for the query job. Currently only
+                    Aborted is supported to cancel a running job.
+      responses:
+        '200':
+          description: Query job updated successfully with the new state.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryJobInfo'
+        '400':
+          description: Bad request. Invalid state transition for the current job state.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Job not found for the specified job ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: deleteQueryJob
+      summary: Delete a query job
+      description: >
+        Deletes a query job and all associated results. Only jobs in the Aborted
+        or JobComplete state can be deleted.
+      tags:
+        - Query Jobs
+      parameters:
+        - $ref: '#/components/parameters/jobId'
+      responses:
+        '204':
+          description: Query job deleted successfully. No body is returned.
+        '400':
+          description: >
+            Bad request. Job is not in a deletable state (Aborted or
+            JobComplete).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Job not found for the specified job ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /query/{jobId}/results:
+    get:
+      operationId: getQueryJobResults
+      summary: Get query job results
+      description: >
+        Returns the results of a completed query job as CSV data. The results
+        may be paginated; check for a Sforce-Locator response header to retrieve
+        subsequent pages by passing the locator value as a query parameter. Only
+        available after the job reaches JobComplete state.
+      tags:
+        - Query Job Results
+      parameters:
+        - $ref: '#/components/parameters/jobId'
+        - name: maxRecords
+          in: query
+          required: false
+          description: >
+            Maximum number of records to return in this response. Defaults to
+            50000. Use with the locator parameter to paginate through large
+            result sets.
+          schema:
+            type: integer
+            default: 50000
+        - name: locator
+          in: query
+          required: false
+          description: >
+            A locator token from the Sforce-Locator response header of a
+            previous request to retrieve the next page of results.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: >
+            CSV data containing query results. Check the Sforce-Locator response
+            header for a locator token to retrieve subsequent pages.
+          headers:
+            Sforce-Locator:
+              description: >
+                Locator token for the next page of results. Pass this value as
+                the locator query parameter in subsequent requests. If this
+                header is absent or has value "null", no more pages remain.
+              schema:
+                type: string
+            Sforce-NumberOfRecords:
+              description: Number of records returned in this response.
+              schema:
+                type: integer
+          content:
+            text/csv:
+              schema:
+                type: string
+                description: >
+                  CSV data containing the query results. The first row is a
+                  header row with field API names.
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Job not found or job has not reached JobComplete state.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: >
+        OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token
+        endpoint. Include this token in the Authorization header as
+        "Bearer {access_token}".
+  parameters:
+    jobId:
+      name: jobId
+      in: path
+      required: true
+      description: The unique identifier of the Bulk API 2.0 job.
+      schema:
+        type: string
+  schemas:
+    JobState:
+      type: string
+      description: >
+        The current state of a Bulk API 2.0 job, indicating where it is in its
+        lifecycle.
+      enum:
+        - Open
+        - UploadComplete
+        - InProgress
+        - JobComplete
+        - Failed
+        - Aborted
+    IngestJobRequest:
+      type: object
+      description: >
+        Configuration parameters for creating a new Bulk API 2.0 ingest job.
+      required:
+        - operation
+        - object
+      properties:
+        operation:
+          type: string
+          enum:
+            - insert
+            - update
+            - upsert
+            - delete
+            - hardDelete
+          description: >
+            The DML operation to perform on the records. Use insert to create
+            new records, update to modify existing records, upsert to create or
+            update based on an external ID, delete to soft-delete records, or
+            hardDelete to permanently delete records.
+        object:
+          type: string
+          description: >
+            The API name of the Salesforce SObject type for this job (e.g.,
+            Account, Contact, MyCustomObject__c).
+        externalIdFieldName:
+          type: string
+          description: >
+            Required for upsert operations. The API name of the external ID
+            field used to match records for upsert.
+        contentType:
+          type: string
+          enum:
+            - CSV
+          default: CSV
+          description: >
+            The format of the data to be uploaded. Currently only CSV is
+            supported.
+        lineEnding:
+          type: string
+          enum:
+            - LF
+            - CRLF
+          default: LF
+          description: >
+            The line ending character used in the uploaded CSV data. Use LF for
+            Unix-style line endings or CRLF for Windows-style.
+        columnDelimiter:
+          type: string
+          enum:
+            - COMMA
+            - TAB
+            - PIPE
+            - SEMICOLON
+            - CARET
+            - BACKQUOTE
+          default: COMMA
+          description: >
+            The delimiter character used between fields in the CSV data.
+            Defaults to COMMA.
+        assignmentRuleId:
+          type: string
+          description: >
+            The ID of an assignment rule to apply when inserting or updating
+            Case or Lead records.
+    IngestJobInfo:
+      type: object
+      description: >
+        Detailed information about a Bulk API 2.0 ingest job, including its
+        current state and processing statistics.
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the ingest job.
+        operation:
+          type: string
+          enum:
+            - insert
+            - update
+            - upsert
+            - delete
+            - hardDelete
+          description: The DML operation being performed by this job.
+        object:
+          type: string
+          description: The API name of the SObject type being processed.
+        state:
+          $ref: '#/components/schemas/JobState'
+        createdDate:
+          type: string
+          format: date-time
+          description: The date and time the job was created, in ISO 8601 format.
+        systemModstamp:
+          type: string
+          format: date-time
+          description: >
+            The date and time the job was last modified, in ISO 8601 format.
+        numberRecordsProcessed:
+          type: integer
+          description: >
+            The number of records processed so far. Updated after processing
+            completes.
+        numberRecordsFailed:
+          type: integer
+          description: The number of records that failed during processing.
+        totalProcessingTime:
+          type: integer
+          description: Total processing time in milliseconds.
+        errorMessage:
+          type: string
+          description: >
+            Error message if the job reached the Failed state. Describes the
+            reason for failure.
+        contentType:
+          type: string
+          enum:
+            - CSV
+          description: The content type of the data uploaded to this job.
+        lineEnding:
+          type: string
+          enum:
+            - LF
+            - CRLF
+          description: The line ending used in the uploaded data.
+        columnDelimiter:
+          type: string
+          enum:
+            - COMMA
+            - TAB
+            - PIPE
+            - SEMICOLON
+            - CARET
+            - BACKQUOTE
+          description: The column delimiter used in the uploaded data.
+        externalIdFieldName:
+          type: string
+          description: >
+            The external ID field name used for upsert operations. Only present
+            for upsert jobs.
+        jobType:
+          type: string
+          description: The job type (V2Ingest for Bulk API 2.0 ingest jobs).
+        createdById:
+          type: string
+          description: The Salesforce user ID of the user who created the job.
+        apiVersion:
+          type: number
+          description: The API version used to create the job.
+    QueryJobRequest:
+      type: object
+      description: Configuration parameters for creating a new Bulk API 2.0 query job.
+      required:
+        - operation
+        - query
+      properties:
+        operation:
+          type: string
+          enum:
+            - query
+            - queryAll
+          description: >
+            The query operation to perform. Use query to retrieve active records
+            only, or queryAll to include soft-deleted and archived records.
+        query:
+          type: string
+          description: >
+            The SOQL query to execute. The query result will be available as CSV
+            data after the job completes.
+          example: SELECT Id, Name, Email, Phone FROM Contact WHERE CreatedDate = LAST_YEAR
+        contentType:
+          type: string
+          enum:
+            - CSV
+          default: CSV
+          description: The format of the results. Currently only CSV is supported.
+        columnDelimiter:
+          type: string
+          enum:
+            - COMMA
+            - TAB
+            - PIPE
+            - SEMICOLON
+            - CARET
+            - BACKQUOTE
+          default: COMMA
+          description: The delimiter character used between fields in the CSV output.
+        lineEnding:
+          type: string
+          enum:
+            - LF
+            - CRLF
+          default: LF
+          description: The line ending character used in the CSV output.
+    QueryJobInfo:
+      type: object
+      description: >
+        Detailed information about a Bulk API 2.0 query job, including its
+        current state and processing statistics.
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the query job.
+        operation:
+          type: string
+          enum:
+            - query
+            - queryAll
+          description: The query operation being performed.
+        object:
+          type: string
+          description: >
+            The primary SObject type in the SOQL query. Derived automatically
+            from the query.
+        state:
+          $ref: '#/components/schemas/JobState'
+        createdDate:
+          type: string
+          format: date-time
+          description: The date and time the job was created, in ISO 8601 format.
+        systemModstamp:
+          type: string
+          format: date-time
+          description: The date and time the job was last modified, in ISO 8601 format.
+        numberRecordsProcessed:
+          type: integer
+          description: The number of records returned by the query.
+        totalProcessingTime:
+          type: integer
+          description: Total processing time in milliseconds.
+        errorMessage:
+          type: string
+          description: >
+            Error message if the job reached the Failed state. Describes the
+            reason for failure.
+        contentType:
+          type: string
+          enum:
+            - CSV
+          description: The content type of the query results.
+        columnDelimiter:
+          type: string
+          enum:
+            - COMMA
+            - TAB
+            - PIPE
+            - SEMICOLON
+            - CARET
+            - BACKQUOTE
+          description: The column delimiter used in the results CSV.
+        lineEnding:
+          type: string
+          enum:
+            - LF
+            - CRLF
+          description: The line ending used in the results CSV.
+        jobType:
+          type: string
+          description: The job type (V2Query for Bulk API 2.0 query jobs).
+        createdById:
+          type: string
+          description: The Salesforce user ID of the user who created the job.
+        apiVersion:
+          type: number
+          description: The API version used to create the job.
+    Error:
+      type: object
+      description: An error response from the Salesforce Bulk API 2.0.
+      properties:
+        message:
+          type: string
+          description: Human-readable description of the error.
+        errorCode:
+          type: string
+          description: Salesforce error code identifying the type of error.
+        fields:
+          type: array
+          description: List of field names related to the error, if applicable.
+          items:
+            type: string

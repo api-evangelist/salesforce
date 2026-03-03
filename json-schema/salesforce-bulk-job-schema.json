@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/salesforce/refs/heads/main/json-schema/salesforce-bulk-job-schema.json",
+  "title": "Salesforce Bulk API 2.0 Job",
+  "description": "A Salesforce Bulk API 2.0 job definition representing either an ingest job (for inserting, updating, upserting, deleting, or hard-deleting records in bulk) or a query job (for extracting large volumes of records using SOQL). Jobs are asynchronous; they progress through states from Open to JobComplete or Failed.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The unique identifier assigned to this Bulk API 2.0 job by Salesforce. Used in subsequent API calls to check status, upload data, and retrieve results."
+    },
+    "operation": {
+      "type": "string",
+      "description": "The data operation performed by this job. For ingest jobs: insert (create new records), update (modify existing records by ID), upsert (create or update based on external ID), delete (soft-delete records), or hardDelete (permanently delete records without moving to Recycle Bin). For query jobs: query (active records only) or queryAll (includes soft-deleted records).",
+      "enum": [
+        "insert",
+        "update",
+        "upsert",
+        "delete",
+        "hardDelete",
+        "query",
+        "queryAll"
+      ]
+    },
+    "object": {
+      "type": "string",
+      "description": "The API name of the Salesforce SObject type being processed by this job (e.g., Account, Contact, Opportunity, MyCustomObject__c)."
+    },
+    "state": {
+      "type": "string",
+      "description": "The current lifecycle state of the job. Open: job is accepting data uploads. UploadComplete: all data has been uploaded and the job is queued for processing. InProgress: the job is actively processing records. JobComplete: processing finished successfully. Failed: the job encountered an unrecoverable error during processing. Aborted: the job was manually cancelled.",
+      "enum": [
+        "Open",
+        "UploadComplete",
+        "InProgress",
+        "JobComplete",
+        "Failed",
+        "Aborted"
+      ]
+    },
+    "createdDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time the job was created, in ISO 8601 format (e.g., 2024-01-15T10:30:00.000Z)."
+    },
+    "systemModstamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time the job was last modified by any operation (including system updates), in ISO 8601 format. Updated each time the job state changes."
+    },
+    "numberRecordsProcessed": {
+      "type": "integer",
+      "description": "The total number of records that have been processed so far by this job, including both successful and failed records. Updated after processing completes for each batch internally.",
+      "minimum": 0
+    },
+    "numberRecordsFailed": {
+      "type": "integer",
+      "description": "The number of records that failed to process due to errors (e.g., validation errors, duplicate rules, required field violations). These records are available in the failedResults endpoint.",
+      "minimum": 0
+    },
+    "totalProcessingTime": {
+      "type": "integer",
+      "description": "The total time in milliseconds spent processing this job. Only available after the job reaches JobComplete or Failed state.",
+      "minimum": 0
+    },
+    "errorMessage": {
+      "type": "string",
+      "description": "A message describing the error that caused the job to fail. Only present when the job state is Failed. Describes the reason the entire job could not be processed (as opposed to individual record errors, which appear in the failedResults endpoint)."
+    },
+    "contentType": {
+      "type": "string",
+      "description": "The file format of the data uploaded to or returned from this job. Currently only CSV (comma-separated values) is supported by Bulk API 2.0.",
+      "enum": [
+        "CSV"
+      ]
+    },
+    "lineEnding": {
+      "type": "string",
+      "description": "The line ending character sequence used in the CSV data for this job. LF uses Unix-style line endings (\\n). CRLF uses Windows-style line endings (\\r\\n).",
+      "enum": [
+        "LF",
+        "CRLF"
+      ]
+    },
+    "columnDelimiter": {
+      "type": "string",
+      "description": "The character used as the column delimiter in the CSV data for this job. COMMA is the default and most common. TAB, PIPE, SEMICOLON, CARET, and BACKQUOTE are alternatives for data that contains commas.",
+      "enum": [
+        "COMMA",
+        "TAB",
+        "PIPE",
+        "SEMICOLON",
+        "CARET",
+        "BACKQUOTE"
+      ]
+    },
+    "externalIdFieldName": {
+      "type": "string",
+      "description": "The API name of the external ID field used to match records for upsert operations. Only present for jobs with operation 'upsert'. The CSV data must include this field in every row."
+    },
+    "jobType": {
+      "type": "string",
+      "description": "The type of Bulk API job. V2Ingest indicates a Bulk API 2.0 ingest job. V2Query indicates a Bulk API 2.0 query job. Classic indicates a Bulk API 1.0 job.",
+      "enum": [
+        "V2Ingest",
+        "V2Query",
+        "Classic"
+      ]
+    },
+    "createdById": {
+      "type": "string",
+      "description": "The 18-character Salesforce user ID of the user who created this job."
+    },
+    "apiVersion": {
+      "type": "number",
+      "description": "The Salesforce API version used to create this job (e.g., 63.0).",
+      "minimum": 1
+    },
+    "concurrencyMode": {
+      "type": "string",
+      "description": "The concurrency mode for processing. Parallel mode processes batches simultaneously for better performance. Serial mode processes batches one at a time to avoid lock contention.",
+      "enum": [
+        "Parallel",
+        "Serial"
+      ]
+    },
+    "retries": {
+      "type": "integer",
+      "description": "The number of times Salesforce has retried processing this job after transient failures.",
+      "minimum": 0
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,213 @@
+asyncapi: 2.6.0
+info:
+  title: Salesforce Change Data Capture API
+  description: >-
+    Salesforce Change Data Capture (CDC) delivers change events that represent
+    changes to Salesforce records including creates, updates, deletes, and
+    undeletes. Subscribers receive rich change events with header metadata,
+    changed fields, and entity metadata. Change events are durable and retained
+    for 72 hours. CDC enables near-real-time data replication and synchronization
+    of Salesforce data to external systems.
+  version: '59.0'
+  contact:
+    name: Salesforce Developer Support
+    url: https://developer.salesforce.com/docs/atlas.en-us.change_data_capture.meta/change_data_capture/
+  termsOfService: https://www.salesforce.com/company/legal/agreements/
+servers:
+  salesforce-cometd:
+    url: 'https://{instanceName}.salesforce.com/cometd/{apiVersion}'
+    protocol: https
+    description: CometD endpoint for subscribing to Change Data Capture events
+    variables:
+      instanceName:
+        description: Salesforce org instance name or custom domain
+        default: myorg
+      apiVersion:
+        description: Salesforce API version
+        default: '59.0'
+    security:
+      - oauthAccessToken: []
+channels:
+  /data/{objectApiName}ChangeEvent:
+    description: >-
+      CometD channel for subscribing to change events for a specific Salesforce
+      standard or custom object. Delivers events when records of that type are
+      created, updated, deleted, or undeleted.
+    parameters:
+      objectApiName:
+        description: >-
+          The API name of the Salesforce object (without __c suffix for custom objects
+          in the channel path). Standard objects use their standard name.
+          Examples: Account, Contact, MyCustomObject__c becomes MyCustomObject__cChangeEvent.
+        schema:
+          type: string
+          examples:
+            - Account
+            - Contact
+            - Opportunity
+            - MyCustomObject__c
+    subscribe:
+      operationId: receiveChangeEvent
+      summary: Receive a record change event for a specific object
+      description: >-
+        Fired when a record of this Salesforce object type is created, updated,
+        deleted, or undeleted. The change event includes only the fields that
+        changed (for updates), plus header metadata about the change operation.
+      message:
+        $ref: '#/components/messages/ChangeEventMessage'
+  /data/ChangeEvents:
+    description: >-
+      Omnibus channel that delivers change events for all objects configured
+      for Change Data Capture in your org's settings. Use this channel to
+      receive all CDC events in a single subscription.
+    subscribe:
+      operationId: receiveAllChangeEvents
+      summary: Receive change events for all CDC-enabled objects
+      description: >-
+        Delivers change events for every object type enabled for Change Data
+        Capture in Salesforce Setup > Integrations > Change Data Capture.
+      message:
+        $ref: '#/components/messages/ChangeEventMessage'
+components:
+  securitySchemes:
+    oauthAccessToken:
+      type: oauth2
+      description: Salesforce OAuth 2.0 Connected App access token
+      flows:
+        authorizationCode:
+          authorizationUrl: https://login.salesforce.com/services/oauth2/authorize
+          tokenUrl: https://login.salesforce.com/services/oauth2/token
+          scopes:
+            api: Access and manage Salesforce data
+            cdp_api: Subscribe to Change Data Capture events
+  messages:
+    ChangeEventMessage:
+      name: ChangeEventMessage
+      title: Salesforce Change Data Capture Event
+      summary: A record change notification for a Salesforce object
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/ChangeEventEnvelope'
+  schemas:
+    ChangeEventEnvelope:
+      type: object
+      description: The CometD envelope wrapping a Change Data Capture event
+      properties:
+        channel:
+          type: string
+          description: The CometD channel this event was delivered on
+          examples:
+            - /data/AccountChangeEvent
+            - /data/ChangeEvents
+        data:
+          type: object
+          description: Event data container
+          properties:
+            schema:
+              type: string
+              description: Avro schema ID identifying the event schema version
+            event:
+              type: object
+              properties:
+                replayId:
+                  type: integer
+                  description: >-
+                    Durable replay ID used to replay missed events. Pass -1 to
+                    replay from earliest available, -2 for new events only.
+            payload:
+              $ref: '#/components/schemas/ChangeEventPayload'
+    ChangeEventPayload:
+      type: object
+      description: The change event payload with header metadata and changed field values
+      properties:
+        ChangeEventHeader:
+          $ref: '#/components/schemas/ChangeEventHeader'
+        Id:
+          type: string
+          description: >-
+            For create and undelete events, the Salesforce record ID.
+            Absent for update and delete events (use recordIds in the header).
+        CreatedDate:
+          type: string
+          format: date-time
+          description: Timestamp for create events
+        LastModifiedDate:
+          type: string
+          format: date-time
+          description: Timestamp for update events
+      additionalProperties:
+        description: Changed field values. Only fields that changed are included for updates.
+    ChangeEventHeader:
+      type: object
+      description: Metadata about the change event
+      required:
+        - entityName
+        - recordIds
+        - changeType
+        - changeOrigin
+        - transactionKey
+        - sequenceNumber
+        - commitTimestamp
+        - commitUser
+        - commitNumber
+      properties:
+        entityName:
+          type: string
+          description: The API name of the Salesforce object that changed
+          examples:
+            - Account
+            - Contact
+        recordIds:
+          type: array
+          description: >-
+            Array of record IDs affected by this change event. Multiple IDs
+            indicate a mass update or delete operation.
+          items:
+            type: string
+        changeType:
+          type: string
+          description: The DML operation that caused the change
+          enum:
+            - CREATE
+            - UPDATE
+            - DELETE
+            - UNDELETE
+            - GAP_CREATE
+            - GAP_UPDATE
+            - GAP_DELETE
+            - GAP_UNDELETE
+            - GAP_OVERFLOW
+        changeOrigin:
+          type: string
+          description: >-
+            The Salesforce client that initiated the change (e.g., com/salesforce/api/rest/59.0)
+        transactionKey:
+          type: string
+          description: Unique key identifying the transaction that caused this event
+        sequenceNumber:
+          type: integer
+          description: Sequence number within the transaction for ordering multiple changes
+        commitTimestamp:
+          type: integer
+          description: Unix timestamp in milliseconds when the transaction was committed
+        commitUser:
+          type: string
+          description: Salesforce user ID of the user who made the change
+        commitNumber:
+          type: integer
+          description: Transaction commit number for ordering across transactions
+        nulledFields:
+          type: array
+          description: List of field API names that were explicitly set to null in this update
+          items:
+            type: string
+        diffFields:
+          type: array
+          description: List of field API names that changed in this update
+          items:
+            type: string
+        changedFields:
+          type: array
+          description: Compound field names that changed
+          items:
+            type: string

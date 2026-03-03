@@ -1,0 +1,630 @@
+openapi: 3.1.0
+info:
+  title: Salesforce UI API
+  description: >-
+    The Salesforce UI API provides a comprehensive REST interface for building
+    user interfaces that work with Salesforce metadata and data. It returns
+    layout information, picklist values, list views, record data, and object
+    metadata that Lightning components rely on. Unlike the general REST API,
+    the UI API returns UI-ready data including display labels, field types,
+    formatting hints, and page layout assignments.
+  version: '59.0'
+  contact:
+    name: Salesforce Developer Support
+    url: https://developer.salesforce.com/docs/atlas.en-us.uiapi.meta/uiapi/
+  termsOfService: https://www.salesforce.com/company/legal/agreements/
+externalDocs:
+  description: Salesforce UI API Documentation
+  url: https://developer.salesforce.com/docs/atlas.en-us.uiapi.meta/uiapi/
+servers:
+  - url: 'https://{instanceName}.salesforce.com/services/data/v{version}/ui-api'
+    description: Salesforce org UI API base
+    variables:
+      instanceName:
+        description: Salesforce org instance name or custom domain
+        default: myorg
+      version:
+        description: Salesforce API version
+        default: '59.0'
+tags:
+  - name: Records
+    description: Retrieve record data with field labels and UI-formatting metadata
+  - name: Object Info
+    description: Retrieve object metadata including fields, layouts, and picklists
+  - name: List Views
+    description: Retrieve list view data and metadata for use in UI components
+  - name: Lookups
+    description: Lookup field search endpoints
+  - name: Picklists
+    description: Dependent and independent picklist value endpoints
+security:
+  - oauthBearerToken: []
+paths:
+  /records/{recordId}:
+    get:
+      operationId: getRecord
+      summary: Get a record
+      description: >-
+        Returns data for a record including field values, formatted for display
+        in the Lightning UI. Supports specifying which fields to return using
+        the fields or layoutTypes parameter. Returns record metadata alongside
+        data, including field labels, editability, and required status.
+      tags:
+        - Records
+      parameters:
+        - $ref: '#/components/parameters/RecordId'
+        - name: fields
+          in: query
+          description: Comma-separated list of field API names to return (e.g., Account.Name,Account.Type)
+          schema:
+            type: string
+        - name: layoutTypes
+          in: query
+          description: >-
+            Layout types to use for determining which fields to return
+            (Full, Compact)
+          schema:
+            type: string
+            enum:
+              - Full
+              - Compact
+        - name: modes
+          in: query
+          description: View mode(s) for the layout (View, Edit, Create)
+          schema:
+            type: string
+        - name: optionalFields
+          in: query
+          description: Fields to include if accessible, without error if inaccessible
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Record data retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecordRepresentation'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateRecord
+      summary: Update a record
+      description: >-
+        Updates fields on a Salesforce record. Only the fields included in the
+        request body are updated. Returns the updated record representation.
+      tags:
+        - Records
+      parameters:
+        - $ref: '#/components/parameters/RecordId'
+        - name: If-Modified-Since
+          in: header
+          description: Conditional update based on record modification timestamp
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecordInput'
+      responses:
+        '200':
+          description: Record updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecordRepresentation'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteRecord
+      summary: Delete a record
+      description: Deletes a Salesforce record by its ID.
+      tags:
+        - Records
+      parameters:
+        - $ref: '#/components/parameters/RecordId'
+      responses:
+        '204':
+          description: Record deleted successfully
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /records:
+    post:
+      operationId: createRecord
+      summary: Create a record
+      description: >-
+        Creates a new Salesforce record of the specified object type. The
+        apiName of the object is included in the request body.
+      tags:
+        - Records
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecordInput'
+      responses:
+        '201':
+          description: Record created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecordRepresentation'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /object-info/{objectApiName}:
+    get:
+      operationId: getObjectInfo
+      summary: Get object metadata
+      description: >-
+        Returns metadata about a Salesforce object including its fields,
+        their types, labels, whether they are required or read-only, their
+        reference targets, and the object's CRUD permissions. Used by
+        Lightning components to build dynamic forms.
+      tags:
+        - Object Info
+      parameters:
+        - $ref: '#/components/parameters/ObjectApiName'
+      responses:
+        '200':
+          description: Object metadata retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectInfoRepresentation'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /object-info/{objectApiName}/picklist-values/{recordTypeId}:
+    get:
+      operationId: getPicklistValues
+      summary: Get picklist values for a record type
+      description: >-
+        Returns picklist values for all picklist fields on an object for a
+        given record type. Values include labels, valid values, and
+        dependencies between picklist fields.
+      tags:
+        - Picklists
+      parameters:
+        - $ref: '#/components/parameters/ObjectApiName'
+        - name: recordTypeId
+          in: path
+          required: true
+          description: The record type ID or the string '012000000000000AAA' for the master record type
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Picklist values retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PicklistValuesCollection'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /list-ui/{objectApiName}:
+    get:
+      operationId: getListsByObjectName
+      summary: Get list views for an object
+      description: >-
+        Returns metadata and data for all list views accessible to the current
+        user for the specified object type.
+      tags:
+        - List Views
+      parameters:
+        - $ref: '#/components/parameters/ObjectApiName'
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/PageToken'
+      responses:
+        '200':
+          description: List views retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListViewCollection'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /list-ui/{objectApiName}/{listViewApiName}:
+    get:
+      operationId: getListView
+      summary: Get a specific list view
+      description: Returns the data and metadata for a specific list view.
+      tags:
+        - List Views
+      parameters:
+        - $ref: '#/components/parameters/ObjectApiName'
+        - name: listViewApiName
+          in: path
+          required: true
+          description: The API name of the list view (e.g., AllAccounts, RecentlyViewed)
+          schema:
+            type: string
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/PageToken'
+      responses:
+        '200':
+          description: List view data retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListViewResult'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /lookups/{objectApiName}/{fieldApiName}:
+    get:
+      operationId: getLookupRecords
+      summary: Search lookup field records
+      description: >-
+        Returns matching records for a lookup field search. Used to populate
+        the typeahead list in Lightning lookup components.
+      tags:
+        - Lookups
+      parameters:
+        - $ref: '#/components/parameters/ObjectApiName'
+        - name: fieldApiName
+          in: path
+          required: true
+          description: The API name of the lookup field
+          schema:
+            type: string
+        - name: searchTerm
+          in: query
+          required: true
+          description: The search text to match against lookup records
+          schema:
+            type: string
+        - name: dependentFieldBindings
+          in: query
+          description: JSON-encoded field value pairs for dependent picklist filtering
+          schema:
+            type: string
+        - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: Lookup results retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LookupRecordsCollection'
+components:
+  securitySchemes:
+    oauthBearerToken:
+      type: http
+      scheme: bearer
+      description: Salesforce OAuth 2.0 Bearer Token
+  parameters:
+    RecordId:
+      name: recordId
+      in: path
+      required: true
+      description: The 18-character Salesforce record ID
+      schema:
+        type: string
+        pattern: '^[a-zA-Z0-9]{18}$'
+    ObjectApiName:
+      name: objectApiName
+      in: path
+      required: true
+      description: The API name of the Salesforce object (e.g., Account, Contact, MyObject__c)
+      schema:
+        type: string
+    PageSize:
+      name: pageSize
+      in: query
+      description: Number of records per page
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 2000
+        default: 50
+    PageToken:
+      name: pageToken
+      in: query
+      description: Token for retrieving the next page of results
+      schema:
+        type: string
+  responses:
+    BadRequest:
+      description: Bad request. Invalid parameters or request body.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Unauthorized. Session has expired or is invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Forbidden:
+      description: Forbidden. Insufficient permissions for this operation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Not found. The requested resource does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  schemas:
+    RecordRepresentation:
+      type: object
+      description: A Salesforce record with field values and UI metadata
+      properties:
+        id:
+          type: string
+          description: The 18-character Salesforce record ID
+        apiName:
+          type: string
+          description: The API name of the object type
+        childRelationships:
+          type: object
+          description: Child relationship data indexed by relationship name
+          additionalProperties: true
+        eTag:
+          type: string
+          description: ETag for optimistic concurrency control
+        fields:
+          type: object
+          description: Field values indexed by field API name
+          additionalProperties:
+            $ref: '#/components/schemas/FieldValueRepresentation'
+        recordTypeId:
+          type: string
+          description: The record type ID
+        recordTypeInfo:
+          type: object
+          description: Record type metadata
+          properties:
+            available:
+              type: boolean
+            defaultRecordTypeMapping:
+              type: boolean
+            master:
+              type: boolean
+            name:
+              type: string
+            recordTypeId:
+              type: string
+        systemModstamp:
+          type: string
+          format: date-time
+        lastModifiedById:
+          type: string
+        lastModifiedDate:
+          type: string
+          format: date-time
+        createdById:
+          type: string
+        createdDate:
+          type: string
+          format: date-time
+    FieldValueRepresentation:
+      type: object
+      description: A field value with display metadata
+      properties:
+        displayValue:
+          description: Human-readable formatted display value (for dates, picklists, lookups)
+          nullable: true
+          oneOf:
+            - type: string
+            - type: 'null'
+        value:
+          description: Raw field value
+          nullable: true
+    RecordInput:
+      type: object
+      description: Input for creating or updating a record
+      required:
+        - apiName
+        - fields
+      properties:
+        apiName:
+          type: string
+          description: The API name of the object type
+        fields:
+          type: object
+          description: Field values to set, indexed by field API name
+          additionalProperties:
+            description: Field value (string, number, boolean, or null to clear)
+    ObjectInfoRepresentation:
+      type: object
+      description: Metadata about a Salesforce object
+      properties:
+        apiName:
+          type: string
+        label:
+          type: string
+        labelPlural:
+          type: string
+        keyPrefix:
+          type: string
+        createable:
+          type: boolean
+        updateable:
+          type: boolean
+        deleteable:
+          type: boolean
+        queryable:
+          type: boolean
+        fields:
+          type: object
+          description: Field metadata indexed by field API name
+          additionalProperties:
+            $ref: '#/components/schemas/FieldRepresentation'
+        recordTypeInfos:
+          type: object
+          additionalProperties: true
+        themeInfo:
+          type: object
+          properties:
+            color:
+              type: string
+            iconUrl:
+              type: string
+    FieldRepresentation:
+      type: object
+      description: Metadata for a single field
+      properties:
+        apiName:
+          type: string
+        label:
+          type: string
+        dataType:
+          type: string
+          enum:
+            - Address
+            - Boolean
+            - Currency
+            - Date
+            - DateTime
+            - Double
+            - Email
+            - Id
+            - Integer
+            - Long
+            - MultiPicklist
+            - Percent
+            - Phone
+            - Picklist
+            - Reference
+            - String
+            - TextArea
+            - Time
+            - Url
+        required:
+          type: boolean
+        updateable:
+          type: boolean
+        createable:
+          type: boolean
+        nillable:
+          type: boolean
+        referenceToInfos:
+          type: array
+          items:
+            type: object
+            properties:
+              apiName:
+                type: string
+              nameFields:
+                type: array
+                items:
+                  type: string
+    PicklistValuesCollection:
+      type: object
+      description: Collection of picklist values for all picklist fields on an object
+      properties:
+        picklistFieldValues:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              controllerValues:
+                type: object
+                additionalProperties:
+                  type: integer
+              defaultValue:
+                nullable: true
+              url:
+                type: string
+              values:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PicklistValue'
+    PicklistValue:
+      type: object
+      description: A single picklist option
+      properties:
+        attributes:
+          nullable: true
+        label:
+          type: string
+        validFor:
+          type: array
+          items:
+            type: integer
+        value:
+          type: string
+    ListViewCollection:
+      type: object
+      description: Collection of list views for an object
+      properties:
+        count:
+          type: integer
+        currentPageToken:
+          type: string
+        nextPageToken:
+          type: string
+          nullable: true
+        previousPageToken:
+          type: string
+          nullable: true
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ListViewSummary'
+    ListViewSummary:
+      type: object
+      description: Summary information about a list view
+      properties:
+        id:
+          type: string
+        apiName:
+          type: string
+        label:
+          type: string
+        url:
+          type: string
+    ListViewResult:
+      type: object
+      description: Data and metadata for a list view
+      properties:
+        id:
+          type: string
+        label:
+          type: string
+        records:
+          type: array
+          items:
+            type: object
+        sortBy:
+          type: string
+    LookupRecordsCollection:
+      type: object
+      description: Collection of records matching a lookup search
+      properties:
+        count:
+          type: integer
+        lookupResults:
+          type: array
+          items:
+            type: object
+            properties:
+              displayValue:
+                type: string
+              id:
+                type: string
+              name:
+                type: string
+    ErrorResponse:
+      type: object
+      description: API error response
+      properties:
+        errorCode:
+          type: string
+          description: Machine-readable error code
+        message:
+          type: string
+          description: Human-readable error message
