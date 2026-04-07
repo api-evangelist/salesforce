@@ -58,7 +58,7 @@ paths:
   /:
     get:
       operationId: listApiVersions
-      summary: List available API versions
+      summary: Salesforce List available API versions
       description: >
         Returns a list of all Salesforce REST API versions available on this
         instance. Each entry includes the version number, label, and URL. Use
@@ -84,7 +84,7 @@ paths:
   /sobjects:
     get:
       operationId: listSObjects
-      summary: List all SObjects
+      summary: Salesforce List all SObjects
       description: >
         Returns a list of all available SObject types in the org, including both
         standard and custom objects. Each entry includes the object name, label,
@@ -146,7 +146,7 @@ paths:
   /sobjects/{sobjectType}:
     get:
       operationId: describeSObject
-      summary: Describe an SObject
+      summary: Salesforce Describe an SObject
       description: >
         Returns metadata about a specific SObject type, including field
         definitions, relationships, and available REST endpoints. This is
@@ -177,7 +177,7 @@ paths:
                 $ref: '#/components/schemas/Error'
     post:
       operationId: createRecord
-      summary: Create a new record
+      summary: Salesforce Create a new record
       description: >
         Creates a new record of the specified SObject type. The request body
         must contain the field values for the new record in JSON format. Returns
@@ -229,7 +229,7 @@ paths:
   /sobjects/{sobjectType}/{id}:
     get:
       operationId: getRecord
-      summary: Get a record by ID
+      summary: Salesforce Get a record by ID
       description: >
         Retrieves a single SObject record by its 18-character ID. Returns all
         accessible fields for the record. To retrieve only specific fields, use
@@ -260,7 +260,7 @@ paths:
                 $ref: '#/components/schemas/Error'
     patch:
       operationId: updateRecord
-      summary: Update a record
+      summary: Salesforce Update a record
       description: >
         Updates an existing SObject record identified by its 18-character ID.
         Only the fields included in the request body are updated; omitted fields
@@ -302,7 +302,7 @@ paths:
                 $ref: '#/components/schemas/Error'
     delete:
       operationId: deleteRecord
-      summary: Delete a record
+      summary: Salesforce Delete a record
       description: >
         Deletes an existing SObject record by its 18-character ID. The record is
         moved to the Recycle Bin unless the object does not support soft delete,
@@ -330,7 +330,7 @@ paths:
   /sobjects/{sobjectType}/{id}/{blobField}:
     get:
       operationId: getBlobField
-      summary: Get a blob field value
+      summary: Salesforce Get a blob field value
       description: >
         Retrieves the binary content of a blob (binary large object) field on an
         SObject record. Examples include the Body field on Attachment or
@@ -373,7 +373,7 @@ paths:
   /sobjects/{sobjectType}/describe:
     get:
       operationId: fullDescribeSObject
-      summary: Full describe of an SObject
+      summary: Salesforce Full describe of an SObject
       description: >
         Returns a complete description of the specified SObject type, including
         all field definitions with their data types, labels, picklist values,
@@ -405,7 +405,7 @@ paths:
   /query:
     post:
       operationId: executeQuery
-      summary: Execute a SOQL query
+      summary: Salesforce Execute a SOQL query
       description: >
         Executes a SOQL (Salesforce Object Query Language) query and returns
         matching records. The query is passed in the request body as a JSON
@@ -452,7 +452,7 @@ paths:
   /query/{queryId}:
     get:
       operationId: getNextQueryPage
-      summary: Get the next page of query results
+      summary: Salesforce Get the next page of query results
       description: >
         Retrieves the next page of results from a paginated SOQL query. The
         queryId is obtained from the nextRecordsUrl in a previous query response.
@@ -493,7 +493,7 @@ paths:
   /queryAll:
     post:
       operationId: executeQueryAll
-      summary: Execute a queryAll (includes deleted records)
+      summary: Salesforce Execute a queryAll (includes deleted records)
       description: >
         Executes a SOQL query that includes soft-deleted records and archived
         records in the results, unlike the standard /query endpoint which
@@ -542,7 +542,7 @@ paths:
   /search:
     get:
       operationId: executeSearch
-      summary: Execute a SOSL search
+      summary: Salesforce Execute a SOSL search
       description: >
         Executes a SOSL (Salesforce Object Search Language) search query across
         multiple objects simultaneously. The SOSL query is passed as a query
@@ -582,7 +582,7 @@ paths:
   /limits:
     get:
       operationId: getOrgLimits
-      summary: Get org API limits
+      summary: Salesforce Get org API limits
       description: >
         Returns the current API limit usage and remaining quotas for the
         Salesforce org. Includes limits for daily API requests, bulk API jobs,
@@ -620,7 +620,7 @@ paths:
   /recent:
     get:
       operationId: getRecentlyViewedRecords
-      summary: Get recently viewed records
+      summary: Salesforce Get recently viewed records
       description: >
         Returns a list of recently viewed and referenced records for the
         currently authenticated user. Records are ordered by the most recently
@@ -675,7 +675,7 @@ paths:
   /appMenu/AppSwitcher:
     get:
       operationId: getAppSwitcherMenu
-      summary: Get the app switcher menu
+      summary: Salesforce Get the app switcher menu
       description: >
         Returns the list of applications available in the Salesforce App
         Switcher menu for the currently authenticated user. Each entry includes
@@ -723,7 +723,7 @@ paths:
   /composite/batch:
     post:
       operationId: executeBatchRequest
-      summary: Execute a batch of requests
+      summary: Salesforce Execute a batch of requests
       description: >
         Executes up to 25 independent REST API subrequests in a single HTTP
         call. All requests are processed independently; failure of one does not
@@ -811,7 +811,7 @@ paths:
   /composite:
     post:
       operationId: executeCompositeRequest
-      summary: Execute a composite request with dependent subrequests
+      summary: Salesforce Execute a composite request with dependent subrequests
       description: >
         Executes a series of REST API requests where later requests can
         reference the results of earlier requests using reference IDs. Supports
@@ -855,7 +855,7 @@ paths:
   /composite/sobjects:
     post:
       operationId: collectionsCreate
-      summary: SObject collections create
+      summary: Salesforce SObject collections create
       description: >
         Creates up to 200 records in a single API call using SObject Collections.
         All records must be of the same or different SObject types. If allOrNone
@@ -914,7 +914,7 @@ paths:
                 $ref: '#/components/schemas/Error'
     patch:
       operationId: collectionsUpdate
-      summary: SObject collections update
+      summary: Salesforce SObject collections update
       description: >
         Updates up to 200 records in a single API call using SObject Collections.
         Each record must include its ID and the fields to update. If allOrNone
@@ -975,7 +975,7 @@ paths:
                 $ref: '#/components/schemas/Error'
     delete:
       operationId: collectionsDelete
-      summary: SObject collections delete
+      summary: Salesforce SObject collections delete
       description: >
         Deletes up to 200 records in a single API call using SObject Collections.
         Record IDs are passed as a comma-separated query parameter. If allOrNone
@@ -1030,7 +1030,7 @@ paths:
   /composite/sobjects/{sobjectType}:
     get:
       operationId: collectionsRetrieve
-      summary: SObject collections retrieve
+      summary: Salesforce SObject collections retrieve
       description: >
         Retrieves up to 2000 records of the specified SObject type in a single
         API call. Record IDs are passed as a comma-separated query parameter.

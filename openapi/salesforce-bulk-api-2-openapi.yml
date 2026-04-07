@@ -50,7 +50,7 @@ paths:
   /ingest:
     post:
       operationId: createIngestJob
-      summary: Create an ingest job
+      summary: Salesforce Create an ingest job
       description: >
         Creates a new ingest job for bulk data operations (insert, update,
         upsert, delete, or hardDelete). After creating the job, upload data
@@ -89,7 +89,7 @@ paths:
                 $ref: '#/components/schemas/Error'
     get:
       operationId: listIngestJobs
-      summary: List ingest jobs
+      summary: Salesforce List ingest jobs
       description: >
         Returns a list of ingest jobs in the org. By default returns all jobs
         created by all users. Use query parameters to filter by state or other
@@ -147,7 +147,7 @@ paths:
   /ingest/{jobId}:
     get:
       operationId: getIngestJobInfo
-      summary: Get ingest job info
+      summary: Salesforce Get ingest job info
       description: >
         Returns detailed information about a specific ingest job, including its
         current state, number of records processed, number of failures, and
@@ -178,7 +178,7 @@ paths:
                 $ref: '#/components/schemas/Error'
     patch:
       operationId: updateIngestJob
-      summary: Update or close an ingest job
+      summary: Salesforce Update or close an ingest job
       description: >
         Updates the state of an ingest job. Use this to close the job after
         uploading all data (set state to UploadComplete), which triggers
@@ -234,7 +234,7 @@ paths:
                 $ref: '#/components/schemas/Error'
     delete:
       operationId: deleteIngestJob
-      summary: Delete an ingest job
+      summary: Salesforce Delete an ingest job
       description: >
         Deletes an ingest job and all associated data. Only jobs in the Aborted
         state can be deleted. First abort the job if it is in a different state,
@@ -268,7 +268,7 @@ paths:
   /ingest/{jobId}/batches:
     put:
       operationId: uploadJobData
-      summary: Upload job data (CSV)
+      summary: Salesforce Upload job data (CSV)
       description: >
         Uploads CSV data to an ingest job that is in the Open state. The CSV
         must include a header row matching the field API names for the object.
@@ -319,7 +319,7 @@ paths:
   /ingest/{jobId}/successfulResults:
     get:
       operationId: getSuccessfulResults
-      summary: Get successful records from an ingest job
+      summary: Salesforce Get successful records from an ingest job
       description: >
         Returns a CSV file containing the records that were successfully
         processed by the ingest job. Each row corresponds to a record from the
@@ -357,7 +357,7 @@ paths:
   /ingest/{jobId}/failedResults:
     get:
       operationId: getFailedResults
-      summary: Get failed records from an ingest job
+      summary: Salesforce Get failed records from an ingest job
       description: >
         Returns a CSV file containing the records from the ingest job that
         failed to process. Each row includes the original record data plus
@@ -395,7 +395,7 @@ paths:
   /ingest/{jobId}/unprocessedrecords:
     get:
       operationId: getUnprocessedRecords
-      summary: Get unprocessed records from an ingest job
+      summary: Salesforce Get unprocessed records from an ingest job
       description: >
         Returns a CSV file containing the records from the ingest job that were
         not processed, typically because the job was aborted before processing
@@ -429,7 +429,7 @@ paths:
   /query:
     post:
       operationId: createQueryJob
-      summary: Create a query job
+      summary: Salesforce Create a query job
       description: >
         Creates a new query job to extract large volumes of data from Salesforce
         using a SOQL query. Query jobs are asynchronous; after creating the job,
@@ -465,7 +465,7 @@ paths:
                 $ref: '#/components/schemas/Error'
     get:
       operationId: listQueryJobs
-      summary: List query jobs
+      summary: Salesforce List query jobs
       description: >
         Returns a list of query jobs in the org. Results are ordered by creation
         date descending. Use query parameters to filter by job state.
@@ -511,7 +511,7 @@ paths:
   /query/{jobId}:
     get:
       operationId: getQueryJobInfo
-      summary: Get query job info
+      summary: Salesforce Get query job info
       description: >
         Returns detailed information about a specific query job, including its
         current state, number of records processed, and any error messages. Poll
@@ -542,7 +542,7 @@ paths:
                 $ref: '#/components/schemas/Error'
     patch:
       operationId: updateQueryJob
-      summary: Abort or close a query job
+      summary: Salesforce Abort or close a query job
       description: >
         Updates the state of a query job. Use this to abort a query job that is
         currently running or queued by setting state to Aborted.
@@ -594,7 +594,7 @@ paths:
                 $ref: '#/components/schemas/Error'
     delete:
       operationId: deleteQueryJob
-      summary: Delete a query job
+      summary: Salesforce Delete a query job
       description: >
         Deletes a query job and all associated results. Only jobs in the Aborted
         or JobComplete state can be deleted.
@@ -628,7 +628,7 @@ paths:
   /query/{jobId}/results:
     get:
       operationId: getQueryJobResults
-      summary: Get query job results
+      summary: Salesforce Get query job results
       description: >
         Returns the results of a completed query job as CSV data. The results
         may be paginated; check for a Sforce-Locator response header to retrieve
