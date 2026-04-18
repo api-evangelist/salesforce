@@ -14,58 +14,58 @@ info:
     name: Salesforce Developer Terms
     url: https://www.salesforce.com/company/legal/agreements/
 servers:
-  - url: https://{instance}.salesforce.com/services/data/v{version}
-    description: Salesforce instance-specific REST API endpoint
-    variables:
-      instance:
-        default: yourInstance
-        description: >
-          The Salesforce instance identifier (e.g., na1, eu3, or a My Domain
-          subdomain like mycompany).
-      version:
-        default: '63.0'
-        description: >
-          The Salesforce API version number (e.g., 63.0). Use the latest
-          supported version for new integrations.
+- url: https://{instance}.salesforce.com/services/data/v{version}
+  description: Salesforce instance-specific REST API endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: >
+        The Salesforce instance identifier (e.g., na1, eu3, or a My Domain
+        subdomain like mycompany).
+    version:
+      default: '63.0'
+      description: >
+        The Salesforce API version number (e.g., 63.0). Use the latest
+        supported version for new integrations.
 security:
-  - BearerAuth: []
+- BearerAuth: []
 tags:
-  - name: AppMenu
-    description: Retrieve Salesforce application menu items.
-  - name: Composite
-    description: >
-      Batch and composite request patterns for reducing round trips and
-      supporting dependent multi-step requests.
-  - name: Limits
-    description: Retrieve current API limit usage and quotas for the org.
-  - name: Query
-    description: Execute SOQL queries against Salesforce data.
-  - name: QueryAll
-    description: >
-      Execute SOQL queryAll to include soft-deleted and archived records in
-      results.
-  - name: Recent
-    description: Retrieve recently viewed records for the current user.
-  - name: Search
-    description: Execute SOSL searches across multiple objects.
-  - name: SObjects
-    description: >
-      Operations for listing, describing, creating, reading, updating, and
-      deleting Salesforce SObject records and metadata.
-  - name: Versions
-    description: Retrieve available API versions for the Salesforce instance.
+- name: AppMenu
+  description: Retrieve Salesforce application menu items.
+- name: Composite
+  description: >
+    Batch and composite request patterns for reducing round trips and
+    supporting dependent multi-step requests.
+- name: Limits
+  description: Retrieve current API limit usage and quotas for the org.
+- name: Query
+  description: Execute SOQL queries against Salesforce data.
+- name: QueryAll
+  description: >
+    Execute SOQL queryAll to include soft-deleted and archived records in
+    results.
+- name: Recent
+  description: Retrieve recently viewed records for the current user.
+- name: Search
+  description: Execute SOSL searches across multiple objects.
+- name: SObjects
+  description: >
+    Operations for listing, describing, creating, reading, updating, and
+    deleting Salesforce SObject records and metadata.
+- name: Versions
+  description: Retrieve available API versions for the Salesforce instance.
 paths:
   /:
     get:
       operationId: listApiVersions
-      summary: Salesforce List available API versions
+      summary: Salesforce List Available Api Versions
       description: >
         Returns a list of all Salesforce REST API versions available on this
         instance. Each entry includes the version number, label, and URL. Use
         this to discover the latest supported version before building
         integrations.
       tags:
-        - Versions
+      - Versions
       responses:
         '200':
           description: A list of available API versions.
@@ -75,23 +75,43 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ApiVersion'
+              examples:
+                Listapiversions200Example:
+                  summary: Default listApiVersions 200 response
+                  x-microcks-default: true
+                  value:
+                  - version: example_value
+                    label: Example Title
+                    url: https://www.example.com
         '401':
           description: Unauthorized. Invalid or expired OAuth token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Listapiversions401Example:
+                  summary: Default listApiVersions 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /sobjects:
     get:
       operationId: listSObjects
-      summary: Salesforce List all SObjects
+      summary: Salesforce List All Sobjects
       description: >
         Returns a list of all available SObject types in the org, including both
         standard and custom objects. Each entry includes the object name, label,
         key prefix, and whether the object is queryable, searchable, and
         retrievable.
       tags:
-        - SObjects
+      - SObjects
       responses:
         '200':
           description: A list of all SObject types available in the org.
@@ -137,25 +157,52 @@ paths:
                           description: >
                             Map of REST endpoint URLs for this object
                             (sobject, describe, rowTemplate).
+              examples:
+                Listsobjects200Example:
+                  summary: Default listSObjects 200 response
+                  x-microcks-default: true
+                  value:
+                    encoding: example_value
+                    maxBatchSize: 10
+                    sobjects:
+                    - name: Example Title
+                      label: Example Title
+                      keyPrefix: example_value
+                      queryable: true
+                      searchable: true
+                      retrieveable: true
+                      urls: https://www.example.com
         '401':
           description: Unauthorized. Invalid or expired OAuth token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Listsobjects401Example:
+                  summary: Default listSObjects 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /sobjects/{sobjectType}:
     get:
       operationId: describeSObject
-      summary: Salesforce Describe an SObject
+      summary: Salesforce Describe an Sobject
       description: >
         Returns metadata about a specific SObject type, including field
         definitions, relationships, and available REST endpoints. This is
         equivalent to calling the describe endpoint but returns a shorter
         summary. For the full field list use /sobjects/{sobjectType}/describe.
       tags:
-        - SObjects
+      - SObjects
       parameters:
-        - $ref: '#/components/parameters/sobjectType'
+      - $ref: '#/components/parameters/sobjectType'
       responses:
         '200':
           description: Metadata describing the specified SObject type.
@@ -163,29 +210,73 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SObjectDescribe'
+              examples:
+                Describesobject200Example:
+                  summary: Default describeSObject 200 response
+                  x-microcks-default: true
+                  value:
+                    name: Example Title
+                    label: Example Title
+                    labelPlural: example_value
+                    keyPrefix: example_value
+                    queryable: true
+                    searchable: true
+                    createable: true
+                    updateable: true
+                    deletable: true
+                    fields:
+                    - name: Example Title
+                      label: Example Title
+                      type: example_value
+                      nillable: true
+                      updateable: true
+                      createable: true
+                      length: 10
+                    urls: https://www.example.com
         '401':
           description: Unauthorized. Invalid or expired OAuth token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Describesobject401Example:
+                  summary: Default describeSObject 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
         '404':
           description: The specified SObject type was not found.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Describesobject404Example:
+                  summary: Default describeSObject 404 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     post:
       operationId: createRecord
-      summary: Salesforce Create a new record
+      summary: Salesforce Create a New Record
       description: >
         Creates a new record of the specified SObject type. The request body
         must contain the field values for the new record in JSON format. Returns
         the ID of the newly created record on success.
       tags:
-        - SObjects
+      - SObjects
       parameters:
-        - $ref: '#/components/parameters/sobjectType'
+      - $ref: '#/components/parameters/sobjectType'
       requestBody:
         required: true
         description: >
@@ -195,6 +286,15 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/SObjectRecord'
+            examples:
+              CreaterecordRequestExample:
+                summary: Default createRecord request
+                x-microcks-default: true
+                value:
+                  attributes:
+                    type: example_value
+                    url: https://www.example.com
+                  Id: abc123
       responses:
         '201':
           description: Record created successfully.
@@ -214,31 +314,64 @@ paths:
                     description: List of errors if the creation partially failed.
                     items:
                       $ref: '#/components/schemas/Error'
+              examples:
+                Createrecord201Example:
+                  summary: Default createRecord 201 response
+                  x-microcks-default: true
+                  value:
+                    id: abc123
+                    success: true
+                    errors:
+                    - message: example_value
+                      errorCode: example_value
+                      fields:
+                      - {}
         '400':
           description: Bad request. Missing required fields or invalid field values.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Createrecord400Example:
+                  summary: Default createRecord 400 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
         '401':
           description: Unauthorized. Invalid or expired OAuth token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Createrecord401Example:
+                  summary: Default createRecord 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /sobjects/{sobjectType}/{id}:
     get:
       operationId: getRecord
-      summary: Salesforce Get a record by ID
+      summary: Salesforce Get a Record by Id
       description: >
         Retrieves a single SObject record by its 18-character ID. Returns all
         accessible fields for the record. To retrieve only specific fields, use
         a SOQL query via the /query endpoint instead.
       tags:
-        - SObjects
+      - SObjects
       parameters:
-        - $ref: '#/components/parameters/sobjectType'
-        - $ref: '#/components/parameters/id'
+      - $ref: '#/components/parameters/sobjectType'
+      - $ref: '#/components/parameters/id'
       responses:
         '200':
           description: The requested SObject record.
@@ -246,30 +379,60 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SObjectRecord'
+              examples:
+                Getrecord200Example:
+                  summary: Default getRecord 200 response
+                  x-microcks-default: true
+                  value:
+                    attributes:
+                      type: example_value
+                      url: https://www.example.com
+                    Id: abc123
         '401':
           description: Unauthorized. Invalid or expired OAuth token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Getrecord401Example:
+                  summary: Default getRecord 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
         '404':
           description: Record not found for the given ID and SObject type.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Getrecord404Example:
+                  summary: Default getRecord 404 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     patch:
       operationId: updateRecord
-      summary: Salesforce Update a record
+      summary: Salesforce Update a Record
       description: >
         Updates an existing SObject record identified by its 18-character ID.
         Only the fields included in the request body are updated; omitted fields
         retain their current values. Returns no body on success.
       tags:
-        - SObjects
+      - SObjects
       parameters:
-        - $ref: '#/components/parameters/sobjectType'
-        - $ref: '#/components/parameters/id'
+      - $ref: '#/components/parameters/sobjectType'
+      - $ref: '#/components/parameters/id'
       requestBody:
         required: true
         description: >
@@ -279,6 +442,15 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/SObjectRecord'
+            examples:
+              UpdaterecordRequestExample:
+                summary: Default updateRecord request
+                x-microcks-default: true
+                value:
+                  attributes:
+                    type: example_value
+                    url: https://www.example.com
+                  Id: abc123
       responses:
         '204':
           description: Record updated successfully. No body is returned.
@@ -288,30 +460,60 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Updaterecord400Example:
+                  summary: Default updateRecord 400 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
         '401':
           description: Unauthorized. Invalid or expired OAuth token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Updaterecord401Example:
+                  summary: Default updateRecord 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
         '404':
           description: Record not found for the given ID and SObject type.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Updaterecord404Example:
+                  summary: Default updateRecord 404 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     delete:
       operationId: deleteRecord
-      summary: Salesforce Delete a record
+      summary: Salesforce Delete a Record
       description: >
         Deletes an existing SObject record by its 18-character ID. The record is
         moved to the Recycle Bin unless the object does not support soft delete,
         in which case it is permanently removed.
       tags:
-        - SObjects
+      - SObjects
       parameters:
-        - $ref: '#/components/parameters/sobjectType'
-        - $ref: '#/components/parameters/id'
+      - $ref: '#/components/parameters/sobjectType'
+      - $ref: '#/components/parameters/id'
       responses:
         '204':
           description: Record deleted successfully. No body is returned.
@@ -321,34 +523,56 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Deleterecord401Example:
+                  summary: Default deleteRecord 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
         '404':
           description: Record not found for the given ID and SObject type.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Deleterecord404Example:
+                  summary: Default deleteRecord 404 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /sobjects/{sobjectType}/{id}/{blobField}:
     get:
       operationId: getBlobField
-      summary: Salesforce Get a blob field value
+      summary: Salesforce Get a Blob Field Value
       description: >
         Retrieves the binary content of a blob (binary large object) field on an
         SObject record. Examples include the Body field on Attachment or
         VersionData on ContentVersion. Returns the raw binary content with the
         appropriate MIME type.
       tags:
-        - SObjects
+      - SObjects
       parameters:
-        - $ref: '#/components/parameters/sobjectType'
-        - $ref: '#/components/parameters/id'
-        - name: blobField
-          in: path
-          required: true
-          description: >
-            The API name of the blob field to retrieve (e.g., Body, VersionData,
-            Photo).
-          schema:
-            type: string
+      - $ref: '#/components/parameters/sobjectType'
+      - $ref: '#/components/parameters/id'
+      - name: blobField
+        in: path
+        required: true
+        description: >
+          The API name of the blob field to retrieve (e.g., Body, VersionData,
+          Photo).
+        schema:
+          type: string
+        example: example_value
       responses:
         '200':
           description: The raw binary content of the blob field.
@@ -358,31 +582,57 @@ paths:
                 type: string
                 format: binary
                 description: Raw binary content of the blob field.
+              examples:
+                Getblobfield200Example:
+                  summary: Default getBlobField 200 response
+                  x-microcks-default: true
+                  value: example_value
         '401':
           description: Unauthorized. Invalid or expired OAuth token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Getblobfield401Example:
+                  summary: Default getBlobField 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
         '404':
           description: Record or blob field not found.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Getblobfield404Example:
+                  summary: Default getBlobField 404 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /sobjects/{sobjectType}/describe:
     get:
       operationId: fullDescribeSObject
-      summary: Salesforce Full describe of an SObject
+      summary: Salesforce Full Describe of an Sobject
       description: >
         Returns a complete description of the specified SObject type, including
         all field definitions with their data types, labels, picklist values,
         relationship metadata, and child relationships. Use this endpoint when
         you need detailed schema information for a specific object type.
       tags:
-        - SObjects
+      - SObjects
       parameters:
-        - $ref: '#/components/parameters/sobjectType'
+      - $ref: '#/components/parameters/sobjectType'
       responses:
         '200':
           description: Full metadata describing the SObject type and all its fields.
@@ -390,29 +640,73 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SObjectDescribe'
+              examples:
+                Fulldescribesobject200Example:
+                  summary: Default fullDescribeSObject 200 response
+                  x-microcks-default: true
+                  value:
+                    name: Example Title
+                    label: Example Title
+                    labelPlural: example_value
+                    keyPrefix: example_value
+                    queryable: true
+                    searchable: true
+                    createable: true
+                    updateable: true
+                    deletable: true
+                    fields:
+                    - name: Example Title
+                      label: Example Title
+                      type: example_value
+                      nillable: true
+                      updateable: true
+                      createable: true
+                      length: 10
+                    urls: https://www.example.com
         '401':
           description: Unauthorized. Invalid or expired OAuth token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Fulldescribesobject401Example:
+                  summary: Default fullDescribeSObject 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
         '404':
           description: The specified SObject type was not found.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Fulldescribesobject404Example:
+                  summary: Default fullDescribeSObject 404 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /query:
     post:
       operationId: executeQuery
-      summary: Salesforce Execute a SOQL query
+      summary: Salesforce Execute a Soql Query
       description: >
         Executes a SOQL (Salesforce Object Query Language) query and returns
         matching records. The query is passed in the request body as a JSON
         object with a "q" property. If results span multiple pages, a
         nextRecordsUrl is included to retrieve the next batch.
       tags:
-        - Query
+      - Query
       requestBody:
         required: true
         description: SOQL query to execute against Salesforce data.
@@ -421,7 +715,7 @@ paths:
             schema:
               type: object
               required:
-                - q
+              - q
               properties:
                 q:
                   type: string
@@ -430,6 +724,12 @@ paths:
                     statement including SELECT, FROM, and optional WHERE, ORDER
                     BY, LIMIT clauses.
                   example: SELECT Id, Name, Email FROM Contact WHERE IsDeleted = false LIMIT 200
+            examples:
+              ExecutequeryRequestExample:
+                summary: Default executeQuery request
+                x-microcks-default: true
+                value:
+                  q: example_value
       responses:
         '200':
           description: Query results with totalSize, done flag, and records array.
@@ -437,38 +737,71 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/QueryResult'
+              examples:
+                Executequery200Example:
+                  summary: Default executeQuery 200 response
+                  x-microcks-default: true
+                  value:
+                    totalSize: 42
+                    done: true
+                    nextRecordsUrl: https://www.example.com
+                    records:
+                    - attributes: {}
+                      Id: abc123
         '400':
           description: Bad request. Invalid SOQL syntax or query validation failed.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Executequery400Example:
+                  summary: Default executeQuery 400 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
         '401':
           description: Unauthorized. Invalid or expired OAuth token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Executequery401Example:
+                  summary: Default executeQuery 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /query/{queryId}:
     get:
       operationId: getNextQueryPage
-      summary: Salesforce Get the next page of query results
+      summary: Salesforce Get the Next Page of Query Results
       description: >
         Retrieves the next page of results from a paginated SOQL query. The
         queryId is obtained from the nextRecordsUrl in a previous query response.
         Continue calling this endpoint until the done field in the response is
         true.
       tags:
-        - Query
+      - Query
       parameters:
-        - name: queryId
-          in: path
-          required: true
-          description: >
-            The query ID token from the nextRecordsUrl of a previous query
-            response.
-          schema:
-            type: string
+      - name: queryId
+        in: path
+        required: true
+        description: >
+          The query ID token from the nextRecordsUrl of a previous query
+          response.
+        schema:
+          type: string
+        example: '500123'
       responses:
         '200':
           description: >
@@ -478,29 +811,61 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/QueryResult'
+              examples:
+                Getnextquerypage200Example:
+                  summary: Default getNextQueryPage 200 response
+                  x-microcks-default: true
+                  value:
+                    totalSize: 42
+                    done: true
+                    nextRecordsUrl: https://www.example.com
+                    records:
+                    - attributes: {}
+                      Id: abc123
         '401':
           description: Unauthorized. Invalid or expired OAuth token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Getnextquerypage401Example:
+                  summary: Default getNextQueryPage 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
         '404':
           description: Query ID not found or expired.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Getnextquerypage404Example:
+                  summary: Default getNextQueryPage 404 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /queryAll:
     post:
       operationId: executeQueryAll
-      summary: Salesforce Execute a queryAll (includes deleted records)
+      summary: Salesforce Execute a Queryall (includes Deleted Records)
       description: >
         Executes a SOQL query that includes soft-deleted records and archived
         records in the results, unlike the standard /query endpoint which
         excludes them. Use this endpoint for data recovery, audit trails, or
         replication scenarios where deleted records must be included.
       tags:
-        - QueryAll
+      - QueryAll
       requestBody:
         required: true
         description: SOQL query to execute, including deleted and archived records.
@@ -509,7 +874,7 @@ paths:
             schema:
               type: object
               required:
-                - q
+              - q
               properties:
                 q:
                   type: string
@@ -518,6 +883,12 @@ paths:
                     records matching the query criteria will be included in
                     results.
                   example: SELECT Id, Name, IsDeleted FROM Contact WHERE IsDeleted = true
+            examples:
+              ExecutequeryallRequestExample:
+                summary: Default executeQueryAll request
+                x-microcks-default: true
+                value:
+                  q: example_value
       responses:
         '200':
           description: >
@@ -527,39 +898,71 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/QueryResult'
+              examples:
+                Executequeryall200Example:
+                  summary: Default executeQueryAll 200 response
+                  x-microcks-default: true
+                  value:
+                    totalSize: 42
+                    done: true
+                    nextRecordsUrl: https://www.example.com
+                    records:
+                    - attributes: {}
+                      Id: abc123
         '400':
           description: Bad request. Invalid SOQL syntax or query validation failed.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Executequeryall400Example:
+                  summary: Default executeQueryAll 400 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
         '401':
           description: Unauthorized. Invalid or expired OAuth token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Executequeryall401Example:
+                  summary: Default executeQueryAll 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /search:
     get:
       operationId: executeSearch
-      summary: Salesforce Execute a SOSL search
+      summary: Salesforce Execute a Sosl Search
       description: >
         Executes a SOSL (Salesforce Object Search Language) search query across
         multiple objects simultaneously. The SOSL query is passed as a query
         parameter. Returns matching records from all specified objects,
         supporting full-text search capabilities.
       tags:
-        - Search
+      - Search
       parameters:
-        - name: q
-          in: query
-          required: true
-          description: >
-            The SOSL search string to execute. Must include a FIND clause and
-            optionally IN, RETURNING, and WITH clauses.
-          schema:
-            type: string
-          example: FIND {Jane Smith} IN ALL FIELDS RETURNING Contact(Id, Name, Email), Account(Id, Name)
+      - name: q
+        in: query
+        required: true
+        description: >
+          The SOSL search string to execute. Must include a FIND clause and
+          optionally IN, RETURNING, and WITH clauses.
+        schema:
+          type: string
+        example: FIND {Jane Smith} IN ALL FIELDS RETURNING Contact(Id, Name, Email), Account(Id, Name)
       responses:
         '200':
           description: Search results grouped by object type.
@@ -567,29 +970,58 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SearchResult'
+              examples:
+                Executesearch200Example:
+                  summary: Default executeSearch 200 response
+                  x-microcks-default: true
+                  value:
+                    searchRecords:
+                    - attributes: {}
+                      Id: abc123
         '400':
           description: Bad request. Invalid SOSL syntax or search validation failed.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Executesearch400Example:
+                  summary: Default executeSearch 400 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
         '401':
           description: Unauthorized. Invalid or expired OAuth token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Executesearch401Example:
+                  summary: Default executeSearch 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /limits:
     get:
       operationId: getOrgLimits
-      summary: Salesforce Get org API limits
+      summary: Salesforce Get Org Api Limits
       description: >
         Returns the current API limit usage and remaining quotas for the
         Salesforce org. Includes limits for daily API requests, bulk API jobs,
         streaming API events, and other governor limits. Use this endpoint to
         monitor API consumption and avoid hitting limits.
       tags:
-        - Limits
+      - Limits
       responses:
         '200':
           description: >
@@ -611,34 +1043,52 @@ paths:
                     Remaining:
                       type: integer
                       description: Remaining available value for this limit.
+              examples:
+                Getorglimits200Example:
+                  summary: Default getOrgLimits 200 response
+                  x-microcks-default: true
+                  value: {}
         '401':
           description: Unauthorized. Invalid or expired OAuth token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Getorglimits401Example:
+                  summary: Default getOrgLimits 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /recent:
     get:
       operationId: getRecentlyViewedRecords
-      summary: Salesforce Get recently viewed records
+      summary: Salesforce Get Recently Viewed Records
       description: >
         Returns a list of recently viewed and referenced records for the
         currently authenticated user. Records are ordered by the most recently
         viewed first. Useful for building recently visited navigation features
         in custom applications.
       tags:
-        - Recent
+      - Recent
       parameters:
-        - name: recentlyViewedCount
-          in: query
-          required: false
-          description: >
-            The number of recently viewed records to return. Defaults to 200.
-            Maximum is 200.
-          schema:
-            type: integer
-            default: 200
-            maximum: 200
+      - name: recentlyViewedCount
+        in: query
+        required: false
+        description: >
+          The number of recently viewed records to return. Defaults to 200.
+          Maximum is 200.
+        schema:
+          type: integer
+          default: 200
+          maximum: 200
+        example: 42
       responses:
         '200':
           description: List of recently viewed records for the current user.
@@ -666,23 +1116,45 @@ paths:
                           type: string
                           format: uri
                           description: REST API URL for this record.
+              examples:
+                Getrecentlyviewedrecords200Example:
+                  summary: Default getRecentlyViewedRecords 200 response
+                  x-microcks-default: true
+                  value:
+                  - Id: abc123
+                    Name: Example Title
+                    attributes:
+                      type: example_value
+                      url: https://www.example.com
         '401':
           description: Unauthorized. Invalid or expired OAuth token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Getrecentlyviewedrecords401Example:
+                  summary: Default getRecentlyViewedRecords 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /appMenu/AppSwitcher:
     get:
       operationId: getAppSwitcherMenu
-      summary: Salesforce Get the app switcher menu
+      summary: Salesforce Get the App Switcher Menu
       description: >
         Returns the list of applications available in the Salesforce App
         Switcher menu for the currently authenticated user. Each entry includes
         the app label, icon URL, and navigation URL. Use this to build custom
         navigation or app launchers in connected applications.
       tags:
-        - AppMenu
+      - AppMenu
       responses:
         '200':
           description: App switcher menu entries available to the current user.
@@ -714,16 +1186,39 @@ paths:
                         type:
                           type: string
                           description: Type of menu item (e.g., App, Tab).
+              examples:
+                Getappswitchermenu200Example:
+                  summary: Default getAppSwitcherMenu 200 response
+                  x-microcks-default: true
+                  value:
+                    appMenuItems:
+                    - name: Example Title
+                      label: Example Title
+                      iconUrl: https://www.example.com
+                      url: https://www.example.com
+                      type: example_value
         '401':
           description: Unauthorized. Invalid or expired OAuth token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Getappswitchermenu401Example:
+                  summary: Default getAppSwitcherMenu 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /composite/batch:
     post:
       operationId: executeBatchRequest
-      summary: Salesforce Execute a batch of requests
+      summary: Salesforce Execute a Batch of Requests
       description: >
         Executes up to 25 independent REST API subrequests in a single HTTP
         call. All requests are processed independently; failure of one does not
@@ -731,7 +1226,7 @@ paths:
         subrequests. Use this to reduce the number of round trips when making
         multiple unrelated requests.
       tags:
-        - Composite
+      - Composite
       requestBody:
         required: true
         description: >
@@ -741,7 +1236,7 @@ paths:
             schema:
               type: object
               required:
-                - batchRequests
+              - batchRequests
               properties:
                 batchRequests:
                   type: array
@@ -752,16 +1247,16 @@ paths:
                   items:
                     type: object
                     required:
-                      - method
-                      - url
+                    - method
+                    - url
                     properties:
                       method:
                         type: string
                         enum:
-                          - GET
-                          - POST
-                          - PATCH
-                          - DELETE
+                        - GET
+                        - POST
+                        - PATCH
+                        - DELETE
                         description: HTTP method for the subrequest.
                       url:
                         type: string
@@ -778,6 +1273,16 @@ paths:
                   description: >
                     If true, stop processing subsequent subrequests after the
                     first error occurs.
+            examples:
+              ExecutebatchrequestRequestExample:
+                summary: Default executeBatchRequest request
+                x-microcks-default: true
+                value:
+                  batchRequests:
+                  - method: GET
+                    url: https://www.example.com
+                    richInput: example_value
+                  haltOnError: true
       responses:
         '200':
           description: Results for each subrequest in the batch, in the same order.
@@ -802,16 +1307,37 @@ paths:
                           description: HTTP status code of the subrequest.
                         result:
                           description: Response body of the subrequest.
+              examples:
+                Executebatchrequest200Example:
+                  summary: Default executeBatchRequest 200 response
+                  x-microcks-default: true
+                  value:
+                    hasErrors: true
+                    results:
+                    - statusCode: 10
+                      result: example_value
         '401':
           description: Unauthorized. Invalid or expired OAuth token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Executebatchrequest401Example:
+                  summary: Default executeBatchRequest 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /composite:
     post:
       operationId: executeCompositeRequest
-      summary: Salesforce Execute a composite request with dependent subrequests
+      summary: Salesforce Execute a Composite Request With Dependent Subrequests
       description: >
         Executes a series of REST API requests where later requests can
         reference the results of earlier requests using reference IDs. Supports
@@ -819,7 +1345,7 @@ paths:
         all changes are rolled back. Use this for complex multi-step operations
         where later steps depend on earlier results.
       tags:
-        - Composite
+      - Composite
       requestBody:
         required: true
         description: >
@@ -829,6 +1355,18 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CompositeRequest'
+            examples:
+              ExecutecompositerequestRequestExample:
+                summary: Default executeCompositeRequest request
+                x-microcks-default: true
+                value:
+                  allOrNone: true
+                  collateSubrequests: true
+                  compositeRequest:
+                  - method: GET
+                    url: https://www.example.com
+                    referenceId: '500123'
+                    body: example_value
       responses:
         '200':
           description: >
@@ -838,6 +1376,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CompositeResponse'
+              examples:
+                Executecompositerequest200Example:
+                  summary: Default executeCompositeRequest 200 response
+                  x-microcks-default: true
+                  value:
+                    compositeResponse:
+                    - body: example_value
+                      httpHeaders: example_value
+                      httpStatusCode: 10
+                      referenceId: '500123'
         '400':
           description: >
             Bad request. Invalid subrequest structure or circular reference
@@ -846,23 +1394,44 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Executecompositerequest400Example:
+                  summary: Default executeCompositeRequest 400 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
         '401':
           description: Unauthorized. Invalid or expired OAuth token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Executecompositerequest401Example:
+                  summary: Default executeCompositeRequest 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /composite/sobjects:
     post:
       operationId: collectionsCreate
-      summary: Salesforce SObject collections create
+      summary: Salesforce Sobject Collections Create
       description: >
         Creates up to 200 records in a single API call using SObject Collections.
         All records must be of the same or different SObject types. If allOrNone
         is true, all records must succeed or none are committed. Returns an array
         of save results with IDs or errors for each record.
       tags:
-        - Composite
+      - Composite
       requestBody:
         required: true
         description: Array of up to 200 SObject records to create.
@@ -871,8 +1440,8 @@ paths:
             schema:
               type: object
               required:
-                - allOrNone
-                - records
+              - allOrNone
+              - records
               properties:
                 allOrNone:
                   type: boolean
@@ -885,6 +1454,17 @@ paths:
                   maxItems: 200
                   items:
                     $ref: '#/components/schemas/SObjectRecord'
+            examples:
+              CollectionscreateRequestExample:
+                summary: Default collectionsCreate request
+                x-microcks-default: true
+                value:
+                  allOrNone: true
+                  records:
+                  - attributes:
+                      type: example_value
+                      url: https://www.example.com
+                    Id: abc123
       responses:
         '200':
           description: Array of save results with IDs or errors for each record.
@@ -906,22 +1486,45 @@ paths:
                       description: List of errors if the record creation failed.
                       items:
                         $ref: '#/components/schemas/Error'
+              examples:
+                Collectionscreate200Example:
+                  summary: Default collectionsCreate 200 response
+                  x-microcks-default: true
+                  value:
+                  - id: abc123
+                    success: true
+                    errors:
+                    - message: example_value
+                      errorCode: example_value
+                      fields: {}
         '401':
           description: Unauthorized. Invalid or expired OAuth token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Collectionscreate401Example:
+                  summary: Default collectionsCreate 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     patch:
       operationId: collectionsUpdate
-      summary: Salesforce SObject collections update
+      summary: Salesforce Sobject Collections Update
       description: >
         Updates up to 200 records in a single API call using SObject Collections.
         Each record must include its ID and the fields to update. If allOrNone
         is true, all updates must succeed or none are committed. Returns an array
         of save results for each record.
       tags:
-        - Composite
+      - Composite
       requestBody:
         required: true
         description: Array of up to 200 SObject records to update, each including Id.
@@ -930,8 +1533,8 @@ paths:
             schema:
               type: object
               required:
-                - allOrNone
-                - records
+              - allOrNone
+              - records
               properties:
                 allOrNone:
                   type: boolean
@@ -946,6 +1549,17 @@ paths:
                   maxItems: 200
                   items:
                     $ref: '#/components/schemas/SObjectRecord'
+            examples:
+              CollectionsupdateRequestExample:
+                summary: Default collectionsUpdate request
+                x-microcks-default: true
+                value:
+                  allOrNone: true
+                  records:
+                  - attributes:
+                      type: example_value
+                      url: https://www.example.com
+                    Id: abc123
       responses:
         '200':
           description: Array of save results with success flag or errors for each record.
@@ -967,39 +1581,63 @@ paths:
                       description: List of errors if the record update failed.
                       items:
                         $ref: '#/components/schemas/Error'
+              examples:
+                Collectionsupdate200Example:
+                  summary: Default collectionsUpdate 200 response
+                  x-microcks-default: true
+                  value:
+                  - id: abc123
+                    success: true
+                    errors:
+                    - message: example_value
+                      errorCode: example_value
+                      fields: {}
         '401':
           description: Unauthorized. Invalid or expired OAuth token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Collectionsupdate401Example:
+                  summary: Default collectionsUpdate 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     delete:
       operationId: collectionsDelete
-      summary: Salesforce SObject collections delete
+      summary: Salesforce Sobject Collections Delete
       description: >
         Deletes up to 200 records in a single API call using SObject Collections.
         Record IDs are passed as a comma-separated query parameter. If allOrNone
         is true, all deletions must succeed or none are committed.
       tags:
-        - Composite
+      - Composite
       parameters:
-        - name: ids
-          in: query
-          required: true
-          description: >
-            Comma-separated list of up to 200 record IDs to delete.
-          schema:
-            type: string
-          example: 001Dn00000pFakE001,001Dn00000pFakE002
-        - name: allOrNone
-          in: query
-          required: false
-          description: >
-            If true, all records must be deleted successfully or none are
-            committed. Defaults to false.
-          schema:
-            type: boolean
-            default: false
+      - name: ids
+        in: query
+        required: true
+        description: >
+          Comma-separated list of up to 200 record IDs to delete.
+        schema:
+          type: string
+        example: 001Dn00000pFakE001,001Dn00000pFakE002
+      - name: allOrNone
+        in: query
+        required: false
+        description: >
+          If true, all records must be deleted successfully or none are
+          committed. Defaults to false.
+        schema:
+          type: boolean
+          default: false
+        example: true
       responses:
         '200':
           description: Array of delete results with success flag or errors for each record.
@@ -1021,40 +1659,65 @@ paths:
                       description: List of errors if the record deletion failed.
                       items:
                         $ref: '#/components/schemas/Error'
+              examples:
+                Collectionsdelete200Example:
+                  summary: Default collectionsDelete 200 response
+                  x-microcks-default: true
+                  value:
+                  - id: abc123
+                    success: true
+                    errors:
+                    - message: example_value
+                      errorCode: example_value
+                      fields: {}
         '401':
           description: Unauthorized. Invalid or expired OAuth token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Collectionsdelete401Example:
+                  summary: Default collectionsDelete 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /composite/sobjects/{sobjectType}:
     get:
       operationId: collectionsRetrieve
-      summary: Salesforce SObject collections retrieve
+      summary: Salesforce Sobject Collections Retrieve
       description: >
         Retrieves up to 2000 records of the specified SObject type in a single
         API call. Record IDs are passed as a comma-separated query parameter.
         All records must be of the same SObject type. Returns all accessible
         fields for each record.
       tags:
-        - Composite
+      - Composite
       parameters:
-        - $ref: '#/components/parameters/sobjectType'
-        - name: ids
-          in: query
-          required: true
-          description: >
-            Comma-separated list of up to 2000 record IDs to retrieve.
-          schema:
-            type: string
-        - name: fields
-          in: query
-          required: false
-          description: >
-            Comma-separated list of field names to return for each record.
-            Returns all accessible fields if not specified.
-          schema:
-            type: string
+      - $ref: '#/components/parameters/sobjectType'
+      - name: ids
+        in: query
+        required: true
+        description: >
+          Comma-separated list of up to 2000 record IDs to retrieve.
+        schema:
+          type: string
+        example: example_value
+      - name: fields
+        in: query
+        required: false
+        description: >
+          Comma-separated list of field names to return for each record.
+          Returns all accessible fields if not specified.
+        schema:
+          type: string
+        example: example_value
       responses:
         '200':
           description: Array of SObject records for the specified IDs.
@@ -1064,12 +1727,33 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SObjectRecord'
+              examples:
+                Collectionsretrieve200Example:
+                  summary: Default collectionsRetrieve 200 response
+                  x-microcks-default: true
+                  value:
+                  - attributes:
+                      type: example_value
+                      url: https://www.example.com
+                    Id: abc123
         '401':
           description: Unauthorized. Invalid or expired OAuth token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Collectionsretrieve401Example:
+                  summary: Default collectionsRetrieve 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
 components:
   securitySchemes:
     BearerAuth:
@@ -1108,15 +1792,18 @@ components:
         version:
           type: string
           description: The API version number (e.g., "63.0").
+          example: example_value
         label:
           type: string
           description: Descriptive label for this API version (e.g., "Winter '25").
+          example: Example Title
         url:
           type: string
           format: uri
           description: >
             The REST endpoint URL for this specific API version on the current
             instance.
+          example: https://www.example.com
     SObjectRecord:
       type: object
       description: >
@@ -1124,7 +1811,7 @@ components:
         the record type and URL, plus any number of field name/value pairs
         depending on the object type.
       required:
-        - attributes
+      - attributes
       properties:
         attributes:
           type: object
@@ -1132,7 +1819,7 @@ components:
             Metadata attributes for this SObject record, including its type and
             REST API URL.
           required:
-            - type
+          - type
           properties:
             type:
               type: string
@@ -1141,11 +1828,13 @@ components:
               type: string
               format: uri
               description: The REST API URL for this specific record.
+          example: example_value
         Id:
           type: string
           description: The 18-character globally unique Salesforce record ID.
           minLength: 15
           maxLength: 18
+          example: abc123
       additionalProperties: true
     SObjectDescribe:
       type: object
@@ -1156,30 +1845,39 @@ components:
         name:
           type: string
           description: The API name of the SObject type.
+          example: Example Title
         label:
           type: string
           description: The user-facing singular label for this object type.
+          example: Example Title
         labelPlural:
           type: string
           description: The user-facing plural label for this object type.
+          example: example_value
         keyPrefix:
           type: string
           description: The three-character key prefix used in record IDs for this type.
+          example: example_value
         queryable:
           type: boolean
           description: Whether records of this type can be queried with SOQL.
+          example: true
         searchable:
           type: boolean
           description: Whether records of this type can be searched with SOSL.
+          example: true
         createable:
           type: boolean
           description: Whether new records of this type can be created via the API.
+          example: true
         updateable:
           type: boolean
           description: Whether existing records of this type can be updated via the API.
+          example: true
         deletable:
           type: boolean
           description: Whether records of this type can be deleted via the API.
+          example: true
         fields:
           type: array
           description: Detailed metadata for each field on this SObject type.
@@ -1211,35 +1909,40 @@ components:
                 description: >
                   Maximum character length for string fields. Zero for
                   non-string fields.
+          example: []
         urls:
           type: object
           description: Map of REST endpoint URLs for this SObject type.
+          example: https://www.example.com
     QueryResult:
       type: object
       description: >
         The result of a SOQL query, containing the matching records and
         pagination metadata.
       required:
-        - totalSize
-        - done
-        - records
+      - totalSize
+      - done
+      - records
       properties:
         totalSize:
           type: integer
           description: >
             The total number of records matching the query. May be larger than
             the number of records in the current page if the result is paginated.
+          example: 42
         done:
           type: boolean
           description: >
             Whether all query results have been returned. If false, use
             nextRecordsUrl to retrieve the next page.
+          example: true
         nextRecordsUrl:
           type: string
           format: uri
           description: >
             URL to retrieve the next page of results. Only present when done is
             false.
+          example: https://www.example.com
         records:
           type: array
           description: >
@@ -1247,6 +1950,7 @@ components:
             result if the total exceeds the page size.
           items:
             $ref: '#/components/schemas/SObjectRecord'
+          example: []
     SearchResult:
       type: object
       description: >
@@ -1260,6 +1964,7 @@ components:
             includes the object type in its attributes.
           items:
             $ref: '#/components/schemas/SObjectRecord'
+          example: []
     CompositeRequest:
       type: object
       description: >
@@ -1267,7 +1972,7 @@ components:
         later requests can reference the results of earlier ones using reference
         IDs.
       required:
-        - compositeRequest
+      - compositeRequest
       properties:
         allOrNone:
           type: boolean
@@ -1275,12 +1980,14 @@ components:
           description: >
             If true, all subrequests must succeed or all changes are rolled back.
             If false, subrequests are processed independently.
+          example: true
         collateSubrequests:
           type: boolean
           default: false
           description: >
             If true, similar subrequests are grouped for more efficient
             processing.
+          example: true
         compositeRequest:
           type: array
           description: >
@@ -1290,17 +1997,17 @@ components:
           items:
             type: object
             required:
-              - method
-              - url
-              - referenceId
+            - method
+            - url
+            - referenceId
             properties:
               method:
                 type: string
                 enum:
-                  - GET
-                  - POST
-                  - PATCH
-                  - DELETE
+                - GET
+                - POST
+                - PATCH
+                - DELETE
                 description: HTTP method for this subrequest.
               url:
                 type: string
@@ -1313,6 +2020,7 @@ components:
               body:
                 type: object
                 description: Request body for POST and PATCH subrequests.
+          example: []
     CompositeResponse:
       type: object
       description: >
@@ -1338,6 +2046,7 @@ components:
               referenceId:
                 type: string
                 description: The reference ID of the corresponding subrequest.
+          example: []
     Error:
       type: object
       description: >
@@ -1347,11 +2056,13 @@ components:
         message:
           type: string
           description: Human-readable description of the error.
+          example: example_value
         errorCode:
           type: string
           description: >
             Salesforce error code (e.g., MALFORMED_QUERY, INVALID_FIELD,
             REQUIRED_FIELD_MISSING).
+          example: example_value
         fields:
           type: array
           description: >
@@ -1359,3 +2070,4 @@ components:
             field validation errors).
           items:
             type: string
+          example: []

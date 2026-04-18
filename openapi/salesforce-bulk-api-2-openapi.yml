@@ -14,43 +14,43 @@ info:
     name: Salesforce Developer Terms
     url: https://www.salesforce.com/company/legal/agreements/
 servers:
-  - url: https://{instance}.salesforce.com/services/data/v{version}/jobs
-    description: Salesforce Bulk API 2.0 jobs endpoint
-    variables:
-      instance:
-        default: yourInstance
-        description: >
-          The Salesforce instance identifier (e.g., na1, eu3, or a My Domain
-          subdomain like mycompany).
-      version:
-        default: '63.0'
-        description: >
-          The Salesforce API version number (e.g., 63.0). Use the latest
-          supported version for new integrations.
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: >
+        The Salesforce instance identifier (e.g., na1, eu3, or a My Domain
+        subdomain like mycompany).
+    version:
+      default: '63.0'
+      description: >
+        The Salesforce API version number (e.g., 63.0). Use the latest
+        supported version for new integrations.
 security:
-  - BearerAuth: []
+- BearerAuth: []
 tags:
-  - name: Ingest Job Data
-    description: >
-      Operations for uploading CSV data to ingest jobs and retrieving job
-      results (successful, failed, and unprocessed records).
-  - name: Ingest Jobs
-    description: >
-      Operations for creating and managing ingest jobs that insert, update,
-      upsert, delete, or hard delete records in bulk using CSV data.
-  - name: Query Job Results
-    description: >
-      Operations for retrieving the results of completed query jobs as CSV
-      data.
-  - name: Query Jobs
-    description: >
-      Operations for creating and managing query jobs that extract large
-      volumes of data from Salesforce using SOQL.
+- name: Ingest Job Data
+  description: >
+    Operations for uploading CSV data to ingest jobs and retrieving job
+    results (successful, failed, and unprocessed records).
+- name: Ingest Jobs
+  description: >
+    Operations for creating and managing ingest jobs that insert, update,
+    upsert, delete, or hard delete records in bulk using CSV data.
+- name: Query Job Results
+  description: >
+    Operations for retrieving the results of completed query jobs as CSV
+    data.
+- name: Query Jobs
+  description: >
+    Operations for creating and managing query jobs that extract large
+    volumes of data from Salesforce using SOQL.
 paths:
   /ingest:
     post:
       operationId: createIngestJob
-      summary: Salesforce Create an ingest job
+      summary: Salesforce Create an Ingest Job
       description: >
         Creates a new ingest job for bulk data operations (insert, update,
         upsert, delete, or hardDelete). After creating the job, upload data
@@ -58,7 +58,7 @@ paths:
         to begin processing. Monitor the job state until it reaches JobComplete
         or Failed.
       tags:
-        - Ingest Jobs
+      - Ingest Jobs
       requestBody:
         required: true
         description: Configuration for the new ingest job.
@@ -66,6 +66,18 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/IngestJobRequest'
+            examples:
+              CreateingestjobRequestExample:
+                summary: Default createIngestJob request
+                x-microcks-default: true
+                value:
+                  operation: insert
+                  object: example_value
+                  externalIdFieldName: example_value
+                  contentType: CSV
+                  lineEnding: LF
+                  columnDelimiter: COMMA
+                  assignmentRuleId: '500123'
       responses:
         '200':
           description: Ingest job created successfully with Open state.
@@ -73,6 +85,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/IngestJobInfo'
+              examples:
+                Createingestjob200Example:
+                  summary: Default createIngestJob 200 response
+                  x-microcks-default: true
+                  value:
+                    id: abc123
+                    operation: insert
+                    object: example_value
+                    state: Open
+                    createdDate: '2026-01-15T10:30:00Z'
+                    systemModstamp: '2026-01-15T10:30:00Z'
+                    numberRecordsProcessed: 10
+                    numberRecordsFailed: 10
+                    totalProcessingTime: 1700000000000
+                    errorMessage: example_value
+                    contentType: CSV
+                    lineEnding: LF
+                    columnDelimiter: COMMA
+                    externalIdFieldName: example_value
+                    jobType: example_value
+                    createdById: '500123'
+                    apiVersion: 42.5
         '400':
           description: >
             Bad request. Invalid operation, object type, or configuration
@@ -81,41 +115,64 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Createingestjob400Example:
+                  summary: Default createIngestJob 400 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
         '401':
           description: Unauthorized. Invalid or expired OAuth token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Createingestjob401Example:
+                  summary: Default createIngestJob 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     get:
       operationId: listIngestJobs
-      summary: Salesforce List ingest jobs
+      summary: Salesforce List Ingest Jobs
       description: >
         Returns a list of ingest jobs in the org. By default returns all jobs
         created by all users. Use query parameters to filter by state or other
         criteria. Results are ordered by creation date descending.
       tags:
-        - Ingest Jobs
+      - Ingest Jobs
       parameters:
-        - name: isPkChunkingEnabled
-          in: query
-          required: false
-          description: >
-            Filter results to only jobs with PK chunking enabled (true) or
-            disabled (false).
-          schema:
-            type: boolean
-        - name: jobType
-          in: query
-          required: false
-          description: >
-            Filter results by job type. Use Classic for Bulk API 1.0 jobs or
-            V2Ingest for Bulk API 2.0 ingest jobs.
-          schema:
-            type: string
-            enum:
-              - Classic
-              - V2Ingest
+      - name: isPkChunkingEnabled
+        in: query
+        required: false
+        description: >
+          Filter results to only jobs with PK chunking enabled (true) or
+          disabled (false).
+        schema:
+          type: boolean
+        example: true
+      - name: jobType
+        in: query
+        required: false
+        description: >
+          Filter results by job type. Use Classic for Bulk API 1.0 jobs or
+          V2Ingest for Bulk API 2.0 ingest jobs.
+        schema:
+          type: string
+          enum:
+          - Classic
+          - V2Ingest
+        example: Classic
       responses:
         '200':
           description: List of ingest jobs matching the filter criteria.
@@ -138,25 +195,61 @@ paths:
                     description: Array of ingest job information objects.
                     items:
                       $ref: '#/components/schemas/IngestJobInfo'
+              examples:
+                Listingestjobs200Example:
+                  summary: Default listIngestJobs 200 response
+                  x-microcks-default: true
+                  value:
+                    done: true
+                    nextRecordsUrl: https://www.example.com
+                    records:
+                    - id: abc123
+                      operation: insert
+                      object: example_value
+                      createdDate: '2026-01-15T10:30:00Z'
+                      systemModstamp: '2026-01-15T10:30:00Z'
+                      numberRecordsProcessed: 10
+                      numberRecordsFailed: 10
+                      totalProcessingTime: 1700000000000
+                      errorMessage: example_value
+                      contentType: CSV
+                      lineEnding: LF
+                      columnDelimiter: COMMA
+                      externalIdFieldName: example_value
+                      jobType: example_value
+                      createdById: '500123'
+                      apiVersion: 42.5
         '401':
           description: Unauthorized. Invalid or expired OAuth token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Listingestjobs401Example:
+                  summary: Default listIngestJobs 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /ingest/{jobId}:
     get:
       operationId: getIngestJobInfo
-      summary: Salesforce Get ingest job info
+      summary: Salesforce Get Ingest Job Info
       description: >
         Returns detailed information about a specific ingest job, including its
         current state, number of records processed, number of failures, and
         any error messages. Use this to monitor job progress and determine when
         processing is complete.
       tags:
-        - Ingest Jobs
+      - Ingest Jobs
       parameters:
-        - $ref: '#/components/parameters/jobId'
+      - $ref: '#/components/parameters/jobId'
       responses:
         '200':
           description: Detailed information about the specified ingest job.
@@ -164,30 +257,73 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/IngestJobInfo'
+              examples:
+                Getingestjobinfo200Example:
+                  summary: Default getIngestJobInfo 200 response
+                  x-microcks-default: true
+                  value:
+                    id: abc123
+                    operation: insert
+                    object: example_value
+                    state: Open
+                    createdDate: '2026-01-15T10:30:00Z'
+                    systemModstamp: '2026-01-15T10:30:00Z'
+                    numberRecordsProcessed: 10
+                    numberRecordsFailed: 10
+                    totalProcessingTime: 1700000000000
+                    errorMessage: example_value
+                    contentType: CSV
+                    lineEnding: LF
+                    columnDelimiter: COMMA
+                    externalIdFieldName: example_value
+                    jobType: example_value
+                    createdById: '500123'
+                    apiVersion: 42.5
         '401':
           description: Unauthorized. Invalid or expired OAuth token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Getingestjobinfo401Example:
+                  summary: Default getIngestJobInfo 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
         '404':
           description: Job not found for the specified job ID.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Getingestjobinfo404Example:
+                  summary: Default getIngestJobInfo 404 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     patch:
       operationId: updateIngestJob
-      summary: Salesforce Update or close an ingest job
+      summary: Salesforce Update or Close an Ingest Job
       description: >
         Updates the state of an ingest job. Use this to close the job after
         uploading all data (set state to UploadComplete), which triggers
         processing. Can also abort a job that is Open or UploadComplete by
         setting state to Aborted.
       tags:
-        - Ingest Jobs
+      - Ingest Jobs
       parameters:
-        - $ref: '#/components/parameters/jobId'
+      - $ref: '#/components/parameters/jobId'
       requestBody:
         required: true
         description: State update for the ingest job.
@@ -196,17 +332,23 @@ paths:
             schema:
               type: object
               required:
-                - state
+              - state
               properties:
                 state:
                   type: string
                   enum:
-                    - UploadComplete
-                    - Aborted
+                  - UploadComplete
+                  - Aborted
                   description: >
                     The new state to set for the job. Use UploadComplete to
                     close the job and begin processing, or Aborted to cancel
                     the job.
+            examples:
+              UpdateingestjobRequestExample:
+                summary: Default updateIngestJob request
+                x-microcks-default: true
+                value:
+                  state: UploadComplete
       responses:
         '200':
           description: Ingest job updated successfully with the new state.
@@ -214,35 +356,87 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/IngestJobInfo'
+              examples:
+                Updateingestjob200Example:
+                  summary: Default updateIngestJob 200 response
+                  x-microcks-default: true
+                  value:
+                    id: abc123
+                    operation: insert
+                    object: example_value
+                    state: Open
+                    createdDate: '2026-01-15T10:30:00Z'
+                    systemModstamp: '2026-01-15T10:30:00Z'
+                    numberRecordsProcessed: 10
+                    numberRecordsFailed: 10
+                    totalProcessingTime: 1700000000000
+                    errorMessage: example_value
+                    contentType: CSV
+                    lineEnding: LF
+                    columnDelimiter: COMMA
+                    externalIdFieldName: example_value
+                    jobType: example_value
+                    createdById: '500123'
+                    apiVersion: 42.5
         '400':
           description: Bad request. Invalid state transition for the current job state.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Updateingestjob400Example:
+                  summary: Default updateIngestJob 400 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
         '401':
           description: Unauthorized. Invalid or expired OAuth token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Updateingestjob401Example:
+                  summary: Default updateIngestJob 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
         '404':
           description: Job not found for the specified job ID.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Updateingestjob404Example:
+                  summary: Default updateIngestJob 404 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     delete:
       operationId: deleteIngestJob
-      summary: Salesforce Delete an ingest job
+      summary: Salesforce Delete an Ingest Job
       description: >
         Deletes an ingest job and all associated data. Only jobs in the Aborted
         state can be deleted. First abort the job if it is in a different state,
         then delete it.
       tags:
-        - Ingest Jobs
+      - Ingest Jobs
       parameters:
-        - $ref: '#/components/parameters/jobId'
+      - $ref: '#/components/parameters/jobId'
       responses:
         '204':
           description: Ingest job deleted successfully. No body is returned.
@@ -253,22 +447,52 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Deleteingestjob400Example:
+                  summary: Default deleteIngestJob 400 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
         '401':
           description: Unauthorized. Invalid or expired OAuth token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Deleteingestjob401Example:
+                  summary: Default deleteIngestJob 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
         '404':
           description: Job not found for the specified job ID.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Deleteingestjob404Example:
+                  summary: Default deleteIngestJob 404 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /ingest/{jobId}/batches:
     put:
       operationId: uploadJobData
-      summary: Salesforce Upload job data (CSV)
+      summary: Salesforce Upload Job Data (csv)
       description: >
         Uploads CSV data to an ingest job that is in the Open state. The CSV
         must include a header row matching the field API names for the object.
@@ -276,9 +500,9 @@ paths:
         After uploading all data, close the job with PATCH /ingest/{jobId} to
         begin processing.
       tags:
-        - Ingest Job Data
+      - Ingest Job Data
       parameters:
-        - $ref: '#/components/parameters/jobId'
+      - $ref: '#/components/parameters/jobId'
       requestBody:
         required: true
         description: >
@@ -293,6 +517,11 @@ paths:
                 CSV-formatted data with a header row and one record per
                 subsequent row. Field names in the header must match the
                 Salesforce field API names for the object.
+            examples:
+              UploadjobdataRequestExample:
+                summary: Default uploadJobData request
+                x-microcks-default: true
+                value: example_value
       responses:
         '201':
           description: Data uploaded successfully to the ingest job.
@@ -304,31 +533,61 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Uploadjobdata400Example:
+                  summary: Default uploadJobData 400 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
         '401':
           description: Unauthorized. Invalid or expired OAuth token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Uploadjobdata401Example:
+                  summary: Default uploadJobData 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
         '404':
           description: Job not found for the specified job ID.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Uploadjobdata404Example:
+                  summary: Default uploadJobData 404 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /ingest/{jobId}/successfulResults:
     get:
       operationId: getSuccessfulResults
-      summary: Salesforce Get successful records from an ingest job
+      summary: Salesforce Get Successful Records From an Ingest Job
       description: >
         Returns a CSV file containing the records that were successfully
         processed by the ingest job. Each row corresponds to a record from the
         uploaded data that was inserted, updated, upserted, or deleted
         successfully. Only available after the job reaches JobComplete state.
       tags:
-        - Ingest Job Data
+      - Ingest Job Data
       parameters:
-        - $ref: '#/components/parameters/jobId'
+      - $ref: '#/components/parameters/jobId'
       responses:
         '200':
           description: >
@@ -342,31 +601,57 @@ paths:
                   CSV data of successfully processed records. Includes sf__Id
                   (the Salesforce record ID) and sf__Created (true if created,
                   false if updated) columns.
+              examples:
+                Getsuccessfulresults200Example:
+                  summary: Default getSuccessfulResults 200 response
+                  x-microcks-default: true
+                  value: example_value
         '401':
           description: Unauthorized. Invalid or expired OAuth token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Getsuccessfulresults401Example:
+                  summary: Default getSuccessfulResults 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
         '404':
           description: Job not found or job has not completed processing.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Getsuccessfulresults404Example:
+                  summary: Default getSuccessfulResults 404 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /ingest/{jobId}/failedResults:
     get:
       operationId: getFailedResults
-      summary: Salesforce Get failed records from an ingest job
+      summary: Salesforce Get Failed Records From an Ingest Job
       description: >
         Returns a CSV file containing the records from the ingest job that
         failed to process. Each row includes the original record data plus
         sf__Error and sf__Id columns describing the failure reason. Use this
         to identify and fix records that need to be resubmitted.
       tags:
-        - Ingest Job Data
+      - Ingest Job Data
       parameters:
-        - $ref: '#/components/parameters/jobId'
+      - $ref: '#/components/parameters/jobId'
       responses:
         '200':
           description: >
@@ -380,30 +665,56 @@ paths:
                   CSV data of failed records. Includes sf__Error (error message
                   describing the failure) and sf__Id (the record ID if
                   applicable) columns.
+              examples:
+                Getfailedresults200Example:
+                  summary: Default getFailedResults 200 response
+                  x-microcks-default: true
+                  value: example_value
         '401':
           description: Unauthorized. Invalid or expired OAuth token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Getfailedresults401Example:
+                  summary: Default getFailedResults 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
         '404':
           description: Job not found or job has not completed processing.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Getfailedresults404Example:
+                  summary: Default getFailedResults 404 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /ingest/{jobId}/unprocessedrecords:
     get:
       operationId: getUnprocessedRecords
-      summary: Salesforce Get unprocessed records from an ingest job
+      summary: Salesforce Get Unprocessed Records From an Ingest Job
       description: >
         Returns a CSV file containing the records from the ingest job that were
         not processed, typically because the job was aborted before processing
         completed. Use these records to resubmit them in a new job.
       tags:
-        - Ingest Job Data
+      - Ingest Job Data
       parameters:
-        - $ref: '#/components/parameters/jobId'
+      - $ref: '#/components/parameters/jobId'
       responses:
         '200':
           description: CSV data containing unprocessed records from the aborted job.
@@ -414,29 +725,55 @@ paths:
                 description: >
                   CSV data of unprocessed records in the same format as the
                   original uploaded data.
+              examples:
+                Getunprocessedrecords200Example:
+                  summary: Default getUnprocessedRecords 200 response
+                  x-microcks-default: true
+                  value: example_value
         '401':
           description: Unauthorized. Invalid or expired OAuth token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Getunprocessedrecords401Example:
+                  summary: Default getUnprocessedRecords 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
         '404':
           description: Job not found for the specified job ID.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Getunprocessedrecords404Example:
+                  summary: Default getUnprocessedRecords 404 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /query:
     post:
       operationId: createQueryJob
-      summary: Salesforce Create a query job
+      summary: Salesforce Create a Query Job
       description: >
         Creates a new query job to extract large volumes of data from Salesforce
         using a SOQL query. Query jobs are asynchronous; after creating the job,
         poll the job status until it reaches JobComplete, then retrieve results
         using the GET /query/{jobId}/results endpoint.
       tags:
-        - Query Jobs
+      - Query Jobs
       requestBody:
         required: true
         description: Configuration for the new query job including the SOQL query.
@@ -444,6 +781,16 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/QueryJobRequest'
+            examples:
+              CreatequeryjobRequestExample:
+                summary: Default createQueryJob request
+                x-microcks-default: true
+                value:
+                  operation: query
+                  query: example_value
+                  contentType: CSV
+                  columnDelimiter: COMMA
+                  lineEnding: LF
       responses:
         '200':
           description: Query job created successfully.
@@ -451,37 +798,79 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/QueryJobInfo'
+              examples:
+                Createqueryjob200Example:
+                  summary: Default createQueryJob 200 response
+                  x-microcks-default: true
+                  value:
+                    id: abc123
+                    operation: query
+                    object: example_value
+                    state: Open
+                    createdDate: '2026-01-15T10:30:00Z'
+                    systemModstamp: '2026-01-15T10:30:00Z'
+                    numberRecordsProcessed: 10
+                    totalProcessingTime: 1700000000000
+                    errorMessage: example_value
+                    contentType: CSV
+                    columnDelimiter: COMMA
+                    lineEnding: LF
+                    jobType: example_value
+                    createdById: '500123'
+                    apiVersion: 42.5
         '400':
           description: Bad request. Invalid SOQL query or configuration parameters.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Createqueryjob400Example:
+                  summary: Default createQueryJob 400 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
         '401':
           description: Unauthorized. Invalid or expired OAuth token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Createqueryjob401Example:
+                  summary: Default createQueryJob 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     get:
       operationId: listQueryJobs
-      summary: Salesforce List query jobs
+      summary: Salesforce List Query Jobs
       description: >
         Returns a list of query jobs in the org. Results are ordered by creation
         date descending. Use query parameters to filter by job state.
       tags:
-        - Query Jobs
+      - Query Jobs
       parameters:
-        - name: jobType
-          in: query
-          required: false
-          description: >
-            Filter results by job type. Use V2Query for Bulk API 2.0 query
-            jobs.
-          schema:
-            type: string
-            enum:
-              - V2Query
+      - name: jobType
+        in: query
+        required: false
+        description: >
+          Filter results by job type. Use V2Query for Bulk API 2.0 query
+          jobs.
+        schema:
+          type: string
+          enum:
+          - V2Query
+        example: V2Query
       responses:
         '200':
           description: List of query jobs.
@@ -502,25 +891,59 @@ paths:
                     description: Array of query job information objects.
                     items:
                       $ref: '#/components/schemas/QueryJobInfo'
+              examples:
+                Listqueryjobs200Example:
+                  summary: Default listQueryJobs 200 response
+                  x-microcks-default: true
+                  value:
+                    done: true
+                    nextRecordsUrl: https://www.example.com
+                    records:
+                    - id: abc123
+                      operation: query
+                      object: example_value
+                      createdDate: '2026-01-15T10:30:00Z'
+                      systemModstamp: '2026-01-15T10:30:00Z'
+                      numberRecordsProcessed: 10
+                      totalProcessingTime: 1700000000000
+                      errorMessage: example_value
+                      contentType: CSV
+                      columnDelimiter: COMMA
+                      lineEnding: LF
+                      jobType: example_value
+                      createdById: '500123'
+                      apiVersion: 42.5
         '401':
           description: Unauthorized. Invalid or expired OAuth token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Listqueryjobs401Example:
+                  summary: Default listQueryJobs 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /query/{jobId}:
     get:
       operationId: getQueryJobInfo
-      summary: Salesforce Get query job info
+      summary: Salesforce Get Query Job Info
       description: >
         Returns detailed information about a specific query job, including its
         current state, number of records processed, and any error messages. Poll
         this endpoint until the state reaches JobComplete or Failed before
         retrieving results.
       tags:
-        - Query Jobs
+      - Query Jobs
       parameters:
-        - $ref: '#/components/parameters/jobId'
+      - $ref: '#/components/parameters/jobId'
       responses:
         '200':
           description: Detailed information about the specified query job.
@@ -528,28 +951,69 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/QueryJobInfo'
+              examples:
+                Getqueryjobinfo200Example:
+                  summary: Default getQueryJobInfo 200 response
+                  x-microcks-default: true
+                  value:
+                    id: abc123
+                    operation: query
+                    object: example_value
+                    state: Open
+                    createdDate: '2026-01-15T10:30:00Z'
+                    systemModstamp: '2026-01-15T10:30:00Z'
+                    numberRecordsProcessed: 10
+                    totalProcessingTime: 1700000000000
+                    errorMessage: example_value
+                    contentType: CSV
+                    columnDelimiter: COMMA
+                    lineEnding: LF
+                    jobType: example_value
+                    createdById: '500123'
+                    apiVersion: 42.5
         '401':
           description: Unauthorized. Invalid or expired OAuth token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Getqueryjobinfo401Example:
+                  summary: Default getQueryJobInfo 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
         '404':
           description: Job not found for the specified job ID.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Getqueryjobinfo404Example:
+                  summary: Default getQueryJobInfo 404 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     patch:
       operationId: updateQueryJob
-      summary: Salesforce Abort or close a query job
+      summary: Salesforce Abort or Close a Query Job
       description: >
         Updates the state of a query job. Use this to abort a query job that is
         currently running or queued by setting state to Aborted.
       tags:
-        - Query Jobs
+      - Query Jobs
       parameters:
-        - $ref: '#/components/parameters/jobId'
+      - $ref: '#/components/parameters/jobId'
       requestBody:
         required: true
         description: State update for the query job.
@@ -558,15 +1022,21 @@ paths:
             schema:
               type: object
               required:
-                - state
+              - state
               properties:
                 state:
                   type: string
                   enum:
-                    - Aborted
+                  - Aborted
                   description: >
                     The new state to set for the query job. Currently only
                     Aborted is supported to cancel a running job.
+            examples:
+              UpdatequeryjobRequestExample:
+                summary: Default updateQueryJob request
+                x-microcks-default: true
+                value:
+                  state: Aborted
       responses:
         '200':
           description: Query job updated successfully with the new state.
@@ -574,34 +1044,84 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/QueryJobInfo'
+              examples:
+                Updatequeryjob200Example:
+                  summary: Default updateQueryJob 200 response
+                  x-microcks-default: true
+                  value:
+                    id: abc123
+                    operation: query
+                    object: example_value
+                    state: Open
+                    createdDate: '2026-01-15T10:30:00Z'
+                    systemModstamp: '2026-01-15T10:30:00Z'
+                    numberRecordsProcessed: 10
+                    totalProcessingTime: 1700000000000
+                    errorMessage: example_value
+                    contentType: CSV
+                    columnDelimiter: COMMA
+                    lineEnding: LF
+                    jobType: example_value
+                    createdById: '500123'
+                    apiVersion: 42.5
         '400':
           description: Bad request. Invalid state transition for the current job state.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Updatequeryjob400Example:
+                  summary: Default updateQueryJob 400 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
         '401':
           description: Unauthorized. Invalid or expired OAuth token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Updatequeryjob401Example:
+                  summary: Default updateQueryJob 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
         '404':
           description: Job not found for the specified job ID.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Updatequeryjob404Example:
+                  summary: Default updateQueryJob 404 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     delete:
       operationId: deleteQueryJob
-      summary: Salesforce Delete a query job
+      summary: Salesforce Delete a Query Job
       description: >
         Deletes a query job and all associated results. Only jobs in the Aborted
         or JobComplete state can be deleted.
       tags:
-        - Query Jobs
+      - Query Jobs
       parameters:
-        - $ref: '#/components/parameters/jobId'
+      - $ref: '#/components/parameters/jobId'
       responses:
         '204':
           description: Query job deleted successfully. No body is returned.
@@ -613,49 +1133,81 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Deletequeryjob400Example:
+                  summary: Default deleteQueryJob 400 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
         '401':
           description: Unauthorized. Invalid or expired OAuth token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Deletequeryjob401Example:
+                  summary: Default deleteQueryJob 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
         '404':
           description: Job not found for the specified job ID.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Deletequeryjob404Example:
+                  summary: Default deleteQueryJob 404 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /query/{jobId}/results:
     get:
       operationId: getQueryJobResults
-      summary: Salesforce Get query job results
+      summary: Salesforce Get Query Job Results
       description: >
         Returns the results of a completed query job as CSV data. The results
         may be paginated; check for a Sforce-Locator response header to retrieve
         subsequent pages by passing the locator value as a query parameter. Only
         available after the job reaches JobComplete state.
       tags:
-        - Query Job Results
+      - Query Job Results
       parameters:
-        - $ref: '#/components/parameters/jobId'
-        - name: maxRecords
-          in: query
-          required: false
-          description: >
-            Maximum number of records to return in this response. Defaults to
-            50000. Use with the locator parameter to paginate through large
-            result sets.
-          schema:
-            type: integer
-            default: 50000
-        - name: locator
-          in: query
-          required: false
-          description: >
-            A locator token from the Sforce-Locator response header of a
-            previous request to retrieve the next page of results.
-          schema:
-            type: string
+      - $ref: '#/components/parameters/jobId'
+      - name: maxRecords
+        in: query
+        required: false
+        description: >
+          Maximum number of records to return in this response. Defaults to
+          50000. Use with the locator parameter to paginate through large
+          result sets.
+        schema:
+          type: integer
+          default: 50000
+        example: 10
+      - name: locator
+        in: query
+        required: false
+        description: >
+          A locator token from the Sforce-Locator response header of a
+          previous request to retrieve the next page of results.
+        schema:
+          type: string
+        example: example_value
       responses:
         '200':
           description: >
@@ -680,18 +1232,44 @@ paths:
                 description: >
                   CSV data containing the query results. The first row is a
                   header row with field API names.
+              examples:
+                Getqueryjobresults200Example:
+                  summary: Default getQueryJobResults 200 response
+                  x-microcks-default: true
+                  value: example_value
         '401':
           description: Unauthorized. Invalid or expired OAuth token.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Getqueryjobresults401Example:
+                  summary: Default getQueryJobResults 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
         '404':
           description: Job not found or job has not reached JobComplete state.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                Getqueryjobresults404Example:
+                  summary: Default getQueryJobResults 404 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
 components:
   securitySchemes:
     BearerAuth:
@@ -716,78 +1294,85 @@ components:
         The current state of a Bulk API 2.0 job, indicating where it is in its
         lifecycle.
       enum:
-        - Open
-        - UploadComplete
-        - InProgress
-        - JobComplete
-        - Failed
-        - Aborted
+      - Open
+      - UploadComplete
+      - InProgress
+      - JobComplete
+      - Failed
+      - Aborted
     IngestJobRequest:
       type: object
       description: >
         Configuration parameters for creating a new Bulk API 2.0 ingest job.
       required:
-        - operation
-        - object
+      - operation
+      - object
       properties:
         operation:
           type: string
           enum:
-            - insert
-            - update
-            - upsert
-            - delete
-            - hardDelete
+          - insert
+          - update
+          - upsert
+          - delete
+          - hardDelete
           description: >
             The DML operation to perform on the records. Use insert to create
             new records, update to modify existing records, upsert to create or
             update based on an external ID, delete to soft-delete records, or
             hardDelete to permanently delete records.
+          example: insert
         object:
           type: string
           description: >
             The API name of the Salesforce SObject type for this job (e.g.,
             Account, Contact, MyCustomObject__c).
+          example: example_value
         externalIdFieldName:
           type: string
           description: >
             Required for upsert operations. The API name of the external ID
             field used to match records for upsert.
+          example: example_value
         contentType:
           type: string
           enum:
-            - CSV
+          - CSV
           default: CSV
           description: >
             The format of the data to be uploaded. Currently only CSV is
             supported.
+          example: CSV
         lineEnding:
           type: string
           enum:
-            - LF
-            - CRLF
+          - LF
+          - CRLF
           default: LF
           description: >
             The line ending character used in the uploaded CSV data. Use LF for
             Unix-style line endings or CRLF for Windows-style.
+          example: LF
         columnDelimiter:
           type: string
           enum:
-            - COMMA
-            - TAB
-            - PIPE
-            - SEMICOLON
-            - CARET
-            - BACKQUOTE
+          - COMMA
+          - TAB
+          - PIPE
+          - SEMICOLON
+          - CARET
+          - BACKQUOTE
           default: COMMA
           description: >
             The delimiter character used between fields in the CSV data.
             Defaults to COMMA.
+          example: COMMA
         assignmentRuleId:
           type: string
           description: >
             The ID of an assignment rule to apply when inserting or updating
             Case or Lead records.
+          example: '500123'
     IngestJobInfo:
       type: object
       description: >
@@ -797,95 +1382,112 @@ components:
         id:
           type: string
           description: The unique identifier of the ingest job.
+          example: abc123
         operation:
           type: string
           enum:
-            - insert
-            - update
-            - upsert
-            - delete
-            - hardDelete
+          - insert
+          - update
+          - upsert
+          - delete
+          - hardDelete
           description: The DML operation being performed by this job.
+          example: insert
         object:
           type: string
           description: The API name of the SObject type being processed.
+          example: example_value
         state:
           $ref: '#/components/schemas/JobState'
         createdDate:
           type: string
           format: date-time
           description: The date and time the job was created, in ISO 8601 format.
+          example: '2026-01-15T10:30:00Z'
         systemModstamp:
           type: string
           format: date-time
           description: >
             The date and time the job was last modified, in ISO 8601 format.
+          example: '2026-01-15T10:30:00Z'
         numberRecordsProcessed:
           type: integer
           description: >
             The number of records processed so far. Updated after processing
             completes.
+          example: 10
         numberRecordsFailed:
           type: integer
           description: The number of records that failed during processing.
+          example: 10
         totalProcessingTime:
           type: integer
           description: Total processing time in milliseconds.
+          example: 1700000000000
         errorMessage:
           type: string
           description: >
             Error message if the job reached the Failed state. Describes the
             reason for failure.
+          example: example_value
         contentType:
           type: string
           enum:
-            - CSV
+          - CSV
           description: The content type of the data uploaded to this job.
+          example: CSV
         lineEnding:
           type: string
           enum:
-            - LF
-            - CRLF
+          - LF
+          - CRLF
           description: The line ending used in the uploaded data.
+          example: LF
         columnDelimiter:
           type: string
           enum:
-            - COMMA
-            - TAB
-            - PIPE
-            - SEMICOLON
-            - CARET
-            - BACKQUOTE
+          - COMMA
+          - TAB
+          - PIPE
+          - SEMICOLON
+          - CARET
+          - BACKQUOTE
           description: The column delimiter used in the uploaded data.
+          example: COMMA
         externalIdFieldName:
           type: string
           description: >
             The external ID field name used for upsert operations. Only present
             for upsert jobs.
+          example: example_value
         jobType:
           type: string
           description: The job type (V2Ingest for Bulk API 2.0 ingest jobs).
+          example: example_value
         createdById:
           type: string
           description: The Salesforce user ID of the user who created the job.
+          example: '500123'
         apiVersion:
           type: number
           description: The API version used to create the job.
+          example: 42.5
     QueryJobRequest:
       type: object
       description: Configuration parameters for creating a new Bulk API 2.0 query job.
       required:
-        - operation
-        - query
+      - operation
+      - query
       properties:
         operation:
           type: string
           enum:
-            - query
-            - queryAll
+          - query
+          - queryAll
           description: >
             The query operation to perform. Use query to retrieve active records
             only, or queryAll to include soft-deleted and archived records.
+          example: query
         query:
           type: string
           description: >
@@ -895,27 +1497,30 @@ components:
         contentType:
           type: string
           enum:
-            - CSV
+          - CSV
           default: CSV
           description: The format of the results. Currently only CSV is supported.
+          example: CSV
         columnDelimiter:
           type: string
           enum:
-            - COMMA
-            - TAB
-            - PIPE
-            - SEMICOLON
-            - CARET
-            - BACKQUOTE
+          - COMMA
+          - TAB
+          - PIPE
+          - SEMICOLON
+          - CARET
+          - BACKQUOTE
           default: COMMA
           description: The delimiter character used between fields in the CSV output.
+          example: COMMA
         lineEnding:
           type: string
           enum:
-            - LF
-            - CRLF
+          - LF
+          - CRLF
           default: LF
           description: The line ending character used in the CSV output.
+          example: LF
     QueryJobInfo:
       type: object
       description: >
@@ -925,68 +1530,82 @@ components:
         id:
           type: string
           description: The unique identifier of the query job.
+          example: abc123
         operation:
           type: string
           enum:
-            - query
-            - queryAll
+          - query
+          - queryAll
           description: The query operation being performed.
+          example: query
         object:
           type: string
           description: >
             The primary SObject type in the SOQL query. Derived automatically
             from the query.
+          example: example_value
         state:
           $ref: '#/components/schemas/JobState'
         createdDate:
           type: string
           format: date-time
           description: The date and time the job was created, in ISO 8601 format.
+          example: '2026-01-15T10:30:00Z'
         systemModstamp:
           type: string
           format: date-time
           description: The date and time the job was last modified, in ISO 8601 format.
+          example: '2026-01-15T10:30:00Z'
         numberRecordsProcessed:
           type: integer
           description: The number of records returned by the query.
+          example: 10
         totalProcessingTime:
           type: integer
           description: Total processing time in milliseconds.
+          example: 1700000000000
         errorMessage:
           type: string
           description: >
             Error message if the job reached the Failed state. Describes the
             reason for failure.
+          example: example_value
         contentType:
           type: string
           enum:
-            - CSV
+          - CSV
           description: The content type of the query results.
+          example: CSV
         columnDelimiter:
           type: string
           enum:
-            - COMMA
-            - TAB
-            - PIPE
-            - SEMICOLON
-            - CARET
-            - BACKQUOTE
+          - COMMA
+          - TAB
+          - PIPE
+          - SEMICOLON
+          - CARET
+          - BACKQUOTE
           description: The column delimiter used in the results CSV.
+          example: COMMA
         lineEnding:
           type: string
           enum:
-            - LF
-            - CRLF
+          - LF
+          - CRLF
           description: The line ending used in the results CSV.
+          example: LF
         jobType:
           type: string
           description: The job type (V2Query for Bulk API 2.0 query jobs).
+          example: example_value
         createdById:
           type: string
           description: The Salesforce user ID of the user who created the job.
+          example: '500123'
         apiVersion:
           type: number
           description: The API version used to create the job.
+          example: 42.5
     Error:
       type: object
       description: An error response from the Salesforce Bulk API 2.0.
@@ -994,11 +1613,14 @@ components:
         message:
           type: string
           description: Human-readable description of the error.
+          example: example_value
         errorCode:
           type: string
           description: Salesforce error code identifying the type of error.
+          example: example_value
         fields:
           type: array
           description: List of field names related to the error, if applicable.
           items:
             type: string
+          example: []

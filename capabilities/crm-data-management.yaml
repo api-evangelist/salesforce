@@ -1,0 +1,684 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Salesforce CRM Data Management"
+  description: "Unified capability for CRM data management workflows combining the REST API, Bulk API 2.0, and UI API. Used by Salesforce admins, developers, and data teams to manage SObject records, run queries, perform bulk data operations, and build dynamic UIs."
+  tags:
+    - Salesforce
+    - CRM
+    - Data Management
+    - SObjects
+    - Bulk Operations
+  created: "2026-04-18"
+  modified: "2026-04-18"
+
+binds:
+  - namespace: env
+    keys:
+      SALESFORCE_ACCESS_TOKEN: SALESFORCE_ACCESS_TOKEN
+
+capability:
+  consumes:
+    - import: salesforce-rest
+      location: ./shared/rest-api.yaml
+    - import: salesforce-bulk
+      location: ./shared/bulk-api.yaml
+    - import: salesforce-ui
+      location: ./shared/ui-api.yaml
+
+  exposes:
+    - type: rest
+      port: 8080
+      namespace: crm-data-management-api
+      description: "Unified REST API for Salesforce CRM data management."
+      resources:
+        - path: /v1/sobjects
+          name: sobjects
+          description: "SObject type listing and metadata."
+          operations:
+            - method: GET
+              name: list-sobjects
+              description: "List all SObject types available in the org."
+              call: "salesforce-rest.list-sobjects"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/sobjects/{sobjectType}
+          name: sobject-type
+          description: "SObject type metadata and record creation."
+          operations:
+            - method: GET
+              name: describe-sobject
+              description: "Get basic metadata for an SObject type."
+              call: "salesforce-rest.describe-sobject"
+              with:
+                sobjectType: "rest.sobjectType"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: create-record
+              description: "Create a new SObject record."
+              call: "salesforce-rest.create-record"
+              with:
+                sobjectType: "rest.sobjectType"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/sobjects/{sobjectType}/describe
+          name: sobject-describe
+          description: "Full SObject type metadata."
+          operations:
+            - method: GET
+              name: full-describe-sobject
+              description: "Get full metadata for an SObject type including all fields."
+              call: "salesforce-rest.full-describe-sobject"
+              with:
+                sobjectType: "rest.sobjectType"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/records/{sobjectType}/{id}
+          name: records
+          description: "Individual record CRUD operations."
+          operations:
+            - method: GET
+              name: get-record
+              description: "Get an SObject record by ID."
+              call: "salesforce-rest.get-record"
+              with:
+                sobjectType: "rest.sobjectType"
+                id: "rest.id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: PATCH
+              name: update-record
+              description: "Update an SObject record."
+              call: "salesforce-rest.update-record"
+              with:
+                sobjectType: "rest.sobjectType"
+                id: "rest.id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: DELETE
+              name: delete-record
+              description: "Delete an SObject record."
+              call: "salesforce-rest.delete-record"
+              with:
+                sobjectType: "rest.sobjectType"
+                id: "rest.id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/queries
+          name: queries
+          description: "SOQL query execution."
+          operations:
+            - method: POST
+              name: execute-query
+              description: "Execute a SOQL query."
+              call: "salesforce-rest.execute-query"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: execute-query-all
+              path: /all
+              description: "Execute a SOQL queryAll including deleted records."
+              call: "salesforce-rest.execute-query-all"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/queries/{queryId}
+          name: query-pagination
+          description: "Query result pagination."
+          operations:
+            - method: GET
+              name: get-next-query-page
+              description: "Get the next page of query results."
+              call: "salesforce-rest.get-next-query-page"
+              with:
+                queryId: "rest.queryId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/searches
+          name: searches
+          description: "SOSL search execution."
+          operations:
+            - method: GET
+              name: execute-search
+              description: "Execute a SOSL search across multiple objects."
+              call: "salesforce-rest.execute-search"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/limits
+          name: limits
+          description: "Org API limits."
+          operations:
+            - method: GET
+              name: get-org-limits
+              description: "Get current API limit usage and quotas."
+              call: "salesforce-rest.get-org-limits"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/recent
+          name: recent
+          description: "Recently viewed records."
+          operations:
+            - method: GET
+              name: get-recently-viewed
+              description: "Get recently viewed records."
+              call: "salesforce-rest.get-recently-viewed-records"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/collections
+          name: collections
+          description: "SObject Collections bulk CRUD."
+          operations:
+            - method: POST
+              name: collections-create
+              description: "Create up to 200 records in a single call."
+              call: "salesforce-rest.collections-create"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: PATCH
+              name: collections-update
+              description: "Update up to 200 records in a single call."
+              call: "salesforce-rest.collections-update"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: DELETE
+              name: collections-delete
+              description: "Delete up to 200 records in a single call."
+              call: "salesforce-rest.collections-delete"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/composite
+          name: composite
+          description: "Composite request operations."
+          operations:
+            - method: POST
+              name: execute-composite
+              description: "Execute a composite request with dependent subrequests."
+              call: "salesforce-rest.execute-composite-request"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: execute-batch
+              path: /batch
+              description: "Execute a batch of independent requests."
+              call: "salesforce-rest.execute-batch-request"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/ingest-jobs
+          name: ingest-jobs
+          description: "Bulk API 2.0 ingest job management."
+          operations:
+            - method: POST
+              name: create-ingest-job
+              description: "Create a new bulk ingest job."
+              call: "salesforce-bulk.create-ingest-job"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: GET
+              name: list-ingest-jobs
+              description: "List bulk ingest jobs."
+              call: "salesforce-bulk.list-ingest-jobs"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/ingest-jobs/{jobId}
+          name: ingest-job
+          description: "Individual ingest job operations."
+          operations:
+            - method: GET
+              name: get-ingest-job-info
+              description: "Get detailed information about an ingest job."
+              call: "salesforce-bulk.get-ingest-job-info"
+              with:
+                jobId: "rest.jobId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: PATCH
+              name: update-ingest-job
+              description: "Update or close an ingest job."
+              call: "salesforce-bulk.update-ingest-job"
+              with:
+                jobId: "rest.jobId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: DELETE
+              name: delete-ingest-job
+              description: "Delete an ingest job."
+              call: "salesforce-bulk.delete-ingest-job"
+              with:
+                jobId: "rest.jobId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/ingest-jobs/{jobId}/results/successful
+          name: ingest-job-successful
+          description: "Successful ingest results."
+          operations:
+            - method: GET
+              name: get-successful-results
+              description: "Get successfully processed records."
+              call: "salesforce-bulk.get-successful-results"
+              with:
+                jobId: "rest.jobId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/ingest-jobs/{jobId}/results/failed
+          name: ingest-job-failed
+          description: "Failed ingest results."
+          operations:
+            - method: GET
+              name: get-failed-results
+              description: "Get failed records."
+              call: "salesforce-bulk.get-failed-results"
+              with:
+                jobId: "rest.jobId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/query-jobs
+          name: query-jobs
+          description: "Bulk API 2.0 query job management."
+          operations:
+            - method: POST
+              name: create-query-job
+              description: "Create a new bulk query job."
+              call: "salesforce-bulk.create-query-job"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: GET
+              name: list-query-jobs
+              description: "List bulk query jobs."
+              call: "salesforce-bulk.list-query-jobs"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/query-jobs/{jobId}
+          name: query-job
+          description: "Individual query job operations."
+          operations:
+            - method: GET
+              name: get-query-job-info
+              description: "Get detailed information about a query job."
+              call: "salesforce-bulk.get-query-job-info"
+              with:
+                jobId: "rest.jobId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: DELETE
+              name: delete-query-job
+              description: "Delete a query job."
+              call: "salesforce-bulk.delete-query-job"
+              with:
+                jobId: "rest.jobId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/query-jobs/{jobId}/results
+          name: query-job-results
+          description: "Query job results."
+          operations:
+            - method: GET
+              name: get-query-job-results
+              description: "Get query job results."
+              call: "salesforce-bulk.get-query-job-results"
+              with:
+                jobId: "rest.jobId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/object-info/{objectApiName}
+          name: object-info
+          description: "Object metadata from UI API."
+          operations:
+            - method: GET
+              name: get-object-info
+              description: "Get object metadata including fields, types, and permissions."
+              call: "salesforce-ui.get-object-info"
+              with:
+                objectApiName: "rest.objectApiName"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/list-views/{objectApiName}
+          name: list-views
+          description: "List views for objects."
+          operations:
+            - method: GET
+              name: get-list-views
+              description: "Get list views for an object."
+              call: "salesforce-ui.get-lists-by-object"
+              with:
+                objectApiName: "rest.objectApiName"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9090
+      namespace: crm-data-management-mcp
+      transport: http
+      description: "MCP server for AI-assisted Salesforce CRM data management."
+      tools:
+        - name: list-sobjects
+          description: "List all SObject types available in the Salesforce org."
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "salesforce-rest.list-sobjects"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: describe-sobject
+          description: "Get basic metadata for a Salesforce SObject type."
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "salesforce-rest.describe-sobject"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: full-describe-sobject
+          description: "Get full metadata for a Salesforce SObject type including all fields."
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "salesforce-rest.full-describe-sobject"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: create-record
+          description: "Create a new SObject record in Salesforce."
+          hints:
+            readOnly: false
+            idempotent: false
+          call: "salesforce-rest.create-record"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-record
+          description: "Get a Salesforce SObject record by ID."
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "salesforce-rest.get-record"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: update-record
+          description: "Update fields on a Salesforce SObject record."
+          hints:
+            readOnly: false
+            idempotent: true
+          call: "salesforce-rest.update-record"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: delete-record
+          description: "Delete a Salesforce SObject record."
+          hints:
+            readOnly: false
+            destructive: true
+            idempotent: true
+          call: "salesforce-rest.delete-record"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: execute-query
+          description: "Execute a SOQL query against Salesforce data."
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "salesforce-rest.execute-query"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: execute-query-all
+          description: "Execute a SOQL queryAll including deleted and archived records."
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "salesforce-rest.execute-query-all"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-next-query-page
+          description: "Get the next page of SOQL query results."
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "salesforce-rest.get-next-query-page"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: execute-search
+          description: "Execute a SOSL search across multiple Salesforce objects."
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "salesforce-rest.execute-search"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-org-limits
+          description: "Get current API limit usage and remaining quotas for the Salesforce org."
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "salesforce-rest.get-org-limits"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-recently-viewed
+          description: "Get recently viewed records for the current user."
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "salesforce-rest.get-recently-viewed-records"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: collections-create
+          description: "Create up to 200 SObject records in a single API call."
+          hints:
+            readOnly: false
+            idempotent: false
+          call: "salesforce-rest.collections-create"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: collections-update
+          description: "Update up to 200 SObject records in a single API call."
+          hints:
+            readOnly: false
+            idempotent: true
+          call: "salesforce-rest.collections-update"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: collections-delete
+          description: "Delete up to 200 SObject records in a single API call."
+          hints:
+            readOnly: false
+            destructive: true
+            idempotent: true
+          call: "salesforce-rest.collections-delete"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: execute-composite
+          description: "Execute a composite request with dependent subrequests."
+          hints:
+            readOnly: false
+            idempotent: false
+          call: "salesforce-rest.execute-composite-request"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: execute-batch
+          description: "Execute a batch of independent REST API requests."
+          hints:
+            readOnly: false
+            idempotent: false
+          call: "salesforce-rest.execute-batch-request"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: create-ingest-job
+          description: "Create a new Bulk API 2.0 ingest job for bulk data operations."
+          hints:
+            readOnly: false
+            idempotent: false
+          call: "salesforce-bulk.create-ingest-job"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-ingest-jobs
+          description: "List Bulk API 2.0 ingest jobs in the org."
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "salesforce-bulk.list-ingest-jobs"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-ingest-job-info
+          description: "Get detailed information about a Bulk API 2.0 ingest job."
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "salesforce-bulk.get-ingest-job-info"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: update-ingest-job
+          description: "Update or close a Bulk API 2.0 ingest job."
+          hints:
+            readOnly: false
+            idempotent: true
+          call: "salesforce-bulk.update-ingest-job"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: delete-ingest-job
+          description: "Delete a Bulk API 2.0 ingest job."
+          hints:
+            readOnly: false
+            destructive: true
+            idempotent: true
+          call: "salesforce-bulk.delete-ingest-job"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-successful-results
+          description: "Get successfully processed records from a bulk ingest job."
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "salesforce-bulk.get-successful-results"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-failed-results
+          description: "Get failed records from a bulk ingest job."
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "salesforce-bulk.get-failed-results"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: create-query-job
+          description: "Create a new Bulk API 2.0 query job for extracting large data volumes."
+          hints:
+            readOnly: false
+            idempotent: false
+          call: "salesforce-bulk.create-query-job"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-query-jobs
+          description: "List Bulk API 2.0 query jobs in the org."
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "salesforce-bulk.list-query-jobs"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-query-job-info
+          description: "Get detailed information about a Bulk API 2.0 query job."
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "salesforce-bulk.get-query-job-info"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-query-job-results
+          description: "Get results from a completed bulk query job."
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "salesforce-bulk.get-query-job-results"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-object-info
+          description: "Get UI-ready metadata about a Salesforce object including fields, types, and permissions."
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "salesforce-ui.get-object-info"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-picklist-values
+          description: "Get picklist values for all picklist fields on an object for a given record type."
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "salesforce-ui.get-picklist-values"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-list-views
+          description: "Get list views for a Salesforce object."
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "salesforce-ui.get-lists-by-object"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-lookup-records
+          description: "Search lookup field records for typeahead suggestions."
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "salesforce-ui.get-lookup-records"
+          outputParameters:
+            - type: object
+              mapping: "$."

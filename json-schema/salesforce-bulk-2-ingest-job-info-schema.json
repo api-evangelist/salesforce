@@ -1,0 +1,124 @@
+{
+  "type": "object",
+  "description": "Detailed information about a Bulk API 2.0 ingest job, including its current state and processing statistics.\n",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The unique identifier of the ingest job.",
+      "example": "abc123"
+    },
+    "operation": {
+      "type": "string",
+      "description": "The DML operation being performed by this job.",
+      "example": "insert",
+      "enum": [
+        "insert",
+        "update",
+        "upsert",
+        "delete",
+        "hardDelete"
+      ]
+    },
+    "object": {
+      "type": "string",
+      "description": "The API name of the SObject type being processed.",
+      "example": "example_value"
+    },
+    "state": {
+      "type": "string",
+      "description": "The current state of a Bulk API 2.0 job, indicating where it is in its lifecycle.\n",
+      "enum": [
+        "Open",
+        "UploadComplete",
+        "InProgress",
+        "JobComplete",
+        "Failed",
+        "Aborted"
+      ]
+    },
+    "createdDate": {
+      "type": "string",
+      "description": "The date and time the job was created, in ISO 8601 format.",
+      "format": "date-time",
+      "example": "2026-01-15T10:30:00Z"
+    },
+    "systemModstamp": {
+      "type": "string",
+      "description": "The date and time the job was last modified, in ISO 8601 format.\n",
+      "format": "date-time",
+      "example": "2026-01-15T10:30:00Z"
+    },
+    "numberRecordsProcessed": {
+      "type": "integer",
+      "description": "The number of records processed so far. Updated after processing completes.\n",
+      "example": 10
+    },
+    "numberRecordsFailed": {
+      "type": "integer",
+      "description": "The number of records that failed during processing.",
+      "example": 10
+    },
+    "totalProcessingTime": {
+      "type": "integer",
+      "description": "Total processing time in milliseconds.",
+      "example": 1700000000000
+    },
+    "errorMessage": {
+      "type": "string",
+      "description": "Error message if the job reached the Failed state. Describes the reason for failure.\n",
+      "example": "example_value"
+    },
+    "contentType": {
+      "type": "string",
+      "description": "The content type of the data uploaded to this job.",
+      "example": "CSV",
+      "enum": [
+        "CSV"
+      ]
+    },
+    "lineEnding": {
+      "type": "string",
+      "description": "The line ending used in the uploaded data.",
+      "example": "LF",
+      "enum": [
+        "LF",
+        "CRLF"
+      ]
+    },
+    "columnDelimiter": {
+      "type": "string",
+      "description": "The column delimiter used in the uploaded data.",
+      "example": "COMMA",
+      "enum": [
+        "COMMA",
+        "TAB",
+        "PIPE",
+        "SEMICOLON",
+        "CARET",
+        "BACKQUOTE"
+      ]
+    },
+    "externalIdFieldName": {
+      "type": "string",
+      "description": "The external ID field name used for upsert operations. Only present for upsert jobs.\n",
+      "example": "example_value"
+    },
+    "jobType": {
+      "type": "string",
+      "description": "The job type (V2Ingest for Bulk API 2.0 ingest jobs).",
+      "example": "example_value"
+    },
+    "createdById": {
+      "type": "string",
+      "description": "The Salesforce user ID of the user who created the job.",
+      "example": "500123"
+    },
+    "apiVersion": {
+      "type": "number",
+      "description": "The API version used to create the job.",
+      "example": 42.5
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "IngestJobInfo"
+}

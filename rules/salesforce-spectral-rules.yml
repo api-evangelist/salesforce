@@ -1,0 +1,158 @@
+rules:
+  info-title-required:
+    description: Info title must be present and non-empty
+    severity: error
+    given: $.info
+    then:
+      field: title
+      function: truthy
+  info-description-required:
+    description: Info description must be present
+    severity: error
+    given: $.info
+    then:
+      field: description
+      function: truthy
+  info-version-required:
+    description: API version must be specified
+    severity: error
+    given: $.info
+    then:
+      field: version
+      function: truthy
+  info-contact-required:
+    description: Contact information should be provided
+    severity: warn
+    given: $.info
+    then:
+      field: contact
+      function: truthy
+  openapi-version:
+    description: OpenAPI version should be 3.x
+    severity: error
+    given: $
+    then:
+      field: openapi
+      function: pattern
+      functionOptions:
+        match: ^3\.
+  servers-defined:
+    description: At least one server must be defined
+    severity: error
+    given: $
+    then:
+      field: servers
+      function: truthy
+  servers-https:
+    description: Server URLs must use HTTPS
+    severity: error
+    given: $.servers[*].url
+    then:
+      function: pattern
+      functionOptions:
+        match: ^https://
+  paths-no-trailing-slash:
+    description: Paths must not have trailing slashes
+    severity: error
+    given: $.paths
+    then:
+      field: "@key"
+      function: pattern
+      functionOptions:
+        notMatch: .+\/$$
+  operation-operationid-required:
+    description: Every operation must have an operationId
+    severity: error
+    given: $.paths[*][get,post,put,patch,delete]
+    then:
+      field: operationId
+      function: truthy
+  operation-summary-required:
+    description: Every operation must have a summary
+    severity: error
+    given: $.paths[*][get,post,put,patch,delete]
+    then:
+      field: summary
+      function: truthy
+  operation-description-required:
+    description: Every operation must have a description
+    severity: error
+    given: $.paths[*][get,post,put,patch,delete]
+    then:
+      field: description
+      function: truthy
+  operation-tags-required:
+    description: Every operation must have at least one tag
+    severity: error
+    given: $.paths[*][get,post,put,patch,delete]
+    then:
+      field: tags
+      function: truthy
+  parameter-description-required:
+    description: Every parameter must have a description
+    severity: error
+    given: $.paths[*][get,post,put,patch,delete].parameters[*]
+    then:
+      field: description
+      function: truthy
+  parameter-schema-required:
+    description: Every parameter must have a schema
+    severity: error
+    given: $.paths[*][get,post,put,patch,delete].parameters[*]
+    then:
+      field: schema
+      function: truthy
+  response-success-required:
+    description: Every operation must have a success response
+    severity: error
+    given: $.paths[*][get,post,put,patch,delete].responses
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          anyOf:
+            - required: ["200"]
+            - required: ["201"]
+            - required: ["202"]
+            - required: ["204"]
+  response-description-required:
+    description: Every response must have a description
+    severity: error
+    given: $.paths[*][get,post,put,patch,delete].responses[*]
+    then:
+      field: description
+      function: truthy
+  security-global-defined:
+    description: Global security must be defined
+    severity: error
+    given: $
+    then:
+      field: security
+      function: truthy
+  http-get-no-body:
+    description: GET operations must not have a request body
+    severity: error
+    given: $.paths[*].get
+    then:
+      field: requestBody
+      function: falsy
+  http-delete-no-body:
+    description: DELETE operations must not have a request body
+    severity: error
+    given: $.paths[*].delete
+    then:
+      field: requestBody
+      function: falsy
+  no-empty-descriptions:
+    description: Descriptions must not be empty strings
+    severity: error
+    given: $..description
+    then:
+      function: truthy
+  microcks-operation-extension:
+    description: Operations should have x-microcks-operation
+    severity: info
+    given: $.paths[*][get,post,put,patch,delete]
+    then:
+      field: x-microcks-operation
+      function: truthy

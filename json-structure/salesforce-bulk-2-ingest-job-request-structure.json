@@ -1,0 +1,62 @@
+{
+  "type": "object",
+  "description": "Configuration parameters for creating a new Bulk API 2.0 ingest job.\n",
+  "name": "IngestJobRequest",
+  "properties": {
+    "operation": {
+      "type": "string",
+      "description": "The DML operation to perform on the records. Use insert to create new records, update to modify existing records, upsert to create or update based on an external ID, delete to soft-delete records, or hardDelete to permanently delete records.\n",
+      "enum": [
+        "insert",
+        "update",
+        "upsert",
+        "delete",
+        "hardDelete"
+      ]
+    },
+    "object": {
+      "type": "string",
+      "description": "The API name of the Salesforce SObject type for this job (e.g., Account, Contact, MyCustomObject__c).\n"
+    },
+    "externalIdFieldName": {
+      "type": "string",
+      "description": "Required for upsert operations. The API name of the external ID field used to match records for upsert.\n"
+    },
+    "contentType": {
+      "type": "string",
+      "description": "The format of the data to be uploaded. Currently only CSV is supported.\n",
+      "enum": [
+        "CSV"
+      ]
+    },
+    "lineEnding": {
+      "type": "string",
+      "description": "The line ending character used in the uploaded CSV data. Use LF for Unix-style line endings or CRLF for Windows-style.\n",
+      "enum": [
+        "LF",
+        "CRLF"
+      ]
+    },
+    "columnDelimiter": {
+      "type": "string",
+      "description": "The delimiter character used between fields in the CSV data. Defaults to COMMA.\n",
+      "enum": [
+        "COMMA",
+        "TAB",
+        "PIPE",
+        "SEMICOLON",
+        "CARET",
+        "BACKQUOTE"
+      ]
+    },
+    "assignmentRuleId": {
+      "type": "string",
+      "description": "The ID of an assignment rule to apply when inserting or updating Case or Lead records.\n"
+    }
+  },
+  "required": [
+    "operation",
+    "object"
+  ],
+  "$schema": "https://json-structure.org/draft/2020-12/schema"
+}

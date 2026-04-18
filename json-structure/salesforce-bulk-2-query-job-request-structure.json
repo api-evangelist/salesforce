@@ -1,0 +1,51 @@
+{
+  "type": "object",
+  "description": "Configuration parameters for creating a new Bulk API 2.0 query job.",
+  "name": "QueryJobRequest",
+  "properties": {
+    "operation": {
+      "type": "string",
+      "description": "The query operation to perform. Use query to retrieve active records only, or queryAll to include soft-deleted and archived records.\n",
+      "enum": [
+        "query",
+        "queryAll"
+      ]
+    },
+    "query": {
+      "type": "string",
+      "description": "The SOQL query to execute. The query result will be available as CSV data after the job completes.\n"
+    },
+    "contentType": {
+      "type": "string",
+      "description": "The format of the results. Currently only CSV is supported.",
+      "enum": [
+        "CSV"
+      ]
+    },
+    "columnDelimiter": {
+      "type": "string",
+      "description": "The delimiter character used between fields in the CSV output.",
+      "enum": [
+        "COMMA",
+        "TAB",
+        "PIPE",
+        "SEMICOLON",
+        "CARET",
+        "BACKQUOTE"
+      ]
+    },
+    "lineEnding": {
+      "type": "string",
+      "description": "The line ending character used in the CSV output.",
+      "enum": [
+        "LF",
+        "CRLF"
+      ]
+    }
+  },
+  "required": [
+    "operation",
+    "query"
+  ],
+  "$schema": "https://json-structure.org/draft/2020-12/schema"
+}

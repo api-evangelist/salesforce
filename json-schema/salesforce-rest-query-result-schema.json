@@ -1,0 +1,67 @@
+{
+  "type": "object",
+  "description": "The result of a SOQL query, containing the matching records and pagination metadata.\n",
+  "properties": {
+    "totalSize": {
+      "type": "integer",
+      "description": "The total number of records matching the query. May be larger than the number of records in the current page if the result is paginated.\n",
+      "example": 42
+    },
+    "done": {
+      "type": "boolean",
+      "description": "Whether all query results have been returned. If false, use nextRecordsUrl to retrieve the next page.\n",
+      "example": true
+    },
+    "nextRecordsUrl": {
+      "type": "string",
+      "description": "URL to retrieve the next page of results. Only present when done is false.\n",
+      "format": "uri",
+      "example": "https://www.example.com"
+    },
+    "records": {
+      "type": "array",
+      "description": "Array of SObject records matching the query. May be a partial result if the total exceeds the page size.\n",
+      "example": [],
+      "items": {
+        "type": "object",
+        "description": "A Salesforce SObject record. Contains an attributes object describing the record type and URL, plus any number of field name/value pairs depending on the object type.\n",
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "description": "Metadata attributes for this SObject record, including its type and REST API URL.\n",
+            "example": "example_value",
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "The API name of the SObject type (e.g., Account, Contact)."
+              },
+              "url": {
+                "type": "string",
+                "description": "The REST API URL for this specific record.",
+                "format": "uri"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "Id": {
+            "type": "string",
+            "description": "The 18-character globally unique Salesforce record ID.",
+            "example": "abc123"
+          }
+        },
+        "required": [
+          "attributes"
+        ]
+      }
+    }
+  },
+  "required": [
+    "totalSize",
+    "done",
+    "records"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QueryResult"
+}

@@ -17,67 +17,71 @@ externalDocs:
   description: Salesforce UI API Documentation
   url: https://developer.salesforce.com/docs/atlas.en-us.uiapi.meta/uiapi/
 servers:
-  - url: 'https://{instanceName}.salesforce.com/services/data/v{version}/ui-api'
-    description: Salesforce org UI API base
-    variables:
-      instanceName:
-        description: Salesforce org instance name or custom domain
-        default: myorg
-      version:
-        description: Salesforce API version
-        default: '59.0'
+- url: 'https://{instanceName}.salesforce.com/services/data/v{version}/ui-api'
+  description: Salesforce org UI API base
+  variables:
+    instanceName:
+      description: Salesforce org instance name or custom domain
+      default: myorg
+    version:
+      description: Salesforce API version
+      default: '59.0'
 tags:
-  - name: List Views
-    description: Retrieve list view data and metadata for use in UI components
-  - name: Lookups
-    description: Lookup field search endpoints
-  - name: Object Info
-    description: Retrieve object metadata including fields, layouts, and picklists
-  - name: Picklists
-    description: Dependent and independent picklist value endpoints
-  - name: Records
-    description: Retrieve record data with field labels and UI-formatting metadata
+- name: List Views
+  description: Retrieve list view data and metadata for use in UI components
+- name: Lookups
+  description: Lookup field search endpoints
+- name: Object Info
+  description: Retrieve object metadata including fields, layouts, and picklists
+- name: Picklists
+  description: Dependent and independent picklist value endpoints
+- name: Records
+  description: Retrieve record data with field labels and UI-formatting metadata
 security:
-  - oauthBearerToken: []
+- oauthBearerToken: []
 paths:
   /records/{recordId}:
     get:
       operationId: getRecord
-      summary: Salesforce Get a record
+      summary: Salesforce Get a Record
       description: >-
         Returns data for a record including field values, formatted for display
         in the Lightning UI. Supports specifying which fields to return using
         the fields or layoutTypes parameter. Returns record metadata alongside
         data, including field labels, editability, and required status.
       tags:
-        - Records
+      - Records
       parameters:
-        - $ref: '#/components/parameters/RecordId'
-        - name: fields
-          in: query
-          description: Comma-separated list of field API names to return (e.g., Account.Name,Account.Type)
-          schema:
-            type: string
-        - name: layoutTypes
-          in: query
-          description: >-
-            Layout types to use for determining which fields to return
-            (Full, Compact)
-          schema:
-            type: string
-            enum:
-              - Full
-              - Compact
-        - name: modes
-          in: query
-          description: View mode(s) for the layout (View, Edit, Create)
-          schema:
-            type: string
-        - name: optionalFields
-          in: query
-          description: Fields to include if accessible, without error if inaccessible
-          schema:
-            type: string
+      - $ref: '#/components/parameters/RecordId'
+      - name: fields
+        in: query
+        description: Comma-separated list of field API names to return (e.g., Account.Name,Account.Type)
+        schema:
+          type: string
+        example: example_value
+      - name: layoutTypes
+        in: query
+        description: >-
+          Layout types to use for determining which fields to return
+          (Full, Compact)
+        schema:
+          type: string
+          enum:
+          - Full
+          - Compact
+        example: Full
+      - name: modes
+        in: query
+        description: View mode(s) for the layout (View, Edit, Create)
+        schema:
+          type: string
+        example: example_value
+      - name: optionalFields
+        in: query
+        description: Fields to include if accessible, without error if inaccessible
+        schema:
+          type: string
+        example: example_value
       responses:
         '200':
           description: Record data retrieved successfully
@@ -85,6 +89,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RecordRepresentation'
+              examples:
+                Getrecord200Example:
+                  summary: Default getRecord 200 response
+                  x-microcks-default: true
+                  value:
+                    id: abc123
+                    apiName: example_value
+                    childRelationships: example_value
+                    eTag: example_value
+                    fields: example_value
+                    recordTypeId: '500123'
+                    recordTypeInfo:
+                      available: true
+                      defaultRecordTypeMapping: true
+                      master: true
+                      name: Example Title
+                      recordTypeId: '500123'
+                    systemModstamp: '2026-01-15T10:30:00Z'
+                    lastModifiedById: '500123'
+                    lastModifiedDate: '2026-01-15T10:30:00Z'
+                    createdById: '500123'
+                    createdDate: '2026-01-15T10:30:00Z'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -93,27 +119,38 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     patch:
       operationId: updateRecord
-      summary: Salesforce Update a record
+      summary: Salesforce Update a Record
       description: >-
         Updates fields on a Salesforce record. Only the fields included in the
         request body are updated. Returns the updated record representation.
       tags:
-        - Records
+      - Records
       parameters:
-        - $ref: '#/components/parameters/RecordId'
-        - name: If-Modified-Since
-          in: header
-          description: Conditional update based on record modification timestamp
-          schema:
-            type: string
+      - $ref: '#/components/parameters/RecordId'
+      - name: If-Modified-Since
+        in: header
+        description: Conditional update based on record modification timestamp
+        schema:
+          type: string
+        example: example_value
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/RecordInput'
+            examples:
+              UpdaterecordRequestExample:
+                summary: Default updateRecord request
+                x-microcks-default: true
+                value:
+                  apiName: example_value
+                  fields: example_value
       responses:
         '200':
           description: Record updated successfully
@@ -121,38 +158,73 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RecordRepresentation'
+              examples:
+                Updaterecord200Example:
+                  summary: Default updateRecord 200 response
+                  x-microcks-default: true
+                  value:
+                    id: abc123
+                    apiName: example_value
+                    childRelationships: example_value
+                    eTag: example_value
+                    fields: example_value
+                    recordTypeId: '500123'
+                    recordTypeInfo:
+                      available: true
+                      defaultRecordTypeMapping: true
+                      master: true
+                      name: Example Title
+                      recordTypeId: '500123'
+                    systemModstamp: '2026-01-15T10:30:00Z'
+                    lastModifiedById: '500123'
+                    lastModifiedDate: '2026-01-15T10:30:00Z'
+                    createdById: '500123'
+                    createdDate: '2026-01-15T10:30:00Z'
         '400':
           $ref: '#/components/responses/BadRequest'
         '404':
           $ref: '#/components/responses/NotFound'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     delete:
       operationId: deleteRecord
-      summary: Salesforce Delete a record
+      summary: Salesforce Delete a Record
       description: Deletes a Salesforce record by its ID.
       tags:
-        - Records
+      - Records
       parameters:
-        - $ref: '#/components/parameters/RecordId'
+      - $ref: '#/components/parameters/RecordId'
       responses:
         '204':
           description: Record deleted successfully
         '404':
           $ref: '#/components/responses/NotFound'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /records:
     post:
       operationId: createRecord
-      summary: Salesforce Create a record
+      summary: Salesforce Create a Record
       description: >-
         Creates a new Salesforce record of the specified object type. The
         apiName of the object is included in the request body.
       tags:
-        - Records
+      - Records
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/RecordInput'
+            examples:
+              CreaterecordRequestExample:
+                summary: Default createRecord request
+                x-microcks-default: true
+                value:
+                  apiName: example_value
+                  fields: example_value
       responses:
         '201':
           description: Record created successfully
@@ -160,21 +232,46 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RecordRepresentation'
+              examples:
+                Createrecord201Example:
+                  summary: Default createRecord 201 response
+                  x-microcks-default: true
+                  value:
+                    id: abc123
+                    apiName: example_value
+                    childRelationships: example_value
+                    eTag: example_value
+                    fields: example_value
+                    recordTypeId: '500123'
+                    recordTypeInfo:
+                      available: true
+                      defaultRecordTypeMapping: true
+                      master: true
+                      name: Example Title
+                      recordTypeId: '500123'
+                    systemModstamp: '2026-01-15T10:30:00Z'
+                    lastModifiedById: '500123'
+                    lastModifiedDate: '2026-01-15T10:30:00Z'
+                    createdById: '500123'
+                    createdDate: '2026-01-15T10:30:00Z'
         '400':
           $ref: '#/components/responses/BadRequest'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /object-info/{objectApiName}:
     get:
       operationId: getObjectInfo
-      summary: Salesforce Get object metadata
+      summary: Salesforce Get Object Metadata
       description: >-
         Returns metadata about a Salesforce object including its fields,
         their types, labels, whether they are required or read-only, their
         reference targets, and the object's CRUD permissions. Used by
         Lightning components to build dynamic forms.
       tags:
-        - Object Info
+      - Object Info
       parameters:
-        - $ref: '#/components/parameters/ObjectApiName'
+      - $ref: '#/components/parameters/ObjectApiName'
       responses:
         '200':
           description: Object metadata retrieved successfully
@@ -182,26 +279,48 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ObjectInfoRepresentation'
+              examples:
+                Getobjectinfo200Example:
+                  summary: Default getObjectInfo 200 response
+                  x-microcks-default: true
+                  value:
+                    apiName: example_value
+                    label: Example Title
+                    labelPlural: example_value
+                    keyPrefix: example_value
+                    createable: true
+                    updateable: true
+                    deleteable: true
+                    queryable: true
+                    fields: example_value
+                    recordTypeInfos: example_value
+                    themeInfo:
+                      color: example_value
+                      iconUrl: https://www.example.com
         '404':
           $ref: '#/components/responses/NotFound'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /object-info/{objectApiName}/picklist-values/{recordTypeId}:
     get:
       operationId: getPicklistValues
-      summary: Salesforce Get picklist values for a record type
+      summary: Salesforce Get Picklist Values for a Record Type
       description: >-
         Returns picklist values for all picklist fields on an object for a
         given record type. Values include labels, valid values, and
         dependencies between picklist fields.
       tags:
-        - Picklists
+      - Picklists
       parameters:
-        - $ref: '#/components/parameters/ObjectApiName'
-        - name: recordTypeId
-          in: path
-          required: true
-          description: The record type ID or the string '012000000000000AAA' for the master record type
-          schema:
-            type: string
+      - $ref: '#/components/parameters/ObjectApiName'
+      - name: recordTypeId
+        in: path
+        required: true
+        description: The record type ID or the string '012000000000000AAA' for the master record type
+        schema:
+          type: string
+        example: '500123'
       responses:
         '200':
           description: Picklist values retrieved successfully
@@ -209,21 +328,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PicklistValuesCollection'
+              examples:
+                Getpicklistvalues200Example:
+                  summary: Default getPicklistValues 200 response
+                  x-microcks-default: true
+                  value:
+                    picklistFieldValues: example_value
         '404':
           $ref: '#/components/responses/NotFound'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /list-ui/{objectApiName}:
     get:
       operationId: getListsByObjectName
-      summary: Salesforce Get list views for an object
+      summary: Salesforce Get List Views for an Object
       description: >-
         Returns metadata and data for all list views accessible to the current
         user for the specified object type.
       tags:
-        - List Views
+      - List Views
       parameters:
-        - $ref: '#/components/parameters/ObjectApiName'
-        - $ref: '#/components/parameters/PageSize'
-        - $ref: '#/components/parameters/PageToken'
+      - $ref: '#/components/parameters/ObjectApiName'
+      - $ref: '#/components/parameters/PageSize'
+      - $ref: '#/components/parameters/PageToken'
       responses:
         '200':
           description: List views retrieved successfully
@@ -231,25 +359,43 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ListViewCollection'
+              examples:
+                Getlistsbyobjectname200Example:
+                  summary: Default getListsByObjectName 200 response
+                  x-microcks-default: true
+                  value:
+                    count: 42
+                    currentPageToken: CAUQAA
+                    nextPageToken: CAUQAA
+                    previousPageToken: CAUQAA
+                    results:
+                    - id: abc123
+                      apiName: example_value
+                      label: Example Title
+                      url: https://www.example.com
         '404':
           $ref: '#/components/responses/NotFound'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /list-ui/{objectApiName}/{listViewApiName}:
     get:
       operationId: getListView
-      summary: Salesforce Get a specific list view
+      summary: Salesforce Get a Specific List View
       description: Returns the data and metadata for a specific list view.
       tags:
-        - List Views
+      - List Views
       parameters:
-        - $ref: '#/components/parameters/ObjectApiName'
-        - name: listViewApiName
-          in: path
-          required: true
-          description: The API name of the list view (e.g., AllAccounts, RecentlyViewed)
-          schema:
-            type: string
-        - $ref: '#/components/parameters/PageSize'
-        - $ref: '#/components/parameters/PageToken'
+      - $ref: '#/components/parameters/ObjectApiName'
+      - name: listViewApiName
+        in: path
+        required: true
+        description: The API name of the list view (e.g., AllAccounts, RecentlyViewed)
+        schema:
+          type: string
+        example: example_value
+      - $ref: '#/components/parameters/PageSize'
+      - $ref: '#/components/parameters/PageToken'
       responses:
         '200':
           description: List view data retrieved successfully
@@ -257,37 +403,53 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ListViewResult'
+              examples:
+                Getlistview200Example:
+                  summary: Default getListView 200 response
+                  x-microcks-default: true
+                  value:
+                    id: abc123
+                    label: Example Title
+                    records:
+                    - {}
+                    sortBy: example_value
         '404':
           $ref: '#/components/responses/NotFound'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /lookups/{objectApiName}/{fieldApiName}:
     get:
       operationId: getLookupRecords
-      summary: Salesforce Search lookup field records
+      summary: Salesforce Search Lookup Field Records
       description: >-
         Returns matching records for a lookup field search. Used to populate
         the typeahead list in Lightning lookup components.
       tags:
-        - Lookups
+      - Lookups
       parameters:
-        - $ref: '#/components/parameters/ObjectApiName'
-        - name: fieldApiName
-          in: path
-          required: true
-          description: The API name of the lookup field
-          schema:
-            type: string
-        - name: searchTerm
-          in: query
-          required: true
-          description: The search text to match against lookup records
-          schema:
-            type: string
-        - name: dependentFieldBindings
-          in: query
-          description: JSON-encoded field value pairs for dependent picklist filtering
-          schema:
-            type: string
-        - $ref: '#/components/parameters/PageSize'
+      - $ref: '#/components/parameters/ObjectApiName'
+      - name: fieldApiName
+        in: path
+        required: true
+        description: The API name of the lookup field
+        schema:
+          type: string
+        example: example_value
+      - name: searchTerm
+        in: query
+        required: true
+        description: The search text to match against lookup records
+        schema:
+          type: string
+        example: example_value
+      - name: dependentFieldBindings
+        in: query
+        description: JSON-encoded field value pairs for dependent picklist filtering
+        schema:
+          type: string
+        example: example_value
+      - $ref: '#/components/parameters/PageSize'
       responses:
         '200':
           description: Lookup results retrieved successfully
@@ -295,6 +457,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LookupRecordsCollection'
+              examples:
+                Getlookuprecords200Example:
+                  summary: Default getLookupRecords 200 response
+                  x-microcks-default: true
+                  value:
+                    count: 42
+                    lookupResults:
+                    - displayValue: example_value
+                      id: abc123
+                      name: Example Title
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
 components:
   securitySchemes:
     oauthBearerToken:
@@ -365,24 +540,30 @@ components:
         id:
           type: string
           description: The 18-character Salesforce record ID
+          example: abc123
         apiName:
           type: string
           description: The API name of the object type
+          example: example_value
         childRelationships:
           type: object
           description: Child relationship data indexed by relationship name
           additionalProperties: true
+          example: example_value
         eTag:
           type: string
           description: ETag for optimistic concurrency control
+          example: example_value
         fields:
           type: object
           description: Field values indexed by field API name
           additionalProperties:
             $ref: '#/components/schemas/FieldValueRepresentation'
+          example: example_value
         recordTypeId:
           type: string
           description: The record type ID
+          example: '500123'
         recordTypeInfo:
           type: object
           description: Record type metadata
@@ -397,19 +578,25 @@ components:
               type: string
             recordTypeId:
               type: string
+          example: example_value
         systemModstamp:
           type: string
           format: date-time
+          example: '2026-01-15T10:30:00Z'
         lastModifiedById:
           type: string
+          example: '500123'
         lastModifiedDate:
           type: string
           format: date-time
+          example: '2026-01-15T10:30:00Z'
         createdById:
           type: string
+          example: '500123'
         createdDate:
           type: string
           format: date-time
+          example: '2026-01-15T10:30:00Z'
     FieldValueRepresentation:
       type: object
       description: A field value with display metadata
@@ -418,54 +605,68 @@ components:
           description: Human-readable formatted display value (for dates, picklists, lookups)
           nullable: true
           oneOf:
-            - type: string
-            - type: 'null'
+          - type: string
+          - type: 'null'
+          example: example_value
         value:
           description: Raw field value
           nullable: true
+          example: example_value
     RecordInput:
       type: object
       description: Input for creating or updating a record
       required:
-        - apiName
-        - fields
+      - apiName
+      - fields
       properties:
         apiName:
           type: string
           description: The API name of the object type
+          example: example_value
         fields:
           type: object
           description: Field values to set, indexed by field API name
           additionalProperties:
             description: Field value (string, number, boolean, or null to clear)
+          example: example_value
     ObjectInfoRepresentation:
       type: object
       description: Metadata about a Salesforce object
       properties:
         apiName:
           type: string
+          example: example_value
         label:
           type: string
+          example: Example Title
         labelPlural:
           type: string
+          example: example_value
         keyPrefix:
           type: string
+          example: example_value
         createable:
           type: boolean
+          example: true
         updateable:
           type: boolean
+          example: true
         deleteable:
           type: boolean
+          example: true
         queryable:
           type: boolean
+          example: true
         fields:
           type: object
           description: Field metadata indexed by field API name
           additionalProperties:
             $ref: '#/components/schemas/FieldRepresentation'
+          example: example_value
         recordTypeInfos:
           type: object
           additionalProperties: true
+          example: example_value
         themeInfo:
           type: object
           properties:
@@ -473,44 +674,52 @@ components:
               type: string
             iconUrl:
               type: string
+          example: example_value
     FieldRepresentation:
       type: object
       description: Metadata for a single field
       properties:
         apiName:
           type: string
+          example: example_value
         label:
           type: string
+          example: Example Title
         dataType:
           type: string
           enum:
-            - Address
-            - Boolean
-            - Currency
-            - Date
-            - DateTime
-            - Double
-            - Email
-            - Id
-            - Integer
-            - Long
-            - MultiPicklist
-            - Percent
-            - Phone
-            - Picklist
-            - Reference
-            - String
-            - TextArea
-            - Time
-            - Url
+          - Address
+          - Boolean
+          - Currency
+          - Date
+          - DateTime
+          - Double
+          - Email
+          - Id
+          - Integer
+          - Long
+          - MultiPicklist
+          - Percent
+          - Phone
+          - Picklist
+          - Reference
+          - String
+          - TextArea
+          - Time
+          - Url
+          example: Address
         required:
           type: boolean
+          example: true
         updateable:
           type: boolean
+          example: true
         createable:
           type: boolean
+          example: true
         nillable:
           type: boolean
+          example: true
         referenceToInfos:
           type: array
           items:
@@ -522,6 +731,7 @@ components:
                 type: array
                 items:
                   type: string
+          example: []
     PicklistValuesCollection:
       type: object
       description: Collection of picklist values for all picklist fields on an object
@@ -543,70 +753,89 @@ components:
                 type: array
                 items:
                   $ref: '#/components/schemas/PicklistValue'
+          example: example_value
     PicklistValue:
       type: object
       description: A single picklist option
       properties:
         attributes:
           nullable: true
+          example: example_value
         label:
           type: string
+          example: Example Title
         validFor:
           type: array
           items:
             type: integer
+          example: []
         value:
           type: string
+          example: example_value
     ListViewCollection:
       type: object
       description: Collection of list views for an object
       properties:
         count:
           type: integer
+          example: 42
         currentPageToken:
           type: string
+          example: CAUQAA
         nextPageToken:
           type: string
           nullable: true
+          example: CAUQAA
         previousPageToken:
           type: string
           nullable: true
+          example: CAUQAA
         results:
           type: array
           items:
             $ref: '#/components/schemas/ListViewSummary'
+          example: []
     ListViewSummary:
       type: object
       description: Summary information about a list view
       properties:
         id:
           type: string
+          example: abc123
         apiName:
           type: string
+          example: example_value
         label:
           type: string
+          example: Example Title
         url:
           type: string
+          example: https://www.example.com
     ListViewResult:
       type: object
       description: Data and metadata for a list view
       properties:
         id:
           type: string
+          example: abc123
         label:
           type: string
+          example: Example Title
         records:
           type: array
           items:
             type: object
+          example: []
         sortBy:
           type: string
+          example: example_value
     LookupRecordsCollection:
       type: object
       description: Collection of records matching a lookup search
       properties:
         count:
           type: integer
+          example: 42
         lookupResults:
           type: array
           items:
@@ -618,6 +847,7 @@ components:
                 type: string
               name:
                 type: string
+          example: []
     ErrorResponse:
       type: object
       description: API error response
@@ -625,6 +855,8 @@ components:
         errorCode:
           type: string
           description: Machine-readable error code
+          example: example_value
         message:
           type: string
           description: Human-readable error message
+          example: example_value

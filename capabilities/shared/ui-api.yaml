@@ -1,0 +1,256 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Salesforce UI API"
+  description: "The Salesforce UI API provides a comprehensive REST interface for building user interfaces that work with Salesforce metadata and data. It returns layout information, picklist values, list views, record data, and object metadata that Lightning components rely on."
+  tags:
+    - Salesforce
+    - UI API
+    - Lightning
+    - Metadata
+    - List Views
+  created: "2026-04-18"
+  modified: "2026-04-18"
+
+binds:
+  - namespace: env
+    keys:
+      SALESFORCE_ACCESS_TOKEN: SALESFORCE_ACCESS_TOKEN
+
+capability:
+  consumes:
+    - type: http
+      namespace: salesforce-ui
+      baseUri: https://{instanceName}.salesforce.com/services/data/v59.0/ui-api
+      description: "Salesforce UI API for records, object metadata, picklist values, list views, and lookups."
+      authentication:
+        type: bearer
+        token: "{{SALESFORCE_ACCESS_TOKEN}}"
+      resources:
+        - name: records
+          path: /records
+          description: "Record CRUD operations with UI metadata."
+          operations:
+            - name: get-record
+              method: GET
+              path: /{recordId}
+              description: "Get a record with field values formatted for UI display."
+              inputParameters:
+                - name: recordId
+                  in: path
+                  type: string
+                  required: true
+                  description: "The 18-character Salesforce record ID."
+                - name: fields
+                  in: query
+                  type: string
+                  required: false
+                  description: "Comma-separated list of field API names."
+                - name: layoutTypes
+                  in: query
+                  type: string
+                  required: false
+                  description: "Layout types (Full, Compact)."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: create-record
+              method: POST
+              path: /
+              description: "Create a new Salesforce record."
+              inputParameters: []
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  apiName: "{{tools.api_name}}"
+                  fields: "{{tools.fields}}"
+            - name: update-record
+              method: PATCH
+              path: /{recordId}
+              description: "Update fields on a Salesforce record."
+              inputParameters:
+                - name: recordId
+                  in: path
+                  type: string
+                  required: true
+                  description: "The 18-character Salesforce record ID."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  fields: "{{tools.fields}}"
+            - name: delete-record
+              method: DELETE
+              path: /{recordId}
+              description: "Delete a Salesforce record."
+              inputParameters:
+                - name: recordId
+                  in: path
+                  type: string
+                  required: true
+                  description: "The 18-character Salesforce record ID."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: object-info
+          path: /object-info
+          description: "Object metadata operations."
+          operations:
+            - name: get-object-info
+              method: GET
+              path: /{objectApiName}
+              description: "Get metadata about a Salesforce object including fields, types, and permissions."
+              inputParameters:
+                - name: objectApiName
+                  in: path
+                  type: string
+                  required: true
+                  description: "The object API name."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: get-picklist-values
+              method: GET
+              path: /{objectApiName}/picklist-values/{recordTypeId}
+              description: "Get picklist values for all picklist fields on an object."
+              inputParameters:
+                - name: objectApiName
+                  in: path
+                  type: string
+                  required: true
+                  description: "The object API name."
+                - name: recordTypeId
+                  in: path
+                  type: string
+                  required: true
+                  description: "The record type ID."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: list-views
+          path: /list-ui
+          description: "List view operations."
+          operations:
+            - name: get-lists-by-object
+              method: GET
+              path: /{objectApiName}
+              description: "Get list views for an object."
+              inputParameters:
+                - name: objectApiName
+                  in: path
+                  type: string
+                  required: true
+                  description: "The object API name."
+                - name: pageSize
+                  in: query
+                  type: integer
+                  required: false
+                  description: "Number of records per page."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: get-list-view
+              method: GET
+              path: /{objectApiName}/{listViewApiName}
+              description: "Get a specific list view."
+              inputParameters:
+                - name: objectApiName
+                  in: path
+                  type: string
+                  required: true
+                  description: "The object API name."
+                - name: listViewApiName
+                  in: path
+                  type: string
+                  required: true
+                  description: "The list view API name."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: lookups
+          path: /lookups
+          description: "Lookup field search operations."
+          operations:
+            - name: get-lookup-records
+              method: GET
+              path: /{objectApiName}/{fieldApiName}
+              description: "Search lookup field records for typeahead."
+              inputParameters:
+                - name: objectApiName
+                  in: path
+                  type: string
+                  required: true
+                  description: "The object API name."
+                - name: fieldApiName
+                  in: path
+                  type: string
+                  required: true
+                  description: "The lookup field API name."
+                - name: searchTerm
+                  in: query
+                  type: string
+                  required: true
+                  description: "The search text."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+  exposes:
+    - type: rest
+      port: 8104
+      namespace: salesforce-ui-standalone-api
+      resources:
+        - path: /v1/object-info/{objectApiName}
+          name: object-info
+          description: "Object metadata."
+          operations:
+            - method: GET
+              name: get-object-info
+              description: "Get object metadata."
+              call: "salesforce-ui.get-object-info"
+              with:
+                objectApiName: "rest.objectApiName"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9104
+      namespace: salesforce-ui-standalone-mcp
+      transport: http
+      tools:
+        - name: get-object-info
+          description: "Get metadata about a Salesforce object."
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "salesforce-ui.get-object-info"
+          outputParameters:
+            - type: object
+              mapping: "$."

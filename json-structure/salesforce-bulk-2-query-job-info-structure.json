@@ -1,0 +1,95 @@
+{
+  "type": "object",
+  "description": "Detailed information about a Bulk API 2.0 query job, including its current state and processing statistics.\n",
+  "name": "QueryJobInfo",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The unique identifier of the query job."
+    },
+    "operation": {
+      "type": "string",
+      "description": "The query operation being performed.",
+      "enum": [
+        "query",
+        "queryAll"
+      ]
+    },
+    "object": {
+      "type": "string",
+      "description": "The primary SObject type in the SOQL query. Derived automatically from the query.\n"
+    },
+    "state": {
+      "type": "string",
+      "description": "The current state of a Bulk API 2.0 job, indicating where it is in its lifecycle.\n",
+      "enum": [
+        "Open",
+        "UploadComplete",
+        "InProgress",
+        "JobComplete",
+        "Failed",
+        "Aborted"
+      ]
+    },
+    "createdDate": {
+      "type": "datetime",
+      "description": "The date and time the job was created, in ISO 8601 format."
+    },
+    "systemModstamp": {
+      "type": "datetime",
+      "description": "The date and time the job was last modified, in ISO 8601 format."
+    },
+    "numberRecordsProcessed": {
+      "type": "integer",
+      "description": "The number of records returned by the query."
+    },
+    "totalProcessingTime": {
+      "type": "integer",
+      "description": "Total processing time in milliseconds."
+    },
+    "errorMessage": {
+      "type": "string",
+      "description": "Error message if the job reached the Failed state. Describes the reason for failure.\n"
+    },
+    "contentType": {
+      "type": "string",
+      "description": "The content type of the query results.",
+      "enum": [
+        "CSV"
+      ]
+    },
+    "columnDelimiter": {
+      "type": "string",
+      "description": "The column delimiter used in the results CSV.",
+      "enum": [
+        "COMMA",
+        "TAB",
+        "PIPE",
+        "SEMICOLON",
+        "CARET",
+        "BACKQUOTE"
+      ]
+    },
+    "lineEnding": {
+      "type": "string",
+      "description": "The line ending used in the results CSV.",
+      "enum": [
+        "LF",
+        "CRLF"
+      ]
+    },
+    "jobType": {
+      "type": "string",
+      "description": "The job type (V2Query for Bulk API 2.0 query jobs)."
+    },
+    "createdById": {
+      "type": "string",
+      "description": "The Salesforce user ID of the user who created the job."
+    },
+    "apiVersion": {
+      "type": "number",
+      "description": "The API version used to create the job."
+    }
+  },
+  "$schema": "https://json-structure.org/draft/2020-12/schema"
+}

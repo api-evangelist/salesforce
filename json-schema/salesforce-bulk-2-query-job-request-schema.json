@@ -1,0 +1,56 @@
+{
+  "type": "object",
+  "description": "Configuration parameters for creating a new Bulk API 2.0 query job.",
+  "properties": {
+    "operation": {
+      "type": "string",
+      "description": "The query operation to perform. Use query to retrieve active records only, or queryAll to include soft-deleted and archived records.\n",
+      "example": "query",
+      "enum": [
+        "query",
+        "queryAll"
+      ]
+    },
+    "query": {
+      "type": "string",
+      "description": "The SOQL query to execute. The query result will be available as CSV data after the job completes.\n",
+      "example": "SELECT Id, Name, Email, Phone FROM Contact WHERE CreatedDate = LAST_YEAR"
+    },
+    "contentType": {
+      "type": "string",
+      "description": "The format of the results. Currently only CSV is supported.",
+      "example": "CSV",
+      "enum": [
+        "CSV"
+      ]
+    },
+    "columnDelimiter": {
+      "type": "string",
+      "description": "The delimiter character used between fields in the CSV output.",
+      "example": "COMMA",
+      "enum": [
+        "COMMA",
+        "TAB",
+        "PIPE",
+        "SEMICOLON",
+        "CARET",
+        "BACKQUOTE"
+      ]
+    },
+    "lineEnding": {
+      "type": "string",
+      "description": "The line ending character used in the CSV output.",
+      "example": "LF",
+      "enum": [
+        "LF",
+        "CRLF"
+      ]
+    }
+  },
+  "required": [
+    "operation",
+    "query"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QueryJobRequest"
+}

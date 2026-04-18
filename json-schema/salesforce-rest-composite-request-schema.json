@@ -1,0 +1,58 @@
+{
+  "type": "object",
+  "description": "A composite request containing an ordered series of subrequests where later requests can reference the results of earlier ones using reference IDs.\n",
+  "properties": {
+    "allOrNone": {
+      "type": "boolean",
+      "description": "If true, all subrequests must succeed or all changes are rolled back. If false, subrequests are processed independently.\n",
+      "example": true
+    },
+    "collateSubrequests": {
+      "type": "boolean",
+      "description": "If true, similar subrequests are grouped for more efficient processing.\n",
+      "example": true
+    },
+    "compositeRequest": {
+      "type": "array",
+      "description": "Ordered array of subrequests. Later subrequests can reference results from earlier ones using @{referenceId.field} syntax.\n",
+      "example": [],
+      "items": {
+        "type": "object",
+        "properties": {
+          "method": {
+            "type": "string",
+            "description": "HTTP method for this subrequest.",
+            "enum": [
+              "GET",
+              "POST",
+              "PATCH",
+              "DELETE"
+            ]
+          },
+          "url": {
+            "type": "string",
+            "description": "Relative URL for this subrequest."
+          },
+          "referenceId": {
+            "type": "string",
+            "description": "Unique identifier for this subrequest. Used to reference this subrequest's results in subsequent subrequests.\n"
+          },
+          "body": {
+            "type": "object",
+            "description": "Request body for POST and PATCH subrequests."
+          }
+        },
+        "required": [
+          "method",
+          "url",
+          "referenceId"
+        ]
+      }
+    }
+  },
+  "required": [
+    "compositeRequest"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CompositeRequest"
+}

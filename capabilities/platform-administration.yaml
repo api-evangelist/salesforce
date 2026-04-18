@@ -1,0 +1,228 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Salesforce Platform Administration"
+  description: "Unified capability for Salesforce platform administration workflows combining the platform API and UI API for identity management, OAuth administration, metadata exploration, and application configuration. Used by Salesforce admins and platform engineers."
+  tags:
+    - Salesforce
+    - Platform Administration
+    - Identity
+    - OAuth
+    - Metadata
+  created: "2026-04-18"
+  modified: "2026-04-18"
+
+binds:
+  - namespace: env
+    keys:
+      SALESFORCE_ACCESS_TOKEN: SALESFORCE_ACCESS_TOKEN
+      SALESFORCE_CLIENT_ID: SALESFORCE_CLIENT_ID
+      SALESFORCE_CLIENT_SECRET: SALESFORCE_CLIENT_SECRET
+
+capability:
+  consumes:
+    - import: salesforce-platform
+      location: ./shared/salesforce.yaml
+    - import: salesforce-rest
+      location: ./shared/rest-api.yaml
+    - import: salesforce-ui
+      location: ./shared/ui-api.yaml
+
+  exposes:
+    - type: rest
+      port: 8082
+      namespace: platform-administration-api
+      description: "Unified REST API for Salesforce platform administration."
+      resources:
+        - path: /v1/user-info
+          name: user-info
+          description: "Authenticated user information."
+          operations:
+            - method: GET
+              name: get-user-info
+              description: "Get the authenticated user's profile information."
+              call: "salesforce-platform.get-user-info"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/api-versions
+          name: api-versions
+          description: "Salesforce API version information."
+          operations:
+            - method: GET
+              name: list-api-versions
+              description: "List available Salesforce REST API versions."
+              call: "salesforce-rest.list-api-versions"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/limits
+          name: limits
+          description: "Org API limits."
+          operations:
+            - method: GET
+              name: get-org-limits
+              description: "Get current API limit usage and quotas."
+              call: "salesforce-rest.get-org-limits"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/app-menu
+          name: app-menu
+          description: "App switcher menu items."
+          operations:
+            - method: GET
+              name: get-app-switcher-menu
+              description: "Get the app switcher menu items."
+              call: "salesforce-rest.get-app-switcher-menu"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/sobjects
+          name: sobjects
+          description: "SObject type listing."
+          operations:
+            - method: GET
+              name: list-sobjects
+              description: "List all SObject types in the org."
+              call: "salesforce-rest.list-sobjects"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/sobjects/{sobjectType}/describe
+          name: sobject-describe
+          description: "Full SObject metadata."
+          operations:
+            - method: GET
+              name: full-describe-sobject
+              description: "Get full metadata for an SObject type."
+              call: "salesforce-rest.full-describe-sobject"
+              with:
+                sobjectType: "rest.sobjectType"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/object-info/{objectApiName}
+          name: object-info
+          description: "UI-ready object metadata."
+          operations:
+            - method: GET
+              name: get-object-info
+              description: "Get UI-ready metadata for an object."
+              call: "salesforce-ui.get-object-info"
+              with:
+                objectApiName: "rest.objectApiName"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/picklist-values/{objectApiName}/{recordTypeId}
+          name: picklist-values
+          description: "Picklist value retrieval."
+          operations:
+            - method: GET
+              name: get-picklist-values
+              description: "Get picklist values for all picklist fields on an object."
+              call: "salesforce-ui.get-picklist-values"
+              with:
+                objectApiName: "rest.objectApiName"
+                recordTypeId: "rest.recordTypeId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9092
+      namespace: platform-administration-mcp
+      transport: http
+      description: "MCP server for AI-assisted Salesforce platform administration."
+      tools:
+        - name: get-user-info
+          description: "Get the authenticated user's profile information."
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "salesforce-platform.get-user-info"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-api-versions
+          description: "List available Salesforce REST API versions."
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "salesforce-rest.list-api-versions"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-org-limits
+          description: "Get current API limit usage and remaining quotas for the org."
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "salesforce-rest.get-org-limits"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-app-switcher-menu
+          description: "Get the app switcher menu items available to the current user."
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "salesforce-rest.get-app-switcher-menu"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-sobjects
+          description: "List all SObject types available in the Salesforce org."
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "salesforce-rest.list-sobjects"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: full-describe-sobject
+          description: "Get full metadata for a Salesforce SObject type including all fields."
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "salesforce-rest.full-describe-sobject"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-object-info
+          description: "Get UI-ready metadata about a Salesforce object."
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "salesforce-ui.get-object-info"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-picklist-values
+          description: "Get picklist values for all picklist fields on an object for a given record type."
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "salesforce-ui.get-picklist-values"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-list-views
+          description: "Get list views for a Salesforce object."
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "salesforce-ui.get-lists-by-object"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-lookup-records
+          description: "Search lookup field records for typeahead."
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "salesforce-ui.get-lookup-records"
+          outputParameters:
+            - type: object
+              mapping: "$."
