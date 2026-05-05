@@ -1,0 +1,56 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Salesforce
+providerId: salesforce
+created: '2026-05-04'
+modified: '2026-05-04'
+reconciled: true
+tags:
+  - Rate Limiting
+  - CRM
+description: Salesforce REST/SOAP/Bulk API limits scale with edition.
+sources:
+  - https://www.salesforce.com/sales/pricing/
+  - https://www.salesforce.com/pricing/
+  - https://developer.salesforce.com/docs/atlas.en-us.salesforce_app_limits_cheatsheet.meta/salesforce_app_limits_cheatsheet/salesforce_app_limits_platform_api.htm
+headers:
+  limit: Sforce-Limit-Info
+responseCodes:
+  throttled: 503
+  apiLimitExceeded: 403
+limits:
+  - name: Daily API requests (Pro)
+    scope: org
+    metric: requests_per_day
+    limit: 100000
+    timeFrame: day
+  - name: Daily API requests (Enterprise)
+    scope: org
+    metric: requests_per_day
+    limit: 1000000
+    timeFrame: day
+  - name: Daily API requests (Unlimited)
+    scope: org
+    metric: requests_per_day
+    limit: 5000000
+    timeFrame: day
+  - name: Concurrent long-running calls
+    scope: org
+    metric: concurrent
+    limit: 25
+  - name: Bulk API v1 batches per day
+    scope: org
+    metric: batches_per_day
+    limit: 15000
+    timeFrame: day
+  - name: Streaming events/day
+    scope: org
+    metric: events_per_day
+    limit: 250000
+    timeFrame: day
+policies:
+  - name: Per-user adder
+    description: Org daily limit increases by ~1,000 calls per licensed user.
+  - name: Bulk over Composite
+    description: Use Bulk API for >2,000 records to preserve REST quota.

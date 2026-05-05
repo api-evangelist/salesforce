@@ -1,0 +1,71 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Salesforce
+providerId: salesforce
+created: '2026-05-04'
+modified: '2026-05-04'
+reconciled: true
+tags:
+  - FinOps
+  - FOCUS
+  - CRM
+description: FOCUS-aligned FinOps for Salesforce.
+sources:
+  - https://www.salesforce.com/sales/pricing/
+  - https://www.salesforce.com/pricing/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Salesforce, Inc.
+serviceCategory: CRM
+billingModel:
+  pricingCategory: Per-Seat Subscription
+  billingFrequency: Annual
+  billingCurrency: USD
+focusColumns:
+  ServiceName: Salesforce
+  ServiceCategory: CRM
+  ProviderName: Salesforce
+  PublisherName: Salesforce, Inc.
+  BillingCurrency: USD
+meters:
+  - name: user_licenses
+    unit: license-month
+    aggregation: max
+    dimensions:
+      - edition
+      - user_type
+  - name: data_storage
+    unit: MB
+    aggregation: max
+  - name: file_storage
+    unit: MB
+    aggregation: max
+  - name: api_calls
+    unit: call
+    aggregation: sum
+    dimensions:
+      - api_type
+      - user
+  - name: platform_events
+    unit: event
+    aggregation: sum
+  - name: data_cloud_credits
+    unit: credit
+    aggregation: sum
+  - name: einstein_predictions
+    unit: prediction
+    aggregation: sum
+principles:
+  - name: Visibility
+    description: Setup > Company Information for license usage; Event Monitoring for API attribution.
+  - name: Allocation
+    description: Use Profile/Permission Set assignment to track license type by team.
+  - name: Optimization
+    description: Convert unused full users to Platform/Identity licenses; consolidate sandboxes.
+  - name: Accountability
+    description: Quarterly license audit; renegotiate at renewal based on observed active-user count.
