@@ -1,361 +1,686 @@
-naftiko: "1.0.0-alpha1"
-
+naftiko: 1.0.0-alpha2
 info:
-  label: "Salesforce Marketing Automation"
-  description: "Unified capability for marketing automation workflows combining the Marketing Cloud REST API for contact management, journey orchestration, email and SMS messaging, data extensions, and content asset management. Used by marketing teams and marketing ops to manage campaigns and subscriber engagement."
+  label: Salesforce Marketing Automation
+  description: Unified capability for marketing automation workflows combining the Marketing Cloud REST API for contact management,
+    journey orchestration, email and SMS messaging, data extensions, and content asset management. Used by marketing teams
+    and marketing ops to manage campaigns and subscriber engagement.
   tags:
-    - Salesforce
-    - Marketing Cloud
-    - Marketing Automation
-    - Email Marketing
-    - Journeys
-  created: "2026-04-18"
-  modified: "2026-04-18"
-
+  - Salesforce
+  - Marketing Cloud
+  - Marketing Automation
+  - Email Marketing
+  - Journeys
+  created: '2026-04-18'
+  modified: '2026-05-06'
 binds:
-  - namespace: env
-    keys:
-      SALESFORCE_MC_CLIENT_ID: SALESFORCE_MC_CLIENT_ID
-      SALESFORCE_MC_CLIENT_SECRET: SALESFORCE_MC_CLIENT_SECRET
-      SALESFORCE_MC_ACCESS_TOKEN: SALESFORCE_MC_ACCESS_TOKEN
-
+- namespace: env
+  keys:
+    SALESFORCE_MC_CLIENT_ID: SALESFORCE_MC_CLIENT_ID
+    SALESFORCE_MC_CLIENT_SECRET: SALESFORCE_MC_CLIENT_SECRET
+    SALESFORCE_MC_ACCESS_TOKEN: SALESFORCE_MC_ACCESS_TOKEN
 capability:
   consumes:
-    - import: salesforce-mc
-      location: ./shared/marketing-cloud.yaml
-
+  - type: http
+    namespace: salesforce-mc
+    baseUri: https://{subdomain}.rest.marketingcloudapis.com
+    description: Salesforce Marketing Cloud REST API for contacts, journeys, data extensions, messaging, and content assets.
+    authentication:
+      type: bearer
+      token: '{{SALESFORCE_MC_ACCESS_TOKEN}}'
+    resources:
+    - name: authentication
+      path: /v2
+      description: OAuth 2.0 token operations.
+      operations:
+      - name: get-access-token
+        method: POST
+        path: /token
+        description: Obtain an OAuth 2.0 access token.
+        inputParameters: []
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        body:
+          type: json
+          data:
+            grant_type: '{{tools.grant_type}}'
+            client_id: '{{tools.client_id}}'
+            client_secret: '{{tools.client_secret}}'
+    - name: contacts
+      path: /contacts/v1/contacts
+      description: Contact management operations.
+      operations:
+      - name: list-contacts
+        method: GET
+        path: /
+        description: List contacts in the Marketing Cloud account.
+        inputParameters:
+        - name: page
+          in: query
+          type: integer
+          required: false
+          description: Page number to retrieve.
+        - name: pageSize
+          in: query
+          type: integer
+          required: false
+          description: Number of contacts per page.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: get-contact
+        method: GET
+        path: /{contactKey}
+        description: Get a contact by contact key.
+        inputParameters:
+        - name: contactKey
+          in: path
+          type: string
+          required: true
+          description: The unique contact key.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: delete-contacts
+        method: DELETE
+        path: /
+        description: Delete one or more contacts.
+        inputParameters: []
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        body:
+          type: json
+          data:
+            contactKeys: '{{tools.contact_keys}}'
+    - name: data-extensions
+      path: /data/v1/async/dataextensions
+      description: Data Extension row operations.
+      operations:
+      - name: get-data-extension-rows
+        method: GET
+        path: /key:{key}/rows
+        description: Get rows from a Data Extension.
+        inputParameters:
+        - name: key
+          in: path
+          type: string
+          required: true
+          description: The Data Extension external key.
+        - name: $pageSize
+          in: query
+          type: integer
+          required: false
+          description: Number of rows per page.
+        - name: $page
+          in: query
+          type: integer
+          required: false
+          description: Page number to retrieve.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: insert-data-extension-rows
+        method: POST
+        path: /key:{key}/rows
+        description: Insert rows into a Data Extension.
+        inputParameters:
+        - name: key
+          in: path
+          type: string
+          required: true
+          description: The Data Extension external key.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        body:
+          type: json
+          data:
+            items: '{{tools.items}}'
+    - name: messaging
+      path: /messaging/v1
+      description: Email and SMS messaging operations.
+      operations:
+      - name: create-email-send
+        method: POST
+        path: /email/messages
+        description: Create and initiate a triggered email send.
+        inputParameters: []
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        body:
+          type: json
+          data:
+            definitionKey: '{{tools.definition_key}}'
+            recipients: '{{tools.recipients}}'
+      - name: create-sms-send
+        method: POST
+        path: /sms/messages
+        description: Create and initiate an SMS send.
+        inputParameters: []
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        body:
+          type: json
+          data:
+            definitionKey: '{{tools.definition_key}}'
+            recipients: '{{tools.recipients}}'
+      - name: get-message-status
+        method: GET
+        path: /email/messages/{messageKey}
+        description: Get the status of an email message send.
+        inputParameters:
+        - name: messageKey
+          in: path
+          type: string
+          required: true
+          description: The unique message key.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: journeys
+      path: /interaction/v1
+      description: Journey Builder operations.
+      operations:
+      - name: list-journeys
+        method: GET
+        path: /interactions
+        description: List Marketing Cloud journeys.
+        inputParameters:
+        - name: page
+          in: query
+          type: integer
+          required: false
+          description: Page number to retrieve.
+        - name: pageSize
+          in: query
+          type: integer
+          required: false
+          description: Number of journeys per page.
+        - name: status
+          in: query
+          type: string
+          required: false
+          description: Filter by status.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: get-journey
+        method: GET
+        path: /interactions/{interactionId}
+        description: Get a journey by ID.
+        inputParameters:
+        - name: interactionId
+          in: path
+          type: string
+          required: true
+          description: The journey interaction ID.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: fire-journey-event
+        method: POST
+        path: /events
+        description: Fire a journey entry event to enroll a contact.
+        inputParameters: []
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        body:
+          type: json
+          data:
+            ContactKey: '{{tools.contact_key}}'
+            EventDefinitionKey: '{{tools.event_definition_key}}'
+    - name: assets
+      path: /asset/v1/content/assets
+      description: Content Builder asset operations.
+      operations:
+      - name: list-assets
+        method: GET
+        path: /
+        description: List content assets.
+        inputParameters:
+        - name: page
+          in: query
+          type: integer
+          required: false
+          description: Page number.
+        - name: pageSize
+          in: query
+          type: integer
+          required: false
+          description: Assets per page.
+        - name: assetType
+          in: query
+          type: string
+          required: false
+          description: Filter by asset type.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: create-asset
+        method: POST
+        path: /
+        description: Create a content asset.
+        inputParameters: []
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        body:
+          type: json
+          data:
+            name: '{{tools.name}}'
+            assetType: '{{tools.asset_type}}'
+      - name: get-asset
+        method: GET
+        path: /{id}
+        description: Get a content asset by ID.
+        inputParameters:
+        - name: id
+          in: path
+          type: integer
+          required: true
+          description: The asset numeric ID.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: update-asset
+        method: PUT
+        path: /{id}
+        description: Update a content asset.
+        inputParameters:
+        - name: id
+          in: path
+          type: integer
+          required: true
+          description: The asset numeric ID.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        body:
+          type: json
+          data:
+            name: '{{tools.name}}'
+      - name: delete-asset
+        method: DELETE
+        path: /{id}
+        description: Delete a content asset.
+        inputParameters:
+        - name: id
+          in: path
+          type: integer
+          required: true
+          description: The asset numeric ID.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
   exposes:
-    - type: rest
-      port: 8081
-      namespace: marketing-automation-api
-      description: "Unified REST API for Salesforce marketing automation workflows."
-      resources:
-        - path: /v1/contacts
-          name: contacts
-          description: "Marketing Cloud contact management."
-          operations:
-            - method: GET
-              name: list-contacts
-              description: "List contacts in the Marketing Cloud account."
-              call: "salesforce-mc.list-contacts"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/contacts/{contactKey}
-          name: contact
-          description: "Individual contact operations."
-          operations:
-            - method: GET
-              name: get-contact
-              description: "Get a contact by contact key."
-              call: "salesforce-mc.get-contact"
-              with:
-                contactKey: "rest.contactKey"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/contacts/delete
-          name: contact-deletion
-          description: "Contact deletion operations."
-          operations:
-            - method: POST
-              name: delete-contacts
-              description: "Delete one or more contacts."
-              call: "salesforce-mc.delete-contacts"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/data-extensions/{key}/rows
-          name: data-extension-rows
-          description: "Data Extension row operations."
-          operations:
-            - method: GET
-              name: get-data-extension-rows
-              description: "Get rows from a Data Extension."
-              call: "salesforce-mc.get-data-extension-rows"
-              with:
-                key: "rest.key"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-            - method: POST
-              name: insert-data-extension-rows
-              description: "Insert or upsert rows into a Data Extension."
-              call: "salesforce-mc.insert-data-extension-rows"
-              with:
-                key: "rest.key"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/emails
-          name: email-sends
-          description: "Triggered email send operations."
-          operations:
-            - method: POST
-              name: create-email-send
-              description: "Create and initiate a triggered email send."
-              call: "salesforce-mc.create-email-send"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/sms
-          name: sms-sends
-          description: "SMS send operations."
-          operations:
-            - method: POST
-              name: create-sms-send
-              description: "Create and initiate an SMS send."
-              call: "salesforce-mc.create-sms-send"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/messages/{messageKey}/status
-          name: message-status
-          description: "Message delivery status."
-          operations:
-            - method: GET
-              name: get-message-status
-              description: "Get the delivery status of an email message."
-              call: "salesforce-mc.get-message-status"
-              with:
-                messageKey: "rest.messageKey"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/journeys
-          name: journeys
-          description: "Journey Builder journey management."
-          operations:
-            - method: GET
-              name: list-journeys
-              description: "List Marketing Cloud journeys."
-              call: "salesforce-mc.list-journeys"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/journeys/{interactionId}
-          name: journey
-          description: "Individual journey operations."
-          operations:
-            - method: GET
-              name: get-journey
-              description: "Get a journey by ID."
-              call: "salesforce-mc.get-journey"
-              with:
-                interactionId: "rest.interactionId"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/journey-events
-          name: journey-events
-          description: "Journey entry event operations."
-          operations:
-            - method: POST
-              name: fire-journey-event
-              description: "Fire a journey entry event to enroll a contact."
-              call: "salesforce-mc.fire-journey-event"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/assets
-          name: assets
-          description: "Content Builder asset management."
-          operations:
-            - method: GET
-              name: list-assets
-              description: "List content assets."
-              call: "salesforce-mc.list-assets"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-            - method: POST
-              name: create-asset
-              description: "Create a content asset."
-              call: "salesforce-mc.create-asset"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/assets/{id}
-          name: asset
-          description: "Individual asset operations."
-          operations:
-            - method: GET
-              name: get-asset
-              description: "Get a content asset by ID."
-              call: "salesforce-mc.get-asset"
-              with:
-                id: "rest.id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-            - method: PUT
-              name: update-asset
-              description: "Update a content asset."
-              call: "salesforce-mc.update-asset"
-              with:
-                id: "rest.id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-            - method: DELETE
-              name: delete-asset
-              description: "Delete a content asset."
-              call: "salesforce-mc.delete-asset"
-              with:
-                id: "rest.id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-    - type: mcp
-      port: 9091
-      namespace: marketing-automation-mcp
-      transport: http
-      description: "MCP server for AI-assisted Salesforce marketing automation."
-      tools:
-        - name: list-contacts
-          description: "List contacts in the Marketing Cloud account."
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "salesforce-mc.list-contacts"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: get-contact
-          description: "Get a Marketing Cloud contact by contact key."
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "salesforce-mc.get-contact"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: delete-contacts
-          description: "Delete one or more contacts from Marketing Cloud."
-          hints:
-            readOnly: false
-            destructive: true
-            idempotent: false
-          call: "salesforce-mc.delete-contacts"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: get-data-extension-rows
-          description: "Get rows from a Marketing Cloud Data Extension."
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "salesforce-mc.get-data-extension-rows"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: insert-data-extension-rows
-          description: "Insert or upsert rows into a Marketing Cloud Data Extension."
-          hints:
-            readOnly: false
-            idempotent: false
-          call: "salesforce-mc.insert-data-extension-rows"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: create-email-send
-          description: "Create and initiate a triggered email send to one or more recipients."
-          hints:
-            readOnly: false
-            idempotent: false
-          call: "salesforce-mc.create-email-send"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: create-sms-send
-          description: "Create and initiate an SMS send to one or more recipients."
-          hints:
-            readOnly: false
-            idempotent: false
-          call: "salesforce-mc.create-sms-send"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: get-message-status
-          description: "Get the delivery status of a triggered email send."
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "salesforce-mc.get-message-status"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: list-journeys
-          description: "List Marketing Cloud Journey Builder journeys."
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "salesforce-mc.list-journeys"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: get-journey
-          description: "Get detailed information about a Marketing Cloud journey."
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "salesforce-mc.get-journey"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: fire-journey-event
-          description: "Fire a journey entry event to enroll a contact in a journey."
-          hints:
-            readOnly: false
-            idempotent: false
-          call: "salesforce-mc.fire-journey-event"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: list-assets
-          description: "List Marketing Cloud Content Builder assets."
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "salesforce-mc.list-assets"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: create-asset
-          description: "Create a new content asset in Content Builder."
-          hints:
-            readOnly: false
-            idempotent: false
-          call: "salesforce-mc.create-asset"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: get-asset
-          description: "Get a Content Builder asset by ID."
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "salesforce-mc.get-asset"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: update-asset
-          description: "Update a Content Builder asset."
-          hints:
-            readOnly: false
-            idempotent: true
-          call: "salesforce-mc.update-asset"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: delete-asset
-          description: "Delete a Content Builder asset."
-          hints:
-            readOnly: false
-            destructive: true
-            idempotent: true
-          call: "salesforce-mc.delete-asset"
-          outputParameters:
-            - type: object
-              mapping: "$."
+  - type: rest
+    port: 8081
+    namespace: marketing-automation-api
+    description: Unified REST API for Salesforce marketing automation workflows.
+    resources:
+    - path: /v1/contacts
+      name: contacts
+      description: Marketing Cloud contact management.
+      operations:
+      - method: GET
+        name: list-contacts
+        description: List contacts in the Marketing Cloud account.
+        call: salesforce-mc.list-contacts
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/contacts/{contactKey}
+      name: contact
+      description: Individual contact operations.
+      operations:
+      - method: GET
+        name: get-contact
+        description: Get a contact by contact key.
+        call: salesforce-mc.get-contact
+        with:
+          contactKey: rest.contactKey
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/contacts/delete
+      name: contact-deletion
+      description: Contact deletion operations.
+      operations:
+      - method: POST
+        name: delete-contacts
+        description: Delete one or more contacts.
+        call: salesforce-mc.delete-contacts
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data-extensions/{key}/rows
+      name: data-extension-rows
+      description: Data Extension row operations.
+      operations:
+      - method: GET
+        name: get-data-extension-rows
+        description: Get rows from a Data Extension.
+        call: salesforce-mc.get-data-extension-rows
+        with:
+          key: rest.key
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: insert-data-extension-rows
+        description: Insert or upsert rows into a Data Extension.
+        call: salesforce-mc.insert-data-extension-rows
+        with:
+          key: rest.key
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/emails
+      name: email-sends
+      description: Triggered email send operations.
+      operations:
+      - method: POST
+        name: create-email-send
+        description: Create and initiate a triggered email send.
+        call: salesforce-mc.create-email-send
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/sms
+      name: sms-sends
+      description: SMS send operations.
+      operations:
+      - method: POST
+        name: create-sms-send
+        description: Create and initiate an SMS send.
+        call: salesforce-mc.create-sms-send
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/messages/{messageKey}/status
+      name: message-status
+      description: Message delivery status.
+      operations:
+      - method: GET
+        name: get-message-status
+        description: Get the delivery status of an email message.
+        call: salesforce-mc.get-message-status
+        with:
+          messageKey: rest.messageKey
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/journeys
+      name: journeys
+      description: Journey Builder journey management.
+      operations:
+      - method: GET
+        name: list-journeys
+        description: List Marketing Cloud journeys.
+        call: salesforce-mc.list-journeys
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/journeys/{interactionId}
+      name: journey
+      description: Individual journey operations.
+      operations:
+      - method: GET
+        name: get-journey
+        description: Get a journey by ID.
+        call: salesforce-mc.get-journey
+        with:
+          interactionId: rest.interactionId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/journey-events
+      name: journey-events
+      description: Journey entry event operations.
+      operations:
+      - method: POST
+        name: fire-journey-event
+        description: Fire a journey entry event to enroll a contact.
+        call: salesforce-mc.fire-journey-event
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/assets
+      name: assets
+      description: Content Builder asset management.
+      operations:
+      - method: GET
+        name: list-assets
+        description: List content assets.
+        call: salesforce-mc.list-assets
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: create-asset
+        description: Create a content asset.
+        call: salesforce-mc.create-asset
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/assets/{id}
+      name: asset
+      description: Individual asset operations.
+      operations:
+      - method: GET
+        name: get-asset
+        description: Get a content asset by ID.
+        call: salesforce-mc.get-asset
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: update-asset
+        description: Update a content asset.
+        call: salesforce-mc.update-asset
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: delete-asset
+        description: Delete a content asset.
+        call: salesforce-mc.delete-asset
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    port: 9091
+    namespace: marketing-automation-mcp
+    transport: http
+    description: MCP server for AI-assisted Salesforce marketing automation.
+    tools:
+    - name: list-contacts
+      description: List contacts in the Marketing Cloud account.
+      hints:
+        readOnly: true
+        idempotent: true
+      call: salesforce-mc.list-contacts
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-contact
+      description: Get a Marketing Cloud contact by contact key.
+      hints:
+        readOnly: true
+        idempotent: true
+      call: salesforce-mc.get-contact
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-contacts
+      description: Delete one or more contacts from Marketing Cloud.
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: false
+      call: salesforce-mc.delete-contacts
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-data-extension-rows
+      description: Get rows from a Marketing Cloud Data Extension.
+      hints:
+        readOnly: true
+        idempotent: true
+      call: salesforce-mc.get-data-extension-rows
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: insert-data-extension-rows
+      description: Insert or upsert rows into a Marketing Cloud Data Extension.
+      hints:
+        readOnly: false
+        idempotent: false
+      call: salesforce-mc.insert-data-extension-rows
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-email-send
+      description: Create and initiate a triggered email send to one or more recipients.
+      hints:
+        readOnly: false
+        idempotent: false
+      call: salesforce-mc.create-email-send
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-sms-send
+      description: Create and initiate an SMS send to one or more recipients.
+      hints:
+        readOnly: false
+        idempotent: false
+      call: salesforce-mc.create-sms-send
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-message-status
+      description: Get the delivery status of a triggered email send.
+      hints:
+        readOnly: true
+        idempotent: true
+      call: salesforce-mc.get-message-status
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-journeys
+      description: List Marketing Cloud Journey Builder journeys.
+      hints:
+        readOnly: true
+        idempotent: true
+      call: salesforce-mc.list-journeys
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-journey
+      description: Get detailed information about a Marketing Cloud journey.
+      hints:
+        readOnly: true
+        idempotent: true
+      call: salesforce-mc.get-journey
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: fire-journey-event
+      description: Fire a journey entry event to enroll a contact in a journey.
+      hints:
+        readOnly: false
+        idempotent: false
+      call: salesforce-mc.fire-journey-event
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-assets
+      description: List Marketing Cloud Content Builder assets.
+      hints:
+        readOnly: true
+        idempotent: true
+      call: salesforce-mc.list-assets
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-asset
+      description: Create a new content asset in Content Builder.
+      hints:
+        readOnly: false
+        idempotent: false
+      call: salesforce-mc.create-asset
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-asset
+      description: Get a Content Builder asset by ID.
+      hints:
+        readOnly: true
+        idempotent: true
+      call: salesforce-mc.get-asset
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-asset
+      description: Update a Content Builder asset.
+      hints:
+        readOnly: false
+        idempotent: true
+      call: salesforce-mc.update-asset
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-asset
+      description: Delete a Content Builder asset.
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: salesforce-mc.delete-asset
+      outputParameters:
+      - type: object
+        mapping: $.
