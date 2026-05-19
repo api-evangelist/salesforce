@@ -1,0 +1,329 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Items
+  description: 'Salesforce — Items. 7 operations. Lead operation: Salesforce Feed Elements Capability, Comments Items. Self-contained
+    Naftiko capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Items
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-items
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Items business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-chatter-feed-elements-FEED_ELEMENT_ID-capabilities-comments-items
+      path: /data/v64.0/chatter/feed-elements/{FEED_ELEMENT_ID}/capabilities/comments/items
+      operations:
+      - name: feedelementscapabilitycommentsitems
+        method: POST
+        description: Salesforce Feed Elements Capability, Comments Items
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: text
+          in: query
+          type: string
+          required: true
+        - name: FEED_ELEMENT_ID
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-query
+      path: /data/v64.0/query
+      operations:
+      - name: listeventrelayfeedbackitems
+        method: GET
+        description: Salesforce List Event Relay Feedback Items
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: q
+          in: query
+          type: string
+          required: true
+    - name: data-v64.0-sobjects-relevantItems
+      path: /data/v64.0/sobjects/relevantItems
+      operations:
+      - name: relevantitems
+        method: GET
+        description: Salesforce Relevant Items
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    - name: data-v64.0-sobjects-SOBJECT_API_NAME-listviews-recent
+      path: /data/v64.0/sobjects/{SOBJECT_API_NAME}/listviews/recent
+      operations:
+      - name: recentlyvieweditems
+        method: GET
+        description: Salesforce Recently Viewed Items
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: limit
+          in: query
+          type: string
+          required: true
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    - name: data-v64.0-ui-api-apps-APP_ID-user-nav-items
+      path: /data/v64.0/ui-api/apps/{APP_ID}/user-nav-items
+      operations:
+      - name: getpersonalizednavigationitems
+        method: GET
+        description: Salesforce Get Personalized Navigation Items
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: APP_ID
+          in: path
+          type: string
+          description: Application ID
+          required: true
+      - name: updatepersonalizednavigationitems
+        method: PUT
+        description: Salesforce Update Personalized Navigation Items
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: APP_ID
+          in: path
+          type: string
+          description: Application ID
+          required: true
+    - name: data-v64.0-ui-api-nav-items
+      path: /data/v64.0/ui-api/nav-items
+      operations:
+      - name: getallnavigationitems
+        method: GET
+        description: Salesforce Get All Navigation Items
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-items-rest
+    port: 8080
+    description: REST adapter for Salesforce — Items. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/data/v64-0/chatter/feed-elements/{feed-element-id}/capabilities/comments/items
+      name: data-v64-0-chatter-feed-elements-feed-element-id-capabilities-comments-items
+      description: REST surface for data-v64.0-chatter-feed-elements-FEED_ELEMENT_ID-capabilities-comments-items.
+      operations:
+      - method: POST
+        name: feedelementscapabilitycommentsitems
+        description: Salesforce Feed Elements Capability, Comments Items
+        call: salesforce-items.feedelementscapabilitycommentsitems
+        with:
+          text: rest.text
+          FEED_ELEMENT_ID: rest.FEED_ELEMENT_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/query
+      name: data-v64-0-query
+      description: REST surface for data-v64.0-query.
+      operations:
+      - method: GET
+        name: listeventrelayfeedbackitems
+        description: Salesforce List Event Relay Feedback Items
+        call: salesforce-items.listeventrelayfeedbackitems
+        with:
+          q: rest.q
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/sobjects/relevantitems
+      name: data-v64-0-sobjects-relevantitems
+      description: REST surface for data-v64.0-sobjects-relevantItems.
+      operations:
+      - method: GET
+        name: relevantitems
+        description: Salesforce Relevant Items
+        call: salesforce-items.relevantitems
+        with:
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/sobjects/{sobject-api-name}/listviews/recent
+      name: data-v64-0-sobjects-sobject-api-name-listviews-recent
+      description: REST surface for data-v64.0-sobjects-SOBJECT_API_NAME-listviews-recent.
+      operations:
+      - method: GET
+        name: recentlyvieweditems
+        description: Salesforce Recently Viewed Items
+        call: salesforce-items.recentlyvieweditems
+        with:
+          limit: rest.limit
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/apps/{app-id}/user-nav-items
+      name: data-v64-0-ui-api-apps-app-id-user-nav-items
+      description: REST surface for data-v64.0-ui-api-apps-APP_ID-user-nav-items.
+      operations:
+      - method: GET
+        name: getpersonalizednavigationitems
+        description: Salesforce Get Personalized Navigation Items
+        call: salesforce-items.getpersonalizednavigationitems
+        with:
+          APP_ID: rest.APP_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatepersonalizednavigationitems
+        description: Salesforce Update Personalized Navigation Items
+        call: salesforce-items.updatepersonalizednavigationitems
+        with:
+          APP_ID: rest.APP_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/nav-items
+      name: data-v64-0-ui-api-nav-items
+      description: REST surface for data-v64.0-ui-api-nav-items.
+      operations:
+      - method: GET
+        name: getallnavigationitems
+        description: Salesforce Get All Navigation Items
+        call: salesforce-items.getallnavigationitems
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-items-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Items. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-feed-elements-capability-comments
+      description: Salesforce Feed Elements Capability, Comments Items
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-items.feedelementscapabilitycommentsitems
+      with:
+        text: tools.text
+        FEED_ELEMENT_ID: tools.FEED_ELEMENT_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-list-event-relay-feedback
+      description: Salesforce List Event Relay Feedback Items
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-items.listeventrelayfeedbackitems
+      with:
+        q: tools.q
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-relevant-items
+      description: Salesforce Relevant Items
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-items.relevantitems
+      with:
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-recently-viewed-items
+      description: Salesforce Recently Viewed Items
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-items.recentlyvieweditems
+      with:
+        limit: tools.limit
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-personalized-navigation-items
+      description: Salesforce Get Personalized Navigation Items
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-items.getpersonalizednavigationitems
+      with:
+        APP_ID: tools.APP_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-update-personalized-navigation-items
+      description: Salesforce Update Personalized Navigation Items
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: salesforce-items.updatepersonalizednavigationitems
+      with:
+        APP_ID: tools.APP_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-all-navigation-items
+      description: Salesforce Get All Navigation Items
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-items.getallnavigationitems
+      outputParameters:
+      - type: object
+        mapping: $.

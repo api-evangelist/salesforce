@@ -1,0 +1,80 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Exchange
+  description: 'Salesforce — Exchange. 1 operations. Lead operation: Salesforce Registration - Token Exchange. Self-contained
+    Naftiko capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Exchange
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-exchange
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Exchange business capability. Self-contained, no shared references.
+    resources:
+    - name: services-oauth2-token
+      path: /services/oauth2/token
+      operations:
+      - name: registrationtokenexchange
+        method: POST
+        description: Salesforce Registration - Token Exchange
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-exchange-rest
+    port: 8080
+    description: REST adapter for Salesforce — Exchange. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/services/oauth2/token
+      name: services-oauth2-token
+      description: REST surface for services-oauth2-token.
+      operations:
+      - method: POST
+        name: registrationtokenexchange
+        description: Salesforce Registration - Token Exchange
+        call: salesforce-exchange.registrationtokenexchange
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-exchange-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Exchange. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-registration-token-exchange
+      description: Salesforce Registration - Token Exchange
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-exchange.registrationtokenexchange
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

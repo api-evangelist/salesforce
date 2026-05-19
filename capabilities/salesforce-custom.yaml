@@ -1,0 +1,79 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Custom
+  description: 'Salesforce — Custom. 1 operations. Lead operation: Salesforce Custom Invocable Actions. Self-contained Naftiko
+    capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Custom
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-custom
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Custom business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-actions-custom
+      path: /data/v64.0/actions/custom
+      operations:
+      - name: custominvocableactions
+        method: GET
+        description: Salesforce Custom Invocable Actions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-custom-rest
+    port: 8080
+    description: REST adapter for Salesforce — Custom. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/data/v64-0/actions/custom
+      name: data-v64-0-actions-custom
+      description: REST surface for data-v64.0-actions-custom.
+      operations:
+      - method: GET
+        name: custominvocableactions
+        description: Salesforce Custom Invocable Actions
+        call: salesforce-custom.custominvocableactions
+        with:
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-custom-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Custom. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-custom-invocable-actions
+      description: Salesforce Custom Invocable Actions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-custom.custominvocableactions
+      with:
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.

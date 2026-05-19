@@ -1,0 +1,70 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Definitions
+  description: 'Salesforce — Definitions. 1 operations. Lead operation: Salesforce Prediction Definitions. Self-contained
+    Naftiko capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Definitions
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-definitions
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Definitions business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-smartdatadiscovery-predictionDefinitions
+      path: /data/v64.0/smartdatadiscovery/predictionDefinitions
+      operations:
+      - name: predictiondefinitions
+        method: GET
+        description: Salesforce Prediction Definitions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-definitions-rest
+    port: 8080
+    description: REST adapter for Salesforce — Definitions. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/data/v64-0/smartdatadiscovery/predictiondefinitions
+      name: data-v64-0-smartdatadiscovery-predictiondefinitions
+      description: REST surface for data-v64.0-smartdatadiscovery-predictionDefinitions.
+      operations:
+      - method: GET
+        name: predictiondefinitions
+        description: Salesforce Prediction Definitions
+        call: salesforce-definitions.predictiondefinitions
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-definitions-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Definitions. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-prediction-definitions
+      description: Salesforce Prediction Definitions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-definitions.predictiondefinitions
+      outputParameters:
+      - type: object
+        mapping: $.

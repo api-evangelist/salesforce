@@ -1,0 +1,79 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Content
+  description: 'Salesforce — Content. 1 operations. Lead operation: Salesforce File Content. Self-contained Naftiko capability
+    covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Content
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-content
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Content business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-connect-files-FILE_ID-content
+      path: /data/v64.0/connect/files/{FILE_ID}/content
+      operations:
+      - name: filecontent
+        method: GET
+        description: Salesforce File Content
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: FILE_ID
+          in: path
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-content-rest
+    port: 8080
+    description: REST adapter for Salesforce — Content. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/data/v64-0/connect/files/{file-id}/content
+      name: data-v64-0-connect-files-file-id-content
+      description: REST surface for data-v64.0-connect-files-FILE_ID-content.
+      operations:
+      - method: GET
+        name: filecontent
+        description: Salesforce File Content
+        call: salesforce-content.filecontent
+        with:
+          FILE_ID: rest.FILE_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-content-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Content. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-file-content
+      description: Salesforce File Content
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-content.filecontent
+      with:
+        FILE_ID: tools.FILE_ID
+      outputParameters:
+      - type: object
+        mapping: $.

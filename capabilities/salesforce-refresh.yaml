@@ -1,0 +1,86 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Refresh
+  description: 'Salesforce — Refresh. 1 operations. Lead operation: Salesforce Refresh Sandbox. Self-contained Naftiko capability
+    covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Refresh
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-refresh
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Refresh business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-tooling-sobjects-SandboxInfo-SANDBOX_INFO_ID
+      path: /data/v64.0/tooling/sobjects/SandboxInfo/{SANDBOX_INFO_ID}
+      operations:
+      - name: refreshsandbox
+        method: PATCH
+        description: Salesforce Refresh Sandbox
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SANDBOX_INFO_ID
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-refresh-rest
+    port: 8080
+    description: REST adapter for Salesforce — Refresh. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/data/v64-0/tooling/sobjects/sandboxinfo/{sandbox-info-id}
+      name: data-v64-0-tooling-sobjects-sandboxinfo-sandbox-info-id
+      description: REST surface for data-v64.0-tooling-sobjects-SandboxInfo-SANDBOX_INFO_ID.
+      operations:
+      - method: PATCH
+        name: refreshsandbox
+        description: Salesforce Refresh Sandbox
+        call: salesforce-refresh.refreshsandbox
+        with:
+          SANDBOX_INFO_ID: rest.SANDBOX_INFO_ID
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-refresh-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Refresh. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-refresh-sandbox
+      description: Salesforce Refresh Sandbox
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: salesforce-refresh.refreshsandbox
+      with:
+        SANDBOX_INFO_ID: tools.SANDBOX_INFO_ID
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

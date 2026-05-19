@@ -1,0 +1,80 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Logs
+  description: 'Salesforce — Logs. 1 operations. Lead operation: Salesforce Get Event Log File. Self-contained Naftiko capability
+    covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Logs
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-logs
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Logs business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-sobjects-EventLogFile-id-LogFile
+      path: /data/v64.0/sobjects/EventLogFile/{id}/LogFile
+      operations:
+      - name: geteventlogfile
+        method: GET
+        description: Salesforce Get Event Log File
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: Log event Id
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-logs-rest
+    port: 8080
+    description: REST adapter for Salesforce — Logs. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/data/v64-0/sobjects/eventlogfile/{id}/logfile
+      name: data-v64-0-sobjects-eventlogfile-id-logfile
+      description: REST surface for data-v64.0-sobjects-EventLogFile-id-LogFile.
+      operations:
+      - method: GET
+        name: geteventlogfile
+        description: Salesforce Get Event Log File
+        call: salesforce-logs.geteventlogfile
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-logs-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Logs. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-get-event-log-file
+      description: Salesforce Get Event Log File
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-logs.geteventlogfile
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.

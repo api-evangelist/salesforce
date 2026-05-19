@@ -1,0 +1,202 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Information
+  description: 'Salesforce — Information. 4 operations. Lead operation: Salesforce Request Product Information (no Bundles).
+    Self-contained Naftiko capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Information
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-information
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Information business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-commerce-catalog-products-actions-get-products
+      path: /data/v64.0/commerce/catalog-products/actions/get-products
+      operations:
+      - name: requestproductinformationnobundles
+        method: POST
+        description: Salesforce Request Product Information (no Bundles)
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: data-v64.0-connect-files-FILE_ID
+      path: /data/v64.0/connect/files/{FILE_ID}
+      operations:
+      - name: fileinformation
+        method: GET
+        description: Salesforce File Information
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: FILE_ID
+          in: path
+          type: string
+          required: true
+      - name: fileinformationdelete
+        method: DELETE
+        description: Salesforce File Information - Delete
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: FILE_ID
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-sobjects-SOBJECT_API_NAME
+      path: /data/v64.0/sobjects/{SOBJECT_API_NAME}
+      operations:
+      - name: sobjectbasicinformation
+        method: GET
+        description: Salesforce Sobject Basic Information
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-information-rest
+    port: 8080
+    description: REST adapter for Salesforce — Information. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/data/v64-0/commerce/catalog-products/actions/get-products
+      name: data-v64-0-commerce-catalog-products-actions-get-products
+      description: REST surface for data-v64.0-commerce-catalog-products-actions-get-products.
+      operations:
+      - method: POST
+        name: requestproductinformationnobundles
+        description: Salesforce Request Product Information (no Bundles)
+        call: salesforce-information.requestproductinformationnobundles
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/connect/files/{file-id}
+      name: data-v64-0-connect-files-file-id
+      description: REST surface for data-v64.0-connect-files-FILE_ID.
+      operations:
+      - method: GET
+        name: fileinformation
+        description: Salesforce File Information
+        call: salesforce-information.fileinformation
+        with:
+          FILE_ID: rest.FILE_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: fileinformationdelete
+        description: Salesforce File Information - Delete
+        call: salesforce-information.fileinformationdelete
+        with:
+          FILE_ID: rest.FILE_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/sobjects/{sobject-api-name}
+      name: data-v64-0-sobjects-sobject-api-name
+      description: REST surface for data-v64.0-sobjects-SOBJECT_API_NAME.
+      operations:
+      - method: GET
+        name: sobjectbasicinformation
+        description: Salesforce Sobject Basic Information
+        call: salesforce-information.sobjectbasicinformation
+        with:
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-information-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Information. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-request-product-information-no
+      description: Salesforce Request Product Information (no Bundles)
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-information.requestproductinformationnobundles
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-file-information
+      description: Salesforce File Information
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-information.fileinformation
+      with:
+        FILE_ID: tools.FILE_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-file-information-delete
+      description: Salesforce File Information - Delete
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: salesforce-information.fileinformationdelete
+      with:
+        FILE_ID: tools.FILE_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-sobject-basic-information
+      description: Salesforce Sobject Basic Information
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-information.sobjectbasicinformation
+      with:
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.

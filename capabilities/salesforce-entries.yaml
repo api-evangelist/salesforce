@@ -1,0 +1,80 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Entries
+  description: 'Salesforce — Entries. 1 operations. Lead operation: Salesforce Get Conversation Entries. Self-contained Naftiko
+    capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Entries
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-entries
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Entries business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-connect-conversation-conversationIdentifier-entries
+      path: /data/v64.0/connect/conversation/{conversationIdentifier}/entries
+      operations:
+      - name: getconversationentries
+        method: GET
+        description: Salesforce Get Conversation Entries
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: conversationIdentifier
+          in: path
+          type: string
+          description: Conversation identifier UUID
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-entries-rest
+    port: 8080
+    description: REST adapter for Salesforce — Entries. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/data/v64-0/connect/conversation/{conversationidentifier}/entries
+      name: data-v64-0-connect-conversation-conversationidentifier-entries
+      description: REST surface for data-v64.0-connect-conversation-conversationIdentifier-entries.
+      operations:
+      - method: GET
+        name: getconversationentries
+        description: Salesforce Get Conversation Entries
+        call: salesforce-entries.getconversationentries
+        with:
+          conversationIdentifier: rest.conversationIdentifier
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-entries-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Entries. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-get-conversation-entries
+      description: Salesforce Get Conversation Entries
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-entries.getconversationentries
+      with:
+        conversationIdentifier: tools.conversationIdentifier
+      outputParameters:
+      - type: object
+        mapping: $.

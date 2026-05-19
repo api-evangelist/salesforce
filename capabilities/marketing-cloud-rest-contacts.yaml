@@ -1,0 +1,122 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce Marketing Cloud REST API — Contacts
+  description: 'Salesforce Marketing Cloud REST API — Contacts. 2 operations. Lead operation: Delete contacts. Self-contained
+    Naftiko capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Contacts
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: marketing-cloud-rest-contacts
+    baseUri: https://{subdomain}.rest.marketingcloudapis.com
+    description: Salesforce Marketing Cloud REST API — Contacts business capability. Self-contained, no shared references.
+    resources:
+    - name: contacts-v1-contacts
+      path: /contacts/v1/contacts
+      operations:
+      - name: deletecontacts
+        method: DELETE
+        description: Delete contacts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: contacts-v1-contacts-contactKey
+      path: /contacts/v1/contacts/{contactKey}
+      operations:
+      - name: getcontact
+        method: GET
+        description: Get a contact by contact key
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: contactKey
+          in: path
+          type: string
+          description: The unique contact key (subscriber key) of the Marketing Cloud contact to retrieve.
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: marketing-cloud-rest-contacts-rest
+    port: 8080
+    description: REST adapter for Salesforce Marketing Cloud REST API — Contacts. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/contacts/v1/contacts
+      name: contacts-v1-contacts
+      description: REST surface for contacts-v1-contacts.
+      operations:
+      - method: DELETE
+        name: deletecontacts
+        description: Delete contacts
+        call: marketing-cloud-rest-contacts.deletecontacts
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/contacts/v1/contacts/{contactkey}
+      name: contacts-v1-contacts-contactkey
+      description: REST surface for contacts-v1-contacts-contactKey.
+      operations:
+      - method: GET
+        name: getcontact
+        description: Get a contact by contact key
+        call: marketing-cloud-rest-contacts.getcontact
+        with:
+          contactKey: rest.contactKey
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: marketing-cloud-rest-contacts-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce Marketing Cloud REST API — Contacts. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: delete-contacts
+      description: Delete contacts
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: marketing-cloud-rest-contacts.deletecontacts
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-contact-contact-key
+      description: Get a contact by contact key
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: marketing-cloud-rest-contacts.getcontact
+      with:
+        contactKey: tools.contactKey
+      outputParameters:
+      - type: object
+        mapping: $.

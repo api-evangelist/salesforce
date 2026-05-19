@@ -1,0 +1,442 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Bulk
+  description: 'Salesforce — Bulk. 7 operations. Lead operation: Salesforce Bulk Create Job. Self-contained Naftiko capability
+    covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Bulk
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-bulk
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Bulk business capability. Self-contained, no shared references.
+    resources:
+    - name: async-64.0-job
+      path: /async/64.0/job
+      operations:
+      - name: bulkcreatejob
+        method: POST
+        description: Salesforce Bulk Create Job
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-SFDC-Session
+          in: header
+          type: string
+          required: true
+        - name: charset
+          in: header
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: async-64.0-job
+      path: /async/64.0/job/
+      operations:
+      - name: bulkclosejob
+        method: POST
+        description: Salesforce Bulk Close Job
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-SFDC-Session
+          in: header
+          type: string
+          required: true
+        - name: charset
+          in: header
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: async-64.0-job-batch
+      path: /async/64.0/job//batch
+      operations:
+      - name: bulkcreatebatch
+        method: POST
+        description: Salesforce Bulk Create Batch
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-SFDC-Session
+          in: header
+          type: string
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+        - name: charset
+          in: header
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: bulkcheckbatchstatus
+        method: GET
+        description: Salesforce Bulk Check Batch Status
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-SFDC-Session
+          in: header
+          type: string
+          required: true
+        - name: Accept-Encoding
+          in: header
+          type: string
+          required: true
+        - name: Content-Encoding
+          in: header
+          type: string
+          required: true
+    - name: async-64.0-job-batch-_batchId-result
+      path: /async/64.0/job//batch/{_batchId}/result
+      operations:
+      - name: bulkretrievebatchresult
+        method: GET
+        description: Salesforce Bulk Retrieve Batch Result
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-SFDC-Session
+          in: header
+          type: string
+          required: true
+        - name: Accept-Encoding
+          in: header
+          type: string
+          required: true
+        - name: Content-Encoding
+          in: header
+          type: string
+          required: true
+        - name: _batchId
+          in: path
+          type: string
+          required: true
+    - name: async-64.0-job-batch-_batchId-result-batchResultId
+      path: /async/64.0/job//batch/{_batchId}/result/{batchResultId}
+      operations:
+      - name: bulkretrievebatchresultdata
+        method: GET
+        description: Salesforce Bulk Retrieve Batch Result Data
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: batchResultId
+          in: path
+          type: string
+          required: true
+        - name: X-SFDC-Session
+          in: header
+          type: string
+          required: true
+        - name: Accept-Encoding
+          in: header
+          type: string
+          required: true
+        - name: Content-Encoding
+          in: header
+          type: string
+          required: true
+        - name: _batchId
+          in: path
+          type: string
+          required: true
+    - name: async-64.0-job-spec
+      path: /async/64.0/job//spec
+      operations:
+      - name: bulkspec
+        method: POST
+        description: Salesforce Bulk Spec
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-SFDC-Session
+          in: header
+          type: string
+          required: true
+        - name: charset
+          in: header
+          type: string
+          required: true
+        - name: Accept-Encoding
+          in: header
+          type: string
+          required: true
+        - name: Content-Encoding
+          in: header
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-bulk-rest
+    port: 8080
+    description: REST adapter for Salesforce — Bulk. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/async/64-0/job
+      name: async-64-0-job
+      description: REST surface for async-64.0-job.
+      operations:
+      - method: POST
+        name: bulkcreatejob
+        description: Salesforce Bulk Create Job
+        call: salesforce-bulk.bulkcreatejob
+        with:
+          X-SFDC-Session: rest.X-SFDC-Session
+          charset: rest.charset
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/async/64-0/job
+      name: async-64-0-job
+      description: REST surface for async-64.0-job.
+      operations:
+      - method: POST
+        name: bulkclosejob
+        description: Salesforce Bulk Close Job
+        call: salesforce-bulk.bulkclosejob
+        with:
+          X-SFDC-Session: rest.X-SFDC-Session
+          charset: rest.charset
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/async/64-0/job/batch
+      name: async-64-0-job-batch
+      description: REST surface for async-64.0-job-batch.
+      operations:
+      - method: POST
+        name: bulkcreatebatch
+        description: Salesforce Bulk Create Batch
+        call: salesforce-bulk.bulkcreatebatch
+        with:
+          X-SFDC-Session: rest.X-SFDC-Session
+          Content-Type: rest.Content-Type
+          charset: rest.charset
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: bulkcheckbatchstatus
+        description: Salesforce Bulk Check Batch Status
+        call: salesforce-bulk.bulkcheckbatchstatus
+        with:
+          X-SFDC-Session: rest.X-SFDC-Session
+          Accept-Encoding: rest.Accept-Encoding
+          Content-Encoding: rest.Content-Encoding
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/async/64-0/job/batch/{batchid}/result
+      name: async-64-0-job-batch-batchid-result
+      description: REST surface for async-64.0-job-batch-_batchId-result.
+      operations:
+      - method: GET
+        name: bulkretrievebatchresult
+        description: Salesforce Bulk Retrieve Batch Result
+        call: salesforce-bulk.bulkretrievebatchresult
+        with:
+          X-SFDC-Session: rest.X-SFDC-Session
+          Accept-Encoding: rest.Accept-Encoding
+          Content-Encoding: rest.Content-Encoding
+          _batchId: rest._batchId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/async/64-0/job/batch/{batchid}/result/{batchresultid}
+      name: async-64-0-job-batch-batchid-result-batchresultid
+      description: REST surface for async-64.0-job-batch-_batchId-result-batchResultId.
+      operations:
+      - method: GET
+        name: bulkretrievebatchresultdata
+        description: Salesforce Bulk Retrieve Batch Result Data
+        call: salesforce-bulk.bulkretrievebatchresultdata
+        with:
+          batchResultId: rest.batchResultId
+          X-SFDC-Session: rest.X-SFDC-Session
+          Accept-Encoding: rest.Accept-Encoding
+          Content-Encoding: rest.Content-Encoding
+          _batchId: rest._batchId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/async/64-0/job/spec
+      name: async-64-0-job-spec
+      description: REST surface for async-64.0-job-spec.
+      operations:
+      - method: POST
+        name: bulkspec
+        description: Salesforce Bulk Spec
+        call: salesforce-bulk.bulkspec
+        with:
+          X-SFDC-Session: rest.X-SFDC-Session
+          charset: rest.charset
+          Accept-Encoding: rest.Accept-Encoding
+          Content-Encoding: rest.Content-Encoding
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-bulk-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Bulk. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-bulk-create-job
+      description: Salesforce Bulk Create Job
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-bulk.bulkcreatejob
+      with:
+        X-SFDC-Session: tools.X-SFDC-Session
+        charset: tools.charset
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-bulk-close-job
+      description: Salesforce Bulk Close Job
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-bulk.bulkclosejob
+      with:
+        X-SFDC-Session: tools.X-SFDC-Session
+        charset: tools.charset
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-bulk-create-batch
+      description: Salesforce Bulk Create Batch
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-bulk.bulkcreatebatch
+      with:
+        X-SFDC-Session: tools.X-SFDC-Session
+        Content-Type: tools.Content-Type
+        charset: tools.charset
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-bulk-check-batch-status
+      description: Salesforce Bulk Check Batch Status
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-bulk.bulkcheckbatchstatus
+      with:
+        X-SFDC-Session: tools.X-SFDC-Session
+        Accept-Encoding: tools.Accept-Encoding
+        Content-Encoding: tools.Content-Encoding
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-bulk-retrieve-batch-result
+      description: Salesforce Bulk Retrieve Batch Result
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-bulk.bulkretrievebatchresult
+      with:
+        X-SFDC-Session: tools.X-SFDC-Session
+        Accept-Encoding: tools.Accept-Encoding
+        Content-Encoding: tools.Content-Encoding
+        _batchId: tools._batchId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-bulk-retrieve-batch-result-2
+      description: Salesforce Bulk Retrieve Batch Result Data
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-bulk.bulkretrievebatchresultdata
+      with:
+        batchResultId: tools.batchResultId
+        X-SFDC-Session: tools.X-SFDC-Session
+        Accept-Encoding: tools.Accept-Encoding
+        Content-Encoding: tools.Content-Encoding
+        _batchId: tools._batchId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-bulk-spec
+      description: Salesforce Bulk Spec
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-bulk.bulkspec
+      with:
+        X-SFDC-Session: tools.X-SFDC-Session
+        charset: tools.charset
+        Accept-Encoding: tools.Accept-Encoding
+        Content-Encoding: tools.Content-Encoding
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

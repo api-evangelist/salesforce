@@ -1,0 +1,101 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Authorize
+  description: 'Salesforce — Authorize. 1 operations. Lead operation: Salesforce Registration - Authorize. Self-contained
+    Naftiko capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Authorize
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-authorize
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Authorize business capability. Self-contained, no shared references.
+    resources:
+    - name: services-oauth2-authorize
+      path: /services/oauth2/authorize
+      operations:
+      - name: registrationauthorize
+        method: POST
+        description: Salesforce Registration - Authorize
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Auth-Request-Type
+          in: header
+          type: string
+          description: Required for User Registration
+          required: true
+        - name: Auth-Verification-Type
+          in: header
+          type: string
+          description: Must match init/registration, email or sms
+          required: true
+        - name: Authorization
+          in: header
+          type: string
+          description: Base64 encoded <Identifier:OTP>
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-authorize-rest
+    port: 8080
+    description: REST adapter for Salesforce — Authorize. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/services/oauth2/authorize
+      name: services-oauth2-authorize
+      description: REST surface for services-oauth2-authorize.
+      operations:
+      - method: POST
+        name: registrationauthorize
+        description: Salesforce Registration - Authorize
+        call: salesforce-authorize.registrationauthorize
+        with:
+          Auth-Request-Type: rest.Auth-Request-Type
+          Auth-Verification-Type: rest.Auth-Verification-Type
+          Authorization: rest.Authorization
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-authorize-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Authorize. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-registration-authorize
+      description: Salesforce Registration - Authorize
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-authorize.registrationauthorize
+      with:
+        Auth-Request-Type: tools.Auth-Request-Type
+        Auth-Verification-Type: tools.Auth-Verification-Type
+        Authorization: tools.Authorization
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

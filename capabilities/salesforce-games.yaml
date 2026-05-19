@@ -1,0 +1,79 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Games
+  description: 'Salesforce — Games. 1 operations. Lead operation: Salesforce Games. Self-contained Naftiko capability covering
+    one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Games
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-games
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Games business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-game-participant-participantId-games
+      path: /data/v64.0/game/participant/{participantId}/games
+      operations:
+      - name: games
+        method: GET
+        description: Salesforce Games
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: participantId
+          in: path
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-games-rest
+    port: 8080
+    description: REST adapter for Salesforce — Games. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/data/v64-0/game/participant/{participantid}/games
+      name: data-v64-0-game-participant-participantid-games
+      description: REST surface for data-v64.0-game-participant-participantId-games.
+      operations:
+      - method: GET
+        name: games
+        description: Salesforce Games
+        call: salesforce-games.games
+        with:
+          participantId: rest.participantId
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-games-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Games. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-games
+      description: Salesforce Games
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-games.games
+      with:
+        participantId: tools.participantId
+      outputParameters:
+      - type: object
+        mapping: $.

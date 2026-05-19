@@ -1,0 +1,91 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Loader
+  description: 'Salesforce — Loader. 1 operations. Lead operation: Salesforce Configuration Loader Api. Self-contained Naftiko
+    capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Loader
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-loader
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Loader business capability. Self-contained, no shared references.
+    resources:
+    - name: apexrest-SBQQ-ServiceRouter
+      path: /apexrest/SBQQ/ServiceRouter
+      operations:
+      - name: configurationloaderapi
+        method: PATCH
+        description: Salesforce Configuration Loader Api
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: loader
+          in: query
+          type: string
+          required: true
+        - name: uid
+          in: query
+          type: string
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-loader-rest
+    port: 8080
+    description: REST adapter for Salesforce — Loader. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/apexrest/sbqq/servicerouter
+      name: apexrest-sbqq-servicerouter
+      description: REST surface for apexrest-SBQQ-ServiceRouter.
+      operations:
+      - method: PATCH
+        name: configurationloaderapi
+        description: Salesforce Configuration Loader Api
+        call: salesforce-loader.configurationloaderapi
+        with:
+          loader: rest.loader
+          uid: rest.uid
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-loader-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Loader. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-configuration-loader-api
+      description: Salesforce Configuration Loader Api
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: salesforce-loader.configurationloaderapi
+      with:
+        loader: tools.loader
+        uid: tools.uid
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,598 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Users
+  description: 'Salesforce — Users. 12 operations. Lead operation: Salesforce User Profile Feed Elements. Self-contained Naftiko
+    capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Users
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-users
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Users business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-chatter-feeds-user-profile-USER_ID-feed-elements
+      path: /data/v64.0/chatter/feeds/user-profile/{USER_ID}/feed-elements
+      operations:
+      - name: userprofilefeedelements
+        method: GET
+        description: Salesforce User Profile Feed Elements
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: USER_ID
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-chatter-users-me-messages
+      path: /data/v64.0/chatter/users/me/messages
+      operations:
+      - name: usermessagesgeneral
+        method: POST
+        description: Salesforce User Messages, General
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: text
+          in: query
+          type: string
+          required: true
+        - name: recipients
+          in: query
+          type: string
+          description: Comma-separated list of User IDs
+          required: true
+    - name: data-v64.0-connect-files-users-me
+      path: /data/v64.0/connect/files/users/me
+      operations:
+      - name: usersfilesgeneral
+        method: POST
+        description: Salesforce Users Files, General
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: data-v64.0-connect-user-profiles-me-photo
+      path: /data/v64.0/connect/user-profiles/me/photo
+      operations:
+      - name: userphoto
+        method: POST
+        description: Salesforce User Photo
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: data-v64.0-sobjects-SelfServiceUser-USER_ID-password
+      path: /data/v64.0/sobjects/SelfServiceUser/{USER_ID}/password
+      operations:
+      - name: sobjectselfserviceuserpassword
+        method: GET
+        description: Salesforce Sobject Self Service User Password
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: USER_ID
+          in: path
+          type: string
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    - name: data-v64.0-sobjects-User-USER_ID-password
+      path: /data/v64.0/sobjects/User/{USER_ID}/password
+      operations:
+      - name: sobjectuserpassword
+        method: GET
+        description: Salesforce Sobject User Password
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: USER_ID
+          in: path
+          type: string
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    - name: oauth2-userinfo
+      path: /oauth2/userinfo
+      operations:
+      - name: getuserinfo1
+        method: GET
+        description: Salesforce User Info
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    - name: services-data-v64.0-apps-oauth-usage-tokens
+      path: /services/data/v64.0/apps/oauth/usage///tokens
+      operations:
+      - name: oauthappuserstokens
+        method: GET
+        description: Salesforce Oauth App Users Tokens
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Authorization
+          in: header
+          type: string
+          description: Replace <token> with your access token
+          required: true
+      - name: oauthusertokensrevoke
+        method: DELETE
+        description: Salesforce Oauth User Tokens Revoke
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Authorization
+          in: header
+          type: string
+          description: Replace <token> with your access token
+          required: true
+    - name: services-data-v64.0-apps-oauth-usage-users
+      path: /services/data/v64.0/apps/oauth/usage//users
+      operations:
+      - name: oauthappusers
+        method: GET
+        description: Salesforce Oauth App Users
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: page
+          in: query
+          type: integer
+          description: Page number for the usage information. Defaults to 0.
+          required: true
+        - name: pageSize
+          in: query
+          type: integer
+          description: Number of usage entries per page. Defaults to 100.
+          required: true
+        - name: Authorization
+          in: header
+          type: string
+          description: Replace <token> with your access token
+          required: true
+    - name: services-oauth2-authorize
+      path: /services/oauth2/authorize
+      operations:
+      - name: useragentflow
+        method: GET
+        description: Salesforce User Agent Flow
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: response_type
+          in: query
+          type: string
+          required: true
+        - name: client_id
+          in: query
+          type: string
+          required: true
+        - name: redirect_uri
+          in: query
+          type: string
+          required: true
+        - name: display
+          in: query
+          type: string
+          required: true
+        - name: login_hint
+          in: query
+          type: string
+          required: true
+        - name: nonce
+          in: query
+          type: string
+          required: true
+    - name: services-oauth2-userinfo
+      path: /services/oauth2/userinfo
+      operations:
+      - name: getuserinfo
+        method: GET
+        description: Salesforce Get User Info
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Authorization
+          in: header
+          type: string
+          description: Replace <token> with your access token
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-users-rest
+    port: 8080
+    description: REST adapter for Salesforce — Users. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/data/v64-0/chatter/feeds/user-profile/{user-id}/feed-elements
+      name: data-v64-0-chatter-feeds-user-profile-user-id-feed-elements
+      description: REST surface for data-v64.0-chatter-feeds-user-profile-USER_ID-feed-elements.
+      operations:
+      - method: GET
+        name: userprofilefeedelements
+        description: Salesforce User Profile Feed Elements
+        call: salesforce-users.userprofilefeedelements
+        with:
+          USER_ID: rest.USER_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/chatter/users/me/messages
+      name: data-v64-0-chatter-users-me-messages
+      description: REST surface for data-v64.0-chatter-users-me-messages.
+      operations:
+      - method: POST
+        name: usermessagesgeneral
+        description: Salesforce User Messages, General
+        call: salesforce-users.usermessagesgeneral
+        with:
+          text: rest.text
+          recipients: rest.recipients
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/connect/files/users/me
+      name: data-v64-0-connect-files-users-me
+      description: REST surface for data-v64.0-connect-files-users-me.
+      operations:
+      - method: POST
+        name: usersfilesgeneral
+        description: Salesforce Users Files, General
+        call: salesforce-users.usersfilesgeneral
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/connect/user-profiles/me/photo
+      name: data-v64-0-connect-user-profiles-me-photo
+      description: REST surface for data-v64.0-connect-user-profiles-me-photo.
+      operations:
+      - method: POST
+        name: userphoto
+        description: Salesforce User Photo
+        call: salesforce-users.userphoto
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/sobjects/selfserviceuser/{user-id}/password
+      name: data-v64-0-sobjects-selfserviceuser-user-id-password
+      description: REST surface for data-v64.0-sobjects-SelfServiceUser-USER_ID-password.
+      operations:
+      - method: GET
+        name: sobjectselfserviceuserpassword
+        description: Salesforce Sobject Self Service User Password
+        call: salesforce-users.sobjectselfserviceuserpassword
+        with:
+          USER_ID: rest.USER_ID
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/sobjects/user/{user-id}/password
+      name: data-v64-0-sobjects-user-user-id-password
+      description: REST surface for data-v64.0-sobjects-User-USER_ID-password.
+      operations:
+      - method: GET
+        name: sobjectuserpassword
+        description: Salesforce Sobject User Password
+        call: salesforce-users.sobjectuserpassword
+        with:
+          USER_ID: rest.USER_ID
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/oauth2/userinfo
+      name: oauth2-userinfo
+      description: REST surface for oauth2-userinfo.
+      operations:
+      - method: GET
+        name: getuserinfo1
+        description: Salesforce User Info
+        call: salesforce-users.getuserinfo1
+        with:
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/services/data/v64-0/apps/oauth/usage/tokens
+      name: services-data-v64-0-apps-oauth-usage-tokens
+      description: REST surface for services-data-v64.0-apps-oauth-usage-tokens.
+      operations:
+      - method: GET
+        name: oauthappuserstokens
+        description: Salesforce Oauth App Users Tokens
+        call: salesforce-users.oauthappuserstokens
+        with:
+          Authorization: rest.Authorization
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: oauthusertokensrevoke
+        description: Salesforce Oauth User Tokens Revoke
+        call: salesforce-users.oauthusertokensrevoke
+        with:
+          Authorization: rest.Authorization
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/services/data/v64-0/apps/oauth/usage/users
+      name: services-data-v64-0-apps-oauth-usage-users
+      description: REST surface for services-data-v64.0-apps-oauth-usage-users.
+      operations:
+      - method: GET
+        name: oauthappusers
+        description: Salesforce Oauth App Users
+        call: salesforce-users.oauthappusers
+        with:
+          page: rest.page
+          pageSize: rest.pageSize
+          Authorization: rest.Authorization
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/services/oauth2/authorize
+      name: services-oauth2-authorize
+      description: REST surface for services-oauth2-authorize.
+      operations:
+      - method: GET
+        name: useragentflow
+        description: Salesforce User Agent Flow
+        call: salesforce-users.useragentflow
+        with:
+          response_type: rest.response_type
+          client_id: rest.client_id
+          redirect_uri: rest.redirect_uri
+          display: rest.display
+          login_hint: rest.login_hint
+          nonce: rest.nonce
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/services/oauth2/userinfo
+      name: services-oauth2-userinfo
+      description: REST surface for services-oauth2-userinfo.
+      operations:
+      - method: GET
+        name: getuserinfo
+        description: Salesforce Get User Info
+        call: salesforce-users.getuserinfo
+        with:
+          Authorization: rest.Authorization
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-users-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Users. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-user-profile-feed-elements
+      description: Salesforce User Profile Feed Elements
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-users.userprofilefeedelements
+      with:
+        USER_ID: tools.USER_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-user-messages-general
+      description: Salesforce User Messages, General
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-users.usermessagesgeneral
+      with:
+        text: tools.text
+        recipients: tools.recipients
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-users-files-general
+      description: Salesforce Users Files, General
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-users.usersfilesgeneral
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-user-photo
+      description: Salesforce User Photo
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-users.userphoto
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-sobject-self-service-user
+      description: Salesforce Sobject Self Service User Password
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-users.sobjectselfserviceuserpassword
+      with:
+        USER_ID: tools.USER_ID
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-sobject-user-password
+      description: Salesforce Sobject User Password
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-users.sobjectuserpassword
+      with:
+        USER_ID: tools.USER_ID
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-user-info
+      description: Salesforce User Info
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-users.getuserinfo1
+      with:
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-oauth-app-users-tokens
+      description: Salesforce Oauth App Users Tokens
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-users.oauthappuserstokens
+      with:
+        Authorization: tools.Authorization
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-oauth-user-tokens-revoke
+      description: Salesforce Oauth User Tokens Revoke
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: salesforce-users.oauthusertokensrevoke
+      with:
+        Authorization: tools.Authorization
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-oauth-app-users
+      description: Salesforce Oauth App Users
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-users.oauthappusers
+      with:
+        page: tools.page
+        pageSize: tools.pageSize
+        Authorization: tools.Authorization
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-user-agent-flow
+      description: Salesforce User Agent Flow
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-users.useragentflow
+      with:
+        response_type: tools.response_type
+        client_id: tools.client_id
+        redirect_uri: tools.redirect_uri
+        display: tools.display
+        login_hint: tools.login_hint
+        nonce: tools.nonce
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-user-info
+      description: Salesforce Get User Info
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-users.getuserinfo
+      with:
+        Authorization: tools.Authorization
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.

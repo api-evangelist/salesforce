@@ -1,0 +1,70 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce UI API — Object Info
+  description: 'Salesforce UI API — Object Info. 1 operations. Lead operation: Salesforce Get Object Metadata. Self-contained
+    Naftiko capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Object Info
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: ui-object-info
+    baseUri: https://{instanceName}.salesforce.com/services/data/v{version}/ui-api
+    description: Salesforce UI API — Object Info business capability. Self-contained, no shared references.
+    resources:
+    - name: object-info-objectApiName
+      path: /object-info/{objectApiName}
+      operations:
+      - name: getobjectinfo
+        method: GET
+        description: Salesforce Get Object Metadata
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: ui-object-info-rest
+    port: 8080
+    description: REST adapter for Salesforce UI API — Object Info. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/object-info/{objectapiname}
+      name: object-info-objectapiname
+      description: REST surface for object-info-objectApiName.
+      operations:
+      - method: GET
+        name: getobjectinfo
+        description: Salesforce Get Object Metadata
+        call: ui-object-info.getobjectinfo
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: ui-object-info-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce UI API — Object Info. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: salesforce-get-object-metadata
+      description: Salesforce Get Object Metadata
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: ui-object-info.getobjectinfo
+      outputParameters:
+      - type: object
+        mapping: $.

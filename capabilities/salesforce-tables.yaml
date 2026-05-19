@@ -1,0 +1,92 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Tables
+  description: 'Salesforce — Tables. 1 operations. Lead operation: Salesforce Retrieve Lookup Tables. Self-contained Naftiko
+    capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Tables
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-tables
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Tables business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-connect-business-rules-lookup-tables
+      path: /data/v64.0/connect/business-rules/lookup-tables
+      operations:
+      - name: retrievelookuptables
+        method: GET
+        description: Salesforce Retrieve Lookup Tables
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: searchKey
+          in: query
+          type: string
+          required: true
+        - name: usageType
+          in: query
+          type: string
+          required: true
+        - name: lookupTypes
+          in: query
+          type: string
+          description: 'Optional: Type of lookup table. Valid values are: DecisionMatrix, DecisionTable'
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-tables-rest
+    port: 8080
+    description: REST adapter for Salesforce — Tables. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/data/v64-0/connect/business-rules/lookup-tables
+      name: data-v64-0-connect-business-rules-lookup-tables
+      description: REST surface for data-v64.0-connect-business-rules-lookup-tables.
+      operations:
+      - method: GET
+        name: retrievelookuptables
+        description: Salesforce Retrieve Lookup Tables
+        call: salesforce-tables.retrievelookuptables
+        with:
+          searchKey: rest.searchKey
+          usageType: rest.usageType
+          lookupTypes: rest.lookupTypes
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-tables-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Tables. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-retrieve-lookup-tables
+      description: Salesforce Retrieve Lookup Tables
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-tables.retrievelookuptables
+      with:
+        searchKey: tools.searchKey
+        usageType: tools.usageType
+        lookupTypes: tools.lookupTypes
+      outputParameters:
+      - type: object
+        mapping: $.

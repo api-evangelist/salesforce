@@ -1,0 +1,328 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Layouts
+  description: 'Salesforce — Layouts. 6 operations. Lead operation: Salesforce Compact Layouts. Self-contained Naftiko capability
+    covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Layouts
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-layouts
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Layouts business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-compactLayouts
+      path: /data/v64.0/compactLayouts
+      operations:
+      - name: compactlayouts
+        method: GET
+        description: Salesforce Compact Layouts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: q
+          in: query
+          type: string
+          description: object list
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    - name: data-v64.0-search-layout
+      path: /data/v64.0/search/layout
+      operations:
+      - name: searchresultlayouts
+        method: GET
+        description: Salesforce Search Result Layouts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: q
+          in: query
+          type: string
+          description: Comma delimited object list
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    - name: data-v64.0-sobjects-Global-describe-layouts
+      path: /data/v64.0/sobjects/Global/describe/layouts
+      operations:
+      - name: describegloballayouts
+        method: GET
+        description: Salesforce Describe Global Layouts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    - name: data-v64.0-sobjects-SOBJECT_API_NAME-describe-layouts
+      path: /data/v64.0/sobjects/{SOBJECT_API_NAME}/describe/layouts
+      operations:
+      - name: describesobjectlayouts
+        method: GET
+        description: Salesforce Describe Sobject Layouts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    - name: data-v64.0-sobjects-SOBJECT_API_NAME-describe-layouts-RECORD_TYPE_ID
+      path: /data/v64.0/sobjects/{SOBJECT_API_NAME}/describe/layouts/{RECORD_TYPE_ID}
+      operations:
+      - name: describesobjectlayoutsperrecordtype
+        method: GET
+        description: Salesforce Describe Sobject Layouts Per Record Type
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          required: true
+        - name: RECORD_TYPE_ID
+          in: path
+          type: string
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    - name: data-v64.0-sobjects-SOBJECT_API_NAME-describe-namedLayouts-LAYOUT_NAME
+      path: /data/v64.0/sobjects/{SOBJECT_API_NAME}/describe/namedLayouts/{LAYOUT_NAME}
+      operations:
+      - name: sobjectnamedlayouts
+        method: GET
+        description: Salesforce Sobject Named Layouts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          required: true
+        - name: LAYOUT_NAME
+          in: path
+          type: string
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-layouts-rest
+    port: 8080
+    description: REST adapter for Salesforce — Layouts. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/data/v64-0/compactlayouts
+      name: data-v64-0-compactlayouts
+      description: REST surface for data-v64.0-compactLayouts.
+      operations:
+      - method: GET
+        name: compactlayouts
+        description: Salesforce Compact Layouts
+        call: salesforce-layouts.compactlayouts
+        with:
+          q: rest.q
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/search/layout
+      name: data-v64-0-search-layout
+      description: REST surface for data-v64.0-search-layout.
+      operations:
+      - method: GET
+        name: searchresultlayouts
+        description: Salesforce Search Result Layouts
+        call: salesforce-layouts.searchresultlayouts
+        with:
+          q: rest.q
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/sobjects/global/describe/layouts
+      name: data-v64-0-sobjects-global-describe-layouts
+      description: REST surface for data-v64.0-sobjects-Global-describe-layouts.
+      operations:
+      - method: GET
+        name: describegloballayouts
+        description: Salesforce Describe Global Layouts
+        call: salesforce-layouts.describegloballayouts
+        with:
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/sobjects/{sobject-api-name}/describe/layouts
+      name: data-v64-0-sobjects-sobject-api-name-describe-layouts
+      description: REST surface for data-v64.0-sobjects-SOBJECT_API_NAME-describe-layouts.
+      operations:
+      - method: GET
+        name: describesobjectlayouts
+        description: Salesforce Describe Sobject Layouts
+        call: salesforce-layouts.describesobjectlayouts
+        with:
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/sobjects/{sobject-api-name}/describe/layouts/{record-type-id}
+      name: data-v64-0-sobjects-sobject-api-name-describe-layouts-record-type-id
+      description: REST surface for data-v64.0-sobjects-SOBJECT_API_NAME-describe-layouts-RECORD_TYPE_ID.
+      operations:
+      - method: GET
+        name: describesobjectlayoutsperrecordtype
+        description: Salesforce Describe Sobject Layouts Per Record Type
+        call: salesforce-layouts.describesobjectlayoutsperrecordtype
+        with:
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+          RECORD_TYPE_ID: rest.RECORD_TYPE_ID
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/sobjects/{sobject-api-name}/describe/namedlayouts/{layout-name}
+      name: data-v64-0-sobjects-sobject-api-name-describe-namedlayouts-layout-name
+      description: REST surface for data-v64.0-sobjects-SOBJECT_API_NAME-describe-namedLayouts-LAYOUT_NAME.
+      operations:
+      - method: GET
+        name: sobjectnamedlayouts
+        description: Salesforce Sobject Named Layouts
+        call: salesforce-layouts.sobjectnamedlayouts
+        with:
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+          LAYOUT_NAME: rest.LAYOUT_NAME
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-layouts-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Layouts. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-compact-layouts
+      description: Salesforce Compact Layouts
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-layouts.compactlayouts
+      with:
+        q: tools.q
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-search-result-layouts
+      description: Salesforce Search Result Layouts
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-layouts.searchresultlayouts
+      with:
+        q: tools.q
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-describe-global-layouts
+      description: Salesforce Describe Global Layouts
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-layouts.describegloballayouts
+      with:
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-describe-sobject-layouts
+      description: Salesforce Describe Sobject Layouts
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-layouts.describesobjectlayouts
+      with:
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-describe-sobject-layouts-per
+      description: Salesforce Describe Sobject Layouts Per Record Type
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-layouts.describesobjectlayoutsperrecordtype
+      with:
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+        RECORD_TYPE_ID: tools.RECORD_TYPE_ID
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-sobject-named-layouts
+      description: Salesforce Sobject Named Layouts
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-layouts.sobjectnamedlayouts
+      with:
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+        LAYOUT_NAME: tools.LAYOUT_NAME
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.

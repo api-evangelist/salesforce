@@ -1,0 +1,80 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce Marketing Cloud REST API — Authentication
+  description: 'Salesforce Marketing Cloud REST API — Authentication. 1 operations. Lead operation: Get an access token. Self-contained
+    Naftiko capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Authentication
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: marketing-cloud-rest-authentication
+    baseUri: https://{subdomain}.rest.marketingcloudapis.com
+    description: Salesforce Marketing Cloud REST API — Authentication business capability. Self-contained, no shared references.
+    resources:
+    - name: v2-token
+      path: /v2/token
+      operations:
+      - name: getaccesstoken
+        method: POST
+        description: Get an access token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: marketing-cloud-rest-authentication-rest
+    port: 8080
+    description: REST adapter for Salesforce Marketing Cloud REST API — Authentication. One Spectral-compliant resource per
+      consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/v2/token
+      name: v2-token
+      description: REST surface for v2-token.
+      operations:
+      - method: POST
+        name: getaccesstoken
+        description: Get an access token
+        call: marketing-cloud-rest-authentication.getaccesstoken
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: marketing-cloud-rest-authentication-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce Marketing Cloud REST API — Authentication. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: get-access-token
+      description: Get an access token
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: marketing-cloud-rest-authentication.getaccesstoken
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

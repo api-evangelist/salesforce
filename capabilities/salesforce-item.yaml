@@ -1,0 +1,92 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Item
+  description: 'Salesforce — Item. 1 operations. Lead operation: Salesforce Add an Item to a Cart. Self-contained Naftiko
+    capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Item
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-item
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Item business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-commerce-webstores-carts-webCartId-cart-items
+      path: /data/v64.0/commerce/webstores//carts/{webCartId}/cart-items
+      operations:
+      - name: addanitemtoacart
+        method: POST
+        description: Salesforce Add an Item to a Cart
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: effectiveAccountId
+          in: query
+          type: string
+          required: true
+        - name: webCartId
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-item-rest
+    port: 8080
+    description: REST adapter for Salesforce — Item. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/data/v64-0/commerce/webstores/carts/{webcartid}/cart-items
+      name: data-v64-0-commerce-webstores-carts-webcartid-cart-items
+      description: REST surface for data-v64.0-commerce-webstores-carts-webCartId-cart-items.
+      operations:
+      - method: POST
+        name: addanitemtoacart
+        description: Salesforce Add an Item to a Cart
+        call: salesforce-item.addanitemtoacart
+        with:
+          effectiveAccountId: rest.effectiveAccountId
+          webCartId: rest.webCartId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-item-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Item. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-add-item-cart
+      description: Salesforce Add an Item to a Cart
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-item.addanitemtoacart
+      with:
+        effectiveAccountId: tools.effectiveAccountId
+        webCartId: tools.webCartId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

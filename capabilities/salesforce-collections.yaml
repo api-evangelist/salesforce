@@ -1,0 +1,316 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Collections
+  description: 'Salesforce — Collections. 6 operations. Lead operation: Salesforce Sobject Collections Create. Self-contained
+    Naftiko capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Collections
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-collections
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Collections business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-composite-sobjects
+      path: /data/v64.0/composite/sobjects
+      operations:
+      - name: sobjectcollectionscreate
+        method: POST
+        description: Salesforce Sobject Collections Create
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: sobjectcollectionsupdate
+        method: PATCH
+        description: Salesforce Sobject Collections Update
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: sobjectcollectionsdelete
+        method: DELETE
+        description: Salesforce Sobject Collections Delete
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: ids
+          in: query
+          type: string
+          required: true
+        - name: allOrNone
+          in: query
+          type: boolean
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    - name: data-v64.0-composite-sobjects-SOBJECT_API_NAME
+      path: /data/v64.0/composite/sobjects/{SOBJECT_API_NAME}
+      operations:
+      - name: sobjectcollectionsretrieve
+        method: GET
+        description: Salesforce Sobject Collections Retrieve
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: ids
+          in: query
+          type: string
+          required: true
+        - name: fields
+          in: query
+          type: string
+          required: true
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    - name: data-v64.0-composite-sobjects-SOBJECT_API_NAME-FIELD_NAME
+      path: /data/v64.0/composite/sobjects/{SOBJECT_API_NAME}/{FIELD_NAME}
+      operations:
+      - name: sobjectcollectionsupsert
+        method: PATCH
+        description: Salesforce Sobject Collections Upsert
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          required: true
+        - name: FIELD_NAME
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: services-data-v64.0-apps-oauth-credentials
+      path: /services/data/v64.0/apps/oauth/credentials/
+      operations:
+      - name: collections
+        method: GET
+        description: Salesforce Collections
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Authorization
+          in: header
+          type: string
+          description: Replace <token> with your access token
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-collections-rest
+    port: 8080
+    description: REST adapter for Salesforce — Collections. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/data/v64-0/composite/sobjects
+      name: data-v64-0-composite-sobjects
+      description: REST surface for data-v64.0-composite-sobjects.
+      operations:
+      - method: POST
+        name: sobjectcollectionscreate
+        description: Salesforce Sobject Collections Create
+        call: salesforce-collections.sobjectcollectionscreate
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: sobjectcollectionsupdate
+        description: Salesforce Sobject Collections Update
+        call: salesforce-collections.sobjectcollectionsupdate
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: sobjectcollectionsdelete
+        description: Salesforce Sobject Collections Delete
+        call: salesforce-collections.sobjectcollectionsdelete
+        with:
+          ids: rest.ids
+          allOrNone: rest.allOrNone
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/composite/sobjects/{sobject-api-name}
+      name: data-v64-0-composite-sobjects-sobject-api-name
+      description: REST surface for data-v64.0-composite-sobjects-SOBJECT_API_NAME.
+      operations:
+      - method: GET
+        name: sobjectcollectionsretrieve
+        description: Salesforce Sobject Collections Retrieve
+        call: salesforce-collections.sobjectcollectionsretrieve
+        with:
+          ids: rest.ids
+          fields: rest.fields
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/composite/sobjects/{sobject-api-name}/{field-name}
+      name: data-v64-0-composite-sobjects-sobject-api-name-field-name
+      description: REST surface for data-v64.0-composite-sobjects-SOBJECT_API_NAME-FIELD_NAME.
+      operations:
+      - method: PATCH
+        name: sobjectcollectionsupsert
+        description: Salesforce Sobject Collections Upsert
+        call: salesforce-collections.sobjectcollectionsupsert
+        with:
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+          FIELD_NAME: rest.FIELD_NAME
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/services/data/v64-0/apps/oauth/credentials
+      name: services-data-v64-0-apps-oauth-credentials
+      description: REST surface for services-data-v64.0-apps-oauth-credentials.
+      operations:
+      - method: GET
+        name: collections
+        description: Salesforce Collections
+        call: salesforce-collections.collections
+        with:
+          Authorization: rest.Authorization
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-collections-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Collections. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-sobject-collections-create
+      description: Salesforce Sobject Collections Create
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-collections.sobjectcollectionscreate
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-sobject-collections-update
+      description: Salesforce Sobject Collections Update
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: salesforce-collections.sobjectcollectionsupdate
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-sobject-collections-delete
+      description: Salesforce Sobject Collections Delete
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: salesforce-collections.sobjectcollectionsdelete
+      with:
+        ids: tools.ids
+        allOrNone: tools.allOrNone
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-sobject-collections-retrieve
+      description: Salesforce Sobject Collections Retrieve
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-collections.sobjectcollectionsretrieve
+      with:
+        ids: tools.ids
+        fields: tools.fields
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-sobject-collections-upsert
+      description: Salesforce Sobject Collections Upsert
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: salesforce-collections.sobjectcollectionsupsert
+      with:
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+        FIELD_NAME: tools.FIELD_NAME
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-collections
+      description: Salesforce Collections
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-collections.collections
+      with:
+        Authorization: tools.Authorization
+      outputParameters:
+      - type: object
+        mapping: $.

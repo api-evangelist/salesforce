@@ -1,0 +1,91 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Recently
+  description: 'Salesforce — Recently. 1 operations. Lead operation: Salesforce Recently Viewed Items. Self-contained Naftiko
+    capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Recently
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-recently
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Recently business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-sobjects-SOBJECT_API_NAME-listviews-recent
+      path: /data/v64.0/sobjects/{SOBJECT_API_NAME}/listviews/recent
+      operations:
+      - name: recentlyvieweditems
+        method: GET
+        description: Salesforce Recently Viewed Items
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: limit
+          in: query
+          type: string
+          required: true
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-recently-rest
+    port: 8080
+    description: REST adapter for Salesforce — Recently. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/data/v64-0/sobjects/{sobject-api-name}/listviews/recent
+      name: data-v64-0-sobjects-sobject-api-name-listviews-recent
+      description: REST surface for data-v64.0-sobjects-SOBJECT_API_NAME-listviews-recent.
+      operations:
+      - method: GET
+        name: recentlyvieweditems
+        description: Salesforce Recently Viewed Items
+        call: salesforce-recently.recentlyvieweditems
+        with:
+          limit: rest.limit
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-recently-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Recently. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-recently-viewed-items
+      description: Salesforce Recently Viewed Items
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-recently.recentlyvieweditems
+      with:
+        limit: tools.limit
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,85 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Access
+  description: 'Salesforce — Access. 1 operations. Lead operation: Salesforce Access Records. Self-contained Naftiko capability
+    covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Access
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-access
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Access business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-tooling-sobjects-SOBJECT_API_NAME-RECORD_ID
+      path: /data/v64.0/tooling/sobjects/{SOBJECT_API_NAME}/{RECORD_ID}
+      operations:
+      - name: accessrecords
+        method: GET
+        description: Salesforce Access Records
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          required: true
+        - name: RECORD_ID
+          in: path
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-access-rest
+    port: 8080
+    description: REST adapter for Salesforce — Access. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/data/v64-0/tooling/sobjects/{sobject-api-name}/{record-id}
+      name: data-v64-0-tooling-sobjects-sobject-api-name-record-id
+      description: REST surface for data-v64.0-tooling-sobjects-SOBJECT_API_NAME-RECORD_ID.
+      operations:
+      - method: GET
+        name: accessrecords
+        description: Salesforce Access Records
+        call: salesforce-access.accessrecords
+        with:
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+          RECORD_ID: rest.RECORD_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-access-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Access. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-access-records
+      description: Salesforce Access Records
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-access.accessrecords
+      with:
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+        RECORD_ID: tools.RECORD_ID
+      outputParameters:
+      - type: object
+        mapping: $.

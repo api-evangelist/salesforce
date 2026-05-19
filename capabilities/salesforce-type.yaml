@@ -1,0 +1,181 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Type
+  description: 'Salesforce — Type. 3 operations. Lead operation: Salesforce Lightning Usage by App Type. Self-contained Naftiko
+    capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Type
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-type
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Type business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-sobjects-LightningUsageByAppTypeMetrics
+      path: /data/v64.0/sobjects/LightningUsageByAppTypeMetrics
+      operations:
+      - name: lightningusagebyapptype
+        method: GET
+        description: Salesforce Lightning Usage by App Type
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    - name: data-v64.0-sobjects-SOBJECT_API_NAME-describe-layouts-RECORD_TYPE_ID
+      path: /data/v64.0/sobjects/{SOBJECT_API_NAME}/describe/layouts/{RECORD_TYPE_ID}
+      operations:
+      - name: describesobjectlayoutsperrecordtype
+        method: GET
+        description: Salesforce Describe Sobject Layouts Per Record Type
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          required: true
+        - name: RECORD_TYPE_ID
+          in: path
+          type: string
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    - name: data-v64.0-ui-api-object-info-SOBJECT_API_NAME-picklist-values-RECORD_TYPE_ID
+      path: /data/v64.0/ui-api/object-info/{SOBJECT_API_NAME}/picklist-values/{RECORD_TYPE_ID}
+      operations:
+      - name: getvaluesforallpicklistfieldsofarecordtype
+        method: GET
+        description: Salesforce Get Values for All Picklist Fields of a Record Type
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          description: Object API Name
+          required: true
+        - name: RECORD_TYPE_ID
+          in: path
+          type: string
+          description: Record type Id. Use `012000000000000AAA` as default when there are no custom record types.
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-type-rest
+    port: 8080
+    description: REST adapter for Salesforce — Type. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/data/v64-0/sobjects/lightningusagebyapptypemetrics
+      name: data-v64-0-sobjects-lightningusagebyapptypemetrics
+      description: REST surface for data-v64.0-sobjects-LightningUsageByAppTypeMetrics.
+      operations:
+      - method: GET
+        name: lightningusagebyapptype
+        description: Salesforce Lightning Usage by App Type
+        call: salesforce-type.lightningusagebyapptype
+        with:
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/sobjects/{sobject-api-name}/describe/layouts/{record-type-id}
+      name: data-v64-0-sobjects-sobject-api-name-describe-layouts-record-type-id
+      description: REST surface for data-v64.0-sobjects-SOBJECT_API_NAME-describe-layouts-RECORD_TYPE_ID.
+      operations:
+      - method: GET
+        name: describesobjectlayoutsperrecordtype
+        description: Salesforce Describe Sobject Layouts Per Record Type
+        call: salesforce-type.describesobjectlayoutsperrecordtype
+        with:
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+          RECORD_TYPE_ID: rest.RECORD_TYPE_ID
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/object-info/{sobject-api-name}/picklist-values/{record-type-id}
+      name: data-v64-0-ui-api-object-info-sobject-api-name-picklist-values-record-type-id
+      description: REST surface for data-v64.0-ui-api-object-info-SOBJECT_API_NAME-picklist-values-RECORD_TYPE_ID.
+      operations:
+      - method: GET
+        name: getvaluesforallpicklistfieldsofarecordtype
+        description: Salesforce Get Values for All Picklist Fields of a Record Type
+        call: salesforce-type.getvaluesforallpicklistfieldsofarecordtype
+        with:
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+          RECORD_TYPE_ID: rest.RECORD_TYPE_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-type-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Type. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-lightning-usage-app-type
+      description: Salesforce Lightning Usage by App Type
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-type.lightningusagebyapptype
+      with:
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-describe-sobject-layouts-per
+      description: Salesforce Describe Sobject Layouts Per Record Type
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-type.describesobjectlayoutsperrecordtype
+      with:
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+        RECORD_TYPE_ID: tools.RECORD_TYPE_ID
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-values-all-picklist
+      description: Salesforce Get Values for All Picklist Fields of a Record Type
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-type.getvaluesforallpicklistfieldsofarecordtype
+      with:
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+        RECORD_TYPE_ID: tools.RECORD_TYPE_ID
+      outputParameters:
+      - type: object
+        mapping: $.

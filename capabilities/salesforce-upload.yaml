@@ -1,0 +1,86 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Upload
+  description: 'Salesforce — Upload. 1 operations. Lead operation: Salesforce Upload Job Data. Self-contained Naftiko capability
+    covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Upload
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-upload
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Upload business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-jobs-ingest-batches
+      path: /data/v64.0/jobs/ingest//batches
+      operations:
+      - name: uploadjobdata
+        method: PUT
+        description: Salesforce Upload Job Data
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-upload-rest
+    port: 8080
+    description: REST adapter for Salesforce — Upload. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/data/v64-0/jobs/ingest/batches
+      name: data-v64-0-jobs-ingest-batches
+      description: REST surface for data-v64.0-jobs-ingest-batches.
+      operations:
+      - method: PUT
+        name: uploadjobdata
+        description: Salesforce Upload Job Data
+        call: salesforce-upload.uploadjobdata
+        with:
+          Content-Type: rest.Content-Type
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-upload-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Upload. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-upload-job-data
+      description: Salesforce Upload Job Data
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: salesforce-upload.uploadjobdata
+      with:
+        Content-Type: tools.Content-Type
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

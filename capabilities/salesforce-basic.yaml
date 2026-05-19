@@ -1,0 +1,85 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Basic
+  description: 'Salesforce — Basic. 1 operations. Lead operation: Salesforce Sobject Basic Information. Self-contained Naftiko
+    capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Basic
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-basic
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Basic business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-sobjects-SOBJECT_API_NAME
+      path: /data/v64.0/sobjects/{SOBJECT_API_NAME}
+      operations:
+      - name: sobjectbasicinformation
+        method: GET
+        description: Salesforce Sobject Basic Information
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-basic-rest
+    port: 8080
+    description: REST adapter for Salesforce — Basic. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/data/v64-0/sobjects/{sobject-api-name}
+      name: data-v64-0-sobjects-sobject-api-name
+      description: REST surface for data-v64.0-sobjects-SOBJECT_API_NAME.
+      operations:
+      - method: GET
+        name: sobjectbasicinformation
+        description: Salesforce Sobject Basic Information
+        call: salesforce-basic.sobjectbasicinformation
+        with:
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-basic-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Basic. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-sobject-basic-information
+      description: Salesforce Sobject Basic Information
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-basic.sobjectbasicinformation
+      with:
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.

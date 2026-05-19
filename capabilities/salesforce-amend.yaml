@@ -1,0 +1,80 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Amend
+  description: 'Salesforce — Amend. 1 operations. Lead operation: Salesforce Initiate Amend Quantity. Self-contained Naftiko
+    capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Amend
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-amend
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Amend business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-asset-management-assets-collection-actions-initiate-amend-quantity
+      path: /data/v64.0/asset-management/assets/collection/actions/initiate-amend-quantity
+      operations:
+      - name: initiateamendquantity
+        method: POST
+        description: Salesforce Initiate Amend Quantity
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-amend-rest
+    port: 8080
+    description: REST adapter for Salesforce — Amend. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/data/v64-0/asset-management/assets/collection/actions/initiate-amend-quantity
+      name: data-v64-0-asset-management-assets-collection-actions-initiate-amend-quantity
+      description: REST surface for data-v64.0-asset-management-assets-collection-actions-initiate-amend-quantity.
+      operations:
+      - method: POST
+        name: initiateamendquantity
+        description: Salesforce Initiate Amend Quantity
+        call: salesforce-amend.initiateamendquantity
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-amend-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Amend. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-initiate-amend-quantity
+      description: Salesforce Initiate Amend Quantity
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-amend.initiateamendquantity
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

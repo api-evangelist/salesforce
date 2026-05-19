@@ -1,0 +1,70 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Active
+  description: 'Salesforce — Active. 1 operations. Lead operation: Salesforce Get Active Theme. Self-contained Naftiko capability
+    covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Active
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-active
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Active business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-ui-api-themes-active
+      path: /data/v64.0/ui-api/themes/active
+      operations:
+      - name: getactivetheme
+        method: GET
+        description: Salesforce Get Active Theme
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-active-rest
+    port: 8080
+    description: REST adapter for Salesforce — Active. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/data/v64-0/ui-api/themes/active
+      name: data-v64-0-ui-api-themes-active
+      description: REST surface for data-v64.0-ui-api-themes-active.
+      operations:
+      - method: GET
+        name: getactivetheme
+        description: Salesforce Get Active Theme
+        call: salesforce-active.getactivetheme
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-active-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Active. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-get-active-theme
+      description: Salesforce Get Active Theme
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-active.getactivetheme
+      outputParameters:
+      - type: object
+        mapping: $.

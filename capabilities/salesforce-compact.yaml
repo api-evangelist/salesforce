@@ -1,0 +1,86 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Compact
+  description: 'Salesforce — Compact. 1 operations. Lead operation: Salesforce Compact Layouts. Self-contained Naftiko capability
+    covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Compact
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-compact
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Compact business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-compactLayouts
+      path: /data/v64.0/compactLayouts
+      operations:
+      - name: compactlayouts
+        method: GET
+        description: Salesforce Compact Layouts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: q
+          in: query
+          type: string
+          description: object list
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-compact-rest
+    port: 8080
+    description: REST adapter for Salesforce — Compact. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/data/v64-0/compactlayouts
+      name: data-v64-0-compactlayouts
+      description: REST surface for data-v64.0-compactLayouts.
+      operations:
+      - method: GET
+        name: compactlayouts
+        description: Salesforce Compact Layouts
+        call: salesforce-compact.compactlayouts
+        with:
+          q: rest.q
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-compact-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Compact. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-compact-layouts
+      description: Salesforce Compact Layouts
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-compact.compactlayouts
+      with:
+        q: tools.q
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.

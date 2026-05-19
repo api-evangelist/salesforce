@@ -1,0 +1,229 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Transaction
+  description: 'Salesforce — Transaction. 4 operations. Lead operation: Salesforce Update Gift Transaction Payments. Self-contained
+    Naftiko capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Transaction
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-transaction
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Transaction business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-connect-fundraising-transactions-payment-updates
+      path: /data/v64.0/connect/fundraising/transactions/payment-updates
+      operations:
+      - name: updategifttransactionpayments
+        method: POST
+        description: Salesforce Update Gift Transaction Payments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: data-v64.0-connect-loyalty-programs-loyaltyProgramName-transaction-history
+      path: /data/v64.0/connect/loyalty/programs/{loyaltyProgramName}/transaction-history
+      operations:
+      - name: transactionhistory
+        method: POST
+        description: Salesforce Transaction History
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: page
+          in: query
+          type: string
+          required: true
+        - name: loyaltyProgramName
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: data-v64.0-connect-realtime-loyalty-programs-loyaltyProgramName
+      path: /data/v64.0/connect/realtime/loyalty/programs/{loyaltyProgramName}
+      operations:
+      - name: transactionjournalsexecution
+        method: POST
+        description: Salesforce Transaction Journals Execution
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: loyaltyProgramName
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: data-v64.0-loyalty-programs-loyaltyProgramName-members-membershipNumber-transact
+      path: /data/v64.0/loyalty/programs/{loyaltyProgramName}/members/{membershipNumber}/transaction-ledger-summary
+      operations:
+      - name: transactionledgersummary
+        method: GET
+        description: Salesforce Transaction Ledger Summary
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: loyaltyProgramName
+          in: path
+          type: string
+          required: true
+        - name: membershipNumber
+          in: path
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-transaction-rest
+    port: 8080
+    description: REST adapter for Salesforce — Transaction. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/data/v64-0/connect/fundraising/transactions/payment-updates
+      name: data-v64-0-connect-fundraising-transactions-payment-updates
+      description: REST surface for data-v64.0-connect-fundraising-transactions-payment-updates.
+      operations:
+      - method: POST
+        name: updategifttransactionpayments
+        description: Salesforce Update Gift Transaction Payments
+        call: salesforce-transaction.updategifttransactionpayments
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/connect/loyalty/programs/{loyaltyprogramname}/transaction-history
+      name: data-v64-0-connect-loyalty-programs-loyaltyprogramname-transaction-history
+      description: REST surface for data-v64.0-connect-loyalty-programs-loyaltyProgramName-transaction-history.
+      operations:
+      - method: POST
+        name: transactionhistory
+        description: Salesforce Transaction History
+        call: salesforce-transaction.transactionhistory
+        with:
+          page: rest.page
+          loyaltyProgramName: rest.loyaltyProgramName
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/connect/realtime/loyalty/programs/{loyaltyprogramname}
+      name: data-v64-0-connect-realtime-loyalty-programs-loyaltyprogramname
+      description: REST surface for data-v64.0-connect-realtime-loyalty-programs-loyaltyProgramName.
+      operations:
+      - method: POST
+        name: transactionjournalsexecution
+        description: Salesforce Transaction Journals Execution
+        call: salesforce-transaction.transactionjournalsexecution
+        with:
+          loyaltyProgramName: rest.loyaltyProgramName
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/loyalty/programs/{loyaltyprogramname}/members/{membershipnumber}/transaction-ledger-summary
+      name: data-v64-0-loyalty-programs-loyaltyprogramname-members-membershipnumber-transact
+      description: REST surface for data-v64.0-loyalty-programs-loyaltyProgramName-members-membershipNumber-transact.
+      operations:
+      - method: GET
+        name: transactionledgersummary
+        description: Salesforce Transaction Ledger Summary
+        call: salesforce-transaction.transactionledgersummary
+        with:
+          loyaltyProgramName: rest.loyaltyProgramName
+          membershipNumber: rest.membershipNumber
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-transaction-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Transaction. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-update-gift-transaction-payments
+      description: Salesforce Update Gift Transaction Payments
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-transaction.updategifttransactionpayments
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-transaction-history
+      description: Salesforce Transaction History
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-transaction.transactionhistory
+      with:
+        page: tools.page
+        loyaltyProgramName: tools.loyaltyProgramName
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-transaction-journals-execution
+      description: Salesforce Transaction Journals Execution
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-transaction.transactionjournalsexecution
+      with:
+        loyaltyProgramName: tools.loyaltyProgramName
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-transaction-ledger-summary
+      description: Salesforce Transaction Ledger Summary
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-transaction.transactionledgersummary
+      with:
+        loyaltyProgramName: tools.loyaltyProgramName
+        membershipNumber: tools.membershipNumber
+      outputParameters:
+      - type: object
+        mapping: $.

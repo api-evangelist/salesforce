@@ -1,0 +1,80 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Predict
+  description: 'Salesforce — Predict. 1 operations. Lead operation: Salesforce Predict. Self-contained Naftiko capability
+    covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Predict
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-predict
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Predict business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-smartdatadiscovery-predict
+      path: /data/v64.0/smartdatadiscovery/predict
+      operations:
+      - name: predict
+        method: POST
+        description: Salesforce Predict
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-predict-rest
+    port: 8080
+    description: REST adapter for Salesforce — Predict. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/data/v64-0/smartdatadiscovery/predict
+      name: data-v64-0-smartdatadiscovery-predict
+      description: REST surface for data-v64.0-smartdatadiscovery-predict.
+      operations:
+      - method: POST
+        name: predict
+        description: Salesforce Predict
+        call: salesforce-predict.predict
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-predict-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Predict. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-predict
+      description: Salesforce Predict
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-predict.predict
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

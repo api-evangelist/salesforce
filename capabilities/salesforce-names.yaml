@@ -1,0 +1,266 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Names
+  description: 'Salesforce — Names. 5 operations. Lead operation: Salesforce Get External Credentials by Developer Name. Self-contained
+    Naftiko capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Names
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-names
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Names business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-named-credentials-external-credentials-DEVELOPER_NAME
+      path: /data/v64.0/named-credentials/external-credentials/{DEVELOPER_NAME}
+      operations:
+      - name: getexternalcredentialsbydevelopername
+        method: GET
+        description: Salesforce Get External Credentials by Developer Name
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: DEVELOPER_NAME
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-named-credentials-named-credential-setup-DEVELOPER_NAME
+      path: /data/v64.0/named-credentials/named-credential-setup/{DEVELOPER_NAME}
+      operations:
+      - name: getnamedcredentialbydevelopername
+        method: GET
+        description: Salesforce Get Named Credential by Developer Name
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: DEVELOPER_NAME
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-sobjects-EVENT_NAME-eventSchema
+      path: /data/v64.0/sobjects/{EVENT_NAME}/eventSchema
+      operations:
+      - name: platformeventschemabyeventname
+        method: GET
+        description: Salesforce Platform Event Schema by Event Name
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: EVENT_NAME
+          in: path
+          type: string
+          description: API Name of the event
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    - name: data-v64.0-ui-api-list-info-SOBJECT_API_NAME-LIST_VIEW_API_NAME
+      path: /data/v64.0/ui-api/list-info/{SOBJECT_API_NAME}/{LIST_VIEW_API_NAME}
+      operations:
+      - name: getlistviewmetadatabyapiname
+        method: GET
+        description: Salesforce Get List View Metadata by Api Name
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          description: API name of the UI API supported object.
+          required: true
+        - name: LIST_VIEW_API_NAME
+          in: path
+          type: string
+          description: API name of a list view, such as AllAccounts, __Recent, or __SearchResult.
+          required: true
+    - name: data-v64.0-ui-api-list-records-SOBJECT_API_NAME-LIST_VIEW_API_NAME
+      path: /data/v64.0/ui-api/list-records/{SOBJECT_API_NAME}/{LIST_VIEW_API_NAME}
+      operations:
+      - name: getlistviewrecordsbyapiname
+        method: GET
+        description: Salesforce Get List View Records by Api Name
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          description: API name of a UI API supported object.
+          required: true
+        - name: LIST_VIEW_API_NAME
+          in: path
+          type: string
+          description: API name of a list view, such as AllAccounts, __Recent, or __SearchResult.
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-names-rest
+    port: 8080
+    description: REST adapter for Salesforce — Names. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/data/v64-0/named-credentials/external-credentials/{developer-name}
+      name: data-v64-0-named-credentials-external-credentials-developer-name
+      description: REST surface for data-v64.0-named-credentials-external-credentials-DEVELOPER_NAME.
+      operations:
+      - method: GET
+        name: getexternalcredentialsbydevelopername
+        description: Salesforce Get External Credentials by Developer Name
+        call: salesforce-names.getexternalcredentialsbydevelopername
+        with:
+          DEVELOPER_NAME: rest.DEVELOPER_NAME
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/named-credentials/named-credential-setup/{developer-name}
+      name: data-v64-0-named-credentials-named-credential-setup-developer-name
+      description: REST surface for data-v64.0-named-credentials-named-credential-setup-DEVELOPER_NAME.
+      operations:
+      - method: GET
+        name: getnamedcredentialbydevelopername
+        description: Salesforce Get Named Credential by Developer Name
+        call: salesforce-names.getnamedcredentialbydevelopername
+        with:
+          DEVELOPER_NAME: rest.DEVELOPER_NAME
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/sobjects/{event-name}/eventschema
+      name: data-v64-0-sobjects-event-name-eventschema
+      description: REST surface for data-v64.0-sobjects-EVENT_NAME-eventSchema.
+      operations:
+      - method: GET
+        name: platformeventschemabyeventname
+        description: Salesforce Platform Event Schema by Event Name
+        call: salesforce-names.platformeventschemabyeventname
+        with:
+          EVENT_NAME: rest.EVENT_NAME
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/list-info/{sobject-api-name}/{list-view-api-name}
+      name: data-v64-0-ui-api-list-info-sobject-api-name-list-view-api-name
+      description: REST surface for data-v64.0-ui-api-list-info-SOBJECT_API_NAME-LIST_VIEW_API_NAME.
+      operations:
+      - method: GET
+        name: getlistviewmetadatabyapiname
+        description: Salesforce Get List View Metadata by Api Name
+        call: salesforce-names.getlistviewmetadatabyapiname
+        with:
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+          LIST_VIEW_API_NAME: rest.LIST_VIEW_API_NAME
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/list-records/{sobject-api-name}/{list-view-api-name}
+      name: data-v64-0-ui-api-list-records-sobject-api-name-list-view-api-name
+      description: REST surface for data-v64.0-ui-api-list-records-SOBJECT_API_NAME-LIST_VIEW_API_NAME.
+      operations:
+      - method: GET
+        name: getlistviewrecordsbyapiname
+        description: Salesforce Get List View Records by Api Name
+        call: salesforce-names.getlistviewrecordsbyapiname
+        with:
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+          LIST_VIEW_API_NAME: rest.LIST_VIEW_API_NAME
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-names-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Names. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-get-external-credentials-developer
+      description: Salesforce Get External Credentials by Developer Name
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-names.getexternalcredentialsbydevelopername
+      with:
+        DEVELOPER_NAME: tools.DEVELOPER_NAME
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-named-credential-developer
+      description: Salesforce Get Named Credential by Developer Name
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-names.getnamedcredentialbydevelopername
+      with:
+        DEVELOPER_NAME: tools.DEVELOPER_NAME
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-platform-event-schema-event
+      description: Salesforce Platform Event Schema by Event Name
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-names.platformeventschemabyeventname
+      with:
+        EVENT_NAME: tools.EVENT_NAME
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-list-view-metadata
+      description: Salesforce Get List View Metadata by Api Name
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-names.getlistviewmetadatabyapiname
+      with:
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+        LIST_VIEW_API_NAME: tools.LIST_VIEW_API_NAME
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-list-view-records
+      description: Salesforce Get List View Records by Api Name
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-names.getlistviewrecordsbyapiname
+      with:
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+        LIST_VIEW_API_NAME: tools.LIST_VIEW_API_NAME
+      outputParameters:
+      - type: object
+        mapping: $.

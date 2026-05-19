@@ -1,0 +1,869 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Deletes
+  description: 'Salesforce — Deletes. 20 operations. Lead operation: Salesforce Comment - Delete. Self-contained Naftiko capability
+    covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Deletes
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-deletes
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Deletes business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-chatter-comments-COMMENT_ID
+      path: /data/v64.0/chatter/comments/{COMMENT_ID}
+      operations:
+      - name: commentdelete
+        method: DELETE
+        description: Salesforce Comment - Delete
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: COMMENT_ID
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-chatter-feed-elements-FEED_ELEMENT_ID
+      path: /data/v64.0/chatter/feed-elements/{FEED_ELEMENT_ID}
+      operations:
+      - name: feedelementdelete
+        method: DELETE
+        description: Salesforce Feed Element - Delete
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: FEED_ELEMENT_ID
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-chatter-subscriptions-SUBSCRIPTION_ID
+      path: /data/v64.0/chatter/subscriptions/{SUBSCRIPTION_ID}
+      operations:
+      - name: deletesubscription
+        method: DELETE
+        description: Salesforce Delete Subscription
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SUBSCRIPTION_ID
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-composite-sobjects
+      path: /data/v64.0/composite/sobjects
+      operations:
+      - name: sobjectcollectionsdelete
+        method: DELETE
+        description: Salesforce Sobject Collections Delete
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: ids
+          in: query
+          type: string
+          required: true
+        - name: allOrNone
+          in: query
+          type: boolean
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    - name: data-v64.0-connect-business-rules-decision-table-definitions-decisionTableId
+      path: /data/v64.0/connect/business-rules/decision-table/definitions/{decisionTableId}
+      operations:
+      - name: deletetable
+        method: DELETE
+        description: Salesforce Delete Table
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: decisionTableId
+          in: path
+          type: string
+          description: Decision Table Id
+          required: true
+    - name: data-v64.0-connect-business-rules-expression-set-expressionSetId
+      path: /data/v64.0/connect/business-rules/expression-set/{expressionSetId}
+      operations:
+      - name: expressionsetdelete
+        method: DELETE
+        description: Salesforce Expression Set Delete
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: expressionSetId
+          in: path
+          type: string
+          description: 'Expression Set Id: For Example 9QLHo000000LBjEOAW'
+          required: true
+    - name: data-v64.0-connect-files-FILE_ID
+      path: /data/v64.0/connect/files/{FILE_ID}
+      operations:
+      - name: fileinformationdelete
+        method: DELETE
+        description: Salesforce File Information - Delete
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: FILE_ID
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-jobs-ingest
+      path: /data/v64.0/jobs/ingest/
+      operations:
+      - name: deletejob
+        method: DELETE
+        description: Salesforce Delete Job
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: data-v64.0-jobs-query
+      path: /data/v64.0/jobs/query/
+      operations:
+      - name: deletejobquery
+        method: DELETE
+        description: Salesforce Delete Job Query
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: data-v64.0-named-credentials-credential
+      path: /data/v64.0/named-credentials/credential
+      operations:
+      - name: deletecredential
+        method: DELETE
+        description: Salesforce Delete Credential
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: data-v64.0-named-credentials-external-credentials-DEVELOPER_NAME
+      path: /data/v64.0/named-credentials/external-credentials/{DEVELOPER_NAME}
+      operations:
+      - name: deleteexternalcredential
+        method: DELETE
+        description: Salesforce Delete External Credential
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: DEVELOPER_NAME
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-sobjects-SOBJECT_API_NAME-RECORD_ID
+      path: /data/v64.0/sobjects/{SOBJECT_API_NAME}/{RECORD_ID}
+      operations:
+      - name: sobjectrowsdelete
+        method: DELETE
+        description: Salesforce Sobject Rows Delete
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          required: true
+        - name: RECORD_ID
+          in: path
+          type: string
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    - name: data-v64.0-tooling-sobjects-EventRelayConfig-EVENT_RELAY_CONFIG_ID
+      path: /data/v64.0/tooling/sobjects/EventRelayConfig/{EVENT_RELAY_CONFIG_ID}
+      operations:
+      - name: deleteeventrelay
+        method: DELETE
+        description: Salesforce Delete Event Relay
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: EVENT_RELAY_CONFIG_ID
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-tooling-sobjects-ManagedEventSubscription-managedEventSubscriptionId
+      path: /data/v64.0/tooling/sobjects/ManagedEventSubscription/{managedEventSubscriptionId}
+      operations:
+      - name: deletemanagedeventsubscription
+        method: DELETE
+        description: Salesforce Delete Managed Event Subscription
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: managedEventSubscriptionId
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-tooling-sobjects-NamedCredential-NAMED_CREDENTIAL_ID
+      path: /data/v64.0/tooling/sobjects/NamedCredential/{NAMED_CREDENTIAL_ID}
+      operations:
+      - name: deletenamedcredential
+        method: DELETE
+        description: Salesforce Delete Named Credential
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: NAMED_CREDENTIAL_ID
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-tooling-sobjects-PlatformEventChannel-PLATFORM_EVENT_CHANNEL_ID
+      path: /data/v64.0/tooling/sobjects/PlatformEventChannel/{PLATFORM_EVENT_CHANNEL_ID}
+      operations:
+      - name: deleteeventchannel
+        method: DELETE
+        description: Salesforce Delete Event Channel
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: PLATFORM_EVENT_CHANNEL_ID
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-tooling-sobjects-PlatformEventChannelMember-PLATFORM_EVENT_CHANNEL_ME
+      path: /data/v64.0/tooling/sobjects/PlatformEventChannelMember/{PLATFORM_EVENT_CHANNEL_MEMBER_ID}
+      operations:
+      - name: deletechannelmember
+        method: DELETE
+        description: Salesforce Delete Channel Member
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: PLATFORM_EVENT_CHANNEL_MEMBER_ID
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-tooling-sobjects-SandboxInfo-SANDBOX_INFO_ID
+      path: /data/v64.0/tooling/sobjects/SandboxInfo/{SANDBOX_INFO_ID}
+      operations:
+      - name: deletesandbox
+        method: DELETE
+        description: Salesforce Delete Sandbox
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SANDBOX_INFO_ID
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-ui-api-favorites-FAVORITE_ID
+      path: /data/v64.0/ui-api/favorites/{FAVORITE_ID}
+      operations:
+      - name: deleteafavorite
+        method: DELETE
+        description: Salesforce Delete a Favorite
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: FAVORITE_ID
+          in: path
+          type: string
+          description: The ID of a favorite
+          required: true
+    - name: data-v64.0-ui-api-records-RECORD_ID
+      path: /data/v64.0/ui-api/records/{RECORD_ID}
+      operations:
+      - name: deletearecord
+        method: DELETE
+        description: Salesforce Delete a Record
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: RECORD_ID
+          in: path
+          type: string
+          description: Record ID
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-deletes-rest
+    port: 8080
+    description: REST adapter for Salesforce — Deletes. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/data/v64-0/chatter/comments/{comment-id}
+      name: data-v64-0-chatter-comments-comment-id
+      description: REST surface for data-v64.0-chatter-comments-COMMENT_ID.
+      operations:
+      - method: DELETE
+        name: commentdelete
+        description: Salesforce Comment - Delete
+        call: salesforce-deletes.commentdelete
+        with:
+          COMMENT_ID: rest.COMMENT_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/chatter/feed-elements/{feed-element-id}
+      name: data-v64-0-chatter-feed-elements-feed-element-id
+      description: REST surface for data-v64.0-chatter-feed-elements-FEED_ELEMENT_ID.
+      operations:
+      - method: DELETE
+        name: feedelementdelete
+        description: Salesforce Feed Element - Delete
+        call: salesforce-deletes.feedelementdelete
+        with:
+          FEED_ELEMENT_ID: rest.FEED_ELEMENT_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/chatter/subscriptions/{subscription-id}
+      name: data-v64-0-chatter-subscriptions-subscription-id
+      description: REST surface for data-v64.0-chatter-subscriptions-SUBSCRIPTION_ID.
+      operations:
+      - method: DELETE
+        name: deletesubscription
+        description: Salesforce Delete Subscription
+        call: salesforce-deletes.deletesubscription
+        with:
+          SUBSCRIPTION_ID: rest.SUBSCRIPTION_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/composite/sobjects
+      name: data-v64-0-composite-sobjects
+      description: REST surface for data-v64.0-composite-sobjects.
+      operations:
+      - method: DELETE
+        name: sobjectcollectionsdelete
+        description: Salesforce Sobject Collections Delete
+        call: salesforce-deletes.sobjectcollectionsdelete
+        with:
+          ids: rest.ids
+          allOrNone: rest.allOrNone
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/connect/business-rules/decision-table/definitions/{decisiontableid}
+      name: data-v64-0-connect-business-rules-decision-table-definitions-decisiontableid
+      description: REST surface for data-v64.0-connect-business-rules-decision-table-definitions-decisionTableId.
+      operations:
+      - method: DELETE
+        name: deletetable
+        description: Salesforce Delete Table
+        call: salesforce-deletes.deletetable
+        with:
+          decisionTableId: rest.decisionTableId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/connect/business-rules/expression-set/{expressionsetid}
+      name: data-v64-0-connect-business-rules-expression-set-expressionsetid
+      description: REST surface for data-v64.0-connect-business-rules-expression-set-expressionSetId.
+      operations:
+      - method: DELETE
+        name: expressionsetdelete
+        description: Salesforce Expression Set Delete
+        call: salesforce-deletes.expressionsetdelete
+        with:
+          expressionSetId: rest.expressionSetId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/connect/files/{file-id}
+      name: data-v64-0-connect-files-file-id
+      description: REST surface for data-v64.0-connect-files-FILE_ID.
+      operations:
+      - method: DELETE
+        name: fileinformationdelete
+        description: Salesforce File Information - Delete
+        call: salesforce-deletes.fileinformationdelete
+        with:
+          FILE_ID: rest.FILE_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/jobs/ingest
+      name: data-v64-0-jobs-ingest
+      description: REST surface for data-v64.0-jobs-ingest.
+      operations:
+      - method: DELETE
+        name: deletejob
+        description: Salesforce Delete Job
+        call: salesforce-deletes.deletejob
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/jobs/query
+      name: data-v64-0-jobs-query
+      description: REST surface for data-v64.0-jobs-query.
+      operations:
+      - method: DELETE
+        name: deletejobquery
+        description: Salesforce Delete Job Query
+        call: salesforce-deletes.deletejobquery
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/named-credentials/credential
+      name: data-v64-0-named-credentials-credential
+      description: REST surface for data-v64.0-named-credentials-credential.
+      operations:
+      - method: DELETE
+        name: deletecredential
+        description: Salesforce Delete Credential
+        call: salesforce-deletes.deletecredential
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/named-credentials/external-credentials/{developer-name}
+      name: data-v64-0-named-credentials-external-credentials-developer-name
+      description: REST surface for data-v64.0-named-credentials-external-credentials-DEVELOPER_NAME.
+      operations:
+      - method: DELETE
+        name: deleteexternalcredential
+        description: Salesforce Delete External Credential
+        call: salesforce-deletes.deleteexternalcredential
+        with:
+          DEVELOPER_NAME: rest.DEVELOPER_NAME
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/sobjects/{sobject-api-name}/{record-id}
+      name: data-v64-0-sobjects-sobject-api-name-record-id
+      description: REST surface for data-v64.0-sobjects-SOBJECT_API_NAME-RECORD_ID.
+      operations:
+      - method: DELETE
+        name: sobjectrowsdelete
+        description: Salesforce Sobject Rows Delete
+        call: salesforce-deletes.sobjectrowsdelete
+        with:
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+          RECORD_ID: rest.RECORD_ID
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/tooling/sobjects/eventrelayconfig/{event-relay-config-id}
+      name: data-v64-0-tooling-sobjects-eventrelayconfig-event-relay-config-id
+      description: REST surface for data-v64.0-tooling-sobjects-EventRelayConfig-EVENT_RELAY_CONFIG_ID.
+      operations:
+      - method: DELETE
+        name: deleteeventrelay
+        description: Salesforce Delete Event Relay
+        call: salesforce-deletes.deleteeventrelay
+        with:
+          EVENT_RELAY_CONFIG_ID: rest.EVENT_RELAY_CONFIG_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/tooling/sobjects/managedeventsubscription/{managedeventsubscriptionid}
+      name: data-v64-0-tooling-sobjects-managedeventsubscription-managedeventsubscriptionid
+      description: REST surface for data-v64.0-tooling-sobjects-ManagedEventSubscription-managedEventSubscriptionId.
+      operations:
+      - method: DELETE
+        name: deletemanagedeventsubscription
+        description: Salesforce Delete Managed Event Subscription
+        call: salesforce-deletes.deletemanagedeventsubscription
+        with:
+          managedEventSubscriptionId: rest.managedEventSubscriptionId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/tooling/sobjects/namedcredential/{named-credential-id}
+      name: data-v64-0-tooling-sobjects-namedcredential-named-credential-id
+      description: REST surface for data-v64.0-tooling-sobjects-NamedCredential-NAMED_CREDENTIAL_ID.
+      operations:
+      - method: DELETE
+        name: deletenamedcredential
+        description: Salesforce Delete Named Credential
+        call: salesforce-deletes.deletenamedcredential
+        with:
+          NAMED_CREDENTIAL_ID: rest.NAMED_CREDENTIAL_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/tooling/sobjects/platformeventchannel/{platform-event-channel-id}
+      name: data-v64-0-tooling-sobjects-platformeventchannel-platform-event-channel-id
+      description: REST surface for data-v64.0-tooling-sobjects-PlatformEventChannel-PLATFORM_EVENT_CHANNEL_ID.
+      operations:
+      - method: DELETE
+        name: deleteeventchannel
+        description: Salesforce Delete Event Channel
+        call: salesforce-deletes.deleteeventchannel
+        with:
+          PLATFORM_EVENT_CHANNEL_ID: rest.PLATFORM_EVENT_CHANNEL_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/tooling/sobjects/platformeventchannelmember/{platform-event-channel-member-id}
+      name: data-v64-0-tooling-sobjects-platformeventchannelmember-platform-event-channel-me
+      description: REST surface for data-v64.0-tooling-sobjects-PlatformEventChannelMember-PLATFORM_EVENT_CHANNEL_ME.
+      operations:
+      - method: DELETE
+        name: deletechannelmember
+        description: Salesforce Delete Channel Member
+        call: salesforce-deletes.deletechannelmember
+        with:
+          PLATFORM_EVENT_CHANNEL_MEMBER_ID: rest.PLATFORM_EVENT_CHANNEL_MEMBER_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/tooling/sobjects/sandboxinfo/{sandbox-info-id}
+      name: data-v64-0-tooling-sobjects-sandboxinfo-sandbox-info-id
+      description: REST surface for data-v64.0-tooling-sobjects-SandboxInfo-SANDBOX_INFO_ID.
+      operations:
+      - method: DELETE
+        name: deletesandbox
+        description: Salesforce Delete Sandbox
+        call: salesforce-deletes.deletesandbox
+        with:
+          SANDBOX_INFO_ID: rest.SANDBOX_INFO_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/favorites/{favorite-id}
+      name: data-v64-0-ui-api-favorites-favorite-id
+      description: REST surface for data-v64.0-ui-api-favorites-FAVORITE_ID.
+      operations:
+      - method: DELETE
+        name: deleteafavorite
+        description: Salesforce Delete a Favorite
+        call: salesforce-deletes.deleteafavorite
+        with:
+          FAVORITE_ID: rest.FAVORITE_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/records/{record-id}
+      name: data-v64-0-ui-api-records-record-id
+      description: REST surface for data-v64.0-ui-api-records-RECORD_ID.
+      operations:
+      - method: DELETE
+        name: deletearecord
+        description: Salesforce Delete a Record
+        call: salesforce-deletes.deletearecord
+        with:
+          RECORD_ID: rest.RECORD_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-deletes-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Deletes. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-comment-delete
+      description: Salesforce Comment - Delete
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: salesforce-deletes.commentdelete
+      with:
+        COMMENT_ID: tools.COMMENT_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-feed-element-delete
+      description: Salesforce Feed Element - Delete
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: salesforce-deletes.feedelementdelete
+      with:
+        FEED_ELEMENT_ID: tools.FEED_ELEMENT_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-delete-subscription
+      description: Salesforce Delete Subscription
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: salesforce-deletes.deletesubscription
+      with:
+        SUBSCRIPTION_ID: tools.SUBSCRIPTION_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-sobject-collections-delete
+      description: Salesforce Sobject Collections Delete
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: salesforce-deletes.sobjectcollectionsdelete
+      with:
+        ids: tools.ids
+        allOrNone: tools.allOrNone
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-delete-table
+      description: Salesforce Delete Table
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: salesforce-deletes.deletetable
+      with:
+        decisionTableId: tools.decisionTableId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-expression-set-delete
+      description: Salesforce Expression Set Delete
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: salesforce-deletes.expressionsetdelete
+      with:
+        expressionSetId: tools.expressionSetId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-file-information-delete
+      description: Salesforce File Information - Delete
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: salesforce-deletes.fileinformationdelete
+      with:
+        FILE_ID: tools.FILE_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-delete-job
+      description: Salesforce Delete Job
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: salesforce-deletes.deletejob
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-delete-job-query
+      description: Salesforce Delete Job Query
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: salesforce-deletes.deletejobquery
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-delete-credential
+      description: Salesforce Delete Credential
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: salesforce-deletes.deletecredential
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-delete-external-credential
+      description: Salesforce Delete External Credential
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: salesforce-deletes.deleteexternalcredential
+      with:
+        DEVELOPER_NAME: tools.DEVELOPER_NAME
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-sobject-rows-delete
+      description: Salesforce Sobject Rows Delete
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: salesforce-deletes.sobjectrowsdelete
+      with:
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+        RECORD_ID: tools.RECORD_ID
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-delete-event-relay
+      description: Salesforce Delete Event Relay
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: salesforce-deletes.deleteeventrelay
+      with:
+        EVENT_RELAY_CONFIG_ID: tools.EVENT_RELAY_CONFIG_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-delete-managed-event-subscription
+      description: Salesforce Delete Managed Event Subscription
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: salesforce-deletes.deletemanagedeventsubscription
+      with:
+        managedEventSubscriptionId: tools.managedEventSubscriptionId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-delete-named-credential
+      description: Salesforce Delete Named Credential
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: salesforce-deletes.deletenamedcredential
+      with:
+        NAMED_CREDENTIAL_ID: tools.NAMED_CREDENTIAL_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-delete-event-channel
+      description: Salesforce Delete Event Channel
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: salesforce-deletes.deleteeventchannel
+      with:
+        PLATFORM_EVENT_CHANNEL_ID: tools.PLATFORM_EVENT_CHANNEL_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-delete-channel-member
+      description: Salesforce Delete Channel Member
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: salesforce-deletes.deletechannelmember
+      with:
+        PLATFORM_EVENT_CHANNEL_MEMBER_ID: tools.PLATFORM_EVENT_CHANNEL_MEMBER_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-delete-sandbox
+      description: Salesforce Delete Sandbox
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: salesforce-deletes.deletesandbox
+      with:
+        SANDBOX_INFO_ID: tools.SANDBOX_INFO_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-delete-favorite
+      description: Salesforce Delete a Favorite
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: salesforce-deletes.deleteafavorite
+      with:
+        FAVORITE_ID: tools.FAVORITE_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-delete-record
+      description: Salesforce Delete a Record
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: salesforce-deletes.deletearecord
+      with:
+        RECORD_ID: tools.RECORD_ID
+      outputParameters:
+      - type: object
+        mapping: $.

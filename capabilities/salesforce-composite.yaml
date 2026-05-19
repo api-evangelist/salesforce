@@ -1,0 +1,171 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Composite
+  description: 'Salesforce — Composite. 3 operations. Lead operation: Salesforce Composite. Self-contained Naftiko capability
+    covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Composite
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-composite
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Composite business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-composite
+      path: /data/v64.0/composite
+      operations:
+      - name: composite
+        method: POST
+        description: Salesforce Composite
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Authorization
+          in: header
+          type: string
+          description: Only used for Postman Notebooks. Auth is defined at collection-level and inherited down.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: data-v64.0-composite-batch
+      path: /data/v64.0/composite/batch
+      operations:
+      - name: compositebatch
+        method: POST
+        description: Salesforce Composite Batch
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: data-v64.0-composite-graph
+      path: /data/v64.0/composite/graph
+      operations:
+      - name: compositegraph
+        method: POST
+        description: Salesforce Composite Graph
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-composite-rest
+    port: 8080
+    description: REST adapter for Salesforce — Composite. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/data/v64-0/composite
+      name: data-v64-0-composite
+      description: REST surface for data-v64.0-composite.
+      operations:
+      - method: POST
+        name: composite
+        description: Salesforce Composite
+        call: salesforce-composite.composite
+        with:
+          Authorization: rest.Authorization
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/composite/batch
+      name: data-v64-0-composite-batch
+      description: REST surface for data-v64.0-composite-batch.
+      operations:
+      - method: POST
+        name: compositebatch
+        description: Salesforce Composite Batch
+        call: salesforce-composite.compositebatch
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/composite/graph
+      name: data-v64-0-composite-graph
+      description: REST surface for data-v64.0-composite-graph.
+      operations:
+      - method: POST
+        name: compositegraph
+        description: Salesforce Composite Graph
+        call: salesforce-composite.compositegraph
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-composite-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Composite. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-composite
+      description: Salesforce Composite
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-composite.composite
+      with:
+        Authorization: tools.Authorization
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-composite-batch
+      description: Salesforce Composite Batch
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-composite.compositebatch
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-composite-graph
+      description: Salesforce Composite Graph
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-composite.compositegraph
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

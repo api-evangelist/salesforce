@@ -1,0 +1,218 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce Marketing Cloud REST API — Assets
+  description: 'Salesforce Marketing Cloud REST API — Assets. 5 operations. Lead operation: List content assets. Self-contained
+    Naftiko capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Assets
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: marketing-cloud-rest-assets
+    baseUri: https://{subdomain}.rest.marketingcloudapis.com
+    description: Salesforce Marketing Cloud REST API — Assets business capability. Self-contained, no shared references.
+    resources:
+    - name: asset-v1-content-assets
+      path: /asset/v1/content/assets
+      operations:
+      - name: listassets
+        method: GET
+        description: List content assets
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: page
+          in: query
+          type: integer
+          description: The page number to retrieve. Defaults to 1.
+        - name: pageSize
+          in: query
+          type: integer
+          description: The number of assets to return per page. Defaults to 50.
+        - name: assetType
+          in: query
+          type: string
+          description: Filter by asset type name (e.g., templatebasedemail, htmlemail, image, document, block).
+      - name: createasset
+        method: POST
+        description: Create a content asset
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: asset-v1-content-assets-id
+      path: /asset/v1/content/assets/{id}
+      operations:
+      - name: getasset
+        method: GET
+        description: Get a content asset by ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updateasset
+        method: PUT
+        description: Update a content asset
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleteasset
+        method: DELETE
+        description: Delete a content asset
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: marketing-cloud-rest-assets-rest
+    port: 8080
+    description: REST adapter for Salesforce Marketing Cloud REST API — Assets. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/asset/v1/content/assets
+      name: asset-v1-content-assets
+      description: REST surface for asset-v1-content-assets.
+      operations:
+      - method: GET
+        name: listassets
+        description: List content assets
+        call: marketing-cloud-rest-assets.listassets
+        with:
+          page: rest.page
+          pageSize: rest.pageSize
+          assetType: rest.assetType
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createasset
+        description: Create a content asset
+        call: marketing-cloud-rest-assets.createasset
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/asset/v1/content/assets/{id}
+      name: asset-v1-content-assets-id
+      description: REST surface for asset-v1-content-assets-id.
+      operations:
+      - method: GET
+        name: getasset
+        description: Get a content asset by ID
+        call: marketing-cloud-rest-assets.getasset
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updateasset
+        description: Update a content asset
+        call: marketing-cloud-rest-assets.updateasset
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteasset
+        description: Delete a content asset
+        call: marketing-cloud-rest-assets.deleteasset
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: marketing-cloud-rest-assets-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce Marketing Cloud REST API — Assets. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: list-content-assets
+      description: List content assets
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: marketing-cloud-rest-assets.listassets
+      with:
+        page: tools.page
+        pageSize: tools.pageSize
+        assetType: tools.assetType
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-content-asset
+      description: Create a content asset
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: marketing-cloud-rest-assets.createasset
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-content-asset-id
+      description: Get a content asset by ID
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: marketing-cloud-rest-assets.getasset
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-content-asset
+      description: Update a content asset
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: marketing-cloud-rest-assets.updateasset
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-content-asset
+      description: Delete a content asset
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: marketing-cloud-rest-assets.deleteasset
+      outputParameters:
+      - type: object
+        mapping: $.

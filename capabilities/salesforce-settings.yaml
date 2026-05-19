@@ -1,0 +1,79 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Settings
+  description: 'Salesforce — Settings. 1 operations. Lead operation: Salesforce Retrieve Knowledge Language Settings. Self-contained
+    Naftiko capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Settings
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-settings
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Settings business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-knowledgeManagement-settings
+      path: /data/v64.0/knowledgeManagement/settings
+      operations:
+      - name: retrieveknowledgelanguagesettings
+        method: GET
+        description: Salesforce Retrieve Knowledge Language Settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-settings-rest
+    port: 8080
+    description: REST adapter for Salesforce — Settings. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/data/v64-0/knowledgemanagement/settings
+      name: data-v64-0-knowledgemanagement-settings
+      description: REST surface for data-v64.0-knowledgeManagement-settings.
+      operations:
+      - method: GET
+        name: retrieveknowledgelanguagesettings
+        description: Salesforce Retrieve Knowledge Language Settings
+        call: salesforce-settings.retrieveknowledgelanguagesettings
+        with:
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-settings-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Settings. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-retrieve-knowledge-language-settings
+      description: Salesforce Retrieve Knowledge Language Settings
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-settings.retrieveknowledgelanguagesettings
+      with:
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.

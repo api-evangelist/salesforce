@@ -1,0 +1,170 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Configuration
+  description: 'Salesforce — Configuration. 3 operations. Lead operation: Salesforce Authentication Configuration Endpoint.
+    Self-contained Naftiko capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Configuration
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-configuration
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Configuration business capability. Self-contained, no shared references.
+    resources:
+    - name: .well-known-auth-configuration
+      path: /.well-known/auth-configuration
+      operations:
+      - name: authenticationconfigurationendpoint
+        method: GET
+        description: Salesforce Authentication Configuration Endpoint
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: apexrest-SBQQ-ServiceRouter
+      path: /apexrest/SBQQ/ServiceRouter
+      operations:
+      - name: configurationloaderapi
+        method: PATCH
+        description: Salesforce Configuration Loader Api
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: loader
+          in: query
+          type: string
+          required: true
+        - name: uid
+          in: query
+          type: string
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    - name: data-v64.0-support-embeddedservice-configuration-EMBEDDED_SERVICE_CONFIG_DEVELOP
+      path: /data/v64.0/support/embeddedservice/configuration/{EMBEDDED_SERVICE_CONFIG_DEVELOPERNAME}
+      operations:
+      - name: embeddedserviceconfigurationdescribe
+        method: GET
+        description: Salesforce Embedded Service Configuration Describe
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: EMBEDDED_SERVICE_CONFIG_DEVELOPERNAME
+          in: path
+          type: string
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-configuration-rest
+    port: 8080
+    description: REST adapter for Salesforce — Configuration. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/well-known/auth-configuration
+      name: well-known-auth-configuration
+      description: REST surface for .well-known-auth-configuration.
+      operations:
+      - method: GET
+        name: authenticationconfigurationendpoint
+        description: Salesforce Authentication Configuration Endpoint
+        call: salesforce-configuration.authenticationconfigurationendpoint
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/apexrest/sbqq/servicerouter
+      name: apexrest-sbqq-servicerouter
+      description: REST surface for apexrest-SBQQ-ServiceRouter.
+      operations:
+      - method: PATCH
+        name: configurationloaderapi
+        description: Salesforce Configuration Loader Api
+        call: salesforce-configuration.configurationloaderapi
+        with:
+          loader: rest.loader
+          uid: rest.uid
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/support/embeddedservice/configuration/{embedded-service-config-developername}
+      name: data-v64-0-support-embeddedservice-configuration-embedded-service-config-develop
+      description: REST surface for data-v64.0-support-embeddedservice-configuration-EMBEDDED_SERVICE_CONFIG_DEVELOP.
+      operations:
+      - method: GET
+        name: embeddedserviceconfigurationdescribe
+        description: Salesforce Embedded Service Configuration Describe
+        call: salesforce-configuration.embeddedserviceconfigurationdescribe
+        with:
+          EMBEDDED_SERVICE_CONFIG_DEVELOPERNAME: rest.EMBEDDED_SERVICE_CONFIG_DEVELOPERNAME
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-configuration-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Configuration. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-authentication-configuration-endpoint
+      description: Salesforce Authentication Configuration Endpoint
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-configuration.authenticationconfigurationendpoint
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-configuration-loader-api
+      description: Salesforce Configuration Loader Api
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: salesforce-configuration.configurationloaderapi
+      with:
+        loader: tools.loader
+        uid: tools.uid
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-embedded-service-configuration-describe
+      description: Salesforce Embedded Service Configuration Describe
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-configuration.embeddedserviceconfigurationdescribe
+      with:
+        EMBEDDED_SERVICE_CONFIG_DEVELOPERNAME: tools.EMBEDDED_SERVICE_CONFIG_DEVELOPERNAME
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.

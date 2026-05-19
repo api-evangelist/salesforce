@@ -1,0 +1,104 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Spec
+  description: 'Salesforce — Spec. 1 operations. Lead operation: Salesforce Bulk Spec. Self-contained Naftiko capability covering
+    one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Spec
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-spec
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Spec business capability. Self-contained, no shared references.
+    resources:
+    - name: async-64.0-job-spec
+      path: /async/64.0/job//spec
+      operations:
+      - name: bulkspec
+        method: POST
+        description: Salesforce Bulk Spec
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-SFDC-Session
+          in: header
+          type: string
+          required: true
+        - name: charset
+          in: header
+          type: string
+          required: true
+        - name: Accept-Encoding
+          in: header
+          type: string
+          required: true
+        - name: Content-Encoding
+          in: header
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-spec-rest
+    port: 8080
+    description: REST adapter for Salesforce — Spec. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/async/64-0/job/spec
+      name: async-64-0-job-spec
+      description: REST surface for async-64.0-job-spec.
+      operations:
+      - method: POST
+        name: bulkspec
+        description: Salesforce Bulk Spec
+        call: salesforce-spec.bulkspec
+        with:
+          X-SFDC-Session: rest.X-SFDC-Session
+          charset: rest.charset
+          Accept-Encoding: rest.Accept-Encoding
+          Content-Encoding: rest.Content-Encoding
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-spec-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Spec. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-bulk-spec
+      description: Salesforce Bulk Spec
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-spec.bulkspec
+      with:
+        X-SFDC-Session: tools.X-SFDC-Session
+        charset: tools.charset
+        Accept-Encoding: tools.Accept-Encoding
+        Content-Encoding: tools.Content-Encoding
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

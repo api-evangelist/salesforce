@@ -1,0 +1,80 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Method
+  description: 'Salesforce — Method. 1 operations. Lead operation: Salesforce Create Payment Method. Self-contained Naftiko
+    capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Method
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-method
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Method business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-commerce-payments-payment-methods
+      path: /data/v64.0/commerce/payments/payment-methods
+      operations:
+      - name: createpaymentmethod
+        method: POST
+        description: Salesforce Create Payment Method
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-method-rest
+    port: 8080
+    description: REST adapter for Salesforce — Method. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/data/v64-0/commerce/payments/payment-methods
+      name: data-v64-0-commerce-payments-payment-methods
+      description: REST surface for data-v64.0-commerce-payments-payment-methods.
+      operations:
+      - method: POST
+        name: createpaymentmethod
+        description: Salesforce Create Payment Method
+        call: salesforce-method.createpaymentmethod
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-method-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Method. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-create-payment-method
+      description: Salesforce Create Payment Method
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-method.createpaymentmethod
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,290 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Sets
+  description: 'Salesforce — Sets. 6 operations. Lead operation: Salesforce Expression Set Creation. Self-contained Naftiko
+    capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Sets
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-sets
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Sets business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-connect-business-rules-expression-set
+      path: /data/v64.0/connect/business-rules/expression-set
+      operations:
+      - name: expressionsetcreation
+        method: POST
+        description: Salesforce Expression Set Creation
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: data-v64.0-connect-business-rules-expression-set-version-expressionSetVersionId-
+      path: /data/v64.0/connect/business-rules/expression-set/version/{expressionSetVersionId}/dependencies
+      operations:
+      - name: retrieveexpressionsetversiondependencies
+        method: GET
+        description: Salesforce Retrieve Expression Set Version Dependencies
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: expressionSetVersionId
+          in: path
+          type: string
+          description: 'Expression Set Version Id: For Example 9QLHo000000LBjEOAW'
+          required: true
+    - name: data-v64.0-connect-business-rules-expression-set-expressionSetId
+      path: /data/v64.0/connect/business-rules/expression-set/{expressionSetId}
+      operations:
+      - name: expressionsetretrieve
+        method: GET
+        description: Salesforce Expression Set Retrieve
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: expressionSetId
+          in: path
+          type: string
+          description: 'Expression Set Id: For Example 9QLHo000000LBjEOAW'
+          required: true
+      - name: expressionsetupdate
+        method: PATCH
+        description: Salesforce Expression Set Update
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: expressionSetId
+          in: path
+          type: string
+          description: 'Expression Set Id: For Example 9QLHo000000LBjEOAW'
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: expressionsetdelete
+        method: DELETE
+        description: Salesforce Expression Set Delete
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: expressionSetId
+          in: path
+          type: string
+          description: 'Expression Set Id: For Example 9QLHo000000LBjEOAW'
+          required: true
+    - name: data-v64.0-connect-business-rules-expressionset-expressionSetAPIName
+      path: /data/v64.0/connect/business-rules/expressionset/{expressionSetAPIName}
+      operations:
+      - name: expressionsetinvocation
+        method: POST
+        description: Salesforce Expression Set Invocation
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: expressionSetAPIName
+          in: path
+          type: string
+          description: The API name of an expression set is unique within your Salesforce instance.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-sets-rest
+    port: 8080
+    description: REST adapter for Salesforce — Sets. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/data/v64-0/connect/business-rules/expression-set
+      name: data-v64-0-connect-business-rules-expression-set
+      description: REST surface for data-v64.0-connect-business-rules-expression-set.
+      operations:
+      - method: POST
+        name: expressionsetcreation
+        description: Salesforce Expression Set Creation
+        call: salesforce-sets.expressionsetcreation
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/connect/business-rules/expression-set/version/{expressionsetversionid}/dependencies
+      name: data-v64-0-connect-business-rules-expression-set-version-expressionsetversionid
+      description: REST surface for data-v64.0-connect-business-rules-expression-set-version-expressionSetVersionId-.
+      operations:
+      - method: GET
+        name: retrieveexpressionsetversiondependencies
+        description: Salesforce Retrieve Expression Set Version Dependencies
+        call: salesforce-sets.retrieveexpressionsetversiondependencies
+        with:
+          expressionSetVersionId: rest.expressionSetVersionId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/connect/business-rules/expression-set/{expressionsetid}
+      name: data-v64-0-connect-business-rules-expression-set-expressionsetid
+      description: REST surface for data-v64.0-connect-business-rules-expression-set-expressionSetId.
+      operations:
+      - method: GET
+        name: expressionsetretrieve
+        description: Salesforce Expression Set Retrieve
+        call: salesforce-sets.expressionsetretrieve
+        with:
+          expressionSetId: rest.expressionSetId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: expressionsetupdate
+        description: Salesforce Expression Set Update
+        call: salesforce-sets.expressionsetupdate
+        with:
+          expressionSetId: rest.expressionSetId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: expressionsetdelete
+        description: Salesforce Expression Set Delete
+        call: salesforce-sets.expressionsetdelete
+        with:
+          expressionSetId: rest.expressionSetId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/connect/business-rules/expressionset/{expressionsetapiname}
+      name: data-v64-0-connect-business-rules-expressionset-expressionsetapiname
+      description: REST surface for data-v64.0-connect-business-rules-expressionset-expressionSetAPIName.
+      operations:
+      - method: POST
+        name: expressionsetinvocation
+        description: Salesforce Expression Set Invocation
+        call: salesforce-sets.expressionsetinvocation
+        with:
+          expressionSetAPIName: rest.expressionSetAPIName
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-sets-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Sets. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-expression-set-creation
+      description: Salesforce Expression Set Creation
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-sets.expressionsetcreation
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-retrieve-expression-set-version
+      description: Salesforce Retrieve Expression Set Version Dependencies
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-sets.retrieveexpressionsetversiondependencies
+      with:
+        expressionSetVersionId: tools.expressionSetVersionId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-expression-set-retrieve
+      description: Salesforce Expression Set Retrieve
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-sets.expressionsetretrieve
+      with:
+        expressionSetId: tools.expressionSetId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-expression-set-update
+      description: Salesforce Expression Set Update
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: salesforce-sets.expressionsetupdate
+      with:
+        expressionSetId: tools.expressionSetId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-expression-set-delete
+      description: Salesforce Expression Set Delete
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: salesforce-sets.expressionsetdelete
+      with:
+        expressionSetId: tools.expressionSetId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-expression-set-invocation
+      description: Salesforce Expression Set Invocation
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-sets.expressionsetinvocation
+      with:
+        expressionSetAPIName: tools.expressionSetAPIName
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

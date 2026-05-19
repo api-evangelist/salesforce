@@ -1,0 +1,303 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce REST API — SObjects
+  description: 'Salesforce REST API — SObjects. 8 operations. Lead operation: Salesforce List All Sobjects. Self-contained
+    Naftiko capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - SObjects
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: rest-sobjects
+    baseUri: https://{instance}.salesforce.com/services/data/v{version}
+    description: Salesforce REST API — SObjects business capability. Self-contained, no shared references.
+    resources:
+    - name: sobjects
+      path: /sobjects
+      operations:
+      - name: listsobjects
+        method: GET
+        description: Salesforce List All Sobjects
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: sobjects-sobjectType
+      path: /sobjects/{sobjectType}
+      operations:
+      - name: describesobject
+        method: GET
+        description: Salesforce Describe an Sobject
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createrecord
+        method: POST
+        description: Salesforce Create a New Record
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: sobjects-sobjectType-describe
+      path: /sobjects/{sobjectType}/describe
+      operations:
+      - name: fulldescribesobject
+        method: GET
+        description: Salesforce Full Describe of an Sobject
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: sobjects-sobjectType-id
+      path: /sobjects/{sobjectType}/{id}
+      operations:
+      - name: getrecord
+        method: GET
+        description: Salesforce Get a Record by Id
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updaterecord
+        method: PATCH
+        description: Salesforce Update a Record
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleterecord
+        method: DELETE
+        description: Salesforce Delete a Record
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: sobjects-sobjectType-id-blobField
+      path: /sobjects/{sobjectType}/{id}/{blobField}
+      operations:
+      - name: getblobfield
+        method: GET
+        description: Salesforce Get a Blob Field Value
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: blobField
+          in: path
+          type: string
+          description: The API name of the blob field to retrieve (e.g., Body, VersionData, Photo).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: rest-sobjects-rest
+    port: 8080
+    description: REST adapter for Salesforce REST API — SObjects. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/sobjects
+      name: sobjects
+      description: REST surface for sobjects.
+      operations:
+      - method: GET
+        name: listsobjects
+        description: Salesforce List All Sobjects
+        call: rest-sobjects.listsobjects
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/sobjects/{sobjecttype}
+      name: sobjects-sobjecttype
+      description: REST surface for sobjects-sobjectType.
+      operations:
+      - method: GET
+        name: describesobject
+        description: Salesforce Describe an Sobject
+        call: rest-sobjects.describesobject
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createrecord
+        description: Salesforce Create a New Record
+        call: rest-sobjects.createrecord
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/sobjects/{sobjecttype}/describe
+      name: sobjects-sobjecttype-describe
+      description: REST surface for sobjects-sobjectType-describe.
+      operations:
+      - method: GET
+        name: fulldescribesobject
+        description: Salesforce Full Describe of an Sobject
+        call: rest-sobjects.fulldescribesobject
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/sobjects/{sobjecttype}/{id}
+      name: sobjects-sobjecttype-id
+      description: REST surface for sobjects-sobjectType-id.
+      operations:
+      - method: GET
+        name: getrecord
+        description: Salesforce Get a Record by Id
+        call: rest-sobjects.getrecord
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: updaterecord
+        description: Salesforce Update a Record
+        call: rest-sobjects.updaterecord
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleterecord
+        description: Salesforce Delete a Record
+        call: rest-sobjects.deleterecord
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/sobjects/{sobjecttype}/{id}/{blobfield}
+      name: sobjects-sobjecttype-id-blobfield
+      description: REST surface for sobjects-sobjectType-id-blobField.
+      operations:
+      - method: GET
+        name: getblobfield
+        description: Salesforce Get a Blob Field Value
+        call: rest-sobjects.getblobfield
+        with:
+          blobField: rest.blobField
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: rest-sobjects-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce REST API — SObjects. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: salesforce-list-all-sobjects
+      description: Salesforce List All Sobjects
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: rest-sobjects.listsobjects
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-describe-sobject
+      description: Salesforce Describe an Sobject
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: rest-sobjects.describesobject
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-create-new-record
+      description: Salesforce Create a New Record
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: rest-sobjects.createrecord
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-full-describe-sobject
+      description: Salesforce Full Describe of an Sobject
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: rest-sobjects.fulldescribesobject
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-record-id
+      description: Salesforce Get a Record by Id
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: rest-sobjects.getrecord
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-update-record
+      description: Salesforce Update a Record
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: rest-sobjects.updaterecord
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-delete-record
+      description: Salesforce Delete a Record
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: rest-sobjects.deleterecord
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-blob-field-value
+      description: Salesforce Get a Blob Field Value
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: rest-sobjects.getblobfield
+      with:
+        blobField: tools.blobField
+      outputParameters:
+      - type: object
+        mapping: $.

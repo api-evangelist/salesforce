@@ -1,0 +1,98 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — State
+  description: 'Salesforce — State. 1 operations. Lead operation: Salesforce Change Event Relay State. Self-contained Naftiko
+    capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - State
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-state
+    baseUri: https://login.salesforce.com
+    description: Salesforce — State business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-tooling-sobjects-EventRelayConfig-EVENT_RELAY_CONFIG_ID
+      path: /data/v64.0/tooling/sobjects/EventRelayConfig/{EVENT_RELAY_CONFIG_ID}
+      operations:
+      - name: changeeventrelaystate
+        method: PATCH
+        description: Salesforce Change Event Relay State
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: EVENT_RELAY_CONFIG_ID
+          in: path
+          type: string
+          required: true
+        - name: SOAPAction
+          in: header
+          type: string
+          required: true
+        - name: Authorization
+          in: header
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-state-rest
+    port: 8080
+    description: REST adapter for Salesforce — State. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/data/v64-0/tooling/sobjects/eventrelayconfig/{event-relay-config-id}
+      name: data-v64-0-tooling-sobjects-eventrelayconfig-event-relay-config-id
+      description: REST surface for data-v64.0-tooling-sobjects-EventRelayConfig-EVENT_RELAY_CONFIG_ID.
+      operations:
+      - method: PATCH
+        name: changeeventrelaystate
+        description: Salesforce Change Event Relay State
+        call: salesforce-state.changeeventrelaystate
+        with:
+          EVENT_RELAY_CONFIG_ID: rest.EVENT_RELAY_CONFIG_ID
+          SOAPAction: rest.SOAPAction
+          Authorization: rest.Authorization
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-state-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — State. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-change-event-relay-state
+      description: Salesforce Change Event Relay State
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: salesforce-state.changeeventrelaystate
+      with:
+        EVENT_RELAY_CONFIG_ID: tools.EVENT_RELAY_CONFIG_ID
+        SOAPAction: tools.SOAPAction
+        Authorization: tools.Authorization
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

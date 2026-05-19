@@ -1,0 +1,260 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Usage
+  description: 'Salesforce — Usage. 5 operations. Lead operation: Salesforce Lightning Usage by App Type. Self-contained Naftiko
+    capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Usage
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-usage
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Usage business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-sobjects-LightningUsageByAppTypeMetrics
+      path: /data/v64.0/sobjects/LightningUsageByAppTypeMetrics
+      operations:
+      - name: lightningusagebyapptype
+        method: GET
+        description: Salesforce Lightning Usage by App Type
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    - name: data-v64.0-sobjects-LightningUsageByBrowserMetrics
+      path: /data/v64.0/sobjects/LightningUsageByBrowserMetrics
+      operations:
+      - name: lightningusagebypage
+        method: GET
+        description: Salesforce Lightning Usage by Page
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    - name: data-v64.0-sobjects-LightningUsageByFlexiPageMetrics
+      path: /data/v64.0/sobjects/LightningUsageByFlexiPageMetrics
+      operations:
+      - name: lightningusagebyflexipage
+        method: GET
+        description: Salesforce Lightning Usage by Flexipage
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    - name: data-v64.0-ui-api-favorites-FAVORITE_ID-usage
+      path: /data/v64.0/ui-api/favorites/{FAVORITE_ID}/usage
+      operations:
+      - name: updateusageofafavorite
+        method: PATCH
+        description: Salesforce Update Usage of a Favorite
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: FAVORITE_ID
+          in: path
+          type: string
+          description: The ID of a favorite
+          required: true
+    - name: services-data-v64.0-apps-oauth-usage
+      path: /services/data/v64.0/apps/oauth/usage
+      operations:
+      - name: oauthusage
+        method: GET
+        description: Salesforce Oauth Usage
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: page
+          in: query
+          type: integer
+          description: Number of the page you want returned. Starts at 0. If you don’t specify a value or if you specify 0,
+            the first page is returned.
+          required: true
+        - name: pageSize
+          in: query
+          type: integer
+          description: Number of usage entries per page. Defaults to 100.
+          required: true
+        - name: Authorization
+          in: header
+          type: string
+          description: Replace <token> with your access token
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-usage-rest
+    port: 8080
+    description: REST adapter for Salesforce — Usage. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/data/v64-0/sobjects/lightningusagebyapptypemetrics
+      name: data-v64-0-sobjects-lightningusagebyapptypemetrics
+      description: REST surface for data-v64.0-sobjects-LightningUsageByAppTypeMetrics.
+      operations:
+      - method: GET
+        name: lightningusagebyapptype
+        description: Salesforce Lightning Usage by App Type
+        call: salesforce-usage.lightningusagebyapptype
+        with:
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/sobjects/lightningusagebybrowsermetrics
+      name: data-v64-0-sobjects-lightningusagebybrowsermetrics
+      description: REST surface for data-v64.0-sobjects-LightningUsageByBrowserMetrics.
+      operations:
+      - method: GET
+        name: lightningusagebypage
+        description: Salesforce Lightning Usage by Page
+        call: salesforce-usage.lightningusagebypage
+        with:
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/sobjects/lightningusagebyflexipagemetrics
+      name: data-v64-0-sobjects-lightningusagebyflexipagemetrics
+      description: REST surface for data-v64.0-sobjects-LightningUsageByFlexiPageMetrics.
+      operations:
+      - method: GET
+        name: lightningusagebyflexipage
+        description: Salesforce Lightning Usage by Flexipage
+        call: salesforce-usage.lightningusagebyflexipage
+        with:
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/favorites/{favorite-id}/usage
+      name: data-v64-0-ui-api-favorites-favorite-id-usage
+      description: REST surface for data-v64.0-ui-api-favorites-FAVORITE_ID-usage.
+      operations:
+      - method: PATCH
+        name: updateusageofafavorite
+        description: Salesforce Update Usage of a Favorite
+        call: salesforce-usage.updateusageofafavorite
+        with:
+          FAVORITE_ID: rest.FAVORITE_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/services/data/v64-0/apps/oauth/usage
+      name: services-data-v64-0-apps-oauth-usage
+      description: REST surface for services-data-v64.0-apps-oauth-usage.
+      operations:
+      - method: GET
+        name: oauthusage
+        description: Salesforce Oauth Usage
+        call: salesforce-usage.oauthusage
+        with:
+          page: rest.page
+          pageSize: rest.pageSize
+          Authorization: rest.Authorization
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-usage-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Usage. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-lightning-usage-app-type
+      description: Salesforce Lightning Usage by App Type
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-usage.lightningusagebyapptype
+      with:
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-lightning-usage-page
+      description: Salesforce Lightning Usage by Page
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-usage.lightningusagebypage
+      with:
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-lightning-usage-flexipage
+      description: Salesforce Lightning Usage by Flexipage
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-usage.lightningusagebyflexipage
+      with:
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-update-usage-favorite
+      description: Salesforce Update Usage of a Favorite
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: salesforce-usage.updateusageofafavorite
+      with:
+        FAVORITE_ID: tools.FAVORITE_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-oauth-usage
+      description: Salesforce Oauth Usage
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-usage.oauthusage
+      with:
+        page: tools.page
+        pageSize: tools.pageSize
+        Authorization: tools.Authorization
+      outputParameters:
+      - type: object
+        mapping: $.

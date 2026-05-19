@@ -1,0 +1,408 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Post
+  description: 'Salesforce — Post. 7 operations. Lead operation: Salesforce Integration Procedure Invocation Using Post. Self-contained
+    Naftiko capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Post
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-post
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Post business capability. Self-contained, no shared references.
+    resources:
+    - name: apexrest-NAMESPACE-v1-integrationprocedure-TYPE_SUBTYPE
+      path: /apexrest/{NAMESPACE}/v1/integrationprocedure/{TYPE_SUBTYPE}
+      operations:
+      - name: integrationprocedureinvocationusingpost
+        method: POST
+        description: Salesforce Integration Procedure Invocation Using Post
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: NAMESPACE
+          in: path
+          type: string
+          description: The namespace is `omnistudio`, `vlocity_ins`, `vlocity_cmt`, or `vlocity_ps`
+          required: true
+        - name: TYPE_SUBTYPE
+          in: path
+          type: string
+          description: Type and SubType of the Integration Procedure separated by an underscore.
+          required: true
+    - name: data-v64.0-chatter-feed-elements
+      path: /data/v64.0/chatter/feed-elements
+      operations:
+      - name: feedelementspostandsearch
+        method: POST
+        description: Salesforce Feed Elements, Post and Search
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: feedElementType
+          in: query
+          type: string
+          description: 'Feed elements are the top-level objects that a feed contains. The feed element type describes the
+            characteristics of that feed element. One of these values:'
+          required: true
+        - name: subjectId
+          in: query
+          type: string
+          required: true
+        - name: text
+          in: query
+          type: string
+          required: true
+    - name: data-v64.0-chatter-feed-elements-batch
+      path: /data/v64.0/chatter/feed-elements/batch
+      operations:
+      - name: feedelementsbatchpost
+        method: POST
+        description: Salesforce Feed Elements, Batch Post
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: data-v64.0-chatter-groups
+      path: /data/v64.0/chatter/groups
+      operations:
+      - name: listofgroupspost
+        method: POST
+        description: Salesforce List of Groups - Post
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: query
+          type: string
+          required: true
+        - name: visibility
+          in: query
+          type: string
+          description: PrivateAccess—Only members of the group can see posts to this group.
+          required: true
+        - name: description
+          in: query
+          type: string
+          required: true
+        - name: information
+          in: query
+          type: string
+          description: If the group is private, the “Information” section is visible only to members.
+          required: true
+        - name: isArchived
+          in: query
+          type: boolean
+          required: true
+        - name: isAutoArchiveDisabled
+          in: query
+          type: boolean
+          description: true if automatic archiving is turned off for the group, false otherwise. Defaults to false. If true,
+            if there are no posts or comments for 90 days the group is
+          required: true
+        - name: isBroadcast
+          in: query
+          type: boolean
+          description: true if only group owners and managers can create posts in the group, false otherwise.
+          required: true
+        - name: canHaveChatterGuests
+          in: query
+          type: boolean
+          required: true
+    - name: data-v64.0-chatter-groups-GROUP_ID-members-requests
+      path: /data/v64.0/chatter/groups/{GROUP_ID}/members/requests
+      operations:
+      - name: groupmembersprivatepost
+        method: POST
+        description: Salesforce Group Members—private - Post
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: GROUP_ID
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-chatter-users-USER_ID-following
+      path: /data/v64.0/chatter/users/{USER_ID}/following
+      operations:
+      - name: followingpost
+        method: POST
+        description: Salesforce Following - Post
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: subjectId
+          in: query
+          type: string
+          required: true
+        - name: USER_ID
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-tooling-sobjects-SOBJECT_API_NAME
+      path: /data/v64.0/tooling/sobjects/{SOBJECT_API_NAME}
+      operations:
+      - name: posttoolingsobject
+        method: POST
+        description: Salesforce Post Tooling Sobject
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-post-rest
+    port: 8080
+    description: REST adapter for Salesforce — Post. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/apexrest/{namespace}/v1/integrationprocedure/{type-subtype}
+      name: apexrest-namespace-v1-integrationprocedure-type-subtype
+      description: REST surface for apexrest-NAMESPACE-v1-integrationprocedure-TYPE_SUBTYPE.
+      operations:
+      - method: POST
+        name: integrationprocedureinvocationusingpost
+        description: Salesforce Integration Procedure Invocation Using Post
+        call: salesforce-post.integrationprocedureinvocationusingpost
+        with:
+          NAMESPACE: rest.NAMESPACE
+          TYPE_SUBTYPE: rest.TYPE_SUBTYPE
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/chatter/feed-elements
+      name: data-v64-0-chatter-feed-elements
+      description: REST surface for data-v64.0-chatter-feed-elements.
+      operations:
+      - method: POST
+        name: feedelementspostandsearch
+        description: Salesforce Feed Elements, Post and Search
+        call: salesforce-post.feedelementspostandsearch
+        with:
+          feedElementType: rest.feedElementType
+          subjectId: rest.subjectId
+          text: rest.text
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/chatter/feed-elements/batch
+      name: data-v64-0-chatter-feed-elements-batch
+      description: REST surface for data-v64.0-chatter-feed-elements-batch.
+      operations:
+      - method: POST
+        name: feedelementsbatchpost
+        description: Salesforce Feed Elements, Batch Post
+        call: salesforce-post.feedelementsbatchpost
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/chatter/groups
+      name: data-v64-0-chatter-groups
+      description: REST surface for data-v64.0-chatter-groups.
+      operations:
+      - method: POST
+        name: listofgroupspost
+        description: Salesforce List of Groups - Post
+        call: salesforce-post.listofgroupspost
+        with:
+          name: rest.name
+          visibility: rest.visibility
+          description: rest.description
+          information: rest.information
+          isArchived: rest.isArchived
+          isAutoArchiveDisabled: rest.isAutoArchiveDisabled
+          isBroadcast: rest.isBroadcast
+          canHaveChatterGuests: rest.canHaveChatterGuests
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/chatter/groups/{group-id}/members/requests
+      name: data-v64-0-chatter-groups-group-id-members-requests
+      description: REST surface for data-v64.0-chatter-groups-GROUP_ID-members-requests.
+      operations:
+      - method: POST
+        name: groupmembersprivatepost
+        description: Salesforce Group Members—private - Post
+        call: salesforce-post.groupmembersprivatepost
+        with:
+          GROUP_ID: rest.GROUP_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/chatter/users/{user-id}/following
+      name: data-v64-0-chatter-users-user-id-following
+      description: REST surface for data-v64.0-chatter-users-USER_ID-following.
+      operations:
+      - method: POST
+        name: followingpost
+        description: Salesforce Following - Post
+        call: salesforce-post.followingpost
+        with:
+          subjectId: rest.subjectId
+          USER_ID: rest.USER_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/tooling/sobjects/{sobject-api-name}
+      name: data-v64-0-tooling-sobjects-sobject-api-name
+      description: REST surface for data-v64.0-tooling-sobjects-SOBJECT_API_NAME.
+      operations:
+      - method: POST
+        name: posttoolingsobject
+        description: Salesforce Post Tooling Sobject
+        call: salesforce-post.posttoolingsobject
+        with:
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-post-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Post. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-integration-procedure-invocation-using
+      description: Salesforce Integration Procedure Invocation Using Post
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-post.integrationprocedureinvocationusingpost
+      with:
+        NAMESPACE: tools.NAMESPACE
+        TYPE_SUBTYPE: tools.TYPE_SUBTYPE
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-feed-elements-post-and
+      description: Salesforce Feed Elements, Post and Search
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: salesforce-post.feedelementspostandsearch
+      with:
+        feedElementType: tools.feedElementType
+        subjectId: tools.subjectId
+        text: tools.text
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-feed-elements-batch-post
+      description: Salesforce Feed Elements, Batch Post
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-post.feedelementsbatchpost
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-list-groups-post
+      description: Salesforce List of Groups - Post
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: salesforce-post.listofgroupspost
+      with:
+        name: tools.name
+        visibility: tools.visibility
+        description: tools.description
+        information: tools.information
+        isArchived: tools.isArchived
+        isAutoArchiveDisabled: tools.isAutoArchiveDisabled
+        isBroadcast: tools.isBroadcast
+        canHaveChatterGuests: tools.canHaveChatterGuests
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-group-members-private-post
+      description: Salesforce Group Members—private - Post
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-post.groupmembersprivatepost
+      with:
+        GROUP_ID: tools.GROUP_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-following-post
+      description: Salesforce Following - Post
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-post.followingpost
+      with:
+        subjectId: tools.subjectId
+        USER_ID: tools.USER_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-post-tooling-sobject
+      description: Salesforce Post Tooling Sobject
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-post.posttoolingsobject
+      with:
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

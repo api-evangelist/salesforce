@@ -1,0 +1,120 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Developer
+  description: 'Salesforce — Developer. 2 operations. Lead operation: Salesforce Get External Credentials by Developer Name.
+    Self-contained Naftiko capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Developer
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-developer
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Developer business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-named-credentials-external-credentials-DEVELOPER_NAME
+      path: /data/v64.0/named-credentials/external-credentials/{DEVELOPER_NAME}
+      operations:
+      - name: getexternalcredentialsbydevelopername
+        method: GET
+        description: Salesforce Get External Credentials by Developer Name
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: DEVELOPER_NAME
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-named-credentials-named-credential-setup-DEVELOPER_NAME
+      path: /data/v64.0/named-credentials/named-credential-setup/{DEVELOPER_NAME}
+      operations:
+      - name: getnamedcredentialbydevelopername
+        method: GET
+        description: Salesforce Get Named Credential by Developer Name
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: DEVELOPER_NAME
+          in: path
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-developer-rest
+    port: 8080
+    description: REST adapter for Salesforce — Developer. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/data/v64-0/named-credentials/external-credentials/{developer-name}
+      name: data-v64-0-named-credentials-external-credentials-developer-name
+      description: REST surface for data-v64.0-named-credentials-external-credentials-DEVELOPER_NAME.
+      operations:
+      - method: GET
+        name: getexternalcredentialsbydevelopername
+        description: Salesforce Get External Credentials by Developer Name
+        call: salesforce-developer.getexternalcredentialsbydevelopername
+        with:
+          DEVELOPER_NAME: rest.DEVELOPER_NAME
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/named-credentials/named-credential-setup/{developer-name}
+      name: data-v64-0-named-credentials-named-credential-setup-developer-name
+      description: REST surface for data-v64.0-named-credentials-named-credential-setup-DEVELOPER_NAME.
+      operations:
+      - method: GET
+        name: getnamedcredentialbydevelopername
+        description: Salesforce Get Named Credential by Developer Name
+        call: salesforce-developer.getnamedcredentialbydevelopername
+        with:
+          DEVELOPER_NAME: rest.DEVELOPER_NAME
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-developer-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Developer. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-get-external-credentials-developer
+      description: Salesforce Get External Credentials by Developer Name
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-developer.getexternalcredentialsbydevelopername
+      with:
+        DEVELOPER_NAME: tools.DEVELOPER_NAME
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-named-credential-developer
+      description: Salesforce Get Named Credential by Developer Name
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-developer.getnamedcredentialbydevelopername
+      with:
+        DEVELOPER_NAME: tools.DEVELOPER_NAME
+      outputParameters:
+      - type: object
+        mapping: $.

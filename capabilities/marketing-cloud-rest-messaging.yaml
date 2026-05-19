@@ -1,0 +1,164 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce Marketing Cloud REST API — Messaging
+  description: 'Salesforce Marketing Cloud REST API — Messaging. 3 operations. Lead operation: Create an email send (triggered
+    send). Self-contained Naftiko capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Messaging
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: marketing-cloud-rest-messaging
+    baseUri: https://{subdomain}.rest.marketingcloudapis.com
+    description: Salesforce Marketing Cloud REST API — Messaging business capability. Self-contained, no shared references.
+    resources:
+    - name: messaging-v1-email-messages
+      path: /messaging/v1/email/messages
+      operations:
+      - name: createemailsend
+        method: POST
+        description: Create an email send (triggered send)
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: messaging-v1-email-messages-messageKey
+      path: /messaging/v1/email/messages/{messageKey}
+      operations:
+      - name: getmessagestatus
+        method: GET
+        description: Get email message send status
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: messageKey
+          in: path
+          type: string
+          description: The unique message key (recipientSendId) returned when the email send was created.
+          required: true
+    - name: messaging-v1-sms-messages
+      path: /messaging/v1/sms/messages
+      operations:
+      - name: createsmssend
+        method: POST
+        description: Create an SMS send
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: marketing-cloud-rest-messaging-rest
+    port: 8080
+    description: REST adapter for Salesforce Marketing Cloud REST API — Messaging. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/messaging/v1/email/messages
+      name: messaging-v1-email-messages
+      description: REST surface for messaging-v1-email-messages.
+      operations:
+      - method: POST
+        name: createemailsend
+        description: Create an email send (triggered send)
+        call: marketing-cloud-rest-messaging.createemailsend
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/messaging/v1/email/messages/{messagekey}
+      name: messaging-v1-email-messages-messagekey
+      description: REST surface for messaging-v1-email-messages-messageKey.
+      operations:
+      - method: GET
+        name: getmessagestatus
+        description: Get email message send status
+        call: marketing-cloud-rest-messaging.getmessagestatus
+        with:
+          messageKey: rest.messageKey
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/messaging/v1/sms/messages
+      name: messaging-v1-sms-messages
+      description: REST surface for messaging-v1-sms-messages.
+      operations:
+      - method: POST
+        name: createsmssend
+        description: Create an SMS send
+        call: marketing-cloud-rest-messaging.createsmssend
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: marketing-cloud-rest-messaging-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce Marketing Cloud REST API — Messaging. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: create-email-send-triggered-send
+      description: Create an email send (triggered send)
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: marketing-cloud-rest-messaging.createemailsend
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-email-message-send-status
+      description: Get email message send status
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: marketing-cloud-rest-messaging.getmessagestatus
+      with:
+        messageKey: tools.messageKey
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-sms-send
+      description: Create an SMS send
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: marketing-cloud-rest-messaging.createsmssend
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

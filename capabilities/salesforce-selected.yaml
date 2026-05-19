@@ -1,0 +1,129 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Selected
+  description: 'Salesforce — Selected. 2 operations. Lead operation: Salesforce Get Last Selected App. Self-contained Naftiko
+    capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Selected
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-selected
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Selected business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-ui-api-apps-selected
+      path: /data/v64.0/ui-api/apps/selected
+      operations:
+      - name: getlastselectedapp
+        method: GET
+        description: Salesforce Get Last Selected App
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: formFactor
+          in: query
+          type: string
+          description: The form factor for each app that the user has access to (`Large`, `Medium` or `Small`)
+          required: true
+    - name: data-v64.0-ui-api-apps-APP_ID
+      path: /data/v64.0/ui-api/apps/{APP_ID}
+      operations:
+      - name: updatelastselectedapp
+        method: PATCH
+        description: Salesforce Update Last Selected App
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: formFactor
+          in: query
+          type: string
+          description: The form factor for each app that the user has access to (`Large`, `Medium` or `Small`)
+          required: true
+        - name: APP_ID
+          in: path
+          type: string
+          description: Application ID
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-selected-rest
+    port: 8080
+    description: REST adapter for Salesforce — Selected. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/data/v64-0/ui-api/apps/selected
+      name: data-v64-0-ui-api-apps-selected
+      description: REST surface for data-v64.0-ui-api-apps-selected.
+      operations:
+      - method: GET
+        name: getlastselectedapp
+        description: Salesforce Get Last Selected App
+        call: salesforce-selected.getlastselectedapp
+        with:
+          formFactor: rest.formFactor
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/apps/{app-id}
+      name: data-v64-0-ui-api-apps-app-id
+      description: REST surface for data-v64.0-ui-api-apps-APP_ID.
+      operations:
+      - method: PATCH
+        name: updatelastselectedapp
+        description: Salesforce Update Last Selected App
+        call: salesforce-selected.updatelastselectedapp
+        with:
+          formFactor: rest.formFactor
+          APP_ID: rest.APP_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-selected-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Selected. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-get-last-selected-app
+      description: Salesforce Get Last Selected App
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-selected.getlastselectedapp
+      with:
+        formFactor: tools.formFactor
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-update-last-selected-app
+      description: Salesforce Update Last Selected App
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: salesforce-selected.updatelastselectedapp
+      with:
+        formFactor: tools.formFactor
+        APP_ID: tools.APP_ID
+      outputParameters:
+      - type: object
+        mapping: $.

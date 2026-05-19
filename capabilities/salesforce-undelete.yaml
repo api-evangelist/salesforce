@@ -1,0 +1,98 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Undelete
+  description: 'Salesforce — Undelete. 1 operations. Lead operation: Salesforce Soap Undelete. Self-contained Naftiko capability
+    covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Undelete
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-undelete
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Undelete business capability. Self-contained, no shared references.
+    resources:
+    - name: services-Soap-c-64.0
+      path: /services/Soap/c/64.0
+      operations:
+      - name: soapundelete
+        method: POST
+        description: Salesforce Soap Undelete
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+        - name: Accept
+          in: header
+          type: string
+          required: true
+        - name: SOAPAction
+          in: header
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-undelete-rest
+    port: 8080
+    description: REST adapter for Salesforce — Undelete. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/services/soap/c/64-0
+      name: services-soap-c-64-0
+      description: REST surface for services-Soap-c-64.0.
+      operations:
+      - method: POST
+        name: soapundelete
+        description: Salesforce Soap Undelete
+        call: salesforce-undelete.soapundelete
+        with:
+          Content-Type: rest.Content-Type
+          Accept: rest.Accept
+          SOAPAction: rest.SOAPAction
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-undelete-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Undelete. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-soap-undelete
+      description: Salesforce Soap Undelete
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-undelete.soapundelete
+      with:
+        Content-Type: tools.Content-Type
+        Accept: tools.Accept
+        SOAPAction: tools.SOAPAction
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,86 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Completion
+  description: 'Salesforce — Completion. 1 operations. Lead operation: Salesforce Tooling Completion. Self-contained Naftiko
+    capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Completion
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-completion
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Completion business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-tooling-completions
+      path: /data/v64.0/tooling/completions
+      operations:
+      - name: toolingcompletion
+        method: GET
+        description: Salesforce Tooling Completion
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: type
+          in: query
+          type: string
+          description: apex or visualforce
+          required: true
+        - name: Accept
+          in: header
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-completion-rest
+    port: 8080
+    description: REST adapter for Salesforce — Completion. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/data/v64-0/tooling/completions
+      name: data-v64-0-tooling-completions
+      description: REST surface for data-v64.0-tooling-completions.
+      operations:
+      - method: GET
+        name: toolingcompletion
+        description: Salesforce Tooling Completion
+        call: salesforce-completion.toolingcompletion
+        with:
+          type: rest.type
+          Accept: rest.Accept
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-completion-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Completion. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-tooling-completion
+      description: Salesforce Tooling Completion
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-completion.toolingcompletion
+      with:
+        type: tools.type
+        Accept: tools.Accept
+      outputParameters:
+      - type: object
+        mapping: $.

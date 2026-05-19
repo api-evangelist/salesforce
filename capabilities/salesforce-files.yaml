@@ -1,0 +1,361 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Files
+  description: 'Salesforce — Files. 8 operations. Lead operation: Salesforce Download File. Self-contained Naftiko capability
+    covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Files
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-files
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Files business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v54.0-sobjects-ContentVersion-0681k0000020wLFAAY-VersionData
+      path: /data/v54.0/sobjects/ContentVersion/0681k0000020wLFAAY/VersionData
+      operations:
+      - name: downloadfile
+        method: GET
+        description: Salesforce Download File
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    - name: data-v64.0-connect-files-users-me
+      path: /data/v64.0/connect/files/users/me
+      operations:
+      - name: usersfilesgeneral
+        method: POST
+        description: Salesforce Users Files, General
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: data-v64.0-connect-files-FILE_ID
+      path: /data/v64.0/connect/files/{FILE_ID}
+      operations:
+      - name: fileinformation
+        method: GET
+        description: Salesforce File Information
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: FILE_ID
+          in: path
+          type: string
+          required: true
+      - name: fileinformationdelete
+        method: DELETE
+        description: Salesforce File Information - Delete
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: FILE_ID
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-connect-files-FILE_ID-content
+      path: /data/v64.0/connect/files/{FILE_ID}/content
+      operations:
+      - name: filecontent
+        method: GET
+        description: Salesforce File Content
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: FILE_ID
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-connect-files-FILE_ID-file-shares
+      path: /data/v64.0/connect/files/{FILE_ID}/file-shares
+      operations:
+      - name: fileshares
+        method: GET
+        description: Salesforce File Shares
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: FILE_ID
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-connect-files-FILE_ID-file-shares-link
+      path: /data/v64.0/connect/files/{FILE_ID}/file-shares/link
+      operations:
+      - name: filesshareslink
+        method: PUT
+        description: Salesforce Files Shares Link
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: FILE_ID
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-sobjects-EventLogFile-id-LogFile
+      path: /data/v64.0/sobjects/EventLogFile/{id}/LogFile
+      operations:
+      - name: geteventlogfile
+        method: GET
+        description: Salesforce Get Event Log File
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: Log event Id
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-files-rest
+    port: 8080
+    description: REST adapter for Salesforce — Files. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/data/v54-0/sobjects/contentversion/0681k0000020wlfaay/versiondata
+      name: data-v54-0-sobjects-contentversion-0681k0000020wlfaay-versiondata
+      description: REST surface for data-v54.0-sobjects-ContentVersion-0681k0000020wLFAAY-VersionData.
+      operations:
+      - method: GET
+        name: downloadfile
+        description: Salesforce Download File
+        call: salesforce-files.downloadfile
+        with:
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/connect/files/users/me
+      name: data-v64-0-connect-files-users-me
+      description: REST surface for data-v64.0-connect-files-users-me.
+      operations:
+      - method: POST
+        name: usersfilesgeneral
+        description: Salesforce Users Files, General
+        call: salesforce-files.usersfilesgeneral
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/connect/files/{file-id}
+      name: data-v64-0-connect-files-file-id
+      description: REST surface for data-v64.0-connect-files-FILE_ID.
+      operations:
+      - method: GET
+        name: fileinformation
+        description: Salesforce File Information
+        call: salesforce-files.fileinformation
+        with:
+          FILE_ID: rest.FILE_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: fileinformationdelete
+        description: Salesforce File Information - Delete
+        call: salesforce-files.fileinformationdelete
+        with:
+          FILE_ID: rest.FILE_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/connect/files/{file-id}/content
+      name: data-v64-0-connect-files-file-id-content
+      description: REST surface for data-v64.0-connect-files-FILE_ID-content.
+      operations:
+      - method: GET
+        name: filecontent
+        description: Salesforce File Content
+        call: salesforce-files.filecontent
+        with:
+          FILE_ID: rest.FILE_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/connect/files/{file-id}/file-shares
+      name: data-v64-0-connect-files-file-id-file-shares
+      description: REST surface for data-v64.0-connect-files-FILE_ID-file-shares.
+      operations:
+      - method: GET
+        name: fileshares
+        description: Salesforce File Shares
+        call: salesforce-files.fileshares
+        with:
+          FILE_ID: rest.FILE_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/connect/files/{file-id}/file-shares/link
+      name: data-v64-0-connect-files-file-id-file-shares-link
+      description: REST surface for data-v64.0-connect-files-FILE_ID-file-shares-link.
+      operations:
+      - method: PUT
+        name: filesshareslink
+        description: Salesforce Files Shares Link
+        call: salesforce-files.filesshareslink
+        with:
+          FILE_ID: rest.FILE_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/sobjects/eventlogfile/{id}/logfile
+      name: data-v64-0-sobjects-eventlogfile-id-logfile
+      description: REST surface for data-v64.0-sobjects-EventLogFile-id-LogFile.
+      operations:
+      - method: GET
+        name: geteventlogfile
+        description: Salesforce Get Event Log File
+        call: salesforce-files.geteventlogfile
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-files-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Files. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-download-file
+      description: Salesforce Download File
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-files.downloadfile
+      with:
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-users-files-general
+      description: Salesforce Users Files, General
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-files.usersfilesgeneral
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-file-information
+      description: Salesforce File Information
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-files.fileinformation
+      with:
+        FILE_ID: tools.FILE_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-file-information-delete
+      description: Salesforce File Information - Delete
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: salesforce-files.fileinformationdelete
+      with:
+        FILE_ID: tools.FILE_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-file-content
+      description: Salesforce File Content
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-files.filecontent
+      with:
+        FILE_ID: tools.FILE_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-file-shares
+      description: Salesforce File Shares
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-files.fileshares
+      with:
+        FILE_ID: tools.FILE_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-files-shares-link
+      description: Salesforce Files Shares Link
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: salesforce-files.filesshareslink
+      with:
+        FILE_ID: tools.FILE_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-event-log-file
+      description: Salesforce Get Event Log File
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-files.geteventlogfile
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.

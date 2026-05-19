@@ -1,0 +1,143 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Suggestions
+  description: 'Salesforce — Suggestions. 2 operations. Lead operation: Salesforce Get Lookup Field Suggestions. Self-contained
+    Naftiko capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Suggestions
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-suggestions
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Suggestions business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-ui-api-lookups-SOBJECT_API_NAME-FIELD_API_NAME
+      path: /data/v64.0/ui-api/lookups/{SOBJECT_API_NAME}/{FIELD_API_NAME}
+      operations:
+      - name: getlookupfieldsuggestions
+        method: GET
+        description: Salesforce Get Lookup Field Suggestions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          description: sObject API name
+          required: true
+        - name: FIELD_API_NAME
+          in: path
+          type: string
+          description: Field API name
+          required: true
+    - name: data-v64.0-ui-api-lookups-SOBJECT_API_NAME-FIELD_API_NAME-TARGET_API_NAME
+      path: /data/v64.0/ui-api/lookups/{SOBJECT_API_NAME}/{FIELD_API_NAME}/{TARGET_API_NAME}
+      operations:
+      - name: getlookupfieldsuggestionsforaspecifiedobject
+        method: GET
+        description: Salesforce Get Lookup Field Suggestions for a Specified Object
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          description: The API name of a source object.
+          required: true
+        - name: FIELD_API_NAME
+          in: path
+          type: string
+          description: The API name of a lookup field on the source object.
+          required: true
+        - name: TARGET_API_NAME
+          in: path
+          type: string
+          description: The API name of the target (lookup) object.
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-suggestions-rest
+    port: 8080
+    description: REST adapter for Salesforce — Suggestions. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/data/v64-0/ui-api/lookups/{sobject-api-name}/{field-api-name}
+      name: data-v64-0-ui-api-lookups-sobject-api-name-field-api-name
+      description: REST surface for data-v64.0-ui-api-lookups-SOBJECT_API_NAME-FIELD_API_NAME.
+      operations:
+      - method: GET
+        name: getlookupfieldsuggestions
+        description: Salesforce Get Lookup Field Suggestions
+        call: salesforce-suggestions.getlookupfieldsuggestions
+        with:
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+          FIELD_API_NAME: rest.FIELD_API_NAME
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/lookups/{sobject-api-name}/{field-api-name}/{target-api-name}
+      name: data-v64-0-ui-api-lookups-sobject-api-name-field-api-name-target-api-name
+      description: REST surface for data-v64.0-ui-api-lookups-SOBJECT_API_NAME-FIELD_API_NAME-TARGET_API_NAME.
+      operations:
+      - method: GET
+        name: getlookupfieldsuggestionsforaspecifiedobject
+        description: Salesforce Get Lookup Field Suggestions for a Specified Object
+        call: salesforce-suggestions.getlookupfieldsuggestionsforaspecifiedobject
+        with:
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+          FIELD_API_NAME: rest.FIELD_API_NAME
+          TARGET_API_NAME: rest.TARGET_API_NAME
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-suggestions-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Suggestions. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-get-lookup-field-suggestions
+      description: Salesforce Get Lookup Field Suggestions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-suggestions.getlookupfieldsuggestions
+      with:
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+        FIELD_API_NAME: tools.FIELD_API_NAME
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-lookup-field-suggestions-2
+      description: Salesforce Get Lookup Field Suggestions for a Specified Object
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-suggestions.getlookupfieldsuggestionsforaspecifiedobject
+      with:
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+        FIELD_API_NAME: tools.FIELD_API_NAME
+        TARGET_API_NAME: tools.TARGET_API_NAME
+      outputParameters:
+      - type: object
+        mapping: $.

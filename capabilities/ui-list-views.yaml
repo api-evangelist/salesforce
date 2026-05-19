@@ -1,0 +1,112 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce UI API — List Views
+  description: 'Salesforce UI API — List Views. 2 operations. Lead operation: Salesforce Get List Views for an Object. Self-contained
+    Naftiko capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - List Views
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: ui-list-views
+    baseUri: https://{instanceName}.salesforce.com/services/data/v{version}/ui-api
+    description: Salesforce UI API — List Views business capability. Self-contained, no shared references.
+    resources:
+    - name: list-ui-objectApiName
+      path: /list-ui/{objectApiName}
+      operations:
+      - name: getlistsbyobjectname
+        method: GET
+        description: Salesforce Get List Views for an Object
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: list-ui-objectApiName-listViewApiName
+      path: /list-ui/{objectApiName}/{listViewApiName}
+      operations:
+      - name: getlistview
+        method: GET
+        description: Salesforce Get a Specific List View
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: listViewApiName
+          in: path
+          type: string
+          description: The API name of the list view (e.g., AllAccounts, RecentlyViewed)
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: ui-list-views-rest
+    port: 8080
+    description: REST adapter for Salesforce UI API — List Views. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/list-ui/{objectapiname}
+      name: list-ui-objectapiname
+      description: REST surface for list-ui-objectApiName.
+      operations:
+      - method: GET
+        name: getlistsbyobjectname
+        description: Salesforce Get List Views for an Object
+        call: ui-list-views.getlistsbyobjectname
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/list-ui/{objectapiname}/{listviewapiname}
+      name: list-ui-objectapiname-listviewapiname
+      description: REST surface for list-ui-objectApiName-listViewApiName.
+      operations:
+      - method: GET
+        name: getlistview
+        description: Salesforce Get a Specific List View
+        call: ui-list-views.getlistview
+        with:
+          listViewApiName: rest.listViewApiName
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: ui-list-views-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce UI API — List Views. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: salesforce-get-list-views-object
+      description: Salesforce Get List Views for an Object
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: ui-list-views.getlistsbyobjectname
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-specific-list-view
+      description: Salesforce Get a Specific List View
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: ui-list-views.getlistview
+      with:
+        listViewApiName: tools.listViewApiName
+      outputParameters:
+      - type: object
+        mapping: $.

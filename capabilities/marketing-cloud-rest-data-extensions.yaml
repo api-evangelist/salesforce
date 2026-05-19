@@ -1,0 +1,141 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce Marketing Cloud REST API — Data Extensions
+  description: 'Salesforce Marketing Cloud REST API — Data Extensions. 2 operations. Lead operation: Get Data Extension rows.
+    Self-contained Naftiko capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Data Extensions
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: marketing-cloud-rest-data-extensions
+    baseUri: https://{subdomain}.rest.marketingcloudapis.com
+    description: Salesforce Marketing Cloud REST API — Data Extensions business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v1-async-dataextensions-key:{key}-rows
+      path: /data/v1/async/dataextensions/key:{key}/rows
+      operations:
+      - name: getdataextensionrows
+        method: GET
+        description: Get Data Extension rows
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: key
+          in: path
+          type: string
+          description: The external key of the Data Extension. Find this in Marketing Cloud Email Studio under the Data Extension
+            properties.
+          required: true
+        - name: $pageSize
+          in: query
+          type: integer
+          description: The number of rows to return per page. Defaults to 50.
+        - name: $page
+          in: query
+          type: integer
+          description: The page number to retrieve. Defaults to 1.
+        - name: $orderBy
+          in: query
+          type: string
+          description: Field name and direction for sorting results (e.g., "LastName ASC" or "CreatedDate DESC").
+      - name: insertdataextensionrows
+        method: POST
+        description: Insert rows into a Data Extension
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: key
+          in: path
+          type: string
+          description: The external key of the Data Extension to insert rows into.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: marketing-cloud-rest-data-extensions-rest
+    port: 8080
+    description: REST adapter for Salesforce Marketing Cloud REST API — Data Extensions. One Spectral-compliant resource per
+      consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/data/v1/async/dataextensions/key-key/rows
+      name: data-v1-async-dataextensions-key-key-rows
+      description: REST surface for data-v1-async-dataextensions-key:{key}-rows.
+      operations:
+      - method: GET
+        name: getdataextensionrows
+        description: Get Data Extension rows
+        call: marketing-cloud-rest-data-extensions.getdataextensionrows
+        with:
+          key: rest.key
+          $pageSize: rest.$pageSize
+          $page: rest.$page
+          $orderBy: rest.$orderBy
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: insertdataextensionrows
+        description: Insert rows into a Data Extension
+        call: marketing-cloud-rest-data-extensions.insertdataextensionrows
+        with:
+          key: rest.key
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: marketing-cloud-rest-data-extensions-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce Marketing Cloud REST API — Data Extensions. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: get-data-extension-rows
+      description: Get Data Extension rows
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: marketing-cloud-rest-data-extensions.getdataextensionrows
+      with:
+        key: tools.key
+        $pageSize: tools.$pageSize
+        $page: tools.$page
+        $orderBy: tools.$orderBy
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: insert-rows-data-extension
+      description: Insert rows into a Data Extension
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: marketing-cloud-rest-data-extensions.insertdataextensionrows
+      with:
+        key: tools.key
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

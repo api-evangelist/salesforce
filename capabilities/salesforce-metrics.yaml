@@ -1,0 +1,120 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Metrics
+  description: 'Salesforce — Metrics. 2 operations. Lead operation: Salesforce Lightning Exit by Page Metrics. Self-contained
+    Naftiko capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Metrics
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-metrics
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Metrics business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-sobjects-LightningExitByPageMetrics
+      path: /data/v64.0/sobjects/LightningExitByPageMetrics
+      operations:
+      - name: lightningexitbypagemetrics
+        method: GET
+        description: Salesforce Lightning Exit by Page Metrics
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    - name: data-v64.0-sobjects-LightningToggleMetrics
+      path: /data/v64.0/sobjects/LightningToggleMetrics
+      operations:
+      - name: lightningtogglemetrics
+        method: GET
+        description: Salesforce Lightning Toggle Metrics
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-metrics-rest
+    port: 8080
+    description: REST adapter for Salesforce — Metrics. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/data/v64-0/sobjects/lightningexitbypagemetrics
+      name: data-v64-0-sobjects-lightningexitbypagemetrics
+      description: REST surface for data-v64.0-sobjects-LightningExitByPageMetrics.
+      operations:
+      - method: GET
+        name: lightningexitbypagemetrics
+        description: Salesforce Lightning Exit by Page Metrics
+        call: salesforce-metrics.lightningexitbypagemetrics
+        with:
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/sobjects/lightningtogglemetrics
+      name: data-v64-0-sobjects-lightningtogglemetrics
+      description: REST surface for data-v64.0-sobjects-LightningToggleMetrics.
+      operations:
+      - method: GET
+        name: lightningtogglemetrics
+        description: Salesforce Lightning Toggle Metrics
+        call: salesforce-metrics.lightningtogglemetrics
+        with:
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-metrics-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Metrics. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-lightning-exit-page-metrics
+      description: Salesforce Lightning Exit by Page Metrics
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-metrics.lightningexitbypagemetrics
+      with:
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-lightning-toggle-metrics
+      description: Salesforce Lightning Toggle Metrics
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-metrics.lightningtogglemetrics
+      with:
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.

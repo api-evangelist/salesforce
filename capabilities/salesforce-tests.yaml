@@ -1,0 +1,248 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Tests
+  description: 'Salesforce — Tests. 5 operations. Lead operation: Salesforce Run Agent Test. Self-contained Naftiko capability
+    covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Tests
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-tests
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Tests business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-einstein-ai-evaluations-runs
+      path: /data/v64.0/einstein/ai-evaluations/runs
+      operations:
+      - name: runagenttest
+        method: POST
+        description: Salesforce Run Agent Test
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: data-v64.0-einstein-ai-evaluations-runs-runId
+      path: /data/v64.0/einstein/ai-evaluations/runs/{runId}
+      operations:
+      - name: getteststatus
+        method: GET
+        description: Salesforce Get Test Status
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: runId
+          in: path
+          type: string
+          description: Evaluation ID
+          required: true
+    - name: data-v64.0-einstein-ai-evaluations-runs-runId-results
+      path: /data/v64.0/einstein/ai-evaluations/runs/{runId}/results
+      operations:
+      - name: gettestresults
+        method: GET
+        description: Salesforce Get Test Results
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: runId
+          in: path
+          type: string
+          description: Evaluation ID
+          required: true
+    - name: data-v64.0-tooling-runTestsAsynchronous
+      path: /data/v64.0/tooling/runTestsAsynchronous
+      operations:
+      - name: toolingruntestsasync
+        method: POST
+        description: Salesforce Tooling Run Tests Async
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: data-v64.0-tooling-runTestsSynchronous
+      path: /data/v64.0/tooling/runTestsSynchronous
+      operations:
+      - name: toolingruntestssync
+        method: POST
+        description: Salesforce Tooling Run Tests Sync
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-tests-rest
+    port: 8080
+    description: REST adapter for Salesforce — Tests. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/data/v64-0/einstein/ai-evaluations/runs
+      name: data-v64-0-einstein-ai-evaluations-runs
+      description: REST surface for data-v64.0-einstein-ai-evaluations-runs.
+      operations:
+      - method: POST
+        name: runagenttest
+        description: Salesforce Run Agent Test
+        call: salesforce-tests.runagenttest
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/einstein/ai-evaluations/runs/{runid}
+      name: data-v64-0-einstein-ai-evaluations-runs-runid
+      description: REST surface for data-v64.0-einstein-ai-evaluations-runs-runId.
+      operations:
+      - method: GET
+        name: getteststatus
+        description: Salesforce Get Test Status
+        call: salesforce-tests.getteststatus
+        with:
+          runId: rest.runId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/einstein/ai-evaluations/runs/{runid}/results
+      name: data-v64-0-einstein-ai-evaluations-runs-runid-results
+      description: REST surface for data-v64.0-einstein-ai-evaluations-runs-runId-results.
+      operations:
+      - method: GET
+        name: gettestresults
+        description: Salesforce Get Test Results
+        call: salesforce-tests.gettestresults
+        with:
+          runId: rest.runId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/tooling/runtestsasynchronous
+      name: data-v64-0-tooling-runtestsasynchronous
+      description: REST surface for data-v64.0-tooling-runTestsAsynchronous.
+      operations:
+      - method: POST
+        name: toolingruntestsasync
+        description: Salesforce Tooling Run Tests Async
+        call: salesforce-tests.toolingruntestsasync
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/tooling/runtestssynchronous
+      name: data-v64-0-tooling-runtestssynchronous
+      description: REST surface for data-v64.0-tooling-runTestsSynchronous.
+      operations:
+      - method: POST
+        name: toolingruntestssync
+        description: Salesforce Tooling Run Tests Sync
+        call: salesforce-tests.toolingruntestssync
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-tests-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Tests. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-run-agent-test
+      description: Salesforce Run Agent Test
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-tests.runagenttest
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-test-status
+      description: Salesforce Get Test Status
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-tests.getteststatus
+      with:
+        runId: tools.runId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-test-results
+      description: Salesforce Get Test Results
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-tests.gettestresults
+      with:
+        runId: tools.runId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-tooling-run-tests-async
+      description: Salesforce Tooling Run Tests Async
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-tests.toolingruntestsasync
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-tooling-run-tests-sync
+      description: Salesforce Tooling Run Tests Sync
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-tests.toolingruntestssync
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

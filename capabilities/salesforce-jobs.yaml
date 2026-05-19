@@ -1,0 +1,739 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Jobs
+  description: 'Salesforce — Jobs. 18 operations. Lead operation: Salesforce Bulk Create Job. Self-contained Naftiko capability
+    covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Jobs
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-jobs
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Jobs business capability. Self-contained, no shared references.
+    resources:
+    - name: async-64.0-job
+      path: /async/64.0/job
+      operations:
+      - name: bulkcreatejob
+        method: POST
+        description: Salesforce Bulk Create Job
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-SFDC-Session
+          in: header
+          type: string
+          required: true
+        - name: charset
+          in: header
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: async-64.0-job
+      path: /async/64.0/job/
+      operations:
+      - name: bulkclosejob
+        method: POST
+        description: Salesforce Bulk Close Job
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-SFDC-Session
+          in: header
+          type: string
+          required: true
+        - name: charset
+          in: header
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: data-v64.0-jobs-ingest
+      path: /data/v64.0/jobs/ingest
+      operations:
+      - name: createjob
+        method: POST
+        description: Salesforce Create Job
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: getalljobs
+        method: GET
+        description: Salesforce Get All Jobs
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: data-v64.0-jobs-ingest
+      path: /data/v64.0/jobs/ingest/
+      operations:
+      - name: closeorabortajob
+        method: PATCH
+        description: Salesforce Close or Abort a Job
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletejob
+        method: DELETE
+        description: Salesforce Delete Job
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getjobinfo
+        method: GET
+        description: Salesforce Get Job Info
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: data-v64.0-jobs-ingest-batches
+      path: /data/v64.0/jobs/ingest//batches
+      operations:
+      - name: uploadjobdata
+        method: PUT
+        description: Salesforce Upload Job Data
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: data-v64.0-jobs-ingest-failedResults
+      path: /data/v64.0/jobs/ingest//failedResults
+      operations:
+      - name: getjobfailedrecordresults
+        method: GET
+        description: Salesforce Get Job Failed Record Results
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: data-v64.0-jobs-ingest-successfulResults
+      path: /data/v64.0/jobs/ingest//successfulResults
+      operations:
+      - name: getjobsuccessfulrecordresults
+        method: GET
+        description: Salesforce Get Job Successful Record Results
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: data-v64.0-jobs-ingest-unprocessedrecords
+      path: /data/v64.0/jobs/ingest//unprocessedrecords
+      operations:
+      - name: getjobunprocessedrecordresults
+        method: GET
+        description: Salesforce Get Job Unprocessed Record Results
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: data-v64.0-jobs-query
+      path: /data/v64.0/jobs/query
+      operations:
+      - name: getallqueryjobs
+        method: GET
+        description: Salesforce Get All Query Jobs
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: isPkChunkingEnabled
+          in: query
+          type: boolean
+          description: If set to true, the request only returns information about jobs where PK Chunking is enabled
+          required: true
+        - name: jobType
+          in: query
+          type: string
+          description: BigObjectIngest Classic V2Query
+          required: true
+        - name: concurrencyMode
+          in: query
+          type: string
+          description: serial parallel
+          required: true
+        - name: queryLocator
+          in: query
+          type: string
+          description: use the value from the nextRecordsUrl from the previous set
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+      - name: successfulcreatejobquery
+        method: POST
+        description: Salesforce Successful Create Job Query
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: data-v64.0-jobs-query
+      path: /data/v64.0/jobs/query/
+      operations:
+      - name: getjobinfoquery
+        method: GET
+        description: Salesforce Get Job Info Query
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: abortajobquery
+        method: PATCH
+        description: Salesforce Abort a Job Query
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletejobquery
+        method: DELETE
+        description: Salesforce Delete Job Query
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: data-v64.0-jobs-query-resultPages
+      path: /data/v64.0/jobs/query//resultPages
+      operations:
+      - name: getparallelresultsforaqueryjob
+        method: GET
+        description: Salesforce Get Parallel Results for a Query Job
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+        - name: Accept
+          in: header
+          type: string
+          required: true
+    - name: data-v64.0-jobs-query-results
+      path: /data/v64.0/jobs/query//results
+      operations:
+      - name: getjobqueryresult
+        method: GET
+        description: Salesforce Get Job Query Result
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+        - name: Accept
+          in: header
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-jobs-rest
+    port: 8080
+    description: REST adapter for Salesforce — Jobs. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/async/64-0/job
+      name: async-64-0-job
+      description: REST surface for async-64.0-job.
+      operations:
+      - method: POST
+        name: bulkcreatejob
+        description: Salesforce Bulk Create Job
+        call: salesforce-jobs.bulkcreatejob
+        with:
+          X-SFDC-Session: rest.X-SFDC-Session
+          charset: rest.charset
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/async/64-0/job
+      name: async-64-0-job
+      description: REST surface for async-64.0-job.
+      operations:
+      - method: POST
+        name: bulkclosejob
+        description: Salesforce Bulk Close Job
+        call: salesforce-jobs.bulkclosejob
+        with:
+          X-SFDC-Session: rest.X-SFDC-Session
+          charset: rest.charset
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/jobs/ingest
+      name: data-v64-0-jobs-ingest
+      description: REST surface for data-v64.0-jobs-ingest.
+      operations:
+      - method: POST
+        name: createjob
+        description: Salesforce Create Job
+        call: salesforce-jobs.createjob
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: getalljobs
+        description: Salesforce Get All Jobs
+        call: salesforce-jobs.getalljobs
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/jobs/ingest
+      name: data-v64-0-jobs-ingest
+      description: REST surface for data-v64.0-jobs-ingest.
+      operations:
+      - method: PATCH
+        name: closeorabortajob
+        description: Salesforce Close or Abort a Job
+        call: salesforce-jobs.closeorabortajob
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletejob
+        description: Salesforce Delete Job
+        call: salesforce-jobs.deletejob
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: getjobinfo
+        description: Salesforce Get Job Info
+        call: salesforce-jobs.getjobinfo
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/jobs/ingest/batches
+      name: data-v64-0-jobs-ingest-batches
+      description: REST surface for data-v64.0-jobs-ingest-batches.
+      operations:
+      - method: PUT
+        name: uploadjobdata
+        description: Salesforce Upload Job Data
+        call: salesforce-jobs.uploadjobdata
+        with:
+          Content-Type: rest.Content-Type
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/jobs/ingest/failedresults
+      name: data-v64-0-jobs-ingest-failedresults
+      description: REST surface for data-v64.0-jobs-ingest-failedResults.
+      operations:
+      - method: GET
+        name: getjobfailedrecordresults
+        description: Salesforce Get Job Failed Record Results
+        call: salesforce-jobs.getjobfailedrecordresults
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/jobs/ingest/successfulresults
+      name: data-v64-0-jobs-ingest-successfulresults
+      description: REST surface for data-v64.0-jobs-ingest-successfulResults.
+      operations:
+      - method: GET
+        name: getjobsuccessfulrecordresults
+        description: Salesforce Get Job Successful Record Results
+        call: salesforce-jobs.getjobsuccessfulrecordresults
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/jobs/ingest/unprocessedrecords
+      name: data-v64-0-jobs-ingest-unprocessedrecords
+      description: REST surface for data-v64.0-jobs-ingest-unprocessedrecords.
+      operations:
+      - method: GET
+        name: getjobunprocessedrecordresults
+        description: Salesforce Get Job Unprocessed Record Results
+        call: salesforce-jobs.getjobunprocessedrecordresults
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/jobs/query
+      name: data-v64-0-jobs-query
+      description: REST surface for data-v64.0-jobs-query.
+      operations:
+      - method: GET
+        name: getallqueryjobs
+        description: Salesforce Get All Query Jobs
+        call: salesforce-jobs.getallqueryjobs
+        with:
+          isPkChunkingEnabled: rest.isPkChunkingEnabled
+          jobType: rest.jobType
+          concurrencyMode: rest.concurrencyMode
+          queryLocator: rest.queryLocator
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: successfulcreatejobquery
+        description: Salesforce Successful Create Job Query
+        call: salesforce-jobs.successfulcreatejobquery
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/jobs/query
+      name: data-v64-0-jobs-query
+      description: REST surface for data-v64.0-jobs-query.
+      operations:
+      - method: GET
+        name: getjobinfoquery
+        description: Salesforce Get Job Info Query
+        call: salesforce-jobs.getjobinfoquery
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: abortajobquery
+        description: Salesforce Abort a Job Query
+        call: salesforce-jobs.abortajobquery
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletejobquery
+        description: Salesforce Delete Job Query
+        call: salesforce-jobs.deletejobquery
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/jobs/query/resultpages
+      name: data-v64-0-jobs-query-resultpages
+      description: REST surface for data-v64.0-jobs-query-resultPages.
+      operations:
+      - method: GET
+        name: getparallelresultsforaqueryjob
+        description: Salesforce Get Parallel Results for a Query Job
+        call: salesforce-jobs.getparallelresultsforaqueryjob
+        with:
+          Content-Type: rest.Content-Type
+          Accept: rest.Accept
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/jobs/query/results
+      name: data-v64-0-jobs-query-results
+      description: REST surface for data-v64.0-jobs-query-results.
+      operations:
+      - method: GET
+        name: getjobqueryresult
+        description: Salesforce Get Job Query Result
+        call: salesforce-jobs.getjobqueryresult
+        with:
+          Content-Type: rest.Content-Type
+          Accept: rest.Accept
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-jobs-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Jobs. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-bulk-create-job
+      description: Salesforce Bulk Create Job
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-jobs.bulkcreatejob
+      with:
+        X-SFDC-Session: tools.X-SFDC-Session
+        charset: tools.charset
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-bulk-close-job
+      description: Salesforce Bulk Close Job
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-jobs.bulkclosejob
+      with:
+        X-SFDC-Session: tools.X-SFDC-Session
+        charset: tools.charset
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-create-job
+      description: Salesforce Create Job
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-jobs.createjob
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-all-jobs
+      description: Salesforce Get All Jobs
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-jobs.getalljobs
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-close-abort-job
+      description: Salesforce Close or Abort a Job
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: salesforce-jobs.closeorabortajob
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-delete-job
+      description: Salesforce Delete Job
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: salesforce-jobs.deletejob
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-job-info
+      description: Salesforce Get Job Info
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-jobs.getjobinfo
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-upload-job-data
+      description: Salesforce Upload Job Data
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: salesforce-jobs.uploadjobdata
+      with:
+        Content-Type: tools.Content-Type
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-job-failed-record
+      description: Salesforce Get Job Failed Record Results
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-jobs.getjobfailedrecordresults
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-job-successful-record
+      description: Salesforce Get Job Successful Record Results
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-jobs.getjobsuccessfulrecordresults
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-job-unprocessed-record
+      description: Salesforce Get Job Unprocessed Record Results
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-jobs.getjobunprocessedrecordresults
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-all-query-jobs
+      description: Salesforce Get All Query Jobs
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-jobs.getallqueryjobs
+      with:
+        isPkChunkingEnabled: tools.isPkChunkingEnabled
+        jobType: tools.jobType
+        concurrencyMode: tools.concurrencyMode
+        queryLocator: tools.queryLocator
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-successful-create-job-query
+      description: Salesforce Successful Create Job Query
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: salesforce-jobs.successfulcreatejobquery
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-job-info-query
+      description: Salesforce Get Job Info Query
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-jobs.getjobinfoquery
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-abort-job-query
+      description: Salesforce Abort a Job Query
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: salesforce-jobs.abortajobquery
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-delete-job-query
+      description: Salesforce Delete Job Query
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: salesforce-jobs.deletejobquery
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-parallel-results-query
+      description: Salesforce Get Parallel Results for a Query Job
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-jobs.getparallelresultsforaqueryjob
+      with:
+        Content-Type: tools.Content-Type
+        Accept: tools.Accept
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-job-query-result
+      description: Salesforce Get Job Query Result
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-jobs.getjobqueryresult
+      with:
+        Content-Type: tools.Content-Type
+        Accept: tools.Accept
+      outputParameters:
+      - type: object
+        mapping: $.

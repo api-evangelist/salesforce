@@ -1,0 +1,104 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Call
+  description: 'Salesforce — Call. 1 operations. Lead operation: Salesforce Publish Multiple Events With Soap Call. Self-contained
+    Naftiko capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Call
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-call
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Call business capability. Self-contained, no shared references.
+    resources:
+    - name: Soap-u-64.0
+      path: /Soap/u/64.0
+      operations:
+      - name: publishmultipleeventswithsoapcall
+        method: POST
+        description: Salesforce Publish Multiple Events With Soap Call
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+        - name: charset
+          in: header
+          type: string
+          required: true
+        - name: SOAPAction
+          in: header
+          type: string
+          required: true
+        - name: Accept
+          in: header
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-call-rest
+    port: 8080
+    description: REST adapter for Salesforce — Call. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/soap/u/64-0
+      name: soap-u-64-0
+      description: REST surface for Soap-u-64.0.
+      operations:
+      - method: POST
+        name: publishmultipleeventswithsoapcall
+        description: Salesforce Publish Multiple Events With Soap Call
+        call: salesforce-call.publishmultipleeventswithsoapcall
+        with:
+          Content-Type: rest.Content-Type
+          charset: rest.charset
+          SOAPAction: rest.SOAPAction
+          Accept: rest.Accept
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-call-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Call. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-publish-multiple-events-soap
+      description: Salesforce Publish Multiple Events With Soap Call
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-call.publishmultipleeventswithsoapcall
+      with:
+        Content-Type: tools.Content-Type
+        charset: tools.charset
+        SOAPAction: tools.SOAPAction
+        Accept: tools.Accept
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

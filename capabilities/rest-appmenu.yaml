@@ -1,0 +1,70 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce REST API — AppMenu
+  description: 'Salesforce REST API — AppMenu. 1 operations. Lead operation: Salesforce Get the App Switcher Menu. Self-contained
+    Naftiko capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - AppMenu
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: rest-appmenu
+    baseUri: https://{instance}.salesforce.com/services/data/v{version}
+    description: Salesforce REST API — AppMenu business capability. Self-contained, no shared references.
+    resources:
+    - name: appMenu-AppSwitcher
+      path: /appMenu/AppSwitcher
+      operations:
+      - name: getappswitchermenu
+        method: GET
+        description: Salesforce Get the App Switcher Menu
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: rest-appmenu-rest
+    port: 8080
+    description: REST adapter for Salesforce REST API — AppMenu. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/appmenu/appswitcher
+      name: appmenu-appswitcher
+      description: REST surface for appMenu-AppSwitcher.
+      operations:
+      - method: GET
+        name: getappswitchermenu
+        description: Salesforce Get the App Switcher Menu
+        call: rest-appmenu.getappswitchermenu
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: rest-appmenu-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce REST API — AppMenu. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: salesforce-get-app-switcher-menu
+      description: Salesforce Get the App Switcher Menu
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: rest-appmenu.getappswitchermenu
+      outputParameters:
+      - type: object
+        mapping: $.

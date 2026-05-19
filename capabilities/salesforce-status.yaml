@@ -1,0 +1,133 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Status
+  description: 'Salesforce — Status. 2 operations. Lead operation: Salesforce Bulk Check Batch Status. Self-contained Naftiko
+    capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Status
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-status
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Status business capability. Self-contained, no shared references.
+    resources:
+    - name: async-64.0-job-batch
+      path: /async/64.0/job//batch
+      operations:
+      - name: bulkcheckbatchstatus
+        method: GET
+        description: Salesforce Bulk Check Batch Status
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-SFDC-Session
+          in: header
+          type: string
+          required: true
+        - name: Accept-Encoding
+          in: header
+          type: string
+          required: true
+        - name: Content-Encoding
+          in: header
+          type: string
+          required: true
+    - name: data-v64.0-einstein-ai-evaluations-runs-runId
+      path: /data/v64.0/einstein/ai-evaluations/runs/{runId}
+      operations:
+      - name: getteststatus
+        method: GET
+        description: Salesforce Get Test Status
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: runId
+          in: path
+          type: string
+          description: Evaluation ID
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-status-rest
+    port: 8080
+    description: REST adapter for Salesforce — Status. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/async/64-0/job/batch
+      name: async-64-0-job-batch
+      description: REST surface for async-64.0-job-batch.
+      operations:
+      - method: GET
+        name: bulkcheckbatchstatus
+        description: Salesforce Bulk Check Batch Status
+        call: salesforce-status.bulkcheckbatchstatus
+        with:
+          X-SFDC-Session: rest.X-SFDC-Session
+          Accept-Encoding: rest.Accept-Encoding
+          Content-Encoding: rest.Content-Encoding
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/einstein/ai-evaluations/runs/{runid}
+      name: data-v64-0-einstein-ai-evaluations-runs-runid
+      description: REST surface for data-v64.0-einstein-ai-evaluations-runs-runId.
+      operations:
+      - method: GET
+        name: getteststatus
+        description: Salesforce Get Test Status
+        call: salesforce-status.getteststatus
+        with:
+          runId: rest.runId
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-status-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Status. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-bulk-check-batch-status
+      description: Salesforce Bulk Check Batch Status
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-status.bulkcheckbatchstatus
+      with:
+        X-SFDC-Session: tools.X-SFDC-Session
+        Accept-Encoding: tools.Accept-Encoding
+        Content-Encoding: tools.Content-Encoding
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-test-status
+      description: Salesforce Get Test Status
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-status.getteststatus
+      with:
+        runId: tools.runId
+      outputParameters:
+      - type: object
+        mapping: $.

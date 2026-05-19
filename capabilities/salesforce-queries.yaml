@@ -1,0 +1,381 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Queries
+  description: 'Salesforce — Queries. 8 operations. Lead operation: Salesforce Get All Query Jobs. Self-contained Naftiko
+    capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Queries
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-queries
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Queries business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-jobs-query
+      path: /data/v64.0/jobs/query
+      operations:
+      - name: getallqueryjobs
+        method: GET
+        description: Salesforce Get All Query Jobs
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: isPkChunkingEnabled
+          in: query
+          type: boolean
+          description: If set to true, the request only returns information about jobs where PK Chunking is enabled
+          required: true
+        - name: jobType
+          in: query
+          type: string
+          description: BigObjectIngest Classic V2Query
+          required: true
+        - name: concurrencyMode
+          in: query
+          type: string
+          description: serial parallel
+          required: true
+        - name: queryLocator
+          in: query
+          type: string
+          description: use the value from the nextRecordsUrl from the previous set
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+      - name: successfulcreatejobquery
+        method: POST
+        description: Salesforce Successful Create Job Query
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: data-v64.0-jobs-query
+      path: /data/v64.0/jobs/query/
+      operations:
+      - name: getjobinfoquery
+        method: GET
+        description: Salesforce Get Job Info Query
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: abortajobquery
+        method: PATCH
+        description: Salesforce Abort a Job Query
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletejobquery
+        method: DELETE
+        description: Salesforce Delete Job Query
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: data-v64.0-jobs-query-resultPages
+      path: /data/v64.0/jobs/query//resultPages
+      operations:
+      - name: getparallelresultsforaqueryjob
+        method: GET
+        description: Salesforce Get Parallel Results for a Query Job
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+        - name: Accept
+          in: header
+          type: string
+          required: true
+    - name: data-v64.0-jobs-query-results
+      path: /data/v64.0/jobs/query//results
+      operations:
+      - name: getjobqueryresult
+        method: GET
+        description: Salesforce Get Job Query Result
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+        - name: Accept
+          in: header
+          type: string
+          required: true
+    - name: data-v64.0-search-suggestSearchQueries
+      path: /data/v64.0/search/suggestSearchQueries
+      operations:
+      - name: searchsuggestedqueries
+        method: GET
+        description: Salesforce Search Suggested Queries
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: q
+          in: query
+          type: string
+          required: true
+        - name: language
+          in: query
+          type: string
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-queries-rest
+    port: 8080
+    description: REST adapter for Salesforce — Queries. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/data/v64-0/jobs/query
+      name: data-v64-0-jobs-query
+      description: REST surface for data-v64.0-jobs-query.
+      operations:
+      - method: GET
+        name: getallqueryjobs
+        description: Salesforce Get All Query Jobs
+        call: salesforce-queries.getallqueryjobs
+        with:
+          isPkChunkingEnabled: rest.isPkChunkingEnabled
+          jobType: rest.jobType
+          concurrencyMode: rest.concurrencyMode
+          queryLocator: rest.queryLocator
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: successfulcreatejobquery
+        description: Salesforce Successful Create Job Query
+        call: salesforce-queries.successfulcreatejobquery
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/jobs/query
+      name: data-v64-0-jobs-query
+      description: REST surface for data-v64.0-jobs-query.
+      operations:
+      - method: GET
+        name: getjobinfoquery
+        description: Salesforce Get Job Info Query
+        call: salesforce-queries.getjobinfoquery
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: abortajobquery
+        description: Salesforce Abort a Job Query
+        call: salesforce-queries.abortajobquery
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletejobquery
+        description: Salesforce Delete Job Query
+        call: salesforce-queries.deletejobquery
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/jobs/query/resultpages
+      name: data-v64-0-jobs-query-resultpages
+      description: REST surface for data-v64.0-jobs-query-resultPages.
+      operations:
+      - method: GET
+        name: getparallelresultsforaqueryjob
+        description: Salesforce Get Parallel Results for a Query Job
+        call: salesforce-queries.getparallelresultsforaqueryjob
+        with:
+          Content-Type: rest.Content-Type
+          Accept: rest.Accept
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/jobs/query/results
+      name: data-v64-0-jobs-query-results
+      description: REST surface for data-v64.0-jobs-query-results.
+      operations:
+      - method: GET
+        name: getjobqueryresult
+        description: Salesforce Get Job Query Result
+        call: salesforce-queries.getjobqueryresult
+        with:
+          Content-Type: rest.Content-Type
+          Accept: rest.Accept
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/search/suggestsearchqueries
+      name: data-v64-0-search-suggestsearchqueries
+      description: REST surface for data-v64.0-search-suggestSearchQueries.
+      operations:
+      - method: GET
+        name: searchsuggestedqueries
+        description: Salesforce Search Suggested Queries
+        call: salesforce-queries.searchsuggestedqueries
+        with:
+          q: rest.q
+          language: rest.language
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-queries-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Queries. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-get-all-query-jobs
+      description: Salesforce Get All Query Jobs
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-queries.getallqueryjobs
+      with:
+        isPkChunkingEnabled: tools.isPkChunkingEnabled
+        jobType: tools.jobType
+        concurrencyMode: tools.concurrencyMode
+        queryLocator: tools.queryLocator
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-successful-create-job-query
+      description: Salesforce Successful Create Job Query
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: salesforce-queries.successfulcreatejobquery
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-job-info-query
+      description: Salesforce Get Job Info Query
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-queries.getjobinfoquery
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-abort-job-query
+      description: Salesforce Abort a Job Query
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: salesforce-queries.abortajobquery
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-delete-job-query
+      description: Salesforce Delete Job Query
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: salesforce-queries.deletejobquery
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-parallel-results-query
+      description: Salesforce Get Parallel Results for a Query Job
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-queries.getparallelresultsforaqueryjob
+      with:
+        Content-Type: tools.Content-Type
+        Accept: tools.Accept
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-job-query-result
+      description: Salesforce Get Job Query Result
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-queries.getjobqueryresult
+      with:
+        Content-Type: tools.Content-Type
+        Accept: tools.Accept
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-search-suggested-queries
+      description: Salesforce Search Suggested Queries
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-queries.searchsuggestedqueries
+      with:
+        q: tools.q
+        language: tools.language
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.

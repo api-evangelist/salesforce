@@ -1,0 +1,176 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce Bulk API 2.0 — Ingest Job Data
+  description: 'Salesforce Bulk API 2.0 — Ingest Job Data. 4 operations. Lead operation: Salesforce Upload Job Data (csv).
+    Self-contained Naftiko capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Ingest Job Data
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: bulk-api-2-ingest-job-data
+    baseUri: https://{instance}.salesforce.com/services/data/v{version}/jobs
+    description: Salesforce Bulk API 2.0 — Ingest Job Data business capability. Self-contained, no shared references.
+    resources:
+    - name: ingest-jobId-batches
+      path: /ingest/{jobId}/batches
+      operations:
+      - name: uploadjobdata
+        method: PUT
+        description: Salesforce Upload Job Data (csv)
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: ingest-jobId-failedResults
+      path: /ingest/{jobId}/failedResults
+      operations:
+      - name: getfailedresults
+        method: GET
+        description: Salesforce Get Failed Records From an Ingest Job
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: ingest-jobId-successfulResults
+      path: /ingest/{jobId}/successfulResults
+      operations:
+      - name: getsuccessfulresults
+        method: GET
+        description: Salesforce Get Successful Records From an Ingest Job
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: ingest-jobId-unprocessedrecords
+      path: /ingest/{jobId}/unprocessedrecords
+      operations:
+      - name: getunprocessedrecords
+        method: GET
+        description: Salesforce Get Unprocessed Records From an Ingest Job
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: bulk-api-2-ingest-job-data-rest
+    port: 8080
+    description: REST adapter for Salesforce Bulk API 2.0 — Ingest Job Data. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/ingest/{jobid}/batches
+      name: ingest-jobid-batches
+      description: REST surface for ingest-jobId-batches.
+      operations:
+      - method: PUT
+        name: uploadjobdata
+        description: Salesforce Upload Job Data (csv)
+        call: bulk-api-2-ingest-job-data.uploadjobdata
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/ingest/{jobid}/failedresults
+      name: ingest-jobid-failedresults
+      description: REST surface for ingest-jobId-failedResults.
+      operations:
+      - method: GET
+        name: getfailedresults
+        description: Salesforce Get Failed Records From an Ingest Job
+        call: bulk-api-2-ingest-job-data.getfailedresults
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/ingest/{jobid}/successfulresults
+      name: ingest-jobid-successfulresults
+      description: REST surface for ingest-jobId-successfulResults.
+      operations:
+      - method: GET
+        name: getsuccessfulresults
+        description: Salesforce Get Successful Records From an Ingest Job
+        call: bulk-api-2-ingest-job-data.getsuccessfulresults
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/ingest/{jobid}/unprocessedrecords
+      name: ingest-jobid-unprocessedrecords
+      description: REST surface for ingest-jobId-unprocessedrecords.
+      operations:
+      - method: GET
+        name: getunprocessedrecords
+        description: Salesforce Get Unprocessed Records From an Ingest Job
+        call: bulk-api-2-ingest-job-data.getunprocessedrecords
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: bulk-api-2-ingest-job-data-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce Bulk API 2.0 — Ingest Job Data. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: salesforce-upload-job-data-csv
+      description: Salesforce Upload Job Data (csv)
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: bulk-api-2-ingest-job-data.uploadjobdata
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-failed-records-ingest
+      description: Salesforce Get Failed Records From an Ingest Job
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: bulk-api-2-ingest-job-data.getfailedresults
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-successful-records-ingest
+      description: Salesforce Get Successful Records From an Ingest Job
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: bulk-api-2-ingest-job-data.getsuccessfulresults
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-unprocessed-records-ingest
+      description: Salesforce Get Unprocessed Records From an Ingest Job
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: bulk-api-2-ingest-job-data.getunprocessedrecords
+      outputParameters:
+      - type: object
+        mapping: $.

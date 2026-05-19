@@ -1,0 +1,280 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — External
+  description: 'Salesforce — External. 6 operations. Lead operation: Salesforce List External Credentials. Self-contained
+    Naftiko capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - External
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-external
+    baseUri: https://login.salesforce.com
+    description: Salesforce — External business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-named-credentials-external-credentials
+      path: /data/v64.0/named-credentials/external-credentials
+      operations:
+      - name: listexternalcredentials
+        method: GET
+        description: Salesforce List External Credentials
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createexternalcredential
+        method: POST
+        description: Salesforce Create External Credential
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: data-v64.0-named-credentials-external-credentials-DEVELOPER_NAME
+      path: /data/v64.0/named-credentials/external-credentials/{DEVELOPER_NAME}
+      operations:
+      - name: getexternalcredentialsbydevelopername
+        method: GET
+        description: Salesforce Get External Credentials by Developer Name
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: DEVELOPER_NAME
+          in: path
+          type: string
+          required: true
+      - name: updateexternalcredential
+        method: PUT
+        description: Salesforce Update External Credential
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: DEVELOPER_NAME
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleteexternalcredential
+        method: DELETE
+        description: Salesforce Delete External Credential
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: DEVELOPER_NAME
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-sobjects-SOBJECT_API_NAME-FIELD_NAME-FIELD_VALUE
+      path: /data/v64.0/sobjects/{SOBJECT_API_NAME}/{FIELD_NAME}/{FIELD_VALUE}
+      operations:
+      - name: sobjectrowsbyexternalid
+        method: GET
+        description: Salesforce Sobject Rows by External Id
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          required: true
+        - name: FIELD_NAME
+          in: path
+          type: string
+          required: true
+        - name: FIELD_VALUE
+          in: path
+          type: string
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-external-rest
+    port: 8080
+    description: REST adapter for Salesforce — External. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/data/v64-0/named-credentials/external-credentials
+      name: data-v64-0-named-credentials-external-credentials
+      description: REST surface for data-v64.0-named-credentials-external-credentials.
+      operations:
+      - method: GET
+        name: listexternalcredentials
+        description: Salesforce List External Credentials
+        call: salesforce-external.listexternalcredentials
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createexternalcredential
+        description: Salesforce Create External Credential
+        call: salesforce-external.createexternalcredential
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/named-credentials/external-credentials/{developer-name}
+      name: data-v64-0-named-credentials-external-credentials-developer-name
+      description: REST surface for data-v64.0-named-credentials-external-credentials-DEVELOPER_NAME.
+      operations:
+      - method: GET
+        name: getexternalcredentialsbydevelopername
+        description: Salesforce Get External Credentials by Developer Name
+        call: salesforce-external.getexternalcredentialsbydevelopername
+        with:
+          DEVELOPER_NAME: rest.DEVELOPER_NAME
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updateexternalcredential
+        description: Salesforce Update External Credential
+        call: salesforce-external.updateexternalcredential
+        with:
+          DEVELOPER_NAME: rest.DEVELOPER_NAME
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteexternalcredential
+        description: Salesforce Delete External Credential
+        call: salesforce-external.deleteexternalcredential
+        with:
+          DEVELOPER_NAME: rest.DEVELOPER_NAME
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/sobjects/{sobject-api-name}/{field-name}/{field-value}
+      name: data-v64-0-sobjects-sobject-api-name-field-name-field-value
+      description: REST surface for data-v64.0-sobjects-SOBJECT_API_NAME-FIELD_NAME-FIELD_VALUE.
+      operations:
+      - method: GET
+        name: sobjectrowsbyexternalid
+        description: Salesforce Sobject Rows by External Id
+        call: salesforce-external.sobjectrowsbyexternalid
+        with:
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+          FIELD_NAME: rest.FIELD_NAME
+          FIELD_VALUE: rest.FIELD_VALUE
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-external-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — External. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-list-external-credentials
+      description: Salesforce List External Credentials
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-external.listexternalcredentials
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-create-external-credential
+      description: Salesforce Create External Credential
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-external.createexternalcredential
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-external-credentials-developer
+      description: Salesforce Get External Credentials by Developer Name
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-external.getexternalcredentialsbydevelopername
+      with:
+        DEVELOPER_NAME: tools.DEVELOPER_NAME
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-update-external-credential
+      description: Salesforce Update External Credential
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: salesforce-external.updateexternalcredential
+      with:
+        DEVELOPER_NAME: tools.DEVELOPER_NAME
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-delete-external-credential
+      description: Salesforce Delete External Credential
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: salesforce-external.deleteexternalcredential
+      with:
+        DEVELOPER_NAME: tools.DEVELOPER_NAME
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-sobject-rows-external-id
+      description: Salesforce Sobject Rows by External Id
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-external.sobjectrowsbyexternalid
+      with:
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+        FIELD_NAME: tools.FIELD_NAME
+        FIELD_VALUE: tools.FIELD_VALUE
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.

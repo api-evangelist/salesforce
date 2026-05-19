@@ -1,0 +1,352 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Applications
+  description: 'Salesforce — Applications. 7 operations. Lead operation: Salesforce Lightning Usage by App Type. Self-contained
+    Naftiko capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Applications
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-applications
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Applications business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-sobjects-LightningUsageByAppTypeMetrics
+      path: /data/v64.0/sobjects/LightningUsageByAppTypeMetrics
+      operations:
+      - name: lightningusagebyapptype
+        method: GET
+        description: Salesforce Lightning Usage by App Type
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    - name: data-v64.0-ui-api-apps
+      path: /data/v64.0/ui-api/apps
+      operations:
+      - name: getapps
+        method: GET
+        description: Salesforce Get Apps
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: formFactor
+          in: query
+          type: string
+          description: The form factor for each app that the user has access to (`Large`, `Medium` or `Small`)
+          required: true
+    - name: data-v64.0-ui-api-apps-selected
+      path: /data/v64.0/ui-api/apps/selected
+      operations:
+      - name: getlastselectedapp
+        method: GET
+        description: Salesforce Get Last Selected App
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: formFactor
+          in: query
+          type: string
+          description: The form factor for each app that the user has access to (`Large`, `Medium` or `Small`)
+          required: true
+    - name: data-v64.0-ui-api-apps-APP_ID
+      path: /data/v64.0/ui-api/apps/{APP_ID}
+      operations:
+      - name: getanapp
+        method: GET
+        description: Salesforce Get an App
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: formFactor
+          in: query
+          type: string
+          description: The form factor for each app that the user has access to (`Large`, `Medium` or `Small`)
+          required: true
+        - name: APP_ID
+          in: path
+          type: string
+          description: Application ID
+          required: true
+      - name: updatelastselectedapp
+        method: PATCH
+        description: Salesforce Update Last Selected App
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: formFactor
+          in: query
+          type: string
+          description: The form factor for each app that the user has access to (`Large`, `Medium` or `Small`)
+          required: true
+        - name: APP_ID
+          in: path
+          type: string
+          description: Application ID
+          required: true
+    - name: services-data-v64.0-apps-oauth-usage-tokens
+      path: /services/data/v64.0/apps/oauth/usage///tokens
+      operations:
+      - name: oauthappuserstokens
+        method: GET
+        description: Salesforce Oauth App Users Tokens
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Authorization
+          in: header
+          type: string
+          description: Replace <token> with your access token
+          required: true
+    - name: services-data-v64.0-apps-oauth-usage-users
+      path: /services/data/v64.0/apps/oauth/usage//users
+      operations:
+      - name: oauthappusers
+        method: GET
+        description: Salesforce Oauth App Users
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: page
+          in: query
+          type: integer
+          description: Page number for the usage information. Defaults to 0.
+          required: true
+        - name: pageSize
+          in: query
+          type: integer
+          description: Number of usage entries per page. Defaults to 100.
+          required: true
+        - name: Authorization
+          in: header
+          type: string
+          description: Replace <token> with your access token
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-applications-rest
+    port: 8080
+    description: REST adapter for Salesforce — Applications. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/data/v64-0/sobjects/lightningusagebyapptypemetrics
+      name: data-v64-0-sobjects-lightningusagebyapptypemetrics
+      description: REST surface for data-v64.0-sobjects-LightningUsageByAppTypeMetrics.
+      operations:
+      - method: GET
+        name: lightningusagebyapptype
+        description: Salesforce Lightning Usage by App Type
+        call: salesforce-applications.lightningusagebyapptype
+        with:
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/apps
+      name: data-v64-0-ui-api-apps
+      description: REST surface for data-v64.0-ui-api-apps.
+      operations:
+      - method: GET
+        name: getapps
+        description: Salesforce Get Apps
+        call: salesforce-applications.getapps
+        with:
+          formFactor: rest.formFactor
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/apps/selected
+      name: data-v64-0-ui-api-apps-selected
+      description: REST surface for data-v64.0-ui-api-apps-selected.
+      operations:
+      - method: GET
+        name: getlastselectedapp
+        description: Salesforce Get Last Selected App
+        call: salesforce-applications.getlastselectedapp
+        with:
+          formFactor: rest.formFactor
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/apps/{app-id}
+      name: data-v64-0-ui-api-apps-app-id
+      description: REST surface for data-v64.0-ui-api-apps-APP_ID.
+      operations:
+      - method: GET
+        name: getanapp
+        description: Salesforce Get an App
+        call: salesforce-applications.getanapp
+        with:
+          formFactor: rest.formFactor
+          APP_ID: rest.APP_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: updatelastselectedapp
+        description: Salesforce Update Last Selected App
+        call: salesforce-applications.updatelastselectedapp
+        with:
+          formFactor: rest.formFactor
+          APP_ID: rest.APP_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/services/data/v64-0/apps/oauth/usage/tokens
+      name: services-data-v64-0-apps-oauth-usage-tokens
+      description: REST surface for services-data-v64.0-apps-oauth-usage-tokens.
+      operations:
+      - method: GET
+        name: oauthappuserstokens
+        description: Salesforce Oauth App Users Tokens
+        call: salesforce-applications.oauthappuserstokens
+        with:
+          Authorization: rest.Authorization
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/services/data/v64-0/apps/oauth/usage/users
+      name: services-data-v64-0-apps-oauth-usage-users
+      description: REST surface for services-data-v64.0-apps-oauth-usage-users.
+      operations:
+      - method: GET
+        name: oauthappusers
+        description: Salesforce Oauth App Users
+        call: salesforce-applications.oauthappusers
+        with:
+          page: rest.page
+          pageSize: rest.pageSize
+          Authorization: rest.Authorization
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-applications-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Applications. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-lightning-usage-app-type
+      description: Salesforce Lightning Usage by App Type
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-applications.lightningusagebyapptype
+      with:
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-apps
+      description: Salesforce Get Apps
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-applications.getapps
+      with:
+        formFactor: tools.formFactor
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-last-selected-app
+      description: Salesforce Get Last Selected App
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-applications.getlastselectedapp
+      with:
+        formFactor: tools.formFactor
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-app
+      description: Salesforce Get an App
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-applications.getanapp
+      with:
+        formFactor: tools.formFactor
+        APP_ID: tools.APP_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-update-last-selected-app
+      description: Salesforce Update Last Selected App
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: salesforce-applications.updatelastselectedapp
+      with:
+        formFactor: tools.formFactor
+        APP_ID: tools.APP_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-oauth-app-users-tokens
+      description: Salesforce Oauth App Users Tokens
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-applications.oauthappuserstokens
+      with:
+        Authorization: tools.Authorization
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-oauth-app-users
+      description: Salesforce Oauth App Users
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-applications.oauthappusers
+      with:
+        page: tools.page
+        pageSize: tools.pageSize
+        Authorization: tools.Authorization
+      outputParameters:
+      - type: object
+        mapping: $.

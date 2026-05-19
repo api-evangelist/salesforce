@@ -1,0 +1,79 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Tabs
+  description: 'Salesforce — Tabs. 1 operations. Lead operation: Salesforce Tabs. Self-contained Naftiko capability covering
+    one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Tabs
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-tabs
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Tabs business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-tabs
+      path: /data/v64.0/tabs
+      operations:
+      - name: tabs
+        method: GET
+        description: Salesforce Tabs
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-tabs-rest
+    port: 8080
+    description: REST adapter for Salesforce — Tabs. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/data/v64-0/tabs
+      name: data-v64-0-tabs
+      description: REST surface for data-v64.0-tabs.
+      operations:
+      - method: GET
+        name: tabs
+        description: Salesforce Tabs
+        call: salesforce-tabs.tabs
+        with:
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-tabs-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Tabs. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-tabs
+      description: Salesforce Tabs
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-tabs.tabs
+      with:
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.

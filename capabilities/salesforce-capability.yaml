@@ -1,0 +1,85 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Capability
+  description: 'Salesforce — Capability. 1 operations. Lead operation: Salesforce Feed Elements Capability, Comments Items.
+    Self-contained Naftiko capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Capability
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-capability
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Capability business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-chatter-feed-elements-FEED_ELEMENT_ID-capabilities-comments-items
+      path: /data/v64.0/chatter/feed-elements/{FEED_ELEMENT_ID}/capabilities/comments/items
+      operations:
+      - name: feedelementscapabilitycommentsitems
+        method: POST
+        description: Salesforce Feed Elements Capability, Comments Items
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: text
+          in: query
+          type: string
+          required: true
+        - name: FEED_ELEMENT_ID
+          in: path
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-capability-rest
+    port: 8080
+    description: REST adapter for Salesforce — Capability. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/data/v64-0/chatter/feed-elements/{feed-element-id}/capabilities/comments/items
+      name: data-v64-0-chatter-feed-elements-feed-element-id-capabilities-comments-items
+      description: REST surface for data-v64.0-chatter-feed-elements-FEED_ELEMENT_ID-capabilities-comments-items.
+      operations:
+      - method: POST
+        name: feedelementscapabilitycommentsitems
+        description: Salesforce Feed Elements Capability, Comments Items
+        call: salesforce-capability.feedelementscapabilitycommentsitems
+        with:
+          text: rest.text
+          FEED_ELEMENT_ID: rest.FEED_ELEMENT_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-capability-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Capability. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-feed-elements-capability-comments
+      description: Salesforce Feed Elements Capability, Comments Items
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-capability.feedelementscapabilitycommentsitems
+      with:
+        text: tools.text
+        FEED_ELEMENT_ID: tools.FEED_ELEMENT_ID
+      outputParameters:
+      - type: object
+        mapping: $.

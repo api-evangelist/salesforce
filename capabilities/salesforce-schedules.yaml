@@ -1,0 +1,85 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Schedules
+  description: 'Salesforce — Schedules. 1 operations. Lead operation: Salesforce Product Schedules. Self-contained Naftiko
+    capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Schedules
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-schedules
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Schedules business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-sobjects-OpportunityLineItem-OPPORTUNITY_LINE_ITEM_ID-OpportunityLine
+      path: /data/v64.0/sobjects/OpportunityLineItem/{OPPORTUNITY_LINE_ITEM_ID}/OpportunityLineItemSchedules
+      operations:
+      - name: productschedules
+        method: GET
+        description: Salesforce Product Schedules
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: OPPORTUNITY_LINE_ITEM_ID
+          in: path
+          type: string
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-schedules-rest
+    port: 8080
+    description: REST adapter for Salesforce — Schedules. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/data/v64-0/sobjects/opportunitylineitem/{opportunity-line-item-id}/opportunitylineitemschedules
+      name: data-v64-0-sobjects-opportunitylineitem-opportunity-line-item-id-opportunityline
+      description: REST surface for data-v64.0-sobjects-OpportunityLineItem-OPPORTUNITY_LINE_ITEM_ID-OpportunityLine.
+      operations:
+      - method: GET
+        name: productschedules
+        description: Salesforce Product Schedules
+        call: salesforce-schedules.productschedules
+        with:
+          OPPORTUNITY_LINE_ITEM_ID: rest.OPPORTUNITY_LINE_ITEM_ID
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-schedules-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Schedules. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-product-schedules
+      description: Salesforce Product Schedules
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-schedules.productschedules
+      with:
+        OPPORTUNITY_LINE_ITEM_ID: tools.OPPORTUNITY_LINE_ITEM_ID
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.

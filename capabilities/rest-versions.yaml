@@ -1,0 +1,70 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce REST API — Versions
+  description: 'Salesforce REST API — Versions. 1 operations. Lead operation: Salesforce List Available Api Versions. Self-contained
+    Naftiko capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Versions
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: rest-versions
+    baseUri: https://{instance}.salesforce.com/services/data/v{version}
+    description: Salesforce REST API — Versions business capability. Self-contained, no shared references.
+    resources:
+    - name: root
+      path: /
+      operations:
+      - name: listapiversions
+        method: GET
+        description: Salesforce List Available Api Versions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: rest-versions-rest
+    port: 8080
+    description: REST adapter for Salesforce REST API — Versions. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1
+      name: root
+      description: REST surface for root.
+      operations:
+      - method: GET
+        name: listapiversions
+        description: Salesforce List Available Api Versions
+        call: rest-versions.listapiversions
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: rest-versions-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce REST API — Versions. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: salesforce-list-available-api-versions
+      description: Salesforce List Available Api Versions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: rest-versions.listapiversions
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,85 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Members
+  description: 'Salesforce — Members. 1 operations. Lead operation: Salesforce Group Members. Self-contained Naftiko capability
+    covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Members
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-members
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Members business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-chatter-groups-GROUP_ID-members
+      path: /data/v64.0/chatter/groups/{GROUP_ID}/members
+      operations:
+      - name: groupmembers
+        method: POST
+        description: Salesforce Group Members
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: userId
+          in: query
+          type: string
+          required: true
+        - name: GROUP_ID
+          in: path
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-members-rest
+    port: 8080
+    description: REST adapter for Salesforce — Members. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/data/v64-0/chatter/groups/{group-id}/members
+      name: data-v64-0-chatter-groups-group-id-members
+      description: REST surface for data-v64.0-chatter-groups-GROUP_ID-members.
+      operations:
+      - method: POST
+        name: groupmembers
+        description: Salesforce Group Members
+        call: salesforce-members.groupmembers
+        with:
+          userId: rest.userId
+          GROUP_ID: rest.GROUP_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-members-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Members. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-group-members
+      description: Salesforce Group Members
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-members.groupmembers
+      with:
+        userId: tools.userId
+        GROUP_ID: tools.GROUP_ID
+      outputParameters:
+      - type: object
+        mapping: $.

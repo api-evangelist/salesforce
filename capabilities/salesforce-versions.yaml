@@ -1,0 +1,168 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Versions
+  description: 'Salesforce — Versions. 3 operations. Lead operation: Salesforce Versions. Self-contained Naftiko capability
+    covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Versions
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-versions
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Versions business capability. Self-contained, no shared references.
+    resources:
+    - name: data
+      path: /data
+      operations:
+      - name: versions
+        method: GET
+        description: Salesforce Versions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+        - name: Sforce-Call-Options
+          in: header
+          type: string
+          required: true
+    - name: data-v64.0
+      path: /data/v64.0
+      operations:
+      - name: resourcesbyversion
+        method: GET
+        description: Salesforce Resources by Version
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    - name: data-v64.0-connect-business-rules-expression-set-version-expressionSetVersionId-
+      path: /data/v64.0/connect/business-rules/expression-set/version/{expressionSetVersionId}/dependencies
+      operations:
+      - name: retrieveexpressionsetversiondependencies
+        method: GET
+        description: Salesforce Retrieve Expression Set Version Dependencies
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: expressionSetVersionId
+          in: path
+          type: string
+          description: 'Expression Set Version Id: For Example 9QLHo000000LBjEOAW'
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-versions-rest
+    port: 8080
+    description: REST adapter for Salesforce — Versions. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/data
+      name: data
+      description: REST surface for data.
+      operations:
+      - method: GET
+        name: versions
+        description: Salesforce Versions
+        call: salesforce-versions.versions
+        with:
+          Content-Type: rest.Content-Type
+          Sforce-Call-Options: rest.Sforce-Call-Options
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0
+      name: data-v64-0
+      description: REST surface for data-v64.0.
+      operations:
+      - method: GET
+        name: resourcesbyversion
+        description: Salesforce Resources by Version
+        call: salesforce-versions.resourcesbyversion
+        with:
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/connect/business-rules/expression-set/version/{expressionsetversionid}/dependencies
+      name: data-v64-0-connect-business-rules-expression-set-version-expressionsetversionid
+      description: REST surface for data-v64.0-connect-business-rules-expression-set-version-expressionSetVersionId-.
+      operations:
+      - method: GET
+        name: retrieveexpressionsetversiondependencies
+        description: Salesforce Retrieve Expression Set Version Dependencies
+        call: salesforce-versions.retrieveexpressionsetversiondependencies
+        with:
+          expressionSetVersionId: rest.expressionSetVersionId
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-versions-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Versions. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-versions
+      description: Salesforce Versions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-versions.versions
+      with:
+        Content-Type: tools.Content-Type
+        Sforce-Call-Options: tools.Sforce-Call-Options
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-resources-version
+      description: Salesforce Resources by Version
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-versions.resourcesbyversion
+      with:
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-retrieve-expression-set-version
+      description: Salesforce Retrieve Expression Set Version Dependencies
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-versions.retrieveexpressionsetversiondependencies
+      with:
+        expressionSetVersionId: tools.expressionSetVersionId
+      outputParameters:
+      - type: object
+        mapping: $.

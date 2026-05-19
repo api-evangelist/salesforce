@@ -1,0 +1,91 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Memberships
+  description: 'Salesforce — Memberships. 1 operations. Lead operation: Salesforce Group Membership Requests—private. Self-contained
+    Naftiko capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Memberships
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-memberships
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Memberships business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-chatter-group-membership-requests-CHATTER_GROUP_REQUEST_ID
+      path: /data/v64.0/chatter/group-membership-requests/{CHATTER_GROUP_REQUEST_ID}
+      operations:
+      - name: groupmembershiprequestsprivate
+        method: PATCH
+        description: Salesforce Group Membership Requests—private
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: status
+          in: query
+          type: string
+          required: true
+        - name: responseMessage
+          in: query
+          type: string
+          required: true
+        - name: CHATTER_GROUP_REQUEST_ID
+          in: path
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-memberships-rest
+    port: 8080
+    description: REST adapter for Salesforce — Memberships. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/data/v64-0/chatter/group-membership-requests/{chatter-group-request-id}
+      name: data-v64-0-chatter-group-membership-requests-chatter-group-request-id
+      description: REST surface for data-v64.0-chatter-group-membership-requests-CHATTER_GROUP_REQUEST_ID.
+      operations:
+      - method: PATCH
+        name: groupmembershiprequestsprivate
+        description: Salesforce Group Membership Requests—private
+        call: salesforce-memberships.groupmembershiprequestsprivate
+        with:
+          status: rest.status
+          responseMessage: rest.responseMessage
+          CHATTER_GROUP_REQUEST_ID: rest.CHATTER_GROUP_REQUEST_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-memberships-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Memberships. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-group-membership-requests-private
+      description: Salesforce Group Membership Requests—private
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: salesforce-memberships.groupmembershiprequestsprivate
+      with:
+        status: tools.status
+        responseMessage: tools.responseMessage
+        CHATTER_GROUP_REQUEST_ID: tools.CHATTER_GROUP_REQUEST_ID
+      outputParameters:
+      - type: object
+        mapping: $.

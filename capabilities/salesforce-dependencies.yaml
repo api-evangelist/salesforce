@@ -1,0 +1,80 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Dependencies
+  description: 'Salesforce — Dependencies. 1 operations. Lead operation: Salesforce Retrieve Expression Set Version Dependencies.
+    Self-contained Naftiko capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Dependencies
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-dependencies
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Dependencies business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-connect-business-rules-expression-set-version-expressionSetVersionId-
+      path: /data/v64.0/connect/business-rules/expression-set/version/{expressionSetVersionId}/dependencies
+      operations:
+      - name: retrieveexpressionsetversiondependencies
+        method: GET
+        description: Salesforce Retrieve Expression Set Version Dependencies
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: expressionSetVersionId
+          in: path
+          type: string
+          description: 'Expression Set Version Id: For Example 9QLHo000000LBjEOAW'
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-dependencies-rest
+    port: 8080
+    description: REST adapter for Salesforce — Dependencies. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/data/v64-0/connect/business-rules/expression-set/version/{expressionsetversionid}/dependencies
+      name: data-v64-0-connect-business-rules-expression-set-version-expressionsetversionid
+      description: REST surface for data-v64.0-connect-business-rules-expression-set-version-expressionSetVersionId-.
+      operations:
+      - method: GET
+        name: retrieveexpressionsetversiondependencies
+        description: Salesforce Retrieve Expression Set Version Dependencies
+        call: salesforce-dependencies.retrieveexpressionsetversiondependencies
+        with:
+          expressionSetVersionId: rest.expressionSetVersionId
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-dependencies-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Dependencies. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-retrieve-expression-set-version
+      description: Salesforce Retrieve Expression Set Version Dependencies
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-dependencies.retrieveexpressionsetversiondependencies
+      with:
+        expressionSetVersionId: tools.expressionSetVersionId
+      outputParameters:
+      - type: object
+        mapping: $.

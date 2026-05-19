@@ -1,0 +1,164 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Initialize
+  description: 'Salesforce — Initialize. 3 operations. Lead operation: Salesforce Forgot Password - Initialize. Self-contained
+    Naftiko capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Initialize
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-initialize
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Initialize business capability. Self-contained, no shared references.
+    resources:
+    - name: services-auth-headless-forgot_password
+      path: /services/auth/headless/forgot_password
+      operations:
+      - name: forgotpasswordinitialize
+        method: POST
+        description: Salesforce Forgot Password - Initialize
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: services-auth-headless-init-passwordless-login
+      path: /services/auth/headless/init/passwordless/login
+      operations:
+      - name: passwordlesslogininitialize
+        method: POST
+        description: Salesforce Passwordless Login - Initialize
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: services-auth-headless-init-registration
+      path: /services/auth/headless/init/registration
+      operations:
+      - name: registrationinitialize
+        method: POST
+        description: Salesforce Registration - Initialize
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-initialize-rest
+    port: 8080
+    description: REST adapter for Salesforce — Initialize. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/services/auth/headless/forgot-password
+      name: services-auth-headless-forgot-password
+      description: REST surface for services-auth-headless-forgot_password.
+      operations:
+      - method: POST
+        name: forgotpasswordinitialize
+        description: Salesforce Forgot Password - Initialize
+        call: salesforce-initialize.forgotpasswordinitialize
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/services/auth/headless/init/passwordless/login
+      name: services-auth-headless-init-passwordless-login
+      description: REST surface for services-auth-headless-init-passwordless-login.
+      operations:
+      - method: POST
+        name: passwordlesslogininitialize
+        description: Salesforce Passwordless Login - Initialize
+        call: salesforce-initialize.passwordlesslogininitialize
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/services/auth/headless/init/registration
+      name: services-auth-headless-init-registration
+      description: REST surface for services-auth-headless-init-registration.
+      operations:
+      - method: POST
+        name: registrationinitialize
+        description: Salesforce Registration - Initialize
+        call: salesforce-initialize.registrationinitialize
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-initialize-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Initialize. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-forgot-password-initialize
+      description: Salesforce Forgot Password - Initialize
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-initialize.forgotpasswordinitialize
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-passwordless-login-initialize
+      description: Salesforce Passwordless Login - Initialize
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-initialize.passwordlesslogininitialize
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-registration-initialize
+      description: Salesforce Registration - Initialize
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-initialize.registrationinitialize
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

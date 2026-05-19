@@ -1,0 +1,103 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Text
+  description: 'Salesforce — Text. 1 operations. Lead operation: Salesforce Sobject Rich Text Image Retrieve. Self-contained
+    Naftiko capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Text
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-text
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Text business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-sobjects-SOBJECT_API_NAME-RECORD_ID-richTextImageFields-FIELD_NAME-CO
+      path: /data/v64.0/sobjects/{SOBJECT_API_NAME}/{RECORD_ID}/richTextImageFields/{FIELD_NAME}/{CONTENT_REFERENCE_ID}
+      operations:
+      - name: sobjectrichtextimageretrieve
+        method: GET
+        description: Salesforce Sobject Rich Text Image Retrieve
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          required: true
+        - name: RECORD_ID
+          in: path
+          type: string
+          required: true
+        - name: FIELD_NAME
+          in: path
+          type: string
+          required: true
+        - name: CONTENT_REFERENCE_ID
+          in: path
+          type: string
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-text-rest
+    port: 8080
+    description: REST adapter for Salesforce — Text. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/data/v64-0/sobjects/{sobject-api-name}/{record-id}/richtextimagefields/{field-name}/{content-reference-id}
+      name: data-v64-0-sobjects-sobject-api-name-record-id-richtextimagefields-field-name-co
+      description: REST surface for data-v64.0-sobjects-SOBJECT_API_NAME-RECORD_ID-richTextImageFields-FIELD_NAME-CO.
+      operations:
+      - method: GET
+        name: sobjectrichtextimageretrieve
+        description: Salesforce Sobject Rich Text Image Retrieve
+        call: salesforce-text.sobjectrichtextimageretrieve
+        with:
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+          RECORD_ID: rest.RECORD_ID
+          FIELD_NAME: rest.FIELD_NAME
+          CONTENT_REFERENCE_ID: rest.CONTENT_REFERENCE_ID
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-text-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Text. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-sobject-rich-text-image
+      description: Salesforce Sobject Rich Text Image Retrieve
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-text.sobjectrichtextimageretrieve
+      with:
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+        RECORD_ID: tools.RECORD_ID
+        FIELD_NAME: tools.FIELD_NAME
+        CONTENT_REFERENCE_ID: tools.CONTENT_REFERENCE_ID
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.

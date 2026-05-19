@@ -1,0 +1,439 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Named
+  description: 'Salesforce — Named. 10 operations. Lead operation: Salesforce List Named Credentials. Self-contained Naftiko
+    capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Named
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-named
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Named business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-named-credentials-named-credential-setup
+      path: /data/v64.0/named-credentials/named-credential-setup
+      operations:
+      - name: listnamedcredentials
+        method: GET
+        description: Salesforce List Named Credentials
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createnamedcredential
+        method: POST
+        description: Salesforce Create Named Credential
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: data-v64.0-named-credentials-named-credential-setup-DEVELOPER_NAME
+      path: /data/v64.0/named-credentials/named-credential-setup/{DEVELOPER_NAME}
+      operations:
+      - name: getnamedcredentialbydevelopername
+        method: GET
+        description: Salesforce Get Named Credential by Developer Name
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: DEVELOPER_NAME
+          in: path
+          type: string
+          required: true
+      - name: updatenamedcredential
+        method: PUT
+        description: Salesforce Update Named Credential
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: DEVELOPER_NAME
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: data-v64.0-sobjects-SOBJECT_API_NAME-describe-namedLayouts-LAYOUT_NAME
+      path: /data/v64.0/sobjects/{SOBJECT_API_NAME}/describe/namedLayouts/{LAYOUT_NAME}
+      operations:
+      - name: sobjectnamedlayouts
+        method: GET
+        description: Salesforce Sobject Named Layouts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          required: true
+        - name: LAYOUT_NAME
+          in: path
+          type: string
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    - name: data-v64.0-tooling-query
+      path: /data/v64.0/tooling/query
+      operations:
+      - name: listnamedcredentials
+        method: GET
+        description: Salesforce List Named Credentials
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: q
+          in: query
+          type: string
+          required: true
+    - name: data-v64.0-tooling-sobjects-NamedCredential
+      path: /data/v64.0/tooling/sobjects/NamedCredential
+      operations:
+      - name: createnamedcredential1
+        method: POST
+        description: Salesforce Create Named Credential1
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: data-v64.0-tooling-sobjects-NamedCredential-NAMED_CREDENTIAL_ID
+      path: /data/v64.0/tooling/sobjects/NamedCredential/{NAMED_CREDENTIAL_ID}
+      operations:
+      - name: getnamedcredential
+        method: GET
+        description: Salesforce Get Named Credential
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: NAMED_CREDENTIAL_ID
+          in: path
+          type: string
+          required: true
+      - name: deletenamedcredential
+        method: DELETE
+        description: Salesforce Delete Named Credential
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: NAMED_CREDENTIAL_ID
+          in: path
+          type: string
+          required: true
+      - name: updatenamedcredential
+        method: PATCH
+        description: Salesforce Update Named Credential
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: NAMED_CREDENTIAL_ID
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-named-rest
+    port: 8080
+    description: REST adapter for Salesforce — Named. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/data/v64-0/named-credentials/named-credential-setup
+      name: data-v64-0-named-credentials-named-credential-setup
+      description: REST surface for data-v64.0-named-credentials-named-credential-setup.
+      operations:
+      - method: GET
+        name: listnamedcredentials
+        description: Salesforce List Named Credentials
+        call: salesforce-named.listnamedcredentials
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createnamedcredential
+        description: Salesforce Create Named Credential
+        call: salesforce-named.createnamedcredential
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/named-credentials/named-credential-setup/{developer-name}
+      name: data-v64-0-named-credentials-named-credential-setup-developer-name
+      description: REST surface for data-v64.0-named-credentials-named-credential-setup-DEVELOPER_NAME.
+      operations:
+      - method: GET
+        name: getnamedcredentialbydevelopername
+        description: Salesforce Get Named Credential by Developer Name
+        call: salesforce-named.getnamedcredentialbydevelopername
+        with:
+          DEVELOPER_NAME: rest.DEVELOPER_NAME
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatenamedcredential
+        description: Salesforce Update Named Credential
+        call: salesforce-named.updatenamedcredential
+        with:
+          DEVELOPER_NAME: rest.DEVELOPER_NAME
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/sobjects/{sobject-api-name}/describe/namedlayouts/{layout-name}
+      name: data-v64-0-sobjects-sobject-api-name-describe-namedlayouts-layout-name
+      description: REST surface for data-v64.0-sobjects-SOBJECT_API_NAME-describe-namedLayouts-LAYOUT_NAME.
+      operations:
+      - method: GET
+        name: sobjectnamedlayouts
+        description: Salesforce Sobject Named Layouts
+        call: salesforce-named.sobjectnamedlayouts
+        with:
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+          LAYOUT_NAME: rest.LAYOUT_NAME
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/tooling/query
+      name: data-v64-0-tooling-query
+      description: REST surface for data-v64.0-tooling-query.
+      operations:
+      - method: GET
+        name: listnamedcredentials
+        description: Salesforce List Named Credentials
+        call: salesforce-named.listnamedcredentials
+        with:
+          q: rest.q
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/tooling/sobjects/namedcredential
+      name: data-v64-0-tooling-sobjects-namedcredential
+      description: REST surface for data-v64.0-tooling-sobjects-NamedCredential.
+      operations:
+      - method: POST
+        name: createnamedcredential1
+        description: Salesforce Create Named Credential1
+        call: salesforce-named.createnamedcredential1
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/tooling/sobjects/namedcredential/{named-credential-id}
+      name: data-v64-0-tooling-sobjects-namedcredential-named-credential-id
+      description: REST surface for data-v64.0-tooling-sobjects-NamedCredential-NAMED_CREDENTIAL_ID.
+      operations:
+      - method: GET
+        name: getnamedcredential
+        description: Salesforce Get Named Credential
+        call: salesforce-named.getnamedcredential
+        with:
+          NAMED_CREDENTIAL_ID: rest.NAMED_CREDENTIAL_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletenamedcredential
+        description: Salesforce Delete Named Credential
+        call: salesforce-named.deletenamedcredential
+        with:
+          NAMED_CREDENTIAL_ID: rest.NAMED_CREDENTIAL_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: updatenamedcredential
+        description: Salesforce Update Named Credential
+        call: salesforce-named.updatenamedcredential
+        with:
+          NAMED_CREDENTIAL_ID: rest.NAMED_CREDENTIAL_ID
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-named-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Named. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-list-named-credentials
+      description: Salesforce List Named Credentials
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-named.listnamedcredentials
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-create-named-credential
+      description: Salesforce Create Named Credential
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-named.createnamedcredential
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-named-credential-developer
+      description: Salesforce Get Named Credential by Developer Name
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-named.getnamedcredentialbydevelopername
+      with:
+        DEVELOPER_NAME: tools.DEVELOPER_NAME
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-update-named-credential
+      description: Salesforce Update Named Credential
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: salesforce-named.updatenamedcredential
+      with:
+        DEVELOPER_NAME: tools.DEVELOPER_NAME
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-sobject-named-layouts
+      description: Salesforce Sobject Named Layouts
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-named.sobjectnamedlayouts
+      with:
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+        LAYOUT_NAME: tools.LAYOUT_NAME
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-list-named-credentials-2
+      description: Salesforce List Named Credentials
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-named.listnamedcredentials
+      with:
+        q: tools.q
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-create-named-credential1
+      description: Salesforce Create Named Credential1
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-named.createnamedcredential1
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-named-credential
+      description: Salesforce Get Named Credential
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-named.getnamedcredential
+      with:
+        NAMED_CREDENTIAL_ID: tools.NAMED_CREDENTIAL_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-delete-named-credential
+      description: Salesforce Delete Named Credential
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: salesforce-named.deletenamedcredential
+      with:
+        NAMED_CREDENTIAL_ID: tools.NAMED_CREDENTIAL_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-update-named-credential-2
+      description: Salesforce Update Named Credential
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: salesforce-named.updatenamedcredential
+      with:
+        NAMED_CREDENTIAL_ID: tools.NAMED_CREDENTIAL_ID
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,298 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Table
+  description: 'Salesforce — Table. 6 operations. Lead operation: Salesforce Lookup Table. Self-contained Naftiko capability
+    covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Table
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-table
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Table business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-connect-business-rules-decision-matrices-matrixUniqueName
+      path: /data/v64.0/connect/business-rules/decision-matrices/{matrixUniqueName}
+      operations:
+      - name: lookuptable
+        method: POST
+        description: Salesforce Lookup Table
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: matrixUniqueName
+          in: path
+          type: string
+          description: The value of Unique Name is the unique identifier of the record, which is sourced from the name of
+            a decision matrix.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: data-v64.0-connect-business-rules-decision-table-definitions
+      path: /data/v64.0/connect/business-rules/decision-table/definitions
+      operations:
+      - name: createtable
+        method: POST
+        description: Salesforce Create Table
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: data-v64.0-connect-business-rules-decision-table-definitions-decisionTableId
+      path: /data/v64.0/connect/business-rules/decision-table/definitions/{decisionTableId}
+      operations:
+      - name: gettable
+        method: GET
+        description: Salesforce Get Table
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: decisionTableId
+          in: path
+          type: string
+          description: Decision Table Id
+          required: true
+      - name: deletetable
+        method: DELETE
+        description: Salesforce Delete Table
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: decisionTableId
+          in: path
+          type: string
+          description: Decision Table Id
+          required: true
+      - name: updatetable
+        method: PATCH
+        description: Salesforce Update Table
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: decisionTableId
+          in: path
+          type: string
+          description: Decision Table Id
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: data-v64.0-connect-business-rules-decision-table-decisionTableId
+      path: /data/v64.0/connect/business-rules/decision-table/{decisionTableId}
+      operations:
+      - name: postlookuptable
+        method: POST
+        description: Salesforce Lookup Table
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: decisionTableId
+          in: path
+          type: string
+          description: Decision Table Id
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-table-rest
+    port: 8080
+    description: REST adapter for Salesforce — Table. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/data/v64-0/connect/business-rules/decision-matrices/{matrixuniquename}
+      name: data-v64-0-connect-business-rules-decision-matrices-matrixuniquename
+      description: REST surface for data-v64.0-connect-business-rules-decision-matrices-matrixUniqueName.
+      operations:
+      - method: POST
+        name: lookuptable
+        description: Salesforce Lookup Table
+        call: salesforce-table.lookuptable
+        with:
+          matrixUniqueName: rest.matrixUniqueName
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/connect/business-rules/decision-table/definitions
+      name: data-v64-0-connect-business-rules-decision-table-definitions
+      description: REST surface for data-v64.0-connect-business-rules-decision-table-definitions.
+      operations:
+      - method: POST
+        name: createtable
+        description: Salesforce Create Table
+        call: salesforce-table.createtable
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/connect/business-rules/decision-table/definitions/{decisiontableid}
+      name: data-v64-0-connect-business-rules-decision-table-definitions-decisiontableid
+      description: REST surface for data-v64.0-connect-business-rules-decision-table-definitions-decisionTableId.
+      operations:
+      - method: GET
+        name: gettable
+        description: Salesforce Get Table
+        call: salesforce-table.gettable
+        with:
+          decisionTableId: rest.decisionTableId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletetable
+        description: Salesforce Delete Table
+        call: salesforce-table.deletetable
+        with:
+          decisionTableId: rest.decisionTableId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: updatetable
+        description: Salesforce Update Table
+        call: salesforce-table.updatetable
+        with:
+          decisionTableId: rest.decisionTableId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/connect/business-rules/decision-table/{decisiontableid}
+      name: data-v64-0-connect-business-rules-decision-table-decisiontableid
+      description: REST surface for data-v64.0-connect-business-rules-decision-table-decisionTableId.
+      operations:
+      - method: POST
+        name: postlookuptable
+        description: Salesforce Lookup Table
+        call: salesforce-table.postlookuptable
+        with:
+          decisionTableId: rest.decisionTableId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-table-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Table. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-lookup-table
+      description: Salesforce Lookup Table
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: salesforce-table.lookuptable
+      with:
+        matrixUniqueName: tools.matrixUniqueName
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-create-table
+      description: Salesforce Create Table
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-table.createtable
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-table
+      description: Salesforce Get Table
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-table.gettable
+      with:
+        decisionTableId: tools.decisionTableId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-delete-table
+      description: Salesforce Delete Table
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: salesforce-table.deletetable
+      with:
+        decisionTableId: tools.decisionTableId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-update-table
+      description: Salesforce Update Table
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: salesforce-table.updatetable
+      with:
+        decisionTableId: tools.decisionTableId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-lookup-table-2
+      description: Salesforce Lookup Table
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: salesforce-table.postlookuptable
+      with:
+        decisionTableId: tools.decisionTableId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

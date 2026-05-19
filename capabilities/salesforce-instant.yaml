@@ -1,0 +1,91 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Instant
+  description: 'Salesforce — Instant. 1 operations. Lead operation: Salesforce Search for Records Suggested by Autocomplete
+    and Instant Results. Self-contained Naftiko capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Instant
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-instant
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Instant business capability. Self-contained, no shared references.
+    resources:
+    - name: data-v64.0-search-suggestions
+      path: /data/v64.0/search/suggestions
+      operations:
+      - name: searchforrecordssuggestedbyautocompleteandinstantresults
+        method: GET
+        description: Salesforce Search for Records Suggested by Autocomplete and Instant Results
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: q
+          in: query
+          type: string
+          required: true
+        - name: sobject
+          in: query
+          type: string
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-instant-rest
+    port: 8080
+    description: REST adapter for Salesforce — Instant. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/data/v64-0/search/suggestions
+      name: data-v64-0-search-suggestions
+      description: REST surface for data-v64.0-search-suggestions.
+      operations:
+      - method: GET
+        name: searchforrecordssuggestedbyautocompleteandinstantresults
+        description: Salesforce Search for Records Suggested by Autocomplete and Instant Results
+        call: salesforce-instant.searchforrecordssuggestedbyautocompleteandinstantresults
+        with:
+          q: rest.q
+          sobject: rest.sobject
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-instant-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Instant. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-search-records-suggested-autocomplete
+      description: Salesforce Search for Records Suggested by Autocomplete and Instant Results
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-instant.searchforrecordssuggestedbyautocompleteandinstantresults
+      with:
+        q: tools.q
+        sobject: tools.sobject
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.

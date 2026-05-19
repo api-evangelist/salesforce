@@ -1,0 +1,3116 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Get
+  description: 'Salesforce — Get. 72 operations. Lead operation: Salesforce Integration Procedure Invocation Using Get. Self-contained
+    Naftiko capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Get
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-get
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Get business capability. Self-contained, no shared references.
+    resources:
+    - name: apexrest-NAMESPACE-v1-integrationprocedure-TYPE_SUBTYPE
+      path: /apexrest/{NAMESPACE}/v1/integrationprocedure/{TYPE_SUBTYPE}
+      operations:
+      - name: integrationprocedureinvocationusingget
+        method: GET
+        description: Salesforce Integration Procedure Invocation Using Get
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: NAMESPACE
+          in: path
+          type: string
+          description: 'The namespace: `omnistudio`, `vlocity_ins`, `vlocity_cmt`, or `vlocity_ps`'
+          required: true
+        - name: TYPE_SUBTYPE
+          in: path
+          type: string
+          description: Type and SubType of the Integration Procedure separated by an underscore.
+          required: true
+    - name: data-v64.0-connect-business-rules-decision-table-definitions-decisionTableId
+      path: /data/v64.0/connect/business-rules/decision-table/definitions/{decisionTableId}
+      operations:
+      - name: gettable
+        method: GET
+        description: Salesforce Get Table
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: decisionTableId
+          in: path
+          type: string
+          description: Decision Table Id
+          required: true
+    - name: data-v64.0-connect-conversation-conversationIdentifier-entries
+      path: /data/v64.0/connect/conversation/{conversationIdentifier}/entries
+      operations:
+      - name: getconversationentries
+        method: GET
+        description: Salesforce Get Conversation Entries
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: conversationIdentifier
+          in: path
+          type: string
+          description: Conversation identifier UUID
+          required: true
+    - name: data-v64.0-einstein-ai-evaluations-runs-runId
+      path: /data/v64.0/einstein/ai-evaluations/runs/{runId}
+      operations:
+      - name: getteststatus
+        method: GET
+        description: Salesforce Get Test Status
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: runId
+          in: path
+          type: string
+          description: Evaluation ID
+          required: true
+    - name: data-v64.0-einstein-ai-evaluations-runs-runId-results
+      path: /data/v64.0/einstein/ai-evaluations/runs/{runId}/results
+      operations:
+      - name: gettestresults
+        method: GET
+        description: Salesforce Get Test Results
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: runId
+          in: path
+          type: string
+          description: Evaluation ID
+          required: true
+    - name: data-v64.0-jobs-ingest
+      path: /data/v64.0/jobs/ingest
+      operations:
+      - name: getalljobs
+        method: GET
+        description: Salesforce Get All Jobs
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: data-v64.0-jobs-ingest
+      path: /data/v64.0/jobs/ingest/
+      operations:
+      - name: getjobinfo
+        method: GET
+        description: Salesforce Get Job Info
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: data-v64.0-jobs-ingest-failedResults
+      path: /data/v64.0/jobs/ingest//failedResults
+      operations:
+      - name: getjobfailedrecordresults
+        method: GET
+        description: Salesforce Get Job Failed Record Results
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: data-v64.0-jobs-ingest-successfulResults
+      path: /data/v64.0/jobs/ingest//successfulResults
+      operations:
+      - name: getjobsuccessfulrecordresults
+        method: GET
+        description: Salesforce Get Job Successful Record Results
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: data-v64.0-jobs-ingest-unprocessedrecords
+      path: /data/v64.0/jobs/ingest//unprocessedrecords
+      operations:
+      - name: getjobunprocessedrecordresults
+        method: GET
+        description: Salesforce Get Job Unprocessed Record Results
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: data-v64.0-jobs-query
+      path: /data/v64.0/jobs/query
+      operations:
+      - name: getallqueryjobs
+        method: GET
+        description: Salesforce Get All Query Jobs
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: isPkChunkingEnabled
+          in: query
+          type: boolean
+          description: If set to true, the request only returns information about jobs where PK Chunking is enabled
+          required: true
+        - name: jobType
+          in: query
+          type: string
+          description: BigObjectIngest Classic V2Query
+          required: true
+        - name: concurrencyMode
+          in: query
+          type: string
+          description: serial parallel
+          required: true
+        - name: queryLocator
+          in: query
+          type: string
+          description: use the value from the nextRecordsUrl from the previous set
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    - name: data-v64.0-jobs-query
+      path: /data/v64.0/jobs/query/
+      operations:
+      - name: getjobinfoquery
+        method: GET
+        description: Salesforce Get Job Info Query
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: data-v64.0-jobs-query-resultPages
+      path: /data/v64.0/jobs/query//resultPages
+      operations:
+      - name: getparallelresultsforaqueryjob
+        method: GET
+        description: Salesforce Get Parallel Results for a Query Job
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+        - name: Accept
+          in: header
+          type: string
+          required: true
+    - name: data-v64.0-jobs-query-results
+      path: /data/v64.0/jobs/query//results
+      operations:
+      - name: getjobqueryresult
+        method: GET
+        description: Salesforce Get Job Query Result
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+        - name: Accept
+          in: header
+          type: string
+          required: true
+    - name: data-v64.0-named-credentials-credential
+      path: /data/v64.0/named-credentials/credential
+      operations:
+      - name: getcredential
+        method: GET
+        description: Salesforce Get Credential
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: externalCredential
+          in: query
+          type: string
+          description: Fully qualified developer name of the external credential.
+          required: true
+        - name: principalName
+          in: query
+          type: string
+          description: Name of the external credential named principal.
+          required: true
+        - name: principalType
+          in: query
+          type: string
+          description: 'Type of credential principal. Values are:'
+          required: true
+    - name: data-v64.0-named-credentials-external-credentials-DEVELOPER_NAME
+      path: /data/v64.0/named-credentials/external-credentials/{DEVELOPER_NAME}
+      operations:
+      - name: getexternalcredentialsbydevelopername
+        method: GET
+        description: Salesforce Get External Credentials by Developer Name
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: DEVELOPER_NAME
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-named-credentials-named-credential-setup-DEVELOPER_NAME
+      path: /data/v64.0/named-credentials/named-credential-setup/{DEVELOPER_NAME}
+      operations:
+      - name: getnamedcredentialbydevelopername
+        method: GET
+        description: Salesforce Get Named Credential by Developer Name
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: DEVELOPER_NAME
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-scheduling-getAppointmentCandidates
+      path: /data/v64.0/scheduling/getAppointmentCandidates
+      operations:
+      - name: getappointmentcandidates
+        method: POST
+        description: Salesforce Get Appointment Candidates
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: data-v64.0-scheduling-getAppointmentSlots
+      path: /data/v64.0/scheduling/getAppointmentSlots
+      operations:
+      - name: getappointmentslots
+        method: POST
+        description: Salesforce Get Appointment Slots
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: data-v64.0-sobjects-EventLogFile-id-LogFile
+      path: /data/v64.0/sobjects/EventLogFile/{id}/LogFile
+      operations:
+      - name: geteventlogfile
+        method: GET
+        description: Salesforce Get Event Log File
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: Log event Id
+          required: true
+    - name: data-v64.0-sobjects-EventRelayFeedback-EVENT_RELAY_FEEDBACK_ID
+      path: /data/v64.0/sobjects/EventRelayFeedback/{EVENT_RELAY_FEEDBACK_ID}
+      operations:
+      - name: geteventrelayfeedback
+        method: GET
+        description: Salesforce Get Event Relay Feedback
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: EVENT_RELAY_FEEDBACK_ID
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-sobjects-SOBJECT_API_NAME-deleted
+      path: /data/v64.0/sobjects/{SOBJECT_API_NAME}/deleted
+      operations:
+      - name: sobjectgetdeleted
+        method: GET
+        description: Salesforce Sobject Get Deleted
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: start
+          in: query
+          type: string
+          required: true
+        - name: end
+          in: query
+          type: string
+          required: true
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    - name: data-v64.0-sobjects-SOBJECT_API_NAME-updated
+      path: /data/v64.0/sobjects/{SOBJECT_API_NAME}/updated
+      operations:
+      - name: sobjectgetupdated
+        method: GET
+        description: Salesforce Sobject Get Updated
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: start
+          in: query
+          type: string
+          required: true
+        - name: end
+          in: query
+          type: string
+          required: true
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    - name: data-v64.0-tooling-sobjects
+      path: /data/v64.0/tooling/sobjects
+      operations:
+      - name: gettoolingdescribe
+        method: GET
+        description: Salesforce Get Tooling Describe
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: data-v64.0-tooling-sobjects-EventRelayConfig-EVENT_RELAY_CONFIG_ID
+      path: /data/v64.0/tooling/sobjects/EventRelayConfig/{EVENT_RELAY_CONFIG_ID}
+      operations:
+      - name: geteventrelay
+        method: GET
+        description: Salesforce Get Event Relay
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: EVENT_RELAY_CONFIG_ID
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-tooling-sobjects-ManagedEventSubscription-managedEventSubscriptionId
+      path: /data/v64.0/tooling/sobjects/ManagedEventSubscription/{managedEventSubscriptionId}
+      operations:
+      - name: getmanagedeventsubscriptionbyid
+        method: GET
+        description: Salesforce Get Managed Event Subscription by Id
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: managedEventSubscriptionId
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-tooling-sobjects-NamedCredential-NAMED_CREDENTIAL_ID
+      path: /data/v64.0/tooling/sobjects/NamedCredential/{NAMED_CREDENTIAL_ID}
+      operations:
+      - name: getnamedcredential
+        method: GET
+        description: Salesforce Get Named Credential
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: NAMED_CREDENTIAL_ID
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-tooling-sobjects-PlatformEventChannel-PLATFORM_EVENT_CHANNEL_ID
+      path: /data/v64.0/tooling/sobjects/PlatformEventChannel/{PLATFORM_EVENT_CHANNEL_ID}
+      operations:
+      - name: geteventchannel
+        method: GET
+        description: Salesforce Get Event Channel
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: PLATFORM_EVENT_CHANNEL_ID
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-tooling-sobjects-PlatformEventChannelMember-PLATFORM_EVENT_CHANNEL_ME
+      path: /data/v64.0/tooling/sobjects/PlatformEventChannelMember/{PLATFORM_EVENT_CHANNEL_MEMBER_ID}
+      operations:
+      - name: getchannelmember
+        method: GET
+        description: Salesforce Get Channel Member
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: PLATFORM_EVENT_CHANNEL_MEMBER_ID
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-tooling-sobjects-SandboxInfo-SANDBOX_INFO_ID
+      path: /data/v64.0/tooling/sobjects/SandboxInfo/{SANDBOX_INFO_ID}
+      operations:
+      - name: getsandbox
+        method: GET
+        description: Salesforce Get Sandbox
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SANDBOX_INFO_ID
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-tooling-sobjects-SOBJECT_API_NAME
+      path: /data/v64.0/tooling/sobjects/{SOBJECT_API_NAME}
+      operations:
+      - name: gettoolingmetadatasobject
+        method: GET
+        description: Salesforce Get Tooling Metadata Sobject
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-tooling-sobjects-SOBJECT_API_NAME-describe
+      path: /data/v64.0/tooling/sobjects/{SOBJECT_API_NAME}/describe
+      operations:
+      - name: gettoolingdescribesobject
+        method: GET
+        description: Salesforce Get Tooling Describe Sobject
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-ui-api-actions-flexipage-FLEXIPAGE_NAMES
+      path: /data/v64.0/ui-api/actions/flexipage/{FLEXIPAGE_NAMES}
+      operations:
+      - name: getlightningpageactions
+        method: GET
+        description: Salesforce Get Lightning Page Actions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: FLEXIPAGE_NAMES
+          in: path
+          type: string
+          description: A Lightning page name, or a comma-delimited list of Lightning page names.
+          required: true
+    - name: data-v64.0-ui-api-actions-global
+      path: /data/v64.0/ui-api/actions/global
+      operations:
+      - name: getglobalactions
+        method: GET
+        description: Salesforce Get Global Actions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: data-v64.0-ui-api-actions-list-view-chart-SOBJECT_API_NAME
+      path: /data/v64.0/ui-api/actions/list-view-chart/{SOBJECT_API_NAME}
+      operations:
+      - name: getlistviewchartactions
+        method: GET
+        description: Salesforce Get List View Chart Actions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          description: Currently, only `ListViewChartInstance` is valid.
+          required: true
+    - name: data-v64.0-ui-api-actions-list-view-record-RECORD_IDS
+      path: /data/v64.0/ui-api/actions/list-view-record/{RECORD_IDS}
+      operations:
+      - name: getlistviewrecordactions
+        method: GET
+        description: Salesforce Get List View Record Actions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: RECORD_IDS
+          in: path
+          type: string
+          description: A single record ID, or a comma-delimited list of record IDs.
+          required: true
+    - name: data-v64.0-ui-api-actions-list-view-LIST_VIEW_IDS
+      path: /data/v64.0/ui-api/actions/list-view/{LIST_VIEW_IDS}
+      operations:
+      - name: getlistviewheaderactions
+        method: GET
+        description: Salesforce Get List View Header Actions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: LIST_VIEW_IDS
+          in: path
+          type: string
+          description: A single list view ID, or a comma-delimited list of list view IDs.
+          required: true
+    - name: data-v64.0-ui-api-actions-lookup-SOBJECT_API_NAMES
+      path: /data/v64.0/ui-api/actions/lookup/{SOBJECT_API_NAMES}
+      operations:
+      - name: getlookupfieldactions
+        method: GET
+        description: Salesforce Get Lookup Field Actions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SOBJECT_API_NAMES
+          in: path
+          type: string
+          description: A lookup field name, or a comma-delimited list of lookup field names.
+          required: true
+    - name: data-v64.0-ui-api-actions-mru-list-SOBJECT_API_NAMES
+      path: /data/v64.0/ui-api/actions/mru-list/{SOBJECT_API_NAMES}
+      operations:
+      - name: getmrulistviewactions
+        method: GET
+        description: Salesforce Get Mru List View Actions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SOBJECT_API_NAMES
+          in: path
+          type: string
+          description: An object name, or a comma-delimited list of object names.
+          required: true
+    - name: data-v64.0-ui-api-actions-photo-RECORD_IDS
+      path: /data/v64.0/ui-api/actions/photo/{RECORD_IDS}
+      operations:
+      - name: getphotoactions
+        method: GET
+        description: Salesforce Get Photo Actions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: RECORD_IDS
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-ui-api-actions-record-RECORD_IDS
+      path: /data/v64.0/ui-api/actions/record/{RECORD_IDS}
+      operations:
+      - name: getrecorddetailpageactions
+        method: GET
+        description: Salesforce Get Record Detail Page Actions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: RECORD_IDS
+          in: path
+          type: string
+          description: A single record ID, or a comma-delimited list of record IDs.
+          required: true
+    - name: data-v64.0-ui-api-actions-record-RECORD_ID-record-edit
+      path: /data/v64.0/ui-api/actions/record/{RECORD_ID}/record-edit
+      operations:
+      - name: getrecordeditpageactions
+        method: GET
+        description: Salesforce Get Record Edit Page Actions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: RECORD_ID
+          in: path
+          type: string
+          description: Record ID
+          required: true
+    - name: data-v64.0-ui-api-actions-record-RECORD_ID-related-list-record-RELATED_LIST_RECO
+      path: /data/v64.0/ui-api/actions/record/{RECORD_ID}/related-list-record/{RELATED_LIST_RECORD_IDS}
+      operations:
+      - name: getrelatedlistrecordactions
+        method: GET
+        description: Salesforce Get Related List Record Actions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: RECORD_ID
+          in: path
+          type: string
+          description: Record ID
+          required: true
+        - name: RELATED_LIST_RECORD_IDS
+          in: path
+          type: string
+          description: A related list record ID, or a comma-delimited list of related list record IDs.
+          required: true
+    - name: data-v64.0-ui-api-actions-record-RECORD_ID-related-list-RELATED_LIST_IDS
+      path: /data/v64.0/ui-api/actions/record/{RECORD_ID}/related-list/{RELATED_LIST_IDS}
+      operations:
+      - name: getrelatedlistactions
+        method: GET
+        description: Salesforce Get Related List Actions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: RECORD_ID
+          in: path
+          type: string
+          description: Record ID
+          required: true
+        - name: RELATED_LIST_IDS
+          in: path
+          type: string
+          description: Optional. A related list name, or a comma-delimited list of related list names.
+          required: true
+    - name: data-v64.0-ui-api-apps
+      path: /data/v64.0/ui-api/apps
+      operations:
+      - name: getapps
+        method: GET
+        description: Salesforce Get Apps
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: formFactor
+          in: query
+          type: string
+          description: The form factor for each app that the user has access to (`Large`, `Medium` or `Small`)
+          required: true
+    - name: data-v64.0-ui-api-apps-selected
+      path: /data/v64.0/ui-api/apps/selected
+      operations:
+      - name: getlastselectedapp
+        method: GET
+        description: Salesforce Get Last Selected App
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: formFactor
+          in: query
+          type: string
+          description: The form factor for each app that the user has access to (`Large`, `Medium` or `Small`)
+          required: true
+    - name: data-v64.0-ui-api-apps-APP_ID
+      path: /data/v64.0/ui-api/apps/{APP_ID}
+      operations:
+      - name: getanapp
+        method: GET
+        description: Salesforce Get an App
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: formFactor
+          in: query
+          type: string
+          description: The form factor for each app that the user has access to (`Large`, `Medium` or `Small`)
+          required: true
+        - name: APP_ID
+          in: path
+          type: string
+          description: Application ID
+          required: true
+    - name: data-v64.0-ui-api-apps-APP_ID-user-nav-items
+      path: /data/v64.0/ui-api/apps/{APP_ID}/user-nav-items
+      operations:
+      - name: getpersonalizednavigationitems
+        method: GET
+        description: Salesforce Get Personalized Navigation Items
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: APP_ID
+          in: path
+          type: string
+          description: Application ID
+          required: true
+    - name: data-v64.0-ui-api-favorites
+      path: /data/v64.0/ui-api/favorites
+      operations:
+      - name: getfavorites
+        method: GET
+        description: Salesforce Get Favorites
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: data-v64.0-ui-api-favorites-FAVORITE_ID
+      path: /data/v64.0/ui-api/favorites/{FAVORITE_ID}
+      operations:
+      - name: getafavorite
+        method: GET
+        description: Salesforce Get a Favorite
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: FAVORITE_ID
+          in: path
+          type: string
+          description: The ID of a favorite
+          required: true
+    - name: data-v64.0-ui-api-layout-SOBJECT_API_NAME
+      path: /data/v64.0/ui-api/layout/{SOBJECT_API_NAME}
+      operations:
+      - name: getrecordlayoutmetadata
+        method: GET
+        description: Salesforce Get Record Layout Metadata
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-ui-api-list-info-LIST_VIEW_ID
+      path: /data/v64.0/ui-api/list-info/{LIST_VIEW_ID}
+      operations:
+      - name: getlistviewmetadatabyid
+        method: GET
+        description: Salesforce Get List View Metadata by Id
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: LIST_VIEW_ID
+          in: path
+          type: string
+          description: The ID of a list view.
+          required: true
+    - name: data-v64.0-ui-api-list-info-SOBJECT_API_NAME
+      path: /data/v64.0/ui-api/list-info/{SOBJECT_API_NAME}
+      operations:
+      - name: getlistviewsforanobject
+        method: GET
+        description: Salesforce Get List Views for an Object
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          description: API name of a UI API supported object.
+          required: true
+    - name: data-v64.0-ui-api-list-info-SOBJECT_API_NAME-LIST_VIEW_API_NAME
+      path: /data/v64.0/ui-api/list-info/{SOBJECT_API_NAME}/{LIST_VIEW_API_NAME}
+      operations:
+      - name: getlistviewmetadatabyapiname
+        method: GET
+        description: Salesforce Get List View Metadata by Api Name
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          description: API name of the UI API supported object.
+          required: true
+        - name: LIST_VIEW_API_NAME
+          in: path
+          type: string
+          description: API name of a list view, such as AllAccounts, __Recent, or __SearchResult.
+          required: true
+    - name: data-v64.0-ui-api-list-records-LIST_VIEW_ID
+      path: /data/v64.0/ui-api/list-records/{LIST_VIEW_ID}
+      operations:
+      - name: getlistviewrecordsbyid
+        method: GET
+        description: Salesforce Get List View Records by Id
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: LIST_VIEW_ID
+          in: path
+          type: string
+          description: The ID of a list view.
+          required: true
+    - name: data-v64.0-ui-api-list-records-SOBJECT_API_NAME-LIST_VIEW_API_NAME
+      path: /data/v64.0/ui-api/list-records/{SOBJECT_API_NAME}/{LIST_VIEW_API_NAME}
+      operations:
+      - name: getlistviewrecordsbyapiname
+        method: GET
+        description: Salesforce Get List View Records by Api Name
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          description: API name of a UI API supported object.
+          required: true
+        - name: LIST_VIEW_API_NAME
+          in: path
+          type: string
+          description: API name of a list view, such as AllAccounts, __Recent, or __SearchResult.
+          required: true
+      - name: getlistviewrecords
+        method: POST
+        description: Salesforce Get List View Records
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          description: API name of the UI API supported object.
+          required: true
+        - name: LIST_VIEW_API_NAME
+          in: path
+          type: string
+          description: API name of a list view.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: data-v64.0-ui-api-lookups-SOBJECT_API_NAME-FIELD_API_NAME
+      path: /data/v64.0/ui-api/lookups/{SOBJECT_API_NAME}/{FIELD_API_NAME}
+      operations:
+      - name: getlookupfieldsuggestions
+        method: GET
+        description: Salesforce Get Lookup Field Suggestions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          description: sObject API name
+          required: true
+        - name: FIELD_API_NAME
+          in: path
+          type: string
+          description: Field API name
+          required: true
+    - name: data-v64.0-ui-api-lookups-SOBJECT_API_NAME-FIELD_API_NAME-TARGET_API_NAME
+      path: /data/v64.0/ui-api/lookups/{SOBJECT_API_NAME}/{FIELD_API_NAME}/{TARGET_API_NAME}
+      operations:
+      - name: getlookupfieldsuggestionsforaspecifiedobject
+        method: GET
+        description: Salesforce Get Lookup Field Suggestions for a Specified Object
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          description: The API name of a source object.
+          required: true
+        - name: FIELD_API_NAME
+          in: path
+          type: string
+          description: The API name of a lookup field on the source object.
+          required: true
+        - name: TARGET_API_NAME
+          in: path
+          type: string
+          description: The API name of the target (lookup) object.
+          required: true
+    - name: data-v64.0-ui-api-nav-items
+      path: /data/v64.0/ui-api/nav-items
+      operations:
+      - name: getallnavigationitems
+        method: GET
+        description: Salesforce Get All Navigation Items
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: data-v64.0-ui-api-object-info
+      path: /data/v64.0/ui-api/object-info
+      operations:
+      - name: getadirectoryofsupportedobjects
+        method: GET
+        description: Salesforce Get a Directory of Supported Objects
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: data-v64.0-ui-api-object-info-SOBJECT_API_NAME
+      path: /data/v64.0/ui-api/object-info/{SOBJECT_API_NAME}
+      operations:
+      - name: getobjectmetadata
+        method: GET
+        description: Salesforce Get Object Metadata
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-ui-api-object-info-SOBJECT_API_NAME-picklist-values-RECORD_TYPE_ID
+      path: /data/v64.0/ui-api/object-info/{SOBJECT_API_NAME}/picklist-values/{RECORD_TYPE_ID}
+      operations:
+      - name: getvaluesforallpicklistfieldsofarecordtype
+        method: GET
+        description: Salesforce Get Values for All Picklist Fields of a Record Type
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          description: Object API Name
+          required: true
+        - name: RECORD_TYPE_ID
+          in: path
+          type: string
+          description: Record type Id. Use `012000000000000AAA` as default when there are no custom record types.
+          required: true
+    - name: data-v64.0-ui-api-object-info-SOBJECT_API_NAME-picklist-values-RECORD_TYPE_ID-FI
+      path: /data/v64.0/ui-api/object-info/{SOBJECT_API_NAME}/picklist-values/{RECORD_TYPE_ID}/{FIELD_API_NAME}
+      operations:
+      - name: getvaluesforapicklistfield
+        method: GET
+        description: Salesforce Get Values for a Picklist Field
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          description: Object API Name
+          required: true
+        - name: RECORD_TYPE_ID
+          in: path
+          type: string
+          description: Record type Id. Use `012000000000000AAA` as default when there are no custom record types.
+          required: true
+        - name: FIELD_API_NAME
+          in: path
+          type: string
+          description: Field API Name (optional)
+          required: true
+    - name: data-v64.0-ui-api-record-defaults-clone-RECORD_ID
+      path: /data/v64.0/ui-api/record-defaults/clone/{RECORD_ID}
+      operations:
+      - name: getdefaultvaluestoclonearecord
+        method: GET
+        description: Salesforce Get Default Values to Clone a Record
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: RECORD_ID
+          in: path
+          type: string
+          description: Record ID
+          required: true
+    - name: data-v64.0-ui-api-record-defaults-create-SOBJECT_API_NAME
+      path: /data/v64.0/ui-api/record-defaults/create/{SOBJECT_API_NAME}
+      operations:
+      - name: getdefaultvaluestocreatearecord
+        method: GET
+        description: Salesforce Get Default Values to Create a Record
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: SOBJECT_API_NAME
+          in: path
+          type: string
+          description: sObject API name
+          required: true
+    - name: data-v64.0-ui-api-record-ui-RECORD_IDS
+      path: /data/v64.0/ui-api/record-ui/{RECORD_IDS}
+      operations:
+      - name: getrecorddataandobjectmetadata
+        method: GET
+        description: Salesforce Get Record Data and Object Metadata
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: RECORD_IDS
+          in: path
+          type: string
+          description: Comma-separated list of record IDs
+          required: true
+    - name: data-v64.0-ui-api-records-batch-RECORD_IDS
+      path: /data/v64.0/ui-api/records/batch/{RECORD_IDS}
+      operations:
+      - name: getabatchofrecords
+        method: GET
+        description: Salesforce Get a Batch of Records
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: RECORD_IDS
+          in: path
+          type: string
+          description: Comma-separated list of record IDs
+          required: true
+    - name: data-v64.0-ui-api-records-RECORD_ID
+      path: /data/v64.0/ui-api/records/{RECORD_ID}
+      operations:
+      - name: getarecord
+        method: GET
+        description: Salesforce Get a Record
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: RECORD_ID
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-ui-api-records-RECORD_ID-child-relationships-RELATIONSHIP_NAME
+      path: /data/v64.0/ui-api/records/{RECORD_ID}/child-relationships/{RELATIONSHIP_NAME}
+      operations:
+      - name: getchildrecords
+        method: GET
+        description: Salesforce Get Child Records
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: RECORD_ID
+          in: path
+          type: string
+          description: Record ID
+          required: true
+        - name: RELATIONSHIP_NAME
+          in: path
+          type: string
+          description: API name of the relationship
+          required: true
+    - name: data-v64.0-ui-api-themes-active
+      path: /data/v64.0/ui-api/themes/active
+      operations:
+      - name: getactivetheme
+        method: GET
+        description: Salesforce Get Active Theme
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: services-oauth2-userinfo
+      path: /services/oauth2/userinfo
+      operations:
+      - name: getuserinfo
+        method: GET
+        description: Salesforce Get User Info
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Authorization
+          in: header
+          type: string
+          description: Replace <token> with your access token
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-get-rest
+    port: 8080
+    description: REST adapter for Salesforce — Get. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/apexrest/{namespace}/v1/integrationprocedure/{type-subtype}
+      name: apexrest-namespace-v1-integrationprocedure-type-subtype
+      description: REST surface for apexrest-NAMESPACE-v1-integrationprocedure-TYPE_SUBTYPE.
+      operations:
+      - method: GET
+        name: integrationprocedureinvocationusingget
+        description: Salesforce Integration Procedure Invocation Using Get
+        call: salesforce-get.integrationprocedureinvocationusingget
+        with:
+          NAMESPACE: rest.NAMESPACE
+          TYPE_SUBTYPE: rest.TYPE_SUBTYPE
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/connect/business-rules/decision-table/definitions/{decisiontableid}
+      name: data-v64-0-connect-business-rules-decision-table-definitions-decisiontableid
+      description: REST surface for data-v64.0-connect-business-rules-decision-table-definitions-decisionTableId.
+      operations:
+      - method: GET
+        name: gettable
+        description: Salesforce Get Table
+        call: salesforce-get.gettable
+        with:
+          decisionTableId: rest.decisionTableId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/connect/conversation/{conversationidentifier}/entries
+      name: data-v64-0-connect-conversation-conversationidentifier-entries
+      description: REST surface for data-v64.0-connect-conversation-conversationIdentifier-entries.
+      operations:
+      - method: GET
+        name: getconversationentries
+        description: Salesforce Get Conversation Entries
+        call: salesforce-get.getconversationentries
+        with:
+          conversationIdentifier: rest.conversationIdentifier
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/einstein/ai-evaluations/runs/{runid}
+      name: data-v64-0-einstein-ai-evaluations-runs-runid
+      description: REST surface for data-v64.0-einstein-ai-evaluations-runs-runId.
+      operations:
+      - method: GET
+        name: getteststatus
+        description: Salesforce Get Test Status
+        call: salesforce-get.getteststatus
+        with:
+          runId: rest.runId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/einstein/ai-evaluations/runs/{runid}/results
+      name: data-v64-0-einstein-ai-evaluations-runs-runid-results
+      description: REST surface for data-v64.0-einstein-ai-evaluations-runs-runId-results.
+      operations:
+      - method: GET
+        name: gettestresults
+        description: Salesforce Get Test Results
+        call: salesforce-get.gettestresults
+        with:
+          runId: rest.runId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/jobs/ingest
+      name: data-v64-0-jobs-ingest
+      description: REST surface for data-v64.0-jobs-ingest.
+      operations:
+      - method: GET
+        name: getalljobs
+        description: Salesforce Get All Jobs
+        call: salesforce-get.getalljobs
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/jobs/ingest
+      name: data-v64-0-jobs-ingest
+      description: REST surface for data-v64.0-jobs-ingest.
+      operations:
+      - method: GET
+        name: getjobinfo
+        description: Salesforce Get Job Info
+        call: salesforce-get.getjobinfo
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/jobs/ingest/failedresults
+      name: data-v64-0-jobs-ingest-failedresults
+      description: REST surface for data-v64.0-jobs-ingest-failedResults.
+      operations:
+      - method: GET
+        name: getjobfailedrecordresults
+        description: Salesforce Get Job Failed Record Results
+        call: salesforce-get.getjobfailedrecordresults
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/jobs/ingest/successfulresults
+      name: data-v64-0-jobs-ingest-successfulresults
+      description: REST surface for data-v64.0-jobs-ingest-successfulResults.
+      operations:
+      - method: GET
+        name: getjobsuccessfulrecordresults
+        description: Salesforce Get Job Successful Record Results
+        call: salesforce-get.getjobsuccessfulrecordresults
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/jobs/ingest/unprocessedrecords
+      name: data-v64-0-jobs-ingest-unprocessedrecords
+      description: REST surface for data-v64.0-jobs-ingest-unprocessedrecords.
+      operations:
+      - method: GET
+        name: getjobunprocessedrecordresults
+        description: Salesforce Get Job Unprocessed Record Results
+        call: salesforce-get.getjobunprocessedrecordresults
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/jobs/query
+      name: data-v64-0-jobs-query
+      description: REST surface for data-v64.0-jobs-query.
+      operations:
+      - method: GET
+        name: getallqueryjobs
+        description: Salesforce Get All Query Jobs
+        call: salesforce-get.getallqueryjobs
+        with:
+          isPkChunkingEnabled: rest.isPkChunkingEnabled
+          jobType: rest.jobType
+          concurrencyMode: rest.concurrencyMode
+          queryLocator: rest.queryLocator
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/jobs/query
+      name: data-v64-0-jobs-query
+      description: REST surface for data-v64.0-jobs-query.
+      operations:
+      - method: GET
+        name: getjobinfoquery
+        description: Salesforce Get Job Info Query
+        call: salesforce-get.getjobinfoquery
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/jobs/query/resultpages
+      name: data-v64-0-jobs-query-resultpages
+      description: REST surface for data-v64.0-jobs-query-resultPages.
+      operations:
+      - method: GET
+        name: getparallelresultsforaqueryjob
+        description: Salesforce Get Parallel Results for a Query Job
+        call: salesforce-get.getparallelresultsforaqueryjob
+        with:
+          Content-Type: rest.Content-Type
+          Accept: rest.Accept
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/jobs/query/results
+      name: data-v64-0-jobs-query-results
+      description: REST surface for data-v64.0-jobs-query-results.
+      operations:
+      - method: GET
+        name: getjobqueryresult
+        description: Salesforce Get Job Query Result
+        call: salesforce-get.getjobqueryresult
+        with:
+          Content-Type: rest.Content-Type
+          Accept: rest.Accept
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/named-credentials/credential
+      name: data-v64-0-named-credentials-credential
+      description: REST surface for data-v64.0-named-credentials-credential.
+      operations:
+      - method: GET
+        name: getcredential
+        description: Salesforce Get Credential
+        call: salesforce-get.getcredential
+        with:
+          externalCredential: rest.externalCredential
+          principalName: rest.principalName
+          principalType: rest.principalType
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/named-credentials/external-credentials/{developer-name}
+      name: data-v64-0-named-credentials-external-credentials-developer-name
+      description: REST surface for data-v64.0-named-credentials-external-credentials-DEVELOPER_NAME.
+      operations:
+      - method: GET
+        name: getexternalcredentialsbydevelopername
+        description: Salesforce Get External Credentials by Developer Name
+        call: salesforce-get.getexternalcredentialsbydevelopername
+        with:
+          DEVELOPER_NAME: rest.DEVELOPER_NAME
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/named-credentials/named-credential-setup/{developer-name}
+      name: data-v64-0-named-credentials-named-credential-setup-developer-name
+      description: REST surface for data-v64.0-named-credentials-named-credential-setup-DEVELOPER_NAME.
+      operations:
+      - method: GET
+        name: getnamedcredentialbydevelopername
+        description: Salesforce Get Named Credential by Developer Name
+        call: salesforce-get.getnamedcredentialbydevelopername
+        with:
+          DEVELOPER_NAME: rest.DEVELOPER_NAME
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/scheduling/getappointmentcandidates
+      name: data-v64-0-scheduling-getappointmentcandidates
+      description: REST surface for data-v64.0-scheduling-getAppointmentCandidates.
+      operations:
+      - method: POST
+        name: getappointmentcandidates
+        description: Salesforce Get Appointment Candidates
+        call: salesforce-get.getappointmentcandidates
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/scheduling/getappointmentslots
+      name: data-v64-0-scheduling-getappointmentslots
+      description: REST surface for data-v64.0-scheduling-getAppointmentSlots.
+      operations:
+      - method: POST
+        name: getappointmentslots
+        description: Salesforce Get Appointment Slots
+        call: salesforce-get.getappointmentslots
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/sobjects/eventlogfile/{id}/logfile
+      name: data-v64-0-sobjects-eventlogfile-id-logfile
+      description: REST surface for data-v64.0-sobjects-EventLogFile-id-LogFile.
+      operations:
+      - method: GET
+        name: geteventlogfile
+        description: Salesforce Get Event Log File
+        call: salesforce-get.geteventlogfile
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/sobjects/eventrelayfeedback/{event-relay-feedback-id}
+      name: data-v64-0-sobjects-eventrelayfeedback-event-relay-feedback-id
+      description: REST surface for data-v64.0-sobjects-EventRelayFeedback-EVENT_RELAY_FEEDBACK_ID.
+      operations:
+      - method: GET
+        name: geteventrelayfeedback
+        description: Salesforce Get Event Relay Feedback
+        call: salesforce-get.geteventrelayfeedback
+        with:
+          EVENT_RELAY_FEEDBACK_ID: rest.EVENT_RELAY_FEEDBACK_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/sobjects/{sobject-api-name}/deleted
+      name: data-v64-0-sobjects-sobject-api-name-deleted
+      description: REST surface for data-v64.0-sobjects-SOBJECT_API_NAME-deleted.
+      operations:
+      - method: GET
+        name: sobjectgetdeleted
+        description: Salesforce Sobject Get Deleted
+        call: salesforce-get.sobjectgetdeleted
+        with:
+          start: rest.start
+          end: rest.end
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/sobjects/{sobject-api-name}/updated
+      name: data-v64-0-sobjects-sobject-api-name-updated
+      description: REST surface for data-v64.0-sobjects-SOBJECT_API_NAME-updated.
+      operations:
+      - method: GET
+        name: sobjectgetupdated
+        description: Salesforce Sobject Get Updated
+        call: salesforce-get.sobjectgetupdated
+        with:
+          start: rest.start
+          end: rest.end
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/tooling/sobjects
+      name: data-v64-0-tooling-sobjects
+      description: REST surface for data-v64.0-tooling-sobjects.
+      operations:
+      - method: GET
+        name: gettoolingdescribe
+        description: Salesforce Get Tooling Describe
+        call: salesforce-get.gettoolingdescribe
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/tooling/sobjects/eventrelayconfig/{event-relay-config-id}
+      name: data-v64-0-tooling-sobjects-eventrelayconfig-event-relay-config-id
+      description: REST surface for data-v64.0-tooling-sobjects-EventRelayConfig-EVENT_RELAY_CONFIG_ID.
+      operations:
+      - method: GET
+        name: geteventrelay
+        description: Salesforce Get Event Relay
+        call: salesforce-get.geteventrelay
+        with:
+          EVENT_RELAY_CONFIG_ID: rest.EVENT_RELAY_CONFIG_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/tooling/sobjects/managedeventsubscription/{managedeventsubscriptionid}
+      name: data-v64-0-tooling-sobjects-managedeventsubscription-managedeventsubscriptionid
+      description: REST surface for data-v64.0-tooling-sobjects-ManagedEventSubscription-managedEventSubscriptionId.
+      operations:
+      - method: GET
+        name: getmanagedeventsubscriptionbyid
+        description: Salesforce Get Managed Event Subscription by Id
+        call: salesforce-get.getmanagedeventsubscriptionbyid
+        with:
+          managedEventSubscriptionId: rest.managedEventSubscriptionId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/tooling/sobjects/namedcredential/{named-credential-id}
+      name: data-v64-0-tooling-sobjects-namedcredential-named-credential-id
+      description: REST surface for data-v64.0-tooling-sobjects-NamedCredential-NAMED_CREDENTIAL_ID.
+      operations:
+      - method: GET
+        name: getnamedcredential
+        description: Salesforce Get Named Credential
+        call: salesforce-get.getnamedcredential
+        with:
+          NAMED_CREDENTIAL_ID: rest.NAMED_CREDENTIAL_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/tooling/sobjects/platformeventchannel/{platform-event-channel-id}
+      name: data-v64-0-tooling-sobjects-platformeventchannel-platform-event-channel-id
+      description: REST surface for data-v64.0-tooling-sobjects-PlatformEventChannel-PLATFORM_EVENT_CHANNEL_ID.
+      operations:
+      - method: GET
+        name: geteventchannel
+        description: Salesforce Get Event Channel
+        call: salesforce-get.geteventchannel
+        with:
+          PLATFORM_EVENT_CHANNEL_ID: rest.PLATFORM_EVENT_CHANNEL_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/tooling/sobjects/platformeventchannelmember/{platform-event-channel-member-id}
+      name: data-v64-0-tooling-sobjects-platformeventchannelmember-platform-event-channel-me
+      description: REST surface for data-v64.0-tooling-sobjects-PlatformEventChannelMember-PLATFORM_EVENT_CHANNEL_ME.
+      operations:
+      - method: GET
+        name: getchannelmember
+        description: Salesforce Get Channel Member
+        call: salesforce-get.getchannelmember
+        with:
+          PLATFORM_EVENT_CHANNEL_MEMBER_ID: rest.PLATFORM_EVENT_CHANNEL_MEMBER_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/tooling/sobjects/sandboxinfo/{sandbox-info-id}
+      name: data-v64-0-tooling-sobjects-sandboxinfo-sandbox-info-id
+      description: REST surface for data-v64.0-tooling-sobjects-SandboxInfo-SANDBOX_INFO_ID.
+      operations:
+      - method: GET
+        name: getsandbox
+        description: Salesforce Get Sandbox
+        call: salesforce-get.getsandbox
+        with:
+          SANDBOX_INFO_ID: rest.SANDBOX_INFO_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/tooling/sobjects/{sobject-api-name}
+      name: data-v64-0-tooling-sobjects-sobject-api-name
+      description: REST surface for data-v64.0-tooling-sobjects-SOBJECT_API_NAME.
+      operations:
+      - method: GET
+        name: gettoolingmetadatasobject
+        description: Salesforce Get Tooling Metadata Sobject
+        call: salesforce-get.gettoolingmetadatasobject
+        with:
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/tooling/sobjects/{sobject-api-name}/describe
+      name: data-v64-0-tooling-sobjects-sobject-api-name-describe
+      description: REST surface for data-v64.0-tooling-sobjects-SOBJECT_API_NAME-describe.
+      operations:
+      - method: GET
+        name: gettoolingdescribesobject
+        description: Salesforce Get Tooling Describe Sobject
+        call: salesforce-get.gettoolingdescribesobject
+        with:
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/actions/flexipage/{flexipage-names}
+      name: data-v64-0-ui-api-actions-flexipage-flexipage-names
+      description: REST surface for data-v64.0-ui-api-actions-flexipage-FLEXIPAGE_NAMES.
+      operations:
+      - method: GET
+        name: getlightningpageactions
+        description: Salesforce Get Lightning Page Actions
+        call: salesforce-get.getlightningpageactions
+        with:
+          FLEXIPAGE_NAMES: rest.FLEXIPAGE_NAMES
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/actions/global
+      name: data-v64-0-ui-api-actions-global
+      description: REST surface for data-v64.0-ui-api-actions-global.
+      operations:
+      - method: GET
+        name: getglobalactions
+        description: Salesforce Get Global Actions
+        call: salesforce-get.getglobalactions
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/actions/list-view-chart/{sobject-api-name}
+      name: data-v64-0-ui-api-actions-list-view-chart-sobject-api-name
+      description: REST surface for data-v64.0-ui-api-actions-list-view-chart-SOBJECT_API_NAME.
+      operations:
+      - method: GET
+        name: getlistviewchartactions
+        description: Salesforce Get List View Chart Actions
+        call: salesforce-get.getlistviewchartactions
+        with:
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/actions/list-view-record/{record-ids}
+      name: data-v64-0-ui-api-actions-list-view-record-record-ids
+      description: REST surface for data-v64.0-ui-api-actions-list-view-record-RECORD_IDS.
+      operations:
+      - method: GET
+        name: getlistviewrecordactions
+        description: Salesforce Get List View Record Actions
+        call: salesforce-get.getlistviewrecordactions
+        with:
+          RECORD_IDS: rest.RECORD_IDS
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/actions/list-view/{list-view-ids}
+      name: data-v64-0-ui-api-actions-list-view-list-view-ids
+      description: REST surface for data-v64.0-ui-api-actions-list-view-LIST_VIEW_IDS.
+      operations:
+      - method: GET
+        name: getlistviewheaderactions
+        description: Salesforce Get List View Header Actions
+        call: salesforce-get.getlistviewheaderactions
+        with:
+          LIST_VIEW_IDS: rest.LIST_VIEW_IDS
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/actions/lookup/{sobject-api-names}
+      name: data-v64-0-ui-api-actions-lookup-sobject-api-names
+      description: REST surface for data-v64.0-ui-api-actions-lookup-SOBJECT_API_NAMES.
+      operations:
+      - method: GET
+        name: getlookupfieldactions
+        description: Salesforce Get Lookup Field Actions
+        call: salesforce-get.getlookupfieldactions
+        with:
+          SOBJECT_API_NAMES: rest.SOBJECT_API_NAMES
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/actions/mru-list/{sobject-api-names}
+      name: data-v64-0-ui-api-actions-mru-list-sobject-api-names
+      description: REST surface for data-v64.0-ui-api-actions-mru-list-SOBJECT_API_NAMES.
+      operations:
+      - method: GET
+        name: getmrulistviewactions
+        description: Salesforce Get Mru List View Actions
+        call: salesforce-get.getmrulistviewactions
+        with:
+          SOBJECT_API_NAMES: rest.SOBJECT_API_NAMES
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/actions/photo/{record-ids}
+      name: data-v64-0-ui-api-actions-photo-record-ids
+      description: REST surface for data-v64.0-ui-api-actions-photo-RECORD_IDS.
+      operations:
+      - method: GET
+        name: getphotoactions
+        description: Salesforce Get Photo Actions
+        call: salesforce-get.getphotoactions
+        with:
+          RECORD_IDS: rest.RECORD_IDS
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/actions/record/{record-ids}
+      name: data-v64-0-ui-api-actions-record-record-ids
+      description: REST surface for data-v64.0-ui-api-actions-record-RECORD_IDS.
+      operations:
+      - method: GET
+        name: getrecorddetailpageactions
+        description: Salesforce Get Record Detail Page Actions
+        call: salesforce-get.getrecorddetailpageactions
+        with:
+          RECORD_IDS: rest.RECORD_IDS
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/actions/record/{record-id}/record-edit
+      name: data-v64-0-ui-api-actions-record-record-id-record-edit
+      description: REST surface for data-v64.0-ui-api-actions-record-RECORD_ID-record-edit.
+      operations:
+      - method: GET
+        name: getrecordeditpageactions
+        description: Salesforce Get Record Edit Page Actions
+        call: salesforce-get.getrecordeditpageactions
+        with:
+          RECORD_ID: rest.RECORD_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/actions/record/{record-id}/related-list-record/{related-list-record-ids}
+      name: data-v64-0-ui-api-actions-record-record-id-related-list-record-related-list-reco
+      description: REST surface for data-v64.0-ui-api-actions-record-RECORD_ID-related-list-record-RELATED_LIST_RECO.
+      operations:
+      - method: GET
+        name: getrelatedlistrecordactions
+        description: Salesforce Get Related List Record Actions
+        call: salesforce-get.getrelatedlistrecordactions
+        with:
+          RECORD_ID: rest.RECORD_ID
+          RELATED_LIST_RECORD_IDS: rest.RELATED_LIST_RECORD_IDS
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/actions/record/{record-id}/related-list/{related-list-ids}
+      name: data-v64-0-ui-api-actions-record-record-id-related-list-related-list-ids
+      description: REST surface for data-v64.0-ui-api-actions-record-RECORD_ID-related-list-RELATED_LIST_IDS.
+      operations:
+      - method: GET
+        name: getrelatedlistactions
+        description: Salesforce Get Related List Actions
+        call: salesforce-get.getrelatedlistactions
+        with:
+          RECORD_ID: rest.RECORD_ID
+          RELATED_LIST_IDS: rest.RELATED_LIST_IDS
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/apps
+      name: data-v64-0-ui-api-apps
+      description: REST surface for data-v64.0-ui-api-apps.
+      operations:
+      - method: GET
+        name: getapps
+        description: Salesforce Get Apps
+        call: salesforce-get.getapps
+        with:
+          formFactor: rest.formFactor
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/apps/selected
+      name: data-v64-0-ui-api-apps-selected
+      description: REST surface for data-v64.0-ui-api-apps-selected.
+      operations:
+      - method: GET
+        name: getlastselectedapp
+        description: Salesforce Get Last Selected App
+        call: salesforce-get.getlastselectedapp
+        with:
+          formFactor: rest.formFactor
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/apps/{app-id}
+      name: data-v64-0-ui-api-apps-app-id
+      description: REST surface for data-v64.0-ui-api-apps-APP_ID.
+      operations:
+      - method: GET
+        name: getanapp
+        description: Salesforce Get an App
+        call: salesforce-get.getanapp
+        with:
+          formFactor: rest.formFactor
+          APP_ID: rest.APP_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/apps/{app-id}/user-nav-items
+      name: data-v64-0-ui-api-apps-app-id-user-nav-items
+      description: REST surface for data-v64.0-ui-api-apps-APP_ID-user-nav-items.
+      operations:
+      - method: GET
+        name: getpersonalizednavigationitems
+        description: Salesforce Get Personalized Navigation Items
+        call: salesforce-get.getpersonalizednavigationitems
+        with:
+          APP_ID: rest.APP_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/favorites
+      name: data-v64-0-ui-api-favorites
+      description: REST surface for data-v64.0-ui-api-favorites.
+      operations:
+      - method: GET
+        name: getfavorites
+        description: Salesforce Get Favorites
+        call: salesforce-get.getfavorites
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/favorites/{favorite-id}
+      name: data-v64-0-ui-api-favorites-favorite-id
+      description: REST surface for data-v64.0-ui-api-favorites-FAVORITE_ID.
+      operations:
+      - method: GET
+        name: getafavorite
+        description: Salesforce Get a Favorite
+        call: salesforce-get.getafavorite
+        with:
+          FAVORITE_ID: rest.FAVORITE_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/layout/{sobject-api-name}
+      name: data-v64-0-ui-api-layout-sobject-api-name
+      description: REST surface for data-v64.0-ui-api-layout-SOBJECT_API_NAME.
+      operations:
+      - method: GET
+        name: getrecordlayoutmetadata
+        description: Salesforce Get Record Layout Metadata
+        call: salesforce-get.getrecordlayoutmetadata
+        with:
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/list-info/{list-view-id}
+      name: data-v64-0-ui-api-list-info-list-view-id
+      description: REST surface for data-v64.0-ui-api-list-info-LIST_VIEW_ID.
+      operations:
+      - method: GET
+        name: getlistviewmetadatabyid
+        description: Salesforce Get List View Metadata by Id
+        call: salesforce-get.getlistviewmetadatabyid
+        with:
+          LIST_VIEW_ID: rest.LIST_VIEW_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/list-info/{sobject-api-name}
+      name: data-v64-0-ui-api-list-info-sobject-api-name
+      description: REST surface for data-v64.0-ui-api-list-info-SOBJECT_API_NAME.
+      operations:
+      - method: GET
+        name: getlistviewsforanobject
+        description: Salesforce Get List Views for an Object
+        call: salesforce-get.getlistviewsforanobject
+        with:
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/list-info/{sobject-api-name}/{list-view-api-name}
+      name: data-v64-0-ui-api-list-info-sobject-api-name-list-view-api-name
+      description: REST surface for data-v64.0-ui-api-list-info-SOBJECT_API_NAME-LIST_VIEW_API_NAME.
+      operations:
+      - method: GET
+        name: getlistviewmetadatabyapiname
+        description: Salesforce Get List View Metadata by Api Name
+        call: salesforce-get.getlistviewmetadatabyapiname
+        with:
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+          LIST_VIEW_API_NAME: rest.LIST_VIEW_API_NAME
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/list-records/{list-view-id}
+      name: data-v64-0-ui-api-list-records-list-view-id
+      description: REST surface for data-v64.0-ui-api-list-records-LIST_VIEW_ID.
+      operations:
+      - method: GET
+        name: getlistviewrecordsbyid
+        description: Salesforce Get List View Records by Id
+        call: salesforce-get.getlistviewrecordsbyid
+        with:
+          LIST_VIEW_ID: rest.LIST_VIEW_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/list-records/{sobject-api-name}/{list-view-api-name}
+      name: data-v64-0-ui-api-list-records-sobject-api-name-list-view-api-name
+      description: REST surface for data-v64.0-ui-api-list-records-SOBJECT_API_NAME-LIST_VIEW_API_NAME.
+      operations:
+      - method: GET
+        name: getlistviewrecordsbyapiname
+        description: Salesforce Get List View Records by Api Name
+        call: salesforce-get.getlistviewrecordsbyapiname
+        with:
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+          LIST_VIEW_API_NAME: rest.LIST_VIEW_API_NAME
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: getlistviewrecords
+        description: Salesforce Get List View Records
+        call: salesforce-get.getlistviewrecords
+        with:
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+          LIST_VIEW_API_NAME: rest.LIST_VIEW_API_NAME
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/lookups/{sobject-api-name}/{field-api-name}
+      name: data-v64-0-ui-api-lookups-sobject-api-name-field-api-name
+      description: REST surface for data-v64.0-ui-api-lookups-SOBJECT_API_NAME-FIELD_API_NAME.
+      operations:
+      - method: GET
+        name: getlookupfieldsuggestions
+        description: Salesforce Get Lookup Field Suggestions
+        call: salesforce-get.getlookupfieldsuggestions
+        with:
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+          FIELD_API_NAME: rest.FIELD_API_NAME
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/lookups/{sobject-api-name}/{field-api-name}/{target-api-name}
+      name: data-v64-0-ui-api-lookups-sobject-api-name-field-api-name-target-api-name
+      description: REST surface for data-v64.0-ui-api-lookups-SOBJECT_API_NAME-FIELD_API_NAME-TARGET_API_NAME.
+      operations:
+      - method: GET
+        name: getlookupfieldsuggestionsforaspecifiedobject
+        description: Salesforce Get Lookup Field Suggestions for a Specified Object
+        call: salesforce-get.getlookupfieldsuggestionsforaspecifiedobject
+        with:
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+          FIELD_API_NAME: rest.FIELD_API_NAME
+          TARGET_API_NAME: rest.TARGET_API_NAME
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/nav-items
+      name: data-v64-0-ui-api-nav-items
+      description: REST surface for data-v64.0-ui-api-nav-items.
+      operations:
+      - method: GET
+        name: getallnavigationitems
+        description: Salesforce Get All Navigation Items
+        call: salesforce-get.getallnavigationitems
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/object-info
+      name: data-v64-0-ui-api-object-info
+      description: REST surface for data-v64.0-ui-api-object-info.
+      operations:
+      - method: GET
+        name: getadirectoryofsupportedobjects
+        description: Salesforce Get a Directory of Supported Objects
+        call: salesforce-get.getadirectoryofsupportedobjects
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/object-info/{sobject-api-name}
+      name: data-v64-0-ui-api-object-info-sobject-api-name
+      description: REST surface for data-v64.0-ui-api-object-info-SOBJECT_API_NAME.
+      operations:
+      - method: GET
+        name: getobjectmetadata
+        description: Salesforce Get Object Metadata
+        call: salesforce-get.getobjectmetadata
+        with:
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/object-info/{sobject-api-name}/picklist-values/{record-type-id}
+      name: data-v64-0-ui-api-object-info-sobject-api-name-picklist-values-record-type-id
+      description: REST surface for data-v64.0-ui-api-object-info-SOBJECT_API_NAME-picklist-values-RECORD_TYPE_ID.
+      operations:
+      - method: GET
+        name: getvaluesforallpicklistfieldsofarecordtype
+        description: Salesforce Get Values for All Picklist Fields of a Record Type
+        call: salesforce-get.getvaluesforallpicklistfieldsofarecordtype
+        with:
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+          RECORD_TYPE_ID: rest.RECORD_TYPE_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/object-info/{sobject-api-name}/picklist-values/{record-type-id}/{field-api-name}
+      name: data-v64-0-ui-api-object-info-sobject-api-name-picklist-values-record-type-id-fi
+      description: REST surface for data-v64.0-ui-api-object-info-SOBJECT_API_NAME-picklist-values-RECORD_TYPE_ID-FI.
+      operations:
+      - method: GET
+        name: getvaluesforapicklistfield
+        description: Salesforce Get Values for a Picklist Field
+        call: salesforce-get.getvaluesforapicklistfield
+        with:
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+          RECORD_TYPE_ID: rest.RECORD_TYPE_ID
+          FIELD_API_NAME: rest.FIELD_API_NAME
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/record-defaults/clone/{record-id}
+      name: data-v64-0-ui-api-record-defaults-clone-record-id
+      description: REST surface for data-v64.0-ui-api-record-defaults-clone-RECORD_ID.
+      operations:
+      - method: GET
+        name: getdefaultvaluestoclonearecord
+        description: Salesforce Get Default Values to Clone a Record
+        call: salesforce-get.getdefaultvaluestoclonearecord
+        with:
+          RECORD_ID: rest.RECORD_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/record-defaults/create/{sobject-api-name}
+      name: data-v64-0-ui-api-record-defaults-create-sobject-api-name
+      description: REST surface for data-v64.0-ui-api-record-defaults-create-SOBJECT_API_NAME.
+      operations:
+      - method: GET
+        name: getdefaultvaluestocreatearecord
+        description: Salesforce Get Default Values to Create a Record
+        call: salesforce-get.getdefaultvaluestocreatearecord
+        with:
+          SOBJECT_API_NAME: rest.SOBJECT_API_NAME
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/record-ui/{record-ids}
+      name: data-v64-0-ui-api-record-ui-record-ids
+      description: REST surface for data-v64.0-ui-api-record-ui-RECORD_IDS.
+      operations:
+      - method: GET
+        name: getrecorddataandobjectmetadata
+        description: Salesforce Get Record Data and Object Metadata
+        call: salesforce-get.getrecorddataandobjectmetadata
+        with:
+          RECORD_IDS: rest.RECORD_IDS
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/records/batch/{record-ids}
+      name: data-v64-0-ui-api-records-batch-record-ids
+      description: REST surface for data-v64.0-ui-api-records-batch-RECORD_IDS.
+      operations:
+      - method: GET
+        name: getabatchofrecords
+        description: Salesforce Get a Batch of Records
+        call: salesforce-get.getabatchofrecords
+        with:
+          RECORD_IDS: rest.RECORD_IDS
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/records/{record-id}
+      name: data-v64-0-ui-api-records-record-id
+      description: REST surface for data-v64.0-ui-api-records-RECORD_ID.
+      operations:
+      - method: GET
+        name: getarecord
+        description: Salesforce Get a Record
+        call: salesforce-get.getarecord
+        with:
+          RECORD_ID: rest.RECORD_ID
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/records/{record-id}/child-relationships/{relationship-name}
+      name: data-v64-0-ui-api-records-record-id-child-relationships-relationship-name
+      description: REST surface for data-v64.0-ui-api-records-RECORD_ID-child-relationships-RELATIONSHIP_NAME.
+      operations:
+      - method: GET
+        name: getchildrecords
+        description: Salesforce Get Child Records
+        call: salesforce-get.getchildrecords
+        with:
+          RECORD_ID: rest.RECORD_ID
+          RELATIONSHIP_NAME: rest.RELATIONSHIP_NAME
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/ui-api/themes/active
+      name: data-v64-0-ui-api-themes-active
+      description: REST surface for data-v64.0-ui-api-themes-active.
+      operations:
+      - method: GET
+        name: getactivetheme
+        description: Salesforce Get Active Theme
+        call: salesforce-get.getactivetheme
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/services/oauth2/userinfo
+      name: services-oauth2-userinfo
+      description: REST surface for services-oauth2-userinfo.
+      operations:
+      - method: GET
+        name: getuserinfo
+        description: Salesforce Get User Info
+        call: salesforce-get.getuserinfo
+        with:
+          Authorization: rest.Authorization
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-get-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Get. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-integration-procedure-invocation-using
+      description: Salesforce Integration Procedure Invocation Using Get
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.integrationprocedureinvocationusingget
+      with:
+        NAMESPACE: tools.NAMESPACE
+        TYPE_SUBTYPE: tools.TYPE_SUBTYPE
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-table
+      description: Salesforce Get Table
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.gettable
+      with:
+        decisionTableId: tools.decisionTableId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-conversation-entries
+      description: Salesforce Get Conversation Entries
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getconversationentries
+      with:
+        conversationIdentifier: tools.conversationIdentifier
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-test-status
+      description: Salesforce Get Test Status
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getteststatus
+      with:
+        runId: tools.runId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-test-results
+      description: Salesforce Get Test Results
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.gettestresults
+      with:
+        runId: tools.runId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-all-jobs
+      description: Salesforce Get All Jobs
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getalljobs
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-job-info
+      description: Salesforce Get Job Info
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getjobinfo
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-job-failed-record
+      description: Salesforce Get Job Failed Record Results
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getjobfailedrecordresults
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-job-successful-record
+      description: Salesforce Get Job Successful Record Results
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getjobsuccessfulrecordresults
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-job-unprocessed-record
+      description: Salesforce Get Job Unprocessed Record Results
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getjobunprocessedrecordresults
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-all-query-jobs
+      description: Salesforce Get All Query Jobs
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getallqueryjobs
+      with:
+        isPkChunkingEnabled: tools.isPkChunkingEnabled
+        jobType: tools.jobType
+        concurrencyMode: tools.concurrencyMode
+        queryLocator: tools.queryLocator
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-job-info-query
+      description: Salesforce Get Job Info Query
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getjobinfoquery
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-parallel-results-query
+      description: Salesforce Get Parallel Results for a Query Job
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getparallelresultsforaqueryjob
+      with:
+        Content-Type: tools.Content-Type
+        Accept: tools.Accept
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-job-query-result
+      description: Salesforce Get Job Query Result
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getjobqueryresult
+      with:
+        Content-Type: tools.Content-Type
+        Accept: tools.Accept
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-credential
+      description: Salesforce Get Credential
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getcredential
+      with:
+        externalCredential: tools.externalCredential
+        principalName: tools.principalName
+        principalType: tools.principalType
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-external-credentials-developer
+      description: Salesforce Get External Credentials by Developer Name
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getexternalcredentialsbydevelopername
+      with:
+        DEVELOPER_NAME: tools.DEVELOPER_NAME
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-named-credential-developer
+      description: Salesforce Get Named Credential by Developer Name
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getnamedcredentialbydevelopername
+      with:
+        DEVELOPER_NAME: tools.DEVELOPER_NAME
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-appointment-candidates
+      description: Salesforce Get Appointment Candidates
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: salesforce-get.getappointmentcandidates
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-appointment-slots
+      description: Salesforce Get Appointment Slots
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: salesforce-get.getappointmentslots
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-event-log-file
+      description: Salesforce Get Event Log File
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.geteventlogfile
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-event-relay-feedback
+      description: Salesforce Get Event Relay Feedback
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.geteventrelayfeedback
+      with:
+        EVENT_RELAY_FEEDBACK_ID: tools.EVENT_RELAY_FEEDBACK_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-sobject-get-deleted
+      description: Salesforce Sobject Get Deleted
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.sobjectgetdeleted
+      with:
+        start: tools.start
+        end: tools.end
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-sobject-get-updated
+      description: Salesforce Sobject Get Updated
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.sobjectgetupdated
+      with:
+        start: tools.start
+        end: tools.end
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-tooling-describe
+      description: Salesforce Get Tooling Describe
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.gettoolingdescribe
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-event-relay
+      description: Salesforce Get Event Relay
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.geteventrelay
+      with:
+        EVENT_RELAY_CONFIG_ID: tools.EVENT_RELAY_CONFIG_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-managed-event-subscription
+      description: Salesforce Get Managed Event Subscription by Id
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getmanagedeventsubscriptionbyid
+      with:
+        managedEventSubscriptionId: tools.managedEventSubscriptionId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-named-credential
+      description: Salesforce Get Named Credential
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getnamedcredential
+      with:
+        NAMED_CREDENTIAL_ID: tools.NAMED_CREDENTIAL_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-event-channel
+      description: Salesforce Get Event Channel
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.geteventchannel
+      with:
+        PLATFORM_EVENT_CHANNEL_ID: tools.PLATFORM_EVENT_CHANNEL_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-channel-member
+      description: Salesforce Get Channel Member
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getchannelmember
+      with:
+        PLATFORM_EVENT_CHANNEL_MEMBER_ID: tools.PLATFORM_EVENT_CHANNEL_MEMBER_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-sandbox
+      description: Salesforce Get Sandbox
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getsandbox
+      with:
+        SANDBOX_INFO_ID: tools.SANDBOX_INFO_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-tooling-metadata-sobject
+      description: Salesforce Get Tooling Metadata Sobject
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.gettoolingmetadatasobject
+      with:
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-tooling-describe-sobject
+      description: Salesforce Get Tooling Describe Sobject
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.gettoolingdescribesobject
+      with:
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-lightning-page-actions
+      description: Salesforce Get Lightning Page Actions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getlightningpageactions
+      with:
+        FLEXIPAGE_NAMES: tools.FLEXIPAGE_NAMES
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-global-actions
+      description: Salesforce Get Global Actions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getglobalactions
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-list-view-chart
+      description: Salesforce Get List View Chart Actions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getlistviewchartactions
+      with:
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-list-view-record
+      description: Salesforce Get List View Record Actions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getlistviewrecordactions
+      with:
+        RECORD_IDS: tools.RECORD_IDS
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-list-view-header
+      description: Salesforce Get List View Header Actions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getlistviewheaderactions
+      with:
+        LIST_VIEW_IDS: tools.LIST_VIEW_IDS
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-lookup-field-actions
+      description: Salesforce Get Lookup Field Actions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getlookupfieldactions
+      with:
+        SOBJECT_API_NAMES: tools.SOBJECT_API_NAMES
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-mru-list-view
+      description: Salesforce Get Mru List View Actions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getmrulistviewactions
+      with:
+        SOBJECT_API_NAMES: tools.SOBJECT_API_NAMES
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-photo-actions
+      description: Salesforce Get Photo Actions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getphotoactions
+      with:
+        RECORD_IDS: tools.RECORD_IDS
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-record-detail-page
+      description: Salesforce Get Record Detail Page Actions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getrecorddetailpageactions
+      with:
+        RECORD_IDS: tools.RECORD_IDS
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-record-edit-page
+      description: Salesforce Get Record Edit Page Actions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getrecordeditpageactions
+      with:
+        RECORD_ID: tools.RECORD_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-related-list-record
+      description: Salesforce Get Related List Record Actions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getrelatedlistrecordactions
+      with:
+        RECORD_ID: tools.RECORD_ID
+        RELATED_LIST_RECORD_IDS: tools.RELATED_LIST_RECORD_IDS
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-related-list-actions
+      description: Salesforce Get Related List Actions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getrelatedlistactions
+      with:
+        RECORD_ID: tools.RECORD_ID
+        RELATED_LIST_IDS: tools.RELATED_LIST_IDS
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-apps
+      description: Salesforce Get Apps
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getapps
+      with:
+        formFactor: tools.formFactor
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-last-selected-app
+      description: Salesforce Get Last Selected App
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getlastselectedapp
+      with:
+        formFactor: tools.formFactor
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-app
+      description: Salesforce Get an App
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getanapp
+      with:
+        formFactor: tools.formFactor
+        APP_ID: tools.APP_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-personalized-navigation-items
+      description: Salesforce Get Personalized Navigation Items
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getpersonalizednavigationitems
+      with:
+        APP_ID: tools.APP_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-favorites
+      description: Salesforce Get Favorites
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getfavorites
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-favorite
+      description: Salesforce Get a Favorite
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getafavorite
+      with:
+        FAVORITE_ID: tools.FAVORITE_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-record-layout-metadata
+      description: Salesforce Get Record Layout Metadata
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getrecordlayoutmetadata
+      with:
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-list-view-metadata
+      description: Salesforce Get List View Metadata by Id
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getlistviewmetadatabyid
+      with:
+        LIST_VIEW_ID: tools.LIST_VIEW_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-list-views-object
+      description: Salesforce Get List Views for an Object
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getlistviewsforanobject
+      with:
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-list-view-metadata-2
+      description: Salesforce Get List View Metadata by Api Name
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getlistviewmetadatabyapiname
+      with:
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+        LIST_VIEW_API_NAME: tools.LIST_VIEW_API_NAME
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-list-view-records
+      description: Salesforce Get List View Records by Id
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getlistviewrecordsbyid
+      with:
+        LIST_VIEW_ID: tools.LIST_VIEW_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-list-view-records-2
+      description: Salesforce Get List View Records by Api Name
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getlistviewrecordsbyapiname
+      with:
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+        LIST_VIEW_API_NAME: tools.LIST_VIEW_API_NAME
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-list-view-records-3
+      description: Salesforce Get List View Records
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: salesforce-get.getlistviewrecords
+      with:
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+        LIST_VIEW_API_NAME: tools.LIST_VIEW_API_NAME
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-lookup-field-suggestions
+      description: Salesforce Get Lookup Field Suggestions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getlookupfieldsuggestions
+      with:
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+        FIELD_API_NAME: tools.FIELD_API_NAME
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-lookup-field-suggestions-2
+      description: Salesforce Get Lookup Field Suggestions for a Specified Object
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getlookupfieldsuggestionsforaspecifiedobject
+      with:
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+        FIELD_API_NAME: tools.FIELD_API_NAME
+        TARGET_API_NAME: tools.TARGET_API_NAME
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-all-navigation-items
+      description: Salesforce Get All Navigation Items
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getallnavigationitems
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-directory-supported-objects
+      description: Salesforce Get a Directory of Supported Objects
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getadirectoryofsupportedobjects
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-object-metadata
+      description: Salesforce Get Object Metadata
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getobjectmetadata
+      with:
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-values-all-picklist
+      description: Salesforce Get Values for All Picklist Fields of a Record Type
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getvaluesforallpicklistfieldsofarecordtype
+      with:
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+        RECORD_TYPE_ID: tools.RECORD_TYPE_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-values-picklist-field
+      description: Salesforce Get Values for a Picklist Field
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getvaluesforapicklistfield
+      with:
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+        RECORD_TYPE_ID: tools.RECORD_TYPE_ID
+        FIELD_API_NAME: tools.FIELD_API_NAME
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-default-values-clone
+      description: Salesforce Get Default Values to Clone a Record
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getdefaultvaluestoclonearecord
+      with:
+        RECORD_ID: tools.RECORD_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-default-values-create
+      description: Salesforce Get Default Values to Create a Record
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getdefaultvaluestocreatearecord
+      with:
+        SOBJECT_API_NAME: tools.SOBJECT_API_NAME
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-record-data-and
+      description: Salesforce Get Record Data and Object Metadata
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getrecorddataandobjectmetadata
+      with:
+        RECORD_IDS: tools.RECORD_IDS
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-batch-records
+      description: Salesforce Get a Batch of Records
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getabatchofrecords
+      with:
+        RECORD_IDS: tools.RECORD_IDS
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-record
+      description: Salesforce Get a Record
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getarecord
+      with:
+        RECORD_ID: tools.RECORD_ID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-child-records
+      description: Salesforce Get Child Records
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getchildrecords
+      with:
+        RECORD_ID: tools.RECORD_ID
+        RELATIONSHIP_NAME: tools.RELATIONSHIP_NAME
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-active-theme
+      description: Salesforce Get Active Theme
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getactivetheme
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-user-info
+      description: Salesforce Get User Info
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-get.getuserinfo
+      with:
+        Authorization: tools.Authorization
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.

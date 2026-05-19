@@ -1,0 +1,257 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Result
+  description: 'Salesforce — Result. 4 operations. Lead operation: Salesforce Bulk Retrieve Batch Result. Self-contained Naftiko
+    capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Result
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-result
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Result business capability. Self-contained, no shared references.
+    resources:
+    - name: async-64.0-job-batch-_batchId-result
+      path: /async/64.0/job//batch/{_batchId}/result
+      operations:
+      - name: bulkretrievebatchresult
+        method: GET
+        description: Salesforce Bulk Retrieve Batch Result
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-SFDC-Session
+          in: header
+          type: string
+          required: true
+        - name: Accept-Encoding
+          in: header
+          type: string
+          required: true
+        - name: Content-Encoding
+          in: header
+          type: string
+          required: true
+        - name: _batchId
+          in: path
+          type: string
+          required: true
+    - name: async-64.0-job-batch-_batchId-result-batchResultId
+      path: /async/64.0/job//batch/{_batchId}/result/{batchResultId}
+      operations:
+      - name: bulkretrievebatchresultdata
+        method: GET
+        description: Salesforce Bulk Retrieve Batch Result Data
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: batchResultId
+          in: path
+          type: string
+          required: true
+        - name: X-SFDC-Session
+          in: header
+          type: string
+          required: true
+        - name: Accept-Encoding
+          in: header
+          type: string
+          required: true
+        - name: Content-Encoding
+          in: header
+          type: string
+          required: true
+        - name: _batchId
+          in: path
+          type: string
+          required: true
+    - name: data-v64.0-jobs-query-results
+      path: /data/v64.0/jobs/query//results
+      operations:
+      - name: getjobqueryresult
+        method: GET
+        description: Salesforce Get Job Query Result
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+        - name: Accept
+          in: header
+          type: string
+          required: true
+    - name: data-v64.0-search-layout
+      path: /data/v64.0/search/layout
+      operations:
+      - name: searchresultlayouts
+        method: GET
+        description: Salesforce Search Result Layouts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: q
+          in: query
+          type: string
+          description: Comma delimited object list
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-result-rest
+    port: 8080
+    description: REST adapter for Salesforce — Result. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/async/64-0/job/batch/{batchid}/result
+      name: async-64-0-job-batch-batchid-result
+      description: REST surface for async-64.0-job-batch-_batchId-result.
+      operations:
+      - method: GET
+        name: bulkretrievebatchresult
+        description: Salesforce Bulk Retrieve Batch Result
+        call: salesforce-result.bulkretrievebatchresult
+        with:
+          X-SFDC-Session: rest.X-SFDC-Session
+          Accept-Encoding: rest.Accept-Encoding
+          Content-Encoding: rest.Content-Encoding
+          _batchId: rest._batchId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/async/64-0/job/batch/{batchid}/result/{batchresultid}
+      name: async-64-0-job-batch-batchid-result-batchresultid
+      description: REST surface for async-64.0-job-batch-_batchId-result-batchResultId.
+      operations:
+      - method: GET
+        name: bulkretrievebatchresultdata
+        description: Salesforce Bulk Retrieve Batch Result Data
+        call: salesforce-result.bulkretrievebatchresultdata
+        with:
+          batchResultId: rest.batchResultId
+          X-SFDC-Session: rest.X-SFDC-Session
+          Accept-Encoding: rest.Accept-Encoding
+          Content-Encoding: rest.Content-Encoding
+          _batchId: rest._batchId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/jobs/query/results
+      name: data-v64-0-jobs-query-results
+      description: REST surface for data-v64.0-jobs-query-results.
+      operations:
+      - method: GET
+        name: getjobqueryresult
+        description: Salesforce Get Job Query Result
+        call: salesforce-result.getjobqueryresult
+        with:
+          Content-Type: rest.Content-Type
+          Accept: rest.Accept
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data/v64-0/search/layout
+      name: data-v64-0-search-layout
+      description: REST surface for data-v64.0-search-layout.
+      operations:
+      - method: GET
+        name: searchresultlayouts
+        description: Salesforce Search Result Layouts
+        call: salesforce-result.searchresultlayouts
+        with:
+          q: rest.q
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-result-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Result. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-bulk-retrieve-batch-result
+      description: Salesforce Bulk Retrieve Batch Result
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-result.bulkretrievebatchresult
+      with:
+        X-SFDC-Session: tools.X-SFDC-Session
+        Accept-Encoding: tools.Accept-Encoding
+        Content-Encoding: tools.Content-Encoding
+        _batchId: tools._batchId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-bulk-retrieve-batch-result-2
+      description: Salesforce Bulk Retrieve Batch Result Data
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-result.bulkretrievebatchresultdata
+      with:
+        batchResultId: tools.batchResultId
+        X-SFDC-Session: tools.X-SFDC-Session
+        Accept-Encoding: tools.Accept-Encoding
+        Content-Encoding: tools.Content-Encoding
+        _batchId: tools._batchId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-get-job-query-result
+      description: Salesforce Get Job Query Result
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-result.getjobqueryresult
+      with:
+        Content-Type: tools.Content-Type
+        Accept: tools.Accept
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: salesforce-search-result-layouts
+      description: Salesforce Search Result Layouts
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-result.searchresultlayouts
+      with:
+        q: tools.q
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.

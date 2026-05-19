@@ -1,0 +1,79 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Save
+  description: 'Salesforce — Save. 1 operations. Lead operation: Salesforce Save Quote Api. Self-contained Naftiko capability
+    covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Save
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-save
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Save business capability. Self-contained, no shared references.
+    resources:
+    - name: apexrest-SBQQ-ServiceRouter
+      path: /apexrest/SBQQ/ServiceRouter
+      operations:
+      - name: savequoteapi
+        method: POST
+        description: Salesforce Save Quote Api
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-save-rest
+    port: 8080
+    description: REST adapter for Salesforce — Save. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/apexrest/sbqq/servicerouter
+      name: apexrest-sbqq-servicerouter
+      description: REST surface for apexrest-SBQQ-ServiceRouter.
+      operations:
+      - method: POST
+        name: savequoteapi
+        description: Salesforce Save Quote Api
+        call: salesforce-save.savequoteapi
+        with:
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-save-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Save. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-save-quote-api
+      description: Salesforce Save Quote Api
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: salesforce-save.savequoteapi
+      with:
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.

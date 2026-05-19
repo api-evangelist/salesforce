@@ -1,0 +1,86 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce — Rest
+  description: 'Salesforce — Rest. 1 operations. Lead operation: Salesforce Apex Rest. Self-contained Naftiko capability covering
+    one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Rest
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce-rest
+    baseUri: https://login.salesforce.com
+    description: Salesforce — Rest business capability. Self-contained, no shared references.
+    resources:
+    - name: apexrest-urlMapping
+      path: /apexrest/{urlMapping}
+      operations:
+      - name: apexrest
+        method: GET
+        description: Salesforce Apex Rest
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: urlMapping
+          in: path
+          type: string
+          description: Value of `urlMapping` as defined in `@RestResource` annotation in the Apex class.
+          required: true
+        - name: Content-Type
+          in: header
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: salesforce-rest-rest
+    port: 8080
+    description: REST adapter for Salesforce — Rest. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/apexrest/{urlmapping}
+      name: apexrest-urlmapping
+      description: REST surface for apexrest-urlMapping.
+      operations:
+      - method: GET
+        name: apexrest
+        description: Salesforce Apex Rest
+        call: salesforce-rest.apexrest
+        with:
+          urlMapping: rest.urlMapping
+          Content-Type: rest.Content-Type
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: salesforce-rest-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce — Rest. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: salesforce-apex-rest
+      description: Salesforce Apex Rest
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: salesforce-rest.apexrest
+      with:
+        urlMapping: tools.urlMapping
+        Content-Type: tools.Content-Type
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,79 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Salesforce REST API — Recent
+  description: 'Salesforce REST API — Recent. 1 operations. Lead operation: Salesforce Get Recently Viewed Records. Self-contained
+    Naftiko capability covering one Salesforce business surface.'
+  tags:
+  - Salesforce
+  - Recent
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: rest-recent
+    baseUri: https://{instance}.salesforce.com/services/data/v{version}
+    description: Salesforce REST API — Recent business capability. Self-contained, no shared references.
+    resources:
+    - name: recent
+      path: /recent
+      operations:
+      - name: getrecentlyviewedrecords
+        method: GET
+        description: Salesforce Get Recently Viewed Records
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: recentlyViewedCount
+          in: query
+          type: integer
+          description: The number of recently viewed records to return. Defaults to 200. Maximum is 200.
+    authentication:
+      type: bearer
+      token: '{{env.SALESFORCE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: rest-recent-rest
+    port: 8080
+    description: REST adapter for Salesforce REST API — Recent. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/recent
+      name: recent
+      description: REST surface for recent.
+      operations:
+      - method: GET
+        name: getrecentlyviewedrecords
+        description: Salesforce Get Recently Viewed Records
+        call: rest-recent.getrecentlyviewedrecords
+        with:
+          recentlyViewedCount: rest.recentlyViewedCount
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: rest-recent-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Salesforce REST API — Recent. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: salesforce-get-recently-viewed-records
+      description: Salesforce Get Recently Viewed Records
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: rest-recent.getrecentlyviewedrecords
+      with:
+        recentlyViewedCount: tools.recentlyViewedCount
+      outputParameters:
+      - type: object
+        mapping: $.
