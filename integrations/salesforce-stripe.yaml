@@ -1,0 +1,146 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Mirror Stripe billing into Salesforce Opportunities
+  description: When a Stripe payment succeeds or a subscription is created, find or create the matching Salesforce Account + Contact and open a Closed Won Opportunity with the payment amount.
+  tags:
+  - Salesforce
+  - Integration
+  - Billing
+  - stripe
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+    STRIPE_API_KEY: STRIPE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce
+    baseUri: https://yourinstance.my.salesforce.com
+    description: Salesforce API operations consumed by this integration.
+    resources:
+    - name: services-data-v60-0-sobjects-opportunity
+      path: /services/data/v60.0/sobjects/Opportunity
+      operations:
+      - name: createopportunity
+        method: POST
+        description: Create a Salesforce Opportunity record.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: services-data-v60-0-sobjects-contact-id
+      path: /services/data/v60.0/sobjects/Contact/{id}
+      operations:
+      - name: updatecontact
+        method: PATCH
+        description: Update a Salesforce Contact by Id.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: Path parameter id.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: services-data-v60-0-query
+      path: /services/data/v60.0/query
+      operations:
+      - name: queryrecords
+        method: GET
+        description: Run a SOQL query to look up existing Account / Contact by email.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters: []
+  - type: http
+    namespace: stripe
+    baseUri: https://api.stripe.com
+    description: Stripe API operations consumed by this integration.
+    resources:
+    - name: v1-charges-charge
+      path: /v1/charges/{charge}
+      operations:
+      - name: getcharge
+        method: GET
+        description: 'Stripe API: getCharge'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: charge
+          in: path
+          type: string
+          description: Path parameter charge.
+          required: true
+    - name: v1-subscriptions-subscription
+      path: /v1/subscriptions/{subscription}
+      operations:
+      - name: getsubscription
+        method: GET
+        description: 'Stripe API: getSubscription'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: subscription
+          in: path
+          type: string
+          description: Path parameter subscription.
+          required: true
+  exposes:
+  - type: mcp
+    namespace: salesforce-stripe-mcp
+    description: MCP adapter for the salesforce-stripe integration.
+    tools:
+    - name: salesforce_stripe
+      description: Execute the salesforce stripe integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: salesforce-stripe-rest
+    port: 8080
+    description: REST adapter for the salesforce-stripe integration.
+    resources:
+    - path: /salesforce-stripe
+      name: salesforce-stripe
+      description: REST surface for the salesforce-stripe integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the salesforce-stripe integration.
+        call: salesforce_stripe
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

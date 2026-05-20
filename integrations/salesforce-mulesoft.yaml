@@ -1,0 +1,139 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Front Salesforce with MuleSoft API-led integration
+  description: Use MuleSoft as the system API in front of Salesforce so external systems hit a stable, governed integration layer instead of raw Salesforce REST.
+  tags:
+  - Salesforce
+  - Integration
+  - Integration
+  - mulesoft
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+    MULESOFT_API_KEY: MULESOFT_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce
+    baseUri: https://yourinstance.my.salesforce.com
+    description: Salesforce API operations consumed by this integration.
+    resources:
+    - name: services-data-v60-0-sobjects-sobjecttype-id
+      path: /services/data/v60.0/sobjects/{sobjectType}/{id}
+      operations:
+      - name: getsobject
+        method: GET
+        description: Fetch any Salesforce SObject by Id (used by MuleSoft system API).
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: sobjectType
+          in: path
+          type: string
+          description: Path parameter sobjectType.
+          required: true
+        - name: id
+          in: path
+          type: string
+          description: Path parameter id.
+          required: true
+    - name: services-data-v60-0-query
+      path: /services/data/v60.0/query
+      operations:
+      - name: queryrecords
+        method: GET
+        description: Run a SOQL query for downstream MuleSoft flows.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters: []
+    - name: services-data-v60-0-sobjects-sobjecttype
+      path: /services/data/v60.0/sobjects/{sobjectType}
+      operations:
+      - name: createsobject
+        method: POST
+        description: Create any Salesforce SObject from a MuleSoft flow.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: sobjectType
+          in: path
+          type: string
+          description: Path parameter sobjectType.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  - type: http
+    namespace: mulesoft
+    baseUri: https://anypoint.mulesoft.com
+    description: MuleSoft Anypoint Platform API operations consumed by this integration.
+    resources:
+    - name: apimanager-api-v1-organizations-orgid-environments-envid-api
+      path: /apimanager/api/v1/organizations/{orgId}/environments/{envId}/apis
+      operations:
+      - name: listmanagedapis
+        method: GET
+        description: 'MuleSoft Anypoint Platform API: listManagedApis'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: orgId
+          in: path
+          type: string
+          description: Path parameter orgId.
+          required: true
+        - name: envId
+          in: path
+          type: string
+          description: Path parameter envId.
+          required: true
+  exposes:
+  - type: mcp
+    namespace: salesforce-mulesoft-mcp
+    description: MCP adapter for the salesforce-mulesoft integration.
+    tools:
+    - name: salesforce_mulesoft
+      description: Execute the salesforce mulesoft integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: salesforce-mulesoft-rest
+    port: 8080
+    description: REST adapter for the salesforce-mulesoft integration.
+    resources:
+    - path: /salesforce-mulesoft
+      name: salesforce-mulesoft
+      description: REST surface for the salesforce-mulesoft integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the salesforce-mulesoft integration.
+        call: salesforce_mulesoft
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

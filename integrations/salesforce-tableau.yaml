@@ -1,0 +1,95 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Power Tableau dashboards from Salesforce CRM data
+  description: Materialize Salesforce Opportunity pipeline and Account hierarchy as a Tableau data source for embedded executive dashboards.
+  tags:
+  - Salesforce
+  - Integration
+  - BI
+  - tableau
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+    TABLEAU_API_KEY: TABLEAU_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce
+    baseUri: https://yourinstance.my.salesforce.com
+    description: Salesforce API operations consumed by this integration.
+    resources:
+    - name: services-data-v60-0-query
+      path: /services/data/v60.0/query
+      operations:
+      - name: querypipeline
+        method: GET
+        description: SOQL query for pipeline rollups (Opportunities, Accounts, OpportunityLineItems).
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters: []
+  - type: http
+    namespace: tableau
+    baseUri: https://yourpod.online.tableau.com
+    description: Tableau REST API operations consumed by this integration.
+    resources:
+    - name: api-3-21-sites-site-id-datasources
+      path: /api/3.21/sites/{site-id}/datasources
+      operations:
+      - name: publishdatasource
+        method: POST
+        description: 'Tableau REST API: publishDataSource'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: site-id
+          in: path
+          type: string
+          description: Path parameter site-id.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: mcp
+    namespace: salesforce-tableau-mcp
+    description: MCP adapter for the salesforce-tableau integration.
+    tools:
+    - name: salesforce_tableau
+      description: Execute the salesforce tableau integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: salesforce-tableau-rest
+    port: 8080
+    description: REST adapter for the salesforce-tableau integration.
+    resources:
+    - path: /salesforce-tableau
+      name: salesforce-tableau
+      description: REST surface for the salesforce-tableau integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the salesforce-tableau integration.
+        call: salesforce_tableau
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

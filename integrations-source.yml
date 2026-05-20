@@ -1,0 +1,289 @@
+# Curated top Salesforce integrations grouped by category.
+# Each entry becomes one Naftiko capability YAML in integrations/.
+# Domain: CRM / Customer 360. Salesforce sits at the center; partner systems plug
+# into Accounts, Contacts, Leads, Opportunities, Cases, and Campaigns.
+
+# Billing / payments (1)
+- partner: stripe
+  name: Mirror Stripe billing into Salesforce Opportunities
+  category: Billing
+  use_case: When a Stripe payment succeeds or a subscription is created, find or create the matching Salesforce Account + Contact and open a Closed Won Opportunity with the payment amount.
+  partner_baseUri: https://api.stripe.com
+  partner_api: Stripe API
+  provider_ops:
+    - method: POST
+      path: /services/data/v60.0/sobjects/Opportunity
+      name: createOpportunity
+      description: Create a Salesforce Opportunity record.
+    - method: PATCH
+      path: /services/data/v60.0/sobjects/Contact/{id}
+      name: updateContact
+      description: Update a Salesforce Contact by Id.
+    - method: GET
+      path: /services/data/v60.0/query
+      name: queryRecords
+      description: Run a SOQL query to look up existing Account / Contact by email.
+  partner_ops:
+    - method: GET
+      path: /v1/charges/{charge}
+      name: getCharge
+    - method: GET
+      path: /v1/subscriptions/{subscription}
+      name: getSubscription
+
+# Marketing / CRM-adjacent (2)
+- partner: hubspot
+  name: Two-way sync Salesforce Contacts with HubSpot Contacts
+  category: Marketing automation
+  use_case: Bidirectionally sync Salesforce Contacts with HubSpot Contacts on email, keeping marketing-owned fields in HubSpot and sales-owned fields in Salesforce.
+  partner_baseUri: https://api.hubapi.com
+  partner_api: HubSpot CRM API
+  provider_ops:
+    - method: GET
+      path: /services/data/v60.0/query
+      name: queryContacts
+      description: SOQL query Salesforce Contacts changed since last sync.
+    - method: PATCH
+      path: /services/data/v60.0/sobjects/Contact/{id}
+      name: updateContact
+      description: Update a Salesforce Contact by Id.
+    - method: POST
+      path: /services/data/v60.0/sobjects/Contact
+      name: createContact
+      description: Create a Salesforce Contact.
+  partner_ops:
+    - method: GET
+      path: /crm/v3/objects/contacts/{contactId}
+      name: getContact
+    - method: PATCH
+      path: /crm/v3/objects/contacts/{contactId}
+      name: updateContact
+    - method: POST
+      path: /crm/v3/objects/contacts
+      name: createContact
+
+- partner: marketo
+  name: Promote Marketo MQLs to Salesforce Leads
+  category: Marketing automation
+  use_case: When Marketo scores a lead as MQL, create or update the matching Salesforce Lead with lead source, score, and campaign attribution, then assign to a sales queue.
+  partner_baseUri: https://yourinstance.mktorest.com
+  partner_api: Marketo REST API
+  provider_ops:
+    - method: POST
+      path: /services/data/v60.0/sobjects/Lead
+      name: createLead
+      description: Create a Salesforce Lead record.
+    - method: PATCH
+      path: /services/data/v60.0/sobjects/Lead/{id}
+      name: updateLead
+      description: Update a Salesforce Lead by Id.
+    - method: GET
+      path: /services/data/v60.0/query
+      name: queryLeads
+      description: SOQL query existing Leads by email.
+  partner_ops:
+    - method: GET
+      path: /rest/v1/leads.json
+      name: getLeads
+    - method: POST
+      path: /rest/v1/leads.json
+      name: syncLeads
+
+- partner: pardot
+  name: Sync Pardot prospects with Salesforce Leads and Campaigns
+  category: Marketing automation
+  use_case: Sync Account Engagement (Pardot) prospect scoring and grade back onto Salesforce Lead records, and attribute Campaign membership.
+  partner_baseUri: https://pi.pardot.com
+  partner_api: Pardot API
+  provider_ops:
+    - method: PATCH
+      path: /services/data/v60.0/sobjects/Lead/{id}
+      name: updateLead
+      description: Update a Salesforce Lead with Pardot score and grade.
+    - method: POST
+      path: /services/data/v60.0/sobjects/CampaignMember
+      name: addCampaignMember
+      description: Add a Lead or Contact to a Salesforce Campaign.
+  partner_ops:
+    - method: GET
+      path: /api/prospect/version/4/do/read/email/{email}
+      name: readProspect
+
+# Collaboration / messaging (3)
+- partner: slack
+  name: Push Salesforce Opportunity stage changes into Slack
+  category: Collaboration
+  use_case: When a Salesforce Opportunity changes stage (especially Closed Won / Lost), post a notification to the deal team Slack channel with amount, owner, and next steps.
+  partner_baseUri: https://slack.com
+  partner_api: Slack Web API
+  provider_ops:
+    - method: GET
+      path: /services/data/v60.0/sobjects/Opportunity/{id}
+      name: getOpportunity
+      description: Fetch a Salesforce Opportunity by Id.
+    - method: GET
+      path: /services/data/v60.0/query
+      name: queryOwner
+      description: SOQL query to look up the Opportunity owner and account context.
+  partner_ops:
+    - method: POST
+      path: /api/chat.postMessage
+      name: postMessage
+
+- partner: gmail
+  name: Log Gmail threads to Salesforce Contacts and Opportunities
+  category: Email
+  use_case: For each Gmail thread with a Contact's email, create a Salesforce Task / EmailMessage record on the matching Contact and any open Opportunity.
+  partner_baseUri: https://gmail.googleapis.com
+  partner_api: Gmail API
+  provider_ops:
+    - method: POST
+      path: /services/data/v60.0/sobjects/EmailMessage
+      name: createEmailMessage
+      description: Create a Salesforce EmailMessage record from a Gmail thread.
+    - method: POST
+      path: /services/data/v60.0/sobjects/Task
+      name: createTask
+      description: Create a Salesforce Task to log the email activity.
+    - method: GET
+      path: /services/data/v60.0/query
+      name: queryRelatedRecords
+      description: SOQL query for Contact + open Opportunity by email.
+  partner_ops:
+    - method: GET
+      path: /gmail/v1/users/{userId}/threads/{id}
+      name: getThread
+    - method: GET
+      path: /gmail/v1/users/{userId}/messages/{id}
+      name: getMessage
+
+- partner: outlook
+  name: Sync Outlook calendar meetings to Salesforce Events
+  category: Email
+  use_case: For each Outlook calendar meeting with external attendees that match Salesforce Contacts, create a Salesforce Event record linked to the right Account or Opportunity.
+  partner_baseUri: https://graph.microsoft.com
+  partner_api: Microsoft Graph API
+  provider_ops:
+    - method: POST
+      path: /services/data/v60.0/sobjects/Event
+      name: createEvent
+      description: Create a Salesforce Event linked to the right WhoId / WhatId.
+    - method: GET
+      path: /services/data/v60.0/query
+      name: queryRelatedRecords
+      description: SOQL query to find related Contact and Opportunity by attendee email.
+  partner_ops:
+    - method: GET
+      path: /v1.0/users/{userId}/events/{eventId}
+      name: getEvent
+
+# Integration / data infrastructure (2)
+- partner: mulesoft
+  name: Front Salesforce with MuleSoft API-led integration
+  category: Integration
+  use_case: Use MuleSoft as the system API in front of Salesforce so external systems hit a stable, governed integration layer instead of raw Salesforce REST.
+  partner_baseUri: https://anypoint.mulesoft.com
+  partner_api: MuleSoft Anypoint Platform API
+  provider_ops:
+    - method: GET
+      path: /services/data/v60.0/sobjects/{sobjectType}/{id}
+      name: getSObject
+      description: Fetch any Salesforce SObject by Id (used by MuleSoft system API).
+    - method: GET
+      path: /services/data/v60.0/query
+      name: queryRecords
+      description: Run a SOQL query for downstream MuleSoft flows.
+    - method: POST
+      path: /services/data/v60.0/sobjects/{sobjectType}
+      name: createSObject
+      description: Create any Salesforce SObject from a MuleSoft flow.
+  partner_ops:
+    - method: GET
+      path: /apimanager/api/v1/organizations/{orgId}/environments/{envId}/apis
+      name: listManagedApis
+
+- partner: snowflake
+  name: Stream Salesforce data into Snowflake CDP
+  category: Data warehouse
+  use_case: Bulk-export Salesforce Accounts, Contacts, Opportunities, and Cases into Snowflake (or Snowflake's customer data cloud) for unified analytics and reverse ETL.
+  partner_baseUri: https://account.snowflakecomputing.com
+  partner_api: Snowflake Snowpipe REST API
+  provider_ops:
+    - method: POST
+      path: /services/data/v60.0/jobs/ingest
+      name: createBulkJob
+      description: Create a Salesforce Bulk API 2.0 ingest / query job.
+    - method: GET
+      path: /services/data/v60.0/jobs/query/{jobId}/results
+      name: getBulkResults
+      description: Stream results of a completed Bulk API query job.
+  partner_ops:
+    - method: POST
+      path: /v1/data/pipes/{pipe}/insertFiles
+      name: insertFiles
+
+# Analytics / BI (1)
+- partner: tableau
+  name: Power Tableau dashboards from Salesforce CRM data
+  category: BI
+  use_case: Materialize Salesforce Opportunity pipeline and Account hierarchy as a Tableau data source for embedded executive dashboards.
+  partner_baseUri: https://yourpod.online.tableau.com
+  partner_api: Tableau REST API
+  provider_ops:
+    - method: GET
+      path: /services/data/v60.0/query
+      name: queryPipeline
+      description: SOQL query for pipeline rollups (Opportunities, Accounts, OpportunityLineItems).
+  partner_ops:
+    - method: POST
+      path: /api/3.21/sites/{site-id}/datasources
+      name: publishDataSource
+
+# Documents / signature (1)
+- partner: docusign
+  name: Generate DocuSign envelopes from Salesforce Opportunities
+  category: Documents
+  use_case: When a Salesforce Opportunity reaches the Proposal stage, generate a DocuSign envelope from a contract template populated with Opportunity, Account, and Contact data.
+  partner_baseUri: https://demo.docusign.net
+  partner_api: DocuSign eSignature REST API
+  provider_ops:
+    - method: GET
+      path: /services/data/v60.0/sobjects/Opportunity/{id}
+      name: getOpportunity
+      description: Fetch the Opportunity used to populate the envelope.
+    - method: PATCH
+      path: /services/data/v60.0/sobjects/Opportunity/{id}
+      name: updateOpportunity
+      description: Update the Opportunity with envelope id and status.
+  partner_ops:
+    - method: POST
+      path: /restapi/v2.1/accounts/{accountId}/envelopes
+      name: createEnvelope
+
+# Meetings / video (1)
+- partner: zoom
+  name: Log Zoom meetings to Salesforce Accounts and Opportunities
+  category: Meetings
+  use_case: For each Zoom meeting with external invitees, create a Salesforce Event + Task on the matching Contact and any open Opportunity, including the meeting recording link.
+  partner_baseUri: https://api.zoom.us
+  partner_api: Zoom API
+  provider_ops:
+    - method: POST
+      path: /services/data/v60.0/sobjects/Event
+      name: createEvent
+      description: Create a Salesforce Event for the Zoom meeting.
+    - method: POST
+      path: /services/data/v60.0/sobjects/Task
+      name: createTask
+      description: Create a Salesforce Task with the recording link.
+    - method: GET
+      path: /services/data/v60.0/query
+      name: queryRelatedRecords
+      description: SOQL query for Contact + open Opportunity by attendee email.
+  partner_ops:
+    - method: GET
+      path: /v2/meetings/{meetingId}
+      name: getMeeting
+    - method: GET
+      path: /v2/meetings/{meetingId}/recordings
+      name: getRecordings

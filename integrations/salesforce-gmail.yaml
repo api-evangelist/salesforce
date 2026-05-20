@@ -1,0 +1,151 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Log Gmail threads to Salesforce Contacts and Opportunities
+  description: For each Gmail thread with a Contact's email, create a Salesforce Task / EmailMessage record on the matching Contact and any open Opportunity.
+  tags:
+  - Salesforce
+  - Integration
+  - Email
+  - gmail
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+    GMAIL_API_KEY: GMAIL_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce
+    baseUri: https://yourinstance.my.salesforce.com
+    description: Salesforce API operations consumed by this integration.
+    resources:
+    - name: services-data-v60-0-sobjects-emailmessage
+      path: /services/data/v60.0/sobjects/EmailMessage
+      operations:
+      - name: createemailmessage
+        method: POST
+        description: Create a Salesforce EmailMessage record from a Gmail thread.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: services-data-v60-0-sobjects-task
+      path: /services/data/v60.0/sobjects/Task
+      operations:
+      - name: createtask
+        method: POST
+        description: Create a Salesforce Task to log the email activity.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: services-data-v60-0-query
+      path: /services/data/v60.0/query
+      operations:
+      - name: queryrelatedrecords
+        method: GET
+        description: SOQL query for Contact + open Opportunity by email.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters: []
+  - type: http
+    namespace: gmail
+    baseUri: https://gmail.googleapis.com
+    description: Gmail API operations consumed by this integration.
+    resources:
+    - name: gmail-v1-users-userid-threads-id
+      path: /gmail/v1/users/{userId}/threads/{id}
+      operations:
+      - name: getthread
+        method: GET
+        description: 'Gmail API: getThread'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: userId
+          in: path
+          type: string
+          description: Path parameter userId.
+          required: true
+        - name: id
+          in: path
+          type: string
+          description: Path parameter id.
+          required: true
+    - name: gmail-v1-users-userid-messages-id
+      path: /gmail/v1/users/{userId}/messages/{id}
+      operations:
+      - name: getmessage
+        method: GET
+        description: 'Gmail API: getMessage'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: userId
+          in: path
+          type: string
+          description: Path parameter userId.
+          required: true
+        - name: id
+          in: path
+          type: string
+          description: Path parameter id.
+          required: true
+  exposes:
+  - type: mcp
+    namespace: salesforce-gmail-mcp
+    description: MCP adapter for the salesforce-gmail integration.
+    tools:
+    - name: salesforce_gmail
+      description: Execute the salesforce gmail integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: salesforce-gmail-rest
+    port: 8080
+    description: REST adapter for the salesforce-gmail integration.
+    resources:
+    - path: /salesforce-gmail
+      name: salesforce-gmail
+      description: REST surface for the salesforce-gmail integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the salesforce-gmail integration.
+        call: salesforce_gmail
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

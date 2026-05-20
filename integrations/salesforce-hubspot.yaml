@@ -1,0 +1,168 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Two-way sync Salesforce Contacts with HubSpot Contacts
+  description: Bidirectionally sync Salesforce Contacts with HubSpot Contacts on email, keeping marketing-owned fields in HubSpot and sales-owned fields in Salesforce.
+  tags:
+  - Salesforce
+  - Integration
+  - Marketing automation
+  - hubspot
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+    HUBSPOT_API_KEY: HUBSPOT_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce
+    baseUri: https://yourinstance.my.salesforce.com
+    description: Salesforce API operations consumed by this integration.
+    resources:
+    - name: services-data-v60-0-query
+      path: /services/data/v60.0/query
+      operations:
+      - name: querycontacts
+        method: GET
+        description: SOQL query Salesforce Contacts changed since last sync.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters: []
+    - name: services-data-v60-0-sobjects-contact-id
+      path: /services/data/v60.0/sobjects/Contact/{id}
+      operations:
+      - name: updatecontact
+        method: PATCH
+        description: Update a Salesforce Contact by Id.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: Path parameter id.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: services-data-v60-0-sobjects-contact
+      path: /services/data/v60.0/sobjects/Contact
+      operations:
+      - name: createcontact
+        method: POST
+        description: Create a Salesforce Contact.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  - type: http
+    namespace: hubspot
+    baseUri: https://api.hubapi.com
+    description: HubSpot CRM API operations consumed by this integration.
+    resources:
+    - name: crm-v3-objects-contacts-contactid
+      path: /crm/v3/objects/contacts/{contactId}
+      operations:
+      - name: getcontact
+        method: GET
+        description: 'HubSpot CRM API: getContact'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: contactId
+          in: path
+          type: string
+          description: Path parameter contactId.
+          required: true
+    - name: crm-v3-objects-contacts-contactid
+      path: /crm/v3/objects/contacts/{contactId}
+      operations:
+      - name: updatecontact
+        method: PATCH
+        description: 'HubSpot CRM API: updateContact'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: contactId
+          in: path
+          type: string
+          description: Path parameter contactId.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: crm-v3-objects-contacts
+      path: /crm/v3/objects/contacts
+      operations:
+      - name: createcontact
+        method: POST
+        description: 'HubSpot CRM API: createContact'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: mcp
+    namespace: salesforce-hubspot-mcp
+    description: MCP adapter for the salesforce-hubspot integration.
+    tools:
+    - name: salesforce_hubspot
+      description: Execute the salesforce hubspot integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: salesforce-hubspot-rest
+    port: 8080
+    description: REST adapter for the salesforce-hubspot integration.
+    resources:
+    - path: /salesforce-hubspot
+      name: salesforce-hubspot
+      description: REST surface for the salesforce-hubspot integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the salesforce-hubspot integration.
+        call: salesforce_hubspot
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

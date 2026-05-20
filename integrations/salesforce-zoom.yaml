@@ -1,0 +1,141 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Log Zoom meetings to Salesforce Accounts and Opportunities
+  description: For each Zoom meeting with external invitees, create a Salesforce Event + Task on the matching Contact and any open Opportunity, including the meeting recording link.
+  tags:
+  - Salesforce
+  - Integration
+  - Meetings
+  - zoom
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+    ZOOM_API_KEY: ZOOM_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce
+    baseUri: https://yourinstance.my.salesforce.com
+    description: Salesforce API operations consumed by this integration.
+    resources:
+    - name: services-data-v60-0-sobjects-event
+      path: /services/data/v60.0/sobjects/Event
+      operations:
+      - name: createevent
+        method: POST
+        description: Create a Salesforce Event for the Zoom meeting.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: services-data-v60-0-sobjects-task
+      path: /services/data/v60.0/sobjects/Task
+      operations:
+      - name: createtask
+        method: POST
+        description: Create a Salesforce Task with the recording link.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: services-data-v60-0-query
+      path: /services/data/v60.0/query
+      operations:
+      - name: queryrelatedrecords
+        method: GET
+        description: SOQL query for Contact + open Opportunity by attendee email.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters: []
+  - type: http
+    namespace: zoom
+    baseUri: https://api.zoom.us
+    description: Zoom API operations consumed by this integration.
+    resources:
+    - name: v2-meetings-meetingid
+      path: /v2/meetings/{meetingId}
+      operations:
+      - name: getmeeting
+        method: GET
+        description: 'Zoom API: getMeeting'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: meetingId
+          in: path
+          type: string
+          description: Path parameter meetingId.
+          required: true
+    - name: v2-meetings-meetingid-recordings
+      path: /v2/meetings/{meetingId}/recordings
+      operations:
+      - name: getrecordings
+        method: GET
+        description: 'Zoom API: getRecordings'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: meetingId
+          in: path
+          type: string
+          description: Path parameter meetingId.
+          required: true
+  exposes:
+  - type: mcp
+    namespace: salesforce-zoom-mcp
+    description: MCP adapter for the salesforce-zoom integration.
+    tools:
+    - name: salesforce_zoom
+      description: Execute the salesforce zoom integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: salesforce-zoom-rest
+    port: 8080
+    description: REST adapter for the salesforce-zoom integration.
+    resources:
+    - path: /salesforce-zoom
+      name: salesforce-zoom
+      description: REST surface for the salesforce-zoom integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the salesforce-zoom integration.
+        call: salesforce_zoom
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

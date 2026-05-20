@@ -1,0 +1,117 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Stream Salesforce data into Snowflake CDP
+  description: Bulk-export Salesforce Accounts, Contacts, Opportunities, and Cases into Snowflake (or Snowflake's customer data cloud) for unified analytics and reverse ETL.
+  tags:
+  - Salesforce
+  - Integration
+  - Data warehouse
+  - snowflake
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+    SNOWFLAKE_API_KEY: SNOWFLAKE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce
+    baseUri: https://yourinstance.my.salesforce.com
+    description: Salesforce API operations consumed by this integration.
+    resources:
+    - name: services-data-v60-0-jobs-ingest
+      path: /services/data/v60.0/jobs/ingest
+      operations:
+      - name: createbulkjob
+        method: POST
+        description: Create a Salesforce Bulk API 2.0 ingest / query job.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: services-data-v60-0-jobs-query-jobid-results
+      path: /services/data/v60.0/jobs/query/{jobId}/results
+      operations:
+      - name: getbulkresults
+        method: GET
+        description: Stream results of a completed Bulk API query job.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: jobId
+          in: path
+          type: string
+          description: Path parameter jobId.
+          required: true
+  - type: http
+    namespace: snowflake
+    baseUri: https://account.snowflakecomputing.com
+    description: Snowflake Snowpipe REST API operations consumed by this integration.
+    resources:
+    - name: v1-data-pipes-pipe-insertfiles
+      path: /v1/data/pipes/{pipe}/insertFiles
+      operations:
+      - name: insertfiles
+        method: POST
+        description: 'Snowflake Snowpipe REST API: insertFiles'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: pipe
+          in: path
+          type: string
+          description: Path parameter pipe.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: mcp
+    namespace: salesforce-snowflake-mcp
+    description: MCP adapter for the salesforce-snowflake integration.
+    tools:
+    - name: salesforce_snowflake
+      description: Execute the salesforce snowflake integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: salesforce-snowflake-rest
+    port: 8080
+    description: REST adapter for the salesforce-snowflake integration.
+    resources:
+    - path: /salesforce-snowflake
+      name: salesforce-snowflake
+      description: REST surface for the salesforce-snowflake integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the salesforce-snowflake integration.
+        call: salesforce_snowflake
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

@@ -1,0 +1,107 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Push Salesforce Opportunity stage changes into Slack
+  description: When a Salesforce Opportunity changes stage (especially Closed Won / Lost), post a notification to the deal team Slack channel with amount, owner, and next steps.
+  tags:
+  - Salesforce
+  - Integration
+  - Collaboration
+  - slack
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+    SLACK_API_KEY: SLACK_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce
+    baseUri: https://yourinstance.my.salesforce.com
+    description: Salesforce API operations consumed by this integration.
+    resources:
+    - name: services-data-v60-0-sobjects-opportunity-id
+      path: /services/data/v60.0/sobjects/Opportunity/{id}
+      operations:
+      - name: getopportunity
+        method: GET
+        description: Fetch a Salesforce Opportunity by Id.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: Path parameter id.
+          required: true
+    - name: services-data-v60-0-query
+      path: /services/data/v60.0/query
+      operations:
+      - name: queryowner
+        method: GET
+        description: SOQL query to look up the Opportunity owner and account context.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters: []
+  - type: http
+    namespace: slack
+    baseUri: https://slack.com
+    description: Slack Web API operations consumed by this integration.
+    resources:
+    - name: api-chat-postmessage
+      path: /api/chat.postMessage
+      operations:
+      - name: postmessage
+        method: POST
+        description: 'Slack Web API: postMessage'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: mcp
+    namespace: salesforce-slack-mcp
+    description: MCP adapter for the salesforce-slack integration.
+    tools:
+    - name: salesforce_slack
+      description: Execute the salesforce slack integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: salesforce-slack-rest
+    port: 8080
+    description: REST adapter for the salesforce-slack integration.
+    resources:
+    - path: /salesforce-slack
+      name: salesforce-slack
+      description: REST surface for the salesforce-slack integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the salesforce-slack integration.
+        call: salesforce_slack
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

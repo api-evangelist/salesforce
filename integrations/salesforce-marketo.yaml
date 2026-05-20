@@ -1,0 +1,141 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Promote Marketo MQLs to Salesforce Leads
+  description: When Marketo scores a lead as MQL, create or update the matching Salesforce Lead with lead source, score, and campaign attribution, then assign to a sales queue.
+  tags:
+  - Salesforce
+  - Integration
+  - Marketing automation
+  - marketo
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+    MARKETO_API_KEY: MARKETO_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce
+    baseUri: https://yourinstance.my.salesforce.com
+    description: Salesforce API operations consumed by this integration.
+    resources:
+    - name: services-data-v60-0-sobjects-lead
+      path: /services/data/v60.0/sobjects/Lead
+      operations:
+      - name: createlead
+        method: POST
+        description: Create a Salesforce Lead record.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: services-data-v60-0-sobjects-lead-id
+      path: /services/data/v60.0/sobjects/Lead/{id}
+      operations:
+      - name: updatelead
+        method: PATCH
+        description: Update a Salesforce Lead by Id.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: Path parameter id.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: services-data-v60-0-query
+      path: /services/data/v60.0/query
+      operations:
+      - name: queryleads
+        method: GET
+        description: SOQL query existing Leads by email.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters: []
+  - type: http
+    namespace: marketo
+    baseUri: https://yourinstance.mktorest.com
+    description: Marketo REST API operations consumed by this integration.
+    resources:
+    - name: rest-v1-leads-json
+      path: /rest/v1/leads.json
+      operations:
+      - name: getleads
+        method: GET
+        description: 'Marketo REST API: getLeads'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters: []
+    - name: rest-v1-leads-json
+      path: /rest/v1/leads.json
+      operations:
+      - name: syncleads
+        method: POST
+        description: 'Marketo REST API: syncLeads'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: mcp
+    namespace: salesforce-marketo-mcp
+    description: MCP adapter for the salesforce-marketo integration.
+    tools:
+    - name: salesforce_marketo
+      description: Execute the salesforce marketo integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: salesforce-marketo-rest
+    port: 8080
+    description: REST adapter for the salesforce-marketo integration.
+    resources:
+    - path: /salesforce-marketo
+      name: salesforce-marketo
+      description: REST surface for the salesforce-marketo integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the salesforce-marketo integration.
+        call: salesforce_marketo
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

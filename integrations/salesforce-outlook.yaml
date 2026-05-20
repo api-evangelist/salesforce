@@ -1,0 +1,112 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Sync Outlook calendar meetings to Salesforce Events
+  description: For each Outlook calendar meeting with external attendees that match Salesforce Contacts, create a Salesforce Event record linked to the right Account or Opportunity.
+  tags:
+  - Salesforce
+  - Integration
+  - Email
+  - outlook
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+    OUTLOOK_API_KEY: OUTLOOK_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce
+    baseUri: https://yourinstance.my.salesforce.com
+    description: Salesforce API operations consumed by this integration.
+    resources:
+    - name: services-data-v60-0-sobjects-event
+      path: /services/data/v60.0/sobjects/Event
+      operations:
+      - name: createevent
+        method: POST
+        description: Create a Salesforce Event linked to the right WhoId / WhatId.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: services-data-v60-0-query
+      path: /services/data/v60.0/query
+      operations:
+      - name: queryrelatedrecords
+        method: GET
+        description: SOQL query to find related Contact and Opportunity by attendee email.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters: []
+  - type: http
+    namespace: outlook
+    baseUri: https://graph.microsoft.com
+    description: Microsoft Graph API operations consumed by this integration.
+    resources:
+    - name: v1-0-users-userid-events-eventid
+      path: /v1.0/users/{userId}/events/{eventId}
+      operations:
+      - name: getevent
+        method: GET
+        description: 'Microsoft Graph API: getEvent'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: userId
+          in: path
+          type: string
+          description: Path parameter userId.
+          required: true
+        - name: eventId
+          in: path
+          type: string
+          description: Path parameter eventId.
+          required: true
+  exposes:
+  - type: mcp
+    namespace: salesforce-outlook-mcp
+    description: MCP adapter for the salesforce-outlook integration.
+    tools:
+    - name: salesforce_outlook
+      description: Execute the salesforce outlook integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: salesforce-outlook-rest
+    port: 8080
+    description: REST adapter for the salesforce-outlook integration.
+    resources:
+    - path: /salesforce-outlook
+      name: salesforce-outlook
+      description: REST surface for the salesforce-outlook integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the salesforce-outlook integration.
+        call: salesforce_outlook
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.

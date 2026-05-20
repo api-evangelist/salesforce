@@ -1,0 +1,122 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Generate DocuSign envelopes from Salesforce Opportunities
+  description: When a Salesforce Opportunity reaches the Proposal stage, generate a DocuSign envelope from a contract template populated with Opportunity, Account, and Contact data.
+  tags:
+  - Salesforce
+  - Integration
+  - Documents
+  - docusign
+  created: '2026-05-20'
+  modified: '2026-05-20'
+binds:
+- namespace: env
+  keys:
+    SALESFORCE_API_KEY: SALESFORCE_API_KEY
+    DOCUSIGN_API_KEY: DOCUSIGN_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: salesforce
+    baseUri: https://yourinstance.my.salesforce.com
+    description: Salesforce API operations consumed by this integration.
+    resources:
+    - name: services-data-v60-0-sobjects-opportunity-id
+      path: /services/data/v60.0/sobjects/Opportunity/{id}
+      operations:
+      - name: getopportunity
+        method: GET
+        description: Fetch the Opportunity used to populate the envelope.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: Path parameter id.
+          required: true
+    - name: services-data-v60-0-sobjects-opportunity-id
+      path: /services/data/v60.0/sobjects/Opportunity/{id}
+      operations:
+      - name: updateopportunity
+        method: PATCH
+        description: Update the Opportunity with envelope id and status.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: Path parameter id.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  - type: http
+    namespace: docusign
+    baseUri: https://demo.docusign.net
+    description: DocuSign eSignature REST API operations consumed by this integration.
+    resources:
+    - name: restapi-v2-1-accounts-accountid-envelopes
+      path: /restapi/v2.1/accounts/{accountId}/envelopes
+      operations:
+      - name: createenvelope
+        method: POST
+        description: 'DocuSign eSignature REST API: createEnvelope'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: accountId
+          in: path
+          type: string
+          description: Path parameter accountId.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: mcp
+    namespace: salesforce-docusign-mcp
+    description: MCP adapter for the salesforce-docusign integration.
+    tools:
+    - name: salesforce_docusign
+      description: Execute the salesforce docusign integration end-to-end.
+      inputSchema:
+        type: object
+        properties:
+          trigger_event:
+            type: object
+            description: Triggering event payload.
+        required:
+        - trigger_event
+  - type: rest
+    namespace: salesforce-docusign-rest
+    port: 8080
+    description: REST adapter for the salesforce-docusign integration.
+    resources:
+    - path: /salesforce-docusign
+      name: salesforce-docusign
+      description: REST surface for the salesforce-docusign integration.
+      operations:
+      - method: POST
+        name: trigger
+        description: Trigger the salesforce-docusign integration.
+        call: salesforce_docusign
+        with:
+          trigger_event: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
