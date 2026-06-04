@@ -1,0 +1,99 @@
+arazzo: 1.0.1
+info:
+  title: Salesforce Upsert by External Id
+  summary: Create or update an SObject record keyed on an external id field value.
+  description: >-
+    The canonical Salesforce integration pattern for syncing records from an
+    external system of record. The workflow upserts a record by SObject type and
+    an external id field: Salesforce creates a new record when no match exists
+    for the supplied external id value and updates the existing record when one
+    does. The matched or created record is then retrieved by the same external
+    id so callers can confirm the persisted state. Every step spells out its
+    request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: salesforce
+  url: ../openapi/salesforce-openapi.yml
+  type: openapi
+workflows:
+- workflowId: upsert-by-external-id
+  summary: Upsert a Salesforce SObject record by an external id field.
+  description: >-
+    Upserts a record of the given SObject type using an external id field and
+    value, then reads the record back by the same external id to verify the
+    result.
+  inputs:
+    type: object
+    required:
+    - sobjectApiName
+    - externalIdField
+    - externalIdValue
+    - fields
+    properties:
+      sobjectApiName:
+        type: string
+        description: >-
+          The API name of the Salesforce SObject type (e.g. Account, Contact,
+          MyCustomObject__c).
+      externalIdField:
+        type: string
+        description: >-
+          The API name of the external id field to match on (e.g.
+          External_Id__c).
+      externalIdValue:
+        type: string
+        description: The value of the external id field used to match a record.
+      fields:
+        type: object
+        description: >-
+          Map of field API name to value to write to the matched or created
+          record.
+  steps:
+  - stepId: upsertRecord
+    description: >-
+      Upsert the record by external id field and value. Salesforce creates a new
+      record when no match exists and updates the existing record when one does.
+    operationId: SObjectRowsbyExternalID
+    parameters:
+    - name: SOBJECT_API_NAME
+      in: path
+      value: $inputs.sobjectApiName
+    - name: FIELD_NAME
+      in: path
+      value: $inputs.externalIdField
+    - name: FIELD_VALUE
+      in: path
+      value: $inputs.externalIdValue
+    - name: Content-Type
+      in: header
+      value: application/json
+    requestBody:
+      contentType: application/json
+      payload: $inputs.fields
+    successCriteria:
+    - condition: $statusCode == 200
+  - stepId: getUpsertedRecord
+    description: >-
+      Retrieve the upserted record back by the same SObject type and external id
+      field to confirm the persisted field values.
+    operationId: SObjectRowsbyExternalID
+    parameters:
+    - name: SOBJECT_API_NAME
+      in: path
+      value: $inputs.sobjectApiName
+    - name: FIELD_NAME
+      in: path
+      value: $inputs.externalIdField
+    - name: FIELD_VALUE
+      in: path
+      value: $inputs.externalIdValue
+    - name: Content-Type
+      in: header
+      value: application/json
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      record: $response.body
+  outputs:
+    record: $steps.getUpsertedRecord.outputs.record

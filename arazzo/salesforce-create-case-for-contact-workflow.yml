@@ -1,0 +1,89 @@
+arazzo: 1.0.1
+info:
+  title: Salesforce Create Case for Contact
+  summary: Create a support Case associated with an existing Contact and Account.
+  description: >-
+    A common service-process pattern: log a new Case and tie it to the Contact
+    who raised it and the Account they belong to. The workflow inserts a Case
+    record whose ContactId and AccountId reference existing records, so the Case
+    appears under both the Contact and the Account. Every step spells out its
+    request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: salesforceRestApi
+  url: ../openapi/salesforce-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: create-case-for-contact
+  summary: Create a Case linked to a Contact and Account.
+  description: >-
+    Inserts a Case record that references a supplied Contact and Account so the
+    new Case is associated with both on the standard related lists.
+  inputs:
+    type: object
+    required:
+    - contactId
+    - subject
+    properties:
+      contactId:
+        type: string
+        description: The 18-character Id of the Contact the Case is for.
+      accountId:
+        type: string
+        description: The 18-character Id of the Account the Case is associated with.
+      subject:
+        type: string
+        description: A short summary of the Case.
+      description:
+        type: string
+        description: The detailed description of the issue.
+      priority:
+        type: string
+        description: The Case priority (e.g. High, Medium, Low).
+      origin:
+        type: string
+        description: How the Case was received (e.g. Phone, Email, Web).
+  steps:
+  - stepId: createCase
+    description: >-
+      Insert a new Case record referencing the supplied Contact and Account so
+      the Case is linked to both.
+    operationId: createRecord
+    parameters:
+    - name: sobjectType
+      in: path
+      value: Case
+    requestBody:
+      contentType: application/json
+      payload:
+        ContactId: $inputs.contactId
+        AccountId: $inputs.accountId
+        Subject: $inputs.subject
+        Description: $inputs.description
+        Priority: $inputs.priority
+        Origin: $inputs.origin
+        Status: New
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      caseId: $response.body#/id
+  - stepId: getCase
+    description: >-
+      Read back the newly created Case to confirm it was stored and to surface
+      its fields for downstream use.
+    operationId: getRecord
+    parameters:
+    - name: sobjectType
+      in: path
+      value: Case
+    - name: id
+      in: path
+      value: $steps.createCase.outputs.caseId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      case: $response.body
+  outputs:
+    caseId: $steps.createCase.outputs.caseId
+    case: $steps.getCase.outputs.case

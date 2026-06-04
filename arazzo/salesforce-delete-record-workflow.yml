@@ -1,0 +1,72 @@
+arazzo: 1.0.1
+info:
+  title: Salesforce Delete Record
+  summary: Delete an SObject record by id after confirming it exists.
+  description: >-
+    Safely removes a Salesforce record by SObject type and id. The workflow
+    first retrieves the record to confirm it exists, then issues the delete,
+    which moves the record to the Recycle Bin (or permanently removes it for
+    objects without soft delete) and returns no body on success. Every step
+    spells out its request inline so the flow can be read and executed without
+    opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: salesforceRestApi
+  url: ../openapi/salesforce-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: delete-record
+  summary: Confirm a Salesforce SObject record exists, then delete it by id.
+  description: >-
+    Reads the target record by SObject type and id to confirm it exists, then
+    deletes it.
+  inputs:
+    type: object
+    required:
+    - sobjectType
+    - id
+    properties:
+      sobjectType:
+        type: string
+        description: >-
+          The API name of the Salesforce SObject type (e.g. Account, Contact,
+          MyCustomObject__c).
+      id:
+        type: string
+        description: The 15- or 18-character Salesforce record id to delete.
+  steps:
+  - stepId: getRecord
+    description: >-
+      Retrieve the record by SObject type and id to confirm it exists before
+      deleting it.
+    operationId: getRecord
+    parameters:
+    - name: sobjectType
+      in: path
+      value: $inputs.sobjectType
+    - name: id
+      in: path
+      value: $inputs.id
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      record: $response.body
+  - stepId: deleteRecord
+    description: >-
+      Delete the record by SObject type and id. Returns no body on success
+      (HTTP 204).
+    operationId: deleteRecord
+    parameters:
+    - name: sobjectType
+      in: path
+      value: $inputs.sobjectType
+    - name: id
+      in: path
+      value: $inputs.id
+    successCriteria:
+    - condition: $statusCode == 204
+    outputs:
+      statusCode: $statusCode
+  outputs:
+    deletedRecordId: $inputs.id
+    statusCode: $steps.deleteRecord.outputs.statusCode

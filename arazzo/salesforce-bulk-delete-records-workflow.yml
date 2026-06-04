@@ -1,0 +1,142 @@
+arazzo: 1.0.1
+info:
+  title: Salesforce Bulk Delete Records
+  summary: Run the full Bulk API 2.0 delete lifecycle — create a delete ingest job, upload a CSV of Ids, close, poll, and read successful results.
+  description: >-
+    The Bulk API 2.0 ingest lifecycle for soft-deleting many records at once.
+    The workflow creates a delete ingest job for a target object, uploads a CSV
+    whose single Id column lists the records to remove, closes the job to begin
+    processing, polls the job state until it reaches JobComplete (branching to
+    retry while InProgress and to fail if the job reports Failed or Aborted),
+    and finally retrieves the CSV of successfully deleted records. Every step
+    spells out its request inline so the flow can be read and executed without
+    opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: salesforceBulkApi
+  url: ../openapi/salesforce-bulk-api-2-openapi.yml
+  type: openapi
+workflows:
+- workflowId: bulk-delete-records
+  summary: Bulk delete records from a Salesforce object via the Bulk API 2.0 ingest lifecycle.
+  description: >-
+    Creates a delete ingest job, uploads a CSV of record Ids, closes the job,
+    polls until JobComplete, and returns the successful results CSV.
+  inputs:
+    type: object
+    required:
+    - object
+    - csvData
+    properties:
+      object:
+        type: string
+        description: The API name of the SObject to delete records from (e.g. Account).
+      csvData:
+        type: string
+        description: >-
+          CSV payload whose header is a single Id column followed by one record
+          Id per row to soft-delete.
+      lineEnding:
+        type: string
+        description: Line ending used in the CSV data (LF or CRLF). Defaults to LF.
+  steps:
+  - stepId: createJob
+    description: >-
+      Create a new Bulk API 2.0 ingest job configured for the delete operation
+      against the target object. The job starts in the Open state.
+    operationId: createIngestJob
+    requestBody:
+      contentType: application/json
+      payload:
+        operation: delete
+        object: $inputs.object
+        contentType: CSV
+        lineEnding: $inputs.lineEnding
+        columnDelimiter: COMMA
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      jobId: $response.body#/id
+      state: $response.body#/state
+  - stepId: uploadData
+    description: >-
+      Upload the CSV of record Ids to the open ingest job. The header row must
+      contain the single Id column.
+    operationId: uploadJobData
+    parameters:
+    - name: jobId
+      in: path
+      value: $steps.createJob.outputs.jobId
+    requestBody:
+      contentType: text/csv
+      payload: $inputs.csvData
+    successCriteria:
+    - condition: $statusCode == 201
+  - stepId: closeJob
+    description: >-
+      Close the ingest job by setting its state to UploadComplete, which tells
+      Salesforce to begin processing the deletions.
+    operationId: updateIngestJob
+    parameters:
+    - name: jobId
+      in: path
+      value: $steps.createJob.outputs.jobId
+    requestBody:
+      contentType: application/json
+      payload:
+        state: UploadComplete
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      state: $response.body#/state
+  - stepId: pollJob
+    description: >-
+      Poll the ingest job state. When the job reaches JobComplete, continue to
+      retrieve results; while still InProgress or UploadComplete, loop back to
+      poll again; if the job Failed or Aborted, stop the workflow.
+    operationId: getIngestJobInfo
+    parameters:
+    - name: jobId
+      in: path
+      value: $steps.createJob.outputs.jobId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      state: $response.body#/state
+      numberRecordsProcessed: $response.body#/numberRecordsProcessed
+      numberRecordsFailed: $response.body#/numberRecordsFailed
+    onSuccess:
+    - name: jobComplete
+      type: goto
+      stepId: getResults
+      criteria:
+      - condition: $response.body#/state == "JobComplete"
+    - name: stillProcessing
+      type: goto
+      stepId: pollJob
+      criteria:
+      - condition: $response.body#/state == "InProgress"
+    onFailure:
+    - name: jobFailed
+      type: end
+      criteria:
+      - condition: $response.body#/state == "Failed"
+  - stepId: getResults
+    description: >-
+      Retrieve the CSV of successfully deleted records once the job has reached
+      JobComplete.
+    operationId: getSuccessfulResults
+    parameters:
+    - name: jobId
+      in: path
+      value: $steps.createJob.outputs.jobId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      successfulResults: $response.body
+  outputs:
+    jobId: $steps.createJob.outputs.jobId
+    state: $steps.pollJob.outputs.state
+    numberRecordsProcessed: $steps.pollJob.outputs.numberRecordsProcessed
+    numberRecordsFailed: $steps.pollJob.outputs.numberRecordsFailed
+    successfulResults: $steps.getResults.outputs.successfulResults

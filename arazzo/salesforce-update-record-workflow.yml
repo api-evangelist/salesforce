@@ -1,0 +1,78 @@
+arazzo: 1.0.1
+info:
+  title: Salesforce Update Record
+  summary: Update fields on an existing SObject record then read it back to confirm.
+  description: >-
+    Updates an existing Salesforce record by SObject type and id, changing only
+    the fields included in the request body and leaving all other fields intact.
+    Because the update endpoint returns no body on success, the workflow then
+    retrieves the record by id so callers can confirm the new field values were
+    persisted. Every step spells out its request inline so the flow can be read
+    and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: salesforceRestApi
+  url: ../openapi/salesforce-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: update-record
+  summary: Update fields on a Salesforce SObject record and verify the change.
+  description: >-
+    Patches the supplied fields onto an existing record identified by SObject
+    type and id, then reads the record back to confirm the persisted values.
+  inputs:
+    type: object
+    required:
+    - sobjectType
+    - id
+    - fields
+    properties:
+      sobjectType:
+        type: string
+        description: >-
+          The API name of the Salesforce SObject type (e.g. Account, Contact,
+          MyCustomObject__c).
+      id:
+        type: string
+        description: The 15- or 18-character Salesforce record id to update.
+      fields:
+        type: object
+        description: >-
+          Map of field API name to new value. Only the fields included are
+          changed; omitted fields retain their current values.
+  steps:
+  - stepId: updateRecord
+    description: >-
+      Patch the supplied field values onto the existing record. Returns no body
+      on success (HTTP 204).
+    operationId: updateRecord
+    parameters:
+    - name: sobjectType
+      in: path
+      value: $inputs.sobjectType
+    - name: id
+      in: path
+      value: $inputs.id
+    requestBody:
+      contentType: application/json
+      payload: $inputs.fields
+    successCriteria:
+    - condition: $statusCode == 204
+  - stepId: getRecord
+    description: >-
+      Retrieve the updated record by SObject type and id to confirm the new
+      field values were persisted.
+    operationId: getRecord
+    parameters:
+    - name: sobjectType
+      in: path
+      value: $inputs.sobjectType
+    - name: id
+      in: path
+      value: $inputs.id
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      record: $response.body
+  outputs:
+    record: $steps.getRecord.outputs.record

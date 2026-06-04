@@ -1,0 +1,93 @@
+arazzo: 1.0.1
+info:
+  title: Salesforce Marketing Cloud Look Up and Remove a Contact
+  summary: Authenticate, read a specific contact by its contact key, then delete it.
+  description: >-
+    A contact lifecycle pattern for Marketing Cloud. The workflow obtains an
+    OAuth 2.0 access token, reads a single contact by its contact key to return
+    the contact's status and attribute sets, then removes the contact (for
+    example to satisfy a data-removal request). The Marketing Cloud REST
+    description exposes read and delete contact operations but no create or
+    update contact operation, so this workflow focuses on the lookup-and-remove
+    cycle. Every step spells out its request inline so the flow can be read and
+    executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: salesforceMarketingCloudApi
+  url: ../openapi/salesforce-marketing-cloud-rest-openapi.yml
+  type: openapi
+workflows:
+- workflowId: manage-contacts
+  summary: Read a specific contact by its contact key, then delete the contact.
+  description: >-
+    Acquires an access token, reads the contact identified by the supplied
+    contact key to return its status and attribute sets, then deletes the
+    contact by contact key.
+  inputs:
+    type: object
+    required:
+    - clientId
+    - clientSecret
+    - contactKey
+    properties:
+      clientId:
+        type: string
+        description: The client ID of the Marketing Cloud installed package API integration.
+      clientSecret:
+        type: string
+        description: The client secret of the Marketing Cloud installed package API integration.
+      contactKey:
+        type: string
+        description: The unique contact key (subscriber key) of the contact to retrieve and delete.
+  steps:
+  - stepId: authenticate
+    description: >-
+      Obtain an OAuth 2.0 access token using the client credentials grant for
+      server-to-server access to the Marketing Cloud REST API.
+    operationId: getAccessToken
+    requestBody:
+      contentType: application/json
+      payload:
+        grant_type: client_credentials
+        client_id: $inputs.clientId
+        client_secret: $inputs.clientSecret
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      accessToken: $response.body#/access_token
+      restInstanceUrl: $response.body#/rest_instance_url
+  - stepId: getContact
+    description: >-
+      Read the contact identified by the supplied contact key, returning its
+      status and attribute sets before removal.
+    operationId: getContact
+    parameters:
+    - name: contactKey
+      in: path
+      value: $inputs.contactKey
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      contactKey: $response.body#/contactKey
+      contactId: $response.body#/contactId
+      contactStatus: $response.body#/contactStatus
+      attributeSets: $response.body#/attributeSets
+  - stepId: deleteContact
+    description: >-
+      Delete the contact by contact key, removing the subscriber and its data
+      from the Marketing Cloud account.
+    operationId: deleteContacts
+    requestBody:
+      contentType: application/json
+      payload:
+        contactKeys:
+        - $inputs.contactKey
+        deleteOperationType: ContactAndAttributes
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      operationStatus: $response.body#/operationStatus
+  outputs:
+    contactKey: $steps.getContact.outputs.contactKey
+    contactStatus: $steps.getContact.outputs.contactStatus
+    deleteStatus: $steps.deleteContact.outputs.operationStatus

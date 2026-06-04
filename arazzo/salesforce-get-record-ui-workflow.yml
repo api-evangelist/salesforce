@@ -1,0 +1,86 @@
+arazzo: 1.0.1
+info:
+  title: Salesforce Get a Record UI Representation
+  summary: Fetch a record's UI API representation with its object metadata and layout fields.
+  description: >-
+    A foundational Salesforce UI API pattern used by Lightning components to
+    render a record. The workflow first reads the object's metadata to confirm
+    the object exists and to learn its fields, then retrieves the record itself
+    formatted for display, including field values, labels, editability, and the
+    record type info. Every step spells out its request inline so the flow can
+    be read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: salesforceUiApi
+  url: ../openapi/salesforce-ui-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: get-record-ui
+  summary: Retrieve a Salesforce record's UI representation with object metadata.
+  description: >-
+    Reads the object metadata for the supplied object, then loads the record's
+    UI API representation using the requested layout so a client can render the
+    record with the correct fields, labels, and metadata.
+  inputs:
+    type: object
+    required:
+    - objectApiName
+    - recordId
+    properties:
+      objectApiName:
+        type: string
+        description: The API name of the Salesforce object (e.g. Account, Contact, MyObject__c).
+      recordId:
+        type: string
+        description: The 18-character Salesforce record ID to retrieve.
+      layoutTypes:
+        type: string
+        description: Layout type used to determine which fields to return (Full or Compact).
+        default: Full
+      modes:
+        type: string
+        description: View mode for the layout (View, Edit, Create).
+        default: View
+  steps:
+  - stepId: getObjectMetadata
+    description: >-
+      Read the object metadata to confirm the object exists and to learn its
+      fields, labels, and CRUD permissions before loading the record.
+    operationId: getObjectInfo
+    parameters:
+    - name: objectApiName
+      in: path
+      value: $inputs.objectApiName
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      apiName: $response.body#/apiName
+      fields: $response.body#/fields
+      recordTypeInfos: $response.body#/recordTypeInfos
+  - stepId: getRecordUi
+    description: >-
+      Load the record's UI API representation using the requested layout so the
+      client receives field values alongside their display metadata.
+    operationId: getRecord
+    parameters:
+    - name: recordId
+      in: path
+      value: $inputs.recordId
+    - name: layoutTypes
+      in: query
+      value: $inputs.layoutTypes
+    - name: modes
+      in: query
+      value: $inputs.modes
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      id: $response.body#/id
+      apiName: $response.body#/apiName
+      fields: $response.body#/fields
+      recordTypeId: $response.body#/recordTypeId
+      lastModifiedDate: $response.body#/lastModifiedDate
+  outputs:
+    recordId: $steps.getRecordUi.outputs.id
+    recordFields: $steps.getRecordUi.outputs.fields
+    objectFields: $steps.getObjectMetadata.outputs.fields

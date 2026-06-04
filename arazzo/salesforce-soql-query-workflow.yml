@@ -1,0 +1,89 @@
+arazzo: 1.0.1
+info:
+  title: Salesforce SOQL Query
+  summary: Run a SOQL query then page additional results via the queryMore token.
+  description: >-
+    Executes a SOQL query against Salesforce data and handles pagination. The
+    first step runs the query and inspects the done flag: when the result set
+    spans multiple pages, Salesforce returns a nextRecordsUrl whose trailing
+    token identifies the next batch, and the workflow fetches that next page by
+    query id. When the first response is already complete the paging step is
+    skipped. Every step spells out its request inline so the flow can be read
+    and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: salesforceRestApi
+  url: ../openapi/salesforce-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: soql-query
+  summary: Run a SOQL query and page the next batch of results when more remain.
+  description: >-
+    Executes a SOQL statement, captures totalSize, done, nextRecordsUrl and the
+    first page of records, then retrieves the next page by query id when the
+    result set is not yet complete.
+  inputs:
+    type: object
+    required:
+    - soql
+    properties:
+      soql:
+        type: string
+        description: >-
+          The SOQL query string to execute (e.g. SELECT Id, Name FROM Account
+          ORDER BY CreatedDate DESC LIMIT 500).
+      queryId:
+        type: string
+        description: >-
+          The query id token taken from the trailing segment of a previous
+          response's nextRecordsUrl, used to fetch the next page of results.
+  steps:
+  - stepId: runQuery
+    description: >-
+      Execute the SOQL query. Returns totalSize, a done flag, the first page of
+      records, and a nextRecordsUrl when more pages remain.
+    operationId: executeQuery
+    requestBody:
+      contentType: application/json
+      payload:
+        q: $inputs.soql
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      totalSize: $response.body#/totalSize
+      done: $response.body#/done
+      nextRecordsUrl: $response.body#/nextRecordsUrl
+      records: $response.body#/records
+    onSuccess:
+    - name: morePages
+      type: goto
+      stepId: queryMore
+      criteria:
+      - context: $response.body
+        condition: $.done == false
+        type: jsonpath
+    - name: complete
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.done == true
+        type: jsonpath
+  - stepId: queryMore
+    description: >-
+      Fetch the next page of query results using the query id taken from the
+      previous response's nextRecordsUrl. Repeat until the done flag is true.
+    operationId: getNextQueryPage
+    parameters:
+    - name: queryId
+      in: path
+      value: $inputs.queryId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      done: $response.body#/done
+      nextRecordsUrl: $response.body#/nextRecordsUrl
+      records: $response.body#/records
+  outputs:
+    totalSize: $steps.runQuery.outputs.totalSize
+    firstPageRecords: $steps.runQuery.outputs.records
+    nextPageRecords: $steps.queryMore.outputs.records

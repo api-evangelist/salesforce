@@ -1,0 +1,50 @@
+arazzo: 1.0.1
+info:
+  title: Salesforce SOSL Search
+  summary: Run a SOSL full-text search across multiple SObjects in a single call.
+  description: >-
+    Executes a SOSL search query that spans multiple Salesforce objects at once.
+    The search string is supplied as the q query parameter and must include a
+    FIND clause and optionally IN, RETURNING and WITH clauses. The workflow runs
+    the search and captures the flattened searchRecords array of matching
+    records grouped across the targeted objects. Every step spells out its
+    request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: salesforceRestApi
+  url: ../openapi/salesforce-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: sosl-search
+  summary: Run a SOSL search across objects and capture the matching records.
+  description: >-
+    Executes a SOSL FIND query against the org and returns the searchRecords
+    array of records matched across the searched objects.
+  inputs:
+    type: object
+    required:
+    - sosl
+    properties:
+      sosl:
+        type: string
+        description: >-
+          The SOSL search string to execute, including a FIND clause and
+          optional IN, RETURNING and WITH clauses (e.g. FIND {Acme} IN ALL
+          FIELDS RETURNING Account(Id, Name), Contact(Id, Name)).
+  steps:
+  - stepId: runSearch
+    description: >-
+      Execute the SOSL search across the targeted objects and return the
+      matching records grouped in the searchRecords array.
+    operationId: executeSearch
+    parameters:
+    - name: q
+      in: query
+      value: $inputs.sosl
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      searchRecords: $response.body#/searchRecords
+  outputs:
+    searchRecords: $steps.runSearch.outputs.searchRecords

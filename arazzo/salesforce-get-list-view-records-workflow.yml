@@ -1,0 +1,90 @@
+arazzo: 1.0.1
+info:
+  title: Salesforce Get Records for a List View
+  summary: Discover an object's list views, then load the records for a chosen list view.
+  description: >-
+    Salesforce list views drive the tabular displays in the Lightning UI. This
+    workflow first enumerates the list views accessible for an object, then loads
+    the records and metadata for a specific list view with pagination so a client
+    can render a list with the correct columns, sort order, and a page of records.
+    Every step spells out its request inline so the flow can be read and executed
+    without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: salesforceUiApi
+  url: ../openapi/salesforce-ui-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: get-list-view-records
+  summary: Retrieve a page of records for a specific list view of an object.
+  description: >-
+    Lists the list views available for the supplied object, then loads the data
+    and metadata for the requested list view, returning a page of records along
+    with the sort configuration.
+  inputs:
+    type: object
+    required:
+    - objectApiName
+    - listViewApiName
+    properties:
+      objectApiName:
+        type: string
+        description: The API name of the Salesforce object (e.g. Account, Contact, MyObject__c).
+      listViewApiName:
+        type: string
+        description: The API name of the list view (e.g. AllAccounts, RecentlyViewed).
+      pageSize:
+        type: integer
+        description: Number of records per page.
+        default: 50
+      pageToken:
+        type: string
+        description: Token for retrieving a specific page of results.
+  steps:
+  - stepId: listListViews
+    description: >-
+      Enumerate the list views accessible to the current user for the object so
+      the requested list view can be confirmed before its records are loaded.
+    operationId: getListsByObjectName
+    parameters:
+    - name: objectApiName
+      in: path
+      value: $inputs.objectApiName
+    - name: pageSize
+      in: query
+      value: $inputs.pageSize
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      count: $response.body#/count
+      results: $response.body#/results
+      nextPageToken: $response.body#/nextPageToken
+  - stepId: getListViewRecords
+    description: >-
+      Load the data and metadata for the requested list view, returning a page
+      of records together with the list view label and sort configuration.
+    operationId: getListView
+    parameters:
+    - name: objectApiName
+      in: path
+      value: $inputs.objectApiName
+    - name: listViewApiName
+      in: path
+      value: $inputs.listViewApiName
+    - name: pageSize
+      in: query
+      value: $inputs.pageSize
+    - name: pageToken
+      in: query
+      value: $inputs.pageToken
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      id: $response.body#/id
+      label: $response.body#/label
+      records: $response.body#/records
+      sortBy: $response.body#/sortBy
+  outputs:
+    listViews: $steps.listListViews.outputs.results
+    listViewId: $steps.getListViewRecords.outputs.id
+    records: $steps.getListViewRecords.outputs.records

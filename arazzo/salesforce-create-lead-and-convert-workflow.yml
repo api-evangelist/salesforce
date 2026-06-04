@@ -1,0 +1,106 @@
+arazzo: 1.0.1
+info:
+  title: Salesforce Create Lead and Follow-up Records
+  summary: Create a Lead, then create the related Task and Campaign Member records that move it through the sales process.
+  description: >-
+    The Salesforce REST API description used here exposes generic SObject
+    create, update, and delete operations but does not include the dedicated
+    Lead convert resource, so this workflow adapts the classic
+    create-then-convert pattern into create-then-relate. It first inserts a new
+    Lead, then creates a follow-up Task linked to that Lead via WhoId, and
+    finally records a CampaignMember tying the Lead to a marketing campaign.
+    Every step spells out its request inline so the flow can be read and
+    executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: salesforceRestApi
+  url: ../openapi/salesforce-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: create-lead-and-relate
+  summary: Create a Lead and attach a follow-up Task and CampaignMember to it.
+  description: >-
+    Inserts a Lead record, then creates a Task whose WhoId references the new
+    Lead and a CampaignMember that associates the Lead with a campaign. The
+    underlying REST description has no Lead convert operation, so this models
+    the early sales-process steps that normally precede or accompany
+    conversion.
+  inputs:
+    type: object
+    required:
+    - lead
+    - campaignId
+    properties:
+      lead:
+        type: object
+        description: >-
+          Field map for the new Lead (e.g. LastName, Company, Email, Status).
+          LastName and Company are required by Salesforce for a Lead.
+      task:
+        type: object
+        description: >-
+          Field map for the follow-up Task (e.g. Subject, Status, Priority).
+          WhoId is supplied automatically from the created Lead.
+      campaignId:
+        type: string
+        description: The 18-character Campaign Id to associate the Lead with.
+  steps:
+  - stepId: createLead
+    description: >-
+      Insert a new Lead record using the supplied field values. Returns the
+      Id of the newly created Lead.
+    operationId: createRecord
+    parameters:
+    - name: sobjectType
+      in: path
+      value: Lead
+    requestBody:
+      contentType: application/json
+      payload: $inputs.lead
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      leadId: $response.body#/id
+  - stepId: createFollowUpTask
+    description: >-
+      Create a follow-up Task whose WhoId references the newly created Lead so
+      the activity appears on the Lead record.
+    operationId: createRecord
+    parameters:
+    - name: sobjectType
+      in: path
+      value: Task
+    requestBody:
+      contentType: application/json
+      payload:
+        Subject: $inputs.task.Subject
+        Status: $inputs.task.Status
+        Priority: $inputs.task.Priority
+        WhoId: $steps.createLead.outputs.leadId
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      taskId: $response.body#/id
+  - stepId: createCampaignMember
+    description: >-
+      Associate the new Lead with a marketing Campaign by creating a
+      CampaignMember record referencing both the Lead and the Campaign.
+    operationId: createRecord
+    parameters:
+    - name: sobjectType
+      in: path
+      value: CampaignMember
+    requestBody:
+      contentType: application/json
+      payload:
+        LeadId: $steps.createLead.outputs.leadId
+        CampaignId: $inputs.campaignId
+        Status: Responded
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      campaignMemberId: $response.body#/id
+  outputs:
+    leadId: $steps.createLead.outputs.leadId
+    taskId: $steps.createFollowUpTask.outputs.taskId
+    campaignMemberId: $steps.createCampaignMember.outputs.campaignMemberId

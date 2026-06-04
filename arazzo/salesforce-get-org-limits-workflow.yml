@@ -1,0 +1,37 @@
+arazzo: 1.0.1
+info:
+  title: Salesforce Get Org Limits
+  summary: Read the current org governor limits and remaining quotas.
+  description: >-
+    Monitors Salesforce org consumption by reading the current API limit usage
+    and remaining quotas. The response is a map of limit names (such as daily API
+    requests, bulk API jobs and streaming events) to objects carrying their Max
+    and Remaining values, letting callers track usage and avoid hitting governor
+    limits. Every step spells out its request inline so the flow can be read and
+    executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: salesforceRestApi
+  url: ../openapi/salesforce-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: get-org-limits
+  summary: Read the org's governor limits and remaining quotas.
+  description: >-
+    Retrieves the map of org limit names to their Max and Remaining values for
+    the current Salesforce org.
+  inputs:
+    type: object
+    properties: {}
+  steps:
+  - stepId: getOrgLimits
+    description: >-
+      Read the current API limit usage and remaining quotas for the org as a map
+      of limit names to their Max and Remaining values.
+    operationId: getOrgLimits
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      limits: $response.body
+  outputs:
+    limits: $steps.getOrgLimits.outputs.limits

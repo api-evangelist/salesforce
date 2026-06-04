@@ -152,45 +152,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /contacts/v1/contacts/{contactKey}:
-    get:
-      operationId: getContact
-      summary: Get a contact by contact key
-      description: >
-        Retrieves a single Marketing Cloud contact by their contact key. The
-        contact key is a unique identifier for the contact, typically the
-        subscriber key or email address used when the contact was created.
-      tags:
-        - Contacts
-      parameters:
-        - name: contactKey
-          in: path
-          required: true
-          description: >
-            The unique contact key (subscriber key) of the Marketing Cloud
-            contact to retrieve.
-          schema:
-            type: string
-      responses:
-        '200':
-          description: The requested Marketing Cloud contact.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Contact'
-        '401':
-          description: Unauthorized. Invalid or expired access token.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: Contact not found for the specified contact key.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-  /contacts/v1/contacts:
     delete:
       operationId: deleteContacts
       summary: Delete contacts
@@ -253,6 +214,44 @@ paths:
                 $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized. Invalid or expired access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /contacts/v1/contacts/{contactKey}:
+    get:
+      operationId: getContact
+      summary: Get a contact by contact key
+      description: >
+        Retrieves a single Marketing Cloud contact by their contact key. The
+        contact key is a unique identifier for the contact, typically the
+        subscriber key or email address used when the contact was created.
+      tags:
+        - Contacts
+      parameters:
+        - name: contactKey
+          in: path
+          required: true
+          description: >
+            The unique contact key (subscriber key) of the Marketing Cloud
+            contact to retrieve.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The requested Marketing Cloud contact.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+        '401':
+          description: Unauthorized. Invalid or expired access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Contact not found for the specified contact key.
           content:
             application/json:
               schema:

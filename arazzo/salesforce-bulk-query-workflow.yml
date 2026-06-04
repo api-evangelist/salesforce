@@ -1,0 +1,112 @@
+arazzo: 1.0.1
+info:
+  title: Salesforce Bulk Query
+  summary: Run the Bulk API 2.0 query lifecycle — create a query job, poll until JobComplete, and download the result CSV.
+  description: >-
+    The Bulk API 2.0 query lifecycle for extracting large volumes of data with
+    a single SOQL statement. The workflow creates an asynchronous query job,
+    polls the job state until it reaches JobComplete (branching to retry while
+    InProgress and to fail if the job reports Failed or Aborted), and finally
+    retrieves the query results as CSV. Every step spells out its request inline
+    so the flow can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: salesforceBulkApi
+  url: ../openapi/salesforce-bulk-api-2-openapi.yml
+  type: openapi
+workflows:
+- workflowId: bulk-query
+  summary: Extract records from Salesforce with a Bulk API 2.0 query job.
+  description: >-
+    Creates a query job from a SOQL statement, polls until JobComplete, and
+    returns the result CSV.
+  inputs:
+    type: object
+    required:
+    - query
+    properties:
+      query:
+        type: string
+        description: >-
+          The SOQL query to run (e.g. SELECT Id, Name, Email FROM Contact WHERE
+          CreatedDate = LAST_YEAR).
+      operation:
+        type: string
+        description: >-
+          The query operation: query for active records only, or queryAll to
+          include soft-deleted and archived records. Defaults to query.
+      maxRecords:
+        type: integer
+        description: Maximum number of records to return when fetching results.
+  steps:
+  - stepId: createQueryJob
+    description: >-
+      Create a new Bulk API 2.0 query job from the supplied SOQL statement. The
+      job is processed asynchronously.
+    operationId: createQueryJob
+    requestBody:
+      contentType: application/json
+      payload:
+        operation: query
+        query: $inputs.query
+        contentType: CSV
+        columnDelimiter: COMMA
+        lineEnding: LF
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      jobId: $response.body#/id
+      state: $response.body#/state
+  - stepId: pollJob
+    description: >-
+      Poll the query job state. When the job reaches JobComplete, continue to
+      retrieve results; while still InProgress or UploadComplete, loop back to
+      poll again; if the job Failed or Aborted, stop the workflow.
+    operationId: getQueryJobInfo
+    parameters:
+    - name: jobId
+      in: path
+      value: $steps.createQueryJob.outputs.jobId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      state: $response.body#/state
+      numberRecordsProcessed: $response.body#/numberRecordsProcessed
+    onSuccess:
+    - name: jobComplete
+      type: goto
+      stepId: getResults
+      criteria:
+      - condition: $response.body#/state == "JobComplete"
+    - name: stillProcessing
+      type: goto
+      stepId: pollJob
+      criteria:
+      - condition: $response.body#/state == "InProgress"
+    onFailure:
+    - name: jobFailed
+      type: end
+      criteria:
+      - condition: $response.body#/state == "Failed"
+  - stepId: getResults
+    description: >-
+      Retrieve the query results as CSV once the job has reached JobComplete.
+      The first row is a header of field API names.
+    operationId: getQueryJobResults
+    parameters:
+    - name: jobId
+      in: path
+      value: $steps.createQueryJob.outputs.jobId
+    - name: maxRecords
+      in: query
+      value: $inputs.maxRecords
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      results: $response.body
+  outputs:
+    jobId: $steps.createQueryJob.outputs.jobId
+    state: $steps.pollJob.outputs.state
+    numberRecordsProcessed: $steps.pollJob.outputs.numberRecordsProcessed
+    results: $steps.getResults.outputs.results

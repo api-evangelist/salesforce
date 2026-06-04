@@ -1,0 +1,80 @@
+arazzo: 1.0.1
+info:
+  title: Salesforce Create Account with Contact
+  summary: Create an Account and then create a Contact that belongs to it.
+  description: >-
+    A foundational sales-process pattern: stand up a new Account and add the
+    first Contact under it. The workflow inserts the Account, captures its Id,
+    and then creates a Contact whose AccountId references the new Account so the
+    Contact rolls up to the right company. Every step spells out its request
+    inline so the flow can be read and executed without opening the underlying
+    OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: salesforceRestApi
+  url: ../openapi/salesforce-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: create-account-with-contact
+  summary: Create an Account and a Contact linked to that Account.
+  description: >-
+    Inserts an Account record, then creates a Contact whose AccountId points at
+    the new Account so the Contact appears under the Account's related list.
+  inputs:
+    type: object
+    required:
+    - account
+    - contact
+    properties:
+      account:
+        type: object
+        description: >-
+          Field map for the new Account (e.g. Name, Industry, Phone, Website).
+          Name is required by Salesforce for an Account.
+      contact:
+        type: object
+        description: >-
+          Field map for the new Contact (e.g. LastName, FirstName, Email).
+          AccountId is supplied automatically from the created Account.
+  steps:
+  - stepId: createAccount
+    description: >-
+      Insert a new Account record using the supplied field values. Returns the
+      Id of the newly created Account.
+    operationId: createRecord
+    parameters:
+    - name: sobjectType
+      in: path
+      value: Account
+    requestBody:
+      contentType: application/json
+      payload: $inputs.account
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      accountId: $response.body#/id
+  - stepId: createContact
+    description: >-
+      Create a Contact whose AccountId references the newly created Account so
+      the Contact is linked to the Account.
+    operationId: createRecord
+    parameters:
+    - name: sobjectType
+      in: path
+      value: Contact
+    requestBody:
+      contentType: application/json
+      payload:
+        LastName: $inputs.contact.LastName
+        FirstName: $inputs.contact.FirstName
+        Email: $inputs.contact.Email
+        Phone: $inputs.contact.Phone
+        Title: $inputs.contact.Title
+        AccountId: $steps.createAccount.outputs.accountId
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      contactId: $response.body#/id
+  outputs:
+    accountId: $steps.createAccount.outputs.accountId
+    contactId: $steps.createContact.outputs.contactId

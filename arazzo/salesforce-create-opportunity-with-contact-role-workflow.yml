@@ -1,0 +1,82 @@
+arazzo: 1.0.1
+info:
+  title: Salesforce Create Opportunity with Contact Role
+  summary: Create an Opportunity and then attach an OpportunityContactRole linking a Contact to the deal.
+  description: >-
+    A core sales-process pattern: open a new Opportunity and immediately record
+    which Contact plays which role on that deal. The workflow inserts the
+    Opportunity, captures its Id, and then creates an OpportunityContactRole
+    that references both the new Opportunity and an existing Contact. Every step
+    spells out its request inline so the flow can be read and executed without
+    opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: salesforceRestApi
+  url: ../openapi/salesforce-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: create-opportunity-with-contact-role
+  summary: Create an Opportunity and link a Contact to it via an OpportunityContactRole.
+  description: >-
+    Inserts an Opportunity record, then creates an OpportunityContactRole that
+    associates a supplied Contact with the new Opportunity in a named role.
+  inputs:
+    type: object
+    required:
+    - opportunity
+    - contactId
+    properties:
+      opportunity:
+        type: object
+        description: >-
+          Field map for the new Opportunity (e.g. Name, StageName, CloseDate,
+          Amount). Name, StageName, and CloseDate are required by Salesforce.
+      contactId:
+        type: string
+        description: The 18-character Id of the Contact to attach to the Opportunity.
+      role:
+        type: string
+        description: The role the Contact plays on the deal (e.g. Decision Maker).
+      isPrimary:
+        type: boolean
+        description: Whether this Contact is the primary contact on the Opportunity.
+  steps:
+  - stepId: createOpportunity
+    description: >-
+      Insert a new Opportunity record using the supplied field values. Returns
+      the Id of the newly created Opportunity.
+    operationId: createRecord
+    parameters:
+    - name: sobjectType
+      in: path
+      value: Opportunity
+    requestBody:
+      contentType: application/json
+      payload: $inputs.opportunity
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      opportunityId: $response.body#/id
+  - stepId: createContactRole
+    description: >-
+      Create an OpportunityContactRole that links the supplied Contact to the
+      newly created Opportunity with the given role.
+    operationId: createRecord
+    parameters:
+    - name: sobjectType
+      in: path
+      value: OpportunityContactRole
+    requestBody:
+      contentType: application/json
+      payload:
+        OpportunityId: $steps.createOpportunity.outputs.opportunityId
+        ContactId: $inputs.contactId
+        Role: $inputs.role
+        IsPrimary: $inputs.isPrimary
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      contactRoleId: $response.body#/id
+  outputs:
+    opportunityId: $steps.createOpportunity.outputs.opportunityId
+    contactRoleId: $steps.createContactRole.outputs.contactRoleId

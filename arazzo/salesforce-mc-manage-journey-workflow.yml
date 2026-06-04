@@ -1,0 +1,121 @@
+arazzo: 1.0.1
+info:
+  title: Salesforce Marketing Cloud Enter a Contact into a Journey
+  summary: Authenticate, find a published journey, inspect it, then fire an entry event.
+  description: >-
+    A Journey Builder orchestration pattern for Marketing Cloud. The workflow
+    obtains an OAuth 2.0 access token, lists published journeys to locate a
+    journey to drive, reads that journey's detail to confirm its configuration,
+    then fires a journey entry event that injects a contact into the journey at
+    its event-triggered entry source. The Marketing Cloud REST description does
+    not expose operations to create or publish a journey, so this workflow
+    operates against an existing published journey and focuses on the
+    discover-inspect-enter cycle. Every step spells out its request inline so the
+    flow can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: salesforceMarketingCloudApi
+  url: ../openapi/salesforce-marketing-cloud-rest-openapi.yml
+  type: openapi
+workflows:
+- workflowId: manage-journey
+  summary: Locate a published journey and enter a contact via an entry event.
+  description: >-
+    Acquires an access token, lists published journeys and selects the first
+    one, reads that journey's detail, then fires a journey entry event to inject
+    the supplied contact into the journey using the event definition key.
+  inputs:
+    type: object
+    required:
+    - clientId
+    - clientSecret
+    - contactKey
+    - eventDefinitionKey
+    properties:
+      clientId:
+        type: string
+        description: The client ID of the Marketing Cloud installed package API integration.
+      clientSecret:
+        type: string
+        description: The client secret of the Marketing Cloud installed package API integration.
+      contactKey:
+        type: string
+        description: The subscriber key of the contact entering the journey.
+      eventDefinitionKey:
+        type: string
+        description: The external key of the event definition configured as the journey entry source.
+      data:
+        type: object
+        description: Additional data attributes passed with the event for personalization.
+  steps:
+  - stepId: authenticate
+    description: >-
+      Obtain an OAuth 2.0 access token using the client credentials grant for
+      server-to-server access to the Marketing Cloud REST API.
+    operationId: getAccessToken
+    requestBody:
+      contentType: application/json
+      payload:
+        grant_type: client_credentials
+        client_id: $inputs.clientId
+        client_secret: $inputs.clientSecret
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      accessToken: $response.body#/access_token
+      restInstanceUrl: $response.body#/rest_instance_url
+  - stepId: findJourney
+    description: >-
+      List published journeys and select the first one so its configuration can
+      be confirmed before contacts are injected.
+    operationId: listJourneys
+    parameters:
+    - name: status
+      in: query
+      value: Published
+    - name: pageSize
+      in: query
+      value: 50
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      count: $response.body#/count
+      journeyId: $response.body#/items/0/id
+      journeyKey: $response.body#/items/0/key
+  - stepId: inspectJourney
+    description: >-
+      Read the detail for the selected journey to confirm its status, triggers,
+      and activities before firing the entry event.
+    operationId: getJourney
+    parameters:
+    - name: interactionId
+      in: path
+      value: $steps.findJourney.outputs.journeyId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      id: $response.body#/id
+      name: $response.body#/name
+      status: $response.body#/status
+      version: $response.body#/version
+  - stepId: enterJourney
+    description: >-
+      Fire a journey entry event to inject the contact into the journey at its
+      event-triggered entry source using the supplied event definition key.
+    operationId: fireJourneyEvent
+    requestBody:
+      contentType: application/json
+      payload:
+        ContactKey: $inputs.contactKey
+        EventDefinitionKey: $inputs.eventDefinitionKey
+        Data: $inputs.data
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      requestId: $response.body#/requestId
+      eventInstanceId: $response.body#/eventInstanceId
+  outputs:
+    journeyId: $steps.inspectJourney.outputs.id
+    journeyStatus: $steps.inspectJourney.outputs.status
+    eventInstanceId: $steps.enterJourney.outputs.eventInstanceId

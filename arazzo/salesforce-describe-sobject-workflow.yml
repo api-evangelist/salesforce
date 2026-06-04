@@ -1,0 +1,61 @@
+arazzo: 1.0.1
+info:
+  title: Salesforce Describe SObject
+  summary: List all SObjects in the org then fully describe one object's metadata.
+  description: >-
+    A schema-discovery pattern for Salesforce. The workflow first performs a
+    describe global call to list every SObject type available in the org, then
+    runs a full describe of a single object to retrieve its complete metadata,
+    including field definitions, data types, picklist values, relationships and
+    REST endpoint URLs. Every step spells out its request inline so the flow can
+    be read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: salesforceRestApi
+  url: ../openapi/salesforce-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: describe-sobject
+  summary: List all SObjects, then fully describe a single SObject's metadata.
+  description: >-
+    Reads the global list of SObject types in the org, then retrieves the
+    complete field-level metadata for one named SObject type.
+  inputs:
+    type: object
+    required:
+    - sobjectType
+    properties:
+      sobjectType:
+        type: string
+        description: >-
+          The API name of the SObject type to fully describe (e.g. Account,
+          Contact, MyCustomObject__c).
+  steps:
+  - stepId: listSObjects
+    description: >-
+      List all SObject types available in the org, including standard and custom
+      objects, with their labels, key prefixes and capability flags.
+    operationId: listSObjects
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      sobjects: $response.body#/sobjects
+      maxBatchSize: $response.body#/maxBatchSize
+  - stepId: describeSObject
+    description: >-
+      Retrieve the full metadata for the requested SObject type, including all
+      field definitions, relationships and REST endpoint URLs.
+    operationId: fullDescribeSObject
+    parameters:
+    - name: sobjectType
+      in: path
+      value: $inputs.sobjectType
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      name: $response.body#/name
+      label: $response.body#/label
+      fields: $response.body#/fields
+  outputs:
+    sobjects: $steps.listSObjects.outputs.sobjects
+    describedFields: $steps.describeSObject.outputs.fields

@@ -1,0 +1,105 @@
+arazzo: 1.0.1
+info:
+  title: Salesforce Marketing Cloud Send a Triggered Email
+  summary: Authenticate, fire a triggered email send, then poll the recipient's send status.
+  description: >-
+    A transactional messaging pattern for Marketing Cloud. The workflow obtains
+    an OAuth 2.0 access token, submits a triggered email send referencing a
+    triggered send definition with one or more recipients, captures the recipient
+    send id returned for the request, and then reads the delivery status for that
+    recipient using its message key. Every step spells out its request inline so
+    the flow can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: salesforceMarketingCloudApi
+  url: ../openapi/salesforce-marketing-cloud-rest-openapi.yml
+  type: openapi
+workflows:
+- workflowId: send-triggered-email
+  summary: Trigger a Marketing Cloud email send and read its delivery status.
+  description: >-
+    Acquires an access token, initiates a triggered email send to the supplied
+    recipient using a triggered send definition key, then retrieves the send
+    status for the recipient send id returned by the send request.
+  inputs:
+    type: object
+    required:
+    - clientId
+    - clientSecret
+    - definitionKey
+    - contactKey
+    properties:
+      clientId:
+        type: string
+        description: The client ID of the Marketing Cloud installed package API integration.
+      clientSecret:
+        type: string
+        description: The client secret of the Marketing Cloud installed package API integration.
+      definitionKey:
+        type: string
+        description: The external key of the triggered send definition in Email Studio.
+      contactKey:
+        type: string
+        description: The subscriber key of the email recipient.
+      to:
+        type: string
+        description: Optional recipient email address overriding the subscriber's stored address.
+      attributes:
+        type: object
+        description: Key-value personalization attributes for the recipient.
+  steps:
+  - stepId: authenticate
+    description: >-
+      Obtain an OAuth 2.0 access token using the client credentials grant for
+      server-to-server access to the Marketing Cloud REST API.
+    operationId: getAccessToken
+    requestBody:
+      contentType: application/json
+      payload:
+        grant_type: client_credentials
+        client_id: $inputs.clientId
+        client_secret: $inputs.clientSecret
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      accessToken: $response.body#/access_token
+      restInstanceUrl: $response.body#/rest_instance_url
+  - stepId: sendEmail
+    description: >-
+      Submit a triggered email send to the recipient using the supplied
+      triggered send definition key and personalization attributes.
+    operationId: createEmailSend
+    requestBody:
+      contentType: application/json
+      payload:
+        definitionKey: $inputs.definitionKey
+        recipients:
+        - contactKey: $inputs.contactKey
+          to: $inputs.to
+          attributes: $inputs.attributes
+    successCriteria:
+    - condition: $statusCode == 202
+    outputs:
+      requestId: $response.body#/requestId
+      recipientSendId: $response.body#/responses/0/recipientSendId
+      hasErrors: $response.body#/responses/0/hasErrors
+  - stepId: getSendStatus
+    description: >-
+      Read the delivery status for the recipient using the recipient send id
+      returned by the send request as the message key.
+    operationId: getMessageStatus
+    parameters:
+    - name: messageKey
+      in: path
+      value: $steps.sendEmail.outputs.recipientSendId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      eventCategoryType: $response.body#/eventCategoryType
+      timestamp: $response.body#/timestamp
+      subscriberKey: $response.body#/subscriberKey
+  outputs:
+    requestId: $steps.sendEmail.outputs.requestId
+    recipientSendId: $steps.sendEmail.outputs.recipientSendId
+    deliveryStatus: $steps.getSendStatus.outputs.eventCategoryType

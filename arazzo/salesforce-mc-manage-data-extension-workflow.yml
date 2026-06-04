@@ -1,0 +1,109 @@
+arazzo: 1.0.1
+info:
+  title: Salesforce Marketing Cloud Upsert and Read Data Extension Rows
+  summary: Authenticate, upsert rows into a Data Extension, then read the rows back.
+  description: >-
+    A Data Extension data-loading pattern for Marketing Cloud. The workflow
+    obtains an OAuth 2.0 access token, inserts (upserting on primary key) a set
+    of rows into a Data Extension identified by its external key, then reads a
+    page of rows back from the same Data Extension to confirm the data landed.
+    The Marketing Cloud REST description does not expose an operation to create a
+    Data Extension, so this workflow targets an existing Data Extension by key
+    and focuses on the row upsert-then-read cycle. Every step spells out its
+    request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: salesforceMarketingCloudApi
+  url: ../openapi/salesforce-marketing-cloud-rest-openapi.yml
+  type: openapi
+workflows:
+- workflowId: manage-data-extension
+  summary: Upsert rows into a Data Extension and read a page of rows back.
+  description: >-
+    Acquires an access token, inserts or upserts the supplied rows into the
+    Data Extension identified by its external key, then reads a page of rows
+    from the same Data Extension to verify the write.
+  inputs:
+    type: object
+    required:
+    - clientId
+    - clientSecret
+    - key
+    - rows
+    properties:
+      clientId:
+        type: string
+        description: The client ID of the Marketing Cloud installed package API integration.
+      clientSecret:
+        type: string
+        description: The client secret of the Marketing Cloud installed package API integration.
+      key:
+        type: string
+        description: The external key of the Data Extension to upsert rows into.
+      rows:
+        type: array
+        description: >-
+          Array of row objects to insert or upsert. Each object contains
+          key-value pairs matching the Data Extension column names.
+        items:
+          type: object
+      pageSize:
+        type: integer
+        description: Number of rows to read back per page.
+        default: 50
+  steps:
+  - stepId: authenticate
+    description: >-
+      Obtain an OAuth 2.0 access token using the client credentials grant for
+      server-to-server access to the Marketing Cloud REST API.
+    operationId: getAccessToken
+    requestBody:
+      contentType: application/json
+      payload:
+        grant_type: client_credentials
+        client_id: $inputs.clientId
+        client_secret: $inputs.clientSecret
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      accessToken: $response.body#/access_token
+      restInstanceUrl: $response.body#/rest_instance_url
+  - stepId: upsertRows
+    description: >-
+      Insert or upsert the supplied rows into the Data Extension identified by
+      its external key. Rows matching an existing primary key are updated.
+    operationId: insertDataExtensionRows
+    parameters:
+    - name: key
+      in: path
+      value: $inputs.key
+    requestBody:
+      contentType: application/json
+      payload:
+        items: $inputs.rows
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      requestId: $response.body#/requestId
+  - stepId: readRows
+    description: >-
+      Read a page of rows back from the Data Extension to confirm the upserted
+      data is present.
+    operationId: getDataExtensionRows
+    parameters:
+    - name: key
+      in: path
+      value: $inputs.key
+    - name: $pageSize
+      in: query
+      value: $inputs.pageSize
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      count: $response.body#/count
+      items: $response.body#/items
+  outputs:
+    upsertRequestId: $steps.upsertRows.outputs.requestId
+    rowCount: $steps.readRows.outputs.count
+    rows: $steps.readRows.outputs.items
