@@ -1,0 +1,317 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Salesforce UI API",
+    "version": "59.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Records",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Salesforce Get a Record",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instanceName}.salesforce.com/services/data/v{version}/ui-api/records/:recordId",
+            "params": [
+              {
+                "name": "recordId",
+                "value": "",
+                "type": "path",
+                "description": "The 18-character Salesforce record ID"
+              },
+              {
+                "name": "fields",
+                "value": "example_value",
+                "type": "query",
+                "description": "Comma-separated list of field API names to return (e.g., Account.Name,Account.Type)"
+              },
+              {
+                "name": "layoutTypes",
+                "value": "Full",
+                "type": "query",
+                "description": "Layout types to use for determining which fields to return (Full, Compact)"
+              },
+              {
+                "name": "modes",
+                "value": "example_value",
+                "type": "query",
+                "description": "View mode(s) for the layout (View, Edit, Create)"
+              },
+              {
+                "name": "optionalFields",
+                "value": "example_value",
+                "type": "query",
+                "description": "Fields to include if accessible, without error if inaccessible"
+              }
+            ]
+          },
+          "docs": "Returns data for a record including field values, formatted for display in the Lightning UI. Supports specifying which fields to return using the fields or layoutTypes parameter. Returns record metadata alongside data, including field labels, editability, and required status."
+        },
+        {
+          "info": {
+            "name": "Salesforce Update a Record",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{instanceName}.salesforce.com/services/data/v{version}/ui-api/records/:recordId",
+            "headers": [
+              {
+                "name": "If-Modified-Since",
+                "value": "example_value"
+              }
+            ],
+            "params": [
+              {
+                "name": "recordId",
+                "value": "",
+                "type": "path",
+                "description": "The 18-character Salesforce record ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates fields on a Salesforce record. Only the fields included in the request body are updated. Returns the updated record representation."
+        },
+        {
+          "info": {
+            "name": "Salesforce Delete a Record",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{instanceName}.salesforce.com/services/data/v{version}/ui-api/records/:recordId",
+            "params": [
+              {
+                "name": "recordId",
+                "value": "",
+                "type": "path",
+                "description": "The 18-character Salesforce record ID"
+              }
+            ]
+          },
+          "docs": "Deletes a Salesforce record by its ID."
+        },
+        {
+          "info": {
+            "name": "Salesforce Create a Record",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instanceName}.salesforce.com/services/data/v{version}/ui-api/records",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new Salesforce record of the specified object type. The apiName of the object is included in the request body."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Object Info",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Salesforce Get Object Metadata",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instanceName}.salesforce.com/services/data/v{version}/ui-api/object-info/:objectApiName",
+            "params": [
+              {
+                "name": "objectApiName",
+                "value": "",
+                "type": "path",
+                "description": "The API name of the Salesforce object (e.g., Account, Contact, MyObject__c)"
+              }
+            ]
+          },
+          "docs": "Returns metadata about a Salesforce object including its fields, their types, labels, whether they are required or read-only, their reference targets, and the object's CRUD permissions. Used by Lightning components to build dynamic forms."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Picklists",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Salesforce Get Picklist Values for a Record Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instanceName}.salesforce.com/services/data/v{version}/ui-api/object-info/:objectApiName/picklist-values/:recordTypeId",
+            "params": [
+              {
+                "name": "objectApiName",
+                "value": "",
+                "type": "path",
+                "description": "The API name of the Salesforce object (e.g., Account, Contact, MyObject__c)"
+              },
+              {
+                "name": "recordTypeId",
+                "value": "500123",
+                "type": "path",
+                "description": "The record type ID or the string '012000000000000AAA' for the master record type"
+              }
+            ]
+          },
+          "docs": "Returns picklist values for all picklist fields on an object for a given record type. Values include labels, valid values, and dependencies between picklist fields."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "List Views",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Salesforce Get List Views for an Object",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instanceName}.salesforce.com/services/data/v{version}/ui-api/list-ui/:objectApiName",
+            "params": [
+              {
+                "name": "objectApiName",
+                "value": "",
+                "type": "path",
+                "description": "The API name of the Salesforce object (e.g., Account, Contact, MyObject__c)"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Number of records per page"
+              },
+              {
+                "name": "pageToken",
+                "value": "",
+                "type": "query",
+                "description": "Token for retrieving the next page of results"
+              }
+            ]
+          },
+          "docs": "Returns metadata and data for all list views accessible to the current user for the specified object type."
+        },
+        {
+          "info": {
+            "name": "Salesforce Get a Specific List View",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instanceName}.salesforce.com/services/data/v{version}/ui-api/list-ui/:objectApiName/:listViewApiName",
+            "params": [
+              {
+                "name": "objectApiName",
+                "value": "",
+                "type": "path",
+                "description": "The API name of the Salesforce object (e.g., Account, Contact, MyObject__c)"
+              },
+              {
+                "name": "listViewApiName",
+                "value": "example_value",
+                "type": "path",
+                "description": "The API name of the list view (e.g., AllAccounts, RecentlyViewed)"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Number of records per page"
+              },
+              {
+                "name": "pageToken",
+                "value": "",
+                "type": "query",
+                "description": "Token for retrieving the next page of results"
+              }
+            ]
+          },
+          "docs": "Returns the data and metadata for a specific list view."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Lookups",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Salesforce Search Lookup Field Records",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instanceName}.salesforce.com/services/data/v{version}/ui-api/lookups/:objectApiName/:fieldApiName",
+            "params": [
+              {
+                "name": "objectApiName",
+                "value": "",
+                "type": "path",
+                "description": "The API name of the Salesforce object (e.g., Account, Contact, MyObject__c)"
+              },
+              {
+                "name": "fieldApiName",
+                "value": "example_value",
+                "type": "path",
+                "description": "The API name of the lookup field"
+              },
+              {
+                "name": "searchTerm",
+                "value": "example_value",
+                "type": "query",
+                "description": "The search text to match against lookup records"
+              },
+              {
+                "name": "dependentFieldBindings",
+                "value": "example_value",
+                "type": "query",
+                "description": "JSON-encoded field value pairs for dependent picklist filtering"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Number of records per page"
+              }
+            ]
+          },
+          "docs": "Returns matching records for a lookup field search. Used to populate the typeahead list in Lightning lookup components."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

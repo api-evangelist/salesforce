@@ -1,0 +1,3336 @@
+{
+  "info": {
+    "_postman_id": "2dbba03a-f3a9-42d0-b891-ca73c95ffe74",
+    "name": "Salesforce Bulk API 2.0",
+    "description": "Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.\n\n\nContact Support:\n Name: Salesforce Developers",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-06-05T13:13:03.000Z",
+    "updatedAt": "2026-06-05T13:13:03.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-2dbba03a-f3a9-42d0-b891-ca73c95ffe74"
+  },
+  "item": [
+    {
+      "name": "ingest",
+      "item": [
+        {
+          "name": "{jobId}",
+          "item": [
+            {
+              "name": "batches",
+              "item": [
+                {
+                  "name": "Salesforce Upload Job Data (csv)",
+                  "id": "094671dc-84b3-4b52-bf50-6368027405f2",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "text/csv"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "<binary>"
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/ingest/:jobId/batches",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "ingest",
+                        ":jobId",
+                        "batches"
+                      ],
+                      "variable": [
+                        {
+                          "id": "78d440d0-2442-4cda-a872-3cdf1216333d",
+                          "key": "jobId",
+                          "value": "<string>",
+                          "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                        }
+                      ]
+                    },
+                    "description": "Uploads CSV data to an ingest job that is in the Open state. The CSV must include a header row matching the field API names for the object. Multiple upload calls can be made for the same job; data is appended. After uploading all data, close the job with PATCH /ingest/{jobId} to begin processing.\n"
+                  },
+                  "response": [
+                    {
+                      "id": "7915bf4d-6600-4070-997c-385fb28e18a1",
+                      "name": "Data uploaded successfully to the ingest job.",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "text/csv"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "<binary>"
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/ingest/:jobId/batches",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "ingest",
+                            ":jobId",
+                            "batches"
+                          ],
+                          "variable": [
+                            {
+                              "key": "jobId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Created",
+                      "code": 201,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-06-05T13:13:03.000Z",
+                      "updatedAt": "2026-06-05T13:13:03.000Z",
+                      "uid": "35240-7915bf4d-6600-4070-997c-385fb28e18a1"
+                    },
+                    {
+                      "id": "a247373b-3526-469c-9200-cdc610471ac3",
+                      "name": "Bad request. Invalid CSV format, job not in Open state, or data exceeds size limits.\n",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "text/csv"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "<binary>"
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/ingest/:jobId/batches",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "ingest",
+                            ":jobId",
+                            "batches"
+                          ],
+                          "variable": [
+                            {
+                              "key": "jobId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "createdAt": "2026-06-05T13:13:03.000Z",
+                      "updatedAt": "2026-06-05T13:13:03.000Z",
+                      "uid": "35240-a247373b-3526-469c-9200-cdc610471ac3"
+                    },
+                    {
+                      "id": "63ad562a-92b3-4c6c-978b-7c12234411ae",
+                      "name": "Unauthorized. Invalid or expired OAuth token.",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "text/csv"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "<binary>"
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/ingest/:jobId/batches",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "ingest",
+                            ":jobId",
+                            "batches"
+                          ],
+                          "variable": [
+                            {
+                              "key": "jobId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "createdAt": "2026-06-05T13:13:03.000Z",
+                      "updatedAt": "2026-06-05T13:13:03.000Z",
+                      "uid": "35240-63ad562a-92b3-4c6c-978b-7c12234411ae"
+                    },
+                    {
+                      "id": "586d3b04-cc91-4563-b002-829beb25cee6",
+                      "name": "Job not found for the specified job ID.",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "text/csv"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "<binary>"
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/ingest/:jobId/batches",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "ingest",
+                            ":jobId",
+                            "batches"
+                          ],
+                          "variable": [
+                            {
+                              "key": "jobId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "createdAt": "2026-06-05T13:13:03.000Z",
+                      "updatedAt": "2026-06-05T13:13:03.000Z",
+                      "uid": "35240-586d3b04-cc91-4563-b002-829beb25cee6"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T13:13:03.000Z",
+                  "updatedAt": "2026-06-05T13:13:03.000Z",
+                  "uid": "35240-094671dc-84b3-4b52-bf50-6368027405f2"
+                }
+              ],
+              "id": "b093cebd-fd31-4d56-85de-aa7a4ca031c5",
+              "createdAt": "2026-06-05T13:13:03.000Z",
+              "updatedAt": "2026-06-05T13:13:03.000Z",
+              "uid": "35240-b093cebd-fd31-4d56-85de-aa7a4ca031c5"
+            },
+            {
+              "name": "successfulResults",
+              "item": [
+                {
+                  "name": "Salesforce Get Successful Records From an Ingest Job",
+                  "id": "36677399-66bb-4178-bc78-6400e01e20eb",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "text/csv"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/ingest/:jobId/successfulResults",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "ingest",
+                        ":jobId",
+                        "successfulResults"
+                      ],
+                      "variable": [
+                        {
+                          "id": "c5d5ae34-e62a-4c76-803d-6203a9c83847",
+                          "key": "jobId",
+                          "value": "<string>",
+                          "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                        }
+                      ]
+                    },
+                    "description": "Returns a CSV file containing the records that were successfully processed by the ingest job. Each row corresponds to a record from the uploaded data that was inserted, updated, upserted, or deleted successfully. Only available after the job reaches JobComplete state.\n"
+                  },
+                  "response": [
+                    {
+                      "id": "df2ed478-97f1-4f95-bd1f-d1029826a547",
+                      "name": "CSV data containing the successfully processed records, with sf__Id and sf__Created columns added.\n",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "text/csv"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/ingest/:jobId/successfulResults",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "ingest",
+                            ":jobId",
+                            "successfulResults"
+                          ],
+                          "variable": [
+                            {
+                              "key": "jobId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "text/csv"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "<string>",
+                      "createdAt": "2026-06-05T13:13:03.000Z",
+                      "updatedAt": "2026-06-05T13:13:03.000Z",
+                      "uid": "35240-df2ed478-97f1-4f95-bd1f-d1029826a547"
+                    },
+                    {
+                      "id": "5c113c13-5aff-4c5d-844f-42e824a5b83c",
+                      "name": "Unauthorized. Invalid or expired OAuth token.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/ingest/:jobId/successfulResults",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "ingest",
+                            ":jobId",
+                            "successfulResults"
+                          ],
+                          "variable": [
+                            {
+                              "key": "jobId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "createdAt": "2026-06-05T13:13:03.000Z",
+                      "updatedAt": "2026-06-05T13:13:03.000Z",
+                      "uid": "35240-5c113c13-5aff-4c5d-844f-42e824a5b83c"
+                    },
+                    {
+                      "id": "6c04e51d-9ae8-40b1-a346-fd77df350488",
+                      "name": "Job not found or job has not completed processing.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/ingest/:jobId/successfulResults",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "ingest",
+                            ":jobId",
+                            "successfulResults"
+                          ],
+                          "variable": [
+                            {
+                              "key": "jobId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "createdAt": "2026-06-05T13:13:03.000Z",
+                      "updatedAt": "2026-06-05T13:13:03.000Z",
+                      "uid": "35240-6c04e51d-9ae8-40b1-a346-fd77df350488"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T13:13:03.000Z",
+                  "updatedAt": "2026-06-05T13:13:03.000Z",
+                  "uid": "35240-36677399-66bb-4178-bc78-6400e01e20eb"
+                }
+              ],
+              "id": "66d101bb-9f18-4c18-abfb-71b0ba1d6afe",
+              "createdAt": "2026-06-05T13:13:03.000Z",
+              "updatedAt": "2026-06-05T13:13:03.000Z",
+              "uid": "35240-66d101bb-9f18-4c18-abfb-71b0ba1d6afe"
+            },
+            {
+              "name": "failedResults",
+              "item": [
+                {
+                  "name": "Salesforce Get Failed Records From an Ingest Job",
+                  "id": "332e6306-69d4-47ba-a272-ab5c6aa297c8",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "text/csv"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/ingest/:jobId/failedResults",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "ingest",
+                        ":jobId",
+                        "failedResults"
+                      ],
+                      "variable": [
+                        {
+                          "id": "d81b2650-f6f5-4559-a560-642a3a9bccc9",
+                          "key": "jobId",
+                          "value": "<string>",
+                          "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                        }
+                      ]
+                    },
+                    "description": "Returns a CSV file containing the records from the ingest job that failed to process. Each row includes the original record data plus sf__Error and sf__Id columns describing the failure reason. Use this to identify and fix records that need to be resubmitted.\n"
+                  },
+                  "response": [
+                    {
+                      "id": "02815d1e-3989-4bd6-928f-3bfc804626ab",
+                      "name": "CSV data containing failed records with error details in the sf__Error column.\n",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "text/csv"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/ingest/:jobId/failedResults",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "ingest",
+                            ":jobId",
+                            "failedResults"
+                          ],
+                          "variable": [
+                            {
+                              "key": "jobId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "text/csv"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "<string>",
+                      "createdAt": "2026-06-05T13:13:03.000Z",
+                      "updatedAt": "2026-06-05T13:13:03.000Z",
+                      "uid": "35240-02815d1e-3989-4bd6-928f-3bfc804626ab"
+                    },
+                    {
+                      "id": "74465736-1eb2-4427-8c9f-ee4e1a7e187f",
+                      "name": "Unauthorized. Invalid or expired OAuth token.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/ingest/:jobId/failedResults",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "ingest",
+                            ":jobId",
+                            "failedResults"
+                          ],
+                          "variable": [
+                            {
+                              "key": "jobId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "createdAt": "2026-06-05T13:13:03.000Z",
+                      "updatedAt": "2026-06-05T13:13:03.000Z",
+                      "uid": "35240-74465736-1eb2-4427-8c9f-ee4e1a7e187f"
+                    },
+                    {
+                      "id": "e045f1b0-f2da-48f4-a880-54be58dd6fb7",
+                      "name": "Job not found or job has not completed processing.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/ingest/:jobId/failedResults",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "ingest",
+                            ":jobId",
+                            "failedResults"
+                          ],
+                          "variable": [
+                            {
+                              "key": "jobId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "createdAt": "2026-06-05T13:13:03.000Z",
+                      "updatedAt": "2026-06-05T13:13:03.000Z",
+                      "uid": "35240-e045f1b0-f2da-48f4-a880-54be58dd6fb7"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T13:13:03.000Z",
+                  "updatedAt": "2026-06-05T13:13:03.000Z",
+                  "uid": "35240-332e6306-69d4-47ba-a272-ab5c6aa297c8"
+                }
+              ],
+              "id": "e4ab470e-ba28-47db-81e1-78e0fb77c1ac",
+              "createdAt": "2026-06-05T13:13:03.000Z",
+              "updatedAt": "2026-06-05T13:13:03.000Z",
+              "uid": "35240-e4ab470e-ba28-47db-81e1-78e0fb77c1ac"
+            },
+            {
+              "name": "unprocessedrecords",
+              "item": [
+                {
+                  "name": "Salesforce Get Unprocessed Records From an Ingest Job",
+                  "id": "aabe5ea5-332c-4afd-b556-6622ffb38726",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "text/csv"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/ingest/:jobId/unprocessedrecords",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "ingest",
+                        ":jobId",
+                        "unprocessedrecords"
+                      ],
+                      "variable": [
+                        {
+                          "id": "b9f20553-c7d2-44a4-a10c-f9895dda9304",
+                          "key": "jobId",
+                          "value": "<string>",
+                          "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                        }
+                      ]
+                    },
+                    "description": "Returns a CSV file containing the records from the ingest job that were not processed, typically because the job was aborted before processing completed. Use these records to resubmit them in a new job.\n"
+                  },
+                  "response": [
+                    {
+                      "id": "e710f92d-6c37-48f8-9525-1a380d62632d",
+                      "name": "CSV data containing unprocessed records from the aborted job.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "text/csv"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/ingest/:jobId/unprocessedrecords",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "ingest",
+                            ":jobId",
+                            "unprocessedrecords"
+                          ],
+                          "variable": [
+                            {
+                              "key": "jobId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "text/csv"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "<string>",
+                      "createdAt": "2026-06-05T13:13:03.000Z",
+                      "updatedAt": "2026-06-05T13:13:03.000Z",
+                      "uid": "35240-e710f92d-6c37-48f8-9525-1a380d62632d"
+                    },
+                    {
+                      "id": "f6ee22db-7452-4970-a6a6-b94019f577b0",
+                      "name": "Unauthorized. Invalid or expired OAuth token.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/ingest/:jobId/unprocessedrecords",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "ingest",
+                            ":jobId",
+                            "unprocessedrecords"
+                          ],
+                          "variable": [
+                            {
+                              "key": "jobId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "createdAt": "2026-06-05T13:13:03.000Z",
+                      "updatedAt": "2026-06-05T13:13:03.000Z",
+                      "uid": "35240-f6ee22db-7452-4970-a6a6-b94019f577b0"
+                    },
+                    {
+                      "id": "b10a9305-c82d-47c6-a129-06a7c95b2b8f",
+                      "name": "Job not found for the specified job ID.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/ingest/:jobId/unprocessedrecords",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "ingest",
+                            ":jobId",
+                            "unprocessedrecords"
+                          ],
+                          "variable": [
+                            {
+                              "key": "jobId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "createdAt": "2026-06-05T13:13:03.000Z",
+                      "updatedAt": "2026-06-05T13:13:03.000Z",
+                      "uid": "35240-b10a9305-c82d-47c6-a129-06a7c95b2b8f"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T13:13:03.000Z",
+                  "updatedAt": "2026-06-05T13:13:03.000Z",
+                  "uid": "35240-aabe5ea5-332c-4afd-b556-6622ffb38726"
+                }
+              ],
+              "id": "6acf7b67-a54a-4793-9a8f-bffd536ff69d",
+              "createdAt": "2026-06-05T13:13:03.000Z",
+              "updatedAt": "2026-06-05T13:13:03.000Z",
+              "uid": "35240-6acf7b67-a54a-4793-9a8f-bffd536ff69d"
+            },
+            {
+              "name": "Salesforce Get Ingest Job Info",
+              "id": "7786f21b-a873-45c7-b01d-51de37b7e450",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/ingest/:jobId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "ingest",
+                    ":jobId"
+                  ],
+                  "variable": [
+                    {
+                      "id": "6b86babc-fa61-4394-8df5-db4f79919337",
+                      "key": "jobId",
+                      "value": "<string>",
+                      "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                    }
+                  ]
+                },
+                "description": "Returns detailed information about a specific ingest job, including its current state, number of records processed, number of failures, and any error messages. Use this to monitor job progress and determine when processing is complete.\n"
+              },
+              "response": [
+                {
+                  "id": "475f4342-c349-42ed-a43d-a8bcc87aa6f2",
+                  "name": "Detailed information about the specified ingest job.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/ingest/:jobId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "ingest",
+                        ":jobId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "jobId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"id\": \"<string>\",\n  \"operation\": \"delete\",\n  \"object\": \"<string>\",\n  \"state\": \"JobComplete\",\n  \"createdDate\": \"<dateTime>\",\n  \"systemModstamp\": \"<dateTime>\",\n  \"numberRecordsProcessed\": \"<integer>\",\n  \"numberRecordsFailed\": \"<integer>\",\n  \"totalProcessingTime\": \"<integer>\",\n  \"errorMessage\": \"<string>\",\n  \"contentType\": \"CSV\",\n  \"lineEnding\": \"LF\",\n  \"columnDelimiter\": \"CARET\",\n  \"externalIdFieldName\": \"<string>\",\n  \"jobType\": \"<string>\",\n  \"createdById\": \"<string>\",\n  \"apiVersion\": \"<number>\"\n}",
+                  "createdAt": "2026-06-05T13:13:03.000Z",
+                  "updatedAt": "2026-06-05T13:13:03.000Z",
+                  "uid": "35240-475f4342-c349-42ed-a43d-a8bcc87aa6f2"
+                },
+                {
+                  "id": "4382dc8f-e672-4cb6-b4d4-992ceffb69db",
+                  "name": "Unauthorized. Invalid or expired OAuth token.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/ingest/:jobId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "ingest",
+                        ":jobId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "jobId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "createdAt": "2026-06-05T13:13:03.000Z",
+                  "updatedAt": "2026-06-05T13:13:03.000Z",
+                  "uid": "35240-4382dc8f-e672-4cb6-b4d4-992ceffb69db"
+                },
+                {
+                  "id": "63d7df7e-a216-4b52-99e6-1a79b9ea0213",
+                  "name": "Job not found for the specified job ID.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/ingest/:jobId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "ingest",
+                        ":jobId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "jobId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "createdAt": "2026-06-05T13:13:03.000Z",
+                  "updatedAt": "2026-06-05T13:13:03.000Z",
+                  "uid": "35240-63d7df7e-a216-4b52-99e6-1a79b9ea0213"
+                }
+              ],
+              "createdAt": "2026-06-05T13:13:03.000Z",
+              "updatedAt": "2026-06-05T13:13:03.000Z",
+              "uid": "35240-7786f21b-a873-45c7-b01d-51de37b7e450"
+            },
+            {
+              "name": "Salesforce Update or Close an Ingest Job",
+              "id": "fb884d70-b3c6-4c72-8597-e1d6853214b8",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"state\": \"UploadComplete\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/ingest/:jobId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "ingest",
+                    ":jobId"
+                  ],
+                  "variable": [
+                    {
+                      "id": "a88d720a-2f07-4081-8159-277f98276f8d",
+                      "key": "jobId",
+                      "value": "<string>",
+                      "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                    }
+                  ]
+                },
+                "description": "Updates the state of an ingest job. Use this to close the job after uploading all data (set state to UploadComplete), which triggers processing. Can also abort a job that is Open or UploadComplete by setting state to Aborted.\n"
+              },
+              "response": [
+                {
+                  "id": "be6cb7fc-8d0f-417c-a3fa-e3dbf9aed09a",
+                  "name": "Ingest job updated successfully with the new state.",
+                  "originalRequest": {
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"state\": \"UploadComplete\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/ingest/:jobId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "ingest",
+                        ":jobId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "jobId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"id\": \"<string>\",\n  \"operation\": \"delete\",\n  \"object\": \"<string>\",\n  \"state\": \"JobComplete\",\n  \"createdDate\": \"<dateTime>\",\n  \"systemModstamp\": \"<dateTime>\",\n  \"numberRecordsProcessed\": \"<integer>\",\n  \"numberRecordsFailed\": \"<integer>\",\n  \"totalProcessingTime\": \"<integer>\",\n  \"errorMessage\": \"<string>\",\n  \"contentType\": \"CSV\",\n  \"lineEnding\": \"LF\",\n  \"columnDelimiter\": \"CARET\",\n  \"externalIdFieldName\": \"<string>\",\n  \"jobType\": \"<string>\",\n  \"createdById\": \"<string>\",\n  \"apiVersion\": \"<number>\"\n}",
+                  "createdAt": "2026-06-05T13:13:03.000Z",
+                  "updatedAt": "2026-06-05T13:13:03.000Z",
+                  "uid": "35240-be6cb7fc-8d0f-417c-a3fa-e3dbf9aed09a"
+                },
+                {
+                  "id": "9923bb2f-6936-4689-8fb6-2949d547510d",
+                  "name": "Bad request. Invalid state transition for the current job state.",
+                  "originalRequest": {
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"state\": \"UploadComplete\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/ingest/:jobId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "ingest",
+                        ":jobId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "jobId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "createdAt": "2026-06-05T13:13:03.000Z",
+                  "updatedAt": "2026-06-05T13:13:03.000Z",
+                  "uid": "35240-9923bb2f-6936-4689-8fb6-2949d547510d"
+                },
+                {
+                  "id": "087505d6-b761-40b4-9508-8104c307fdba",
+                  "name": "Unauthorized. Invalid or expired OAuth token.",
+                  "originalRequest": {
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"state\": \"UploadComplete\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/ingest/:jobId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "ingest",
+                        ":jobId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "jobId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "createdAt": "2026-06-05T13:13:03.000Z",
+                  "updatedAt": "2026-06-05T13:13:03.000Z",
+                  "uid": "35240-087505d6-b761-40b4-9508-8104c307fdba"
+                },
+                {
+                  "id": "e77d246d-7a8d-49d0-a4dc-a60411646331",
+                  "name": "Job not found for the specified job ID.",
+                  "originalRequest": {
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"state\": \"UploadComplete\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/ingest/:jobId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "ingest",
+                        ":jobId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "jobId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "createdAt": "2026-06-05T13:13:03.000Z",
+                  "updatedAt": "2026-06-05T13:13:03.000Z",
+                  "uid": "35240-e77d246d-7a8d-49d0-a4dc-a60411646331"
+                }
+              ],
+              "createdAt": "2026-06-05T13:13:03.000Z",
+              "updatedAt": "2026-06-05T13:13:03.000Z",
+              "uid": "35240-fb884d70-b3c6-4c72-8597-e1d6853214b8"
+            },
+            {
+              "name": "Salesforce Delete an Ingest Job",
+              "id": "e90c2510-19d1-4646-bcaf-ea4f590be4ab",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/ingest/:jobId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "ingest",
+                    ":jobId"
+                  ],
+                  "variable": [
+                    {
+                      "id": "3b8937d7-3827-43af-ac72-3bb2259e7f66",
+                      "key": "jobId",
+                      "value": "<string>",
+                      "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                    }
+                  ]
+                },
+                "description": "Deletes an ingest job and all associated data. Only jobs in the Aborted state can be deleted. First abort the job if it is in a different state, then delete it.\n"
+              },
+              "response": [
+                {
+                  "id": "ae027c54-48ac-450c-8859-3777a4c77ba8",
+                  "name": "Ingest job deleted successfully. No body is returned.",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/ingest/:jobId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "ingest",
+                        ":jobId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "jobId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "No Content",
+                  "code": 204,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-06-05T13:13:03.000Z",
+                  "updatedAt": "2026-06-05T13:13:03.000Z",
+                  "uid": "35240-ae027c54-48ac-450c-8859-3777a4c77ba8"
+                },
+                {
+                  "id": "f74f02fb-528a-4661-95ea-09bcccc4f919",
+                  "name": "Bad request. Job is not in Aborted state and cannot be deleted.\n",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/ingest/:jobId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "ingest",
+                        ":jobId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "jobId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "createdAt": "2026-06-05T13:13:03.000Z",
+                  "updatedAt": "2026-06-05T13:13:03.000Z",
+                  "uid": "35240-f74f02fb-528a-4661-95ea-09bcccc4f919"
+                },
+                {
+                  "id": "9a497fc4-8781-4f3f-a2cb-f3f9d4b26588",
+                  "name": "Unauthorized. Invalid or expired OAuth token.",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/ingest/:jobId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "ingest",
+                        ":jobId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "jobId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "createdAt": "2026-06-05T13:13:03.000Z",
+                  "updatedAt": "2026-06-05T13:13:03.000Z",
+                  "uid": "35240-9a497fc4-8781-4f3f-a2cb-f3f9d4b26588"
+                },
+                {
+                  "id": "595621c2-641b-477e-93da-d77372a64f76",
+                  "name": "Job not found for the specified job ID.",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/ingest/:jobId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "ingest",
+                        ":jobId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "jobId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "createdAt": "2026-06-05T13:13:03.000Z",
+                  "updatedAt": "2026-06-05T13:13:03.000Z",
+                  "uid": "35240-595621c2-641b-477e-93da-d77372a64f76"
+                }
+              ],
+              "createdAt": "2026-06-05T13:13:03.000Z",
+              "updatedAt": "2026-06-05T13:13:03.000Z",
+              "uid": "35240-e90c2510-19d1-4646-bcaf-ea4f590be4ab"
+            }
+          ],
+          "id": "891a9046-3652-4b8c-9cf5-f1b4b2e09cf6",
+          "createdAt": "2026-06-05T13:13:03.000Z",
+          "updatedAt": "2026-06-05T13:13:03.000Z",
+          "uid": "35240-891a9046-3652-4b8c-9cf5-f1b4b2e09cf6"
+        },
+        {
+          "name": "Salesforce Create an Ingest Job",
+          "id": "649c2693-72f2-4529-a91e-939cca272071",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"operation\": \"update\",\n  \"object\": \"<string>\",\n  \"externalIdFieldName\": \"<string>\",\n  \"contentType\": \"CSV\",\n  \"lineEnding\": \"LF\",\n  \"columnDelimiter\": \"COMMA\",\n  \"assignmentRuleId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/ingest",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ingest"
+              ]
+            },
+            "description": "Creates a new ingest job for bulk data operations (insert, update, upsert, delete, or hardDelete). After creating the job, upload data using the PUT /ingest/{jobId}/batches endpoint, then close the job to begin processing. Monitor the job state until it reaches JobComplete or Failed.\n"
+          },
+          "response": [
+            {
+              "id": "51cd001a-e12b-4dc9-8641-63d144a88b5b",
+              "name": "Ingest job created successfully with Open state.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"operation\": \"update\",\n  \"object\": \"<string>\",\n  \"externalIdFieldName\": \"<string>\",\n  \"contentType\": \"CSV\",\n  \"lineEnding\": \"LF\",\n  \"columnDelimiter\": \"COMMA\",\n  \"assignmentRuleId\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/ingest",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "ingest"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"id\": \"<string>\",\n  \"operation\": \"delete\",\n  \"object\": \"<string>\",\n  \"state\": \"JobComplete\",\n  \"createdDate\": \"<dateTime>\",\n  \"systemModstamp\": \"<dateTime>\",\n  \"numberRecordsProcessed\": \"<integer>\",\n  \"numberRecordsFailed\": \"<integer>\",\n  \"totalProcessingTime\": \"<integer>\",\n  \"errorMessage\": \"<string>\",\n  \"contentType\": \"CSV\",\n  \"lineEnding\": \"LF\",\n  \"columnDelimiter\": \"CARET\",\n  \"externalIdFieldName\": \"<string>\",\n  \"jobType\": \"<string>\",\n  \"createdById\": \"<string>\",\n  \"apiVersion\": \"<number>\"\n}",
+              "createdAt": "2026-06-05T13:13:03.000Z",
+              "updatedAt": "2026-06-05T13:13:03.000Z",
+              "uid": "35240-51cd001a-e12b-4dc9-8641-63d144a88b5b"
+            },
+            {
+              "id": "0f2f6fec-41f4-43ae-b877-fa1b48b11e93",
+              "name": "Bad request. Invalid operation, object type, or configuration parameters.\n",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"operation\": \"update\",\n  \"object\": \"<string>\",\n  \"externalIdFieldName\": \"<string>\",\n  \"contentType\": \"CSV\",\n  \"lineEnding\": \"LF\",\n  \"columnDelimiter\": \"COMMA\",\n  \"assignmentRuleId\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/ingest",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "ingest"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "createdAt": "2026-06-05T13:13:03.000Z",
+              "updatedAt": "2026-06-05T13:13:03.000Z",
+              "uid": "35240-0f2f6fec-41f4-43ae-b877-fa1b48b11e93"
+            },
+            {
+              "id": "d15d4814-d997-415c-8046-c67983d8481d",
+              "name": "Unauthorized. Invalid or expired OAuth token.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"operation\": \"update\",\n  \"object\": \"<string>\",\n  \"externalIdFieldName\": \"<string>\",\n  \"contentType\": \"CSV\",\n  \"lineEnding\": \"LF\",\n  \"columnDelimiter\": \"COMMA\",\n  \"assignmentRuleId\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/ingest",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "ingest"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "createdAt": "2026-06-05T13:13:03.000Z",
+              "updatedAt": "2026-06-05T13:13:03.000Z",
+              "uid": "35240-d15d4814-d997-415c-8046-c67983d8481d"
+            }
+          ],
+          "createdAt": "2026-06-05T13:13:03.000Z",
+          "updatedAt": "2026-06-05T13:13:03.000Z",
+          "uid": "35240-649c2693-72f2-4529-a91e-939cca272071"
+        },
+        {
+          "name": "Salesforce List Ingest Jobs",
+          "id": "4e578e76-e5fa-4eb8-ada0-af7bc0a1c631",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ingest?isPkChunkingEnabled=<boolean>&jobType=Classic",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ingest"
+              ],
+              "query": [
+                {
+                  "description": "Filter results to only jobs with PK chunking enabled (true) or disabled (false).\n",
+                  "key": "isPkChunkingEnabled",
+                  "value": "<boolean>"
+                },
+                {
+                  "description": "Filter results by job type. Use Classic for Bulk API 1.0 jobs or V2Ingest for Bulk API 2.0 ingest jobs.\n",
+                  "key": "jobType",
+                  "value": "Classic"
+                }
+              ]
+            },
+            "description": "Returns a list of ingest jobs in the org. By default returns all jobs created by all users. Use query parameters to filter by state or other criteria. Results are ordered by creation date descending.\n"
+          },
+          "response": [
+            {
+              "id": "c4fd4ca2-dba8-43be-8fd3-d9271bb38bd5",
+              "name": "List of ingest jobs matching the filter criteria.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/ingest?isPkChunkingEnabled=<boolean>&jobType=Classic",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "ingest"
+                  ],
+                  "query": [
+                    {
+                      "description": "Filter results to only jobs with PK chunking enabled (true) or disabled (false).\n",
+                      "key": "isPkChunkingEnabled",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "description": "Filter results by job type. Use Classic for Bulk API 1.0 jobs or V2Ingest for Bulk API 2.0 ingest jobs.\n",
+                      "key": "jobType",
+                      "value": "Classic"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"done\": \"<boolean>\",\n  \"nextRecordsUrl\": \"<uri>\",\n  \"records\": [\n    {\n      \"id\": \"<string>\",\n      \"operation\": \"update\",\n      \"object\": \"<string>\",\n      \"state\": \"JobComplete\",\n      \"createdDate\": \"<dateTime>\",\n      \"systemModstamp\": \"<dateTime>\",\n      \"numberRecordsProcessed\": \"<integer>\",\n      \"numberRecordsFailed\": \"<integer>\",\n      \"totalProcessingTime\": \"<integer>\",\n      \"errorMessage\": \"<string>\",\n      \"contentType\": \"CSV\",\n      \"lineEnding\": \"LF\",\n      \"columnDelimiter\": \"COMMA\",\n      \"externalIdFieldName\": \"<string>\",\n      \"jobType\": \"<string>\",\n      \"createdById\": \"<string>\",\n      \"apiVersion\": \"<number>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"operation\": \"delete\",\n      \"object\": \"<string>\",\n      \"state\": \"JobComplete\",\n      \"createdDate\": \"<dateTime>\",\n      \"systemModstamp\": \"<dateTime>\",\n      \"numberRecordsProcessed\": \"<integer>\",\n      \"numberRecordsFailed\": \"<integer>\",\n      \"totalProcessingTime\": \"<integer>\",\n      \"errorMessage\": \"<string>\",\n      \"contentType\": \"CSV\",\n      \"lineEnding\": \"LF\",\n      \"columnDelimiter\": \"TAB\",\n      \"externalIdFieldName\": \"<string>\",\n      \"jobType\": \"<string>\",\n      \"createdById\": \"<string>\",\n      \"apiVersion\": \"<number>\"\n    }\n  ]\n}",
+              "createdAt": "2026-06-05T13:13:03.000Z",
+              "updatedAt": "2026-06-05T13:13:03.000Z",
+              "uid": "35240-c4fd4ca2-dba8-43be-8fd3-d9271bb38bd5"
+            },
+            {
+              "id": "64503d84-9f7c-45bc-b4b6-2bc21f2fe049",
+              "name": "Unauthorized. Invalid or expired OAuth token.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/ingest?isPkChunkingEnabled=<boolean>&jobType=Classic",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "ingest"
+                  ],
+                  "query": [
+                    {
+                      "description": "Filter results to only jobs with PK chunking enabled (true) or disabled (false).\n",
+                      "key": "isPkChunkingEnabled",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "description": "Filter results by job type. Use Classic for Bulk API 1.0 jobs or V2Ingest for Bulk API 2.0 ingest jobs.\n",
+                      "key": "jobType",
+                      "value": "Classic"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "createdAt": "2026-06-05T13:13:03.000Z",
+              "updatedAt": "2026-06-05T13:13:03.000Z",
+              "uid": "35240-64503d84-9f7c-45bc-b4b6-2bc21f2fe049"
+            }
+          ],
+          "createdAt": "2026-06-05T13:13:03.000Z",
+          "updatedAt": "2026-06-05T13:13:03.000Z",
+          "uid": "35240-4e578e76-e5fa-4eb8-ada0-af7bc0a1c631"
+        }
+      ],
+      "id": "2098a31c-c4d1-4df6-8a32-36340015bea1",
+      "createdAt": "2026-06-05T13:13:03.000Z",
+      "updatedAt": "2026-06-05T13:13:03.000Z",
+      "uid": "35240-2098a31c-c4d1-4df6-8a32-36340015bea1"
+    },
+    {
+      "name": "query",
+      "item": [
+        {
+          "name": "{jobId}",
+          "item": [
+            {
+              "name": "results",
+              "item": [
+                {
+                  "name": "Salesforce Get Query Job Results",
+                  "id": "9fecb088-00d6-40f7-8a62-8c5722c320f1",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "text/csv"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/query/:jobId/results?maxRecords=50000&locator=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "query",
+                        ":jobId",
+                        "results"
+                      ],
+                      "query": [
+                        {
+                          "description": "Maximum number of records to return in this response. Defaults to 50000. Use with the locator parameter to paginate through large result sets.\n",
+                          "key": "maxRecords",
+                          "value": "50000"
+                        },
+                        {
+                          "description": "A locator token from the Sforce-Locator response header of a previous request to retrieve the next page of results.\n",
+                          "key": "locator",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "id": "6c9b21fd-7c2f-43b5-9a0e-cbe30577c270",
+                          "key": "jobId",
+                          "value": "<string>",
+                          "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                        }
+                      ]
+                    },
+                    "description": "Returns the results of a completed query job as CSV data. The results may be paginated; check for a Sforce-Locator response header to retrieve subsequent pages by passing the locator value as a query parameter. Only available after the job reaches JobComplete state.\n"
+                  },
+                  "response": [
+                    {
+                      "id": "a31963fb-a90f-4252-b621-a0e84b2dd67d",
+                      "name": "CSV data containing query results. Check the Sforce-Locator response header for a locator token to retrieve subsequent pages.\n",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "text/csv"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/query/:jobId/results?maxRecords=50000&locator=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "query",
+                            ":jobId",
+                            "results"
+                          ],
+                          "query": [
+                            {
+                              "description": "Maximum number of records to return in this response. Defaults to 50000. Use with the locator parameter to paginate through large result sets.\n",
+                              "key": "maxRecords",
+                              "value": "50000"
+                            },
+                            {
+                              "description": "A locator token from the Sforce-Locator response header of a previous request to retrieve the next page of results.\n",
+                              "key": "locator",
+                              "value": "<string>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "jobId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "text/csv"
+                        },
+                        {
+                          "disabled": false,
+                          "description": {
+                            "content": "Locator token for the next page of results. Pass this value as the locator query parameter in subsequent requests. If this header is absent or has value \"null\", no more pages remain.\n",
+                            "type": "text/plain"
+                          },
+                          "key": "Sforce-Locator",
+                          "value": "<string>"
+                        },
+                        {
+                          "disabled": false,
+                          "description": {
+                            "content": "Number of records returned in this response.",
+                            "type": "text/plain"
+                          },
+                          "key": "Sforce-NumberOfRecords",
+                          "value": "<integer>"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "<string>",
+                      "createdAt": "2026-06-05T13:13:03.000Z",
+                      "updatedAt": "2026-06-05T13:13:03.000Z",
+                      "uid": "35240-a31963fb-a90f-4252-b621-a0e84b2dd67d"
+                    },
+                    {
+                      "id": "025f0d6a-f932-4dc6-8e7f-5c2e27679f49",
+                      "name": "Unauthorized. Invalid or expired OAuth token.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/query/:jobId/results?maxRecords=50000&locator=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "query",
+                            ":jobId",
+                            "results"
+                          ],
+                          "query": [
+                            {
+                              "description": "Maximum number of records to return in this response. Defaults to 50000. Use with the locator parameter to paginate through large result sets.\n",
+                              "key": "maxRecords",
+                              "value": "50000"
+                            },
+                            {
+                              "description": "A locator token from the Sforce-Locator response header of a previous request to retrieve the next page of results.\n",
+                              "key": "locator",
+                              "value": "<string>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "jobId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "createdAt": "2026-06-05T13:13:03.000Z",
+                      "updatedAt": "2026-06-05T13:13:03.000Z",
+                      "uid": "35240-025f0d6a-f932-4dc6-8e7f-5c2e27679f49"
+                    },
+                    {
+                      "id": "22618830-d3db-48da-8bbb-a0f871d15d62",
+                      "name": "Job not found or job has not reached JobComplete state.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/query/:jobId/results?maxRecords=50000&locator=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "query",
+                            ":jobId",
+                            "results"
+                          ],
+                          "query": [
+                            {
+                              "description": "Maximum number of records to return in this response. Defaults to 50000. Use with the locator parameter to paginate through large result sets.\n",
+                              "key": "maxRecords",
+                              "value": "50000"
+                            },
+                            {
+                              "description": "A locator token from the Sforce-Locator response header of a previous request to retrieve the next page of results.\n",
+                              "key": "locator",
+                              "value": "<string>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "jobId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "createdAt": "2026-06-05T13:13:03.000Z",
+                      "updatedAt": "2026-06-05T13:13:03.000Z",
+                      "uid": "35240-22618830-d3db-48da-8bbb-a0f871d15d62"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T13:13:03.000Z",
+                  "updatedAt": "2026-06-05T13:13:03.000Z",
+                  "uid": "35240-9fecb088-00d6-40f7-8a62-8c5722c320f1"
+                }
+              ],
+              "id": "fb04dc8d-d60a-44bf-8aae-19c1959061cb",
+              "createdAt": "2026-06-05T13:13:03.000Z",
+              "updatedAt": "2026-06-05T13:13:03.000Z",
+              "uid": "35240-fb04dc8d-d60a-44bf-8aae-19c1959061cb"
+            },
+            {
+              "name": "Salesforce Get Query Job Info",
+              "id": "38d6a263-d45f-4e69-9759-bb01d2c39cf7",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/query/:jobId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "query",
+                    ":jobId"
+                  ],
+                  "variable": [
+                    {
+                      "id": "cf6469b0-bcef-459a-b286-82f261c2f452",
+                      "key": "jobId",
+                      "value": "<string>",
+                      "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                    }
+                  ]
+                },
+                "description": "Returns detailed information about a specific query job, including its current state, number of records processed, and any error messages. Poll this endpoint until the state reaches JobComplete or Failed before retrieving results.\n"
+              },
+              "response": [
+                {
+                  "id": "7102daa2-a285-4227-a579-2cc0b0124702",
+                  "name": "Detailed information about the specified query job.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/query/:jobId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "query",
+                        ":jobId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "jobId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"id\": \"<string>\",\n  \"operation\": \"queryAll\",\n  \"object\": \"<string>\",\n  \"state\": \"JobComplete\",\n  \"createdDate\": \"<dateTime>\",\n  \"systemModstamp\": \"<dateTime>\",\n  \"numberRecordsProcessed\": \"<integer>\",\n  \"totalProcessingTime\": \"<integer>\",\n  \"errorMessage\": \"<string>\",\n  \"contentType\": \"CSV\",\n  \"columnDelimiter\": \"PIPE\",\n  \"lineEnding\": \"LF\",\n  \"jobType\": \"<string>\",\n  \"createdById\": \"<string>\",\n  \"apiVersion\": \"<number>\"\n}",
+                  "createdAt": "2026-06-05T13:13:03.000Z",
+                  "updatedAt": "2026-06-05T13:13:03.000Z",
+                  "uid": "35240-7102daa2-a285-4227-a579-2cc0b0124702"
+                },
+                {
+                  "id": "bc2a93df-2ba1-475e-abff-d79ec601bd26",
+                  "name": "Unauthorized. Invalid or expired OAuth token.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/query/:jobId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "query",
+                        ":jobId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "jobId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "createdAt": "2026-06-05T13:13:03.000Z",
+                  "updatedAt": "2026-06-05T13:13:03.000Z",
+                  "uid": "35240-bc2a93df-2ba1-475e-abff-d79ec601bd26"
+                },
+                {
+                  "id": "cb11a422-9884-4eaf-8344-21829d820443",
+                  "name": "Job not found for the specified job ID.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/query/:jobId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "query",
+                        ":jobId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "jobId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "createdAt": "2026-06-05T13:13:03.000Z",
+                  "updatedAt": "2026-06-05T13:13:03.000Z",
+                  "uid": "35240-cb11a422-9884-4eaf-8344-21829d820443"
+                }
+              ],
+              "createdAt": "2026-06-05T13:13:03.000Z",
+              "updatedAt": "2026-06-05T13:13:03.000Z",
+              "uid": "35240-38d6a263-d45f-4e69-9759-bb01d2c39cf7"
+            },
+            {
+              "name": "Salesforce Abort or Close a Query Job",
+              "id": "00bd3621-53f7-418a-b14a-d326978962ae",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"state\": \"Aborted\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/query/:jobId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "query",
+                    ":jobId"
+                  ],
+                  "variable": [
+                    {
+                      "id": "1abe69ce-fedb-46fc-bc9b-cca401aa1957",
+                      "key": "jobId",
+                      "value": "<string>",
+                      "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                    }
+                  ]
+                },
+                "description": "Updates the state of a query job. Use this to abort a query job that is currently running or queued by setting state to Aborted.\n"
+              },
+              "response": [
+                {
+                  "id": "4ec05cc2-7641-4072-b3e0-a39f62d91c0c",
+                  "name": "Query job updated successfully with the new state.",
+                  "originalRequest": {
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"state\": \"Aborted\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/query/:jobId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "query",
+                        ":jobId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "jobId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"id\": \"<string>\",\n  \"operation\": \"queryAll\",\n  \"object\": \"<string>\",\n  \"state\": \"JobComplete\",\n  \"createdDate\": \"<dateTime>\",\n  \"systemModstamp\": \"<dateTime>\",\n  \"numberRecordsProcessed\": \"<integer>\",\n  \"totalProcessingTime\": \"<integer>\",\n  \"errorMessage\": \"<string>\",\n  \"contentType\": \"CSV\",\n  \"columnDelimiter\": \"PIPE\",\n  \"lineEnding\": \"LF\",\n  \"jobType\": \"<string>\",\n  \"createdById\": \"<string>\",\n  \"apiVersion\": \"<number>\"\n}",
+                  "createdAt": "2026-06-05T13:13:03.000Z",
+                  "updatedAt": "2026-06-05T13:13:03.000Z",
+                  "uid": "35240-4ec05cc2-7641-4072-b3e0-a39f62d91c0c"
+                },
+                {
+                  "id": "190f3f98-0470-43e8-9a1e-d4f312b5c236",
+                  "name": "Bad request. Invalid state transition for the current job state.",
+                  "originalRequest": {
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"state\": \"Aborted\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/query/:jobId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "query",
+                        ":jobId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "jobId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "createdAt": "2026-06-05T13:13:03.000Z",
+                  "updatedAt": "2026-06-05T13:13:03.000Z",
+                  "uid": "35240-190f3f98-0470-43e8-9a1e-d4f312b5c236"
+                },
+                {
+                  "id": "24c27b3c-0538-4653-8248-eeb5d6901509",
+                  "name": "Unauthorized. Invalid or expired OAuth token.",
+                  "originalRequest": {
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"state\": \"Aborted\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/query/:jobId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "query",
+                        ":jobId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "jobId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "createdAt": "2026-06-05T13:13:03.000Z",
+                  "updatedAt": "2026-06-05T13:13:03.000Z",
+                  "uid": "35240-24c27b3c-0538-4653-8248-eeb5d6901509"
+                },
+                {
+                  "id": "70a00c75-a501-4c35-945b-fdae2d50c23d",
+                  "name": "Job not found for the specified job ID.",
+                  "originalRequest": {
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"state\": \"Aborted\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/query/:jobId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "query",
+                        ":jobId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "jobId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "createdAt": "2026-06-05T13:13:03.000Z",
+                  "updatedAt": "2026-06-05T13:13:03.000Z",
+                  "uid": "35240-70a00c75-a501-4c35-945b-fdae2d50c23d"
+                }
+              ],
+              "createdAt": "2026-06-05T13:13:03.000Z",
+              "updatedAt": "2026-06-05T13:13:03.000Z",
+              "uid": "35240-00bd3621-53f7-418a-b14a-d326978962ae"
+            },
+            {
+              "name": "Salesforce Delete a Query Job",
+              "id": "28ce9994-20cc-403e-93ab-d5ece128ae50",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/query/:jobId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "query",
+                    ":jobId"
+                  ],
+                  "variable": [
+                    {
+                      "id": "c1e65782-da50-47b1-b151-8a6fe076af2d",
+                      "key": "jobId",
+                      "value": "<string>",
+                      "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                    }
+                  ]
+                },
+                "description": "Deletes a query job and all associated results. Only jobs in the Aborted or JobComplete state can be deleted.\n"
+              },
+              "response": [
+                {
+                  "id": "fb753c71-070d-4ec6-a5bc-ac9b9ef24ae1",
+                  "name": "Query job deleted successfully. No body is returned.",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/query/:jobId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "query",
+                        ":jobId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "jobId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "No Content",
+                  "code": 204,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-06-05T13:13:03.000Z",
+                  "updatedAt": "2026-06-05T13:13:03.000Z",
+                  "uid": "35240-fb753c71-070d-4ec6-a5bc-ac9b9ef24ae1"
+                },
+                {
+                  "id": "e36e9b32-4575-4a68-b041-1e2143b58120",
+                  "name": "Bad request. Job is not in a deletable state (Aborted or JobComplete).\n",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/query/:jobId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "query",
+                        ":jobId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "jobId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "createdAt": "2026-06-05T13:13:03.000Z",
+                  "updatedAt": "2026-06-05T13:13:03.000Z",
+                  "uid": "35240-e36e9b32-4575-4a68-b041-1e2143b58120"
+                },
+                {
+                  "id": "6b5b6a0d-9658-485d-9edb-dfcc9ab74ca2",
+                  "name": "Unauthorized. Invalid or expired OAuth token.",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/query/:jobId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "query",
+                        ":jobId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "jobId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "createdAt": "2026-06-05T13:13:03.000Z",
+                  "updatedAt": "2026-06-05T13:13:03.000Z",
+                  "uid": "35240-6b5b6a0d-9658-485d-9edb-dfcc9ab74ca2"
+                },
+                {
+                  "id": "b1dfea86-4bad-4611-b53a-90720a811bc7",
+                  "name": "Job not found for the specified job ID.",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/query/:jobId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "query",
+                        ":jobId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "jobId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "createdAt": "2026-06-05T13:13:03.000Z",
+                  "updatedAt": "2026-06-05T13:13:03.000Z",
+                  "uid": "35240-b1dfea86-4bad-4611-b53a-90720a811bc7"
+                }
+              ],
+              "createdAt": "2026-06-05T13:13:03.000Z",
+              "updatedAt": "2026-06-05T13:13:03.000Z",
+              "uid": "35240-28ce9994-20cc-403e-93ab-d5ece128ae50"
+            }
+          ],
+          "id": "36f71b76-2899-4d75-baf7-2d628d01bbe6",
+          "createdAt": "2026-06-05T13:13:03.000Z",
+          "updatedAt": "2026-06-05T13:13:03.000Z",
+          "uid": "35240-36f71b76-2899-4d75-baf7-2d628d01bbe6"
+        },
+        {
+          "name": "Salesforce Create a Query Job",
+          "id": "d0c2472b-bdef-470a-a7bd-43cd5d25a526",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"operation\": \"queryAll\",\n  \"query\": \"<string>\",\n  \"contentType\": \"CSV\",\n  \"columnDelimiter\": \"COMMA\",\n  \"lineEnding\": \"LF\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/query",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "query"
+              ]
+            },
+            "description": "Creates a new query job to extract large volumes of data from Salesforce using a SOQL query. Query jobs are asynchronous; after creating the job, poll the job status until it reaches JobComplete, then retrieve results using the GET /query/{jobId}/results endpoint.\n"
+          },
+          "response": [
+            {
+              "id": "d8bd66e8-2158-44d3-88e0-d2f1b0b9cc52",
+              "name": "Query job created successfully.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"operation\": \"queryAll\",\n  \"query\": \"<string>\",\n  \"contentType\": \"CSV\",\n  \"columnDelimiter\": \"COMMA\",\n  \"lineEnding\": \"LF\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/query",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "query"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"id\": \"<string>\",\n  \"operation\": \"queryAll\",\n  \"object\": \"<string>\",\n  \"state\": \"JobComplete\",\n  \"createdDate\": \"<dateTime>\",\n  \"systemModstamp\": \"<dateTime>\",\n  \"numberRecordsProcessed\": \"<integer>\",\n  \"totalProcessingTime\": \"<integer>\",\n  \"errorMessage\": \"<string>\",\n  \"contentType\": \"CSV\",\n  \"columnDelimiter\": \"PIPE\",\n  \"lineEnding\": \"LF\",\n  \"jobType\": \"<string>\",\n  \"createdById\": \"<string>\",\n  \"apiVersion\": \"<number>\"\n}",
+              "createdAt": "2026-06-05T13:13:03.000Z",
+              "updatedAt": "2026-06-05T13:13:03.000Z",
+              "uid": "35240-d8bd66e8-2158-44d3-88e0-d2f1b0b9cc52"
+            },
+            {
+              "id": "ffbd0fef-7e11-4c57-8a0b-2a02bccd2124",
+              "name": "Bad request. Invalid SOQL query or configuration parameters.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"operation\": \"queryAll\",\n  \"query\": \"<string>\",\n  \"contentType\": \"CSV\",\n  \"columnDelimiter\": \"COMMA\",\n  \"lineEnding\": \"LF\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/query",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "query"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "createdAt": "2026-06-05T13:13:03.000Z",
+              "updatedAt": "2026-06-05T13:13:03.000Z",
+              "uid": "35240-ffbd0fef-7e11-4c57-8a0b-2a02bccd2124"
+            },
+            {
+              "id": "e0b952fb-c124-4f92-90bf-0e56ed633b84",
+              "name": "Unauthorized. Invalid or expired OAuth token.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"operation\": \"queryAll\",\n  \"query\": \"<string>\",\n  \"contentType\": \"CSV\",\n  \"columnDelimiter\": \"COMMA\",\n  \"lineEnding\": \"LF\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/query",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "query"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "createdAt": "2026-06-05T13:13:03.000Z",
+              "updatedAt": "2026-06-05T13:13:03.000Z",
+              "uid": "35240-e0b952fb-c124-4f92-90bf-0e56ed633b84"
+            }
+          ],
+          "createdAt": "2026-06-05T13:13:03.000Z",
+          "updatedAt": "2026-06-05T13:13:03.000Z",
+          "uid": "35240-d0c2472b-bdef-470a-a7bd-43cd5d25a526"
+        },
+        {
+          "name": "Salesforce List Query Jobs",
+          "id": "3c613132-71a6-4809-9118-c79a9e353ba4",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/query?jobType=V2Query",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "query"
+              ],
+              "query": [
+                {
+                  "description": "Filter results by job type. Use V2Query for Bulk API 2.0 query jobs.\n",
+                  "key": "jobType",
+                  "value": "V2Query"
+                }
+              ]
+            },
+            "description": "Returns a list of query jobs in the org. Results are ordered by creation date descending. Use query parameters to filter by job state.\n"
+          },
+          "response": [
+            {
+              "id": "46d103df-eb87-43b9-bc46-5b2f816516c7",
+              "name": "List of query jobs.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/query?jobType=V2Query",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "query"
+                  ],
+                  "query": [
+                    {
+                      "description": "Filter results by job type. Use V2Query for Bulk API 2.0 query jobs.\n",
+                      "key": "jobType",
+                      "value": "V2Query"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"done\": \"<boolean>\",\n  \"nextRecordsUrl\": \"<uri>\",\n  \"records\": [\n    {\n      \"id\": \"<string>\",\n      \"operation\": \"query\",\n      \"object\": \"<string>\",\n      \"state\": \"Open\",\n      \"createdDate\": \"<dateTime>\",\n      \"systemModstamp\": \"<dateTime>\",\n      \"numberRecordsProcessed\": \"<integer>\",\n      \"totalProcessingTime\": \"<integer>\",\n      \"errorMessage\": \"<string>\",\n      \"contentType\": \"CSV\",\n      \"columnDelimiter\": \"CARET\",\n      \"lineEnding\": \"CRLF\",\n      \"jobType\": \"<string>\",\n      \"createdById\": \"<string>\",\n      \"apiVersion\": \"<number>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"operation\": \"query\",\n      \"object\": \"<string>\",\n      \"state\": \"InProgress\",\n      \"createdDate\": \"<dateTime>\",\n      \"systemModstamp\": \"<dateTime>\",\n      \"numberRecordsProcessed\": \"<integer>\",\n      \"totalProcessingTime\": \"<integer>\",\n      \"errorMessage\": \"<string>\",\n      \"contentType\": \"CSV\",\n      \"columnDelimiter\": \"CARET\",\n      \"lineEnding\": \"LF\",\n      \"jobType\": \"<string>\",\n      \"createdById\": \"<string>\",\n      \"apiVersion\": \"<number>\"\n    }\n  ]\n}",
+              "createdAt": "2026-06-05T13:13:03.000Z",
+              "updatedAt": "2026-06-05T13:13:03.000Z",
+              "uid": "35240-46d103df-eb87-43b9-bc46-5b2f816516c7"
+            },
+            {
+              "id": "48fa9d8c-3db5-4cd8-a915-2765ba78d1bf",
+              "name": "Unauthorized. Invalid or expired OAuth token.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/query?jobType=V2Query",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "query"
+                  ],
+                  "query": [
+                    {
+                      "description": "Filter results by job type. Use V2Query for Bulk API 2.0 query jobs.\n",
+                      "key": "jobType",
+                      "value": "V2Query"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "createdAt": "2026-06-05T13:13:03.000Z",
+              "updatedAt": "2026-06-05T13:13:03.000Z",
+              "uid": "35240-48fa9d8c-3db5-4cd8-a915-2765ba78d1bf"
+            }
+          ],
+          "createdAt": "2026-06-05T13:13:03.000Z",
+          "updatedAt": "2026-06-05T13:13:03.000Z",
+          "uid": "35240-3c613132-71a6-4809-9118-c79a9e353ba4"
+        }
+      ],
+      "id": "3ae02d14-bdd1-4bb5-9387-fe422434bafa",
+      "createdAt": "2026-06-05T13:13:03.000Z",
+      "updatedAt": "2026-06-05T13:13:03.000Z",
+      "uid": "35240-3ae02d14-bdd1-4bb5-9387-fe422434bafa"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "instance",
+      "value": "yourInstance"
+    },
+    {
+      "key": "version",
+      "value": "63.0"
+    },
+    {
+      "key": "baseUrl",
+      "value": "https://{{instance}}.salesforce.com/services/data/v{{version}}/jobs"
+    }
+  ]
+}

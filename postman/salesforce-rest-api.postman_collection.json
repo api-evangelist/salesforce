@@ -1,0 +1,4163 @@
+{
+  "info": {
+    "_postman_id": "8c0cac78-d007-4844-ab9b-515a71a3f3dd",
+    "name": "Salesforce REST API",
+    "description": "The Salesforce REST API provides a simple and powerful web service interface to interact with Salesforce org data. It supports creating, reading, updating, deleting, and querying records using SOQL and SOSL, and is the primary API for building connected applications against Salesforce.\n\n\nContact Support:\n Name: Salesforce Developers",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-06-05T13:13:00.000Z",
+    "updatedAt": "2026-06-05T13:13:01.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-8c0cac78-d007-4844-ab9b-515a71a3f3dd"
+  },
+  "item": [
+    {
+      "name": "/",
+      "item": [
+        {
+          "name": "Salesforce List Available Api Versions",
+          "id": "8a7d8e14-43c3-4735-b819-e1a670a3987a",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                ""
+              ]
+            },
+            "description": "Returns a list of all Salesforce REST API versions available on this instance. Each entry includes the version number, label, and URL. Use this to discover the latest supported version before building integrations.\n"
+          },
+          "response": [
+            {
+              "id": "1cb135cb-00bd-418b-8342-8b3c8b73c053",
+              "name": "A list of available API versions.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    ""
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "[\n  {\n    \"version\": \"<string>\",\n    \"label\": \"<string>\",\n    \"url\": \"<uri>\"\n  },\n  {\n    \"version\": \"<string>\",\n    \"label\": \"<string>\",\n    \"url\": \"<uri>\"\n  }\n]",
+              "createdAt": "2026-06-05T13:13:01.000Z",
+              "updatedAt": "2026-06-05T13:13:01.000Z",
+              "uid": "35240-1cb135cb-00bd-418b-8342-8b3c8b73c053"
+            },
+            {
+              "id": "c3f32331-6829-4002-972b-96a7b83f621a",
+              "name": "Unauthorized. Invalid or expired OAuth token.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    ""
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "createdAt": "2026-06-05T13:13:01.000Z",
+              "updatedAt": "2026-06-05T13:13:01.000Z",
+              "uid": "35240-c3f32331-6829-4002-972b-96a7b83f621a"
+            }
+          ],
+          "createdAt": "2026-06-05T13:13:01.000Z",
+          "updatedAt": "2026-06-05T13:13:01.000Z",
+          "uid": "35240-8a7d8e14-43c3-4735-b819-e1a670a3987a"
+        }
+      ],
+      "id": "5300dd31-c327-46e5-8f12-10a408f02ee7",
+      "createdAt": "2026-06-05T13:13:01.000Z",
+      "updatedAt": "2026-06-05T13:13:01.000Z",
+      "uid": "35240-5300dd31-c327-46e5-8f12-10a408f02ee7"
+    },
+    {
+      "name": "sobjects",
+      "item": [
+        {
+          "name": "{sobjectType}",
+          "item": [
+            {
+              "name": "{id}",
+              "item": [
+                {
+                  "name": "{blobField}",
+                  "item": [
+                    {
+                      "name": "Salesforce Get a Blob Field Value",
+                      "id": "b58f82d0-debf-4d01-9639-5f5ebd245a89",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/octet-stream"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/sobjects/:sobjectType/:id/:blobField",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "sobjects",
+                            ":sobjectType",
+                            ":id",
+                            ":blobField"
+                          ],
+                          "variable": [
+                            {
+                              "id": "a34773f2-979e-46af-b3f6-29e65cd8d7ea",
+                              "key": "sobjectType",
+                              "value": "<string>",
+                              "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                            },
+                            {
+                              "id": "b92ea136-26af-47c4-ae37-04b50f05c4cd",
+                              "key": "id",
+                              "value": "<string>",
+                              "description": "(Required) The 18-character Salesforce record ID."
+                            },
+                            {
+                              "id": "fb712698-a7e3-4523-9d77-2a5894c7a45d",
+                              "key": "blobField",
+                              "value": "<string>",
+                              "description": "(Required) The API name of the blob field to retrieve (e.g., Body, VersionData, Photo).\n"
+                            }
+                          ]
+                        },
+                        "description": "Retrieves the binary content of a blob (binary large object) field on an SObject record. Examples include the Body field on Attachment or VersionData on ContentVersion. Returns the raw binary content with the appropriate MIME type.\n"
+                      },
+                      "response": [
+                        {
+                          "id": "83dc0fe8-1aa9-45a9-8be8-6869e9b33c6b",
+                          "name": "The raw binary content of the blob field.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/octet-stream"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/sobjects/:sobjectType/:id/:blobField",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "sobjects",
+                                ":sobjectType",
+                                ":id",
+                                ":blobField"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "sobjectType"
+                                },
+                                {
+                                  "key": "id"
+                                },
+                                {
+                                  "key": "blobField"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/octet-stream"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "<binary>",
+                          "createdAt": "2026-06-05T13:13:01.000Z",
+                          "updatedAt": "2026-06-05T13:13:01.000Z",
+                          "uid": "35240-83dc0fe8-1aa9-45a9-8be8-6869e9b33c6b"
+                        },
+                        {
+                          "id": "50694a58-7a1c-4f17-bf56-3737bd002287",
+                          "name": "Unauthorized. Invalid or expired OAuth token.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/sobjects/:sobjectType/:id/:blobField",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "sobjects",
+                                ":sobjectType",
+                                ":id",
+                                ":blobField"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "sobjectType"
+                                },
+                                {
+                                  "key": "id"
+                                },
+                                {
+                                  "key": "blobField"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                          "createdAt": "2026-06-05T13:13:01.000Z",
+                          "updatedAt": "2026-06-05T13:13:01.000Z",
+                          "uid": "35240-50694a58-7a1c-4f17-bf56-3737bd002287"
+                        },
+                        {
+                          "id": "1580f156-9097-45f3-a514-37e587fe049d",
+                          "name": "Record or blob field not found.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/sobjects/:sobjectType/:id/:blobField",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "sobjects",
+                                ":sobjectType",
+                                ":id",
+                                ":blobField"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "sobjectType"
+                                },
+                                {
+                                  "key": "id"
+                                },
+                                {
+                                  "key": "blobField"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                          "createdAt": "2026-06-05T13:13:01.000Z",
+                          "updatedAt": "2026-06-05T13:13:01.000Z",
+                          "uid": "35240-1580f156-9097-45f3-a514-37e587fe049d"
+                        }
+                      ],
+                      "createdAt": "2026-06-05T13:13:01.000Z",
+                      "updatedAt": "2026-06-05T13:13:01.000Z",
+                      "uid": "35240-b58f82d0-debf-4d01-9639-5f5ebd245a89"
+                    }
+                  ],
+                  "id": "8ba18588-228d-4928-8413-8e9cb2ed8528",
+                  "createdAt": "2026-06-05T13:13:01.000Z",
+                  "updatedAt": "2026-06-05T13:13:01.000Z",
+                  "uid": "35240-8ba18588-228d-4928-8413-8e9cb2ed8528"
+                },
+                {
+                  "name": "Salesforce Get a Record by Id",
+                  "id": "1cba9451-3874-4eea-b17e-123195bebafc",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/sobjects/:sobjectType/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "sobjects",
+                        ":sobjectType",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "id": "a3ff93f5-0e88-4378-8f61-49b32eae1c35",
+                          "key": "sobjectType",
+                          "value": "<string>",
+                          "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                        },
+                        {
+                          "id": "35fc6499-039f-442c-ba0c-2991fe909c02",
+                          "key": "id",
+                          "value": "<string>",
+                          "description": "(Required) The 18-character Salesforce record ID."
+                        }
+                      ]
+                    },
+                    "description": "Retrieves a single SObject record by its 18-character ID. Returns all accessible fields for the record. To retrieve only specific fields, use a SOQL query via the /query endpoint instead.\n"
+                  },
+                  "response": [
+                    {
+                      "id": "050de965-1128-4d58-b1b9-acf2672ec29b",
+                      "name": "The requested SObject record.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/sobjects/:sobjectType/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "sobjects",
+                            ":sobjectType",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "sobjectType"
+                            },
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"attributes\": {\n    \"type\": \"<string>\",\n    \"url\": \"<uri>\"\n  },\n  \"Id\": \"<string>\"\n}",
+                      "createdAt": "2026-06-05T13:13:01.000Z",
+                      "updatedAt": "2026-06-05T13:13:01.000Z",
+                      "uid": "35240-050de965-1128-4d58-b1b9-acf2672ec29b"
+                    },
+                    {
+                      "id": "a79d6ace-9a5e-4eac-9e1e-4c0468dddcd9",
+                      "name": "Unauthorized. Invalid or expired OAuth token.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/sobjects/:sobjectType/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "sobjects",
+                            ":sobjectType",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "sobjectType"
+                            },
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "createdAt": "2026-06-05T13:13:01.000Z",
+                      "updatedAt": "2026-06-05T13:13:01.000Z",
+                      "uid": "35240-a79d6ace-9a5e-4eac-9e1e-4c0468dddcd9"
+                    },
+                    {
+                      "id": "a8a51cfe-ee5b-4eef-aa7d-853edbdd64dd",
+                      "name": "Record not found for the given ID and SObject type.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/sobjects/:sobjectType/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "sobjects",
+                            ":sobjectType",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "sobjectType"
+                            },
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "createdAt": "2026-06-05T13:13:01.000Z",
+                      "updatedAt": "2026-06-05T13:13:01.000Z",
+                      "uid": "35240-a8a51cfe-ee5b-4eef-aa7d-853edbdd64dd"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T13:13:01.000Z",
+                  "updatedAt": "2026-06-05T13:13:01.000Z",
+                  "uid": "35240-1cba9451-3874-4eea-b17e-123195bebafc"
+                },
+                {
+                  "name": "Salesforce Update a Record",
+                  "id": "4fa504c4-d0e5-4a95-bf29-d9b1cab8677c",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"attributes\": {\n    \"type\": \"<string>\",\n    \"url\": \"<uri>\"\n  },\n  \"Id\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/sobjects/:sobjectType/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "sobjects",
+                        ":sobjectType",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "id": "2bfb6a09-10c0-487d-a084-f879826f74f6",
+                          "key": "sobjectType",
+                          "value": "<string>",
+                          "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                        },
+                        {
+                          "id": "840ffb18-282a-43b8-87e0-238dd4d0ce9b",
+                          "key": "id",
+                          "value": "<string>",
+                          "description": "(Required) The 18-character Salesforce record ID."
+                        }
+                      ]
+                    },
+                    "description": "Updates an existing SObject record identified by its 18-character ID. Only the fields included in the request body are updated; omitted fields retain their current values. Returns no body on success.\n"
+                  },
+                  "response": [
+                    {
+                      "id": "4d4de1f6-61a2-4ce1-8ef2-494c7748ce01",
+                      "name": "Record updated successfully. No body is returned.",
+                      "originalRequest": {
+                        "method": "PATCH",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"attributes\": {\n    \"type\": \"<string>\",\n    \"url\": \"<uri>\"\n  },\n  \"Id\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/sobjects/:sobjectType/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "sobjects",
+                            ":sobjectType",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "sobjectType"
+                            },
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "No Content",
+                      "code": 204,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-06-05T13:13:01.000Z",
+                      "updatedAt": "2026-06-05T13:13:01.000Z",
+                      "uid": "35240-4d4de1f6-61a2-4ce1-8ef2-494c7748ce01"
+                    },
+                    {
+                      "id": "3543a645-371c-44a5-9d03-9279d91235e8",
+                      "name": "Bad request. Invalid field values or field not updateable.",
+                      "originalRequest": {
+                        "method": "PATCH",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"attributes\": {\n    \"type\": \"<string>\",\n    \"url\": \"<uri>\"\n  },\n  \"Id\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/sobjects/:sobjectType/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "sobjects",
+                            ":sobjectType",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "sobjectType"
+                            },
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "createdAt": "2026-06-05T13:13:01.000Z",
+                      "updatedAt": "2026-06-05T13:13:01.000Z",
+                      "uid": "35240-3543a645-371c-44a5-9d03-9279d91235e8"
+                    },
+                    {
+                      "id": "31da09ec-71e0-46e9-937e-3d5d7fed6c4d",
+                      "name": "Unauthorized. Invalid or expired OAuth token.",
+                      "originalRequest": {
+                        "method": "PATCH",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"attributes\": {\n    \"type\": \"<string>\",\n    \"url\": \"<uri>\"\n  },\n  \"Id\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/sobjects/:sobjectType/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "sobjects",
+                            ":sobjectType",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "sobjectType"
+                            },
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "createdAt": "2026-06-05T13:13:01.000Z",
+                      "updatedAt": "2026-06-05T13:13:01.000Z",
+                      "uid": "35240-31da09ec-71e0-46e9-937e-3d5d7fed6c4d"
+                    },
+                    {
+                      "id": "48663f6e-0955-4062-a671-2387c26a3725",
+                      "name": "Record not found for the given ID and SObject type.",
+                      "originalRequest": {
+                        "method": "PATCH",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"attributes\": {\n    \"type\": \"<string>\",\n    \"url\": \"<uri>\"\n  },\n  \"Id\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/sobjects/:sobjectType/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "sobjects",
+                            ":sobjectType",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "sobjectType"
+                            },
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "createdAt": "2026-06-05T13:13:01.000Z",
+                      "updatedAt": "2026-06-05T13:13:01.000Z",
+                      "uid": "35240-48663f6e-0955-4062-a671-2387c26a3725"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T13:13:01.000Z",
+                  "updatedAt": "2026-06-05T13:13:01.000Z",
+                  "uid": "35240-4fa504c4-d0e5-4a95-bf29-d9b1cab8677c"
+                },
+                {
+                  "name": "Salesforce Delete a Record",
+                  "id": "205a0cdf-4d89-4520-8749-2642c9cfc41d",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/sobjects/:sobjectType/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "sobjects",
+                        ":sobjectType",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "id": "3a63edf5-00ea-49fb-935c-96344736f96d",
+                          "key": "sobjectType",
+                          "value": "<string>",
+                          "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                        },
+                        {
+                          "id": "5b8a9ce5-7de5-46fb-b7b9-ae790c78a91a",
+                          "key": "id",
+                          "value": "<string>",
+                          "description": "(Required) The 18-character Salesforce record ID."
+                        }
+                      ]
+                    },
+                    "description": "Deletes an existing SObject record by its 18-character ID. The record is moved to the Recycle Bin unless the object does not support soft delete, in which case it is permanently removed.\n"
+                  },
+                  "response": [
+                    {
+                      "id": "d64d2d4d-95cc-40cb-8555-f68b644cbc28",
+                      "name": "Record deleted successfully. No body is returned.",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/sobjects/:sobjectType/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "sobjects",
+                            ":sobjectType",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "sobjectType"
+                            },
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "No Content",
+                      "code": 204,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-06-05T13:13:01.000Z",
+                      "updatedAt": "2026-06-05T13:13:01.000Z",
+                      "uid": "35240-d64d2d4d-95cc-40cb-8555-f68b644cbc28"
+                    },
+                    {
+                      "id": "cbb3b109-95db-4f8a-9c65-5fae0d43308b",
+                      "name": "Unauthorized. Invalid or expired OAuth token.",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/sobjects/:sobjectType/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "sobjects",
+                            ":sobjectType",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "sobjectType"
+                            },
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "createdAt": "2026-06-05T13:13:01.000Z",
+                      "updatedAt": "2026-06-05T13:13:01.000Z",
+                      "uid": "35240-cbb3b109-95db-4f8a-9c65-5fae0d43308b"
+                    },
+                    {
+                      "id": "81f5a10c-268e-4b73-8c9d-d68e4641ba01",
+                      "name": "Record not found for the given ID and SObject type.",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/sobjects/:sobjectType/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "sobjects",
+                            ":sobjectType",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "sobjectType"
+                            },
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "createdAt": "2026-06-05T13:13:01.000Z",
+                      "updatedAt": "2026-06-05T13:13:01.000Z",
+                      "uid": "35240-81f5a10c-268e-4b73-8c9d-d68e4641ba01"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T13:13:01.000Z",
+                  "updatedAt": "2026-06-05T13:13:01.000Z",
+                  "uid": "35240-205a0cdf-4d89-4520-8749-2642c9cfc41d"
+                }
+              ],
+              "id": "78315e44-1a17-4b1a-9622-f3f696653fbd",
+              "createdAt": "2026-06-05T13:13:01.000Z",
+              "updatedAt": "2026-06-05T13:13:01.000Z",
+              "uid": "35240-78315e44-1a17-4b1a-9622-f3f696653fbd"
+            },
+            {
+              "name": "describe",
+              "item": [
+                {
+                  "name": "Salesforce Full Describe of an Sobject",
+                  "id": "7fcbb5d8-6c7c-4811-ac8c-44cbf1b5e459",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/sobjects/:sobjectType/describe",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "sobjects",
+                        ":sobjectType",
+                        "describe"
+                      ],
+                      "variable": [
+                        {
+                          "id": "f3463817-e30e-4ec7-adf4-1bb90fe39283",
+                          "key": "sobjectType",
+                          "value": "<string>",
+                          "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                        }
+                      ]
+                    },
+                    "description": "Returns a complete description of the specified SObject type, including all field definitions with their data types, labels, picklist values, relationship metadata, and child relationships. Use this endpoint when you need detailed schema information for a specific object type.\n"
+                  },
+                  "response": [
+                    {
+                      "id": "bfd9a48d-47a6-4dea-88c0-3950612e4769",
+                      "name": "Full metadata describing the SObject type and all its fields.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/sobjects/:sobjectType/describe",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "sobjects",
+                            ":sobjectType",
+                            "describe"
+                          ],
+                          "variable": [
+                            {
+                              "key": "sobjectType"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"name\": \"<string>\",\n  \"label\": \"<string>\",\n  \"labelPlural\": \"<string>\",\n  \"keyPrefix\": \"<string>\",\n  \"queryable\": \"<boolean>\",\n  \"searchable\": \"<boolean>\",\n  \"createable\": \"<boolean>\",\n  \"updateable\": \"<boolean>\",\n  \"deletable\": \"<boolean>\",\n  \"fields\": [\n    {\n      \"name\": \"<string>\",\n      \"label\": \"<string>\",\n      \"type\": \"<string>\",\n      \"nillable\": \"<boolean>\",\n      \"updateable\": \"<boolean>\",\n      \"createable\": \"<boolean>\",\n      \"length\": \"<integer>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"label\": \"<string>\",\n      \"type\": \"<string>\",\n      \"nillable\": \"<boolean>\",\n      \"updateable\": \"<boolean>\",\n      \"createable\": \"<boolean>\",\n      \"length\": \"<integer>\"\n    }\n  ],\n  \"urls\": {}\n}",
+                      "createdAt": "2026-06-05T13:13:01.000Z",
+                      "updatedAt": "2026-06-05T13:13:01.000Z",
+                      "uid": "35240-bfd9a48d-47a6-4dea-88c0-3950612e4769"
+                    },
+                    {
+                      "id": "c04d5286-c7f3-47e7-a9dc-05fd079042fe",
+                      "name": "Unauthorized. Invalid or expired OAuth token.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/sobjects/:sobjectType/describe",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "sobjects",
+                            ":sobjectType",
+                            "describe"
+                          ],
+                          "variable": [
+                            {
+                              "key": "sobjectType"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "createdAt": "2026-06-05T13:13:01.000Z",
+                      "updatedAt": "2026-06-05T13:13:01.000Z",
+                      "uid": "35240-c04d5286-c7f3-47e7-a9dc-05fd079042fe"
+                    },
+                    {
+                      "id": "d88b072a-d54d-4d1f-be2c-83d99dd1a45a",
+                      "name": "The specified SObject type was not found.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/sobjects/:sobjectType/describe",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "sobjects",
+                            ":sobjectType",
+                            "describe"
+                          ],
+                          "variable": [
+                            {
+                              "key": "sobjectType"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "createdAt": "2026-06-05T13:13:01.000Z",
+                      "updatedAt": "2026-06-05T13:13:01.000Z",
+                      "uid": "35240-d88b072a-d54d-4d1f-be2c-83d99dd1a45a"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T13:13:01.000Z",
+                  "updatedAt": "2026-06-05T13:13:01.000Z",
+                  "uid": "35240-7fcbb5d8-6c7c-4811-ac8c-44cbf1b5e459"
+                }
+              ],
+              "id": "bdea485a-e916-4a24-9f5c-4a03d222c448",
+              "createdAt": "2026-06-05T13:13:01.000Z",
+              "updatedAt": "2026-06-05T13:13:01.000Z",
+              "uid": "35240-bdea485a-e916-4a24-9f5c-4a03d222c448"
+            },
+            {
+              "name": "Salesforce Describe an Sobject",
+              "id": "31103d3d-5645-4ff6-b588-2e36f81f5c93",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/sobjects/:sobjectType",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "sobjects",
+                    ":sobjectType"
+                  ],
+                  "variable": [
+                    {
+                      "id": "1c7f17ce-d438-494d-92af-a0e44781a3a9",
+                      "key": "sobjectType",
+                      "value": "<string>",
+                      "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                    }
+                  ]
+                },
+                "description": "Returns metadata about a specific SObject type, including field definitions, relationships, and available REST endpoints. This is equivalent to calling the describe endpoint but returns a shorter summary. For the full field list use /sobjects/{sobjectType}/describe.\n"
+              },
+              "response": [
+                {
+                  "id": "391c166c-9cd2-48b6-bc69-d83f4a1d98c8",
+                  "name": "Metadata describing the specified SObject type.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/sobjects/:sobjectType",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "sobjects",
+                        ":sobjectType"
+                      ],
+                      "variable": [
+                        {
+                          "key": "sobjectType"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"name\": \"<string>\",\n  \"label\": \"<string>\",\n  \"labelPlural\": \"<string>\",\n  \"keyPrefix\": \"<string>\",\n  \"queryable\": \"<boolean>\",\n  \"searchable\": \"<boolean>\",\n  \"createable\": \"<boolean>\",\n  \"updateable\": \"<boolean>\",\n  \"deletable\": \"<boolean>\",\n  \"fields\": [\n    {\n      \"name\": \"<string>\",\n      \"label\": \"<string>\",\n      \"type\": \"<string>\",\n      \"nillable\": \"<boolean>\",\n      \"updateable\": \"<boolean>\",\n      \"createable\": \"<boolean>\",\n      \"length\": \"<integer>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"label\": \"<string>\",\n      \"type\": \"<string>\",\n      \"nillable\": \"<boolean>\",\n      \"updateable\": \"<boolean>\",\n      \"createable\": \"<boolean>\",\n      \"length\": \"<integer>\"\n    }\n  ],\n  \"urls\": {}\n}",
+                  "createdAt": "2026-06-05T13:13:01.000Z",
+                  "updatedAt": "2026-06-05T13:13:01.000Z",
+                  "uid": "35240-391c166c-9cd2-48b6-bc69-d83f4a1d98c8"
+                },
+                {
+                  "id": "13c30728-6bfa-4562-81e5-eb8c20892bdd",
+                  "name": "Unauthorized. Invalid or expired OAuth token.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/sobjects/:sobjectType",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "sobjects",
+                        ":sobjectType"
+                      ],
+                      "variable": [
+                        {
+                          "key": "sobjectType"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "createdAt": "2026-06-05T13:13:01.000Z",
+                  "updatedAt": "2026-06-05T13:13:01.000Z",
+                  "uid": "35240-13c30728-6bfa-4562-81e5-eb8c20892bdd"
+                },
+                {
+                  "id": "04cfff00-eb04-402e-a910-7cee2d6b56da",
+                  "name": "The specified SObject type was not found.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/sobjects/:sobjectType",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "sobjects",
+                        ":sobjectType"
+                      ],
+                      "variable": [
+                        {
+                          "key": "sobjectType"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "createdAt": "2026-06-05T13:13:01.000Z",
+                  "updatedAt": "2026-06-05T13:13:01.000Z",
+                  "uid": "35240-04cfff00-eb04-402e-a910-7cee2d6b56da"
+                }
+              ],
+              "createdAt": "2026-06-05T13:13:01.000Z",
+              "updatedAt": "2026-06-05T13:13:01.000Z",
+              "uid": "35240-31103d3d-5645-4ff6-b588-2e36f81f5c93"
+            },
+            {
+              "name": "Salesforce Create a New Record",
+              "id": "0d96cc07-9d3e-439b-9caf-10cc47542bbf",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"attributes\": {\n    \"type\": \"<string>\",\n    \"url\": \"<uri>\"\n  },\n  \"Id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/sobjects/:sobjectType",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "sobjects",
+                    ":sobjectType"
+                  ],
+                  "variable": [
+                    {
+                      "id": "92cb8e97-3ada-43be-a731-88a47d363ca7",
+                      "key": "sobjectType",
+                      "value": "<string>",
+                      "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                    }
+                  ]
+                },
+                "description": "Creates a new record of the specified SObject type. The request body must contain the field values for the new record in JSON format. Returns the ID of the newly created record on success.\n"
+              },
+              "response": [
+                {
+                  "id": "41d5ea48-5bfe-4172-bf9f-8c765e2f28e1",
+                  "name": "Record created successfully.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"attributes\": {\n    \"type\": \"<string>\",\n    \"url\": \"<uri>\"\n  },\n  \"Id\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/sobjects/:sobjectType",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "sobjects",
+                        ":sobjectType"
+                      ],
+                      "variable": [
+                        {
+                          "key": "sobjectType"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"id\": \"<string>\",\n  \"success\": \"<boolean>\",\n  \"errors\": [\n    {\n      \"message\": \"<string>\",\n      \"errorCode\": \"<string>\",\n      \"fields\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"message\": \"<string>\",\n      \"errorCode\": \"<string>\",\n      \"fields\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  ]\n}",
+                  "createdAt": "2026-06-05T13:13:01.000Z",
+                  "updatedAt": "2026-06-05T13:13:01.000Z",
+                  "uid": "35240-41d5ea48-5bfe-4172-bf9f-8c765e2f28e1"
+                },
+                {
+                  "id": "b9e5cbfc-a827-4b89-858c-e0f6f2a5dc16",
+                  "name": "Bad request. Missing required fields or invalid field values.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"attributes\": {\n    \"type\": \"<string>\",\n    \"url\": \"<uri>\"\n  },\n  \"Id\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/sobjects/:sobjectType",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "sobjects",
+                        ":sobjectType"
+                      ],
+                      "variable": [
+                        {
+                          "key": "sobjectType"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "createdAt": "2026-06-05T13:13:01.000Z",
+                  "updatedAt": "2026-06-05T13:13:01.000Z",
+                  "uid": "35240-b9e5cbfc-a827-4b89-858c-e0f6f2a5dc16"
+                },
+                {
+                  "id": "a4caec91-407d-4081-a0a6-52ef7b62a7ec",
+                  "name": "Unauthorized. Invalid or expired OAuth token.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"attributes\": {\n    \"type\": \"<string>\",\n    \"url\": \"<uri>\"\n  },\n  \"Id\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/sobjects/:sobjectType",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "sobjects",
+                        ":sobjectType"
+                      ],
+                      "variable": [
+                        {
+                          "key": "sobjectType"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "createdAt": "2026-06-05T13:13:01.000Z",
+                  "updatedAt": "2026-06-05T13:13:01.000Z",
+                  "uid": "35240-a4caec91-407d-4081-a0a6-52ef7b62a7ec"
+                }
+              ],
+              "createdAt": "2026-06-05T13:13:01.000Z",
+              "updatedAt": "2026-06-05T13:13:01.000Z",
+              "uid": "35240-0d96cc07-9d3e-439b-9caf-10cc47542bbf"
+            }
+          ],
+          "id": "d16649fa-d177-49e0-81ad-4599a457b9b4",
+          "createdAt": "2026-06-05T13:13:01.000Z",
+          "updatedAt": "2026-06-05T13:13:01.000Z",
+          "uid": "35240-d16649fa-d177-49e0-81ad-4599a457b9b4"
+        },
+        {
+          "name": "Salesforce List All Sobjects",
+          "id": "d1e99586-922d-411e-a9ba-3f86ae27d4c4",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/sobjects",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "sobjects"
+              ]
+            },
+            "description": "Returns a list of all available SObject types in the org, including both standard and custom objects. Each entry includes the object name, label, key prefix, and whether the object is queryable, searchable, and retrievable.\n"
+          },
+          "response": [
+            {
+              "id": "d25513fa-6e8c-4795-bd4f-f2f01282d4e9",
+              "name": "A list of all SObject types available in the org.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/sobjects",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "sobjects"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"encoding\": \"<string>\",\n  \"maxBatchSize\": \"<integer>\",\n  \"sobjects\": [\n    {\n      \"name\": \"<string>\",\n      \"label\": \"<string>\",\n      \"keyPrefix\": \"<string>\",\n      \"queryable\": \"<boolean>\",\n      \"searchable\": \"<boolean>\",\n      \"retrieveable\": \"<boolean>\",\n      \"urls\": {}\n    },\n    {\n      \"name\": \"<string>\",\n      \"label\": \"<string>\",\n      \"keyPrefix\": \"<string>\",\n      \"queryable\": \"<boolean>\",\n      \"searchable\": \"<boolean>\",\n      \"retrieveable\": \"<boolean>\",\n      \"urls\": {}\n    }\n  ]\n}",
+              "createdAt": "2026-06-05T13:13:01.000Z",
+              "updatedAt": "2026-06-05T13:13:01.000Z",
+              "uid": "35240-d25513fa-6e8c-4795-bd4f-f2f01282d4e9"
+            },
+            {
+              "id": "e9994589-c693-47f5-ac1e-eeee9b943296",
+              "name": "Unauthorized. Invalid or expired OAuth token.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/sobjects",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "sobjects"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "createdAt": "2026-06-05T13:13:01.000Z",
+              "updatedAt": "2026-06-05T13:13:01.000Z",
+              "uid": "35240-e9994589-c693-47f5-ac1e-eeee9b943296"
+            }
+          ],
+          "createdAt": "2026-06-05T13:13:01.000Z",
+          "updatedAt": "2026-06-05T13:13:01.000Z",
+          "uid": "35240-d1e99586-922d-411e-a9ba-3f86ae27d4c4"
+        }
+      ],
+      "id": "1ce3e455-7536-40d8-aa43-51b9a4b8765a",
+      "createdAt": "2026-06-05T13:13:01.000Z",
+      "updatedAt": "2026-06-05T13:13:01.000Z",
+      "uid": "35240-1ce3e455-7536-40d8-aa43-51b9a4b8765a"
+    },
+    {
+      "name": "query",
+      "item": [
+        {
+          "name": "{queryId}",
+          "item": [
+            {
+              "name": "Salesforce Get the Next Page of Query Results",
+              "id": "d3fc44f0-495e-4fbc-ae47-2147a41204ce",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/query/:queryId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "query",
+                    ":queryId"
+                  ],
+                  "variable": [
+                    {
+                      "id": "41e4c951-30d2-4a3d-a0d6-ebbfc3476ed4",
+                      "key": "queryId",
+                      "value": "<string>",
+                      "description": "(Required) The query ID token from the nextRecordsUrl of a previous query response.\n"
+                    }
+                  ]
+                },
+                "description": "Retrieves the next page of results from a paginated SOQL query. The queryId is obtained from the nextRecordsUrl in a previous query response. Continue calling this endpoint until the done field in the response is true.\n"
+              },
+              "response": [
+                {
+                  "id": "f99e42da-a835-498b-a54d-1c303deecd92",
+                  "name": "The next page of query results. Check the done field to determine if more pages remain.\n",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/query/:queryId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "query",
+                        ":queryId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "queryId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"totalSize\": \"<integer>\",\n  \"done\": \"<boolean>\",\n  \"records\": [\n    {\n      \"attributes\": {\n        \"type\": \"<string>\",\n        \"url\": \"<uri>\"\n      },\n      \"Id\": \"<string>\"\n    },\n    {\n      \"attributes\": {\n        \"type\": \"<string>\",\n        \"url\": \"<uri>\"\n      },\n      \"Id\": \"<string>\"\n    }\n  ],\n  \"nextRecordsUrl\": \"<uri>\"\n}",
+                  "createdAt": "2026-06-05T13:13:01.000Z",
+                  "updatedAt": "2026-06-05T13:13:01.000Z",
+                  "uid": "35240-f99e42da-a835-498b-a54d-1c303deecd92"
+                },
+                {
+                  "id": "0775552d-a47f-46f2-8202-76cb1084a44d",
+                  "name": "Unauthorized. Invalid or expired OAuth token.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/query/:queryId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "query",
+                        ":queryId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "queryId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "createdAt": "2026-06-05T13:13:01.000Z",
+                  "updatedAt": "2026-06-05T13:13:01.000Z",
+                  "uid": "35240-0775552d-a47f-46f2-8202-76cb1084a44d"
+                },
+                {
+                  "id": "6538b0f3-602f-4d84-a77f-d01e61a7a4b5",
+                  "name": "Query ID not found or expired.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/query/:queryId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "query",
+                        ":queryId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "queryId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "createdAt": "2026-06-05T13:13:01.000Z",
+                  "updatedAt": "2026-06-05T13:13:01.000Z",
+                  "uid": "35240-6538b0f3-602f-4d84-a77f-d01e61a7a4b5"
+                }
+              ],
+              "createdAt": "2026-06-05T13:13:01.000Z",
+              "updatedAt": "2026-06-05T13:13:01.000Z",
+              "uid": "35240-d3fc44f0-495e-4fbc-ae47-2147a41204ce"
+            }
+          ],
+          "id": "c342c739-21b2-48e3-9116-09d4a66d1f60",
+          "createdAt": "2026-06-05T13:13:01.000Z",
+          "updatedAt": "2026-06-05T13:13:01.000Z",
+          "uid": "35240-c342c739-21b2-48e3-9116-09d4a66d1f60"
+        },
+        {
+          "name": "Salesforce Execute a Soql Query",
+          "id": "c9d8e60f-ff4f-40d1-ae82-075fe9a53e57",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"q\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/query",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "query"
+              ]
+            },
+            "description": "Executes a SOQL (Salesforce Object Query Language) query and returns matching records. The query is passed in the request body as a JSON object with a \"q\" property. If results span multiple pages, a nextRecordsUrl is included to retrieve the next batch.\n"
+          },
+          "response": [
+            {
+              "id": "1e2f3c74-88ae-488d-a0a0-f5605b9783cd",
+              "name": "Query results with totalSize, done flag, and records array.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"q\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/query",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "query"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"totalSize\": \"<integer>\",\n  \"done\": \"<boolean>\",\n  \"records\": [\n    {\n      \"attributes\": {\n        \"type\": \"<string>\",\n        \"url\": \"<uri>\"\n      },\n      \"Id\": \"<string>\"\n    },\n    {\n      \"attributes\": {\n        \"type\": \"<string>\",\n        \"url\": \"<uri>\"\n      },\n      \"Id\": \"<string>\"\n    }\n  ],\n  \"nextRecordsUrl\": \"<uri>\"\n}",
+              "createdAt": "2026-06-05T13:13:01.000Z",
+              "updatedAt": "2026-06-05T13:13:01.000Z",
+              "uid": "35240-1e2f3c74-88ae-488d-a0a0-f5605b9783cd"
+            },
+            {
+              "id": "08e9a0c4-d169-47b3-a08c-3f104408d793",
+              "name": "Bad request. Invalid SOQL syntax or query validation failed.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"q\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/query",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "query"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "createdAt": "2026-06-05T13:13:01.000Z",
+              "updatedAt": "2026-06-05T13:13:01.000Z",
+              "uid": "35240-08e9a0c4-d169-47b3-a08c-3f104408d793"
+            },
+            {
+              "id": "8f05a928-c473-41e6-93b7-9030b82a670b",
+              "name": "Unauthorized. Invalid or expired OAuth token.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"q\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/query",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "query"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "createdAt": "2026-06-05T13:13:01.000Z",
+              "updatedAt": "2026-06-05T13:13:01.000Z",
+              "uid": "35240-8f05a928-c473-41e6-93b7-9030b82a670b"
+            }
+          ],
+          "createdAt": "2026-06-05T13:13:01.000Z",
+          "updatedAt": "2026-06-05T13:13:01.000Z",
+          "uid": "35240-c9d8e60f-ff4f-40d1-ae82-075fe9a53e57"
+        }
+      ],
+      "id": "ec5a573d-3ea6-44e6-86d8-718ed2b06f16",
+      "createdAt": "2026-06-05T13:13:01.000Z",
+      "updatedAt": "2026-06-05T13:13:01.000Z",
+      "uid": "35240-ec5a573d-3ea6-44e6-86d8-718ed2b06f16"
+    },
+    {
+      "name": "queryAll",
+      "item": [
+        {
+          "name": "Salesforce Execute a Queryall (includes Deleted Records)",
+          "id": "d571e067-df37-4b8e-88a8-4ed421d261c9",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"q\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/queryAll",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "queryAll"
+              ]
+            },
+            "description": "Executes a SOQL query that includes soft-deleted records and archived records in the results, unlike the standard /query endpoint which excludes them. Use this endpoint for data recovery, audit trails, or replication scenarios where deleted records must be included.\n"
+          },
+          "response": [
+            {
+              "id": "af04d4c3-3e61-4120-a4d6-bf3d5dadf28c",
+              "name": "Query results including deleted and archived records, with totalSize, done flag, and records array.\n",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"q\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/queryAll",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "queryAll"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"totalSize\": \"<integer>\",\n  \"done\": \"<boolean>\",\n  \"records\": [\n    {\n      \"attributes\": {\n        \"type\": \"<string>\",\n        \"url\": \"<uri>\"\n      },\n      \"Id\": \"<string>\"\n    },\n    {\n      \"attributes\": {\n        \"type\": \"<string>\",\n        \"url\": \"<uri>\"\n      },\n      \"Id\": \"<string>\"\n    }\n  ],\n  \"nextRecordsUrl\": \"<uri>\"\n}",
+              "createdAt": "2026-06-05T13:13:01.000Z",
+              "updatedAt": "2026-06-05T13:13:01.000Z",
+              "uid": "35240-af04d4c3-3e61-4120-a4d6-bf3d5dadf28c"
+            },
+            {
+              "id": "2b8f220f-da60-4cd7-a636-65d04af1f7de",
+              "name": "Bad request. Invalid SOQL syntax or query validation failed.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"q\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/queryAll",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "queryAll"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "createdAt": "2026-06-05T13:13:01.000Z",
+              "updatedAt": "2026-06-05T13:13:01.000Z",
+              "uid": "35240-2b8f220f-da60-4cd7-a636-65d04af1f7de"
+            },
+            {
+              "id": "22a13ff6-aadc-4383-9b4a-5ca547c04d95",
+              "name": "Unauthorized. Invalid or expired OAuth token.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"q\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/queryAll",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "queryAll"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "createdAt": "2026-06-05T13:13:01.000Z",
+              "updatedAt": "2026-06-05T13:13:01.000Z",
+              "uid": "35240-22a13ff6-aadc-4383-9b4a-5ca547c04d95"
+            }
+          ],
+          "createdAt": "2026-06-05T13:13:01.000Z",
+          "updatedAt": "2026-06-05T13:13:01.000Z",
+          "uid": "35240-d571e067-df37-4b8e-88a8-4ed421d261c9"
+        }
+      ],
+      "id": "5cec00ae-637d-43c0-9136-8e20331cdbc9",
+      "createdAt": "2026-06-05T13:13:01.000Z",
+      "updatedAt": "2026-06-05T13:13:01.000Z",
+      "uid": "35240-5cec00ae-637d-43c0-9136-8e20331cdbc9"
+    },
+    {
+      "name": "search",
+      "item": [
+        {
+          "name": "Salesforce Execute a Sosl Search",
+          "id": "01931450-7d89-4123-887e-373bed782e53",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/search?q=<string>",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "search"
+              ],
+              "query": [
+                {
+                  "description": "(Required) The SOSL search string to execute. Must include a FIND clause and optionally IN, RETURNING, and WITH clauses.\n",
+                  "key": "q",
+                  "value": "<string>"
+                }
+              ]
+            },
+            "description": "Executes a SOSL (Salesforce Object Search Language) search query across multiple objects simultaneously. The SOSL query is passed as a query parameter. Returns matching records from all specified objects, supporting full-text search capabilities.\n"
+          },
+          "response": [
+            {
+              "id": "9e9f7a56-d8af-41a3-ac54-3bb3b168f80a",
+              "name": "Search results grouped by object type.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/search?q=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "search"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) The SOSL search string to execute. Must include a FIND clause and optionally IN, RETURNING, and WITH clauses.\n",
+                      "key": "q",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"searchRecords\": [\n    {\n      \"attributes\": {\n        \"type\": \"<string>\",\n        \"url\": \"<uri>\"\n      },\n      \"Id\": \"<string>\"\n    },\n    {\n      \"attributes\": {\n        \"type\": \"<string>\",\n        \"url\": \"<uri>\"\n      },\n      \"Id\": \"<string>\"\n    }\n  ]\n}",
+              "createdAt": "2026-06-05T13:13:01.000Z",
+              "updatedAt": "2026-06-05T13:13:01.000Z",
+              "uid": "35240-9e9f7a56-d8af-41a3-ac54-3bb3b168f80a"
+            },
+            {
+              "id": "30a75951-0286-43d7-94cd-3e8cd98b7250",
+              "name": "Bad request. Invalid SOSL syntax or search validation failed.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/search?q=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "search"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) The SOSL search string to execute. Must include a FIND clause and optionally IN, RETURNING, and WITH clauses.\n",
+                      "key": "q",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "createdAt": "2026-06-05T13:13:01.000Z",
+              "updatedAt": "2026-06-05T13:13:01.000Z",
+              "uid": "35240-30a75951-0286-43d7-94cd-3e8cd98b7250"
+            },
+            {
+              "id": "5b6869f2-a900-4163-9900-4c3956fb3a17",
+              "name": "Unauthorized. Invalid or expired OAuth token.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/search?q=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "search"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) The SOSL search string to execute. Must include a FIND clause and optionally IN, RETURNING, and WITH clauses.\n",
+                      "key": "q",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "createdAt": "2026-06-05T13:13:01.000Z",
+              "updatedAt": "2026-06-05T13:13:01.000Z",
+              "uid": "35240-5b6869f2-a900-4163-9900-4c3956fb3a17"
+            }
+          ],
+          "createdAt": "2026-06-05T13:13:01.000Z",
+          "updatedAt": "2026-06-05T13:13:01.000Z",
+          "uid": "35240-01931450-7d89-4123-887e-373bed782e53"
+        }
+      ],
+      "id": "2f0a180b-de09-42b1-af68-83335e5ddecb",
+      "createdAt": "2026-06-05T13:13:01.000Z",
+      "updatedAt": "2026-06-05T13:13:01.000Z",
+      "uid": "35240-2f0a180b-de09-42b1-af68-83335e5ddecb"
+    },
+    {
+      "name": "limits",
+      "item": [
+        {
+          "name": "Salesforce Get Org Api Limits",
+          "id": "9cd523d0-6176-409d-a342-b573b21d0cc0",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/limits",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "limits"
+              ]
+            },
+            "description": "Returns the current API limit usage and remaining quotas for the Salesforce org. Includes limits for daily API requests, bulk API jobs, streaming API events, and other governor limits. Use this endpoint to monitor API consumption and avoid hitting limits.\n"
+          },
+          "response": [
+            {
+              "id": "2d0d007e-c770-4d1e-89eb-51eddf38afc9",
+              "name": "A map of limit names to their maximum and remaining values for the current org.\n",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/limits",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "limits"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"aliqua_d\": {\n    \"Max\": \"<integer>\",\n    \"Remaining\": \"<integer>\"\n  },\n  \"voluptate_e3\": {\n    \"Max\": \"<integer>\",\n    \"Remaining\": \"<integer>\"\n  }\n}",
+              "createdAt": "2026-06-05T13:13:01.000Z",
+              "updatedAt": "2026-06-05T13:13:01.000Z",
+              "uid": "35240-2d0d007e-c770-4d1e-89eb-51eddf38afc9"
+            },
+            {
+              "id": "ec7e0d24-c857-49ef-bcc9-647015de4ad6",
+              "name": "Unauthorized. Invalid or expired OAuth token.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/limits",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "limits"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "createdAt": "2026-06-05T13:13:01.000Z",
+              "updatedAt": "2026-06-05T13:13:01.000Z",
+              "uid": "35240-ec7e0d24-c857-49ef-bcc9-647015de4ad6"
+            }
+          ],
+          "createdAt": "2026-06-05T13:13:01.000Z",
+          "updatedAt": "2026-06-05T13:13:01.000Z",
+          "uid": "35240-9cd523d0-6176-409d-a342-b573b21d0cc0"
+        }
+      ],
+      "id": "ab3669b6-28f0-4a64-8ffb-c1aa756e8676",
+      "createdAt": "2026-06-05T13:13:01.000Z",
+      "updatedAt": "2026-06-05T13:13:01.000Z",
+      "uid": "35240-ab3669b6-28f0-4a64-8ffb-c1aa756e8676"
+    },
+    {
+      "name": "recent",
+      "item": [
+        {
+          "name": "Salesforce Get Recently Viewed Records",
+          "id": "0995ff0f-ad9e-4403-bcec-339540740a72",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/recent?recentlyViewedCount=200",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "recent"
+              ],
+              "query": [
+                {
+                  "description": "The number of recently viewed records to return. Defaults to 200. Maximum is 200.\n",
+                  "key": "recentlyViewedCount",
+                  "value": "200"
+                }
+              ]
+            },
+            "description": "Returns a list of recently viewed and referenced records for the currently authenticated user. Records are ordered by the most recently viewed first. Useful for building recently visited navigation features in custom applications.\n"
+          },
+          "response": [
+            {
+              "id": "3e9d551b-fc6c-471b-894e-090f8f9f51c1",
+              "name": "List of recently viewed records for the current user.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/recent?recentlyViewedCount=200",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "recent"
+                  ],
+                  "query": [
+                    {
+                      "description": "The number of recently viewed records to return. Defaults to 200. Maximum is 200.\n",
+                      "key": "recentlyViewedCount",
+                      "value": "200"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "[\n  {\n    \"Id\": \"<string>\",\n    \"Name\": \"<string>\",\n    \"attributes\": {\n      \"type\": \"<string>\",\n      \"url\": \"<uri>\"\n    }\n  },\n  {\n    \"Id\": \"<string>\",\n    \"Name\": \"<string>\",\n    \"attributes\": {\n      \"type\": \"<string>\",\n      \"url\": \"<uri>\"\n    }\n  }\n]",
+              "createdAt": "2026-06-05T13:13:01.000Z",
+              "updatedAt": "2026-06-05T13:13:01.000Z",
+              "uid": "35240-3e9d551b-fc6c-471b-894e-090f8f9f51c1"
+            },
+            {
+              "id": "7832d85b-74ed-466a-80ac-928c1b028db9",
+              "name": "Unauthorized. Invalid or expired OAuth token.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/recent?recentlyViewedCount=200",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "recent"
+                  ],
+                  "query": [
+                    {
+                      "description": "The number of recently viewed records to return. Defaults to 200. Maximum is 200.\n",
+                      "key": "recentlyViewedCount",
+                      "value": "200"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "createdAt": "2026-06-05T13:13:01.000Z",
+              "updatedAt": "2026-06-05T13:13:01.000Z",
+              "uid": "35240-7832d85b-74ed-466a-80ac-928c1b028db9"
+            }
+          ],
+          "createdAt": "2026-06-05T13:13:01.000Z",
+          "updatedAt": "2026-06-05T13:13:01.000Z",
+          "uid": "35240-0995ff0f-ad9e-4403-bcec-339540740a72"
+        }
+      ],
+      "id": "1e1af3cd-9f7e-4b2c-ad53-6b9a4cc4e906",
+      "createdAt": "2026-06-05T13:13:01.000Z",
+      "updatedAt": "2026-06-05T13:13:01.000Z",
+      "uid": "35240-1e1af3cd-9f7e-4b2c-ad53-6b9a4cc4e906"
+    },
+    {
+      "name": "appMenu",
+      "item": [
+        {
+          "name": "AppSwitcher",
+          "item": [
+            {
+              "name": "Salesforce Get the App Switcher Menu",
+              "id": "3454e4dd-0881-4fce-b07a-bf9b503761ff",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/appMenu/AppSwitcher",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "appMenu",
+                    "AppSwitcher"
+                  ]
+                },
+                "description": "Returns the list of applications available in the Salesforce App Switcher menu for the currently authenticated user. Each entry includes the app label, icon URL, and navigation URL. Use this to build custom navigation or app launchers in connected applications.\n"
+              },
+              "response": [
+                {
+                  "id": "5aff102b-91fc-42c5-8808-7311e285e593",
+                  "name": "App switcher menu entries available to the current user.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/appMenu/AppSwitcher",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "appMenu",
+                        "AppSwitcher"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"appMenuItems\": [\n    {\n      \"name\": \"<string>\",\n      \"label\": \"<string>\",\n      \"iconUrl\": \"<uri>\",\n      \"url\": \"<uri>\",\n      \"type\": \"<string>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"label\": \"<string>\",\n      \"iconUrl\": \"<uri>\",\n      \"url\": \"<uri>\",\n      \"type\": \"<string>\"\n    }\n  ]\n}",
+                  "createdAt": "2026-06-05T13:13:01.000Z",
+                  "updatedAt": "2026-06-05T13:13:01.000Z",
+                  "uid": "35240-5aff102b-91fc-42c5-8808-7311e285e593"
+                },
+                {
+                  "id": "9d1e0ecf-843e-4280-a6be-3f5b5c5e3285",
+                  "name": "Unauthorized. Invalid or expired OAuth token.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/appMenu/AppSwitcher",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "appMenu",
+                        "AppSwitcher"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "createdAt": "2026-06-05T13:13:01.000Z",
+                  "updatedAt": "2026-06-05T13:13:01.000Z",
+                  "uid": "35240-9d1e0ecf-843e-4280-a6be-3f5b5c5e3285"
+                }
+              ],
+              "createdAt": "2026-06-05T13:13:01.000Z",
+              "updatedAt": "2026-06-05T13:13:01.000Z",
+              "uid": "35240-3454e4dd-0881-4fce-b07a-bf9b503761ff"
+            }
+          ],
+          "id": "ba204ad7-cf2f-4f58-9a5a-c2bcad9ffec1",
+          "createdAt": "2026-06-05T13:13:01.000Z",
+          "updatedAt": "2026-06-05T13:13:01.000Z",
+          "uid": "35240-ba204ad7-cf2f-4f58-9a5a-c2bcad9ffec1"
+        }
+      ],
+      "id": "45d9d2cc-2882-4487-8caf-a90516221bb8",
+      "createdAt": "2026-06-05T13:13:01.000Z",
+      "updatedAt": "2026-06-05T13:13:01.000Z",
+      "uid": "35240-45d9d2cc-2882-4487-8caf-a90516221bb8"
+    },
+    {
+      "name": "composite",
+      "item": [
+        {
+          "name": "batch",
+          "item": [
+            {
+              "name": "Salesforce Execute a Batch of Requests",
+              "id": "b8bcf252-9277-47c7-837e-6c337091c0f6",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"batchRequests\": [\n    {\n      \"method\": \"GET\",\n      \"url\": \"<string>\",\n      \"richInput\": {}\n    },\n    {\n      \"method\": \"POST\",\n      \"url\": \"<string>\",\n      \"richInput\": {}\n    }\n  ],\n  \"haltOnError\": false\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/composite/batch",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "composite",
+                    "batch"
+                  ]
+                },
+                "description": "Executes up to 25 independent REST API subrequests in a single HTTP call. All requests are processed independently; failure of one does not affect others. Returns an array of results in the same order as the subrequests. Use this to reduce the number of round trips when making multiple unrelated requests.\n"
+              },
+              "response": [
+                {
+                  "id": "15ed88e4-4ac8-4446-8999-cd8f25269311",
+                  "name": "Results for each subrequest in the batch, in the same order.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"batchRequests\": [\n    {\n      \"method\": \"GET\",\n      \"url\": \"<string>\",\n      \"richInput\": {}\n    },\n    {\n      \"method\": \"POST\",\n      \"url\": \"<string>\",\n      \"richInput\": {}\n    }\n  ],\n  \"haltOnError\": false\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/composite/batch",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "composite",
+                        "batch"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"hasErrors\": \"<boolean>\",\n  \"results\": [\n    {\n      \"statusCode\": \"<integer>\",\n      \"result\": {\n        \"description\": \"Response body of the subrequest.\"\n      }\n    },\n    {\n      \"statusCode\": \"<integer>\",\n      \"result\": {\n        \"description\": \"Response body of the subrequest.\"\n      }\n    }\n  ]\n}",
+                  "createdAt": "2026-06-05T13:13:01.000Z",
+                  "updatedAt": "2026-06-05T13:13:01.000Z",
+                  "uid": "35240-15ed88e4-4ac8-4446-8999-cd8f25269311"
+                },
+                {
+                  "id": "91ef62dc-437b-46e8-9402-49235eb4fa52",
+                  "name": "Unauthorized. Invalid or expired OAuth token.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"batchRequests\": [\n    {\n      \"method\": \"GET\",\n      \"url\": \"<string>\",\n      \"richInput\": {}\n    },\n    {\n      \"method\": \"POST\",\n      \"url\": \"<string>\",\n      \"richInput\": {}\n    }\n  ],\n  \"haltOnError\": false\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/composite/batch",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "composite",
+                        "batch"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "createdAt": "2026-06-05T13:13:01.000Z",
+                  "updatedAt": "2026-06-05T13:13:01.000Z",
+                  "uid": "35240-91ef62dc-437b-46e8-9402-49235eb4fa52"
+                }
+              ],
+              "createdAt": "2026-06-05T13:13:01.000Z",
+              "updatedAt": "2026-06-05T13:13:01.000Z",
+              "uid": "35240-b8bcf252-9277-47c7-837e-6c337091c0f6"
+            }
+          ],
+          "id": "4aa17e34-2909-4210-9395-6a218ad14773",
+          "createdAt": "2026-06-05T13:13:01.000Z",
+          "updatedAt": "2026-06-05T13:13:01.000Z",
+          "uid": "35240-4aa17e34-2909-4210-9395-6a218ad14773"
+        },
+        {
+          "name": "sobjects",
+          "item": [
+            {
+              "name": "{sobjectType}",
+              "item": [
+                {
+                  "name": "Salesforce Sobject Collections Retrieve",
+                  "id": "6a1d210f-e539-4784-a0c6-8c555255ca30",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/composite/sobjects/:sobjectType?ids=<string>&fields=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "composite",
+                        "sobjects",
+                        ":sobjectType"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) Comma-separated list of up to 2000 record IDs to retrieve.\n",
+                          "key": "ids",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Comma-separated list of field names to return for each record. Returns all accessible fields if not specified.\n",
+                          "key": "fields",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "id": "290e6795-549e-4c09-a768-f34aab52335b",
+                          "key": "sobjectType",
+                          "value": "<string>",
+                          "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                        }
+                      ]
+                    },
+                    "description": "Retrieves up to 2000 records of the specified SObject type in a single API call. Record IDs are passed as a comma-separated query parameter. All records must be of the same SObject type. Returns all accessible fields for each record.\n"
+                  },
+                  "response": [
+                    {
+                      "id": "33094c79-7051-4230-92fb-46a1b124c65b",
+                      "name": "Array of SObject records for the specified IDs.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/composite/sobjects/:sobjectType?ids=<string>&fields=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "composite",
+                            "sobjects",
+                            ":sobjectType"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) Comma-separated list of up to 2000 record IDs to retrieve.\n",
+                              "key": "ids",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Comma-separated list of field names to return for each record. Returns all accessible fields if not specified.\n",
+                              "key": "fields",
+                              "value": "<string>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "sobjectType"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "[\n  {\n    \"attributes\": {\n      \"type\": \"<string>\",\n      \"url\": \"<uri>\"\n    },\n    \"Id\": \"<string>\"\n  },\n  {\n    \"attributes\": {\n      \"type\": \"<string>\",\n      \"url\": \"<uri>\"\n    },\n    \"Id\": \"<string>\"\n  }\n]",
+                      "createdAt": "2026-06-05T13:13:01.000Z",
+                      "updatedAt": "2026-06-05T13:13:01.000Z",
+                      "uid": "35240-33094c79-7051-4230-92fb-46a1b124c65b"
+                    },
+                    {
+                      "id": "c195afd3-33c3-45a2-9252-6e1536ea5b3c",
+                      "name": "Unauthorized. Invalid or expired OAuth token.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/composite/sobjects/:sobjectType?ids=<string>&fields=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "composite",
+                            "sobjects",
+                            ":sobjectType"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) Comma-separated list of up to 2000 record IDs to retrieve.\n",
+                              "key": "ids",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Comma-separated list of field names to return for each record. Returns all accessible fields if not specified.\n",
+                              "key": "fields",
+                              "value": "<string>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "sobjectType"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "createdAt": "2026-06-05T13:13:01.000Z",
+                      "updatedAt": "2026-06-05T13:13:01.000Z",
+                      "uid": "35240-c195afd3-33c3-45a2-9252-6e1536ea5b3c"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T13:13:01.000Z",
+                  "updatedAt": "2026-06-05T13:13:01.000Z",
+                  "uid": "35240-6a1d210f-e539-4784-a0c6-8c555255ca30"
+                }
+              ],
+              "id": "5730c90f-784c-4ea9-ae5a-6b7bc0965436",
+              "createdAt": "2026-06-05T13:13:01.000Z",
+              "updatedAt": "2026-06-05T13:13:01.000Z",
+              "uid": "35240-5730c90f-784c-4ea9-ae5a-6b7bc0965436"
+            },
+            {
+              "name": "Salesforce Sobject Collections Create",
+              "id": "1599b622-408a-4c1c-a07a-563fda0b455f",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"allOrNone\": \"<boolean>\",\n  \"records\": [\n    {\n      \"attributes\": {\n        \"type\": \"<string>\",\n        \"url\": \"<uri>\"\n      },\n      \"Id\": \"<string>\"\n    },\n    {\n      \"attributes\": {\n        \"type\": \"<string>\",\n        \"url\": \"<uri>\"\n      },\n      \"Id\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/composite/sobjects",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "composite",
+                    "sobjects"
+                  ]
+                },
+                "description": "Creates up to 200 records in a single API call using SObject Collections. All records must be of the same or different SObject types. If allOrNone is true, all records must succeed or none are committed. Returns an array of save results with IDs or errors for each record.\n"
+              },
+              "response": [
+                {
+                  "id": "34888c86-4095-4420-b534-41686d61cd3a",
+                  "name": "Array of save results with IDs or errors for each record.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"allOrNone\": \"<boolean>\",\n  \"records\": [\n    {\n      \"attributes\": {\n        \"type\": \"<string>\",\n        \"url\": \"<uri>\"\n      },\n      \"Id\": \"<string>\"\n    },\n    {\n      \"attributes\": {\n        \"type\": \"<string>\",\n        \"url\": \"<uri>\"\n      },\n      \"Id\": \"<string>\"\n    }\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/composite/sobjects",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "composite",
+                        "sobjects"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "[\n  {\n    \"id\": \"<string>\",\n    \"success\": \"<boolean>\",\n    \"errors\": [\n      {\n        \"message\": \"<string>\",\n        \"errorCode\": \"<string>\",\n        \"fields\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      {\n        \"message\": \"<string>\",\n        \"errorCode\": \"<string>\",\n        \"fields\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    ]\n  },\n  {\n    \"id\": \"<string>\",\n    \"success\": \"<boolean>\",\n    \"errors\": [\n      {\n        \"message\": \"<string>\",\n        \"errorCode\": \"<string>\",\n        \"fields\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      {\n        \"message\": \"<string>\",\n        \"errorCode\": \"<string>\",\n        \"fields\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    ]\n  }\n]",
+                  "createdAt": "2026-06-05T13:13:01.000Z",
+                  "updatedAt": "2026-06-05T13:13:01.000Z",
+                  "uid": "35240-34888c86-4095-4420-b534-41686d61cd3a"
+                },
+                {
+                  "id": "50dc3dd2-74ff-42fb-a3df-80792cd47a22",
+                  "name": "Unauthorized. Invalid or expired OAuth token.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"allOrNone\": \"<boolean>\",\n  \"records\": [\n    {\n      \"attributes\": {\n        \"type\": \"<string>\",\n        \"url\": \"<uri>\"\n      },\n      \"Id\": \"<string>\"\n    },\n    {\n      \"attributes\": {\n        \"type\": \"<string>\",\n        \"url\": \"<uri>\"\n      },\n      \"Id\": \"<string>\"\n    }\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/composite/sobjects",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "composite",
+                        "sobjects"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "createdAt": "2026-06-05T13:13:01.000Z",
+                  "updatedAt": "2026-06-05T13:13:01.000Z",
+                  "uid": "35240-50dc3dd2-74ff-42fb-a3df-80792cd47a22"
+                }
+              ],
+              "createdAt": "2026-06-05T13:13:01.000Z",
+              "updatedAt": "2026-06-05T13:13:01.000Z",
+              "uid": "35240-1599b622-408a-4c1c-a07a-563fda0b455f"
+            },
+            {
+              "name": "Salesforce Sobject Collections Update",
+              "id": "bfdb29bb-bbf4-4c95-84c6-0530cbb8350a",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"allOrNone\": \"<boolean>\",\n  \"records\": [\n    {\n      \"attributes\": {\n        \"type\": \"<string>\",\n        \"url\": \"<uri>\"\n      },\n      \"Id\": \"<string>\"\n    },\n    {\n      \"attributes\": {\n        \"type\": \"<string>\",\n        \"url\": \"<uri>\"\n      },\n      \"Id\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/composite/sobjects",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "composite",
+                    "sobjects"
+                  ]
+                },
+                "description": "Updates up to 200 records in a single API call using SObject Collections. Each record must include its ID and the fields to update. If allOrNone is true, all updates must succeed or none are committed. Returns an array of save results for each record.\n"
+              },
+              "response": [
+                {
+                  "id": "f086cb61-eee6-4ca1-9344-26fabd7aeb80",
+                  "name": "Array of save results with success flag or errors for each record.",
+                  "originalRequest": {
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"allOrNone\": \"<boolean>\",\n  \"records\": [\n    {\n      \"attributes\": {\n        \"type\": \"<string>\",\n        \"url\": \"<uri>\"\n      },\n      \"Id\": \"<string>\"\n    },\n    {\n      \"attributes\": {\n        \"type\": \"<string>\",\n        \"url\": \"<uri>\"\n      },\n      \"Id\": \"<string>\"\n    }\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/composite/sobjects",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "composite",
+                        "sobjects"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "[\n  {\n    \"id\": \"<string>\",\n    \"success\": \"<boolean>\",\n    \"errors\": [\n      {\n        \"message\": \"<string>\",\n        \"errorCode\": \"<string>\",\n        \"fields\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      {\n        \"message\": \"<string>\",\n        \"errorCode\": \"<string>\",\n        \"fields\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    ]\n  },\n  {\n    \"id\": \"<string>\",\n    \"success\": \"<boolean>\",\n    \"errors\": [\n      {\n        \"message\": \"<string>\",\n        \"errorCode\": \"<string>\",\n        \"fields\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      {\n        \"message\": \"<string>\",\n        \"errorCode\": \"<string>\",\n        \"fields\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    ]\n  }\n]",
+                  "createdAt": "2026-06-05T13:13:01.000Z",
+                  "updatedAt": "2026-06-05T13:13:01.000Z",
+                  "uid": "35240-f086cb61-eee6-4ca1-9344-26fabd7aeb80"
+                },
+                {
+                  "id": "eaded260-4bc0-4564-8bec-1dc1f447163f",
+                  "name": "Unauthorized. Invalid or expired OAuth token.",
+                  "originalRequest": {
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"allOrNone\": \"<boolean>\",\n  \"records\": [\n    {\n      \"attributes\": {\n        \"type\": \"<string>\",\n        \"url\": \"<uri>\"\n      },\n      \"Id\": \"<string>\"\n    },\n    {\n      \"attributes\": {\n        \"type\": \"<string>\",\n        \"url\": \"<uri>\"\n      },\n      \"Id\": \"<string>\"\n    }\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/composite/sobjects",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "composite",
+                        "sobjects"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "createdAt": "2026-06-05T13:13:01.000Z",
+                  "updatedAt": "2026-06-05T13:13:01.000Z",
+                  "uid": "35240-eaded260-4bc0-4564-8bec-1dc1f447163f"
+                }
+              ],
+              "createdAt": "2026-06-05T13:13:01.000Z",
+              "updatedAt": "2026-06-05T13:13:01.000Z",
+              "uid": "35240-bfdb29bb-bbf4-4c95-84c6-0530cbb8350a"
+            },
+            {
+              "name": "Salesforce Sobject Collections Delete",
+              "id": "0a2ba55f-b6d4-4966-a9d5-a2ad26211b1c",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/composite/sobjects?ids=<string>&allOrNone=false",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "composite",
+                    "sobjects"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) Comma-separated list of up to 200 record IDs to delete.\n",
+                      "key": "ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "If true, all records must be deleted successfully or none are committed. Defaults to false.\n",
+                      "key": "allOrNone",
+                      "value": "false"
+                    }
+                  ]
+                },
+                "description": "Deletes up to 200 records in a single API call using SObject Collections. Record IDs are passed as a comma-separated query parameter. If allOrNone is true, all deletions must succeed or none are committed.\n"
+              },
+              "response": [
+                {
+                  "id": "b5a66397-2928-46d7-820b-0bd45ceab952",
+                  "name": "Array of delete results with success flag or errors for each record.",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/composite/sobjects?ids=<string>&allOrNone=false",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "composite",
+                        "sobjects"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) Comma-separated list of up to 200 record IDs to delete.\n",
+                          "key": "ids",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "If true, all records must be deleted successfully or none are committed. Defaults to false.\n",
+                          "key": "allOrNone",
+                          "value": "false"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "[\n  {\n    \"id\": \"<string>\",\n    \"success\": \"<boolean>\",\n    \"errors\": [\n      {\n        \"message\": \"<string>\",\n        \"errorCode\": \"<string>\",\n        \"fields\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      {\n        \"message\": \"<string>\",\n        \"errorCode\": \"<string>\",\n        \"fields\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    ]\n  },\n  {\n    \"id\": \"<string>\",\n    \"success\": \"<boolean>\",\n    \"errors\": [\n      {\n        \"message\": \"<string>\",\n        \"errorCode\": \"<string>\",\n        \"fields\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      {\n        \"message\": \"<string>\",\n        \"errorCode\": \"<string>\",\n        \"fields\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    ]\n  }\n]",
+                  "createdAt": "2026-06-05T13:13:01.000Z",
+                  "updatedAt": "2026-06-05T13:13:01.000Z",
+                  "uid": "35240-b5a66397-2928-46d7-820b-0bd45ceab952"
+                },
+                {
+                  "id": "97b52e7a-4907-4c1d-8825-6304bb5e7589",
+                  "name": "Unauthorized. Invalid or expired OAuth token.",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/composite/sobjects?ids=<string>&allOrNone=false",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "composite",
+                        "sobjects"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) Comma-separated list of up to 200 record IDs to delete.\n",
+                          "key": "ids",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "If true, all records must be deleted successfully or none are committed. Defaults to false.\n",
+                          "key": "allOrNone",
+                          "value": "false"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "createdAt": "2026-06-05T13:13:01.000Z",
+                  "updatedAt": "2026-06-05T13:13:01.000Z",
+                  "uid": "35240-97b52e7a-4907-4c1d-8825-6304bb5e7589"
+                }
+              ],
+              "createdAt": "2026-06-05T13:13:01.000Z",
+              "updatedAt": "2026-06-05T13:13:01.000Z",
+              "uid": "35240-0a2ba55f-b6d4-4966-a9d5-a2ad26211b1c"
+            }
+          ],
+          "id": "2a3f24df-ded4-4e51-a780-5eafaecc044f",
+          "createdAt": "2026-06-05T13:13:01.000Z",
+          "updatedAt": "2026-06-05T13:13:01.000Z",
+          "uid": "35240-2a3f24df-ded4-4e51-a780-5eafaecc044f"
+        },
+        {
+          "name": "Salesforce Execute a Composite Request With Dependent Subrequests",
+          "id": "ca01c651-7db7-4ad5-8c38-7ff24863d7c1",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"compositeRequest\": [\n    {\n      \"method\": \"DELETE\",\n      \"url\": \"<string>\",\n      \"referenceId\": \"<string>\",\n      \"body\": {}\n    },\n    {\n      \"method\": \"DELETE\",\n      \"url\": \"<string>\",\n      \"referenceId\": \"<string>\",\n      \"body\": {}\n    }\n  ],\n  \"allOrNone\": false,\n  \"collateSubrequests\": false\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/composite",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "composite"
+              ]
+            },
+            "description": "Executes a series of REST API requests where later requests can reference the results of earlier requests using reference IDs. Supports up to 25 subrequests. If any subrequest fails and allOrNone is true, all changes are rolled back. Use this for complex multi-step operations where later steps depend on earlier results.\n"
+          },
+          "response": [
+            {
+              "id": "8c60ac9e-16eb-4833-b165-546982c39a10",
+              "name": "Results for each subrequest, including reference IDs, status codes, and response bodies.\n",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"compositeRequest\": [\n    {\n      \"method\": \"DELETE\",\n      \"url\": \"<string>\",\n      \"referenceId\": \"<string>\",\n      \"body\": {}\n    },\n    {\n      \"method\": \"DELETE\",\n      \"url\": \"<string>\",\n      \"referenceId\": \"<string>\",\n      \"body\": {}\n    }\n  ],\n  \"allOrNone\": false,\n  \"collateSubrequests\": false\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/composite",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "composite"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"compositeResponse\": [\n    {\n      \"body\": {\n        \"description\": \"Response body of the subrequest.\"\n      },\n      \"httpHeaders\": {},\n      \"httpStatusCode\": \"<integer>\",\n      \"referenceId\": \"<string>\"\n    },\n    {\n      \"body\": {\n        \"description\": \"Response body of the subrequest.\"\n      },\n      \"httpHeaders\": {},\n      \"httpStatusCode\": \"<integer>\",\n      \"referenceId\": \"<string>\"\n    }\n  ]\n}",
+              "createdAt": "2026-06-05T13:13:01.000Z",
+              "updatedAt": "2026-06-05T13:13:01.000Z",
+              "uid": "35240-8c60ac9e-16eb-4833-b165-546982c39a10"
+            },
+            {
+              "id": "77bbbbee-8482-496e-948f-41cd96709576",
+              "name": "Bad request. Invalid subrequest structure or circular reference detected.\n",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"compositeRequest\": [\n    {\n      \"method\": \"DELETE\",\n      \"url\": \"<string>\",\n      \"referenceId\": \"<string>\",\n      \"body\": {}\n    },\n    {\n      \"method\": \"DELETE\",\n      \"url\": \"<string>\",\n      \"referenceId\": \"<string>\",\n      \"body\": {}\n    }\n  ],\n  \"allOrNone\": false,\n  \"collateSubrequests\": false\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/composite",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "composite"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "createdAt": "2026-06-05T13:13:01.000Z",
+              "updatedAt": "2026-06-05T13:13:01.000Z",
+              "uid": "35240-77bbbbee-8482-496e-948f-41cd96709576"
+            },
+            {
+              "id": "cc70e622-c1ba-4f60-ba1b-3476706a2e92",
+              "name": "Unauthorized. Invalid or expired OAuth token.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"compositeRequest\": [\n    {\n      \"method\": \"DELETE\",\n      \"url\": \"<string>\",\n      \"referenceId\": \"<string>\",\n      \"body\": {}\n    },\n    {\n      \"method\": \"DELETE\",\n      \"url\": \"<string>\",\n      \"referenceId\": \"<string>\",\n      \"body\": {}\n    }\n  ],\n  \"allOrNone\": false,\n  \"collateSubrequests\": false\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/composite",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "composite"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"message\": \"<string>\",\n  \"errorCode\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "createdAt": "2026-06-05T13:13:01.000Z",
+              "updatedAt": "2026-06-05T13:13:01.000Z",
+              "uid": "35240-cc70e622-c1ba-4f60-ba1b-3476706a2e92"
+            }
+          ],
+          "createdAt": "2026-06-05T13:13:01.000Z",
+          "updatedAt": "2026-06-05T13:13:01.000Z",
+          "uid": "35240-ca01c651-7db7-4ad5-8c38-7ff24863d7c1"
+        }
+      ],
+      "id": "be0747d1-2a47-442c-bbc7-27d05cb27042",
+      "createdAt": "2026-06-05T13:13:01.000Z",
+      "updatedAt": "2026-06-05T13:13:01.000Z",
+      "uid": "35240-be0747d1-2a47-442c-bbc7-27d05cb27042"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "instance",
+      "value": "yourInstance"
+    },
+    {
+      "key": "version",
+      "value": "63.0"
+    },
+    {
+      "key": "baseUrl",
+      "value": "https://{{instance}}.salesforce.com/services/data/v{{version}}"
+    }
+  ]
+}

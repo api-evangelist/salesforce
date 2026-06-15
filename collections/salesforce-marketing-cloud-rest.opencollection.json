@@ -1,0 +1,425 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Salesforce Marketing Cloud REST API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get an access token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.rest.marketingcloudapis.com/v2/token",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Obtains an OAuth 2.0 access token for authenticating subsequent API requests. Supports both client credentials (server-to-server) and authorization code grant types. The access token should be included in the Authorization header as \"Bearer {access_token}\" for all API calls. Tokens expire after a defined period; request a new token when needed.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Contacts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List contacts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.rest.marketingcloudapis.com/contacts/v1/contacts",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number to retrieve. Defaults to 1."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "The number of contacts to return per page. Defaults to 50."
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of contacts in the Marketing Cloud account. Contacts are the core subscriber entities that can be subscribed to email, SMS, or other channels. Use the page and pageSize parameters to paginate through large contact lists.\n"
+        },
+        {
+          "info": {
+            "name": "Delete contacts",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.rest.marketingcloudapis.com/contacts/v1/contacts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Deletes one or more contacts from Marketing Cloud. Deletion is asynchronous; the response indicates the operation was accepted. Contact deletion removes the contact and their data across all business units in the account.\n"
+        },
+        {
+          "info": {
+            "name": "Get a contact by contact key",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.rest.marketingcloudapis.com/contacts/v1/contacts/:contactKey",
+            "params": [
+              {
+                "name": "contactKey",
+                "value": "",
+                "type": "path",
+                "description": "The unique contact key (subscriber key) of the Marketing Cloud contact to retrieve.\n"
+              }
+            ]
+          },
+          "docs": "Retrieves a single Marketing Cloud contact by their contact key. The contact key is a unique identifier for the contact, typically the subscriber key or email address used when the contact was created.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Data Extensions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Data Extension rows",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.rest.marketingcloudapis.com/data/v1/async/dataextensions/key::key/rows",
+            "params": [
+              {
+                "name": "key",
+                "value": "",
+                "type": "path",
+                "description": "The external key of the Data Extension. Find this in Marketing Cloud Email Studio under the Data Extension properties.\n"
+              },
+              {
+                "name": "$pageSize",
+                "value": "",
+                "type": "query",
+                "description": "The number of rows to return per page. Defaults to 50."
+              },
+              {
+                "name": "$page",
+                "value": "",
+                "type": "query",
+                "description": "The page number to retrieve. Defaults to 1."
+              },
+              {
+                "name": "$orderBy",
+                "value": "",
+                "type": "query",
+                "description": "Field name and direction for sorting results (e.g., \"LastName ASC\" or \"CreatedDate DESC\").\n"
+              }
+            ]
+          },
+          "docs": "Retrieves rows from a Marketing Cloud Data Extension identified by its external key. Data Extensions are custom tables for storing subscriber data, lookup tables, or any structured data used in campaigns and journeys. Use the $pageSize and $page parameters to paginate through large data sets.\n"
+        },
+        {
+          "info": {
+            "name": "Insert rows into a Data Extension",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.rest.marketingcloudapis.com/data/v1/async/dataextensions/key::key/rows",
+            "params": [
+              {
+                "name": "key",
+                "value": "",
+                "type": "path",
+                "description": "The external key of the Data Extension to insert rows into."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Inserts one or more rows into a Marketing Cloud Data Extension. If a row with the same primary key already exists, the operation upserts the row (updates existing values). Returns the number of rows inserted or updated.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Messaging",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create an email send (triggered send)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.rest.marketingcloudapis.com/messaging/v1/email/messages",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates and initiates a triggered email send to one or more recipients. Each send requires a message definition key referencing a triggered send definition configured in Marketing Cloud Email Studio. Supports personalization attributes and subscriber data overrides.\n"
+        },
+        {
+          "info": {
+            "name": "Create an SMS send",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.rest.marketingcloudapis.com/messaging/v1/sms/messages",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates and initiates an SMS message send to one or more recipients. Requires a message definition key referencing an SMS definition configured in Marketing Cloud MobileConnect. Supports personalization attributes for dynamic message content.\n"
+        },
+        {
+          "info": {
+            "name": "Get email message send status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.rest.marketingcloudapis.com/messaging/v1/email/messages/:messageKey",
+            "params": [
+              {
+                "name": "messageKey",
+                "value": "",
+                "type": "path",
+                "description": "The unique message key (recipientSendId) returned when the email send was created.\n"
+              }
+            ]
+          },
+          "docs": "Retrieves the status of a triggered email send for a specific recipient using the messageKey (recipientSendId) returned when the send was created. Returns the current delivery status and any error details.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Journeys",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List journeys",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.rest.marketingcloudapis.com/interaction/v1/interactions",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number to retrieve. Defaults to 1."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "The number of journeys to return per page. Defaults to 50."
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter journeys by status. Use Draft, Published, ScheduledToSend, Stopped, or Deleted.\n"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of Marketing Cloud Journey Builder journeys (interactions). Includes both active and inactive journeys. Use the page and pageSize parameters to paginate. Can filter by journey status.\n"
+        },
+        {
+          "info": {
+            "name": "Get a journey by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.rest.marketingcloudapis.com/interaction/v1/interactions/:interactionId",
+            "params": [
+              {
+                "name": "interactionId",
+                "value": "",
+                "type": "path",
+                "description": "The unique ID of the journey (interaction) to retrieve."
+              },
+              {
+                "name": "versionNumber",
+                "value": "",
+                "type": "query",
+                "description": "The version number of the journey to retrieve. If not specified, returns the latest version.\n"
+              }
+            ]
+          },
+          "docs": "Retrieves detailed information about a specific Marketing Cloud Journey Builder journey, including its activities, triggers, goals, and current status.\n"
+        },
+        {
+          "info": {
+            "name": "Fire a journey entry event",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.rest.marketingcloudapis.com/interaction/v1/events",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Fires an event that causes contacts to enter a Marketing Cloud Journey Builder journey at the specified event-triggered entry source. The event definition key must match an API event or custom event configured as the journey's entry source. Supports passing contact data to personalize the journey experience.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Assets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List content assets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.rest.marketingcloudapis.com/asset/v1/content/assets",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number to retrieve. Defaults to 1."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "The number of assets to return per page. Defaults to 50."
+              },
+              {
+                "name": "assetType",
+                "value": "",
+                "type": "query",
+                "description": "Filter by asset type name (e.g., templatebasedemail, htmlemail, image, document, block).\n"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of Marketing Cloud Content Builder assets including emails, images, documents, and other content items. Supports filtering by asset type and searching by name.\n"
+        },
+        {
+          "info": {
+            "name": "Create a content asset",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.rest.marketingcloudapis.com/asset/v1/content/assets",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new content asset in Marketing Cloud Content Builder. Assets can be emails, templates, images, blocks, or other content types. The asset type is specified using the assetType object. File content can be provided inline as a base64 string or referenced by URL.\n"
+        },
+        {
+          "info": {
+            "name": "Get a content asset by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.rest.marketingcloudapis.com/asset/v1/content/assets/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The numeric ID of the Marketing Cloud content asset."
+              }
+            ]
+          },
+          "docs": "Retrieves a single Marketing Cloud Content Builder asset by its numeric ID. Returns the asset metadata and content.\n"
+        },
+        {
+          "info": {
+            "name": "Update a content asset",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{subdomain}.rest.marketingcloudapis.com/asset/v1/content/assets/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The numeric ID of the Marketing Cloud content asset."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Replaces the content and metadata of an existing Marketing Cloud Content Builder asset. The entire asset definition must be provided; partial updates are not supported. Returns the updated asset.\n"
+        },
+        {
+          "info": {
+            "name": "Delete a content asset",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.rest.marketingcloudapis.com/asset/v1/content/assets/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The numeric ID of the Marketing Cloud content asset."
+              }
+            ]
+          },
+          "docs": "Deletes a Marketing Cloud Content Builder asset by its numeric ID. Deletion is permanent and cannot be undone. Ensure the asset is not in use by active journeys or sends before deleting.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
