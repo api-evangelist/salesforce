@@ -1,0 +1,34 @@
+generated: '2026-06-20'
+method: searched
+status: published
+source: https://github.com/salesforcecli/mcp
+docs: https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_mcp.htm
+notes: >-
+  Salesforce ships an official open-source MCP server — the Salesforce DX MCP Server
+  (@salesforce/mcp) — that exposes org operations (query records, deploy/retrieve metadata,
+  run Apex tests, LWC development, code analysis) to MCP-capable assistants such as Agentforce
+  for Developers, Cursor, VS Code agents, and Claude Desktop. It runs locally over stdio and
+  authenticates with the developer's existing Salesforce CLI orgs. Separately, Agentforce
+  provides a native MCP client and an enterprise MCP server registry for runtime agents.
+servers:
+  - name: Salesforce DX MCP Server
+    package: "@salesforce/mcp"
+    transport: stdio
+    install: npx -y @salesforce/mcp --orgs DEFAULT_TARGET_ORG --toolsets all
+    repo: https://github.com/salesforcecli/mcp
+    tool_count: "60+"
+    auth: Uses locally-authenticated Salesforce CLI org connections.
+    toolsets:
+      - orgs (list/open/display authenticated orgs)
+      - data (SOQL query, DML on records)
+      - metadata (deploy/retrieve source and metadata)
+      - testing (run Apex tests, get test results)
+      - lwc (Lightning Web Component development)
+      - code-analysis (static analysis / Code Analyzer)
+      - users (assign permission sets, manage users)
+  - name: Agentforce MCP support
+    transport: http
+    docs: https://www.salesforce.com/agentforce/mcp-support/
+    description: >-
+      Native MCP client in Agentforce plus an enterprise MCP Server registry for
+      policy-enforced, identity-aware agent tool access at runtime.

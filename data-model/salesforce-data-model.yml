@@ -1,0 +1,58 @@
+generated: '2026-06-20'
+method: derived
+source: openapi/salesforce-rest-api-openapi.yml (SObject schemas) + Salesforce standard object reference
+docs: https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/
+render: subway/
+notes: >-
+  The Salesforce REST API is generic over sObjects (SObjectRecord/SObjectDescribe/QueryResult), so
+  the concrete entity graph is derived from the standard CRM object reference and the relationships
+  the Arazzo workflows in this repo already traverse (Account/Contact/Lead/Opportunity/Case). Salesforce
+  record Ids are 15/18-char, prefixed by a 3-char key prefix per object type.
+entities:
+  - name: Account
+    key_prefix: "001"
+    relationships:
+      - {type: has_many, target: Contact, via: AccountId}
+      - {type: has_many, target: Opportunity, via: AccountId}
+      - {type: has_many, target: Case, via: AccountId}
+  - name: Contact
+    key_prefix: "003"
+    relationships:
+      - {type: belongs_to, target: Account, via: AccountId}
+      - {type: has_many, target: Case, via: ContactId}
+      - {type: has_many, target: OpportunityContactRole, via: ContactId}
+  - name: Lead
+    key_prefix: "00Q"
+    relationships:
+      - {type: converts_to, target: Account, via: ConvertedAccountId}
+      - {type: converts_to, target: Contact, via: ConvertedContactId}
+      - {type: converts_to, target: Opportunity, via: ConvertedOpportunityId}
+  - name: Opportunity
+    key_prefix: "006"
+    relationships:
+      - {type: belongs_to, target: Account, via: AccountId}
+      - {type: has_many, target: OpportunityContactRole, via: OpportunityId}
+      - {type: has_many, target: OpportunityLineItem, via: OpportunityId}
+  - name: OpportunityContactRole
+    key_prefix: "00K"
+    relationships:
+      - {type: belongs_to, target: Opportunity, via: OpportunityId}
+      - {type: belongs_to, target: Contact, via: ContactId}
+  - name: Case
+    key_prefix: "500"
+    relationships:
+      - {type: belongs_to, target: Account, via: AccountId}
+      - {type: belongs_to, target: Contact, via: ContactId}
+  - name: User
+    key_prefix: "005"
+    relationships:
+      - {type: has_many, target: Account, via: OwnerId}
+  - name: Product2
+    key_prefix: "01t"
+    relationships:
+      - {type: has_many, target: OpportunityLineItem, via: Product2Id}
+  - name: OpportunityLineItem
+    key_prefix: "00k"
+    relationships:
+      - {type: belongs_to, target: Opportunity, via: OpportunityId}
+      - {type: belongs_to, target: Product2, via: Product2Id}

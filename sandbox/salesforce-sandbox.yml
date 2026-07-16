@@ -1,0 +1,25 @@
+generated: '2026-06-20'
+method: searched
+source: developer.salesforce.com Salesforce DX + help.salesforce.com sandbox documentation
+notes: >-
+  Salesforce test-vs-production separation is org-based, not key-prefix based: developers work in
+  Sandboxes (isolated copies of a production org) or Scratch Orgs (source-driven, disposable orgs)
+  rather than a live/test key mode. There are no published static "test card" style magic values
+  for the core platform APIs; test data is created in the sandbox/scratch org itself. Sandbox hosts
+  live on *.sandbox.my.salesforce.com and authenticate against https://test.salesforce.com.
+test_login_host: https://test.salesforce.com
+sandbox_types:
+  - {type: Developer, refresh_interval: 1 day, storage: 200 MB, copies: metadata only, use: development and unit testing.}
+  - {type: Developer Pro, refresh_interval: 1 day, storage: 1 GB, copies: metadata only, use: larger data-set development and QA.}
+  - {type: Partial Copy, refresh_interval: 5 days, storage: 5 GB, copies: metadata + sample of production data (sandbox template), use: UAT, integration testing.}
+  - {type: Full, refresh_interval: 29 days, storage: matches production, copies: metadata + all production data, use: staging, performance, and full regression testing.}
+scratch_orgs:
+  description: >-
+    Source-driven, disposable orgs created from a Dev Hub for feature development and CI.
+  lifespan: 1-30 days (default 7)
+  source_tracking: enabled by default
+  create: sf org create scratch --definition-file config/project-scratch-def.json
+  shape_and_snapshot: Org Shape and Snapshots can seed scratch orgs from a production configuration.
+docs:
+  - https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_scratch_orgs.htm
+  - https://help.salesforce.com/s/articleView?id=sf.data_sandbox_environments.htm

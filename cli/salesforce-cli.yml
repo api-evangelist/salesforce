@@ -1,0 +1,33 @@
+generated: '2026-06-20'
+method: searched
+source: https://developer.salesforce.com/tools/salesforcecli
+docs: https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference_unified.htm
+notes: >-
+  The Salesforce CLI ships the unified `sf` executable (v2). The legacy `sfdx` command set is
+  deprecated in favor of `sf` topic-based commands. Distributed via npm (@salesforce/cli) and
+  native installers; extensible through a plugin architecture (@salesforce/core).
+binary: sf
+package: "@salesforce/cli"
+install:
+  - {method: npm, command: npm install -g @salesforce/cli}
+  - {method: installer, platforms: [macOS (Apple Silicon/Intel), Windows (x64/ARM64), Linux (x64)], url: https://developer.salesforce.com/tools/salesforcecli}
+topics:
+  - {topic: org, description: Manage and log in to orgs, sandboxes, and scratch orgs (create/list/open/login/delete).}
+  - {topic: project, description: Deploy and retrieve source/metadata, generate projects (deploy start, retrieve start, generate).}
+  - {topic: apex, description: Run and test Apex; get logs and code coverage (run test, run, tail log).}
+  - {topic: data, description: Query and manipulate org records (query, create/update/delete record, import/export tree, bulk).}
+  - {topic: sobject, description: Describe and list sObjects and their metadata.}
+  - {topic: schema, description: Inspect org schema (list sobjects, generate).}
+  - {topic: package, description: Create and manage first/second-generation packages (version create, install).}
+  - {topic: user, description: Create and manage org users; assign permission sets.}
+  - {topic: lightning, description: Generate and test Lightning Web Components (generate component, test lwc).}
+  - {topic: config, description: Set and view CLI configuration (target-org, target-dev-hub).}
+  - {topic: agent, description: Build, test, and manage Agentforce agents.}
+  - {topic: alias, description: Manage aliases for orgs and other values.}
+key_flows:
+  - {name: Authenticate an org, command: sf org login web --alias my-org}
+  - {name: Create a scratch org, command: sf org create scratch --definition-file config/project-scratch-def.json --alias dev}
+  - {name: Deploy metadata, command: sf project deploy start --source-dir force-app}
+  - {name: Retrieve metadata, command: sf project retrieve start --source-dir force-app}
+  - {name: Run a SOQL query, command: sf data query --query "SELECT Id, Name FROM Account"}
+  - {name: Run Apex tests, command: sf apex run test --result-format human --code-coverage}

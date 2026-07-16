@@ -1,0 +1,22 @@
+generated: '2026-06-20'
+method: derived
+source: openapi/*, asyncapi/*, grpc/salesforce-pubsub-api.proto, scopes/salesforce-scopes.yml, well-known/salesforce-openid-configuration.json
+notes: >-
+  Standards conformance derived from the harvested artifacts and Salesforce documentation. "conforms"
+  reflects whether the API surface implements the standard, with evidence pointing at the artifact.
+standards:
+  - {id: oauth2, conforms: true, evidence: "OpenAPI securitySchemes (BearerAuth) + OIDC token/authorize endpoints in well-known/salesforce-openid-configuration.json"}
+  - {id: oidc, conforms: true, evidence: "login.salesforce.com/.well-known/openid-configuration present with issuer, jwks_uri, id_token signing"}
+  - {id: openid-connect-discovery, conforms: true, evidence: "well-known/salesforce-openid-configuration.json"}
+  - {id: rfc9457-problem-details, conforms: false, evidence: "Salesforce uses a proprietary {message, errorCode, fields[]} array envelope, not application/problem+json"}
+  - {id: graphql, conforms: true, evidence: "graphql/salesforce-graphql.md — GraphQL API over /services/data/vNN/graphql"}
+  - {id: grpc, conforms: true, evidence: "grpc/salesforce-pubsub-api.proto — Pub/Sub API is proto3/gRPC (eventbus.v1)"}
+  - {id: asyncapi, conforms: true, evidence: "asyncapi/salesforce-streaming-asyncapi.yml, platform-events, change-data-capture"}
+  - {id: cometd-bayeux, conforms: true, evidence: "Streaming API uses the Bayeux/CometD protocol"}
+  - {id: fhir-r4, conforms: true, evidence: "Health Cloud publishes FHIR R4-compliant REST APIs (apis.yml salesforce-health-cloud-api)"}
+  - {id: odata, conforms: true, evidence: "Salesforce Connect external objects expose/consume OData 2.0/4.0"}
+  - {id: soap, conforms: true, evidence: "SOAP API, Metadata API, Enterprise/Partner WSDL"}
+  - {id: json-api, conforms: false, evidence: "Response shapes are Salesforce-native, not JSON:API"}
+  - {id: scim2, conforms: true, evidence: "Salesforce Identity exposes SCIM 2.0 user provisioning endpoints"}
+  - {id: pagination, conforms: true, evidence: "Query results use nextRecordsUrl cursor pagination (QueryResult schema)"}
+  - {id: rate-limit-headers, conforms: true, evidence: "Sforce-Limit-Info header reports API usage (rate-limits/)"}

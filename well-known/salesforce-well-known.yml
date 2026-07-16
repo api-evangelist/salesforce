@@ -1,0 +1,27 @@
+generated: '2026-06-20'
+method: searched
+source: live probes of Salesforce auth + developer hosts
+notes: >-
+  The OpenID Connect discovery document is served from the Salesforce identity host
+  (login.salesforce.com). developer.salesforce.com does not expose /.well-known/ discovery
+  documents. Instance/My Domain hosts ({instance}.salesforce.com) mirror the login-host OIDC
+  configuration with instance-specific issuer/endpoints.
+hosts:
+  - host: https://login.salesforce.com
+    documents:
+      - path: /.well-known/openid-configuration
+        status: 200
+        file: salesforce-openid-configuration.json
+        standard: OpenID Connect Discovery 1.0
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+  - host: https://developer.salesforce.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404

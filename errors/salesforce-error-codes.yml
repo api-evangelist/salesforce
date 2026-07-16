@@ -1,0 +1,40 @@
+generated: '2026-06-20'
+method: derived
+source: openapi/salesforce-rest-api-openapi.yml, openapi/salesforce-bulk-api-2-openapi.yml, openapi/salesforce-ui-api-openapi.yml, openapi/salesforce-marketing-cloud-rest-openapi.yml
+docs: https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/errorcodes.htm
+format: salesforce-error-array
+notes: >-
+  Salesforce REST APIs return errors as a JSON array of error objects with the envelope
+  {message, errorCode, fields[]} (not RFC 9457 problem+json). HTTP status classes below were
+  derived from the OpenAPI 4xx/5xx responses across the harvested specs; the errorCode string
+  values are the enumerated, documented Salesforce codes carried inside each error object.
+envelope:
+  shape: array of {message, errorCode, fields}
+  fields:
+    - {name: message, description: Human-readable description of the error.}
+    - {name: errorCode, description: Enumerated Salesforce error code string.}
+    - {name: fields, description: List of field API names related to the error, when applicable.}
+http_statuses:
+  - {status: 400, meaning: Bad Request — malformed request, invalid field, or validation failure.}
+  - {status: 401, meaning: Unauthorized — session expired or invalid OAuth token (INVALID_SESSION_ID).}
+  - {status: 403, meaning: Forbidden — request refused, insufficient permissions, or API limit exceeded (REQUEST_LIMIT_EXCEEDED).}
+  - {status: 404, meaning: Not Found — the resource, sObject, or record does not exist (NOT_FOUND).}
+  - {status: 405, meaning: Method Not Allowed for the resource.}
+  - {status: 415, meaning: Unsupported Media Type.}
+  - {status: 500, meaning: Internal server error / unexpected Apex exception.}
+error_codes:
+  - {code: INVALID_SESSION_ID, status: 401, meaning: Session expired or invalid., action: Refresh the OAuth access token and retry.}
+  - {code: REQUEST_LIMIT_EXCEEDED, status: 403, meaning: Org 24-hour API request limit exceeded., action: Reduce call volume or wait for the rolling window to reset.}
+  - {code: INSUFFICIENT_ACCESS, status: 403, meaning: User lacks access to the record or object., action: Grant permission via profile/permission set or sharing rules.}
+  - {code: NOT_FOUND, status: 404, meaning: The requested resource/record does not exist., action: Verify the record Id and API version path.}
+  - {code: MALFORMED_QUERY, status: 400, meaning: SOQL/SOSL query syntax is invalid., action: Fix the query syntax.}
+  - {code: INVALID_FIELD, status: 400, meaning: A referenced field does not exist or is not accessible., action: Check field API names and field-level security.}
+  - {code: INVALID_TYPE, status: 400, meaning: The sObject type is invalid or inaccessible., action: Verify the object API name.}
+  - {code: REQUIRED_FIELD_MISSING, status: 400, meaning: A required field was not provided., action: Include all required fields in the request body.}
+  - {code: DUPLICATE_VALUE, status: 400, meaning: A duplicate value violates a unique constraint., action: Use a unique value or an external Id upsert.}
+  - {code: FIELD_CUSTOM_VALIDATION_EXCEPTION, status: 400, meaning: A custom validation rule failed., action: Satisfy the org validation rule.}
+  - {code: CANNOT_INSERT_UPDATE_ACTIVATE_ENTITY, status: 400, meaning: A trigger or workflow blocked the DML., action: Review Apex triggers/flows on the object.}
+  - {code: ENTITY_IS_DELETED, status: 400, meaning: The record has been deleted., action: Reference an active record.}
+  - {code: JSON_PARSER_ERROR, status: 400, meaning: The request body could not be parsed., action: Send valid JSON matching the schema.}
+  - {code: UNSUPPORTED_API_VERSION, status: 400, meaning: The API version in the path is not supported., action: Use a supported vNN.0 version.}
+  - {code: METHOD_NOT_ALLOWED, status: 405, meaning: HTTP method not allowed for the resource., action: Use the documented method.}

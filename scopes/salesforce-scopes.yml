@@ -1,15 +1,57 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/salesforce-openapi.yml
+generated: '2026-06-20'
+method: searched
+source: https://login.salesforce.com/.well-known/openid-configuration
+docs: https://help.salesforce.com/s/articleView?id=sf.remoteaccess_oauth_tokens_scopes.htm
+notes: >-
+  Authoritative scope list taken verbatim from the Salesforce identity host OIDC discovery
+  document (scopes_supported). Salesforce OAuth scopes are org-wide connected-app permissions,
+  not per-object; fine-grained authorization is enforced by profiles, permission sets, and
+  sharing rules on top of these scopes.
+authorization_endpoint: https://login.salesforce.com/services/oauth2/authorize
+token_endpoint: https://login.salesforce.com/services/oauth2/token
 schemes:
-- name: oauth2
-  source: openapi/salesforce-openapi.yml
-  flows:
-  - flow: implicit
-    authorizationUrl: '{DefaultParameterValue}{DefaultParameterValue}/services/oauth2/authorize'
+  - name: oauth2
+    type: oauth2
+    source: https://login.salesforce.com/.well-known/openid-configuration
+    flows:
+      - flow: authorizationCode
+        authorizationUrl: https://login.salesforce.com/services/oauth2/authorize
+        tokenUrl: https://login.salesforce.com/services/oauth2/token
 scopes:
-- scope: api
-  flows:
-  - implicit
-  sources:
-  - openapi/salesforce-openapi.yml
+  - {scope: openid, description: OpenID Connect — return an ID token (OIDC).}
+  - {scope: profile, description: Access basic profile information (name, photo, etc.) via the userinfo endpoint.}
+  - {scope: email, description: Access the user's email address.}
+  - {scope: address, description: Access the user's address information.}
+  - {scope: phone, description: Access the user's phone number.}
+  - {scope: id, description: Access the identity URL service.}
+  - {scope: api, description: Access the Salesforce APIs (REST, SOAP, Bulk, etc.) on the user's behalf.}
+  - {scope: web, description: Access to Salesforce web pages / Visualforce via the access token.}
+  - {scope: full, description: Full access to all data accessible by the user; does not grant refresh_token.}
+  - {scope: refresh_token, description: Obtain a refresh token for long-lived access (same as offline_access).}
+  - {scope: offline_access, description: Obtain a refresh token for offline access.}
+  - {scope: visualforce, description: Access Visualforce pages.}
+  - {scope: lightning, description: Access Lightning applications and components.}
+  - {scope: content, description: Access Salesforce CRM Content and Files (ContentDocument) resources.}
+  - {scope: chatter_api, description: Access the Chatter / Connect REST API.}
+  - {scope: chatbot_api, description: Access the Einstein Bots / chatbot API.}
+  - {scope: wave_api, description: Access the CRM Analytics (Wave/Tableau CRM) REST API.}
+  - {scope: eclair_api, description: Access CRM Analytics Eclair chart-rendering API.}
+  - {scope: pardot_api, description: Access the Pardot / Account Engagement API.}
+  - {scope: interaction_api, description: Access the Interaction Studio / messaging interaction API.}
+  - {scope: custom_permissions, description: Return the custom permissions in the org associated with the user.}
+  - {scope: user_registration_api, description: Access the self-registration / user registration API.}
+  - {scope: pwdless_login_api, description: Access the passwordless login API.}
+  - {scope: forgot_password, description: Access the forgot-password / headless password-reset API.}
+  - {scope: sfap_api, description: Access the Salesforce Foundations / Agentforce platform API.}
+  - {scope: einstein_gpt_api, description: Access Einstein GPT / generative AI (Models) API.}
+  - {scope: mcp_api, description: Access the Salesforce Model Context Protocol (MCP) API surface.}
+  - {scope: scrt_api, description: Access the Service Cloud real-time (messaging) API.}
+  # --- Data Cloud (CDP) scopes ---
+  - {scope: cdp_api, description: Access the Data Cloud (CDP) API.}
+  - {scope: cdp_query_api, description: Run queries against Data Cloud.}
+  - {scope: cdp_ingest_api, description: Ingest data into Data Cloud.}
+  - {scope: cdp_profile_api, description: Access unified customer profiles in Data Cloud.}
+  - {scope: cdp_segment_api, description: Manage Data Cloud segments.}
+  - {scope: cdp_calculated_insight_api, description: Access Data Cloud calculated insights.}
+  - {scope: cdp_identityresolution_api, description: Access Data Cloud identity resolution.}
+  - {scope: data_cloud_user_claims, description: Return Data Cloud user claims in the token.}
