@@ -1,0 +1,456 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Accounts API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Accounts
+paths:
+  /data/v64.0/graphql:
+    parameters: []
+    post:
+      tags:
+      - Accounts
+      summary: Salesforce Accounts
+      operationId: Accounts
+      parameters:
+      - name: X-Chatter-Entity-Encoding
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: boolean
+          examples:
+          - false
+        example: true
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Fri, 06 Oct 2023 09:03:56 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Accounts'
+                - examples:
+                  - data:
+                      uiapi:
+                        query:
+                          Account:
+                            edges:
+                            - node:
+                                Id: 0014H00002x6HUhQAM
+                                Name:
+                                  value: ACME Inc.
+                            - node:
+                                Id: 0014H00002LbR7QQAV
+                                Name:
+                                  value: ABC Computing
+                            - node:
+                                Id: 00158000006QBOqAAO
+                                Name:
+                                  value: GenePoint
+                            - node:
+                                Id: 00158000006QBOoAAO
+                                Name:
+                                  value: United Oil & Gas, Belgium
+                            - node:
+                                Id: 00158000006QBOpAAO
+                                Name:
+                                  value: United Oil & Gas, Singapore
+                            - node:
+                                Id: 00158000006QBOgAAO
+                                Name:
+                                  value: Edge Communications
+                            - node:
+                                Id: 00158000006QBOhAAO
+                                Name:
+                                  value: Burlington Textiles Corp of America
+                    errors: []
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                data:
+                  uiapi:
+                    query:
+                      Account:
+                        edges:
+                        - node:
+                            Id: 0014H00002x6HUhQAM
+                            Name:
+                              value: ACME Inc.
+                        - node:
+                            Id: 0014H00002LbR7QQAV
+                            Name:
+                              value: ABC Computing
+                        - node:
+                            Id: 00158000006QBOqAAO
+                            Name:
+                              value: GenePoint
+                        - node:
+                            Id: 00158000006QBOoAAO
+                            Name:
+                              value: United Oil & Gas, Belgium
+                        - node:
+                            Id: 00158000006QBOpAAO
+                            Name:
+                              value: United Oil & Gas, Singapore
+                        - node:
+                            Id: 00158000006QBOgAAO
+                            Name:
+                              value: Edge Communications
+                        - node:
+                            Id: 00158000006QBOhAAO
+                            Name:
+                              value: Burlington Textiles Corp of America
+                errors: []
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Accounts:
+      title: Accounts
+      required:
+      - data
+      - errors
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Data'
+        errors:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+      examples:
+      - data:
+          uiapi:
+            query:
+              Account:
+                edges:
+                - node:
+                    Id: 0014H00002x6HUhQAM
+                    Name:
+                      value: ACME Inc.
+                - node:
+                    Id: 0014H00002LbR7QQAV
+                    Name:
+                      value: ABC Computing
+                - node:
+                    Id: 00158000006QBOqAAO
+                    Name:
+                      value: GenePoint
+                - node:
+                    Id: 00158000006QBOoAAO
+                    Name:
+                      value: United Oil & Gas, Belgium
+                - node:
+                    Id: 00158000006QBOpAAO
+                    Name:
+                      value: United Oil & Gas, Singapore
+                - node:
+                    Id: 00158000006QBOgAAO
+                    Name:
+                      value: Edge Communications
+                - node:
+                    Id: 00158000006QBOhAAO
+                    Name:
+                      value: Burlington Textiles Corp of America
+        errors: []
+    Name:
+      title: Name
+      required:
+      - value
+      type: object
+      properties:
+        value:
+          type: string
+          example: example_value
+      examples:
+      - value: ACME Inc.
+    Query:
+      title: Query
+      required:
+      - Account
+      type: object
+      properties:
+        Account:
+          $ref: '#/components/schemas/Account7'
+      examples:
+      - Account:
+          edges:
+          - node:
+              Id: 0014H00002x6HUhQAM
+              Name:
+                value: ACME Inc.
+          - node:
+              Id: 0014H00002LbR7QQAV
+              Name:
+                value: ABC Computing
+          - node:
+              Id: 00158000006QBOqAAO
+              Name:
+                value: GenePoint
+          - node:
+              Id: 00158000006QBOoAAO
+              Name:
+                value: United Oil & Gas, Belgium
+          - node:
+              Id: 00158000006QBOpAAO
+              Name:
+                value: United Oil & Gas, Singapore
+          - node:
+              Id: 00158000006QBOgAAO
+              Name:
+                value: Edge Communications
+          - node:
+              Id: 00158000006QBOhAAO
+              Name:
+                value: Burlington Textiles Corp of America
+    Node:
+      title: Node
+      required:
+      - Id
+      - Name
+      type: object
+      properties:
+        Id:
+          type: string
+          example: abc123
+        Name:
+          $ref: '#/components/schemas/Name'
+      examples:
+      - Id: 0014H00002x6HUhQAM
+        Name:
+          value: ACME Inc.
+    Data:
+      title: Data
+      required:
+      - uiapi
+      type: object
+      properties:
+        uiapi:
+          $ref: '#/components/schemas/Uiapi'
+      examples:
+      - uiapi:
+          query:
+            Account:
+              edges:
+              - node:
+                  Id: 0014H00002x6HUhQAM
+                  Name:
+                    value: ACME Inc.
+              - node:
+                  Id: 0014H00002LbR7QQAV
+                  Name:
+                    value: ABC Computing
+              - node:
+                  Id: 00158000006QBOqAAO
+                  Name:
+                    value: GenePoint
+              - node:
+                  Id: 00158000006QBOoAAO
+                  Name:
+                    value: United Oil & Gas, Belgium
+              - node:
+                  Id: 00158000006QBOpAAO
+                  Name:
+                    value: United Oil & Gas, Singapore
+              - node:
+                  Id: 00158000006QBOgAAO
+                  Name:
+                    value: Edge Communications
+              - node:
+                  Id: 00158000006QBOhAAO
+                  Name:
+                    value: Burlington Textiles Corp of America
+    Account7:
+      title: Account7
+      required:
+      - edges
+      type: object
+      properties:
+        edges:
+          type: array
+          items:
+            $ref: '#/components/schemas/Edge'
+          description: ''
+          example: []
+      examples:
+      - edges:
+        - node:
+            Id: 0014H00002x6HUhQAM
+            Name:
+              value: ACME Inc.
+        - node:
+            Id: 0014H00002LbR7QQAV
+            Name:
+              value: ABC Computing
+        - node:
+            Id: 00158000006QBOqAAO
+            Name:
+              value: GenePoint
+        - node:
+            Id: 00158000006QBOoAAO
+            Name:
+              value: United Oil & Gas, Belgium
+        - node:
+            Id: 00158000006QBOpAAO
+            Name:
+              value: United Oil & Gas, Singapore
+        - node:
+            Id: 00158000006QBOgAAO
+            Name:
+              value: Edge Communications
+        - node:
+            Id: 00158000006QBOhAAO
+            Name:
+              value: Burlington Textiles Corp of America
+    Uiapi:
+      title: Uiapi
+      required:
+      - query
+      type: object
+      properties:
+        query:
+          $ref: '#/components/schemas/Query'
+      examples:
+      - query:
+          Account:
+            edges:
+            - node:
+                Id: 0014H00002x6HUhQAM
+                Name:
+                  value: ACME Inc.
+            - node:
+                Id: 0014H00002LbR7QQAV
+                Name:
+                  value: ABC Computing
+            - node:
+                Id: 00158000006QBOqAAO
+                Name:
+                  value: GenePoint
+            - node:
+                Id: 00158000006QBOoAAO
+                Name:
+                  value: United Oil & Gas, Belgium
+            - node:
+                Id: 00158000006QBOpAAO
+                Name:
+                  value: United Oil & Gas, Singapore
+            - node:
+                Id: 00158000006QBOgAAO
+                Name:
+                  value: Edge Communications
+            - node:
+                Id: 00158000006QBOhAAO
+                Name:
+                  value: Burlington Textiles Corp of America
+    Edge:
+      title: Edge
+      required:
+      - node
+      type: object
+      properties:
+        node:
+          $ref: '#/components/schemas/Node'
+      examples:
+      - node:
+          Id: 0014H00002x6HUhQAM
+          Name:
+            value: ACME Inc.
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

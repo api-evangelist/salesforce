@@ -1,0 +1,950 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Tokens API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Tokens
+paths:
+  /services/oauth2/token:
+    parameters: []
+    post:
+      tags:
+      - Tokens
+      summary: Salesforce Registration - Token Exchange
+      description: This exchanges the auth code returned in the Authorize Request for an access token and refresh token. This follows the standard Auth Code flow/Webserver Code Flow pattern. The Code is the return form the Authorization call.
+      operationId: Registration-TokenExchange
+      parameters: []
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            encoding: {}
+            schema:
+              required:
+              - code
+              - grant_type
+              - client_id
+              - redirect_uri
+              type: object
+              properties:
+                code:
+                  type: string
+                  description: Auth Code from the Authorize response
+                  examples:
+                  - <code>
+                grant_type:
+                  type: string
+                  examples:
+                  - authorization_code
+                client_id:
+                  type: string
+                  examples:
+                  - '{{vault:salesforce-consumer-key}}'
+                redirect_uri:
+                  type: string
+              contentMediaType: application/x-www-form-urlencoded
+            examples:
+              RegistrationTokenexchangeRequestExample:
+                summary: Default Registration-TokenExchange request
+                x-microcks-default: true
+                value:
+                  code: example_value
+                  grant_type: example_value
+                  client_id: '500123'
+                  redirect_uri: example_value
+        required: false
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+      servers:
+      - url: https://login.salesforce.com
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /services/oauth2/revoke:
+    parameters: []
+    post:
+      tags:
+      - Tokens
+      summary: Salesforce Revoke Token
+      description: 'This calls the standard revoke endpoint, passing in your access token. This endpoint should be called as part of your logout process to invalidate the access and refresh token. '
+      operationId: RevokeToken
+      parameters: []
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            encoding: {}
+            schema:
+              required:
+              - token
+              type: object
+              properties:
+                token:
+                  type: string
+                  description: Replace with a valid access token or refresh token.
+              contentMediaType: application/x-www-form-urlencoded
+            examples:
+              RevoketokenRequestExample:
+                summary: Default RevokeToken request
+                x-microcks-default: true
+                value:
+                  token: CAUQAA
+        required: false
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+      servers:
+      - url: https://login.salesforce.com
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /services/data/v64.0/apps/oauth/usage///tokens:
+    parameters: []
+    get:
+      tags:
+      - Tokens
+      summary: Salesforce Oauth App Users Tokens
+      description: Lists all tokens for a user of the external client app. See [Refresh Token by User and App](https://developer.salesforce.com/docs/atlas.en-us.246.0.chatterapi.meta/chatterapi/connect_resources_usage_app_id_user_id_tokens.htm).
+      operationId: OAuthAppUsersTokens
+      parameters:
+      - name: Authorization
+        in: header
+        description: Replace <token> with your access token
+        required: true
+        schema:
+          type: string
+          examples:
+          - Bearer <token>
+        example: example_value
+      responses:
+        default:
+          description: ''
+          headers: {}
+          content:
+            text/plain:
+              schema:
+                type: string
+                examples:
+                - "{\n  \"currentPageUrl\": \"/services/data/<version>/apps/oauth/usage/<identifier>/<userIdentifier>/tokens\",\n  \"tokens\": [\n    {\n      \"accessTokenFormat\": \"<accessTokenFormat>\",\n      \"appDeveloperName\": \"<appDeveloperName>\",\n      \"appIdentifier\": \"<identifier>\",\n      \"initialConnectionAt\": \"<timestamp>\",\n      \"lastUsedAt\": \"<timestamp>\",\n      \"revocationUrl\": \"/services/data/<version>/apps/oauth/usage/tokens/<tokenIdentifier>\",\n      \"useCount\": integer,\n      \"userIdentifier\": \"<userIdentifier>\",\n      \"username\": \"<username>\"\n    }\n  ]\n}"
+                contentMediaType: text/plain
+              example: "{\n  \"currentPageUrl\": \"/services/data/<version>/apps/oauth/usage/<identifier>/<userIdentifier>/tokens\",\n  \"tokens\": [\n    {\n      \"accessTokenFormat\": \"<accessTokenFormat>\",\n      \"appDeveloperName\": \"<appDeveloperName>\",\n      \"appIdentifier\": \"<identifier>\",\n      \"initialConnectionAt\": \"<timestamp>\",\n      \"lastUsedAt\": \"<timestamp>\",\n      \"revocationUrl\": \"/services/data/<version>/apps/oauth/usage/tokens/<tokenIdentifier>\",\n      \"useCount\": integer,\n      \"userIdentifier\": \"<userIdentifier>\",\n      \"username\": \"<username>\"\n    }\n  ]\n}"
+      deprecated: false
+      security: []
+      servers:
+      - url: https://login.salesforce.com
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    delete:
+      tags:
+      - Tokens
+      summary: Salesforce Oauth User Tokens Revoke
+      description: Revokes all tokens for a user of the external client app. See [Refresh Token by User and App](https://developer.salesforce.com/docs/atlas.en-us.246.0.chatterapi.meta/chatterapi/connect_resources_usage_app_id_user_id_tokens.htm).
+      operationId: OAuthUserTokensRevoke
+      parameters:
+      - name: Authorization
+        in: header
+        description: Replace <token> with your access token
+        required: true
+        schema:
+          type: string
+          examples:
+          - Bearer <token>
+        example: example_value
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+      servers:
+      - url: https://login.salesforce.com
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /services/data/v64.0/apps/oauth/usage//tokens:
+    parameters: []
+    delete:
+      tags:
+      - Tokens
+      summary: Salesforce Oauth Tokens Revoke
+      description: Revokes all tokens available for the external client app. See [Refresh Token by App ID](https://developer.salesforce.com/docs/atlas.en-us.246.0.chatterapi.meta/chatterapi/connect_resources_usage_app_id_tokens.htm).
+      operationId: OAuthTokensRevoke
+      parameters:
+      - name: Authorization
+        in: header
+        description: Replace <token> with your access token
+        required: true
+        schema:
+          type: string
+          examples:
+          - Bearer <token>
+        example: example_value
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+      servers:
+      - url: https://login.salesforce.com
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /services/data/v64.0/apps/oauth/usage/tokens/:
+    parameters: []
+    delete:
+      tags:
+      - Tokens
+      summary: Salesforce Oauth Token Revoke
+      description: Revokes one token. See [OAuth Refresh Token](https://developer.salesforce.com/docs/atlas.en-us.246.0.chatterapi.meta/chatterapi/connect_resources_usage_tokens_token_id.htm).
+      operationId: OAuthTokenRevoke
+      parameters:
+      - name: Authorization
+        in: header
+        description: Replace <token> with your access token
+        required: true
+        schema:
+          type: string
+          examples:
+          - Bearer <token>
+        example: example_value
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+      servers:
+      - url: https://login.salesforce.com
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /services/oauth2/introspect:
+    parameters: []
+    post:
+      tags:
+      - Tokens
+      summary: Salesforce Openid Connect Token Introspection Endpoint
+      operationId: OpenIDConnectTokenIntrospectionEndpoint
+      parameters:
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        schema:
+          const: application/x-www-form-urlencoded
+          type: string
+          examples:
+          - application/x-www-form-urlencoded
+        example: example_value
+      - name: Accept
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - application/json
+        example: example_value
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            encoding: {}
+            schema:
+              required:
+              - token
+              - token_type_hint
+              - client_id
+              - client_secret
+              type: object
+              properties:
+                token:
+                  type: string
+                token_type_hint:
+                  type: string
+                  examples:
+                  - access_token
+                client_id:
+                  type: string
+                  examples:
+                  - '{{vault:salesforce-consumer-key}}'
+                client_secret:
+                  type: string
+              contentMediaType: application/x-www-form-urlencoded
+            examples:
+              OpenidconnecttokenintrospectionendpointRequestExample:
+                summary: Default OpenIDConnectTokenIntrospectionEndpoint request
+                x-microcks-default: true
+                value:
+                  token: CAUQAA
+                  token_type_hint: CAUQAA
+                  client_id: '500123'
+                  client_secret: example_value
+        required: false
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Thu, 16 Nov 2023 15:54:42 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: string
+                examples:
+                - "{\n    \"active\": true,\n    \"scope\": \"<scope_list>\",\n    \"client_id\": \"<client_id>\",\n    \"username\": \"<username>\",\n    \"sub\": \"https://login.salesforce.com/id/00D.../005...\",\n    \"token_type\": \"access_token\",\n    \"exp\": <timestamp>,\n    \"iat\": <timestamp>,\n    \"nbf\": <timestamp>\n}"
+                contentMediaType: application/json;charset=UTF-8
+              example: "{\n    \"active\": true,\n    \"scope\": \"<scope_list>\",\n    \"client_id\": \"<client_id>\",\n    \"username\": \"<username>\",\n    \"sub\": \"https://login.salesforce.com/id/00D.../005...\",\n    \"token_type\": \"access_token\",\n    \"exp\": <timestamp>,\n    \"iat\": <timestamp>,\n    \"nbf\": <timestamp>\n}"
+      deprecated: false
+      security: []
+      servers:
+      - url: https://login.salesforce.com
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  //:
+    parameters: []
+    get:
+      tags:
+      - Tokens
+      summary: Salesforce Id Token
+      operationId: IDToken
+      parameters:
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        schema:
+          const: application/json
+          type: string
+          examples:
+          - application/json
+        example: example_value
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Thu, 16 Nov 2023 15:56:09 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessfulIDToken'
+                - examples:
+                  - id: https://login.salesforce.com/id/00D.../005...
+                    asserted_user: true
+                    user_id: 005...
+                    organization_id: 00D...
+                    username: <username>
+                    nick_name: <nickname>
+                    display_name: <display_name>
+                    email: <email>
+                    email_verified: true
+                    first_name: <firstname>
+                    last_name: <lastname>
+                    timezone: Europe/Paris
+                    photos:
+                      picture: https://<my_domain>/profilephoto/005/F
+                      thumbnail: https://<my_domain>/profilephoto/005/T
+                    addr_street: null
+                    addr_city: null
+                    addr_state: null
+                    addr_country: FR
+                    addr_zip: null
+                    mobile_phone: null
+                    mobile_phone_verified: false
+                    is_lightning_login_user: false
+                    status:
+                      created_date: null
+                      body: null
+                    urls:
+                      enterprise: https://<my_domain>/services/Soap/c/{version}/00D...
+                      metadata: https://<my_domain>/services/Soap/m/{version}/00D...
+                      partner: https://<my_domain>/services/Soap/u/{version}/00D...
+                      rest: https://<my_domain>/services/data/v{version}/
+                      sobjects: https://<my_domain>/services/data/v{version}/sobjects/
+                      search: https://<my_domain>/services/data/v{version}/search/
+                      query: https://<my_domain>/services/data/v{version}/query/
+                      recent: https://<my_domain>/services/data/v{version}/recent/
+                      tooling_soap: https://<my_domain>/services/Soap/T/{version}/00D...
+                      tooling_rest: https://<my_domain>/services/data/v{version}/tooling/
+                      profile: https://<my_domain>/0052o00000DOJ1PAAX
+                      feeds: https://<my_domain>/services/data/v{version}/chatter/feeds
+                      groups: https://<my_domain>/services/data/v{version}/chatter/groups
+                      users: https://<my_domain>/services/data/v{version}/chatter/users
+                      feed_items: https://<my_domain>/services/data/v{version}/chatter/feed-items
+                      feed_elements: https://<my_domain>/services/data/v{version}/chatter/feed-elements
+                      custom_domain: https://<my_domain>
+                    active: true
+                    user_type: STANDARD
+                    language: en_US
+                    locale: fr_FR_EURO
+                    utcOffset: 3600000
+                    last_modified_date: <date_time>
+                    is_app_installed: true
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                id: https://login.salesforce.com/id/00D.../005...
+                asserted_user: true
+                user_id: 005...
+                organization_id: 00D...
+                username: <username>
+                nick_name: <nickname>
+                display_name: <display_name>
+                email: <email>
+                email_verified: true
+                first_name: <firstname>
+                last_name: <lastname>
+                timezone: Europe/Paris
+                photos:
+                  picture: https://<my_domain>/profilephoto/005/F
+                  thumbnail: https://<my_domain>/profilephoto/005/T
+                addr_street: null
+                addr_city: null
+                addr_state: null
+                addr_country: FR
+                addr_zip: null
+                mobile_phone: null
+                mobile_phone_verified: false
+                is_lightning_login_user: false
+                status:
+                  created_date: null
+                  body: null
+                urls:
+                  enterprise: https://<my_domain>/services/Soap/c/{version}/00D...
+                  metadata: https://<my_domain>/services/Soap/m/{version}/00D...
+                  partner: https://<my_domain>/services/Soap/u/{version}/00D...
+                  rest: https://<my_domain>/services/data/v{version}/
+                  sobjects: https://<my_domain>/services/data/v{version}/sobjects/
+                  search: https://<my_domain>/services/data/v{version}/search/
+                  query: https://<my_domain>/services/data/v{version}/query/
+                  recent: https://<my_domain>/services/data/v{version}/recent/
+                  tooling_soap: https://<my_domain>/services/Soap/T/{version}/00D...
+                  tooling_rest: https://<my_domain>/services/data/v{version}/tooling/
+                  profile: https://<my_domain>/0052o00000DOJ1PAAX
+                  feeds: https://<my_domain>/services/data/v{version}/chatter/feeds
+                  groups: https://<my_domain>/services/data/v{version}/chatter/groups
+                  users: https://<my_domain>/services/data/v{version}/chatter/users
+                  feed_items: https://<my_domain>/services/data/v{version}/chatter/feed-items
+                  feed_elements: https://<my_domain>/services/data/v{version}/chatter/feed-elements
+                  custom_domain: https://<my_domain>
+                active: true
+                user_type: STANDARD
+                language: en_US
+                locale: fr_FR_EURO
+                utcOffset: 3600000
+                last_modified_date: <date_time>
+                is_app_installed: true
+      deprecated: false
+      servers:
+      - url: https://id
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Status:
+      title: Status
+      required:
+      - created_date
+      - body
+      type: object
+      properties:
+        created_date:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        body:
+          type:
+          - string
+          - 'null'
+          example: example_value
+      examples:
+      - created_date: null
+        body: null
+    Photos:
+      title: Photos
+      required:
+      - picture
+      - thumbnail
+      type: object
+      properties:
+        picture:
+          type: string
+          example: example_value
+        thumbnail:
+          type: string
+          example: example_value
+      examples:
+      - picture: https://<file_domain>/profilephoto/005/F
+        thumbnail: https://<file_domain>/profilephoto/005/T
+    Urls:
+      title: Urls
+      required:
+      - enterprise
+      - metadata
+      - partner
+      - rest
+      - sobjects
+      - search
+      - query
+      - recent
+      - tooling_soap
+      - tooling_rest
+      - profile
+      - feeds
+      - groups
+      - users
+      - feed_items
+      - feed_elements
+      - custom_domain
+      type: object
+      properties:
+        enterprise:
+          type: string
+          example: example_value
+        metadata:
+          type: string
+          example: example_value
+        partner:
+          type: string
+          example: example_value
+        rest:
+          type: string
+          example: example_value
+        sobjects:
+          type: string
+          example: example_value
+        search:
+          type: string
+          example: example_value
+        query:
+          type: string
+          example: example_value
+        recent:
+          type: string
+          example: example_value
+        tooling_soap:
+          type: string
+          example: example_value
+        tooling_rest:
+          type: string
+          example: example_value
+        profile:
+          type: string
+          example: example_value
+        feeds:
+          type: string
+          example: example_value
+        groups:
+          type: string
+          example: example_value
+        users:
+          type: string
+          example: example_value
+        feed_items:
+          type: string
+          example: example_value
+        feed_elements:
+          type: string
+          example: example_value
+        custom_domain:
+          type: string
+          example: example_value
+      examples:
+      - enterprise: https://<my_domain>/services/Soap/c/{version}/00D...
+        metadata: https://<my_domain>/services/Soap/m/{version}/00D...
+        partner: https://<my_domain>/services/Soap/u/{version}/00D...
+        rest: https://<my_domain>/services/data/v{version}/
+        sobjects: https://<my_domain>/services/data/v{version}/sobjects/
+        search: https://<my_domain>/services/data/v{version}/search/
+        query: https://<my_domain>/services/data/v{version}/query/
+        recent: https://<my_domain>/services/data/v{version}/recent/
+        tooling_soap: https://<my_domain>/services/Soap/T/{version}/00D...
+        tooling_rest: https://<my_domain>/services/data/v{version}/tooling/
+        profile: https://<my_domain>/0052o00000DOJ1PAAX
+        feeds: https://<my_domain>/services/data/v{version}/chatter/feeds
+        groups: https://<my_domain>/services/data/v{version}/chatter/groups
+        users: https://<my_domain>/services/data/v{version}/chatter/users
+        feed_items: https://<my_domain>/services/data/v{version}/chatter/feed-items
+        feed_elements: https://<my_domain>/services/data/v{version}/chatter/feed-elements
+        custom_domain: https://<my_domain>
+    SuccessfulIDToken:
+      title: SuccessfulIDToken
+      required:
+      - id
+      - asserted_user
+      - user_id
+      - organization_id
+      - username
+      - nick_name
+      - display_name
+      - email
+      - email_verified
+      - first_name
+      - last_name
+      - timezone
+      - photos
+      - addr_street
+      - addr_city
+      - addr_state
+      - addr_country
+      - addr_zip
+      - mobile_phone
+      - mobile_phone_verified
+      - is_lightning_login_user
+      - status
+      - urls
+      - active
+      - user_type
+      - language
+      - locale
+      - utcOffset
+      - last_modified_date
+      - is_app_installed
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+        asserted_user:
+          type: boolean
+          example: true
+        user_id:
+          type: string
+          example: '500123'
+        organization_id:
+          type: string
+          example: '500123'
+        username:
+          type: string
+          example: example_value
+        nick_name:
+          type: string
+          example: example_value
+        display_name:
+          type: string
+          example: example_value
+        email:
+          type: string
+          example: user@example.com
+        email_verified:
+          type: boolean
+          example: user@example.com
+        first_name:
+          type: string
+          example: example_value
+        last_name:
+          type: string
+          example: example_value
+        timezone:
+          type: string
+          example: example_value
+        photos:
+          $ref: '#/components/schemas/Photos'
+        addr_street:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        addr_city:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        addr_state:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        addr_country:
+          type: string
+          example: 42
+        addr_zip:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        mobile_phone:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        mobile_phone_verified:
+          type: boolean
+          example: true
+        is_lightning_login_user:
+          type: boolean
+          example: true
+        status:
+          $ref: '#/components/schemas/Status'
+        urls:
+          $ref: '#/components/schemas/Urls'
+        active:
+          type: boolean
+          example: true
+        user_type:
+          type: string
+          example: example_value
+        language:
+          type: string
+          example: example_value
+        locale:
+          type: string
+          example: example_value
+        utcOffset:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        last_modified_date:
+          type: string
+          example: example_value
+        is_app_installed:
+          type: boolean
+          example: true
+      examples:
+      - id: https://login.salesforce.com/id/00D.../005...
+        asserted_user: true
+        user_id: 005...
+        organization_id: 00D...
+        username: <username>
+        nick_name: <nickname>
+        display_name: <display_name>
+        email: <email>
+        email_verified: true
+        first_name: <firstname>
+        last_name: <lastname>
+        timezone: Europe/Paris
+        photos:
+          picture: https://<my_domain>/profilephoto/005/F
+          thumbnail: https://<my_domain>/profilephoto/005/T
+        addr_street: null
+        addr_city: null
+        addr_state: null
+        addr_country: FR
+        addr_zip: null
+        mobile_phone: null
+        mobile_phone_verified: false
+        is_lightning_login_user: false
+        status:
+          created_date: null
+          body: null
+        urls:
+          enterprise: https://<my_domain>/services/Soap/c/{version}/00D...
+          metadata: https://<my_domain>/services/Soap/m/{version}/00D...
+          partner: https://<my_domain>/services/Soap/u/{version}/00D...
+          rest: https://<my_domain>/services/data/v{version}/
+          sobjects: https://<my_domain>/services/data/v{version}/sobjects/
+          search: https://<my_domain>/services/data/v{version}/search/
+          query: https://<my_domain>/services/data/v{version}/query/
+          recent: https://<my_domain>/services/data/v{version}/recent/
+          tooling_soap: https://<my_domain>/services/Soap/T/{version}/00D...
+          tooling_rest: https://<my_domain>/services/data/v{version}/tooling/
+          profile: https://<my_domain>/0052o00000DOJ1PAAX
+          feeds: https://<my_domain>/services/data/v{version}/chatter/feeds
+          groups: https://<my_domain>/services/data/v{version}/chatter/groups
+          users: https://<my_domain>/services/data/v{version}/chatter/users
+          feed_items: https://<my_domain>/services/data/v{version}/chatter/feed-items
+          feed_elements: https://<my_domain>/services/data/v{version}/chatter/feed-elements
+          custom_domain: https://<my_domain>
+        active: true
+        user_type: STANDARD
+        language: en_US
+        locale: fr_FR_EURO
+        utcOffset: 3600000
+        last_modified_date: <date_time>
+        is_app_installed: true
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

@@ -1,0 +1,1064 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Creation API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Creation
+paths:
+  /data/v64.0/connect/business-rules/expression-set:
+    parameters: []
+    post:
+      tags:
+      - Creation
+      summary: Salesforce Expression Set Creation
+      description: "[https://developer.salesforce.com/docs/atlas.en-us.246.0.industries_reference.meta/industries_reference/connect_resources_bre_create_expression_set.htm](https://developer.salesforce.com/docs/atlas.en-us.246.0.industries_reference.meta/industries_reference/connect_resources_bre_create_expression_set.htm)\n\n# Expression Set Creation (POST)\n\nCreates an expression set in Business Rules Engine. An expression set performs a series of calculations by using lookup tables and user-defined variables and constants.Resource\n\n```\n/connect/business-rules/expression-set\n\n ```\n\nResource Example\n\n```\nhttps://yourInstance.salesforce.com/services/data/v59.0/connect\n/business-rules/expression-set\n\n ```\n\nAvailable version\n\n58.0\n\nRequires Chatter\n\nNo\n\nHTTP methods\n\nPOST\n\nRequest body for POST\n\nRoot XML tag\n\nJSON example\n\n```\n{\n  \"name\": \"CTX Mapping ES\",\n  \"apiName\": \"CTX_Mapping_ES_1\",\n  \"description\": \"...\",\n  \"usageType\": \"Bre\",\n  \"contextDefinitions\": [\n    {\n      \"id\": \"11Oxx0000006PcLEAU\"\n    }\n  ],\n  \"versions\": [\n    {\n      \"name\": \"CTX_Mapping_ES_1 V1\",\n      \"apiName\": \"CTX_Mapping_ES_1_V1\",\n      \"description\": \"Sample CTX Mapping\",\n      \"startDate\": \"2022-11-14T20:31:47.000+0000\",\n      \"endDate\": \"2022-11-14T20:31:47.000+0000\",\n      \"versionNumber\": 1,\n      \"rank\": 1,\n      \"enabled\": true,\n      \"showExplExternally\": false,\n      \"steps\": [\n        {\n          \"name\": \"Condition1\",\n          \"description\": \"Condition step for conditions w.r.t product\",\n          \"sequenceNumber\": 1,\n          \"resultIncluded\": true,\n          \"stepType\": \"Condition\",\n          \"conditionExpression\": {\n            \"expression\": \"productName == 'iPhone' && productColor == 'Red'\",\n            \"resultParameter\": \"condition_output__1\"\n          }\n        }\n      ],\n      \"variables\": [\n        {\n          \"name\": \"productName\",\n          \"collection\": false,\n          \"dataType\": \"Text\",\n          \"description\": \"productName\",\n          \"input\": true,\n          \"output\": false,\n          \"type\": \"Variable\"\n        },\n        {\n          \"name\": \"productColor\",\n          \"collection\": false,\n          \"dataType\": \"Text\",\n          \"description\": \"productColor\",\n          \"input\": true,\n          \"output\": false,\n          \"type\": \"Variable\"\n        },\n        {\n          \"name\": \"condition_output__1\",\n          \"dataType\": \"Boolean\",\n          \"description\": \"condition_output__1\",\n          \"input\": false,\n          \"output\": true,\n          \"resultStep\": \"Condition1\",\n          \"type\": \"Variable\"\n        }\n      ]\n    }\n  ]\n}\n\n ```\n\nProperties\n\n| Name | Type | Description | Required or Optional | Available Version |\n| --- | --- | --- | --- | --- |\n| apiName | String | Unique name of the expression set. | Required | 58.0 |\n| context​Definitions | [Context Definition Input](https://developer.salesforce.com/docs/atlas.en-us.industries_reference.meta/industries_reference/connect_requests_context_definition_input.htm) | List of context definitions in an expression set. | Optional | 58.0 |\n| description | String | Description of the expression set. | Optional | 58.0 |\n| name | String | Name of the expression set. | Required | 58.0 |\n| usage​Type | String | Usage type of the expression set.<br><br>Valid values are:<br><br>- AiAccelerator​SubscriberChurn​Prediction—Used for Industries Einstein<br>    <br>- Bre—Used for Business Rules Engine<br>    <br>- CustomLoyalty—Used for Loyalty Management<br>    <br>- DefaultPricing—Used for Pricing Plans in Enterprise Product Catalog (EPC) by Communications Cloud<br>    <br>- Qualification—Used for Industries Communications, Media, and Energy (CME)<br>    <br>- RecordAlert—Used for Financial Services Cloud<br>    <br>- ShipAndDebit—Used for Manufacturing Cloud<br>    <br>- TierProcessing—Used for Loyalty Management<br>    <br>- TransactionJournal—Used for Loyalty Management<br>    <br>- WarrantyClaim—Used for Manufacturing Cloud | Required | 58.0 |\n| versions | [Expression Set Version Input](https://developer.salesforce.com/docs/atlas.en-us.industries_reference.meta/industries_reference/connect_requests_expression_set_version.htm)\\[\\] | List of the expression set versions. | Optional | 58.0 |\n\nResponse body for POST\n\n[Expression Set Output](https://developer.salesforce.com/docs/atlas.en-us.industries_reference.meta/industries_reference/connect_responses_expression_set_output.htm)"
+      operationId: ExpressionSetCreation
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/ExpressionSetCreationRequest'
+              - examples:
+                - apiName: myExpressionSet2
+                  contextDefinitions: []
+                  name: myExpressionSet3
+                  usageType: Bre
+                  versions:
+                  - apiName: myExpressionSet_V1
+                    enabled: false
+                    id: 9QMHo000000LBjOOAW
+                    name: myExpressionSet V1
+                    showExplExternally: false
+                    startDate: '2023-09-06T10:35:11.000Z'
+                    steps: []
+                    variables: []
+                    versionNumber: 1
+              contentMediaType: application/json
+            example:
+              apiName: myExpressionSet2
+              contextDefinitions: []
+              name: myExpressionSet3
+              usageType: Bre
+              versions:
+              - apiName: myExpressionSet_V1
+                enabled: false
+                id: 9QMHo000000LBjOOAW
+                name: myExpressionSet V1
+                showExplExternally: false
+                startDate: '2023-09-06T10:35:11.000Z'
+                steps: []
+                variables: []
+                versionNumber: 1
+        required: true
+      responses:
+        '201':
+          description: Created
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Wed, 06 Sep 2023 10:35:10 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Status201-SuccessCreatedOnlyMandatoryFields'
+                - examples:
+                  - apiName: myExpressionSet
+                    contextDefinitions: []
+                    id: 9QLHo000000LBjJOAW
+                    name: myExpressionSet
+                    usageType: Bre
+                    versions:
+                    - apiName: myExpressionSet_V1
+                      enabled: false
+                      id: 9QMHo000000LBjOOAW
+                      name: myExpressionSet V1
+                      showExplExternally: false
+                      startDate: '2023-09-06T10:35:11.000Z'
+                      steps: []
+                      variables: []
+                      versionNumber: 1
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                apiName: myExpressionSet
+                contextDefinitions: []
+                id: 9QLHo000000LBjJOAW
+                name: myExpressionSet
+                usageType: Bre
+                versions:
+                - apiName: myExpressionSet_V1
+                  enabled: false
+                  id: 9QMHo000000LBjOOAW
+                  name: myExpressionSet V1
+                  showExplExternally: false
+                  startDate: '2023-09-06T10:35:11.000Z'
+                  steps: []
+                  variables: []
+                  versionNumber: 1
+        '400':
+          description: Bad Request
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Wed, 06 Sep 2023 10:31:10 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Status400-MissingMandatoryBodyField1'
+                description: ''
+                examples:
+                - - errorCode: INVALID_INPUT
+                    message: Specify a value for name parameter and try again.
+                contentMediaType: application/json;charset=UTF-8
+              example:
+              - errorCode: INVALID_INPUT
+                message: Specify a value for name parameter and try again.
+        '500':
+          description: Server Error
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Wed, 06 Sep 2023 10:21:45 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Status500-ErrorNoBody1'
+                description: ''
+                examples:
+                - - message: 'An unexpected error occurred. Please include this ErrorId if you contact support: 675649159-184801 (-177293139)'
+                    errorCode: UNKNOWN_EXCEPTION
+                contentMediaType: application/json;charset=UTF-8
+              example:
+              - message: 'An unexpected error occurred. Please include this ErrorId if you contact support: 675649159-184801 (-177293139)'
+                errorCode: UNKNOWN_EXCEPTION
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/global-promotions-management/promotions:
+    parameters: []
+    post:
+      tags:
+      - Creation
+      summary: Salesforce Promotions Creation
+      description: '[Promotions Creation](https://developer.salesforce.com/docs/atlas.en-us.loyalty.meta/loyalty/connect_resources_unified_promotions.htm)
+
+
+        NOTE:
+
+
+        In the Pre-request. Script Tab, make changes in the variables value accordingly with the real Process Name to invoke.'
+      operationId: PromotionsCreation
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/PromotionsCreationRequest'
+              - examples:
+                - name: Free Beverage
+                  startDateTime: '2023-06-30T00:00:00.000Z'
+                  displayName: Free Beverage
+                  priorityNumber: 1
+                  description: Buy 2 Get 1 free
+                  endDateTime: '2023-12-30T00:00:00.000Z'
+                  objective: To increase sales
+                  loyaltyProgram:
+                    name: Program-001
+                  additionalFieldValues:
+                    attributes:
+                      promotionLocation__c: HYD
+                  promotionLimits:
+                    perLineItemLimit: 10
+                    vouchersLimit: 100
+                    vouchersPerCustomerLimit: 5
+                    perCartLimit: 5
+                    usePerCustomerLimit: 5
+                    liabilityLimit: 10000
+                    loyaltyProgramCurrency:
+                      id: 0lcSB00000001TxYAI
+                    pointsPerCustomerLimit: 5
+                  promotionEligibility:
+                    eligibleProductCategories:
+                    - id: 0ZGSB0000002td74AA
+                    eligibleProducts:
+                    - name: Coke
+                    eligibleChannels:
+                    - channelType: Offline
+                      store:
+                        name: test Store
+                      retailLocationGroup:
+                        name: test
+                    eligibleCustomerEvents:
+                      event: MemberBirthday
+                      eventPeriodUnit: Date
+                    eligibleEnrollmentPeriod:
+                      isEnrollmentRequired: true
+                      enrollmentStartDate: '2023-06-30T00:00:00.000Z'
+                      enrollmentEndDate: '2023-12-30T00:00:00.000Z'
+                    eligibleLoyaltyTiers:
+                    - tierGroup:
+                        name: Group-001
+                        id: 0ltSB00000000T3YAI
+                      tier:
+                        name: Silver
+                        id: 0lgSB00000000srYAA
+              contentMediaType: application/json
+            example:
+              name: Free Beverage
+              startDateTime: '2023-06-30T00:00:00.000Z'
+              displayName: Free Beverage
+              priorityNumber: 1
+              description: Buy 2 Get 1 free
+              endDateTime: '2023-12-30T00:00:00.000Z'
+              objective: To increase sales
+              loyaltyProgram:
+                name: Program-001
+              additionalFieldValues:
+                attributes:
+                  promotionLocation__c: HYD
+              promotionLimits:
+                perLineItemLimit: 10
+                vouchersLimit: 100
+                vouchersPerCustomerLimit: 5
+                perCartLimit: 5
+                usePerCustomerLimit: 5
+                liabilityLimit: 10000
+                loyaltyProgramCurrency:
+                  id: 0lcSB00000001TxYAI
+                pointsPerCustomerLimit: 5
+              promotionEligibility:
+                eligibleProductCategories:
+                - id: 0ZGSB0000002td74AA
+                eligibleProducts:
+                - name: Coke
+                eligibleChannels:
+                - channelType: Offline
+                  store:
+                    name: test Store
+                  retailLocationGroup:
+                    name: test
+                eligibleCustomerEvents:
+                  event: MemberBirthday
+                  eventPeriodUnit: Date
+                eligibleEnrollmentPeriod:
+                  isEnrollmentRequired: true
+                  enrollmentStartDate: '2023-06-30T00:00:00.000Z'
+                  enrollmentEndDate: '2023-12-30T00:00:00.000Z'
+                eligibleLoyaltyTiers:
+                - tierGroup:
+                    name: Group-001
+                    id: 0ltSB00000000T3YAI
+                  tier:
+                    name: Silver
+                    id: 0lgSB00000000srYAA
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    AdditionalFieldValues:
+      title: AdditionalFieldValues
+      required:
+      - attributes
+      type: object
+      properties:
+        attributes:
+          $ref: '#/components/schemas/Attributes14'
+      examples:
+      - attributes:
+          promotionLocation__c: HYD
+    EligibleProductCategory:
+      title: EligibleProductCategory
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+      examples:
+      - id: 0ZGSB0000002td74AA
+    EligibleChannel:
+      title: EligibleChannel
+      required:
+      - channelType
+      - store
+      - retailLocationGroup
+      type: object
+      properties:
+        channelType:
+          type: string
+          example: example_value
+        store:
+          $ref: '#/components/schemas/Store'
+        retailLocationGroup:
+          $ref: '#/components/schemas/RetailLocationGroup'
+      examples:
+      - channelType: Offline
+        store:
+          name: test Store
+        retailLocationGroup:
+          name: test
+    Status400-MissingMandatoryBodyField1:
+      title: Status400-MissingMandatoryBodyField1
+      required:
+      - errorCode
+      - message
+      type: object
+      properties:
+        errorCode:
+          type: string
+          example: example_value
+        message:
+          type: string
+          example: example_value
+      examples:
+      - errorCode: INVALID_INPUT
+        message: Specify a value for name parameter and try again.
+    EligibleEnrollmentPeriod:
+      title: EligibleEnrollmentPeriod
+      required:
+      - isEnrollmentRequired
+      - enrollmentStartDate
+      - enrollmentEndDate
+      type: object
+      properties:
+        isEnrollmentRequired:
+          type: boolean
+          example: true
+        enrollmentStartDate:
+          type: string
+          example: example_value
+        enrollmentEndDate:
+          type: string
+          example: example_value
+      examples:
+      - isEnrollmentRequired: true
+        enrollmentStartDate: '2023-06-30T00:00:00.000Z'
+        enrollmentEndDate: '2023-12-30T00:00:00.000Z'
+    Status201-SuccessCreatedOnlyMandatoryFields:
+      title: Status201-SuccessCreatedOnlyMandatoryFields
+      required:
+      - apiName
+      - contextDefinitions
+      - id
+      - name
+      - usageType
+      - versions
+      type: object
+      properties:
+        apiName:
+          type: string
+          example: example_value
+        contextDefinitions:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        id:
+          type: string
+          example: abc123
+        name:
+          type: string
+          example: Example Title
+        usageType:
+          type: string
+          example: example_value
+        versions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Version'
+          description: ''
+          example: []
+      examples:
+      - apiName: myExpressionSet
+        contextDefinitions: []
+        id: 9QLHo000000LBjJOAW
+        name: myExpressionSet
+        usageType: Bre
+        versions:
+        - apiName: myExpressionSet_V1
+          enabled: false
+          id: 9QMHo000000LBjOOAW
+          name: myExpressionSet V1
+          showExplExternally: false
+          startDate: '2023-09-06T10:35:11.000Z'
+          steps: []
+          variables: []
+          versionNumber: 1
+    PromotionLimits:
+      title: PromotionLimits
+      required:
+      - perLineItemLimit
+      - vouchersLimit
+      - vouchersPerCustomerLimit
+      - perCartLimit
+      - usePerCustomerLimit
+      - liabilityLimit
+      - loyaltyProgramCurrency
+      - pointsPerCustomerLimit
+      type: object
+      properties:
+        perLineItemLimit:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        vouchersLimit:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        vouchersPerCustomerLimit:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        perCartLimit:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        usePerCustomerLimit:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        liabilityLimit:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        loyaltyProgramCurrency:
+          $ref: '#/components/schemas/LoyaltyProgramCurrency'
+        pointsPerCustomerLimit:
+          type: integer
+          contentEncoding: int32
+          example: 10
+      examples:
+      - perLineItemLimit: 10
+        vouchersLimit: 100
+        vouchersPerCustomerLimit: 5
+        perCartLimit: 5
+        usePerCustomerLimit: 5
+        liabilityLimit: 10000
+        loyaltyProgramCurrency:
+          id: 0lcSB00000001TxYAI
+        pointsPerCustomerLimit: 5
+    TierGroup:
+      title: TierGroup
+      required:
+      - name
+      - id
+      type: object
+      properties:
+        name:
+          type: string
+          example: Example Title
+        id:
+          type: string
+          example: abc123
+      examples:
+      - name: Group-001
+        id: 0ltSB00000000T3YAI
+    Version:
+      title: Version
+      required:
+      - apiName
+      - enabled
+      - id
+      - name
+      - showExplExternally
+      - startDate
+      - steps
+      - variables
+      - versionNumber
+      type: object
+      properties:
+        apiName:
+          type: string
+          example: example_value
+        enabled:
+          type: boolean
+          example: true
+        id:
+          type: string
+          example: abc123
+        name:
+          type: string
+          example: Example Title
+        showExplExternally:
+          type: boolean
+          example: true
+        startDate:
+          type: string
+          example: example_value
+        steps:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        variables:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        versionNumber:
+          type: integer
+          contentEncoding: int32
+          example: 10
+      examples:
+      - apiName: myExpressionSet_V1
+        enabled: false
+        id: 9QMHo000000LBjOOAW
+        name: myExpressionSet V1
+        showExplExternally: false
+        startDate: '2023-09-06T10:35:11.000Z'
+        steps: []
+        variables: []
+        versionNumber: 1
+    Tier:
+      title: Tier
+      required:
+      - name
+      - id
+      type: object
+      properties:
+        name:
+          type: string
+          example: Example Title
+        id:
+          type: string
+          example: abc123
+      examples:
+      - name: Silver
+        id: 0lgSB00000000srYAA
+    ExpressionSetCreationRequest:
+      title: ExpressionSetCreationRequest
+      required:
+      - apiName
+      - contextDefinitions
+      - name
+      - usageType
+      - versions
+      type: object
+      properties:
+        apiName:
+          type: string
+          example: example_value
+        contextDefinitions:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        name:
+          type: string
+          example: Example Title
+        usageType:
+          type: string
+          example: example_value
+        versions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Version'
+          description: ''
+          example: []
+      examples:
+      - apiName: myExpressionSet2
+        contextDefinitions: []
+        name: myExpressionSet3
+        usageType: Bre
+        versions:
+        - apiName: myExpressionSet_V1
+          enabled: false
+          id: 9QMHo000000LBjOOAW
+          name: myExpressionSet V1
+          showExplExternally: false
+          startDate: '2023-09-06T10:35:11.000Z'
+          steps: []
+          variables: []
+          versionNumber: 1
+    RetailLocationGroup:
+      title: RetailLocationGroup
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+          example: Example Title
+      examples:
+      - name: test
+    EligibleLoyaltyTier:
+      title: EligibleLoyaltyTier
+      required:
+      - tierGroup
+      - tier
+      type: object
+      properties:
+        tierGroup:
+          $ref: '#/components/schemas/TierGroup'
+        tier:
+          $ref: '#/components/schemas/Tier'
+      examples:
+      - tierGroup:
+          name: Group-001
+          id: 0ltSB00000000T3YAI
+        tier:
+          name: Silver
+          id: 0lgSB00000000srYAA
+    Attributes14:
+      title: Attributes14
+      required:
+      - promotionLocation__c
+      type: object
+      properties:
+        promotionLocation__c:
+          type: string
+          example: example_value
+      examples:
+      - promotionLocation__c: HYD
+    PromotionEligibility:
+      title: PromotionEligibility
+      required:
+      - eligibleProductCategories
+      - eligibleProducts
+      - eligibleChannels
+      - eligibleCustomerEvents
+      - eligibleEnrollmentPeriod
+      - eligibleLoyaltyTiers
+      type: object
+      properties:
+        eligibleProductCategories:
+          type: array
+          items:
+            $ref: '#/components/schemas/EligibleProductCategory'
+          description: ''
+          example: []
+        eligibleProducts:
+          type: array
+          items:
+            $ref: '#/components/schemas/EligibleProduct'
+          description: ''
+          example: []
+        eligibleChannels:
+          type: array
+          items:
+            $ref: '#/components/schemas/EligibleChannel'
+          description: ''
+          example: []
+        eligibleCustomerEvents:
+          $ref: '#/components/schemas/EligibleCustomerEvents'
+        eligibleEnrollmentPeriod:
+          $ref: '#/components/schemas/EligibleEnrollmentPeriod'
+        eligibleLoyaltyTiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/EligibleLoyaltyTier'
+          description: ''
+          example: []
+      examples:
+      - eligibleProductCategories:
+        - id: 0ZGSB0000002td74AA
+        eligibleProducts:
+        - name: Coke
+        eligibleChannels:
+        - channelType: Offline
+          store:
+            name: test Store
+          retailLocationGroup:
+            name: test
+        eligibleCustomerEvents:
+          event: MemberBirthday
+          eventPeriodUnit: Date
+        eligibleEnrollmentPeriod:
+          isEnrollmentRequired: true
+          enrollmentStartDate: '2023-06-30T00:00:00.000Z'
+          enrollmentEndDate: '2023-12-30T00:00:00.000Z'
+        eligibleLoyaltyTiers:
+        - tierGroup:
+            name: Group-001
+            id: 0ltSB00000000T3YAI
+          tier:
+            name: Silver
+            id: 0lgSB00000000srYAA
+    LoyaltyProgram:
+      title: LoyaltyProgram
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+          example: Example Title
+      examples:
+      - name: Program-001
+    EligibleProduct:
+      title: EligibleProduct
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+          example: Example Title
+      examples:
+      - name: Coke
+    EligibleCustomerEvents:
+      title: EligibleCustomerEvents
+      required:
+      - event
+      - eventPeriodUnit
+      type: object
+      properties:
+        event:
+          type: string
+          example: example_value
+        eventPeriodUnit:
+          type: string
+          example: example_value
+      examples:
+      - event: MemberBirthday
+        eventPeriodUnit: Date
+    PromotionsCreationRequest:
+      title: PromotionsCreationRequest
+      required:
+      - name
+      - startDateTime
+      - displayName
+      - priorityNumber
+      - description
+      - endDateTime
+      - objective
+      - loyaltyProgram
+      - additionalFieldValues
+      - promotionLimits
+      - promotionEligibility
+      type: object
+      properties:
+        name:
+          type: string
+          example: Example Title
+        startDateTime:
+          type: string
+          example: '2026-01-15T10:30:00Z'
+        displayName:
+          type: string
+          example: example_value
+        priorityNumber:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        description:
+          type: string
+          example: A sample description.
+        endDateTime:
+          type: string
+          example: '2026-01-15T10:30:00Z'
+        objective:
+          type: string
+          example: example_value
+        loyaltyProgram:
+          $ref: '#/components/schemas/LoyaltyProgram'
+        additionalFieldValues:
+          $ref: '#/components/schemas/AdditionalFieldValues'
+        promotionLimits:
+          $ref: '#/components/schemas/PromotionLimits'
+        promotionEligibility:
+          $ref: '#/components/schemas/PromotionEligibility'
+      examples:
+      - name: Free Beverage
+        startDateTime: '2023-06-30T00:00:00.000Z'
+        displayName: Free Beverage
+        priorityNumber: 1
+        description: Buy 2 Get 1 free
+        endDateTime: '2023-12-30T00:00:00.000Z'
+        objective: To increase sales
+        loyaltyProgram:
+          name: Program-001
+        additionalFieldValues:
+          attributes:
+            promotionLocation__c: HYD
+        promotionLimits:
+          perLineItemLimit: 10
+          vouchersLimit: 100
+          vouchersPerCustomerLimit: 5
+          perCartLimit: 5
+          usePerCustomerLimit: 5
+          liabilityLimit: 10000
+          loyaltyProgramCurrency:
+            id: 0lcSB00000001TxYAI
+          pointsPerCustomerLimit: 5
+        promotionEligibility:
+          eligibleProductCategories:
+          - id: 0ZGSB0000002td74AA
+          eligibleProducts:
+          - name: Coke
+          eligibleChannels:
+          - channelType: Offline
+            store:
+              name: test Store
+            retailLocationGroup:
+              name: test
+          eligibleCustomerEvents:
+            event: MemberBirthday
+            eventPeriodUnit: Date
+          eligibleEnrollmentPeriod:
+            isEnrollmentRequired: true
+            enrollmentStartDate: '2023-06-30T00:00:00.000Z'
+            enrollmentEndDate: '2023-12-30T00:00:00.000Z'
+          eligibleLoyaltyTiers:
+          - tierGroup:
+              name: Group-001
+              id: 0ltSB00000000T3YAI
+            tier:
+              name: Silver
+              id: 0lgSB00000000srYAA
+    Status500-ErrorNoBody1:
+      title: Status500-ErrorNoBody1
+      required:
+      - message
+      - errorCode
+      type: object
+      properties:
+        message:
+          type: string
+          example: example_value
+        errorCode:
+          type: string
+          example: example_value
+      examples:
+      - message: 'An unexpected error occurred. Please include this ErrorId if you contact support: 675649159-184801 (-177293139)'
+        errorCode: UNKNOWN_EXCEPTION
+    Store:
+      title: Store
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+          example: Example Title
+      examples:
+      - name: test Store
+    LoyaltyProgramCurrency:
+      title: LoyaltyProgramCurrency
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+      examples:
+      - id: 0lcSB00000001TxYAI
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

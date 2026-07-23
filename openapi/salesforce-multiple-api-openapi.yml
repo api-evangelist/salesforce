@@ -1,0 +1,287 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Multiple API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Multiple
+paths:
+  /Soap/u/64.0:
+    parameters: []
+    post:
+      tags:
+      - Multiple
+      summary: Salesforce Publish Multiple Events With Soap Call
+      operationId: PublishmultipleeventswithSOAPcall
+      parameters:
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        schema:
+          const: text/xml
+          type: string
+          examples:
+          - text/xml
+        example: example_value
+      - name: charset
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - UTF-8
+        example: example_value
+      - name: SOAPAction
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - create
+        example: example_value
+      - name: Accept
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - text/xml
+        example: example_value
+      requestBody:
+        description: ''
+        content:
+          application/xml:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/Envelope'
+              - xml:
+                  name: Envelope
+                  attribute: false
+                  wrapped: false
+                examples:
+                - "<Envelope>\n\n  <SOAP-ENV:Header xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">\n\n    <ns2:SessionHeader xmlns:ns2=\"urn:partner.soap.sforce.com\">\n\n      <ns2:sessionId></ns2:sessionId>\n\n    </ns2:SessionHeader>\n\n  </SOAP-ENV:Header>\n\n  <SOAP-ENV:Body xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">\n\n    <ns2:create xmlns:ns2=\"urn:partner.soap.sforce.com\">\n\n      <ns2:sObjects>\n\n        <ns1:type xmlns:ns1=\"urn:sobject.partner.soap.sforce.com\">Carbon_Comparison__e</ns1:type>\n\n        <Annual_Mileage__c>12000</Annual_Mileage__c>\n\n        <Current_Vehicle__c>Fast car 1</Current_Vehicle__c>\n\n        <Model_Year__c>2019</Model_Year__c>\n\n      </ns2:sObjects>\n\n      <ns2:sObjects>\n\n        <ns1:type xmlns:ns1=\"urn:sobject.partner.soap.sforce.com\">Carbon_Comparison__e</ns1:type>\n\n        <Annual_Mileage__c>12000</Annual_Mileage__c>\n\n        <Current_Vehicle__c>Fast car 2</Current_Vehicle__c>\n\n        <Model_Year__c>2019</Model_Year__c>\n\n      </ns2:sObjects>\n\n    </ns2:create>\n\n  </SOAP-ENV:Body>\n\n</Envelope>"
+              contentMediaType: application/xml
+            example: "<Envelope>\n\n  <SOAP-ENV:Header xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">\n\n    <ns2:SessionHeader xmlns:ns2=\"urn:partner.soap.sforce.com\">\n\n      <ns2:sessionId></ns2:sessionId>\n\n    </ns2:SessionHeader>\n\n  </SOAP-ENV:Header>\n\n  <SOAP-ENV:Body xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">\n\n    <ns2:create xmlns:ns2=\"urn:partner.soap.sforce.com\">\n\n      <ns2:sObjects>\n\n        <ns1:type xmlns:ns1=\"urn:sobject.partner.soap.sforce.com\">Carbon_Comparison__e</ns1:type>\n\n        <Annual_Mileage__c>12000</Annual_Mileage__c>\n\n        <Current_Vehicle__c>Fast car 1</Current_Vehicle__c>\n\n        <Model_Year__c>2019</Model_Year__c>\n\n      </ns2:sObjects>\n\n      <ns2:sObjects>\n\n        <ns1:type xmlns:ns1=\"urn:sobject.partner.soap.sforce.com\">Carbon_Comparison__e</ns1:type>\n\n        <Annual_Mileage__c>12000</Annual_Mileage__c>\n\n        <Current_Vehicle__c>Fast car 2</Current_Vehicle__c>\n\n        <Model_Year__c>2019</Model_Year__c>\n\n      </ns2:sObjects>\n\n    </ns2:create>\n\n  </SOAP-ENV:Body>\n\n</Envelope>"
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Body16:
+      title: Body16
+      required:
+      - create
+      type: object
+      properties:
+        create:
+          allOf:
+          - $ref: '#/components/schemas/create'
+          - xml:
+              name: create
+              namespace: urn:partner.soap.sforce.com
+              prefix: ns2
+              attribute: false
+              wrapped: false
+          example: example_value
+      xml:
+        name: Body
+        namespace: http://schemas.xmlsoap.org/soap/envelope/
+        prefix: SOAP-ENV
+        attribute: false
+        wrapped: false
+    Header4:
+      title: Header4
+      required:
+      - SessionHeader
+      type: object
+      properties:
+        SessionHeader:
+          allOf:
+          - $ref: '#/components/schemas/SessionHeader'
+          - xml:
+              name: SessionHeader
+              namespace: urn:partner.soap.sforce.com
+              prefix: ns2
+              attribute: false
+              wrapped: false
+          example: example_value
+      xml:
+        name: Header
+        namespace: http://schemas.xmlsoap.org/soap/envelope/
+        prefix: SOAP-ENV
+        attribute: false
+        wrapped: false
+    SessionHeader:
+      title: SessionHeader
+      required:
+      - sessionId
+      type: object
+      properties:
+        sessionId:
+          type: string
+          xml:
+            name: sessionId
+            namespace: urn:partner.soap.sforce.com
+            prefix: ns2
+            attribute: false
+            wrapped: false
+          example: '500123'
+      xml:
+        name: SessionHeader
+        namespace: urn:partner.soap.sforce.com
+        prefix: ns2
+        attribute: false
+        wrapped: false
+    Envelope:
+      title: Envelope
+      required:
+      - Header
+      - Body
+      type: object
+      properties:
+        Header:
+          allOf:
+          - $ref: '#/components/schemas/Header4'
+          - xml:
+              name: Header
+              namespace: http://schemas.xmlsoap.org/soap/envelope/
+              prefix: SOAP-ENV
+              attribute: false
+              wrapped: false
+          example: example_value
+        Body:
+          allOf:
+          - $ref: '#/components/schemas/Body16'
+          - xml:
+              name: Body
+              namespace: http://schemas.xmlsoap.org/soap/envelope/
+              prefix: SOAP-ENV
+              attribute: false
+              wrapped: false
+          example: example_value
+      xml:
+        name: Envelope
+        namespace: http://schemas.xmlsoap.org/soap/envelope/
+        prefix: SOAP-ENV
+        attribute: false
+        wrapped: false
+    create:
+      title: create
+      required:
+      - sObjects
+      type: object
+      properties:
+        sObjects:
+          type: array
+          items:
+            $ref: '#/components/schemas/sObjects'
+          description: ''
+          xml:
+            namespace: urn:partner.soap.sforce.com
+            prefix: ns2
+            attribute: false
+            wrapped: false
+          example: []
+      xml:
+        name: create
+        namespace: urn:partner.soap.sforce.com
+        prefix: ns2
+        attribute: false
+        wrapped: false
+    sObjects:
+      title: sObjects
+      required:
+      - type
+      - Annual_Mileage__c
+      - Current_Vehicle__c
+      - Model_Year__c
+      type: object
+      properties:
+        type:
+          type: string
+          xml:
+            name: type
+            namespace: urn:sobject.partner.soap.sforce.com
+            prefix: ns1
+            attribute: false
+            wrapped: false
+          example: example_value
+        Annual_Mileage__c:
+          type: integer
+          contentEncoding: int32
+          xml:
+            name: Annual_Mileage__c
+            namespace: ''
+            attribute: false
+            wrapped: false
+          example: 10
+        Current_Vehicle__c:
+          type: string
+          xml:
+            name: Current_Vehicle__c
+            namespace: ''
+            attribute: false
+            wrapped: false
+          example: example_value
+        Model_Year__c:
+          type: integer
+          contentEncoding: int32
+          xml:
+            name: Model_Year__c
+            namespace: ''
+            attribute: false
+            wrapped: false
+          example: 10
+      xml:
+        name: sObjects
+        namespace: urn:partner.soap.sforce.com
+        prefix: ns2
+        attribute: false
+        wrapped: false
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

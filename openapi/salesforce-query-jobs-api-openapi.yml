@@ -1,0 +1,624 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Query Jobs API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Query Jobs
+  description: 'Operations for creating and managing query jobs that extract large volumes of data from Salesforce using SOQL.
+
+    '
+paths:
+  /query:
+    post:
+      operationId: createQueryJob
+      summary: Salesforce Create a Query Job
+      description: 'Creates a new query job to extract large volumes of data from Salesforce using a SOQL query. Query jobs are asynchronous; after creating the job, poll the job status until it reaches JobComplete, then retrieve results using the GET /query/{jobId}/results endpoint.
+
+        '
+      tags:
+      - Query Jobs
+      requestBody:
+        required: true
+        description: Configuration for the new query job including the SOQL query.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryJobRequest'
+            examples:
+              CreatequeryjobRequestExample:
+                summary: Default createQueryJob request
+                x-microcks-default: true
+                value:
+                  operation: query
+                  query: example_value
+                  contentType: CSV
+                  columnDelimiter: COMMA
+                  lineEnding: LF
+      responses:
+        '200':
+          description: Query job created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryJobInfo'
+              examples:
+                Createqueryjob200Example:
+                  summary: Default createQueryJob 200 response
+                  x-microcks-default: true
+                  value:
+                    id: abc123
+                    operation: query
+                    object: example_value
+                    state: Open
+                    createdDate: '2026-01-15T10:30:00Z'
+                    systemModstamp: '2026-01-15T10:30:00Z'
+                    numberRecordsProcessed: 10
+                    totalProcessingTime: 1700000000000
+                    errorMessage: example_value
+                    contentType: CSV
+                    columnDelimiter: COMMA
+                    lineEnding: LF
+                    jobType: example_value
+                    createdById: '500123'
+                    apiVersion: 42.5
+        '400':
+          description: Bad request. Invalid SOQL query or configuration parameters.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Createqueryjob400Example:
+                  summary: Default createQueryJob 400 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Createqueryjob401Example:
+                  summary: Default createQueryJob 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    get:
+      operationId: listQueryJobs
+      summary: Salesforce List Query Jobs
+      description: 'Returns a list of query jobs in the org. Results are ordered by creation date descending. Use query parameters to filter by job state.
+
+        '
+      tags:
+      - Query Jobs
+      parameters:
+      - name: jobType
+        in: query
+        required: false
+        description: 'Filter results by job type. Use V2Query for Bulk API 2.0 query jobs.
+
+          '
+        schema:
+          type: string
+          enum:
+          - V2Query
+        example: V2Query
+      responses:
+        '200':
+          description: List of query jobs.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  done:
+                    type: boolean
+                    description: Whether all jobs have been returned.
+                  nextRecordsUrl:
+                    type: string
+                    format: uri
+                    description: URL to retrieve the next page of query job results.
+                  records:
+                    type: array
+                    description: Array of query job information objects.
+                    items:
+                      $ref: '#/components/schemas/QueryJobInfo'
+              examples:
+                Listqueryjobs200Example:
+                  summary: Default listQueryJobs 200 response
+                  x-microcks-default: true
+                  value:
+                    done: true
+                    nextRecordsUrl: https://www.example.com
+                    records:
+                    - id: abc123
+                      operation: query
+                      object: example_value
+                      createdDate: '2026-01-15T10:30:00Z'
+                      systemModstamp: '2026-01-15T10:30:00Z'
+                      numberRecordsProcessed: 10
+                      totalProcessingTime: 1700000000000
+                      errorMessage: example_value
+                      contentType: CSV
+                      columnDelimiter: COMMA
+                      lineEnding: LF
+                      jobType: example_value
+                      createdById: '500123'
+                      apiVersion: 42.5
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Listqueryjobs401Example:
+                  summary: Default listQueryJobs 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /query/{jobId}:
+    get:
+      operationId: getQueryJobInfo
+      summary: Salesforce Get Query Job Info
+      description: 'Returns detailed information about a specific query job, including its current state, number of records processed, and any error messages. Poll this endpoint until the state reaches JobComplete or Failed before retrieving results.
+
+        '
+      tags:
+      - Query Jobs
+      parameters:
+      - $ref: '#/components/parameters/jobId'
+      responses:
+        '200':
+          description: Detailed information about the specified query job.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryJobInfo'
+              examples:
+                Getqueryjobinfo200Example:
+                  summary: Default getQueryJobInfo 200 response
+                  x-microcks-default: true
+                  value:
+                    id: abc123
+                    operation: query
+                    object: example_value
+                    state: Open
+                    createdDate: '2026-01-15T10:30:00Z'
+                    systemModstamp: '2026-01-15T10:30:00Z'
+                    numberRecordsProcessed: 10
+                    totalProcessingTime: 1700000000000
+                    errorMessage: example_value
+                    contentType: CSV
+                    columnDelimiter: COMMA
+                    lineEnding: LF
+                    jobType: example_value
+                    createdById: '500123'
+                    apiVersion: 42.5
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Getqueryjobinfo401Example:
+                  summary: Default getQueryJobInfo 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+        '404':
+          description: Job not found for the specified job ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Getqueryjobinfo404Example:
+                  summary: Default getQueryJobInfo 404 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    patch:
+      operationId: updateQueryJob
+      summary: Salesforce Abort or Close a Query Job
+      description: 'Updates the state of a query job. Use this to abort a query job that is currently running or queued by setting state to Aborted.
+
+        '
+      tags:
+      - Query Jobs
+      parameters:
+      - $ref: '#/components/parameters/jobId'
+      requestBody:
+        required: true
+        description: State update for the query job.
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - state
+              properties:
+                state:
+                  type: string
+                  enum:
+                  - Aborted
+                  description: 'The new state to set for the query job. Currently only Aborted is supported to cancel a running job.
+
+                    '
+            examples:
+              UpdatequeryjobRequestExample:
+                summary: Default updateQueryJob request
+                x-microcks-default: true
+                value:
+                  state: Aborted
+      responses:
+        '200':
+          description: Query job updated successfully with the new state.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryJobInfo'
+              examples:
+                Updatequeryjob200Example:
+                  summary: Default updateQueryJob 200 response
+                  x-microcks-default: true
+                  value:
+                    id: abc123
+                    operation: query
+                    object: example_value
+                    state: Open
+                    createdDate: '2026-01-15T10:30:00Z'
+                    systemModstamp: '2026-01-15T10:30:00Z'
+                    numberRecordsProcessed: 10
+                    totalProcessingTime: 1700000000000
+                    errorMessage: example_value
+                    contentType: CSV
+                    columnDelimiter: COMMA
+                    lineEnding: LF
+                    jobType: example_value
+                    createdById: '500123'
+                    apiVersion: 42.5
+        '400':
+          description: Bad request. Invalid state transition for the current job state.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Updatequeryjob400Example:
+                  summary: Default updateQueryJob 400 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Updatequeryjob401Example:
+                  summary: Default updateQueryJob 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+        '404':
+          description: Job not found for the specified job ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Updatequeryjob404Example:
+                  summary: Default updateQueryJob 404 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    delete:
+      operationId: deleteQueryJob
+      summary: Salesforce Delete a Query Job
+      description: 'Deletes a query job and all associated results. Only jobs in the Aborted or JobComplete state can be deleted.
+
+        '
+      tags:
+      - Query Jobs
+      parameters:
+      - $ref: '#/components/parameters/jobId'
+      responses:
+        '204':
+          description: Query job deleted successfully. No body is returned.
+        '400':
+          description: 'Bad request. Job is not in a deletable state (Aborted or JobComplete).
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Deletequeryjob400Example:
+                  summary: Default deleteQueryJob 400 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Deletequeryjob401Example:
+                  summary: Default deleteQueryJob 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+        '404':
+          description: Job not found for the specified job ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Deletequeryjob404Example:
+                  summary: Default deleteQueryJob 404 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    JobState:
+      type: string
+      description: 'The current state of a Bulk API 2.0 job, indicating where it is in its lifecycle.
+
+        '
+      enum:
+      - Open
+      - UploadComplete
+      - InProgress
+      - JobComplete
+      - Failed
+      - Aborted
+    QueryJobRequest:
+      type: object
+      description: Configuration parameters for creating a new Bulk API 2.0 query job.
+      required:
+      - operation
+      - query
+      properties:
+        operation:
+          type: string
+          enum:
+          - query
+          - queryAll
+          description: 'The query operation to perform. Use query to retrieve active records only, or queryAll to include soft-deleted and archived records.
+
+            '
+          example: query
+        query:
+          type: string
+          description: 'The SOQL query to execute. The query result will be available as CSV data after the job completes.
+
+            '
+          example: SELECT Id, Name, Email, Phone FROM Contact WHERE CreatedDate = LAST_YEAR
+        contentType:
+          type: string
+          enum:
+          - CSV
+          default: CSV
+          description: The format of the results. Currently only CSV is supported.
+          example: CSV
+        columnDelimiter:
+          type: string
+          enum:
+          - COMMA
+          - TAB
+          - PIPE
+          - SEMICOLON
+          - CARET
+          - BACKQUOTE
+          default: COMMA
+          description: The delimiter character used between fields in the CSV output.
+          example: COMMA
+        lineEnding:
+          type: string
+          enum:
+          - LF
+          - CRLF
+          default: LF
+          description: The line ending character used in the CSV output.
+          example: LF
+    Error:
+      type: object
+      description: An error response from the Salesforce Bulk API 2.0.
+      properties:
+        message:
+          type: string
+          description: Human-readable description of the error.
+          example: example_value
+        errorCode:
+          type: string
+          description: Salesforce error code identifying the type of error.
+          example: example_value
+        fields:
+          type: array
+          description: List of field names related to the error, if applicable.
+          items:
+            type: string
+          example: []
+    QueryJobInfo:
+      type: object
+      description: 'Detailed information about a Bulk API 2.0 query job, including its current state and processing statistics.
+
+        '
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the query job.
+          example: abc123
+        operation:
+          type: string
+          enum:
+          - query
+          - queryAll
+          description: The query operation being performed.
+          example: query
+        object:
+          type: string
+          description: 'The primary SObject type in the SOQL query. Derived automatically from the query.
+
+            '
+          example: example_value
+        state:
+          $ref: '#/components/schemas/JobState'
+        createdDate:
+          type: string
+          format: date-time
+          description: The date and time the job was created, in ISO 8601 format.
+          example: '2026-01-15T10:30:00Z'
+        systemModstamp:
+          type: string
+          format: date-time
+          description: The date and time the job was last modified, in ISO 8601 format.
+          example: '2026-01-15T10:30:00Z'
+        numberRecordsProcessed:
+          type: integer
+          description: The number of records returned by the query.
+          example: 10
+        totalProcessingTime:
+          type: integer
+          description: Total processing time in milliseconds.
+          example: 1700000000000
+        errorMessage:
+          type: string
+          description: 'Error message if the job reached the Failed state. Describes the reason for failure.
+
+            '
+          example: example_value
+        contentType:
+          type: string
+          enum:
+          - CSV
+          description: The content type of the query results.
+          example: CSV
+        columnDelimiter:
+          type: string
+          enum:
+          - COMMA
+          - TAB
+          - PIPE
+          - SEMICOLON
+          - CARET
+          - BACKQUOTE
+          description: The column delimiter used in the results CSV.
+          example: COMMA
+        lineEnding:
+          type: string
+          enum:
+          - LF
+          - CRLF
+          description: The line ending used in the results CSV.
+          example: LF
+        jobType:
+          type: string
+          description: The job type (V2Query for Bulk API 2.0 query jobs).
+          example: example_value
+        createdById:
+          type: string
+          description: The Salesforce user ID of the user who created the job.
+          example: '500123'
+        apiVersion:
+          type: number
+          description: The API version used to create the job.
+          example: 42.5
+  parameters:
+    jobId:
+      name: jobId
+      in: path
+      required: true
+      description: The unique identifier of the Bulk API 2.0 job.
+      schema:
+        type: string
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

@@ -1,0 +1,544 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Close API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Close
+paths:
+  /async/64.0/job/:
+    parameters: []
+    post:
+      tags:
+      - Close
+      summary: Salesforce Bulk Close Job
+      operationId: BulkCloseJob
+      parameters:
+      - name: X-SFDC-Session
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: example_value
+      - name: charset
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - UTF-8
+        example: example_value
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/BulkCloseJobRequest'
+              - examples:
+                - state: Closed
+              contentMediaType: application/json
+            example:
+              state: Closed
+        required: true
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Thu, 16 Nov 2023 16:23:52 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessfulBulkCloseJob'
+                - examples:
+                  - apexProcessingTime: 64
+                    apiActiveProcessingTime: 225
+                    apiVersion: 58
+                    assignmentRuleId: null
+                    concurrencyMode: Parallel
+                    contentType: CSV
+                    createdById: 005...
+                    createdDate: <date_time>
+                    externalIdFieldName: null
+                    fastPathEnabled: false
+                    id: 750...
+                    numberBatchesCompleted: 1
+                    numberBatchesFailed: 0
+                    numberBatchesInProgress: 0
+                    numberBatchesQueued: 0
+                    numberBatchesTotal: 1
+                    numberRecordsFailed: 0
+                    numberRecordsProcessed: 1
+                    numberRetries: 0
+                    object: <Object>
+                    operation: insert
+                    state: Closed
+                    systemModstamp: <date_time>
+                    totalProcessingTime: 403
+                contentMediaType: application/json
+              example:
+                apexProcessingTime: 64
+                apiActiveProcessingTime: 225
+                apiVersion: 58
+                assignmentRuleId: null
+                concurrencyMode: Parallel
+                contentType: CSV
+                createdById: 005...
+                createdDate: <date_time>
+                externalIdFieldName: null
+                fastPathEnabled: false
+                id: 750...
+                numberBatchesCompleted: 1
+                numberBatchesFailed: 0
+                numberBatchesInProgress: 0
+                numberBatchesQueued: 0
+                numberBatchesTotal: 1
+                numberRecordsFailed: 0
+                numberRecordsProcessed: 1
+                numberRetries: 0
+                object: <Object>
+                operation: insert
+                state: Closed
+                systemModstamp: <date_time>
+                totalProcessingTime: 403
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/jobs/ingest/:
+    parameters: []
+    patch:
+      tags:
+      - Close
+      summary: Salesforce Close or Abort a Job
+      operationId: CloseorAbortaJob
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/CloseorAbortaJobRequest'
+              - examples:
+                - state: UploadComplete
+              contentMediaType: application/json
+            example:
+              state: UploadComplete
+        required: true
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Mon, 20 Nov 2023 15:00:44 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Sforce-Limit-Info:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: api-usage=2/15000
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessfulCloseorAbortaJob'
+                - examples:
+                  - id: 750...
+                    operation: insert
+                    object: Account
+                    createdById: 005...
+                    createdDate: <datetime>
+                    systemModstamp: <datetime>
+                    state: UploadComplete
+                    concurrencyMode: Parallel
+                    contentType: CSV
+                    apiVersion: 58
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                id: 750...
+                operation: insert
+                object: Account
+                createdById: 005...
+                createdDate: <datetime>
+                systemModstamp: <datetime>
+                state: UploadComplete
+                concurrencyMode: Parallel
+                contentType: CSV
+                apiVersion: 58
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    SuccessfulBulkCloseJob:
+      title: SuccessfulBulkCloseJob
+      required:
+      - apexProcessingTime
+      - apiActiveProcessingTime
+      - apiVersion
+      - assignmentRuleId
+      - concurrencyMode
+      - contentType
+      - createdById
+      - createdDate
+      - externalIdFieldName
+      - fastPathEnabled
+      - id
+      - numberBatchesCompleted
+      - numberBatchesFailed
+      - numberBatchesInProgress
+      - numberBatchesQueued
+      - numberBatchesTotal
+      - numberRecordsFailed
+      - numberRecordsProcessed
+      - numberRetries
+      - object
+      - operation
+      - state
+      - systemModstamp
+      - totalProcessingTime
+      type: object
+      properties:
+        apexProcessingTime:
+          type: integer
+          contentEncoding: int32
+          example: 1700000000000
+        apiActiveProcessingTime:
+          type: integer
+          contentEncoding: int32
+          example: 1700000000000
+        apiVersion:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        assignmentRuleId:
+          type:
+          - string
+          - 'null'
+          example: '500123'
+        concurrencyMode:
+          type: string
+          example: example_value
+        contentType:
+          type: string
+          example: example_value
+        createdById:
+          type: string
+          example: '500123'
+        createdDate:
+          type: string
+          example: example_value
+        externalIdFieldName:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        fastPathEnabled:
+          type: boolean
+          example: true
+        id:
+          type: string
+          example: abc123
+        numberBatchesCompleted:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        numberBatchesFailed:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        numberBatchesInProgress:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        numberBatchesQueued:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        numberBatchesTotal:
+          type: integer
+          contentEncoding: int32
+          example: 42
+        numberRecordsFailed:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        numberRecordsProcessed:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        numberRetries:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        object:
+          type: string
+          example: example_value
+        operation:
+          type: string
+          example: example_value
+        state:
+          type: string
+          example: example_value
+        systemModstamp:
+          type: string
+          example: example_value
+        totalProcessingTime:
+          type: integer
+          contentEncoding: int32
+          example: 1700000000000
+      examples:
+      - apexProcessingTime: 64
+        apiActiveProcessingTime: 225
+        apiVersion: 58
+        assignmentRuleId: null
+        concurrencyMode: Parallel
+        contentType: CSV
+        createdById: 005...
+        createdDate: <date_time>
+        externalIdFieldName: null
+        fastPathEnabled: false
+        id: 750...
+        numberBatchesCompleted: 1
+        numberBatchesFailed: 0
+        numberBatchesInProgress: 0
+        numberBatchesQueued: 0
+        numberBatchesTotal: 1
+        numberRecordsFailed: 0
+        numberRecordsProcessed: 1
+        numberRetries: 0
+        object: <Object>
+        operation: insert
+        state: Closed
+        systemModstamp: <date_time>
+        totalProcessingTime: 403
+    SuccessfulCloseorAbortaJob:
+      title: SuccessfulCloseorAbortaJob
+      required:
+      - id
+      - operation
+      - object
+      - createdById
+      - createdDate
+      - systemModstamp
+      - state
+      - concurrencyMode
+      - contentType
+      - apiVersion
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+        operation:
+          type: string
+          example: example_value
+        object:
+          type: string
+          example: example_value
+        createdById:
+          type: string
+          example: '500123'
+        createdDate:
+          type: string
+          example: example_value
+        systemModstamp:
+          type: string
+          example: example_value
+        state:
+          type: string
+          example: example_value
+        concurrencyMode:
+          type: string
+          example: example_value
+        contentType:
+          type: string
+          example: example_value
+        apiVersion:
+          type: integer
+          contentEncoding: int32
+          example: 10
+      examples:
+      - id: 750...
+        operation: insert
+        object: Account
+        createdById: 005...
+        createdDate: <datetime>
+        systemModstamp: <datetime>
+        state: UploadComplete
+        concurrencyMode: Parallel
+        contentType: CSV
+        apiVersion: 58
+    CloseorAbortaJobRequest:
+      title: CloseorAbortaJobRequest
+      required:
+      - state
+      type: object
+      properties:
+        state:
+          type: string
+          example: example_value
+      examples:
+      - state: UploadComplete
+    BulkCloseJobRequest:
+      title: BulkCloseJobRequest
+      required:
+      - state
+      type: object
+      properties:
+        state:
+          type: string
+          example: example_value
+      examples:
+      - state: Closed
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

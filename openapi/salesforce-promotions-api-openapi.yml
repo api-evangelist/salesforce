@@ -1,0 +1,755 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Promotions API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Promotions
+paths:
+  /data/v64.0/global-promotions-management/eligible-promotions:
+    parameters: []
+    post:
+      tags:
+      - Promotions
+      summary: Salesforce Eligible Promotions
+      description: '[Eligible Promotions](https://developer.salesforce.com/docs/atlas.en-us.loyalty.meta/loyalty/connect_resources_eligible_promotions.htm)
+
+
+        NOTE:
+
+
+        In the Pre-request. Script Tab, make changes in the variables value accordingly with the real Process Name to invoke.'
+      operationId: EligiblePromotions
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/EligiblePromotionsRequest'
+              - examples:
+                - cart:
+                    cartDetails:
+                    - activityStartDate: '2023-06-14T12:45:19.000Z'
+                      contactId: 003xx000004WjzAAAS
+                      transactionAmount: 499
+                      currencyISOCode: INR
+                      cartLineDetails:
+                      - cartLineProductId: 01txx0000006iTsAAI
+                        cartLineItemQuantity: 3
+                        cartLineItemAmount: 499
+                        cartLineProductCatalogId: 0ZSSB0000002d8X4AQ
+              contentMediaType: application/json
+            example:
+              cart:
+                cartDetails:
+                - activityStartDate: '2023-06-14T12:45:19.000Z'
+                  contactId: 003xx000004WjzAAAS
+                  transactionAmount: 499
+                  currencyISOCode: INR
+                  cartLineDetails:
+                  - cartLineProductId: 01txx0000006iTsAAI
+                    cartLineItemQuantity: 3
+                    cartLineItemAmount: 499
+                    cartLineProductCatalogId: 0ZSSB0000002d8X4AQ
+        required: true
+      responses:
+        default:
+          description: ''
+          headers: {}
+          content: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/global-promotions-management/promotions:
+    parameters: []
+    post:
+      tags:
+      - Promotions
+      summary: Salesforce Promotions Creation
+      description: '[Promotions Creation](https://developer.salesforce.com/docs/atlas.en-us.loyalty.meta/loyalty/connect_resources_unified_promotions.htm)
+
+
+        NOTE:
+
+
+        In the Pre-request. Script Tab, make changes in the variables value accordingly with the real Process Name to invoke.'
+      operationId: PromotionsCreation
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/PromotionsCreationRequest'
+              - examples:
+                - name: Free Beverage
+                  startDateTime: '2023-06-30T00:00:00.000Z'
+                  displayName: Free Beverage
+                  priorityNumber: 1
+                  description: Buy 2 Get 1 free
+                  endDateTime: '2023-12-30T00:00:00.000Z'
+                  objective: To increase sales
+                  loyaltyProgram:
+                    name: Program-001
+                  additionalFieldValues:
+                    attributes:
+                      promotionLocation__c: HYD
+                  promotionLimits:
+                    perLineItemLimit: 10
+                    vouchersLimit: 100
+                    vouchersPerCustomerLimit: 5
+                    perCartLimit: 5
+                    usePerCustomerLimit: 5
+                    liabilityLimit: 10000
+                    loyaltyProgramCurrency:
+                      id: 0lcSB00000001TxYAI
+                    pointsPerCustomerLimit: 5
+                  promotionEligibility:
+                    eligibleProductCategories:
+                    - id: 0ZGSB0000002td74AA
+                    eligibleProducts:
+                    - name: Coke
+                    eligibleChannels:
+                    - channelType: Offline
+                      store:
+                        name: test Store
+                      retailLocationGroup:
+                        name: test
+                    eligibleCustomerEvents:
+                      event: MemberBirthday
+                      eventPeriodUnit: Date
+                    eligibleEnrollmentPeriod:
+                      isEnrollmentRequired: true
+                      enrollmentStartDate: '2023-06-30T00:00:00.000Z'
+                      enrollmentEndDate: '2023-12-30T00:00:00.000Z'
+                    eligibleLoyaltyTiers:
+                    - tierGroup:
+                        name: Group-001
+                        id: 0ltSB00000000T3YAI
+                      tier:
+                        name: Silver
+                        id: 0lgSB00000000srYAA
+              contentMediaType: application/json
+            example:
+              name: Free Beverage
+              startDateTime: '2023-06-30T00:00:00.000Z'
+              displayName: Free Beverage
+              priorityNumber: 1
+              description: Buy 2 Get 1 free
+              endDateTime: '2023-12-30T00:00:00.000Z'
+              objective: To increase sales
+              loyaltyProgram:
+                name: Program-001
+              additionalFieldValues:
+                attributes:
+                  promotionLocation__c: HYD
+              promotionLimits:
+                perLineItemLimit: 10
+                vouchersLimit: 100
+                vouchersPerCustomerLimit: 5
+                perCartLimit: 5
+                usePerCustomerLimit: 5
+                liabilityLimit: 10000
+                loyaltyProgramCurrency:
+                  id: 0lcSB00000001TxYAI
+                pointsPerCustomerLimit: 5
+              promotionEligibility:
+                eligibleProductCategories:
+                - id: 0ZGSB0000002td74AA
+                eligibleProducts:
+                - name: Coke
+                eligibleChannels:
+                - channelType: Offline
+                  store:
+                    name: test Store
+                  retailLocationGroup:
+                    name: test
+                eligibleCustomerEvents:
+                  event: MemberBirthday
+                  eventPeriodUnit: Date
+                eligibleEnrollmentPeriod:
+                  isEnrollmentRequired: true
+                  enrollmentStartDate: '2023-06-30T00:00:00.000Z'
+                  enrollmentEndDate: '2023-12-30T00:00:00.000Z'
+                eligibleLoyaltyTiers:
+                - tierGroup:
+                    name: Group-001
+                    id: 0ltSB00000000T3YAI
+                  tier:
+                    name: Silver
+                    id: 0lgSB00000000srYAA
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    AdditionalFieldValues:
+      title: AdditionalFieldValues
+      required:
+      - attributes
+      type: object
+      properties:
+        attributes:
+          $ref: '#/components/schemas/Attributes14'
+      examples:
+      - attributes:
+          promotionLocation__c: HYD
+    EligibleProductCategory:
+      title: EligibleProductCategory
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+      examples:
+      - id: 0ZGSB0000002td74AA
+    EligibleChannel:
+      title: EligibleChannel
+      required:
+      - channelType
+      - store
+      - retailLocationGroup
+      type: object
+      properties:
+        channelType:
+          type: string
+          example: example_value
+        store:
+          $ref: '#/components/schemas/Store'
+        retailLocationGroup:
+          $ref: '#/components/schemas/RetailLocationGroup'
+      examples:
+      - channelType: Offline
+        store:
+          name: test Store
+        retailLocationGroup:
+          name: test
+    EligibleEnrollmentPeriod:
+      title: EligibleEnrollmentPeriod
+      required:
+      - isEnrollmentRequired
+      - enrollmentStartDate
+      - enrollmentEndDate
+      type: object
+      properties:
+        isEnrollmentRequired:
+          type: boolean
+          example: true
+        enrollmentStartDate:
+          type: string
+          example: example_value
+        enrollmentEndDate:
+          type: string
+          example: example_value
+      examples:
+      - isEnrollmentRequired: true
+        enrollmentStartDate: '2023-06-30T00:00:00.000Z'
+        enrollmentEndDate: '2023-12-30T00:00:00.000Z'
+    Cart:
+      title: Cart
+      required:
+      - cartDetails
+      type: object
+      properties:
+        cartDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartDetail'
+          description: ''
+          example: []
+      examples:
+      - cartDetails:
+        - activityStartDate: '2023-06-14T12:45:19.000Z'
+          contactId: 003xx000004WjzAAAS
+          transactionAmount: 499
+          currencyISOCode: INR
+          cartLineDetails:
+          - cartLineProductId: 01txx0000006iTsAAI
+            cartLineItemQuantity: 3
+            cartLineItemAmount: 499
+            cartLineProductCatalogId: 0ZSSB0000002d8X4AQ
+    PromotionLimits:
+      title: PromotionLimits
+      required:
+      - perLineItemLimit
+      - vouchersLimit
+      - vouchersPerCustomerLimit
+      - perCartLimit
+      - usePerCustomerLimit
+      - liabilityLimit
+      - loyaltyProgramCurrency
+      - pointsPerCustomerLimit
+      type: object
+      properties:
+        perLineItemLimit:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        vouchersLimit:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        vouchersPerCustomerLimit:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        perCartLimit:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        usePerCustomerLimit:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        liabilityLimit:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        loyaltyProgramCurrency:
+          $ref: '#/components/schemas/LoyaltyProgramCurrency'
+        pointsPerCustomerLimit:
+          type: integer
+          contentEncoding: int32
+          example: 10
+      examples:
+      - perLineItemLimit: 10
+        vouchersLimit: 100
+        vouchersPerCustomerLimit: 5
+        perCartLimit: 5
+        usePerCustomerLimit: 5
+        liabilityLimit: 10000
+        loyaltyProgramCurrency:
+          id: 0lcSB00000001TxYAI
+        pointsPerCustomerLimit: 5
+    TierGroup:
+      title: TierGroup
+      required:
+      - name
+      - id
+      type: object
+      properties:
+        name:
+          type: string
+          example: Example Title
+        id:
+          type: string
+          example: abc123
+      examples:
+      - name: Group-001
+        id: 0ltSB00000000T3YAI
+    CartDetail:
+      title: CartDetail
+      required:
+      - activityStartDate
+      - contactId
+      - transactionAmount
+      - currencyISOCode
+      - cartLineDetails
+      type: object
+      properties:
+        activityStartDate:
+          type: string
+          example: example_value
+        contactId:
+          type: string
+          example: '500123'
+        transactionAmount:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        currencyISOCode:
+          type: string
+          example: example_value
+        cartLineDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartLineDetail'
+          description: ''
+          example: []
+      examples:
+      - activityStartDate: '2023-06-14T12:45:19.000Z'
+        contactId: 003xx000004WjzAAAS
+        transactionAmount: 499
+        currencyISOCode: INR
+        cartLineDetails:
+        - cartLineProductId: 01txx0000006iTsAAI
+          cartLineItemQuantity: 3
+          cartLineItemAmount: 499
+          cartLineProductCatalogId: 0ZSSB0000002d8X4AQ
+    Tier:
+      title: Tier
+      required:
+      - name
+      - id
+      type: object
+      properties:
+        name:
+          type: string
+          example: Example Title
+        id:
+          type: string
+          example: abc123
+      examples:
+      - name: Silver
+        id: 0lgSB00000000srYAA
+    CartLineDetail:
+      title: CartLineDetail
+      required:
+      - cartLineProductId
+      - cartLineItemQuantity
+      - cartLineItemAmount
+      - cartLineProductCatalogId
+      type: object
+      properties:
+        cartLineProductId:
+          type: string
+          example: '500123'
+        cartLineItemQuantity:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        cartLineItemAmount:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        cartLineProductCatalogId:
+          type: string
+          example: '500123'
+      examples:
+      - cartLineProductId: 01txx0000006iTsAAI
+        cartLineItemQuantity: 3
+        cartLineItemAmount: 499
+        cartLineProductCatalogId: 0ZSSB0000002d8X4AQ
+    RetailLocationGroup:
+      title: RetailLocationGroup
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+          example: Example Title
+      examples:
+      - name: test
+    EligibleLoyaltyTier:
+      title: EligibleLoyaltyTier
+      required:
+      - tierGroup
+      - tier
+      type: object
+      properties:
+        tierGroup:
+          $ref: '#/components/schemas/TierGroup'
+        tier:
+          $ref: '#/components/schemas/Tier'
+      examples:
+      - tierGroup:
+          name: Group-001
+          id: 0ltSB00000000T3YAI
+        tier:
+          name: Silver
+          id: 0lgSB00000000srYAA
+    Attributes14:
+      title: Attributes14
+      required:
+      - promotionLocation__c
+      type: object
+      properties:
+        promotionLocation__c:
+          type: string
+          example: example_value
+      examples:
+      - promotionLocation__c: HYD
+    PromotionEligibility:
+      title: PromotionEligibility
+      required:
+      - eligibleProductCategories
+      - eligibleProducts
+      - eligibleChannels
+      - eligibleCustomerEvents
+      - eligibleEnrollmentPeriod
+      - eligibleLoyaltyTiers
+      type: object
+      properties:
+        eligibleProductCategories:
+          type: array
+          items:
+            $ref: '#/components/schemas/EligibleProductCategory'
+          description: ''
+          example: []
+        eligibleProducts:
+          type: array
+          items:
+            $ref: '#/components/schemas/EligibleProduct'
+          description: ''
+          example: []
+        eligibleChannels:
+          type: array
+          items:
+            $ref: '#/components/schemas/EligibleChannel'
+          description: ''
+          example: []
+        eligibleCustomerEvents:
+          $ref: '#/components/schemas/EligibleCustomerEvents'
+        eligibleEnrollmentPeriod:
+          $ref: '#/components/schemas/EligibleEnrollmentPeriod'
+        eligibleLoyaltyTiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/EligibleLoyaltyTier'
+          description: ''
+          example: []
+      examples:
+      - eligibleProductCategories:
+        - id: 0ZGSB0000002td74AA
+        eligibleProducts:
+        - name: Coke
+        eligibleChannels:
+        - channelType: Offline
+          store:
+            name: test Store
+          retailLocationGroup:
+            name: test
+        eligibleCustomerEvents:
+          event: MemberBirthday
+          eventPeriodUnit: Date
+        eligibleEnrollmentPeriod:
+          isEnrollmentRequired: true
+          enrollmentStartDate: '2023-06-30T00:00:00.000Z'
+          enrollmentEndDate: '2023-12-30T00:00:00.000Z'
+        eligibleLoyaltyTiers:
+        - tierGroup:
+            name: Group-001
+            id: 0ltSB00000000T3YAI
+          tier:
+            name: Silver
+            id: 0lgSB00000000srYAA
+    LoyaltyProgram:
+      title: LoyaltyProgram
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+          example: Example Title
+      examples:
+      - name: Program-001
+    EligibleProduct:
+      title: EligibleProduct
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+          example: Example Title
+      examples:
+      - name: Coke
+    EligibleCustomerEvents:
+      title: EligibleCustomerEvents
+      required:
+      - event
+      - eventPeriodUnit
+      type: object
+      properties:
+        event:
+          type: string
+          example: example_value
+        eventPeriodUnit:
+          type: string
+          example: example_value
+      examples:
+      - event: MemberBirthday
+        eventPeriodUnit: Date
+    PromotionsCreationRequest:
+      title: PromotionsCreationRequest
+      required:
+      - name
+      - startDateTime
+      - displayName
+      - priorityNumber
+      - description
+      - endDateTime
+      - objective
+      - loyaltyProgram
+      - additionalFieldValues
+      - promotionLimits
+      - promotionEligibility
+      type: object
+      properties:
+        name:
+          type: string
+          example: Example Title
+        startDateTime:
+          type: string
+          example: '2026-01-15T10:30:00Z'
+        displayName:
+          type: string
+          example: example_value
+        priorityNumber:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        description:
+          type: string
+          example: A sample description.
+        endDateTime:
+          type: string
+          example: '2026-01-15T10:30:00Z'
+        objective:
+          type: string
+          example: example_value
+        loyaltyProgram:
+          $ref: '#/components/schemas/LoyaltyProgram'
+        additionalFieldValues:
+          $ref: '#/components/schemas/AdditionalFieldValues'
+        promotionLimits:
+          $ref: '#/components/schemas/PromotionLimits'
+        promotionEligibility:
+          $ref: '#/components/schemas/PromotionEligibility'
+      examples:
+      - name: Free Beverage
+        startDateTime: '2023-06-30T00:00:00.000Z'
+        displayName: Free Beverage
+        priorityNumber: 1
+        description: Buy 2 Get 1 free
+        endDateTime: '2023-12-30T00:00:00.000Z'
+        objective: To increase sales
+        loyaltyProgram:
+          name: Program-001
+        additionalFieldValues:
+          attributes:
+            promotionLocation__c: HYD
+        promotionLimits:
+          perLineItemLimit: 10
+          vouchersLimit: 100
+          vouchersPerCustomerLimit: 5
+          perCartLimit: 5
+          usePerCustomerLimit: 5
+          liabilityLimit: 10000
+          loyaltyProgramCurrency:
+            id: 0lcSB00000001TxYAI
+          pointsPerCustomerLimit: 5
+        promotionEligibility:
+          eligibleProductCategories:
+          - id: 0ZGSB0000002td74AA
+          eligibleProducts:
+          - name: Coke
+          eligibleChannels:
+          - channelType: Offline
+            store:
+              name: test Store
+            retailLocationGroup:
+              name: test
+          eligibleCustomerEvents:
+            event: MemberBirthday
+            eventPeriodUnit: Date
+          eligibleEnrollmentPeriod:
+            isEnrollmentRequired: true
+            enrollmentStartDate: '2023-06-30T00:00:00.000Z'
+            enrollmentEndDate: '2023-12-30T00:00:00.000Z'
+          eligibleLoyaltyTiers:
+          - tierGroup:
+              name: Group-001
+              id: 0ltSB00000000T3YAI
+            tier:
+              name: Silver
+              id: 0lgSB00000000srYAA
+    Store:
+      title: Store
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+          example: Example Title
+      examples:
+      - name: test Store
+    LoyaltyProgramCurrency:
+      title: LoyaltyProgramCurrency
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+      examples:
+      - id: 0lcSB00000001TxYAI
+    EligiblePromotionsRequest:
+      title: EligiblePromotionsRequest
+      required:
+      - cart
+      type: object
+      properties:
+        cart:
+          $ref: '#/components/schemas/Cart'
+      examples:
+      - cart:
+          cartDetails:
+          - activityStartDate: '2023-06-14T12:45:19.000Z'
+            contactId: 003xx000004WjzAAAS
+            transactionAmount: 499
+            currencyISOCode: INR
+            cartLineDetails:
+            - cartLineProductId: 01txx0000006iTsAAI
+              cartLineItemQuantity: 3
+              cartLineItemAmount: 499
+              cartLineProductCatalogId: 0ZSSB0000002d8X4AQ
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

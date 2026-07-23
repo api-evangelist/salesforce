@@ -1,0 +1,229 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Method API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Method
+paths:
+  /data/v64.0/commerce/payments/payment-methods:
+    parameters: []
+    post:
+      tags:
+      - Method
+      summary: Salesforce Create Payment Method
+      operationId: CreatePaymentMethod
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/CreatePaymentMethodRequest'
+              - examples:
+                - paymentGatewayId: '{{defaultPaymentGatewayId}}'
+                  cardPaymentMethod:
+                    cardHolderName: '{{_userFullName}}'
+                    expiryMonth: '11'
+                    expiryYear: '2222'
+                    cardNumber: '4111111111111111'
+                    cvv: '111'
+                    cardCategory: CreditCard
+                    cardType: VISA
+                    startYear: '2013'
+                    startMonth: '7'
+                    nickName: Default Payment Method
+                    accountId: '{{defaultAccountId}}'
+                  phone: '4155551212'
+                  email: '{{_userEmail}}'
+                  additionalData:
+                    key1: value1
+                    key2: value2
+              contentMediaType: application/json
+            example:
+              paymentGatewayId: '{{defaultPaymentGatewayId}}'
+              cardPaymentMethod:
+                cardHolderName: '{{_userFullName}}'
+                expiryMonth: '11'
+                expiryYear: '2222'
+                cardNumber: '4111111111111111'
+                cvv: '111'
+                cardCategory: CreditCard
+                cardType: VISA
+                startYear: '2013'
+                startMonth: '7'
+                nickName: Default Payment Method
+                accountId: '{{defaultAccountId}}'
+              phone: '4155551212'
+              email: '{{_userEmail}}'
+              additionalData:
+                key1: value1
+                key2: value2
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    AdditionalData:
+      title: AdditionalData
+      required:
+      - key1
+      - key2
+      type: object
+      properties:
+        key1:
+          type: string
+          example: example_value
+        key2:
+          type: string
+          example: example_value
+      examples:
+      - key1: value1
+        key2: value2
+    CreatePaymentMethodRequest:
+      title: CreatePaymentMethodRequest
+      required:
+      - paymentGatewayId
+      - cardPaymentMethod
+      - phone
+      - email
+      - additionalData
+      type: object
+      properties:
+        paymentGatewayId:
+          type: string
+          example: '500123'
+        cardPaymentMethod:
+          $ref: '#/components/schemas/CardPaymentMethod'
+        phone:
+          type: string
+          example: example_value
+        email:
+          type: string
+          example: user@example.com
+        additionalData:
+          $ref: '#/components/schemas/AdditionalData'
+      examples:
+      - paymentGatewayId: '{{defaultPaymentGatewayId}}'
+        cardPaymentMethod:
+          cardHolderName: '{{_userFullName}}'
+          expiryMonth: '11'
+          expiryYear: '2222'
+          cardNumber: '4111111111111111'
+          cvv: '111'
+          cardCategory: CreditCard
+          cardType: VISA
+          startYear: '2013'
+          startMonth: '7'
+          nickName: Default Payment Method
+          accountId: '{{defaultAccountId}}'
+        phone: '4155551212'
+        email: '{{_userEmail}}'
+        additionalData:
+          key1: value1
+          key2: value2
+    CardPaymentMethod:
+      title: CardPaymentMethod
+      required:
+      - cardHolderName
+      - expiryMonth
+      - expiryYear
+      - cardNumber
+      - cvv
+      - cardCategory
+      - cardType
+      - startYear
+      - startMonth
+      - nickName
+      - accountId
+      type: object
+      properties:
+        cardHolderName:
+          type: string
+          example: example_value
+        expiryMonth:
+          type: string
+          example: example_value
+        expiryYear:
+          type: string
+          example: example_value
+        cardNumber:
+          type: string
+          example: example_value
+        cvv:
+          type: string
+          example: example_value
+        cardCategory:
+          type: string
+          example: example_value
+        cardType:
+          type: string
+          example: example_value
+        startYear:
+          type: string
+          example: example_value
+        startMonth:
+          type: string
+          example: example_value
+        nickName:
+          type: string
+          example: example_value
+        accountId:
+          type: string
+          example: '500123'
+      examples:
+      - cardHolderName: '{{_userFullName}}'
+        expiryMonth: '11'
+        expiryYear: '2222'
+        cardNumber: '4111111111111111'
+        cvv: '111'
+        cardCategory: CreditCard
+        cardType: VISA
+        startYear: '2013'
+        startMonth: '7'
+        nickName: Default Payment Method
+        accountId: '{{defaultAccountId}}'
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

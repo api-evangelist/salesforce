@@ -1,0 +1,379 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Usage API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Usage
+paths:
+  /services/data/v64.0/apps/oauth/usage:
+    parameters: []
+    get:
+      tags:
+      - Usage
+      summary: Salesforce Oauth Usage
+      description: Lists all the external client apps for the current org. See [OAuth Usage](https://developer.salesforce.com/docs/atlas.en-us.246.0.chatterapi.meta/chatterapi/connect_resources_usage.htm).
+      operationId: OAuthUsage
+      parameters:
+      - name: page
+        in: query
+        description: Number of the page you want returned. Starts at 0. If you don’t specify a value or if you specify 0, the first page is returned.
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          contentEncoding: int32
+          examples:
+          - 0
+        example: 10
+      - name: pageSize
+        in: query
+        description: Number of usage entries per page. Defaults to 100.
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          contentEncoding: int32
+          examples:
+          - 100
+        example: 10
+      - name: Authorization
+        in: header
+        description: Replace <token> with your access token
+        required: true
+        schema:
+          type: string
+          examples:
+          - Bearer <token>
+        example: example_value
+      responses:
+        default:
+          description: ''
+          headers: {}
+          content:
+            text/plain:
+              schema:
+                type: string
+                examples:
+                - "{\n  \"apps\": [\n    {\n      \"accessTokenFormat\": \"<accessTokenFormat>\",\n      \"availableActions\": \"disable, enable\",\n      \"description\": \"<description>\",\n      \"developerName\": \"<developerName>\",\n      \"identifier\": \"<identifier>\",\n      \"isFromPackage\": bool,\n      \"usageDetailsUrl\": \"/services/data/<version>/apps/oauth/usage/<identifier>/users\"\n    }\n  ],\n  \"currentPageUrl\": \"/services/data/<version>/apps/oauth/usage?page=0&pageSize=100\",\n  \"nextPageUrl\": \"/services/data/<version>/apps/oauth/usage?page=1&pageSize=100\"\n}"
+                contentMediaType: text/plain
+              example: "{\n  \"apps\": [\n    {\n      \"accessTokenFormat\": \"<accessTokenFormat>\",\n      \"availableActions\": \"disable, enable\",\n      \"description\": \"<description>\",\n      \"developerName\": \"<developerName>\",\n      \"identifier\": \"<identifier>\",\n      \"isFromPackage\": bool,\n      \"usageDetailsUrl\": \"/services/data/<version>/apps/oauth/usage/<identifier>/users\"\n    }\n  ],\n  \"currentPageUrl\": \"/services/data/<version>/apps/oauth/usage?page=0&pageSize=100\",\n  \"nextPageUrl\": \"/services/data/<version>/apps/oauth/usage?page=1&pageSize=100\"\n}"
+      deprecated: false
+      security: []
+      servers:
+      - url: https://login.salesforce.com
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/sobjects/LightningUsageByBrowserMetrics:
+    parameters: []
+    get:
+      tags:
+      - Usage
+      summary: Salesforce Lightning Usage by Page
+      description: 'Represents standard pages users viewed most frequently in Lightning Experience.
+
+
+        https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_lightning_usagebypagemetrics.htm'
+      operationId: LightningUsagebyPage
+      parameters:
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        schema:
+          const: application/json
+          type: string
+          examples:
+          - application/json
+        example: example_value
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/sobjects/LightningUsageByAppTypeMetrics:
+    parameters: []
+    get:
+      tags:
+      - Usage
+      summary: Salesforce Lightning Usage by App Type
+      description: 'Return the total number of Lightning Experience and Salesforce Mobile users.
+
+
+        https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_lightning_usagebyapptypemetrics.htm'
+      operationId: LightningUsagebyAppType
+      parameters:
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        schema:
+          const: application/json
+          type: string
+          examples:
+          - application/json
+        example: example_value
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/sobjects/LightningUsageByFlexiPageMetrics:
+    parameters: []
+    get:
+      tags:
+      - Usage
+      summary: Salesforce Lightning Usage by Flexipage
+      description: 'Return details about the custom pages viewed most frequently in Lightning Experience.
+
+
+        https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_lightning_usagebyflexipagemetrics.htm'
+      operationId: LightningUsagebyFlexiPage
+      parameters:
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        schema:
+          const: application/json
+          type: string
+          examples:
+          - application/json
+        example: example_value
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/ui-api/favorites/{FAVORITE_ID}/usage:
+    parameters: []
+    patch:
+      tags:
+      - Usage
+      summary: Salesforce Update Usage of a Favorite
+      description: Update the usage of an individual favorite, for example, the last time and number of times the favorite was clicked.
+      operationId: UpdateUsageofaFavorite
+      parameters:
+      - name: FAVORITE_ID
+        in: path
+        description: The ID of a favorite
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Fri, 06 Oct 2023 10:09:03 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/UpdateUsageofaFavorite'
+                - examples:
+                  - accessCount: 2
+                    iconColor: 5867E8
+                    iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/account_120.png
+                    id: 0MV4H0000004qIeWAI
+                    lastAccessDate: '2023-10-06T10:09:03.304Z'
+                    name: RenamedAllAcountsListView
+                    objectType: Account
+                    sortOrder: 1
+                    subtitle: Accounts
+                    target: 00B58000002ssinEAA
+                    targetType: ListView
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                accessCount: 2
+                iconColor: 5867E8
+                iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/account_120.png
+                id: 0MV4H0000004qIeWAI
+                lastAccessDate: '2023-10-06T10:09:03.304Z'
+                name: RenamedAllAcountsListView
+                objectType: Account
+                sortOrder: 1
+                subtitle: Accounts
+                target: 00B58000002ssinEAA
+                targetType: ListView
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    UpdateUsageofaFavorite:
+      title: UpdateUsageofaFavorite
+      required:
+      - accessCount
+      - iconColor
+      - iconUrl
+      - id
+      - lastAccessDate
+      - name
+      - objectType
+      - sortOrder
+      - subtitle
+      - target
+      - targetType
+      type: object
+      properties:
+        accessCount:
+          type: integer
+          contentEncoding: int32
+          example: 42
+        iconColor:
+          type: string
+          example: example_value
+        iconUrl:
+          type: string
+          example: https://www.example.com
+        id:
+          type: string
+          example: abc123
+        lastAccessDate:
+          type: string
+          example: example_value
+        name:
+          type: string
+          example: Example Title
+        objectType:
+          type: string
+          example: example_value
+        sortOrder:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        subtitle:
+          type: string
+          example: example_value
+        target:
+          type: string
+          example: example_value
+        targetType:
+          type: string
+          example: example_value
+      examples:
+      - accessCount: 2
+        iconColor: 5867E8
+        iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/account_120.png
+        id: 0MV4H0000004qIeWAI
+        lastAccessDate: '2023-10-06T10:09:03.304Z'
+        name: RenamedAllAcountsListView
+        objectType: Account
+        sortOrder: 1
+        subtitle: Accounts
+        target: 00B58000002ssinEAA
+        targetType: ListView
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

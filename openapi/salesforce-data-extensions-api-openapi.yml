@@ -1,0 +1,200 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Data Extensions API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Data Extensions
+  description: 'Operations for reading and writing rows in Marketing Cloud Data Extensions, which are custom tables for storing subscriber data and campaign data.
+
+    '
+paths:
+  /data/v1/async/dataextensions/key:{key}/rows:
+    get:
+      operationId: getDataExtensionRows
+      summary: Get Data Extension rows
+      description: 'Retrieves rows from a Marketing Cloud Data Extension identified by its external key. Data Extensions are custom tables for storing subscriber data, lookup tables, or any structured data used in campaigns and journeys. Use the $pageSize and $page parameters to paginate through large data sets.
+
+        '
+      tags:
+      - Data Extensions
+      parameters:
+      - name: key
+        in: path
+        required: true
+        description: 'The external key of the Data Extension. Find this in Marketing Cloud Email Studio under the Data Extension properties.
+
+          '
+        schema:
+          type: string
+      - name: $pageSize
+        in: query
+        required: false
+        description: The number of rows to return per page. Defaults to 50.
+        schema:
+          type: integer
+          default: 50
+      - name: $page
+        in: query
+        required: false
+        description: The page number to retrieve. Defaults to 1.
+        schema:
+          type: integer
+          default: 1
+      - name: $orderBy
+        in: query
+        required: false
+        description: 'Field name and direction for sorting results (e.g., "LastName ASC" or "CreatedDate DESC").
+
+          '
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Paginated rows from the Data Extension.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: Total number of rows in the Data Extension.
+                  page:
+                    type: integer
+                    description: The current page number.
+                  pageSize:
+                    type: integer
+                    description: The number of rows per page.
+                  items:
+                    type: array
+                    description: Array of Data Extension row objects.
+                    items:
+                      $ref: '#/components/schemas/DataExtensionRow'
+        '401':
+          description: Unauthorized. Invalid or expired access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Data Extension not found for the specified key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: insertDataExtensionRows
+      summary: Insert rows into a Data Extension
+      description: 'Inserts one or more rows into a Marketing Cloud Data Extension. If a row with the same primary key already exists, the operation upserts the row (updates existing values). Returns the number of rows inserted or updated.
+
+        '
+      tags:
+      - Data Extensions
+      parameters:
+      - name: key
+        in: path
+        required: true
+        description: The external key of the Data Extension to insert rows into.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        description: Array of Data Extension rows to insert or upsert.
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - items
+              properties:
+                items:
+                  type: array
+                  description: 'Array of row objects to insert. Each object contains key-value pairs matching the Data Extension column names.
+
+                    '
+                  items:
+                    $ref: '#/components/schemas/DataExtensionRow'
+      responses:
+        '200':
+          description: Rows inserted or updated successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  requestId:
+                    type: string
+                    description: Unique ID for this insert request.
+        '400':
+          description: 'Bad request. Invalid row data, missing required columns, or data type mismatch.
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized. Invalid or expired access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Data Extension not found for the specified key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    DataExtensionRow:
+      type: object
+      description: 'A row in a Marketing Cloud Data Extension. Field names and values are dynamic based on the Data Extension schema.
+
+        '
+      additionalProperties: true
+    Error:
+      type: object
+      description: An error response from the Marketing Cloud REST API.
+      properties:
+        message:
+          type: string
+          description: Human-readable description of the error.
+        errorcode:
+          type: integer
+          description: Marketing Cloud numeric error code.
+        documentation:
+          type: string
+          description: URL to documentation about this error.
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

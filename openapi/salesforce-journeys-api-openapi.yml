@@ -1,0 +1,284 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Journeys API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Journeys
+  description: 'Operations for listing and retrieving Marketing Cloud Journey Builder journeys (interactions) and firing journey entry events.
+
+    '
+paths:
+  /interaction/v1/interactions:
+    get:
+      operationId: listJourneys
+      summary: List journeys
+      description: 'Returns a paginated list of Marketing Cloud Journey Builder journeys (interactions). Includes both active and inactive journeys. Use the page and pageSize parameters to paginate. Can filter by journey status.
+
+        '
+      tags:
+      - Journeys
+      parameters:
+      - name: page
+        in: query
+        required: false
+        description: The page number to retrieve. Defaults to 1.
+        schema:
+          type: integer
+          default: 1
+      - name: pageSize
+        in: query
+        required: false
+        description: The number of journeys to return per page. Defaults to 50.
+        schema:
+          type: integer
+          default: 50
+      - name: status
+        in: query
+        required: false
+        description: 'Filter journeys by status. Use Draft, Published, ScheduledToSend, Stopped, or Deleted.
+
+          '
+        schema:
+          type: string
+          enum:
+          - Draft
+          - Published
+          - ScheduledToSend
+          - Stopped
+          - Deleted
+      responses:
+        '200':
+          description: Paginated list of journeys.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: Total number of journeys matching the filter.
+                  page:
+                    type: integer
+                    description: The current page number.
+                  pageSize:
+                    type: integer
+                    description: The number of journeys per page.
+                  items:
+                    type: array
+                    description: Array of journey objects.
+                    items:
+                      $ref: '#/components/schemas/Journey'
+        '401':
+          description: Unauthorized. Invalid or expired access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /interaction/v1/interactions/{interactionId}:
+    get:
+      operationId: getJourney
+      summary: Get a journey by ID
+      description: 'Retrieves detailed information about a specific Marketing Cloud Journey Builder journey, including its activities, triggers, goals, and current status.
+
+        '
+      tags:
+      - Journeys
+      parameters:
+      - name: interactionId
+        in: path
+        required: true
+        description: The unique ID of the journey (interaction) to retrieve.
+        schema:
+          type: string
+      - name: versionNumber
+        in: query
+        required: false
+        description: 'The version number of the journey to retrieve. If not specified, returns the latest version.
+
+          '
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Detailed information about the specified journey.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Journey'
+        '401':
+          description: Unauthorized. Invalid or expired access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Journey not found for the specified interaction ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /interaction/v1/events:
+    post:
+      operationId: fireJourneyEvent
+      summary: Fire a journey entry event
+      description: 'Fires an event that causes contacts to enter a Marketing Cloud Journey Builder journey at the specified event-triggered entry source. The event definition key must match an API event or custom event configured as the journey''s entry source. Supports passing contact data to personalize the journey experience.
+
+        '
+      tags:
+      - Journeys
+      requestBody:
+        required: true
+        description: Journey entry event data including the contact and event details.
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - ContactKey
+              - EventDefinitionKey
+              properties:
+                ContactKey:
+                  type: string
+                  description: 'The subscriber key of the contact entering the journey.
+
+                    '
+                EventDefinitionKey:
+                  type: string
+                  description: 'The external key of the event definition configured as the journey entry source.
+
+                    '
+                Data:
+                  type: object
+                  description: 'Additional data attributes to pass with the event for personalization within the journey.
+
+                    '
+                  additionalProperties: true
+      responses:
+        '201':
+          description: Journey entry event fired successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  requestId:
+                    type: string
+                    description: Unique ID for this event request.
+                  eventInstanceId:
+                    type: string
+                    description: Unique ID for this specific event instance.
+        '400':
+          description: 'Bad request. Invalid event definition key, contact key, or event data.
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized. Invalid or expired access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      description: An error response from the Marketing Cloud REST API.
+      properties:
+        message:
+          type: string
+          description: Human-readable description of the error.
+        errorcode:
+          type: integer
+          description: Marketing Cloud numeric error code.
+        documentation:
+          type: string
+          description: URL to documentation about this error.
+    Journey:
+      type: object
+      description: 'A Marketing Cloud Journey Builder journey (interaction) definition, including its entry sources, activities, and configuration.
+
+        '
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the journey.
+        key:
+          type: string
+          description: 'The external key of the journey. Used for referencing the journey in API calls.
+
+            '
+        name:
+          type: string
+          description: The display name of the journey.
+        description:
+          type: string
+          description: Optional description of the journey's purpose.
+        version:
+          type: integer
+          description: The version number of this journey definition.
+        status:
+          type: string
+          enum:
+          - Draft
+          - Published
+          - ScheduledToSend
+          - Stopped
+          - Deleted
+          description: The current publishing status of the journey.
+        createdDate:
+          type: string
+          format: date-time
+          description: The date and time the journey was created.
+        modifiedDate:
+          type: string
+          format: date-time
+          description: The date and time the journey was last modified.
+        triggers:
+          type: array
+          description: 'Array of entry triggers that cause contacts to enter the journey.
+
+            '
+          items:
+            type: object
+            additionalProperties: true
+        activities:
+          type: array
+          description: Array of journey activities (steps) in the journey flow.
+          items:
+            type: object
+            additionalProperties: true
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

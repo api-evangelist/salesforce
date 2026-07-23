@@ -1,0 +1,225 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Count API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Count
+paths:
+  /data/v64.0/limits/recordCount:
+    parameters: []
+    get:
+      tags:
+      - Count
+      summary: Salesforce Record Count
+      description: 'Lists information about object record counts in your organization.
+
+        This resource is available in REST API version 40.0 and later for API users with the “View Setup and Configuration” permission. The returned record count is approximate, and does not include the following types of records:
+
+
+        Deleted records in the recycle bin.
+
+        Archived records.
+
+        https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_record_count.htm'
+      operationId: RecordCount
+      parameters:
+      - name: sObjects
+        in: query
+        description: 'A comma-delimited list of object names. If a listed object is not found in the org, it is ignored and not returned in the response.
+
+          This parameter is optional. If this parameter is not provided, the resource returns record counts for all objects in the org.'
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          examples:
+          - Account,Contact,Lead
+        example: example_value
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        schema:
+          const: application/json
+          type: string
+          examples:
+          - application/json
+        example: example_value
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Wed, 27 Sep 2023 15:28:16 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Sforce-Limit-Info:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: api-usage=3/15000
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/RecordCount'
+                - examples:
+                  - sObjects:
+                    - count: 12
+                      name: Account
+                    - count: 20
+                      name: Contact
+                    - count: 22
+                      name: Lead
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                sObjects:
+                - count: 12
+                  name: Account
+                - count: 20
+                  name: Contact
+                - count: 22
+                  name: Lead
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    RecordCount:
+      title: RecordCount
+      required:
+      - sObjects
+      type: object
+      properties:
+        sObjects:
+          type: array
+          items:
+            $ref: '#/components/schemas/SObjects1'
+          description: ''
+          example: []
+      examples:
+      - sObjects:
+        - count: 12
+          name: Account
+        - count: 20
+          name: Contact
+        - count: 22
+          name: Lead
+    SObjects1:
+      title: SObjects1
+      required:
+      - count
+      - name
+      type: object
+      properties:
+        count:
+          type: integer
+          contentEncoding: int32
+          example: 42
+        name:
+          type: string
+          example: Example Title
+      examples:
+      - count: 12
+        name: Account
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

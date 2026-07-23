@@ -1,0 +1,320 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Messaging API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Messaging
+  description: 'Operations for creating and tracking email and SMS message sends, including triggered sends and transactional messages.
+
+    '
+paths:
+  /messaging/v1/email/messages:
+    post:
+      operationId: createEmailSend
+      summary: Create an email send (triggered send)
+      description: 'Creates and initiates a triggered email send to one or more recipients. Each send requires a message definition key referencing a triggered send definition configured in Marketing Cloud Email Studio. Supports personalization attributes and subscriber data overrides.
+
+        '
+      tags:
+      - Messaging
+      requestBody:
+        required: true
+        description: Email message send configuration and recipients.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailMessage'
+      responses:
+        '202':
+          description: 'Email send request accepted. The send is queued for processing.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  requestId:
+                    type: string
+                    description: Unique ID for this send request.
+                  responses:
+                    type: array
+                    description: 'Array of recipient-level responses indicating acceptance or errors.
+
+                      '
+                    items:
+                      type: object
+                      properties:
+                        recipientSendId:
+                          type: string
+                          description: 'Unique ID for this recipient''s send. Use as the messageKey in status lookups.
+
+                            '
+                        hasErrors:
+                          type: boolean
+                          description: Whether this recipient's request had errors.
+                        messages:
+                          type: array
+                          description: 'Error messages if hasErrors is true.
+
+                            '
+                          items:
+                            type: string
+        '400':
+          description: Bad request. Invalid message definition or recipient data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized. Invalid or expired access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /messaging/v1/sms/messages:
+    post:
+      operationId: createSmsSend
+      summary: Create an SMS send
+      description: 'Creates and initiates an SMS message send to one or more recipients. Requires a message definition key referencing an SMS definition configured in Marketing Cloud MobileConnect. Supports personalization attributes for dynamic message content.
+
+        '
+      tags:
+      - Messaging
+      requestBody:
+        required: true
+        description: SMS message send configuration and recipients.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SMSMessage'
+      responses:
+        '202':
+          description: SMS send request accepted and queued for processing.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  requestId:
+                    type: string
+                    description: Unique ID for this SMS send request.
+                  responses:
+                    type: array
+                    description: Array of recipient-level send responses.
+                    items:
+                      type: object
+                      properties:
+                        recipientSendId:
+                          type: string
+                          description: Unique ID for this recipient's SMS send.
+                        hasErrors:
+                          type: boolean
+                          description: Whether this recipient's request had errors.
+        '400':
+          description: Bad request. Invalid message definition or phone number format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized. Invalid or expired access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /messaging/v1/email/messages/{messageKey}:
+    get:
+      operationId: getMessageStatus
+      summary: Get email message send status
+      description: 'Retrieves the status of a triggered email send for a specific recipient using the messageKey (recipientSendId) returned when the send was created. Returns the current delivery status and any error details.
+
+        '
+      tags:
+      - Messaging
+      parameters:
+      - name: messageKey
+        in: path
+        required: true
+        description: 'The unique message key (recipientSendId) returned when the email send was created.
+
+          '
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Email message send status.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  eventCategoryType:
+                    type: string
+                    description: 'The delivery event type (e.g., SendReady, NotSent, Sent, Delivered, Bounced, Opened, Clicked).
+
+                      '
+                  timestamp:
+                    type: string
+                    format: date-time
+                    description: The timestamp of the most recent status event.
+                  subscriberKey:
+                    type: string
+                    description: The subscriber key of the recipient.
+                  messageKey:
+                    type: string
+                    description: The unique message key for this send.
+        '401':
+          description: Unauthorized. Invalid or expired access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Message not found for the specified message key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    SMSMessage:
+      type: object
+      description: 'Configuration for a triggered SMS send to one or more recipients using a Marketing Cloud MobileConnect message definition.
+
+        '
+      required:
+      - definitionKey
+      - recipients
+      properties:
+        definitionKey:
+          type: string
+          description: 'The external key of the SMS message definition configured in Marketing Cloud MobileConnect.
+
+            '
+        recipients:
+          type: array
+          description: 'Array of recipients for this triggered SMS send.
+
+            '
+          items:
+            type: object
+            required:
+            - contactKey
+            - to
+            properties:
+              contactKey:
+                type: string
+                description: The subscriber key of the SMS recipient.
+              to:
+                type: string
+                description: 'The recipient phone number in E.164 format (e.g., +15551234567).
+
+                  '
+              attributes:
+                type: object
+                description: 'Key-value pairs of personalization attributes for this recipient.
+
+                  '
+                additionalProperties: true
+        attributes:
+          type: object
+          description: 'Default personalization attributes applied to all recipients unless overridden at the recipient level.
+
+            '
+          additionalProperties: true
+    Error:
+      type: object
+      description: An error response from the Marketing Cloud REST API.
+      properties:
+        message:
+          type: string
+          description: Human-readable description of the error.
+        errorcode:
+          type: integer
+          description: Marketing Cloud numeric error code.
+        documentation:
+          type: string
+          description: URL to documentation about this error.
+    EmailMessage:
+      type: object
+      description: 'Configuration for a triggered email send to one or more recipients using a Marketing Cloud triggered send definition.
+
+        '
+      required:
+      - definitionKey
+      - recipients
+      properties:
+        definitionKey:
+          type: string
+          description: 'The external key of the triggered send definition configured in Marketing Cloud Email Studio.
+
+            '
+        recipients:
+          type: array
+          description: 'Array of recipients for this triggered email send. Each recipient can have individual attributes for personalization.
+
+            '
+          items:
+            type: object
+            required:
+            - contactKey
+            properties:
+              contactKey:
+                type: string
+                description: The subscriber key of the email recipient.
+              to:
+                type: string
+                format: email
+                description: 'The recipient email address. Overrides the subscriber''s stored email address if provided.
+
+                  '
+              attributes:
+                type: object
+                description: 'Key-value pairs of personalization attributes for this recipient.
+
+                  '
+                additionalProperties: true
+              messageKey:
+                type: string
+                description: 'A unique identifier for this specific recipient''s send. If not provided, one is generated automatically.
+
+                  '
+        attributes:
+          type: object
+          description: 'Default personalization attributes applied to all recipients unless overridden at the recipient level.
+
+            '
+          additionalProperties: true
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

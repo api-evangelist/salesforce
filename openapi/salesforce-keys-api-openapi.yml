@@ -1,0 +1,279 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Keys API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Keys
+paths:
+  /id/keys:
+    parameters: []
+    get:
+      tags:
+      - Keys
+      summary: Salesforce Keys
+      operationId: SalesforceKeys
+      parameters: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Thu, 16 Nov 2023 15:55:30 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Access-Control-Allow-Credentials:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 'false'
+            Access-Control-Allow-Origin:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: '*'
+            Expires:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Thu, 01 Jan 1970 00:00:00 GMT
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessfulSalesforceKeys'
+                - examples:
+                  - keys:
+                    - kty: RSA
+                      n: <token>
+                      e: AQAB
+                      alg: RS256
+                      use: sig
+                      kid: '248'
+                    - kty: RSA
+                      n: <token>
+                      e: AQAB
+                      alg: RS256
+                      use: sig
+                      kid: '244'
+                    - kty: RSA
+                      n: <token>
+                      e: AQAB
+                      alg: RS256
+                      use: sig
+                      kid: '246'
+                    - kty: RSA
+                      n: <token>
+                      e: AQAB
+                      alg: RS256
+                      use: sig
+                      kid: asset
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                keys:
+                - kty: RSA
+                  n: <token>
+                  e: AQAB
+                  alg: RS256
+                  use: sig
+                  kid: '248'
+                - kty: RSA
+                  n: <token>
+                  e: AQAB
+                  alg: RS256
+                  use: sig
+                  kid: '244'
+                - kty: RSA
+                  n: <token>
+                  e: AQAB
+                  alg: RS256
+                  use: sig
+                  kid: '246'
+                - kty: RSA
+                  n: <token>
+                  e: AQAB
+                  alg: RS256
+                  use: sig
+                  kid: asset
+      deprecated: false
+      servers:
+      - url: https://login.salesforce.com
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Key:
+      title: Key
+      required:
+      - kty
+      - n
+      - e
+      - alg
+      - use
+      - kid
+      type: object
+      properties:
+        kty:
+          type: string
+          example: example_value
+        n:
+          type: string
+          example: example_value
+        e:
+          type: string
+          example: example_value
+        alg:
+          type: string
+          example: example_value
+        use:
+          type: string
+          example: example_value
+        kid:
+          type: string
+          example: '500123'
+      examples:
+      - kty: RSA
+        n: <token>
+        e: AQAB
+        alg: RS256
+        use: sig
+        kid: '248'
+    SuccessfulSalesforceKeys:
+      title: SuccessfulSalesforceKeys
+      required:
+      - keys
+      type: object
+      properties:
+        keys:
+          type: array
+          items:
+            $ref: '#/components/schemas/Key'
+          description: ''
+          example: []
+      examples:
+      - keys:
+        - kty: RSA
+          n: <token>
+          e: AQAB
+          alg: RS256
+          use: sig
+          kid: '248'
+        - kty: RSA
+          n: <token>
+          e: AQAB
+          alg: RS256
+          use: sig
+          kid: '244'
+        - kty: RSA
+          n: <token>
+          e: AQAB
+          alg: RS256
+          use: sig
+          kid: '246'
+        - kty: RSA
+          n: <token>
+          e: AQAB
+          alg: RS256
+          use: sig
+          kid: asset
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

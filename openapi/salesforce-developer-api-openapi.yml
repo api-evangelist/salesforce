@@ -1,0 +1,530 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Developer API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Developer
+paths:
+  /data/v64.0/named-credentials/external-credentials/{DEVELOPER_NAME}:
+    parameters: []
+    get:
+      tags:
+      - Developer
+      summary: Salesforce Get External Credentials by Developer Name
+      description: Get an external credential, including the named credentials and principals associated with it and the type and status of each principal.
+      operationId: GetExternalCredentialsbyDeveloperName
+      parameters:
+      - name: DEVELOPER_NAME
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: example_value
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Mon, 20 Nov 2023 16:49:36 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessfulGetExternalCredentialsbyDeveloperName'
+                - examples:
+                  - authenticationProtocol: Custom
+                    authenticationProtocolVariant: NoAuthentication
+                    authenticationStatus: NotConfigured
+                    customHeaders: []
+                    developerName: Test
+                    id: 0pt...
+                    masterLabel: Test
+                    parameters: []
+                    principals: []
+                    relatedNamedCredentials:
+                    - developerName: Test
+                      id: 0XA...
+                      masterLabel: Test
+                      url: /services/data/v58.0/named-credentials/named-credential-setup/Test
+                    url: /services/data/v58.0/named-credentials/external-credentials/Test
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                authenticationProtocol: Custom
+                authenticationProtocolVariant: NoAuthentication
+                authenticationStatus: NotConfigured
+                customHeaders: []
+                developerName: Test
+                id: 0pt...
+                masterLabel: Test
+                parameters: []
+                principals: []
+                relatedNamedCredentials:
+                - developerName: Test
+                  id: 0XA...
+                  masterLabel: Test
+                  url: /services/data/v58.0/named-credentials/named-credential-setup/Test
+                url: /services/data/v58.0/named-credentials/external-credentials/Test
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/named-credentials/named-credential-setup/{DEVELOPER_NAME}:
+    parameters: []
+    get:
+      tags:
+      - Developer
+      summary: Salesforce Get Named Credential by Developer Name
+      description: Get a named credential.
+      operationId: GetNamedCredentialbyDeveloperName
+      parameters:
+      - name: DEVELOPER_NAME
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - 'null'
+        example: example_value
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Mon, 20 Nov 2023 16:50:01 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessfulGetNamedCredentialbyDeveloperName'
+                - examples:
+                  - calloutOptions:
+                      allowMergeFieldsInBody: false
+                      allowMergeFieldsInHeader: false
+                      generateAuthorizationHeader: true
+                    calloutUrl: https://my.example.com
+                    customHeaders: []
+                    developerName: Test
+                    externalCredentials:
+                    - developerName: Test
+                      id: 0pt...
+                      masterLabel: Test
+                      url: /services/data/v58.0/named-credentials/external-credentials/Test
+                    id: 0XA...
+                    masterLabel: Test
+                    parameters: []
+                    type: SecuredEndpoint
+                    url: /services/data/v58.0/named-credentials/named-credential-setup/Test
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                calloutOptions:
+                  allowMergeFieldsInBody: false
+                  allowMergeFieldsInHeader: false
+                  generateAuthorizationHeader: true
+                calloutUrl: https://my.example.com
+                customHeaders: []
+                developerName: Test
+                externalCredentials:
+                - developerName: Test
+                  id: 0pt...
+                  masterLabel: Test
+                  url: /services/data/v58.0/named-credentials/external-credentials/Test
+                id: 0XA...
+                masterLabel: Test
+                parameters: []
+                type: SecuredEndpoint
+                url: /services/data/v58.0/named-credentials/named-credential-setup/Test
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    SuccessfulGetExternalCredentialsbyDeveloperName:
+      title: SuccessfulGetExternalCredentialsbyDeveloperName
+      required:
+      - authenticationProtocol
+      - authenticationProtocolVariant
+      - authenticationStatus
+      - customHeaders
+      - developerName
+      - id
+      - masterLabel
+      - parameters
+      - principals
+      - relatedNamedCredentials
+      - url
+      type: object
+      properties:
+        authenticationProtocol:
+          type: string
+          example: example_value
+        authenticationProtocolVariant:
+          type: string
+          example: example_value
+        authenticationStatus:
+          type: string
+          example: example_value
+        customHeaders:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        developerName:
+          type: string
+          example: example_value
+        id:
+          type: string
+          example: abc123
+        masterLabel:
+          type: string
+          example: example_value
+        parameters:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        principals:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        relatedNamedCredentials:
+          type: array
+          items:
+            $ref: '#/components/schemas/RelatedNamedCredential'
+          description: ''
+          example: []
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - authenticationProtocol: Custom
+        authenticationProtocolVariant: NoAuthentication
+        authenticationStatus: NotConfigured
+        customHeaders: []
+        developerName: Test
+        id: 0pt...
+        masterLabel: Test
+        parameters: []
+        principals: []
+        relatedNamedCredentials:
+        - developerName: Test
+          id: 0XA...
+          masterLabel: Test
+          url: /services/data/v58.0/named-credentials/named-credential-setup/Test
+        url: /services/data/v58.0/named-credentials/external-credentials/Test
+    RelatedNamedCredential:
+      title: RelatedNamedCredential
+      required:
+      - developerName
+      - id
+      - masterLabel
+      - url
+      type: object
+      properties:
+        developerName:
+          type: string
+          example: example_value
+        id:
+          type: string
+          example: abc123
+        masterLabel:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - developerName: Test
+        id: 0XA...
+        masterLabel: Test
+        url: /services/data/v58.0/named-credentials/named-credential-setup/Test
+    SuccessfulGetNamedCredentialbyDeveloperName:
+      title: SuccessfulGetNamedCredentialbyDeveloperName
+      required:
+      - calloutOptions
+      - calloutUrl
+      - customHeaders
+      - developerName
+      - externalCredentials
+      - id
+      - masterLabel
+      - parameters
+      - type
+      - url
+      type: object
+      properties:
+        calloutOptions:
+          $ref: '#/components/schemas/CalloutOptions'
+        calloutUrl:
+          type: string
+          example: https://www.example.com
+        customHeaders:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        developerName:
+          type: string
+          example: example_value
+        externalCredentials:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExternalCredential1'
+          description: ''
+          example: []
+        id:
+          type: string
+          example: abc123
+        masterLabel:
+          type: string
+          example: example_value
+        parameters:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        type:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - calloutOptions:
+          allowMergeFieldsInBody: false
+          allowMergeFieldsInHeader: false
+          generateAuthorizationHeader: true
+        calloutUrl: https://my.example.com
+        customHeaders: []
+        developerName: Test
+        externalCredentials:
+        - developerName: Test
+          id: 0pt...
+          masterLabel: Test
+          url: /services/data/v58.0/named-credentials/external-credentials/Test
+        id: 0XA...
+        masterLabel: Test
+        parameters: []
+        type: SecuredEndpoint
+        url: /services/data/v58.0/named-credentials/named-credential-setup/Test
+    ExternalCredential1:
+      title: ExternalCredential1
+      required:
+      - developerName
+      - id
+      - masterLabel
+      - url
+      type: object
+      properties:
+        developerName:
+          type: string
+          example: example_value
+        id:
+          type: string
+          example: abc123
+        masterLabel:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - developerName: Test
+        id: 0pt...
+        masterLabel: Test
+        url: /services/data/v58.0/named-credentials/external-credentials/Test
+    CalloutOptions:
+      title: CalloutOptions
+      required:
+      - allowMergeFieldsInBody
+      - allowMergeFieldsInHeader
+      - generateAuthorizationHeader
+      type: object
+      properties:
+        allowMergeFieldsInBody:
+          type: boolean
+          example: true
+        allowMergeFieldsInHeader:
+          type: boolean
+          example: true
+        generateAuthorizationHeader:
+          type: boolean
+          example: true
+      examples:
+      - allowMergeFieldsInBody: false
+        allowMergeFieldsInHeader: false
+        generateAuthorizationHeader: true
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

@@ -1,0 +1,1533 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Type API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Type
+paths:
+  /data/v64.0/sobjects/{SOBJECT_API_NAME}/describe/layouts/{RECORD_TYPE_ID}:
+    parameters: []
+    get:
+      tags:
+      - Type
+      summary: Salesforce Describe Sobject Layouts Per Record Type
+      description: Returns a list of layouts and descriptions. The list of fields and the layout name are returned.
+      operationId: DescribeSObjectLayoutsPerRecordType
+      parameters:
+      - name: SOBJECT_API_NAME
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: example_value
+      - name: RECORD_TYPE_ID
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        schema:
+          const: application/json
+          type: string
+          examples:
+          - application/json
+        example: example_value
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/sobjects/LightningUsageByAppTypeMetrics:
+    parameters: []
+    get:
+      tags:
+      - Type
+      summary: Salesforce Lightning Usage by App Type
+      description: 'Return the total number of Lightning Experience and Salesforce Mobile users.
+
+
+        https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_lightning_usagebyapptypemetrics.htm'
+      operationId: LightningUsagebyAppType
+      parameters:
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        schema:
+          const: application/json
+          type: string
+          examples:
+          - application/json
+        example: example_value
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/ui-api/object-info/{SOBJECT_API_NAME}/picklist-values/{RECORD_TYPE_ID}:
+    parameters: []
+    get:
+      tags:
+      - Type
+      summary: Salesforce Get Values for All Picklist Fields of a Record Type
+      description: Get metadata about a specific object. The response includes metadata describing fields, child relationships, record type, and theme.
+      operationId: GetValuesforAllPicklistFieldsofaRecordType
+      parameters:
+      - name: SOBJECT_API_NAME
+        in: path
+        description: Object API Name
+        required: true
+        schema:
+          type: string
+        example: example_value
+      - name: RECORD_TYPE_ID
+        in: path
+        description: Record type Id. Use `012000000000000AAA` as default when there are no custom record types.
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Wed, 27 Sep 2023 15:55:22 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            ETag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: '"ef21257ca08f8952ff154f57dc775336--gzip"'
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/GetValuesforAllPicklistFieldsofaRecordType'
+                - examples:
+                  - eTag: ef21257ca08f8952ff154f57dc775336
+                    picklistFieldValues:
+                      CleanStatus:
+                        controllerValues: {}
+                        defaultValue: null
+                        eTag: bd535d2876948d8bb91fad409b69e359
+                        url: /services/data/v58.0/ui-api/object-info/Contact/picklist-values/012000000000000AAA/CleanStatus
+                        values:
+                        - attributes: null
+                          label: In Sync
+                          validFor: []
+                          value: Matched
+                        - attributes: null
+                          label: Different
+                          validFor: []
+                          value: Different
+                        - attributes: null
+                          label: Reviewed
+                          validFor: []
+                          value: Acknowledged
+                        - attributes: null
+                          label: Not Found
+                          validFor: []
+                          value: NotFound
+                        - attributes: null
+                          label: Inactive
+                          validFor: []
+                          value: Inactive
+                        - attributes: null
+                          label: Not Compared
+                          validFor: []
+                          value: Pending
+                        - attributes: null
+                          label: Select Match
+                          validFor: []
+                          value: SelectMatch
+                        - attributes: null
+                          label: Skipped
+                          validFor: []
+                          value: Skipped
+                      LeadSource:
+                        controllerValues: {}
+                        defaultValue: null
+                        eTag: edb5c49da4ff7bfe2cf15ecae67a306c
+                        url: /services/data/v58.0/ui-api/object-info/Contact/picklist-values/012000000000000AAA/LeadSource
+                        values:
+                        - attributes: null
+                          label: Web
+                          validFor: []
+                          value: Web
+                        - attributes: null
+                          label: Phone Inquiry
+                          validFor: []
+                          value: Phone Inquiry
+                        - attributes: null
+                          label: Partner Referral
+                          validFor: []
+                          value: Partner Referral
+                        - attributes: null
+                          label: Purchased List
+                          validFor: []
+                          value: Purchased List
+                        - attributes: null
+                          label: Other
+                          validFor: []
+                          value: Other
+                      Level__c:
+                        controllerValues: {}
+                        defaultValue: null
+                        eTag: ffef8adfed014c3057fd14658f5202c4
+                        url: /services/data/v58.0/ui-api/object-info/Contact/picklist-values/012000000000000AAA/Level__c
+                        values:
+                        - attributes: null
+                          label: Secondary
+                          validFor: []
+                          value: Secondary
+                        - attributes: null
+                          label: Tertiary
+                          validFor: []
+                          value: Tertiary
+                        - attributes: null
+                          label: Primary
+                          validFor: []
+                          value: Primary
+                      MailingGeocodeAccuracy:
+                        controllerValues: {}
+                        defaultValue: null
+                        eTag: 776a2f5e98c411bafb45081e39a6f1ec
+                        url: /services/data/v58.0/ui-api/object-info/Contact/picklist-values/012000000000000AAA/MailingGeocodeAccuracy
+                        values:
+                        - attributes: null
+                          label: Address
+                          validFor: []
+                          value: Address
+                        - attributes: null
+                          label: NearAddress
+                          validFor: []
+                          value: NearAddress
+                        - attributes: null
+                          label: Block
+                          validFor: []
+                          value: Block
+                        - attributes: null
+                          label: Street
+                          validFor: []
+                          value: Street
+                        - attributes: null
+                          label: ExtendedZip
+                          validFor: []
+                          value: ExtendedZip
+                        - attributes: null
+                          label: Zip
+                          validFor: []
+                          value: Zip
+                        - attributes: null
+                          label: Neighborhood
+                          validFor: []
+                          value: Neighborhood
+                        - attributes: null
+                          label: City
+                          validFor: []
+                          value: City
+                        - attributes: null
+                          label: County
+                          validFor: []
+                          value: County
+                        - attributes: null
+                          label: State
+                          validFor: []
+                          value: State
+                        - attributes: null
+                          label: Unknown
+                          validFor: []
+                          value: Unknown
+                      OtherGeocodeAccuracy:
+                        controllerValues: {}
+                        defaultValue: null
+                        eTag: 776a2f5e98c411bafb45081e39a6f1ec
+                        url: /services/data/v58.0/ui-api/object-info/Contact/picklist-values/012000000000000AAA/OtherGeocodeAccuracy
+                        values:
+                        - attributes: null
+                          label: Address
+                          validFor: []
+                          value: Address
+                        - attributes: null
+                          label: NearAddress
+                          validFor: []
+                          value: NearAddress
+                        - attributes: null
+                          label: Block
+                          validFor: []
+                          value: Block
+                        - attributes: null
+                          label: Street
+                          validFor: []
+                          value: Street
+                        - attributes: null
+                          label: ExtendedZip
+                          validFor: []
+                          value: ExtendedZip
+                        - attributes: null
+                          label: Zip
+                          validFor: []
+                          value: Zip
+                        - attributes: null
+                          label: Neighborhood
+                          validFor: []
+                          value: Neighborhood
+                        - attributes: null
+                          label: City
+                          validFor: []
+                          value: City
+                        - attributes: null
+                          label: County
+                          validFor: []
+                          value: County
+                        - attributes: null
+                          label: State
+                          validFor: []
+                          value: State
+                        - attributes: null
+                          label: Unknown
+                          validFor: []
+                          value: Unknown
+                      Salutation:
+                        controllerValues: {}
+                        defaultValue: null
+                        eTag: 2de0a04925bdf8e3c70fe1177129a63f
+                        url: /services/data/v58.0/ui-api/object-info/Contact/picklist-values/012000000000000AAA/Salutation
+                        values:
+                        - attributes: null
+                          label: Mr.
+                          validFor: []
+                          value: Mr.
+                        - attributes: null
+                          label: Ms.
+                          validFor: []
+                          value: Ms.
+                        - attributes: null
+                          label: Mrs.
+                          validFor: []
+                          value: Mrs.
+                        - attributes: null
+                          label: Dr.
+                          validFor: []
+                          value: Dr.
+                        - attributes: null
+                          label: Prof.
+                          validFor: []
+                          value: Prof.
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                eTag: ef21257ca08f8952ff154f57dc775336
+                picklistFieldValues:
+                  CleanStatus:
+                    controllerValues: {}
+                    defaultValue: null
+                    eTag: bd535d2876948d8bb91fad409b69e359
+                    url: /services/data/v58.0/ui-api/object-info/Contact/picklist-values/012000000000000AAA/CleanStatus
+                    values:
+                    - attributes: null
+                      label: In Sync
+                      validFor: []
+                      value: Matched
+                    - attributes: null
+                      label: Different
+                      validFor: []
+                      value: Different
+                    - attributes: null
+                      label: Reviewed
+                      validFor: []
+                      value: Acknowledged
+                    - attributes: null
+                      label: Not Found
+                      validFor: []
+                      value: NotFound
+                    - attributes: null
+                      label: Inactive
+                      validFor: []
+                      value: Inactive
+                    - attributes: null
+                      label: Not Compared
+                      validFor: []
+                      value: Pending
+                    - attributes: null
+                      label: Select Match
+                      validFor: []
+                      value: SelectMatch
+                    - attributes: null
+                      label: Skipped
+                      validFor: []
+                      value: Skipped
+                  LeadSource:
+                    controllerValues: {}
+                    defaultValue: null
+                    eTag: edb5c49da4ff7bfe2cf15ecae67a306c
+                    url: /services/data/v58.0/ui-api/object-info/Contact/picklist-values/012000000000000AAA/LeadSource
+                    values:
+                    - attributes: null
+                      label: Web
+                      validFor: []
+                      value: Web
+                    - attributes: null
+                      label: Phone Inquiry
+                      validFor: []
+                      value: Phone Inquiry
+                    - attributes: null
+                      label: Partner Referral
+                      validFor: []
+                      value: Partner Referral
+                    - attributes: null
+                      label: Purchased List
+                      validFor: []
+                      value: Purchased List
+                    - attributes: null
+                      label: Other
+                      validFor: []
+                      value: Other
+                  Level__c:
+                    controllerValues: {}
+                    defaultValue: null
+                    eTag: ffef8adfed014c3057fd14658f5202c4
+                    url: /services/data/v58.0/ui-api/object-info/Contact/picklist-values/012000000000000AAA/Level__c
+                    values:
+                    - attributes: null
+                      label: Secondary
+                      validFor: []
+                      value: Secondary
+                    - attributes: null
+                      label: Tertiary
+                      validFor: []
+                      value: Tertiary
+                    - attributes: null
+                      label: Primary
+                      validFor: []
+                      value: Primary
+                  MailingGeocodeAccuracy:
+                    controllerValues: {}
+                    defaultValue: null
+                    eTag: 776a2f5e98c411bafb45081e39a6f1ec
+                    url: /services/data/v58.0/ui-api/object-info/Contact/picklist-values/012000000000000AAA/MailingGeocodeAccuracy
+                    values:
+                    - attributes: null
+                      label: Address
+                      validFor: []
+                      value: Address
+                    - attributes: null
+                      label: NearAddress
+                      validFor: []
+                      value: NearAddress
+                    - attributes: null
+                      label: Block
+                      validFor: []
+                      value: Block
+                    - attributes: null
+                      label: Street
+                      validFor: []
+                      value: Street
+                    - attributes: null
+                      label: ExtendedZip
+                      validFor: []
+                      value: ExtendedZip
+                    - attributes: null
+                      label: Zip
+                      validFor: []
+                      value: Zip
+                    - attributes: null
+                      label: Neighborhood
+                      validFor: []
+                      value: Neighborhood
+                    - attributes: null
+                      label: City
+                      validFor: []
+                      value: City
+                    - attributes: null
+                      label: County
+                      validFor: []
+                      value: County
+                    - attributes: null
+                      label: State
+                      validFor: []
+                      value: State
+                    - attributes: null
+                      label: Unknown
+                      validFor: []
+                      value: Unknown
+                  OtherGeocodeAccuracy:
+                    controllerValues: {}
+                    defaultValue: null
+                    eTag: 776a2f5e98c411bafb45081e39a6f1ec
+                    url: /services/data/v58.0/ui-api/object-info/Contact/picklist-values/012000000000000AAA/OtherGeocodeAccuracy
+                    values:
+                    - attributes: null
+                      label: Address
+                      validFor: []
+                      value: Address
+                    - attributes: null
+                      label: NearAddress
+                      validFor: []
+                      value: NearAddress
+                    - attributes: null
+                      label: Block
+                      validFor: []
+                      value: Block
+                    - attributes: null
+                      label: Street
+                      validFor: []
+                      value: Street
+                    - attributes: null
+                      label: ExtendedZip
+                      validFor: []
+                      value: ExtendedZip
+                    - attributes: null
+                      label: Zip
+                      validFor: []
+                      value: Zip
+                    - attributes: null
+                      label: Neighborhood
+                      validFor: []
+                      value: Neighborhood
+                    - attributes: null
+                      label: City
+                      validFor: []
+                      value: City
+                    - attributes: null
+                      label: County
+                      validFor: []
+                      value: County
+                    - attributes: null
+                      label: State
+                      validFor: []
+                      value: State
+                    - attributes: null
+                      label: Unknown
+                      validFor: []
+                      value: Unknown
+                  Salutation:
+                    controllerValues: {}
+                    defaultValue: null
+                    eTag: 2de0a04925bdf8e3c70fe1177129a63f
+                    url: /services/data/v58.0/ui-api/object-info/Contact/picklist-values/012000000000000AAA/Salutation
+                    values:
+                    - attributes: null
+                      label: Mr.
+                      validFor: []
+                      value: Mr.
+                    - attributes: null
+                      label: Ms.
+                      validFor: []
+                      value: Ms.
+                    - attributes: null
+                      label: Mrs.
+                      validFor: []
+                      value: Mrs.
+                    - attributes: null
+                      label: Dr.
+                      validFor: []
+                      value: Dr.
+                    - attributes: null
+                      label: Prof.
+                      validFor: []
+                      value: Prof.
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    LeadSource4:
+      title: LeadSource4
+      required:
+      - controllerValues
+      - defaultValue
+      - eTag
+      - url
+      - values
+      type: object
+      properties:
+        controllerValues:
+          type: object
+          example: example_value
+        defaultValue:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        eTag:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/Value6'
+          description: ''
+          example: []
+      examples:
+      - controllerValues: {}
+        defaultValue: null
+        eTag: edb5c49da4ff7bfe2cf15ecae67a306c
+        url: /services/data/v58.0/ui-api/object-info/Contact/picklist-values/012000000000000AAA/LeadSource
+        values:
+        - attributes: null
+          label: Web
+          validFor: []
+          value: Web
+        - attributes: null
+          label: Phone Inquiry
+          validFor: []
+          value: Phone Inquiry
+        - attributes: null
+          label: Partner Referral
+          validFor: []
+          value: Partner Referral
+        - attributes: null
+          label: Purchased List
+          validFor: []
+          value: Purchased List
+        - attributes: null
+          label: Other
+          validFor: []
+          value: Other
+    MailingGeocodeAccuracy1:
+      title: MailingGeocodeAccuracy1
+      required:
+      - controllerValues
+      - defaultValue
+      - eTag
+      - url
+      - values
+      type: object
+      properties:
+        controllerValues:
+          type: object
+          example: example_value
+        defaultValue:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        eTag:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/Value6'
+          description: ''
+          example: []
+      examples:
+      - controllerValues: {}
+        defaultValue: null
+        eTag: 776a2f5e98c411bafb45081e39a6f1ec
+        url: /services/data/v58.0/ui-api/object-info/Contact/picklist-values/012000000000000AAA/MailingGeocodeAccuracy
+        values:
+        - attributes: null
+          label: Address
+          validFor: []
+          value: Address
+        - attributes: null
+          label: NearAddress
+          validFor: []
+          value: NearAddress
+        - attributes: null
+          label: Block
+          validFor: []
+          value: Block
+        - attributes: null
+          label: Street
+          validFor: []
+          value: Street
+        - attributes: null
+          label: ExtendedZip
+          validFor: []
+          value: ExtendedZip
+        - attributes: null
+          label: Zip
+          validFor: []
+          value: Zip
+        - attributes: null
+          label: Neighborhood
+          validFor: []
+          value: Neighborhood
+        - attributes: null
+          label: City
+          validFor: []
+          value: City
+        - attributes: null
+          label: County
+          validFor: []
+          value: County
+        - attributes: null
+          label: State
+          validFor: []
+          value: State
+        - attributes: null
+          label: Unknown
+          validFor: []
+          value: Unknown
+    CleanStatus4:
+      title: CleanStatus4
+      required:
+      - controllerValues
+      - defaultValue
+      - eTag
+      - url
+      - values
+      type: object
+      properties:
+        controllerValues:
+          type: object
+          example: example_value
+        defaultValue:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        eTag:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/Value6'
+          description: ''
+          example: []
+      examples:
+      - controllerValues: {}
+        defaultValue: null
+        eTag: bd535d2876948d8bb91fad409b69e359
+        url: /services/data/v58.0/ui-api/object-info/Contact/picklist-values/012000000000000AAA/CleanStatus
+        values:
+        - attributes: null
+          label: In Sync
+          validFor: []
+          value: Matched
+        - attributes: null
+          label: Different
+          validFor: []
+          value: Different
+        - attributes: null
+          label: Reviewed
+          validFor: []
+          value: Acknowledged
+        - attributes: null
+          label: Not Found
+          validFor: []
+          value: NotFound
+        - attributes: null
+          label: Inactive
+          validFor: []
+          value: Inactive
+        - attributes: null
+          label: Not Compared
+          validFor: []
+          value: Pending
+        - attributes: null
+          label: Select Match
+          validFor: []
+          value: SelectMatch
+        - attributes: null
+          label: Skipped
+          validFor: []
+          value: Skipped
+    Salutation4:
+      title: Salutation4
+      required:
+      - controllerValues
+      - defaultValue
+      - eTag
+      - url
+      - values
+      type: object
+      properties:
+        controllerValues:
+          type: object
+          example: example_value
+        defaultValue:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        eTag:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/Value6'
+          description: ''
+          example: []
+      examples:
+      - controllerValues: {}
+        defaultValue: null
+        eTag: 2de0a04925bdf8e3c70fe1177129a63f
+        url: /services/data/v58.0/ui-api/object-info/Contact/picklist-values/012000000000000AAA/Salutation
+        values:
+        - attributes: null
+          label: Mr.
+          validFor: []
+          value: Mr.
+        - attributes: null
+          label: Ms.
+          validFor: []
+          value: Ms.
+        - attributes: null
+          label: Mrs.
+          validFor: []
+          value: Mrs.
+        - attributes: null
+          label: Dr.
+          validFor: []
+          value: Dr.
+        - attributes: null
+          label: Prof.
+          validFor: []
+          value: Prof.
+    OtherGeocodeAccuracy1:
+      title: OtherGeocodeAccuracy1
+      required:
+      - controllerValues
+      - defaultValue
+      - eTag
+      - url
+      - values
+      type: object
+      properties:
+        controllerValues:
+          type: object
+          example: example_value
+        defaultValue:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        eTag:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/Value6'
+          description: ''
+          example: []
+      examples:
+      - controllerValues: {}
+        defaultValue: null
+        eTag: 776a2f5e98c411bafb45081e39a6f1ec
+        url: /services/data/v58.0/ui-api/object-info/Contact/picklist-values/012000000000000AAA/OtherGeocodeAccuracy
+        values:
+        - attributes: null
+          label: Address
+          validFor: []
+          value: Address
+        - attributes: null
+          label: NearAddress
+          validFor: []
+          value: NearAddress
+        - attributes: null
+          label: Block
+          validFor: []
+          value: Block
+        - attributes: null
+          label: Street
+          validFor: []
+          value: Street
+        - attributes: null
+          label: ExtendedZip
+          validFor: []
+          value: ExtendedZip
+        - attributes: null
+          label: Zip
+          validFor: []
+          value: Zip
+        - attributes: null
+          label: Neighborhood
+          validFor: []
+          value: Neighborhood
+        - attributes: null
+          label: City
+          validFor: []
+          value: City
+        - attributes: null
+          label: County
+          validFor: []
+          value: County
+        - attributes: null
+          label: State
+          validFor: []
+          value: State
+        - attributes: null
+          label: Unknown
+          validFor: []
+          value: Unknown
+    PicklistFieldValues:
+      title: PicklistFieldValues
+      required:
+      - CleanStatus
+      - LeadSource
+      - Level__c
+      - MailingGeocodeAccuracy
+      - OtherGeocodeAccuracy
+      - Salutation
+      type: object
+      properties:
+        CleanStatus:
+          $ref: '#/components/schemas/CleanStatus4'
+        LeadSource:
+          $ref: '#/components/schemas/LeadSource4'
+        Level__c:
+          $ref: '#/components/schemas/LevelC'
+        MailingGeocodeAccuracy:
+          $ref: '#/components/schemas/MailingGeocodeAccuracy1'
+        OtherGeocodeAccuracy:
+          $ref: '#/components/schemas/OtherGeocodeAccuracy1'
+        Salutation:
+          $ref: '#/components/schemas/Salutation4'
+      examples:
+      - CleanStatus:
+          controllerValues: {}
+          defaultValue: null
+          eTag: bd535d2876948d8bb91fad409b69e359
+          url: /services/data/v58.0/ui-api/object-info/Contact/picklist-values/012000000000000AAA/CleanStatus
+          values:
+          - attributes: null
+            label: In Sync
+            validFor: []
+            value: Matched
+          - attributes: null
+            label: Different
+            validFor: []
+            value: Different
+          - attributes: null
+            label: Reviewed
+            validFor: []
+            value: Acknowledged
+          - attributes: null
+            label: Not Found
+            validFor: []
+            value: NotFound
+          - attributes: null
+            label: Inactive
+            validFor: []
+            value: Inactive
+          - attributes: null
+            label: Not Compared
+            validFor: []
+            value: Pending
+          - attributes: null
+            label: Select Match
+            validFor: []
+            value: SelectMatch
+          - attributes: null
+            label: Skipped
+            validFor: []
+            value: Skipped
+        LeadSource:
+          controllerValues: {}
+          defaultValue: null
+          eTag: edb5c49da4ff7bfe2cf15ecae67a306c
+          url: /services/data/v58.0/ui-api/object-info/Contact/picklist-values/012000000000000AAA/LeadSource
+          values:
+          - attributes: null
+            label: Web
+            validFor: []
+            value: Web
+          - attributes: null
+            label: Phone Inquiry
+            validFor: []
+            value: Phone Inquiry
+          - attributes: null
+            label: Partner Referral
+            validFor: []
+            value: Partner Referral
+          - attributes: null
+            label: Purchased List
+            validFor: []
+            value: Purchased List
+          - attributes: null
+            label: Other
+            validFor: []
+            value: Other
+        Level__c:
+          controllerValues: {}
+          defaultValue: null
+          eTag: ffef8adfed014c3057fd14658f5202c4
+          url: /services/data/v58.0/ui-api/object-info/Contact/picklist-values/012000000000000AAA/Level__c
+          values:
+          - attributes: null
+            label: Secondary
+            validFor: []
+            value: Secondary
+          - attributes: null
+            label: Tertiary
+            validFor: []
+            value: Tertiary
+          - attributes: null
+            label: Primary
+            validFor: []
+            value: Primary
+        MailingGeocodeAccuracy:
+          controllerValues: {}
+          defaultValue: null
+          eTag: 776a2f5e98c411bafb45081e39a6f1ec
+          url: /services/data/v58.0/ui-api/object-info/Contact/picklist-values/012000000000000AAA/MailingGeocodeAccuracy
+          values:
+          - attributes: null
+            label: Address
+            validFor: []
+            value: Address
+          - attributes: null
+            label: NearAddress
+            validFor: []
+            value: NearAddress
+          - attributes: null
+            label: Block
+            validFor: []
+            value: Block
+          - attributes: null
+            label: Street
+            validFor: []
+            value: Street
+          - attributes: null
+            label: ExtendedZip
+            validFor: []
+            value: ExtendedZip
+          - attributes: null
+            label: Zip
+            validFor: []
+            value: Zip
+          - attributes: null
+            label: Neighborhood
+            validFor: []
+            value: Neighborhood
+          - attributes: null
+            label: City
+            validFor: []
+            value: City
+          - attributes: null
+            label: County
+            validFor: []
+            value: County
+          - attributes: null
+            label: State
+            validFor: []
+            value: State
+          - attributes: null
+            label: Unknown
+            validFor: []
+            value: Unknown
+        OtherGeocodeAccuracy:
+          controllerValues: {}
+          defaultValue: null
+          eTag: 776a2f5e98c411bafb45081e39a6f1ec
+          url: /services/data/v58.0/ui-api/object-info/Contact/picklist-values/012000000000000AAA/OtherGeocodeAccuracy
+          values:
+          - attributes: null
+            label: Address
+            validFor: []
+            value: Address
+          - attributes: null
+            label: NearAddress
+            validFor: []
+            value: NearAddress
+          - attributes: null
+            label: Block
+            validFor: []
+            value: Block
+          - attributes: null
+            label: Street
+            validFor: []
+            value: Street
+          - attributes: null
+            label: ExtendedZip
+            validFor: []
+            value: ExtendedZip
+          - attributes: null
+            label: Zip
+            validFor: []
+            value: Zip
+          - attributes: null
+            label: Neighborhood
+            validFor: []
+            value: Neighborhood
+          - attributes: null
+            label: City
+            validFor: []
+            value: City
+          - attributes: null
+            label: County
+            validFor: []
+            value: County
+          - attributes: null
+            label: State
+            validFor: []
+            value: State
+          - attributes: null
+            label: Unknown
+            validFor: []
+            value: Unknown
+        Salutation:
+          controllerValues: {}
+          defaultValue: null
+          eTag: 2de0a04925bdf8e3c70fe1177129a63f
+          url: /services/data/v58.0/ui-api/object-info/Contact/picklist-values/012000000000000AAA/Salutation
+          values:
+          - attributes: null
+            label: Mr.
+            validFor: []
+            value: Mr.
+          - attributes: null
+            label: Ms.
+            validFor: []
+            value: Ms.
+          - attributes: null
+            label: Mrs.
+            validFor: []
+            value: Mrs.
+          - attributes: null
+            label: Dr.
+            validFor: []
+            value: Dr.
+          - attributes: null
+            label: Prof.
+            validFor: []
+            value: Prof.
+    LevelC:
+      title: LevelC
+      required:
+      - controllerValues
+      - defaultValue
+      - eTag
+      - url
+      - values
+      type: object
+      properties:
+        controllerValues:
+          type: object
+          example: example_value
+        defaultValue:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        eTag:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/Value6'
+          description: ''
+          example: []
+      examples:
+      - controllerValues: {}
+        defaultValue: null
+        eTag: ffef8adfed014c3057fd14658f5202c4
+        url: /services/data/v58.0/ui-api/object-info/Contact/picklist-values/012000000000000AAA/Level__c
+        values:
+        - attributes: null
+          label: Secondary
+          validFor: []
+          value: Secondary
+        - attributes: null
+          label: Tertiary
+          validFor: []
+          value: Tertiary
+        - attributes: null
+          label: Primary
+          validFor: []
+          value: Primary
+    GetValuesforAllPicklistFieldsofaRecordType:
+      title: GetValuesforAllPicklistFieldsofaRecordType
+      required:
+      - eTag
+      - picklistFieldValues
+      type: object
+      properties:
+        eTag:
+          type: string
+          example: example_value
+        picklistFieldValues:
+          $ref: '#/components/schemas/PicklistFieldValues'
+      examples:
+      - eTag: ef21257ca08f8952ff154f57dc775336
+        picklistFieldValues:
+          CleanStatus:
+            controllerValues: {}
+            defaultValue: null
+            eTag: bd535d2876948d8bb91fad409b69e359
+            url: /services/data/v58.0/ui-api/object-info/Contact/picklist-values/012000000000000AAA/CleanStatus
+            values:
+            - attributes: null
+              label: In Sync
+              validFor: []
+              value: Matched
+            - attributes: null
+              label: Different
+              validFor: []
+              value: Different
+            - attributes: null
+              label: Reviewed
+              validFor: []
+              value: Acknowledged
+            - attributes: null
+              label: Not Found
+              validFor: []
+              value: NotFound
+            - attributes: null
+              label: Inactive
+              validFor: []
+              value: Inactive
+            - attributes: null
+              label: Not Compared
+              validFor: []
+              value: Pending
+            - attributes: null
+              label: Select Match
+              validFor: []
+              value: SelectMatch
+            - attributes: null
+              label: Skipped
+              validFor: []
+              value: Skipped
+          LeadSource:
+            controllerValues: {}
+            defaultValue: null
+            eTag: edb5c49da4ff7bfe2cf15ecae67a306c
+            url: /services/data/v58.0/ui-api/object-info/Contact/picklist-values/012000000000000AAA/LeadSource
+            values:
+            - attributes: null
+              label: Web
+              validFor: []
+              value: Web
+            - attributes: null
+              label: Phone Inquiry
+              validFor: []
+              value: Phone Inquiry
+            - attributes: null
+              label: Partner Referral
+              validFor: []
+              value: Partner Referral
+            - attributes: null
+              label: Purchased List
+              validFor: []
+              value: Purchased List
+            - attributes: null
+              label: Other
+              validFor: []
+              value: Other
+          Level__c:
+            controllerValues: {}
+            defaultValue: null
+            eTag: ffef8adfed014c3057fd14658f5202c4
+            url: /services/data/v58.0/ui-api/object-info/Contact/picklist-values/012000000000000AAA/Level__c
+            values:
+            - attributes: null
+              label: Secondary
+              validFor: []
+              value: Secondary
+            - attributes: null
+              label: Tertiary
+              validFor: []
+              value: Tertiary
+            - attributes: null
+              label: Primary
+              validFor: []
+              value: Primary
+          MailingGeocodeAccuracy:
+            controllerValues: {}
+            defaultValue: null
+            eTag: 776a2f5e98c411bafb45081e39a6f1ec
+            url: /services/data/v58.0/ui-api/object-info/Contact/picklist-values/012000000000000AAA/MailingGeocodeAccuracy
+            values:
+            - attributes: null
+              label: Address
+              validFor: []
+              value: Address
+            - attributes: null
+              label: NearAddress
+              validFor: []
+              value: NearAddress
+            - attributes: null
+              label: Block
+              validFor: []
+              value: Block
+            - attributes: null
+              label: Street
+              validFor: []
+              value: Street
+            - attributes: null
+              label: ExtendedZip
+              validFor: []
+              value: ExtendedZip
+            - attributes: null
+              label: Zip
+              validFor: []
+              value: Zip
+            - attributes: null
+              label: Neighborhood
+              validFor: []
+              value: Neighborhood
+            - attributes: null
+              label: City
+              validFor: []
+              value: City
+            - attributes: null
+              label: County
+              validFor: []
+              value: County
+            - attributes: null
+              label: State
+              validFor: []
+              value: State
+            - attributes: null
+              label: Unknown
+              validFor: []
+              value: Unknown
+          OtherGeocodeAccuracy:
+            controllerValues: {}
+            defaultValue: null
+            eTag: 776a2f5e98c411bafb45081e39a6f1ec
+            url: /services/data/v58.0/ui-api/object-info/Contact/picklist-values/012000000000000AAA/OtherGeocodeAccuracy
+            values:
+            - attributes: null
+              label: Address
+              validFor: []
+              value: Address
+            - attributes: null
+              label: NearAddress
+              validFor: []
+              value: NearAddress
+            - attributes: null
+              label: Block
+              validFor: []
+              value: Block
+            - attributes: null
+              label: Street
+              validFor: []
+              value: Street
+            - attributes: null
+              label: ExtendedZip
+              validFor: []
+              value: ExtendedZip
+            - attributes: null
+              label: Zip
+              validFor: []
+              value: Zip
+            - attributes: null
+              label: Neighborhood
+              validFor: []
+              value: Neighborhood
+            - attributes: null
+              label: City
+              validFor: []
+              value: City
+            - attributes: null
+              label: County
+              validFor: []
+              value: County
+            - attributes: null
+              label: State
+              validFor: []
+              value: State
+            - attributes: null
+              label: Unknown
+              validFor: []
+              value: Unknown
+          Salutation:
+            controllerValues: {}
+            defaultValue: null
+            eTag: 2de0a04925bdf8e3c70fe1177129a63f
+            url: /services/data/v58.0/ui-api/object-info/Contact/picklist-values/012000000000000AAA/Salutation
+            values:
+            - attributes: null
+              label: Mr.
+              validFor: []
+              value: Mr.
+            - attributes: null
+              label: Ms.
+              validFor: []
+              value: Ms.
+            - attributes: null
+              label: Mrs.
+              validFor: []
+              value: Mrs.
+            - attributes: null
+              label: Dr.
+              validFor: []
+              value: Dr.
+            - attributes: null
+              label: Prof.
+              validFor: []
+              value: Prof.
+    Value6:
+      title: Value6
+      required:
+      - attributes
+      - label
+      - validFor
+      - value
+      type: object
+      properties:
+        attributes:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        label:
+          type: string
+          example: Example Title
+        validFor:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        value:
+          type: string
+          example: example_value
+      examples:
+      - attributes: null
+        label: Agriculture
+        validFor: []
+        value: Agriculture
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

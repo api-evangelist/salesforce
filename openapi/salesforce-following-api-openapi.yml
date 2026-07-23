@@ -1,0 +1,756 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Following API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Following
+paths:
+  /data/v64.0/chatter/users/{USER_ID}/following:
+    parameters: []
+    get:
+      tags:
+      - Following
+      summary: Salesforce Following
+      description: 'Returns a list of people, groups, records, topics, and files that the specified user is following. Also used to follow records.
+
+
+        https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_users_FollowingUsers.htm?search_text=following'
+      operationId: Following
+      parameters:
+      - name: USER_ID
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Mon, 20 Nov 2023 16:25:01 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessfulFollowing'
+                - examples:
+                  - currentPageUrl: /services/data/v58.0/chatter/users/0052o00000DKQasAAH/following
+                    following: []
+                    nextPageUrl: null
+                    previousPageUrl: null
+                    total: 0
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                currentPageUrl: /services/data/v58.0/chatter/users/0052o00000DKQasAAH/following
+                following: []
+                nextPageUrl: null
+                previousPageUrl: null
+                total: 0
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    post:
+      tags:
+      - Following
+      summary: Salesforce Following - Post
+      description: 'Returns a list of people, groups, records, topics, and files that the specified user is following. Also used to follow records.
+
+
+        https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_users_FollowingUsers.htm?search_text=following'
+      operationId: Following-POST
+      parameters:
+      - name: subjectId
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          examples:
+          - <RECORD_ID>
+        example: '500123'
+      - name: USER_ID
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Mon, 20 Nov 2023 16:27:09 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessfulFollowing-POST'
+                - examples:
+                  - community: null
+                    id: 0E8...
+                    subject:
+                      entityLabel:
+                        label: Account
+                        labelPlural: Accounts
+                      id: 001...
+                      motif:
+                        color: 5867E8
+                        largeIconUrl: /img/icon/accounts64.png
+                        mediumIconUrl: /img/icon/accounts32.png
+                        smallIconUrl: /img/icon/accounts16.png
+                        svgIconUrl: null
+                      mySubscription: null
+                      name: Exemple de comptes pour les autorisations
+                      type: Account
+                      url: /services/data/v58.0/chatter/records/001...
+                    subscriber:
+                      additionalLabel: null
+                      communityNickname: integration1.4407085834085586E12
+                      companyName: Salesforce
+                      displayName: Integration User
+                      firstName: Integration
+                      id: 005...
+                      isActive: true
+                      isInThisCommunity: true
+                      lastName: User
+                      motif:
+                        color: 1B96FF
+                        largeIconUrl: /img/icon/profile64.png
+                        mediumIconUrl: /img/icon/profile32.png
+                        smallIconUrl: /img/icon/profile16.png
+                        svgIconUrl: null
+                      mySubscription: null
+                      name: Integration User
+                      outOfOffice:
+                        message: ''
+                      photo:
+                        fullEmailPhotoUrl: https://<my_domain>/img/userprofile/default_profile_200_v2.png?fromEmail=1
+                        largePhotoUrl: https://<my_domain>/profilephoto/005/F
+                        mediumPhotoUrl: https://<my_domain>/profilephoto/005/M
+                        photoVersionId: null
+                        smallPhotoUrl: https://<my_domain>/profilephoto/005/T
+                        standardEmailPhotoUrl: https://<my_domain>/img/userprofile/default_profile_45_v2.png?fromEmail=1
+                        url: /services/data/v58.0/connect/user-profiles/005.../photo
+                      reputation: null
+                      title: null
+                      type: User
+                      url: /services/data/v58.0/chatter/users/005...
+                      userType: Internal
+                    url: /services/data/v58.0/chatter/subscriptions/0E8...
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                community: null
+                id: 0E8...
+                subject:
+                  entityLabel:
+                    label: Account
+                    labelPlural: Accounts
+                  id: 001...
+                  motif:
+                    color: 5867E8
+                    largeIconUrl: /img/icon/accounts64.png
+                    mediumIconUrl: /img/icon/accounts32.png
+                    smallIconUrl: /img/icon/accounts16.png
+                    svgIconUrl: null
+                  mySubscription: null
+                  name: Exemple de comptes pour les autorisations
+                  type: Account
+                  url: /services/data/v58.0/chatter/records/001...
+                subscriber:
+                  additionalLabel: null
+                  communityNickname: integration1.4407085834085586E12
+                  companyName: Salesforce
+                  displayName: Integration User
+                  firstName: Integration
+                  id: 005...
+                  isActive: true
+                  isInThisCommunity: true
+                  lastName: User
+                  motif:
+                    color: 1B96FF
+                    largeIconUrl: /img/icon/profile64.png
+                    mediumIconUrl: /img/icon/profile32.png
+                    smallIconUrl: /img/icon/profile16.png
+                    svgIconUrl: null
+                  mySubscription: null
+                  name: Integration User
+                  outOfOffice:
+                    message: ''
+                  photo:
+                    fullEmailPhotoUrl: https://<my_domain>/img/userprofile/default_profile_200_v2.png?fromEmail=1
+                    largePhotoUrl: https://<my_domain>/profilephoto/005/F
+                    mediumPhotoUrl: https://<my_domain>/profilephoto/005/M
+                    photoVersionId: null
+                    smallPhotoUrl: https://<my_domain>/profilephoto/005/T
+                    standardEmailPhotoUrl: https://<my_domain>/img/userprofile/default_profile_45_v2.png?fromEmail=1
+                    url: /services/data/v58.0/connect/user-profiles/005.../photo
+                  reputation: null
+                  title: null
+                  type: User
+                  url: /services/data/v58.0/chatter/users/005...
+                  userType: Internal
+                url: /services/data/v58.0/chatter/subscriptions/0E8...
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Subscriber:
+      title: Subscriber
+      required:
+      - additionalLabel
+      - communityNickname
+      - companyName
+      - displayName
+      - firstName
+      - id
+      - isActive
+      - isInThisCommunity
+      - lastName
+      - motif
+      - mySubscription
+      - name
+      - outOfOffice
+      - photo
+      - reputation
+      - title
+      - type
+      - url
+      - userType
+      type: object
+      properties:
+        additionalLabel:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        communityNickname:
+          type: string
+          example: example_value
+        companyName:
+          type: string
+          example: example_value
+        displayName:
+          type: string
+          example: example_value
+        firstName:
+          type: string
+          example: example_value
+        id:
+          type: string
+          example: abc123
+        isActive:
+          type: boolean
+          example: true
+        isInThisCommunity:
+          type: boolean
+          example: true
+        lastName:
+          type: string
+          example: example_value
+        motif:
+          $ref: '#/components/schemas/Motif'
+        mySubscription:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        name:
+          type: string
+          example: Example Title
+        outOfOffice:
+          $ref: '#/components/schemas/OutOfOffice'
+        photo:
+          $ref: '#/components/schemas/Photo15'
+        reputation:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        title:
+          type:
+          - string
+          - 'null'
+          example: Example Title
+        type:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+        userType:
+          type: string
+          example: example_value
+      examples:
+      - additionalLabel: null
+        communityNickname: integration1.4407085834085586E12
+        companyName: Salesforce
+        displayName: Integration User
+        firstName: Integration
+        id: 005...
+        isActive: true
+        isInThisCommunity: true
+        lastName: User
+        motif:
+          color: 1B96FF
+          largeIconUrl: /img/icon/profile64.png
+          mediumIconUrl: /img/icon/profile32.png
+          smallIconUrl: /img/icon/profile16.png
+          svgIconUrl: null
+        mySubscription: null
+        name: Integration User
+        outOfOffice:
+          message: ''
+        photo:
+          fullEmailPhotoUrl: https://<my_domain>/img/userprofile/default_profile_200_v2.png?fromEmail=1
+          largePhotoUrl: https://<my_domain>/profilephoto/005/F
+          mediumPhotoUrl: https://<my_domain>/profilephoto/005/M
+          photoVersionId: null
+          smallPhotoUrl: https://<my_domain>/profilephoto/005/T
+          standardEmailPhotoUrl: https://<my_domain>/img/userprofile/default_profile_45_v2.png?fromEmail=1
+          url: /services/data/v58.0/connect/user-profiles/005.../photo
+        reputation: null
+        title: null
+        type: User
+        url: /services/data/v58.0/chatter/users/005...
+        userType: Internal
+    SuccessfulFollowing:
+      title: SuccessfulFollowing
+      required:
+      - currentPageUrl
+      - following
+      - nextPageUrl
+      - previousPageUrl
+      - total
+      type: object
+      properties:
+        currentPageUrl:
+          type: string
+          example: https://www.example.com
+        following:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        nextPageUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        previousPageUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        total:
+          type: integer
+          contentEncoding: int32
+          example: 42
+      examples:
+      - currentPageUrl: /services/data/v58.0/chatter/users/0052o00000DKQasAAH/following
+        following: []
+        nextPageUrl: null
+        previousPageUrl: null
+        total: 0
+    EntityLabel:
+      title: EntityLabel
+      required:
+      - label
+      - labelPlural
+      type: object
+      properties:
+        label:
+          type: string
+          example: Example Title
+        labelPlural:
+          type: string
+          example: example_value
+      examples:
+      - label: Account
+        labelPlural: Accounts
+    SuccessfulFollowing-POST:
+      title: SuccessfulFollowing-POST
+      required:
+      - community
+      - id
+      - subject
+      - subscriber
+      - url
+      type: object
+      properties:
+        community:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        id:
+          type: string
+          example: abc123
+        subject:
+          $ref: '#/components/schemas/Subject'
+        subscriber:
+          $ref: '#/components/schemas/Subscriber'
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - community: null
+        id: 0E8...
+        subject:
+          entityLabel:
+            label: Account
+            labelPlural: Accounts
+          id: 001...
+          motif:
+            color: 5867E8
+            largeIconUrl: /img/icon/accounts64.png
+            mediumIconUrl: /img/icon/accounts32.png
+            smallIconUrl: /img/icon/accounts16.png
+            svgIconUrl: null
+          mySubscription: null
+          name: Exemple de comptes pour les autorisations
+          type: Account
+          url: /services/data/v58.0/chatter/records/001...
+        subscriber:
+          additionalLabel: null
+          communityNickname: integration1.4407085834085586E12
+          companyName: Salesforce
+          displayName: Integration User
+          firstName: Integration
+          id: 005...
+          isActive: true
+          isInThisCommunity: true
+          lastName: User
+          motif:
+            color: 1B96FF
+            largeIconUrl: /img/icon/profile64.png
+            mediumIconUrl: /img/icon/profile32.png
+            smallIconUrl: /img/icon/profile16.png
+            svgIconUrl: null
+          mySubscription: null
+          name: Integration User
+          outOfOffice:
+            message: ''
+          photo:
+            fullEmailPhotoUrl: https://<my_domain>/img/userprofile/default_profile_200_v2.png?fromEmail=1
+            largePhotoUrl: https://<my_domain>/profilephoto/005/F
+            mediumPhotoUrl: https://<my_domain>/profilephoto/005/M
+            photoVersionId: null
+            smallPhotoUrl: https://<my_domain>/profilephoto/005/T
+            standardEmailPhotoUrl: https://<my_domain>/img/userprofile/default_profile_45_v2.png?fromEmail=1
+            url: /services/data/v58.0/connect/user-profiles/005.../photo
+          reputation: null
+          title: null
+          type: User
+          url: /services/data/v58.0/chatter/users/005...
+          userType: Internal
+        url: /services/data/v58.0/chatter/subscriptions/0E8...
+    Subject:
+      title: Subject
+      required:
+      - entityLabel
+      - id
+      - motif
+      - mySubscription
+      - name
+      - type
+      - url
+      type: object
+      properties:
+        entityLabel:
+          $ref: '#/components/schemas/EntityLabel'
+        id:
+          type: string
+          example: abc123
+        motif:
+          $ref: '#/components/schemas/Motif'
+        mySubscription:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        name:
+          type: string
+          example: Example Title
+        type:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - entityLabel:
+          label: Account
+          labelPlural: Accounts
+        id: 001...
+        motif:
+          color: 5867E8
+          largeIconUrl: /img/icon/accounts64.png
+          mediumIconUrl: /img/icon/accounts32.png
+          smallIconUrl: /img/icon/accounts16.png
+          svgIconUrl: null
+        mySubscription: null
+        name: Exemple de comptes pour les autorisations
+        type: Account
+        url: /services/data/v58.0/chatter/records/001...
+    Photo15:
+      title: Photo15
+      required:
+      - fullEmailPhotoUrl
+      - largePhotoUrl
+      - mediumPhotoUrl
+      - photoVersionId
+      - smallPhotoUrl
+      - standardEmailPhotoUrl
+      - url
+      type: object
+      properties:
+        fullEmailPhotoUrl:
+          type: string
+          example: user@example.com
+        largePhotoUrl:
+          type: string
+          example: https://www.example.com
+        mediumPhotoUrl:
+          type: string
+          example: https://www.example.com
+        photoVersionId:
+          type:
+          - string
+          - 'null'
+          example: '500123'
+        smallPhotoUrl:
+          type: string
+          example: https://www.example.com
+        standardEmailPhotoUrl:
+          type: string
+          example: user@example.com
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - fullEmailPhotoUrl: https://<my_domain>/img/userprofile/default_group_profile_200_v2.png?fromEmail=1
+        largePhotoUrl: https://<my_domain>/profilephoto/0F9/F
+        mediumPhotoUrl: https://<my_domain>/profilephoto/0F9/M
+        photoVersionId: null
+        smallPhotoUrl: https://<my_domain>/profilephoto/0F9/T
+        standardEmailPhotoUrl: https://<my_domain>/img/userprofile/default_group_profile_45_v2.png?fromEmail=1
+        url: /services/data/v58.0/chatter/groups/0F9.../photo
+    Motif:
+      title: Motif
+      required:
+      - color
+      - largeIconUrl
+      - mediumIconUrl
+      - smallIconUrl
+      - svgIconUrl
+      type: object
+      properties:
+        color:
+          type: string
+          example: example_value
+        largeIconUrl:
+          type: string
+          example: https://www.example.com
+        mediumIconUrl:
+          type: string
+          example: https://www.example.com
+        smallIconUrl:
+          type: string
+          example: https://www.example.com
+        svgIconUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+      examples:
+      - color: '939393'
+        largeIconUrl: /img/content/content64.png
+        mediumIconUrl: /img/content/content32.png
+        smallIconUrl: /img/icon/files16.png
+        svgIconUrl: null
+    OutOfOffice:
+      title: OutOfOffice
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+          example: example_value
+      examples:
+      - message: ''
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

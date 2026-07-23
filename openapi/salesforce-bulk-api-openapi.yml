@@ -1,0 +1,1539 @@
+openapi: 3.1.0
+info:
+  title: Salesforce API 2.0 Abort Bulk API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Bulk
+paths:
+  /async/64.0/job:
+    parameters: []
+    post:
+      tags:
+      - Bulk
+      summary: Salesforce Bulk Create Job
+      operationId: BulkCreateJob
+      parameters:
+      - name: X-SFDC-Session
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: example_value
+      - name: charset
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - UTF-8
+        example: example_value
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/BulkCreateJobRequest'
+              - examples:
+                - operation: insert
+                  object: Account
+                  contentType: CSV
+              contentMediaType: application/json
+            example:
+              operation: insert
+              object: Account
+              contentType: CSV
+        required: true
+      responses:
+        '201':
+          description: Created
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Thu, 16 Nov 2023 16:07:11 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Location:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: /services/async/58.0/job/7502o00000kjNCsAAM
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessfulBulkCreateJob'
+                - examples:
+                  - apexProcessingTime: 0
+                    apiActiveProcessingTime: 0
+                    apiVersion: 58
+                    assignmentRuleId: null
+                    concurrencyMode: Parallel
+                    contentType: CSV
+                    createdById: 005...
+                    createdDate: <date_time>
+                    externalIdFieldName: null
+                    fastPathEnabled: false
+                    id: 750...
+                    numberBatchesCompleted: 0
+                    numberBatchesFailed: 0
+                    numberBatchesInProgress: 0
+                    numberBatchesQueued: 0
+                    numberBatchesTotal: 0
+                    numberRecordsFailed: 0
+                    numberRecordsProcessed: 0
+                    numberRetries: 0
+                    object: <Object>
+                    operation: insert
+                    state: Open
+                    systemModstamp: <date_time>
+                    totalProcessingTime: 0
+                contentMediaType: application/json
+              example:
+                apexProcessingTime: 0
+                apiActiveProcessingTime: 0
+                apiVersion: 58
+                assignmentRuleId: null
+                concurrencyMode: Parallel
+                contentType: CSV
+                createdById: 005...
+                createdDate: <date_time>
+                externalIdFieldName: null
+                fastPathEnabled: false
+                id: 750...
+                numberBatchesCompleted: 0
+                numberBatchesFailed: 0
+                numberBatchesInProgress: 0
+                numberBatchesQueued: 0
+                numberBatchesTotal: 0
+                numberRecordsFailed: 0
+                numberRecordsProcessed: 0
+                numberRetries: 0
+                object: <Object>
+                operation: insert
+                state: Open
+                systemModstamp: <date_time>
+                totalProcessingTime: 0
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /async/64.0/job//spec:
+    parameters: []
+    post:
+      tags:
+      - Bulk
+      summary: Salesforce Bulk Spec
+      operationId: BulkSpec
+      parameters:
+      - name: X-SFDC-Session
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: example_value
+      - name: charset
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - UTF-8
+        example: example_value
+      - name: Accept-Encoding
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - gzip
+        example: example_value
+      - name: Content-Encoding
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - gzip
+        example: example_value
+      requestBody:
+        description: ''
+        content:
+          text/csv:
+            schema:
+              type: string
+              examples:
+              - 'Salesforce Field,Csv Header,Value,Hint
+
+                Name,Full Name,,'
+              contentMediaType: text/csv
+            example: 'Salesforce Field,Csv Header,Value,Hint
+
+              Name,Full Name,,'
+        required: true
+      responses:
+        '201':
+          description: Created
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Thu, 16 Nov 2023 16:12:34 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            Content-Security-Policy:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: upgrade-insecure-requests
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Location:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: /services/async/58.0/job/7502o00000kjNCsAAM/spec/0Aj2o000000PbakCAC
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /async/64.0/job//batch:
+    parameters: []
+    post:
+      tags:
+      - Bulk
+      summary: Salesforce Bulk Create Batch
+      operationId: BulkCreateBatch
+      parameters:
+      - name: X-SFDC-Session
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: example_value
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        schema:
+          const: text/csv
+          type: string
+          examples:
+          - text/csv
+        example: example_value
+      - name: charset
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - UTF-8
+        example: example_value
+      requestBody:
+        content:
+          multipart/form-data:
+            encoding: {}
+            schema:
+              required:
+              - File
+              type: object
+              properties:
+                File:
+                  type: string
+                  contentEncoding: base64
+              contentMediaType: multipart/form-data
+            examples:
+              BulkcreatebatchRequestExample:
+                summary: Default BulkCreateBatch request
+                x-microcks-default: true
+                value:
+                  File: example_value
+        required: false
+      responses:
+        '201':
+          description: Created
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Thu, 16 Nov 2023 16:16:10 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Location:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: /services/async/58.0/job/7502o00000kjNCsAAM/batch/7512o00001DSJWnAAP
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/xml:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/batchInfo'
+                - xml:
+                    name: batchInfo
+                    attribute: false
+                    wrapped: false
+                  examples:
+                  - "<batchInfo>\n\n  <id>751...</id>\n\n  <jobId>750...</jobId>\n\n  <state>Queued</state>\n\n  <createdDate>datetime</createdDate>\n\n  <systemModstamp>datetime</systemModstamp>\n\n  <numberRecordsProcessed>0</numberRecordsProcessed>\n\n  <numberRecordsFailed>0</numberRecordsFailed>\n\n  <totalProcessingTime>0</totalProcessingTime>\n\n  <apiActiveProcessingTime>0</apiActiveProcessingTime>\n\n  <apexProcessingTime>0</apexProcessingTime>\n\n</batchInfo>"
+                contentMediaType: application/xml
+              example: "<batchInfo>\n\n  <id>751...</id>\n\n  <jobId>750...</jobId>\n\n  <state>Queued</state>\n\n  <createdDate>datetime</createdDate>\n\n  <systemModstamp>datetime</systemModstamp>\n\n  <numberRecordsProcessed>0</numberRecordsProcessed>\n\n  <numberRecordsFailed>0</numberRecordsFailed>\n\n  <totalProcessingTime>0</totalProcessingTime>\n\n  <apiActiveProcessingTime>0</apiActiveProcessingTime>\n\n  <apexProcessingTime>0</apexProcessingTime>\n\n</batchInfo>"
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    get:
+      tags:
+      - Bulk
+      summary: Salesforce Bulk Check Batch Status
+      operationId: BulkCheckBatchStatus
+      parameters:
+      - name: X-SFDC-Session
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: example_value
+      - name: Accept-Encoding
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - gzip
+        example: example_value
+      - name: Content-Encoding
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - gzip
+        example: example_value
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Thu, 16 Nov 2023 16:19:29 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/xml:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/batchInfoList'
+                - xml:
+                    name: batchInfoList
+                    attribute: false
+                    wrapped: false
+                  examples:
+                  - "<batchInfoList>\n\n  <batchInfo>\n\n    <id>751...</id>\n\n    <jobId>750...</jobId>\n\n    <state>Completed</state>\n\n    <createdDate>datetime</createdDate>\n\n    <systemModstamp>datetime</systemModstamp>\n\n    <numberRecordsProcessed>1</numberRecordsProcessed>\n\n    <numberRecordsFailed>0</numberRecordsFailed>\n\n    <totalProcessingTime>403</totalProcessingTime>\n\n    <apiActiveProcessingTime>225</apiActiveProcessingTime>\n\n    <apexProcessingTime>64</apexProcessingTime>\n\n  </batchInfo>\n\n</batchInfoList>"
+                contentMediaType: application/xml
+              example: "<batchInfoList>\n\n  <batchInfo>\n\n    <id>751...</id>\n\n    <jobId>750...</jobId>\n\n    <state>Completed</state>\n\n    <createdDate>datetime</createdDate>\n\n    <systemModstamp>datetime</systemModstamp>\n\n    <numberRecordsProcessed>1</numberRecordsProcessed>\n\n    <numberRecordsFailed>0</numberRecordsFailed>\n\n    <totalProcessingTime>403</totalProcessingTime>\n\n    <apiActiveProcessingTime>225</apiActiveProcessingTime>\n\n    <apexProcessingTime>64</apexProcessingTime>\n\n  </batchInfo>\n\n</batchInfoList>"
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /async/64.0/job/:
+    parameters: []
+    post:
+      tags:
+      - Bulk
+      summary: Salesforce Bulk Close Job
+      operationId: BulkCloseJob
+      parameters:
+      - name: X-SFDC-Session
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: example_value
+      - name: charset
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - UTF-8
+        example: example_value
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/BulkCloseJobRequest'
+              - examples:
+                - state: Closed
+              contentMediaType: application/json
+            example:
+              state: Closed
+        required: true
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Thu, 16 Nov 2023 16:23:52 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessfulBulkCloseJob'
+                - examples:
+                  - apexProcessingTime: 64
+                    apiActiveProcessingTime: 225
+                    apiVersion: 58
+                    assignmentRuleId: null
+                    concurrencyMode: Parallel
+                    contentType: CSV
+                    createdById: 005...
+                    createdDate: <date_time>
+                    externalIdFieldName: null
+                    fastPathEnabled: false
+                    id: 750...
+                    numberBatchesCompleted: 1
+                    numberBatchesFailed: 0
+                    numberBatchesInProgress: 0
+                    numberBatchesQueued: 0
+                    numberBatchesTotal: 1
+                    numberRecordsFailed: 0
+                    numberRecordsProcessed: 1
+                    numberRetries: 0
+                    object: <Object>
+                    operation: insert
+                    state: Closed
+                    systemModstamp: <date_time>
+                    totalProcessingTime: 403
+                contentMediaType: application/json
+              example:
+                apexProcessingTime: 64
+                apiActiveProcessingTime: 225
+                apiVersion: 58
+                assignmentRuleId: null
+                concurrencyMode: Parallel
+                contentType: CSV
+                createdById: 005...
+                createdDate: <date_time>
+                externalIdFieldName: null
+                fastPathEnabled: false
+                id: 750...
+                numberBatchesCompleted: 1
+                numberBatchesFailed: 0
+                numberBatchesInProgress: 0
+                numberBatchesQueued: 0
+                numberBatchesTotal: 1
+                numberRecordsFailed: 0
+                numberRecordsProcessed: 1
+                numberRetries: 0
+                object: <Object>
+                operation: insert
+                state: Closed
+                systemModstamp: <date_time>
+                totalProcessingTime: 403
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /async/64.0/job//batch/{_batchId}/result:
+    parameters: []
+    get:
+      tags:
+      - Bulk
+      summary: Salesforce Bulk Retrieve Batch Result
+      operationId: BulkRetrieveBatchResult
+      parameters:
+      - name: X-SFDC-Session
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: example_value
+      - name: Accept-Encoding
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - gzip
+        example: example_value
+      - name: Content-Encoding
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - gzip
+        example: example_value
+      - name: _batchId
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Thu, 16 Nov 2023 16:20:11 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            text/csv:
+              schema:
+                type: string
+                examples:
+                - '"Id","Success","Created","Error"
+
+                  "001...","true","true",""
+
+                  '
+                contentMediaType: text/csv
+              example: '"Id","Success","Created","Error"
+
+                "001...","true","true",""
+
+                '
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /async/64.0/job//batch/{_batchId}/result/{batchResultId}:
+    parameters: []
+    get:
+      tags:
+      - Bulk
+      summary: Salesforce Bulk Retrieve Batch Result Data
+      operationId: BulkRetrieveBatchResultData
+      parameters:
+      - name: batchResultId
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - 'null'
+        example: '500123'
+      - name: X-SFDC-Session
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: example_value
+      - name: Accept-Encoding
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - gzip
+        example: example_value
+      - name: Content-Encoding
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - gzip
+        example: example_value
+      - name: _batchId
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Thu, 16 Nov 2023 16:36:36 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            text/csv; charset=UTF-8:
+              schema:
+                type: string
+                examples:
+                - '"Id","Name"
+
+                  "001...","GenePoint"
+
+                  "001...","United Oil & Gas, UK"
+
+                  "001...","United Oil & Gas, Singapore"
+
+                  "001...","Edge Communications"
+
+                  "001...","Burlington Textiles Corp of America"
+
+                  "001...","Pyramid Construction Inc."
+
+                  "001...","Dickenson plc"
+
+                  "001...","Grand Hotels & Resorts Ltd"
+
+                  "001...","Express Logistics and Transport"
+
+                  "001...","University of Arizona"
+
+                  "001...","United Oil & Gas Corp."
+
+                  "001...","sForce"
+
+                  "001...","Exemple de comptes pour les autorisations"
+
+                  "001...","Tom Jones"
+
+                  '
+                contentMediaType: text/csv; charset=UTF-8
+              example: '"Id","Name"
+
+                "001...","GenePoint"
+
+                "001...","United Oil & Gas, UK"
+
+                "001...","United Oil & Gas, Singapore"
+
+                "001...","Edge Communications"
+
+                "001...","Burlington Textiles Corp of America"
+
+                "001...","Pyramid Construction Inc."
+
+                "001...","Dickenson plc"
+
+                "001...","Grand Hotels & Resorts Ltd"
+
+                "001...","Express Logistics and Transport"
+
+                "001...","University of Arizona"
+
+                "001...","United Oil & Gas Corp."
+
+                "001...","sForce"
+
+                "001...","Exemple de comptes pour les autorisations"
+
+                "001...","Tom Jones"
+
+                '
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    SuccessfulBulkCloseJob:
+      title: SuccessfulBulkCloseJob
+      required:
+      - apexProcessingTime
+      - apiActiveProcessingTime
+      - apiVersion
+      - assignmentRuleId
+      - concurrencyMode
+      - contentType
+      - createdById
+      - createdDate
+      - externalIdFieldName
+      - fastPathEnabled
+      - id
+      - numberBatchesCompleted
+      - numberBatchesFailed
+      - numberBatchesInProgress
+      - numberBatchesQueued
+      - numberBatchesTotal
+      - numberRecordsFailed
+      - numberRecordsProcessed
+      - numberRetries
+      - object
+      - operation
+      - state
+      - systemModstamp
+      - totalProcessingTime
+      type: object
+      properties:
+        apexProcessingTime:
+          type: integer
+          contentEncoding: int32
+          example: 1700000000000
+        apiActiveProcessingTime:
+          type: integer
+          contentEncoding: int32
+          example: 1700000000000
+        apiVersion:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        assignmentRuleId:
+          type:
+          - string
+          - 'null'
+          example: '500123'
+        concurrencyMode:
+          type: string
+          example: example_value
+        contentType:
+          type: string
+          example: example_value
+        createdById:
+          type: string
+          example: '500123'
+        createdDate:
+          type: string
+          example: example_value
+        externalIdFieldName:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        fastPathEnabled:
+          type: boolean
+          example: true
+        id:
+          type: string
+          example: abc123
+        numberBatchesCompleted:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        numberBatchesFailed:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        numberBatchesInProgress:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        numberBatchesQueued:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        numberBatchesTotal:
+          type: integer
+          contentEncoding: int32
+          example: 42
+        numberRecordsFailed:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        numberRecordsProcessed:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        numberRetries:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        object:
+          type: string
+          example: example_value
+        operation:
+          type: string
+          example: example_value
+        state:
+          type: string
+          example: example_value
+        systemModstamp:
+          type: string
+          example: example_value
+        totalProcessingTime:
+          type: integer
+          contentEncoding: int32
+          example: 1700000000000
+      examples:
+      - apexProcessingTime: 64
+        apiActiveProcessingTime: 225
+        apiVersion: 58
+        assignmentRuleId: null
+        concurrencyMode: Parallel
+        contentType: CSV
+        createdById: 005...
+        createdDate: <date_time>
+        externalIdFieldName: null
+        fastPathEnabled: false
+        id: 750...
+        numberBatchesCompleted: 1
+        numberBatchesFailed: 0
+        numberBatchesInProgress: 0
+        numberBatchesQueued: 0
+        numberBatchesTotal: 1
+        numberRecordsFailed: 0
+        numberRecordsProcessed: 1
+        numberRetries: 0
+        object: <Object>
+        operation: insert
+        state: Closed
+        systemModstamp: <date_time>
+        totalProcessingTime: 403
+    BulkCreateJobRequest:
+      title: BulkCreateJobRequest
+      required:
+      - operation
+      - object
+      - contentType
+      type: object
+      properties:
+        operation:
+          type: string
+          example: example_value
+        object:
+          type: string
+          example: example_value
+        contentType:
+          type: string
+          example: example_value
+      examples:
+      - operation: insert
+        object: Account
+        contentType: CSV
+    batchInfoList:
+      title: batchInfoList
+      required:
+      - batchInfo
+      type: object
+      properties:
+        batchInfo:
+          allOf:
+          - $ref: '#/components/schemas/batchInfo'
+          - xml:
+              name: batchInfo
+              namespace: http://www.force.com/2009/06/asyncapi/dataload
+              attribute: false
+              wrapped: false
+          example: example_value
+      xml:
+        name: batchInfoList
+        namespace: http://www.force.com/2009/06/asyncapi/dataload
+        attribute: false
+        wrapped: false
+    batchInfo:
+      title: batchInfo
+      required:
+      - id
+      - jobId
+      - state
+      - createdDate
+      - systemModstamp
+      - numberRecordsProcessed
+      - numberRecordsFailed
+      - totalProcessingTime
+      - apiActiveProcessingTime
+      - apexProcessingTime
+      type: object
+      properties:
+        id:
+          type: string
+          xml:
+            name: id
+            namespace: http://www.force.com/2009/06/asyncapi/dataload
+            attribute: false
+            wrapped: false
+          example: abc123
+        jobId:
+          type: string
+          xml:
+            name: jobId
+            namespace: http://www.force.com/2009/06/asyncapi/dataload
+            attribute: false
+            wrapped: false
+          example: '500123'
+        state:
+          type: string
+          xml:
+            name: state
+            namespace: http://www.force.com/2009/06/asyncapi/dataload
+            attribute: false
+            wrapped: false
+          example: example_value
+        createdDate:
+          type: string
+          xml:
+            name: createdDate
+            namespace: http://www.force.com/2009/06/asyncapi/dataload
+            attribute: false
+            wrapped: false
+          example: example_value
+        systemModstamp:
+          type: string
+          xml:
+            name: systemModstamp
+            namespace: http://www.force.com/2009/06/asyncapi/dataload
+            attribute: false
+            wrapped: false
+          example: example_value
+        numberRecordsProcessed:
+          type: integer
+          contentEncoding: int32
+          xml:
+            name: numberRecordsProcessed
+            namespace: http://www.force.com/2009/06/asyncapi/dataload
+            attribute: false
+            wrapped: false
+          example: 10
+        numberRecordsFailed:
+          type: integer
+          contentEncoding: int32
+          xml:
+            name: numberRecordsFailed
+            namespace: http://www.force.com/2009/06/asyncapi/dataload
+            attribute: false
+            wrapped: false
+          example: 10
+        totalProcessingTime:
+          type: integer
+          contentEncoding: int32
+          xml:
+            name: totalProcessingTime
+            namespace: http://www.force.com/2009/06/asyncapi/dataload
+            attribute: false
+            wrapped: false
+          example: 1700000000000
+        apiActiveProcessingTime:
+          type: integer
+          contentEncoding: int32
+          xml:
+            name: apiActiveProcessingTime
+            namespace: http://www.force.com/2009/06/asyncapi/dataload
+            attribute: false
+            wrapped: false
+          example: 1700000000000
+        apexProcessingTime:
+          type: integer
+          contentEncoding: int32
+          xml:
+            name: apexProcessingTime
+            namespace: http://www.force.com/2009/06/asyncapi/dataload
+            attribute: false
+            wrapped: false
+          example: 1700000000000
+      xml:
+        name: batchInfo
+        namespace: http://www.force.com/2009/06/asyncapi/dataload
+        attribute: false
+        wrapped: false
+    SuccessfulBulkCreateJob:
+      title: SuccessfulBulkCreateJob
+      required:
+      - apexProcessingTime
+      - apiActiveProcessingTime
+      - apiVersion
+      - assignmentRuleId
+      - concurrencyMode
+      - contentType
+      - createdById
+      - createdDate
+      - externalIdFieldName
+      - fastPathEnabled
+      - id
+      - numberBatchesCompleted
+      - numberBatchesFailed
+      - numberBatchesInProgress
+      - numberBatchesQueued
+      - numberBatchesTotal
+      - numberRecordsFailed
+      - numberRecordsProcessed
+      - numberRetries
+      - object
+      - operation
+      - state
+      - systemModstamp
+      - totalProcessingTime
+      type: object
+      properties:
+        apexProcessingTime:
+          type: integer
+          contentEncoding: int32
+          example: 1700000000000
+        apiActiveProcessingTime:
+          type: integer
+          contentEncoding: int32
+          example: 1700000000000
+        apiVersion:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        assignmentRuleId:
+          type:
+          - string
+          - 'null'
+          example: '500123'
+        concurrencyMode:
+          type: string
+          example: example_value
+        contentType:
+          type: string
+          example: example_value
+        createdById:
+          type: string
+          example: '500123'
+        createdDate:
+          type: string
+          example: example_value
+        externalIdFieldName:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        fastPathEnabled:
+          type: boolean
+          example: true
+        id:
+          type: string
+          example: abc123
+        numberBatchesCompleted:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        numberBatchesFailed:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        numberBatchesInProgress:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        numberBatchesQueued:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        numberBatchesTotal:
+          type: integer
+          contentEncoding: int32
+          example: 42
+        numberRecordsFailed:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        numberRecordsProcessed:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        numberRetries:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        object:
+          type: string
+          example: example_value
+        operation:
+          type: string
+          example: example_value
+        state:
+          type: string
+          example: example_value
+        systemModstamp:
+          type: string
+          example: example_value
+        totalProcessingTime:
+          type: integer
+          contentEncoding: int32
+          example: 1700000000000
+      examples:
+      - apexProcessingTime: 0
+        apiActiveProcessingTime: 0
+        apiVersion: 58
+        assignmentRuleId: null
+        concurrencyMode: Parallel
+        contentType: CSV
+        createdById: 005...
+        createdDate: <date_time>
+        externalIdFieldName: null
+        fastPathEnabled: false
+        id: 750...
+        numberBatchesCompleted: 0
+        numberBatchesFailed: 0
+        numberBatchesInProgress: 0
+        numberBatchesQueued: 0
+        numberBatchesTotal: 0
+        numberRecordsFailed: 0
+        numberRecordsProcessed: 0
+        numberRetries: 0
+        object: <Object>
+        operation: insert
+        state: Open
+        systemModstamp: <date_time>
+        totalProcessingTime: 0
+    BulkCloseJobRequest:
+      title: BulkCloseJobRequest
+      required:
+      - state
+      type: object
+      properties:
+        state:
+          type: string
+          example: example_value
+      examples:
+      - state: Closed
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

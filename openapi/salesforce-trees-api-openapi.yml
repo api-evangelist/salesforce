@@ -1,0 +1,609 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Trees API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Trees
+paths:
+  /data/v64.0/composite/tree/{SOBJECT_API_NAME}:
+    parameters: []
+    post:
+      tags:
+      - Trees
+      summary: Salesforce Sobject Tree
+      description: 'Creates one or more sObject trees with root records of the specified type. An sObject tree is a collection of nested, parent-child records with a single root record.
+
+        In the request data, you supply the record hierarchies, required and optional field values, each record’s type, and a reference ID for each record. Upon success, the response contains the IDs of the created records. If an error occurs while creating a record, the entire request fails. In this case, the response contains only the reference ID of the record that caused the error and the error information.
+
+
+        The request can contain the following:
+
+        Up to a total of 200 records across all trees
+
+        Up to five records of different types
+
+        SObject trees up to five levels deep
+
+        Because an sObject tree can contain a single record, you can use this resource to create up to 200 unrelated records of the same type.
+
+
+        When the request is processed and records are created, triggers, processes, and workflow rules fire separately for each of the following groups of records.
+
+        Root records across all sObject trees in the request
+
+        All second-level records of the same type—for example, second-level Contacts across all sObject trees in the request
+
+        All third-level records of the same type
+
+        All fourth-level records of the same type
+
+        All fifth-level records of the same type
+
+
+        https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobject_tree.htm'
+      operationId: SObjectTree
+      parameters:
+      - name: SOBJECT_API_NAME
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - Account
+        example: example_value
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/SObjectTreeRequest'
+              - examples:
+                - records:
+                  - attributes:
+                      type: Account
+                      referenceId: ref1
+                    name: SampleAccount1
+                    phone: '1234567890'
+                    website: www.salesforce.com
+                    numberOfEmployees: '100'
+                    industry: Banking
+                    Contacts:
+                      records:
+                      - attributes:
+                          type: Contact
+                          referenceId: ref2
+                        lastname: Smith
+                        Title: President
+                        email: sample@salesforce.com
+                      - attributes:
+                          type: Contact
+                          referenceId: ref3
+                        lastname: Evans
+                        title: Vice President
+                        email: sample@salesforce.com
+                  - attributes:
+                      type: Account
+                      referenceId: ref4
+                    name: SampleAccount2
+                    phone: '1234567890'
+                    website: www.salesforce.com
+                    numberOfEmployees: '52000'
+                    industry: Banking
+                    childAccounts:
+                      records:
+                      - attributes:
+                          type: Account
+                          referenceId: ref5
+                        name: SampleChildAccount1
+                        phone: '1234567890'
+                        website: www.salesforce.com
+                        numberOfEmployees: '100'
+                        industry: Banking
+                    Contacts:
+                      records:
+                      - attributes:
+                          type: Contact
+                          referenceId: ref6
+                        lastname: Jones
+                        title: President
+                        email: sample@salesforce.com
+              contentMediaType: application/json
+            example:
+              records:
+              - attributes:
+                  type: Account
+                  referenceId: ref1
+                name: SampleAccount1
+                phone: '1234567890'
+                website: www.salesforce.com
+                numberOfEmployees: '100'
+                industry: Banking
+                Contacts:
+                  records:
+                  - attributes:
+                      type: Contact
+                      referenceId: ref2
+                    lastname: Smith
+                    Title: President
+                    email: sample@salesforce.com
+                  - attributes:
+                      type: Contact
+                      referenceId: ref3
+                    lastname: Evans
+                    title: Vice President
+                    email: sample@salesforce.com
+              - attributes:
+                  type: Account
+                  referenceId: ref4
+                name: SampleAccount2
+                phone: '1234567890'
+                website: www.salesforce.com
+                numberOfEmployees: '52000'
+                industry: Banking
+                childAccounts:
+                  records:
+                  - attributes:
+                      type: Account
+                      referenceId: ref5
+                    name: SampleChildAccount1
+                    phone: '1234567890'
+                    website: www.salesforce.com
+                    numberOfEmployees: '100'
+                    industry: Banking
+                Contacts:
+                  records:
+                  - attributes:
+                      type: Contact
+                      referenceId: ref6
+                    lastname: Jones
+                    title: President
+                    email: sample@salesforce.com
+        required: true
+      responses:
+        '201':
+          description: Created
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Mon, 20 Nov 2023 15:23:41 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Sforce-Limit-Info:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: api-usage=41/15000
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessfulSObjectTree'
+                - examples:
+                  - hasErrors: false
+                    results:
+                    - referenceId: ref1
+                      id: 001...
+                    - referenceId: ref4
+                      id: 001...
+                    - referenceId: ref2
+                      id: 003..
+                    - referenceId: ref3
+                      id: 003...
+                    - referenceId: ref5
+                      id: 001...
+                    - referenceId: ref6
+                      id: 003...
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                hasErrors: false
+                results:
+                - referenceId: ref1
+                  id: 001...
+                - referenceId: ref4
+                  id: 001...
+                - referenceId: ref2
+                  id: 003..
+                - referenceId: ref3
+                  id: 003...
+                - referenceId: ref5
+                  id: 001...
+                - referenceId: ref6
+                  id: 003...
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Record4:
+      title: Record4
+      required:
+      - attributes
+      - name
+      - phone
+      - website
+      - numberOfEmployees
+      - industry
+      type: object
+      properties:
+        attributes:
+          $ref: '#/components/schemas/Attributes'
+        name:
+          type: string
+          example: Example Title
+        phone:
+          type: string
+          example: example_value
+        website:
+          type: string
+          example: example_value
+        numberOfEmployees:
+          type: string
+          example: example_value
+        industry:
+          type: string
+          example: example_value
+      examples:
+      - attributes:
+          type: Account
+          referenceId: ref5
+        name: SampleChildAccount1
+        phone: '1234567890'
+        website: www.salesforce.com
+        numberOfEmployees: '100'
+        industry: Banking
+    SuccessfulSObjectTree:
+      title: SuccessfulSObjectTree
+      required:
+      - hasErrors
+      - results
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          example: true
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Result'
+          description: ''
+          example: []
+      examples:
+      - hasErrors: false
+        results:
+        - referenceId: ref1
+          id: 001...
+        - referenceId: ref4
+          id: 001...
+        - referenceId: ref2
+          id: 003..
+        - referenceId: ref3
+          id: 003...
+        - referenceId: ref5
+          id: 001...
+        - referenceId: ref6
+          id: 003...
+    Record2:
+      title: Record2
+      required:
+      - attributes
+      - name
+      - phone
+      - website
+      - numberOfEmployees
+      - industry
+      - Contacts
+      type: object
+      properties:
+        attributes:
+          $ref: '#/components/schemas/Attributes'
+        name:
+          type: string
+          example: Example Title
+        phone:
+          type: string
+          example: example_value
+        website:
+          type: string
+          example: example_value
+        numberOfEmployees:
+          type: string
+          example: example_value
+        industry:
+          type: string
+          example: example_value
+        Contacts:
+          $ref: '#/components/schemas/Contacts'
+        childAccounts:
+          $ref: '#/components/schemas/ChildAccounts'
+      examples:
+      - attributes:
+          type: Account
+          referenceId: ref1
+        name: SampleAccount1
+        phone: '1234567890'
+        website: www.salesforce.com
+        numberOfEmployees: '100'
+        industry: Banking
+        Contacts:
+          records:
+          - attributes:
+              type: Contact
+              referenceId: ref2
+            lastname: Smith
+            Title: President
+            email: sample@salesforce.com
+          - attributes:
+              type: Contact
+              referenceId: ref3
+            lastname: Evans
+            title: Vice President
+            email: sample@salesforce.com
+    Result:
+      title: Result
+      required:
+      - referenceId
+      - id
+      type: object
+      properties:
+        referenceId:
+          type: string
+          example: '500123'
+        id:
+          type: string
+          example: abc123
+      examples:
+      - referenceId: ref1
+        id: 001...
+    Attributes:
+      title: Attributes
+      required:
+      - type
+      - referenceId
+      type: object
+      properties:
+        type:
+          type: string
+          example: example_value
+        referenceId:
+          type: string
+          example: '500123'
+      examples:
+      - type: Account
+        referenceId: ref1
+    ChildAccounts:
+      title: ChildAccounts
+      required:
+      - records
+      type: object
+      properties:
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/Record4'
+          description: ''
+          example: []
+      examples:
+      - records:
+        - attributes:
+            type: Account
+            referenceId: ref5
+          name: SampleChildAccount1
+          phone: '1234567890'
+          website: www.salesforce.com
+          numberOfEmployees: '100'
+          industry: Banking
+    Contacts:
+      title: Contacts
+      required:
+      - records
+      type: object
+      properties:
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/Record3'
+          description: ''
+          example: []
+      examples:
+      - records:
+        - attributes:
+            type: Contact
+            referenceId: ref2
+          lastname: Smith
+          Title: President
+          email: sample@salesforce.com
+        - attributes:
+            type: Contact
+            referenceId: ref3
+          lastname: Evans
+          title: Vice President
+          email: sample@salesforce.com
+    SObjectTreeRequest:
+      title: SObjectTreeRequest
+      required:
+      - records
+      type: object
+      properties:
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/Record2'
+          description: ''
+          example: []
+      examples:
+      - records:
+        - attributes:
+            type: Account
+            referenceId: ref1
+          name: SampleAccount1
+          phone: '1234567890'
+          website: www.salesforce.com
+          numberOfEmployees: '100'
+          industry: Banking
+          Contacts:
+            records:
+            - attributes:
+                type: Contact
+                referenceId: ref2
+              lastname: Smith
+              Title: President
+              email: sample@salesforce.com
+            - attributes:
+                type: Contact
+                referenceId: ref3
+              lastname: Evans
+              title: Vice President
+              email: sample@salesforce.com
+        - attributes:
+            type: Account
+            referenceId: ref4
+          name: SampleAccount2
+          phone: '1234567890'
+          website: www.salesforce.com
+          numberOfEmployees: '52000'
+          industry: Banking
+          childAccounts:
+            records:
+            - attributes:
+                type: Account
+                referenceId: ref5
+              name: SampleChildAccount1
+              phone: '1234567890'
+              website: www.salesforce.com
+              numberOfEmployees: '100'
+              industry: Banking
+          Contacts:
+            records:
+            - attributes:
+                type: Contact
+                referenceId: ref6
+              lastname: Jones
+              title: President
+              email: sample@salesforce.com
+    Record3:
+      title: Record3
+      required:
+      - attributes
+      - lastname
+      - email
+      type: object
+      properties:
+        attributes:
+          $ref: '#/components/schemas/Attributes'
+        lastname:
+          type: string
+          example: example_value
+        Title:
+          type: string
+          example: Example Title
+        email:
+          type: string
+          example: user@example.com
+      examples:
+      - attributes:
+          type: Contact
+          referenceId: ref2
+        lastname: Smith
+        Title: President
+        email: sample@salesforce.com
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

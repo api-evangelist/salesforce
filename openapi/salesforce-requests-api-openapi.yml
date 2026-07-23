@@ -1,0 +1,265 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Requests API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Requests
+paths:
+  /data/v64.0/async/specifications/oas3:
+    parameters: []
+    post:
+      tags:
+      - Requests
+      summary: Salesforce Request Openapi Schema
+      description: Requests an Open API document for the selected SObject REST API resources.
+      operationId: RequestOpenAPISchema
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          text/plain:
+            schema:
+              type: string
+              examples:
+              - "{\n    \"resources\": [\n        YOUR_SOBJECT_SELECTORS\n    ]\n}"
+              contentMediaType: text/plain
+            example: "{\n    \"resources\": [\n        YOUR_SOBJECT_SELECTORS\n    ]\n}"
+        required: true
+      responses:
+        '202':
+          description: Accepted
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Mon, 26 Feb 2024 13:50:18 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Sforce-Limit-Info:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: api-usage=9/15000
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/GenerateOpenAPISchema'
+                - examples:
+                  - href: /v59.0/async/specifications/oas3/NTByNEgwMDAwMDAwMDAx
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                href: /v59.0/async/specifications/oas3/NTByNEgwMDAwMDAwMDAx
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/commerce/catalog-products/actions/get-products:
+    parameters: []
+    post:
+      tags:
+      - Requests
+      summary: Salesforce Request Product Information (no Bundles)
+      description: 'Request information for two products that aren''t bundles. For the first product, request only the information about the specified product selling model. For the second product, request information about all related product selling models.
+
+
+        See [Request Product Information](https://desktop.postman.com/?desktopVersion=10.13.6&webVersion=10.13.7-ui-230522-1730&userId=10709048&teamId=0).'
+      operationId: RequestProductInformation(NoBundles)
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/RequestProductInformationNoBundlesRequest'
+              - examples:
+                - productContexts:
+                  - product2Id: '{{ClassTrainingProduct}}'
+                    productSellingModelId: '{{OneTimePSM}}'
+                  - product2Id: '{{VirtualRouterProduct}}'
+                  fields:
+                  - id
+                  - name
+                  - IsActive
+                  - ProductCode
+                  retrievalType: ExcludeChildComponents
+              contentMediaType: application/json
+            example:
+              productContexts:
+              - product2Id: '{{ClassTrainingProduct}}'
+                productSellingModelId: '{{OneTimePSM}}'
+              - product2Id: '{{VirtualRouterProduct}}'
+              fields:
+              - id
+              - name
+              - IsActive
+              - ProductCode
+              retrievalType: ExcludeChildComponents
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    RequestProductInformationNoBundlesRequest:
+      title: RequestProductInformationNoBundlesRequest
+      required:
+      - productContexts
+      - fields
+      - retrievalType
+      type: object
+      properties:
+        productContexts:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductContext'
+          description: ''
+          example: []
+        fields:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        retrievalType:
+          type: string
+          example: example_value
+      examples:
+      - productContexts:
+        - product2Id: '{{ClassTrainingProduct}}'
+          productSellingModelId: '{{OneTimePSM}}'
+        - product2Id: '{{VirtualRouterProduct}}'
+        fields:
+        - id
+        - name
+        - IsActive
+        - ProductCode
+        retrievalType: ExcludeChildComponents
+    ProductContext:
+      title: ProductContext
+      required:
+      - product2Id
+      type: object
+      properties:
+        product2Id:
+          type: string
+          example: '500123'
+        productSellingModelId:
+          type: string
+          example: '500123'
+      examples:
+      - product2Id: '{{ClassTrainingProduct}}'
+        productSellingModelId: '{{OneTimePSM}}'
+    GenerateOpenAPISchema:
+      title: GenerateOpenAPISchema
+      required:
+      - href
+      type: object
+      properties:
+        href:
+          type: string
+          example: example_value
+      examples:
+      - href: /v59.0/async/specifications/oas3/NTByNEgwMDAwMDAwMDAx
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

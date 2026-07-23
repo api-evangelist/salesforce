@@ -1,0 +1,293 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Benefits API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Benefits
+paths:
+  /data/v64.0/connect/loyalty/member/{memberId}/memberbenefits:
+    parameters: []
+    get:
+      tags:
+      - Benefits
+      summary: Salesforce Member Benefits
+      description: 'Standard Documentation:
+
+
+        [https://developer.salesforce.com/docs/atlas.en-us.loyalty.meta/loyalty/connect_resources_member_benefits.htm](https://developer.salesforce.com/docs/atlas.en-us.loyalty.meta/loyalty/connect_resources_member_benefits.htm)'
+      operationId: MemberBenefits
+      parameters:
+      - name: memberId
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Wed, 22 May 2024 16:11:06 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/MemberBenefits'
+                - examples:
+                  - memberBenefits:
+                    - benefitId: 0jiJ80000008OIFIA2
+                      benefitName: Free Shipping
+                      benefitTypeId: 0jhJ80000008OI5IAM
+                      benefitTypeName: Shipping
+                      createdRecordId: null
+                      createdRecordName: null
+                      description: null
+                      endDate: null
+                      isActive: true
+                      memberBenefitStatus: null
+                      startDate: null
+                    - benefitId: 0jiJ80000008OI5IAM
+                      benefitName: 5% of Discount
+                      benefitTypeId: 0jhJ80000008OIAIA2
+                      benefitTypeName: Discount Percentage
+                      createdRecordId: null
+                      createdRecordName: null
+                      description: null
+                      endDate: null
+                      isActive: true
+                      memberBenefitStatus: null
+                      startDate: null
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                memberBenefits:
+                - benefitId: 0jiJ80000008OIFIA2
+                  benefitName: Free Shipping
+                  benefitTypeId: 0jhJ80000008OI5IAM
+                  benefitTypeName: Shipping
+                  createdRecordId: null
+                  createdRecordName: null
+                  description: null
+                  endDate: null
+                  isActive: true
+                  memberBenefitStatus: null
+                  startDate: null
+                - benefitId: 0jiJ80000008OI5IAM
+                  benefitName: 5% of Discount
+                  benefitTypeId: 0jhJ80000008OIAIA2
+                  benefitTypeName: Discount Percentage
+                  createdRecordId: null
+                  createdRecordName: null
+                  description: null
+                  endDate: null
+                  isActive: true
+                  memberBenefitStatus: null
+                  startDate: null
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    MemberBenefits:
+      title: MemberBenefits
+      required:
+      - memberBenefits
+      type: object
+      properties:
+        memberBenefits:
+          type: array
+          items:
+            $ref: '#/components/schemas/MemberBenefits1'
+          description: ''
+          example: []
+      examples:
+      - memberBenefits:
+        - benefitId: 0jiJ80000008OIFIA2
+          benefitName: Free Shipping
+          benefitTypeId: 0jhJ80000008OI5IAM
+          benefitTypeName: Shipping
+          createdRecordId: null
+          createdRecordName: null
+          description: null
+          endDate: null
+          isActive: true
+          memberBenefitStatus: null
+          startDate: null
+        - benefitId: 0jiJ80000008OI5IAM
+          benefitName: 5% of Discount
+          benefitTypeId: 0jhJ80000008OIAIA2
+          benefitTypeName: Discount Percentage
+          createdRecordId: null
+          createdRecordName: null
+          description: null
+          endDate: null
+          isActive: true
+          memberBenefitStatus: null
+          startDate: null
+    MemberBenefits1:
+      title: MemberBenefits1
+      required:
+      - benefitId
+      - benefitName
+      - benefitTypeId
+      - benefitTypeName
+      - createdRecordId
+      - createdRecordName
+      - description
+      - endDate
+      - isActive
+      - memberBenefitStatus
+      - startDate
+      type: object
+      properties:
+        benefitId:
+          type: string
+          example: '500123'
+        benefitName:
+          type: string
+          example: example_value
+        benefitTypeId:
+          type: string
+          example: '500123'
+        benefitTypeName:
+          type: string
+          example: example_value
+        createdRecordId:
+          type:
+          - string
+          - 'null'
+          example: '500123'
+        createdRecordName:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        description:
+          type:
+          - string
+          - 'null'
+          example: A sample description.
+        endDate:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        isActive:
+          type: boolean
+          example: true
+        memberBenefitStatus:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        startDate:
+          type:
+          - string
+          - 'null'
+          example: example_value
+      examples:
+      - benefitId: 0jiJ80000008OIFIA2
+        benefitName: Free Shipping
+        benefitTypeId: 0jhJ80000008OI5IAM
+        benefitTypeName: Shipping
+        createdRecordId: null
+        createdRecordName: null
+        description: null
+        endDate: null
+        isActive: true
+        memberBenefitStatus: null
+        startDate: null
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

@@ -1,0 +1,538 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Resources API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Resources
+paths:
+  /services/data/v64.0/apps/oauth/credentials//:
+    parameters: []
+    get:
+      tags:
+      - Resources
+      summary: Salesforce Resources
+      description: Returns credentials for a specific consumer. Use parameters to determine whether the request should return the key, the secret, or both key and secret. See [OAuth Credentials by Consumer ID](https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_credentials_by_app_and_consumer_id.htm).
+      operationId: Resources
+      parameters:
+      - name: part
+        in: query
+        description: Key, Secret, or KeyAndSecret
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          examples:
+          - Key
+        example: example_value
+      - name: Authorization
+        in: header
+        description: Replace <token> with your access token
+        required: true
+        schema:
+          type: string
+          examples:
+          - Bearer <token>
+        example: example_value
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+      servers:
+      - url: https://login.salesforce.com
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0:
+    parameters: []
+    get:
+      tags:
+      - Resources
+      summary: Salesforce Resources by Version
+      description: Lists available resources for the specified API version, including resource name and URI.
+      operationId: ResourcesbyVersion
+      parameters:
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        schema:
+          const: application/json
+          type: string
+          examples:
+          - application/json
+        example: example_value
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Tue, 26 Sep 2023 13:29:43 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Sforce-Limit-Info:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: api-usage=3/15000
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ResourcesbyVersion'
+                - examples:
+                  - tooling: /services/data/v58.0/tooling
+                    metadata: /services/data/v58.0/metadata
+                    eclair: /services/data/v58.0/eclair
+                    folders: /services/data/v58.0/folders
+                    prechatForms: /services/data/v58.0/prechatForms
+                    contact-tracing: /services/data/v58.0/contact-tracing
+                    jsonxform: /services/data/v58.0/jsonxform
+                    chatter: /services/data/v58.0/chatter
+                    payments: /services/data/v58.0/payments
+                    tabs: /services/data/v58.0/tabs
+                    appMenu: /services/data/v58.0/appMenu
+                    quickActions: /services/data/v58.0/quickActions
+                    queryAll: /services/data/v58.0/queryAll
+                    commerce: /services/data/v58.0/commerce
+                    wave: /services/data/v58.0/wave
+                    iot: /services/data/v58.0/iot
+                    analytics: /services/data/v58.0/analytics
+                    search: /services/data/v58.0/search
+                    smartdatadiscovery: /services/data/v58.0/smartdatadiscovery
+                    identity: https://login.salesforce.com/id/00DB0000000DFgjMAG/005B0000003TOI6IAO
+                    composite: /services/data/v58.0/composite
+                    parameterizedSearch: /services/data/v58.0/parameterizedSearch
+                    fingerprint: /services/data/v58.0/fingerprint
+                    theme: /services/data/v58.0/theme
+                    nouns: /services/data/v58.0/nouns
+                    domino: /services/data/v58.0/domino
+                    event: /services/data/v58.0/event
+                    serviceTemplates: /services/data/v58.0/serviceTemplates
+                    recent: /services/data/v58.0/recent
+                    connect: /services/data/v58.0/connect
+                    licensing: /services/data/v58.0/licensing
+                    limits: /services/data/v58.0/limits
+                    process: /services/data/v58.0/process
+                    dedupe: /services/data/v58.0/dedupe
+                    async-queries: /services/data/v58.0/async-queries
+                    query: /services/data/v58.0/query
+                    jobs: /services/data/v58.0/jobs
+                    match: /services/data/v58.0/match
+                    localizedvalue: /services/data/v58.0/localizedvalue
+                    mobile: /services/data/v58.0/mobile
+                    emailConnect: /services/data/v58.0/emailConnect
+                    consent: /services/data/v58.0/consent
+                    tokenizer: /services/data/v58.0/tokenizer
+                    compactLayouts: /services/data/v58.0/compactLayouts
+                    knowledgeManagement: /services/data/v58.0/knowledgeManagement
+                    sobjects: /services/data/v58.0/sobjects
+                    actions: /services/data/v58.0/actions
+                    support: /services/data/v58.0/support
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                tooling: /services/data/v58.0/tooling
+                metadata: /services/data/v58.0/metadata
+                eclair: /services/data/v58.0/eclair
+                folders: /services/data/v58.0/folders
+                prechatForms: /services/data/v58.0/prechatForms
+                contact-tracing: /services/data/v58.0/contact-tracing
+                jsonxform: /services/data/v58.0/jsonxform
+                chatter: /services/data/v58.0/chatter
+                payments: /services/data/v58.0/payments
+                tabs: /services/data/v58.0/tabs
+                appMenu: /services/data/v58.0/appMenu
+                quickActions: /services/data/v58.0/quickActions
+                queryAll: /services/data/v58.0/queryAll
+                commerce: /services/data/v58.0/commerce
+                wave: /services/data/v58.0/wave
+                iot: /services/data/v58.0/iot
+                analytics: /services/data/v58.0/analytics
+                search: /services/data/v58.0/search
+                smartdatadiscovery: /services/data/v58.0/smartdatadiscovery
+                identity: https://login.salesforce.com/id/00DB0000000DFgjMAG/005B0000003TOI6IAO
+                composite: /services/data/v58.0/composite
+                parameterizedSearch: /services/data/v58.0/parameterizedSearch
+                fingerprint: /services/data/v58.0/fingerprint
+                theme: /services/data/v58.0/theme
+                nouns: /services/data/v58.0/nouns
+                domino: /services/data/v58.0/domino
+                event: /services/data/v58.0/event
+                serviceTemplates: /services/data/v58.0/serviceTemplates
+                recent: /services/data/v58.0/recent
+                connect: /services/data/v58.0/connect
+                licensing: /services/data/v58.0/licensing
+                limits: /services/data/v58.0/limits
+                process: /services/data/v58.0/process
+                dedupe: /services/data/v58.0/dedupe
+                async-queries: /services/data/v58.0/async-queries
+                query: /services/data/v58.0/query
+                jobs: /services/data/v58.0/jobs
+                match: /services/data/v58.0/match
+                localizedvalue: /services/data/v58.0/localizedvalue
+                mobile: /services/data/v58.0/mobile
+                emailConnect: /services/data/v58.0/emailConnect
+                consent: /services/data/v58.0/consent
+                tokenizer: /services/data/v58.0/tokenizer
+                compactLayouts: /services/data/v58.0/compactLayouts
+                knowledgeManagement: /services/data/v58.0/knowledgeManagement
+                sobjects: /services/data/v58.0/sobjects
+                actions: /services/data/v58.0/actions
+                support: /services/data/v58.0/support
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    ResourcesbyVersion:
+      title: ResourcesbyVersion
+      required:
+      - tooling
+      - metadata
+      - eclair
+      - folders
+      - prechatForms
+      - contact-tracing
+      - jsonxform
+      - chatter
+      - payments
+      - tabs
+      - appMenu
+      - quickActions
+      - queryAll
+      - commerce
+      - wave
+      - iot
+      - analytics
+      - search
+      - smartdatadiscovery
+      - identity
+      - composite
+      - parameterizedSearch
+      - fingerprint
+      - theme
+      - nouns
+      - domino
+      - event
+      - serviceTemplates
+      - recent
+      - connect
+      - licensing
+      - limits
+      - process
+      - dedupe
+      - async-queries
+      - query
+      - jobs
+      - match
+      - localizedvalue
+      - mobile
+      - emailConnect
+      - consent
+      - tokenizer
+      - compactLayouts
+      - knowledgeManagement
+      - sobjects
+      - actions
+      - support
+      type: object
+      properties:
+        tooling:
+          type: string
+          example: example_value
+        metadata:
+          type: string
+          example: example_value
+        eclair:
+          type: string
+          example: example_value
+        folders:
+          type: string
+          example: example_value
+        prechatForms:
+          type: string
+          example: example_value
+        contact-tracing:
+          type: string
+          example: example_value
+        jsonxform:
+          type: string
+          example: example_value
+        chatter:
+          type: string
+          example: example_value
+        payments:
+          type: string
+          example: example_value
+        tabs:
+          type: string
+          example: example_value
+        appMenu:
+          type: string
+          example: example_value
+        quickActions:
+          type: string
+          example: example_value
+        queryAll:
+          type: string
+          example: example_value
+        commerce:
+          type: string
+          example: example_value
+        wave:
+          type: string
+          example: example_value
+        iot:
+          type: string
+          example: example_value
+        analytics:
+          type: string
+          example: example_value
+        search:
+          type: string
+          example: example_value
+        smartdatadiscovery:
+          type: string
+          example: example_value
+        identity:
+          type: string
+          example: example_value
+        composite:
+          type: string
+          example: example_value
+        parameterizedSearch:
+          type: string
+          example: example_value
+        fingerprint:
+          type: string
+          example: example_value
+        theme:
+          type: string
+          example: example_value
+        nouns:
+          type: string
+          example: example_value
+        domino:
+          type: string
+          example: example_value
+        event:
+          type: string
+          example: example_value
+        serviceTemplates:
+          type: string
+          example: example_value
+        recent:
+          type: string
+          example: example_value
+        connect:
+          type: string
+          example: example_value
+        licensing:
+          type: string
+          example: example_value
+        limits:
+          type: string
+          example: example_value
+        process:
+          type: string
+          example: example_value
+        dedupe:
+          type: string
+          example: example_value
+        async-queries:
+          type: string
+          example: example_value
+        query:
+          type: string
+          example: example_value
+        jobs:
+          type: string
+          example: example_value
+        match:
+          type: string
+          example: example_value
+        localizedvalue:
+          type: string
+          example: example_value
+        mobile:
+          type: string
+          example: example_value
+        emailConnect:
+          type: string
+          example: user@example.com
+        consent:
+          type: string
+          example: example_value
+        tokenizer:
+          type: string
+          example: CAUQAA
+        compactLayouts:
+          type: string
+          example: example_value
+        knowledgeManagement:
+          type: string
+          example: example_value
+        sobjects:
+          type: string
+          example: example_value
+        actions:
+          type: string
+          example: example_value
+        support:
+          type: string
+          example: example_value
+      examples:
+      - tooling: /services/data/v58.0/tooling
+        metadata: /services/data/v58.0/metadata
+        eclair: /services/data/v58.0/eclair
+        folders: /services/data/v58.0/folders
+        prechatForms: /services/data/v58.0/prechatForms
+        contact-tracing: /services/data/v58.0/contact-tracing
+        jsonxform: /services/data/v58.0/jsonxform
+        chatter: /services/data/v58.0/chatter
+        payments: /services/data/v58.0/payments
+        tabs: /services/data/v58.0/tabs
+        appMenu: /services/data/v58.0/appMenu
+        quickActions: /services/data/v58.0/quickActions
+        queryAll: /services/data/v58.0/queryAll
+        commerce: /services/data/v58.0/commerce
+        wave: /services/data/v58.0/wave
+        iot: /services/data/v58.0/iot
+        analytics: /services/data/v58.0/analytics
+        search: /services/data/v58.0/search
+        smartdatadiscovery: /services/data/v58.0/smartdatadiscovery
+        identity: https://login.salesforce.com/id/00DB0000000DFgjMAG/005B0000003TOI6IAO
+        composite: /services/data/v58.0/composite
+        parameterizedSearch: /services/data/v58.0/parameterizedSearch
+        fingerprint: /services/data/v58.0/fingerprint
+        theme: /services/data/v58.0/theme
+        nouns: /services/data/v58.0/nouns
+        domino: /services/data/v58.0/domino
+        event: /services/data/v58.0/event
+        serviceTemplates: /services/data/v58.0/serviceTemplates
+        recent: /services/data/v58.0/recent
+        connect: /services/data/v58.0/connect
+        licensing: /services/data/v58.0/licensing
+        limits: /services/data/v58.0/limits
+        process: /services/data/v58.0/process
+        dedupe: /services/data/v58.0/dedupe
+        async-queries: /services/data/v58.0/async-queries
+        query: /services/data/v58.0/query
+        jobs: /services/data/v58.0/jobs
+        match: /services/data/v58.0/match
+        localizedvalue: /services/data/v58.0/localizedvalue
+        mobile: /services/data/v58.0/mobile
+        emailConnect: /services/data/v58.0/emailConnect
+        consent: /services/data/v58.0/consent
+        tokenizer: /services/data/v58.0/tokenizer
+        compactLayouts: /services/data/v58.0/compactLayouts
+        knowledgeManagement: /services/data/v58.0/knowledgeManagement
+        sobjects: /services/data/v58.0/sobjects
+        actions: /services/data/v58.0/actions
+        support: /services/data/v58.0/support
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

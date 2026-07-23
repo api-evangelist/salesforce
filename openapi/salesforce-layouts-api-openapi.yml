@@ -1,0 +1,298 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Layouts API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Layouts
+paths:
+  /data/v64.0/sobjects/{SOBJECT_API_NAME}/describe/namedLayouts/{LAYOUT_NAME}:
+    parameters: []
+    get:
+      tags:
+      - Layouts
+      summary: Salesforce Sobject Named Layouts
+      description: Retrieves information about alternate named layouts for a given object.
+      operationId: SObjectNamedLayouts
+      parameters:
+      - name: SOBJECT_API_NAME
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: example_value
+      - name: LAYOUT_NAME
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: example_value
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        schema:
+          const: application/json
+          type: string
+          examples:
+          - application/json
+        example: example_value
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/sobjects/Global/describe/layouts:
+    parameters: []
+    get:
+      tags:
+      - Layouts
+      summary: Salesforce Describe Global Layouts
+      description: Returns a list of layouts and descriptions. The list of fields and the layout name are returned.
+      operationId: DescribeGlobalLayouts
+      parameters:
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        schema:
+          const: application/json
+          type: string
+          examples:
+          - application/json
+        example: example_value
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/sobjects/{SOBJECT_API_NAME}/describe/layouts:
+    parameters: []
+    get:
+      tags:
+      - Layouts
+      summary: Salesforce Describe Sobject Layouts
+      description: Returns a list of layouts and descriptions. The list of fields and the layout name are returned.
+      operationId: DescribeSObjectLayouts
+      parameters:
+      - name: SOBJECT_API_NAME
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: example_value
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        schema:
+          const: application/json
+          type: string
+          examples:
+          - application/json
+        example: example_value
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/sobjects/{SOBJECT_API_NAME}/describe/layouts/{RECORD_TYPE_ID}:
+    parameters: []
+    get:
+      tags:
+      - Layouts
+      summary: Salesforce Describe Sobject Layouts Per Record Type
+      description: Returns a list of layouts and descriptions. The list of fields and the layout name are returned.
+      operationId: DescribeSObjectLayoutsPerRecordType
+      parameters:
+      - name: SOBJECT_API_NAME
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: example_value
+      - name: RECORD_TYPE_ID
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        schema:
+          const: application/json
+          type: string
+          examples:
+          - application/json
+        example: example_value
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/compactLayouts:
+    parameters: []
+    get:
+      tags:
+      - Layouts
+      summary: Salesforce Compact Layouts
+      description: Returns a list of compact layouts for multiple objects. This resource is available in REST API version 31.0 and later.
+      operationId: CompactLayouts
+      parameters:
+      - name: q
+        in: query
+        description: object list
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          examples:
+          - Account,Contact
+        example: example_value
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        schema:
+          const: application/json
+          type: string
+          examples:
+          - application/json
+        example: example_value
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/search/layout:
+    parameters: []
+    get:
+      tags:
+      - Layouts
+      summary: Salesforce Search Result Layouts
+      description: 'Returns search result layout information for the objects in the query string. For each object, this call returns the list of fields displayed on the search results page as columns, the number of rows displayed on the first page, and the label used on the search results page.
+
+        This call supports bulk fetch for up to 100 objects in a query.
+
+
+        https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_search_layouts.htm'
+      operationId: SearchResultLayouts
+      parameters:
+      - name: q
+        in: query
+        description: Comma delimited object list
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+        example: example_value
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        schema:
+          const: application/json
+          type: string
+          examples:
+          - application/json
+        example: example_value
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

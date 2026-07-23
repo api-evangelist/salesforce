@@ -1,0 +1,1871 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Edit API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Edit
+paths:
+  /data/v64.0/chatter/comments/{COMMENT_ID}:
+    parameters: []
+    patch:
+      tags:
+      - Edit
+      summary: Salesforce Comment - Edit
+      description: 'Get information about, edit, or delete a comment.
+
+        To post a comment, use Feed Elements Capability, Comments Items.
+
+
+        https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_comments_specific.htm#connect_resources_comments_specific'
+      operationId: Comment-Edit
+      parameters:
+      - name: COMMENT_ID
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - 0D7...
+        example: '500123'
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/Comment-EditRequest'
+              - examples:
+                - body:
+                    messageSegments:
+                    - type: Text
+                      text: Editing a comment
+              contentMediaType: application/json
+            example:
+              body:
+                messageSegments:
+                - type: Text
+                  text: Editing a comment
+        required: true
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Wed, 22 Nov 2023 11:22:36 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessfulComment-Edit'
+                - examples:
+                  - body:
+                      isRichText: false
+                      messageSegments:
+                      - text: Editing a comment
+                        type: Text
+                      text: Editing a comment
+                    capabilities:
+                      edit:
+                        isEditRestricted: false
+                        isEditableByMeUrl: /services/data/v58.0/chatter/comments/0D7.../capabilities/edit/is-editable-by-me
+                        lastEditedBy:
+                          additionalLabel: null
+                          communityNickname: User1696423780773910041
+                          companyName: Salesforce
+                          displayName: Name
+                          firstName: Firstname
+                          id: 005...
+                          isActive: true
+                          isInThisCommunity: true
+                          lastName: Name
+                          motif:
+                            color: 1B96FF
+                            largeIconUrl: /img/icon/profile64.png
+                            mediumIconUrl: /img/icon/profile32.png
+                            smallIconUrl: /img/icon/profile16.png
+                            svgIconUrl: null
+                          mySubscription: null
+                          name: Name
+                          outOfOffice:
+                            message: ''
+                          photo:
+                            fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+                            largePhotoUrl: https://<my_domain>/profilephoto/7292o000000oAgZ/F
+                            mediumPhotoUrl: https://<my_domain>/profilephoto/7292o000000oAgZ/M
+                            photoVersionId: 729...
+                            smallPhotoUrl: https://<my_domain>/profilephoto/7292o000000oAgZ/T
+                            standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+                            url: /services/data/v58.0/connect/user-profiles/005.../photo
+                          reputation: null
+                          title: null
+                          type: User
+                          url: /services/data/v58.0/chatter/users/005...
+                          userType: Internal
+                        lastEditedDate: '2023-11-22T11:22:36.000Z'
+                        latestRevision: 2
+                        relativeLastEditedDate: Just now
+                      status:
+                        feedEntityStatus: Published
+                        isApprovableByMe: true
+                      upDownVote:
+                        downVoteCount: 0
+                        myVote: None
+                        upVoteCount: 0
+                      verified:
+                        isVerifiableByMe: false
+                        isVerified: false
+                        isVerifiedByAnonymized: null
+                        lastVerifiedByUser: null
+                        lastVerifiedDate: null
+                    clientInfo: null
+                    createdDate: '2023-11-22T11:19:50.000Z'
+                    feedElement:
+                      id: 0D5...
+                      url: /services/data/v58.0/chatter/feed-elements/0D5...
+                    id: 0D7...
+                    isDeleteRestricted: false
+                    likes:
+                      currentPageToken: null
+                      currentPageUrl: /services/data/v58.0/chatter/comments/0D7.../likes
+                      items: []
+                      nextPageToken: null
+                      nextPageUrl: null
+                      previousPageToken: null
+                      previousPageUrl: null
+                      total: 0
+                    likesMessage: null
+                    moderationFlags: null
+                    myLike: null
+                    parent:
+                      id: 005...
+                      url: /services/data/v58.0/chatter/users/005...
+                    relativeCreatedDate: 2m ago
+                    threadLevel: 0
+                    threadParentId: null
+                    type: TextComment
+                    url: /services/data/v58.0/chatter/comments/0D7...
+                    user:
+                      additionalLabel: null
+                      communityNickname: User1696423780773910041
+                      companyName: Salesforce
+                      displayName: Name
+                      firstName: Firstname
+                      id: 005...
+                      isActive: true
+                      isInThisCommunity: true
+                      lastName: Name
+                      motif:
+                        color: 1B96FF
+                        largeIconUrl: /img/icon/profile64.png
+                        mediumIconUrl: /img/icon/profile32.png
+                        smallIconUrl: /img/icon/profile16.png
+                        svgIconUrl: null
+                      mySubscription: null
+                      name: Name
+                      outOfOffice:
+                        message: ''
+                      photo:
+                        fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+                        largePhotoUrl: https://<my_domain>/profilephoto/7292o000000oAgZ/F
+                        mediumPhotoUrl: https://<my_domain>/profilephoto/7292o000000oAgZ/M
+                        photoVersionId: 729...
+                        smallPhotoUrl: https://<my_domain>/profilephoto/7292o000000oAgZ/T
+                        standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+                        url: /services/data/v58.0/connect/user-profiles/005.../photo
+                      reputation: null
+                      title: null
+                      type: User
+                      url: /services/data/v58.0/chatter/users/005...
+                      userType: Internal
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                body:
+                  isRichText: false
+                  messageSegments:
+                  - text: Editing a comment
+                    type: Text
+                  text: Editing a comment
+                capabilities:
+                  edit:
+                    isEditRestricted: false
+                    isEditableByMeUrl: /services/data/v58.0/chatter/comments/0D7.../capabilities/edit/is-editable-by-me
+                    lastEditedBy:
+                      additionalLabel: null
+                      communityNickname: User1696423780773910041
+                      companyName: Salesforce
+                      displayName: Name
+                      firstName: Firstname
+                      id: 005...
+                      isActive: true
+                      isInThisCommunity: true
+                      lastName: Name
+                      motif:
+                        color: 1B96FF
+                        largeIconUrl: /img/icon/profile64.png
+                        mediumIconUrl: /img/icon/profile32.png
+                        smallIconUrl: /img/icon/profile16.png
+                        svgIconUrl: null
+                      mySubscription: null
+                      name: Name
+                      outOfOffice:
+                        message: ''
+                      photo:
+                        fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+                        largePhotoUrl: https://<my_domain>/profilephoto/7292o000000oAgZ/F
+                        mediumPhotoUrl: https://<my_domain>/profilephoto/7292o000000oAgZ/M
+                        photoVersionId: 729...
+                        smallPhotoUrl: https://<my_domain>/profilephoto/7292o000000oAgZ/T
+                        standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+                        url: /services/data/v58.0/connect/user-profiles/005.../photo
+                      reputation: null
+                      title: null
+                      type: User
+                      url: /services/data/v58.0/chatter/users/005...
+                      userType: Internal
+                    lastEditedDate: '2023-11-22T11:22:36.000Z'
+                    latestRevision: 2
+                    relativeLastEditedDate: Just now
+                  status:
+                    feedEntityStatus: Published
+                    isApprovableByMe: true
+                  upDownVote:
+                    downVoteCount: 0
+                    myVote: None
+                    upVoteCount: 0
+                  verified:
+                    isVerifiableByMe: false
+                    isVerified: false
+                    isVerifiedByAnonymized: null
+                    lastVerifiedByUser: null
+                    lastVerifiedDate: null
+                clientInfo: null
+                createdDate: '2023-11-22T11:19:50.000Z'
+                feedElement:
+                  id: 0D5...
+                  url: /services/data/v58.0/chatter/feed-elements/0D5...
+                id: 0D7...
+                isDeleteRestricted: false
+                likes:
+                  currentPageToken: null
+                  currentPageUrl: /services/data/v58.0/chatter/comments/0D7.../likes
+                  items: []
+                  nextPageToken: null
+                  nextPageUrl: null
+                  previousPageToken: null
+                  previousPageUrl: null
+                  total: 0
+                likesMessage: null
+                moderationFlags: null
+                myLike: null
+                parent:
+                  id: 005...
+                  url: /services/data/v58.0/chatter/users/005...
+                relativeCreatedDate: 2m ago
+                threadLevel: 0
+                threadParentId: null
+                type: TextComment
+                url: /services/data/v58.0/chatter/comments/0D7...
+                user:
+                  additionalLabel: null
+                  communityNickname: User1696423780773910041
+                  companyName: Salesforce
+                  displayName: Name
+                  firstName: Firstname
+                  id: 005...
+                  isActive: true
+                  isInThisCommunity: true
+                  lastName: Name
+                  motif:
+                    color: 1B96FF
+                    largeIconUrl: /img/icon/profile64.png
+                    mediumIconUrl: /img/icon/profile32.png
+                    smallIconUrl: /img/icon/profile16.png
+                    svgIconUrl: null
+                  mySubscription: null
+                  name: Name
+                  outOfOffice:
+                    message: ''
+                  photo:
+                    fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+                    largePhotoUrl: https://<my_domain>/profilephoto/7292o000000oAgZ/F
+                    mediumPhotoUrl: https://<my_domain>/profilephoto/7292o000000oAgZ/M
+                    photoVersionId: 729...
+                    smallPhotoUrl: https://<my_domain>/profilephoto/7292o000000oAgZ/T
+                    standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+                    url: /services/data/v58.0/connect/user-profiles/005.../photo
+                  reputation: null
+                  title: null
+                  type: User
+                  url: /services/data/v58.0/chatter/users/005...
+                  userType: Internal
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/ui-api/actions/record/{RECORD_ID}/record-edit:
+    parameters: []
+    get:
+      tags:
+      - Edit
+      summary: Salesforce Get Record Edit Page Actions
+      description: Get the actions on record detail pages.
+      operationId: GetRecordEditPageActions
+      parameters:
+      - name: RECORD_ID
+        in: path
+        description: Record ID
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Fri, 06 Oct 2023 10:17:45 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            ETag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: '"550367168889732c414e90f1a22d15af--gzip"'
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/GetRecordEditPageActions'
+                - examples:
+                  - actions:
+                      0014H00002LbR7QQAV:
+                        actions:
+                        - actionListContext: RecordEdit
+                          actionTarget: null
+                          actionTargetType: Invoke
+                          apiName: SaveEdit
+                          externalId: 00D58000000arpq:0014H00002LbR7QQAV::RecordEdit:Desktop:StandardButton:SaveEdit
+                          iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/action/new_custom19_120.png
+                          id: 0JV4H0000350887WAA
+                          isMassAction: 'false'
+                          label: Save
+                          lwcComponent: null
+                          primaryColor: null
+                          relatedListRecordId: null
+                          relatedSourceObject: null
+                          section: Page
+                          sourceObject: 0014H00002LbR7QQAV
+                          subtype: LightningWebComponent_Action
+                          targetObject: Account
+                          targetUrl: null
+                          type: StandardButton
+                        - actionListContext: RecordEdit
+                          actionTarget: null
+                          actionTargetType: Invoke
+                          apiName: SaveAndNew
+                          externalId: 00D58000000arpq:0014H00002LbR7QQAV::RecordEdit:Desktop:StandardButton:SaveAndNew
+                          iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/action/new_custom19_120.png
+                          id: 0JV4H0000350888WAA
+                          isMassAction: 'false'
+                          label: Save &amp; New
+                          lwcComponent: null
+                          primaryColor: null
+                          relatedListRecordId: null
+                          relatedSourceObject: null
+                          section: Page
+                          sourceObject: 0014H00002LbR7QQAV
+                          subtype: LightningWebComponent_Action
+                          targetObject: Account
+                          targetUrl: null
+                          type: StandardButton
+                        - actionListContext: RecordEdit
+                          actionTarget: null
+                          actionTargetType: Invoke
+                          apiName: CancelEdit
+                          externalId: 00D58000000arpq:0014H00002LbR7QQAV::RecordEdit:Desktop:StandardButton:CancelEdit
+                          iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/action/new_custom19_120.png
+                          id: 0JV4H0000350889WAA
+                          isMassAction: 'false'
+                          label: Cancel
+                          lwcComponent: null
+                          primaryColor: null
+                          relatedListRecordId: null
+                          relatedSourceObject: null
+                          section: Page
+                          sourceObject: 0014H00002LbR7QQAV
+                          subtype: LightningWebComponent_Action
+                          targetObject: Account
+                          targetUrl: null
+                          type: StandardButton
+                        links: []
+                        url: /services/data/v58.0/ui-api/actions/record/0014H00002LbR7QQAV/record-edit
+                    eTag: 550367168889732c414e90f1a22d15af
+                    url: /services/data/v58.0/ui-api/actions/record/0014H00002LbR7QQAV/record-edit
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                actions:
+                  0014H00002LbR7QQAV:
+                    actions:
+                    - actionListContext: RecordEdit
+                      actionTarget: null
+                      actionTargetType: Invoke
+                      apiName: SaveEdit
+                      externalId: 00D58000000arpq:0014H00002LbR7QQAV::RecordEdit:Desktop:StandardButton:SaveEdit
+                      iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/action/new_custom19_120.png
+                      id: 0JV4H0000350887WAA
+                      isMassAction: 'false'
+                      label: Save
+                      lwcComponent: null
+                      primaryColor: null
+                      relatedListRecordId: null
+                      relatedSourceObject: null
+                      section: Page
+                      sourceObject: 0014H00002LbR7QQAV
+                      subtype: LightningWebComponent_Action
+                      targetObject: Account
+                      targetUrl: null
+                      type: StandardButton
+                    - actionListContext: RecordEdit
+                      actionTarget: null
+                      actionTargetType: Invoke
+                      apiName: SaveAndNew
+                      externalId: 00D58000000arpq:0014H00002LbR7QQAV::RecordEdit:Desktop:StandardButton:SaveAndNew
+                      iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/action/new_custom19_120.png
+                      id: 0JV4H0000350888WAA
+                      isMassAction: 'false'
+                      label: Save &amp; New
+                      lwcComponent: null
+                      primaryColor: null
+                      relatedListRecordId: null
+                      relatedSourceObject: null
+                      section: Page
+                      sourceObject: 0014H00002LbR7QQAV
+                      subtype: LightningWebComponent_Action
+                      targetObject: Account
+                      targetUrl: null
+                      type: StandardButton
+                    - actionListContext: RecordEdit
+                      actionTarget: null
+                      actionTargetType: Invoke
+                      apiName: CancelEdit
+                      externalId: 00D58000000arpq:0014H00002LbR7QQAV::RecordEdit:Desktop:StandardButton:CancelEdit
+                      iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/action/new_custom19_120.png
+                      id: 0JV4H0000350889WAA
+                      isMassAction: 'false'
+                      label: Cancel
+                      lwcComponent: null
+                      primaryColor: null
+                      relatedListRecordId: null
+                      relatedSourceObject: null
+                      section: Page
+                      sourceObject: 0014H00002LbR7QQAV
+                      subtype: LightningWebComponent_Action
+                      targetObject: Account
+                      targetUrl: null
+                      type: StandardButton
+                    links: []
+                    url: /services/data/v58.0/ui-api/actions/record/0014H00002LbR7QQAV/record-edit
+                eTag: 550367168889732c414e90f1a22d15af
+                url: /services/data/v58.0/ui-api/actions/record/0014H00002LbR7QQAV/record-edit
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Capabilities8:
+      title: Capabilities8
+      required:
+      - edit
+      - status
+      - upDownVote
+      - verified
+      type: object
+      properties:
+        edit:
+          $ref: '#/components/schemas/Edit6'
+        status:
+          $ref: '#/components/schemas/Status1'
+        upDownVote:
+          $ref: '#/components/schemas/UpDownVote'
+        verified:
+          $ref: '#/components/schemas/Verified'
+      examples:
+      - edit:
+          isEditRestricted: false
+          isEditableByMeUrl: /services/data/v58.0/chatter/comments/0D7.../capabilities/edit/is-editable-by-me
+          lastEditedBy:
+            additionalLabel: null
+            communityNickname: User1696423780773910041
+            companyName: Salesforce
+            displayName: Name
+            firstName: Firstname
+            id: 005...
+            isActive: true
+            isInThisCommunity: true
+            lastName: Name
+            motif:
+              color: 1B96FF
+              largeIconUrl: /img/icon/profile64.png
+              mediumIconUrl: /img/icon/profile32.png
+              smallIconUrl: /img/icon/profile16.png
+              svgIconUrl: null
+            mySubscription: null
+            name: Name
+            outOfOffice:
+              message: ''
+            photo:
+              fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+              largePhotoUrl: https://<my_domain>/profilephoto/7292o000000oAgZ/F
+              mediumPhotoUrl: https://<my_domain>/profilephoto/7292o000000oAgZ/M
+              photoVersionId: 729...
+              smallPhotoUrl: https://<my_domain>/profilephoto/7292o000000oAgZ/T
+              standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+              url: /services/data/v58.0/connect/user-profiles/005.../photo
+            reputation: null
+            title: null
+            type: User
+            url: /services/data/v58.0/chatter/users/005...
+            userType: Internal
+          lastEditedDate: '2023-11-22T11:22:36.000Z'
+          latestRevision: 2
+          relativeLastEditedDate: Just now
+        status:
+          feedEntityStatus: Published
+          isApprovableByMe: true
+        upDownVote:
+          downVoteCount: 0
+          myVote: None
+          upVoteCount: 0
+        verified:
+          isVerifiableByMe: false
+          isVerified: false
+          isVerifiedByAnonymized: null
+          lastVerifiedByUser: null
+          lastVerifiedDate: null
+    Actions5:
+      title: Actions5
+      required:
+      - 0014H00002LbR7QQAV
+      type: object
+      properties:
+        0014H00002LbR7QQAV:
+          $ref: '#/components/schemas/0014H00002LbR7QQAV1'
+      examples:
+      - 0014H00002LbR7QQAV:
+          actions:
+          - actionListContext: RecordEdit
+            actionTarget: null
+            actionTargetType: Invoke
+            apiName: SaveEdit
+            externalId: 00D58000000arpq:0014H00002LbR7QQAV::RecordEdit:Desktop:StandardButton:SaveEdit
+            iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/action/new_custom19_120.png
+            id: 0JV4H0000350887WAA
+            isMassAction: 'false'
+            label: Save
+            lwcComponent: null
+            primaryColor: null
+            relatedListRecordId: null
+            relatedSourceObject: null
+            section: Page
+            sourceObject: 0014H00002LbR7QQAV
+            subtype: LightningWebComponent_Action
+            targetObject: Account
+            targetUrl: null
+            type: StandardButton
+          - actionListContext: RecordEdit
+            actionTarget: null
+            actionTargetType: Invoke
+            apiName: SaveAndNew
+            externalId: 00D58000000arpq:0014H00002LbR7QQAV::RecordEdit:Desktop:StandardButton:SaveAndNew
+            iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/action/new_custom19_120.png
+            id: 0JV4H0000350888WAA
+            isMassAction: 'false'
+            label: Save &amp; New
+            lwcComponent: null
+            primaryColor: null
+            relatedListRecordId: null
+            relatedSourceObject: null
+            section: Page
+            sourceObject: 0014H00002LbR7QQAV
+            subtype: LightningWebComponent_Action
+            targetObject: Account
+            targetUrl: null
+            type: StandardButton
+          - actionListContext: RecordEdit
+            actionTarget: null
+            actionTargetType: Invoke
+            apiName: CancelEdit
+            externalId: 00D58000000arpq:0014H00002LbR7QQAV::RecordEdit:Desktop:StandardButton:CancelEdit
+            iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/action/new_custom19_120.png
+            id: 0JV4H0000350889WAA
+            isMassAction: 'false'
+            label: Cancel
+            lwcComponent: null
+            primaryColor: null
+            relatedListRecordId: null
+            relatedSourceObject: null
+            section: Page
+            sourceObject: 0014H00002LbR7QQAV
+            subtype: LightningWebComponent_Action
+            targetObject: Account
+            targetUrl: null
+            type: StandardButton
+          links: []
+          url: /services/data/v58.0/ui-api/actions/record/0014H00002LbR7QQAV/record-edit
+    Likes:
+      title: Likes
+      required:
+      - currentPageToken
+      - currentPageUrl
+      - items
+      - nextPageToken
+      - nextPageUrl
+      - previousPageToken
+      - previousPageUrl
+      - total
+      type: object
+      properties:
+        currentPageToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        currentPageUrl:
+          type: string
+          example: https://www.example.com
+        items:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        nextPageToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        nextPageUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        previousPageToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        previousPageUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        total:
+          type: integer
+          contentEncoding: int32
+          example: 42
+      examples:
+      - currentPageToken: null
+        currentPageUrl: /services/data/v58.0/chatter/comments/0D7.../likes
+        items: []
+        nextPageToken: null
+        nextPageUrl: null
+        previousPageToken: null
+        previousPageUrl: null
+        total: 0
+    UpDownVote:
+      title: UpDownVote
+      required:
+      - downVoteCount
+      - myVote
+      - upVoteCount
+      type: object
+      properties:
+        downVoteCount:
+          type: integer
+          contentEncoding: int32
+          example: 42
+        myVote:
+          type: string
+          example: example_value
+        upVoteCount:
+          type: integer
+          contentEncoding: int32
+          example: 42
+      examples:
+      - downVoteCount: 0
+        myVote: None
+        upVoteCount: 0
+    Photo:
+      title: Photo
+      required:
+      - fullEmailPhotoUrl
+      - largePhotoUrl
+      - mediumPhotoUrl
+      - photoVersionId
+      - smallPhotoUrl
+      - standardEmailPhotoUrl
+      - url
+      type: object
+      properties:
+        fullEmailPhotoUrl:
+          type: string
+          example: user@example.com
+        largePhotoUrl:
+          type: string
+          example: https://www.example.com
+        mediumPhotoUrl:
+          type: string
+          example: https://www.example.com
+        photoVersionId:
+          type: string
+          example: '500123'
+        smallPhotoUrl:
+          type: string
+          example: https://www.example.com
+        standardEmailPhotoUrl:
+          type: string
+          example: user@example.com
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+        largePhotoUrl: https://<my_domain>/profilephoto/729.../F
+        mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
+        photoVersionId: 729...
+        smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
+        standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+        url: /services/data/v58.0/connect/user-profiles/005.../photo
+    Body12:
+      title: Body12
+      required:
+      - messageSegments
+      type: object
+      properties:
+        messageSegments:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageSegment'
+          description: ''
+          example: []
+      examples:
+      - messageSegments:
+        - type: Text
+          text: Editing a comment
+    Parent4:
+      title: Parent4
+      required:
+      - id
+      - url
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - id: 001...
+        url: /services/data/v58.0/chatter/records/001...
+    LastEditedBy:
+      title: LastEditedBy
+      required:
+      - additionalLabel
+      - communityNickname
+      - companyName
+      - displayName
+      - firstName
+      - id
+      - isActive
+      - isInThisCommunity
+      - lastName
+      - motif
+      - mySubscription
+      - name
+      - outOfOffice
+      - photo
+      - reputation
+      - title
+      - type
+      - url
+      - userType
+      type: object
+      properties:
+        additionalLabel:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        communityNickname:
+          type: string
+          example: example_value
+        companyName:
+          type: string
+          example: example_value
+        displayName:
+          type: string
+          example: example_value
+        firstName:
+          type: string
+          example: example_value
+        id:
+          type: string
+          example: abc123
+        isActive:
+          type: boolean
+          example: true
+        isInThisCommunity:
+          type: boolean
+          example: true
+        lastName:
+          type: string
+          example: example_value
+        motif:
+          $ref: '#/components/schemas/Motif'
+        mySubscription:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        name:
+          type: string
+          example: Example Title
+        outOfOffice:
+          $ref: '#/components/schemas/OutOfOffice'
+        photo:
+          $ref: '#/components/schemas/Photo'
+        reputation:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        title:
+          type:
+          - string
+          - 'null'
+          example: Example Title
+        type:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+        userType:
+          type: string
+          example: example_value
+      examples:
+      - additionalLabel: null
+        communityNickname: User1696423780773910041
+        companyName: Salesforce
+        displayName: Name
+        firstName: Firstname
+        id: 005...
+        isActive: true
+        isInThisCommunity: true
+        lastName: Name
+        motif:
+          color: 1B96FF
+          largeIconUrl: /img/icon/profile64.png
+          mediumIconUrl: /img/icon/profile32.png
+          smallIconUrl: /img/icon/profile16.png
+          svgIconUrl: null
+        mySubscription: null
+        name: Name
+        outOfOffice:
+          message: ''
+        photo:
+          fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+          largePhotoUrl: https://<my_domain>/profilephoto/7292o000000oAgZ/F
+          mediumPhotoUrl: https://<my_domain>/profilephoto/7292o000000oAgZ/M
+          photoVersionId: 729...
+          smallPhotoUrl: https://<my_domain>/profilephoto/7292o000000oAgZ/T
+          standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+          url: /services/data/v58.0/connect/user-profiles/005.../photo
+        reputation: null
+        title: null
+        type: User
+        url: /services/data/v58.0/chatter/users/005...
+        userType: Internal
+    Verified:
+      title: Verified
+      required:
+      - isVerifiableByMe
+      - isVerified
+      - isVerifiedByAnonymized
+      - lastVerifiedByUser
+      - lastVerifiedDate
+      type: object
+      properties:
+        isVerifiableByMe:
+          type: boolean
+          example: true
+        isVerified:
+          type: boolean
+          example: true
+        isVerifiedByAnonymized:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        lastVerifiedByUser:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        lastVerifiedDate:
+          type:
+          - string
+          - 'null'
+          example: example_value
+      examples:
+      - isVerifiableByMe: false
+        isVerified: false
+        isVerifiedByAnonymized: null
+        lastVerifiedByUser: null
+        lastVerifiedDate: null
+    Body4:
+      title: Body4
+      required:
+      - isRichText
+      - messageSegments
+      - text
+      type: object
+      properties:
+        isRichText:
+          type: boolean
+          example: true
+        messageSegments:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageSegment'
+          description: ''
+          example: []
+        text:
+          type: string
+          example: example_value
+      examples:
+      - isRichText: false
+        messageSegments:
+        - text: New Feed Item
+          type: Text
+        text: New Feed Item
+    Comment-EditRequest:
+      title: Comment-EditRequest
+      required:
+      - body
+      type: object
+      properties:
+        body:
+          $ref: '#/components/schemas/Body12'
+      examples:
+      - body:
+          messageSegments:
+          - type: Text
+            text: Editing a comment
+    0014H00002LbR7QQAV1:
+      title: 0014H00002LbR7QQAV1
+      required:
+      - actions
+      - links
+      - url
+      type: object
+      properties:
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Actions6'
+          description: ''
+          example: []
+        links:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - actions:
+        - actionListContext: RecordEdit
+          actionTarget: null
+          actionTargetType: Invoke
+          apiName: SaveEdit
+          externalId: 00D58000000arpq:0014H00002LbR7QQAV::RecordEdit:Desktop:StandardButton:SaveEdit
+          iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/action/new_custom19_120.png
+          id: 0JV4H0000350887WAA
+          isMassAction: 'false'
+          label: Save
+          lwcComponent: null
+          primaryColor: null
+          relatedListRecordId: null
+          relatedSourceObject: null
+          section: Page
+          sourceObject: 0014H00002LbR7QQAV
+          subtype: LightningWebComponent_Action
+          targetObject: Account
+          targetUrl: null
+          type: StandardButton
+        - actionListContext: RecordEdit
+          actionTarget: null
+          actionTargetType: Invoke
+          apiName: SaveAndNew
+          externalId: 00D58000000arpq:0014H00002LbR7QQAV::RecordEdit:Desktop:StandardButton:SaveAndNew
+          iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/action/new_custom19_120.png
+          id: 0JV4H0000350888WAA
+          isMassAction: 'false'
+          label: Save &amp; New
+          lwcComponent: null
+          primaryColor: null
+          relatedListRecordId: null
+          relatedSourceObject: null
+          section: Page
+          sourceObject: 0014H00002LbR7QQAV
+          subtype: LightningWebComponent_Action
+          targetObject: Account
+          targetUrl: null
+          type: StandardButton
+        - actionListContext: RecordEdit
+          actionTarget: null
+          actionTargetType: Invoke
+          apiName: CancelEdit
+          externalId: 00D58000000arpq:0014H00002LbR7QQAV::RecordEdit:Desktop:StandardButton:CancelEdit
+          iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/action/new_custom19_120.png
+          id: 0JV4H0000350889WAA
+          isMassAction: 'false'
+          label: Cancel
+          lwcComponent: null
+          primaryColor: null
+          relatedListRecordId: null
+          relatedSourceObject: null
+          section: Page
+          sourceObject: 0014H00002LbR7QQAV
+          subtype: LightningWebComponent_Action
+          targetObject: Account
+          targetUrl: null
+          type: StandardButton
+        links: []
+        url: /services/data/v58.0/ui-api/actions/record/0014H00002LbR7QQAV/record-edit
+    FeedElement:
+      title: FeedElement
+      required:
+      - id
+      - url
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - id: 0D5...
+        url: /services/data/v58.0/chatter/feed-elements/0D5...
+    OutOfOffice:
+      title: OutOfOffice
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+          example: example_value
+      examples:
+      - message: ''
+    Actions6:
+      title: Actions6
+      required:
+      - actionListContext
+      - actionTarget
+      - actionTargetType
+      - apiName
+      - externalId
+      - iconUrl
+      - id
+      - isMassAction
+      - label
+      - lwcComponent
+      - primaryColor
+      - relatedListRecordId
+      - relatedSourceObject
+      - section
+      - sourceObject
+      - subtype
+      - targetObject
+      - targetUrl
+      - type
+      type: object
+      properties:
+        actionListContext:
+          type: string
+          example: example_value
+        actionTarget:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        actionTargetType:
+          type: string
+          example: example_value
+        apiName:
+          type: string
+          example: example_value
+        externalId:
+          type: string
+          example: '500123'
+        iconUrl:
+          type: string
+          example: https://www.example.com
+        id:
+          type: string
+          example: abc123
+        isMassAction:
+          type: string
+          example: example_value
+        label:
+          type: string
+          example: Example Title
+        lwcComponent:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        primaryColor:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        relatedListRecordId:
+          type:
+          - string
+          - 'null'
+          example: '500123'
+        relatedSourceObject:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        section:
+          type: string
+          example: example_value
+        sourceObject:
+          type: string
+          example: example_value
+        subtype:
+          type: string
+          example: example_value
+        targetObject:
+          type: string
+          example: example_value
+        targetUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        type:
+          type: string
+          example: example_value
+      examples:
+      - actionListContext: RecordEdit
+        actionTarget: null
+        actionTargetType: Invoke
+        apiName: SaveEdit
+        externalId: 00D58000000arpq:0014H00002LbR7QQAV::RecordEdit:Desktop:StandardButton:SaveEdit
+        iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/action/new_custom19_120.png
+        id: 0JV4H0000350887WAA
+        isMassAction: 'false'
+        label: Save
+        lwcComponent: null
+        primaryColor: null
+        relatedListRecordId: null
+        relatedSourceObject: null
+        section: Page
+        sourceObject: 0014H00002LbR7QQAV
+        subtype: LightningWebComponent_Action
+        targetObject: Account
+        targetUrl: null
+        type: StandardButton
+    SuccessfulComment-Edit:
+      title: SuccessfulComment-Edit
+      required:
+      - body
+      - capabilities
+      - clientInfo
+      - createdDate
+      - feedElement
+      - id
+      - isDeleteRestricted
+      - likes
+      - likesMessage
+      - moderationFlags
+      - myLike
+      - parent
+      - relativeCreatedDate
+      - threadLevel
+      - threadParentId
+      - type
+      - url
+      - user
+      type: object
+      properties:
+        body:
+          $ref: '#/components/schemas/Body4'
+        capabilities:
+          $ref: '#/components/schemas/Capabilities8'
+        clientInfo:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        createdDate:
+          type: string
+          example: example_value
+        feedElement:
+          $ref: '#/components/schemas/FeedElement'
+        id:
+          type: string
+          example: abc123
+        isDeleteRestricted:
+          type: boolean
+          example: true
+        likes:
+          $ref: '#/components/schemas/Likes'
+        likesMessage:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        moderationFlags:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        myLike:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        parent:
+          $ref: '#/components/schemas/Parent4'
+        relativeCreatedDate:
+          type: string
+          example: example_value
+        threadLevel:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        threadParentId:
+          type:
+          - string
+          - 'null'
+          example: '500123'
+        type:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+        user:
+          $ref: '#/components/schemas/User'
+      examples:
+      - body:
+          isRichText: false
+          messageSegments:
+          - text: Editing a comment
+            type: Text
+          text: Editing a comment
+        capabilities:
+          edit:
+            isEditRestricted: false
+            isEditableByMeUrl: /services/data/v58.0/chatter/comments/0D7.../capabilities/edit/is-editable-by-me
+            lastEditedBy:
+              additionalLabel: null
+              communityNickname: User1696423780773910041
+              companyName: Salesforce
+              displayName: Name
+              firstName: Firstname
+              id: 005...
+              isActive: true
+              isInThisCommunity: true
+              lastName: Name
+              motif:
+                color: 1B96FF
+                largeIconUrl: /img/icon/profile64.png
+                mediumIconUrl: /img/icon/profile32.png
+                smallIconUrl: /img/icon/profile16.png
+                svgIconUrl: null
+              mySubscription: null
+              name: Name
+              outOfOffice:
+                message: ''
+              photo:
+                fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+                largePhotoUrl: https://<my_domain>/profilephoto/7292o000000oAgZ/F
+                mediumPhotoUrl: https://<my_domain>/profilephoto/7292o000000oAgZ/M
+                photoVersionId: 729...
+                smallPhotoUrl: https://<my_domain>/profilephoto/7292o000000oAgZ/T
+                standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+                url: /services/data/v58.0/connect/user-profiles/005.../photo
+              reputation: null
+              title: null
+              type: User
+              url: /services/data/v58.0/chatter/users/005...
+              userType: Internal
+            lastEditedDate: '2023-11-22T11:22:36.000Z'
+            latestRevision: 2
+            relativeLastEditedDate: Just now
+          status:
+            feedEntityStatus: Published
+            isApprovableByMe: true
+          upDownVote:
+            downVoteCount: 0
+            myVote: None
+            upVoteCount: 0
+          verified:
+            isVerifiableByMe: false
+            isVerified: false
+            isVerifiedByAnonymized: null
+            lastVerifiedByUser: null
+            lastVerifiedDate: null
+        clientInfo: null
+        createdDate: '2023-11-22T11:19:50.000Z'
+        feedElement:
+          id: 0D5...
+          url: /services/data/v58.0/chatter/feed-elements/0D5...
+        id: 0D7...
+        isDeleteRestricted: false
+        likes:
+          currentPageToken: null
+          currentPageUrl: /services/data/v58.0/chatter/comments/0D7.../likes
+          items: []
+          nextPageToken: null
+          nextPageUrl: null
+          previousPageToken: null
+          previousPageUrl: null
+          total: 0
+        likesMessage: null
+        moderationFlags: null
+        myLike: null
+        parent:
+          id: 005...
+          url: /services/data/v58.0/chatter/users/005...
+        relativeCreatedDate: 2m ago
+        threadLevel: 0
+        threadParentId: null
+        type: TextComment
+        url: /services/data/v58.0/chatter/comments/0D7...
+        user:
+          additionalLabel: null
+          communityNickname: User1696423780773910041
+          companyName: Salesforce
+          displayName: Name
+          firstName: Firstname
+          id: 005...
+          isActive: true
+          isInThisCommunity: true
+          lastName: Name
+          motif:
+            color: 1B96FF
+            largeIconUrl: /img/icon/profile64.png
+            mediumIconUrl: /img/icon/profile32.png
+            smallIconUrl: /img/icon/profile16.png
+            svgIconUrl: null
+          mySubscription: null
+          name: Name
+          outOfOffice:
+            message: ''
+          photo:
+            fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+            largePhotoUrl: https://<my_domain>/profilephoto/7292o000000oAgZ/F
+            mediumPhotoUrl: https://<my_domain>/profilephoto/7292o000000oAgZ/M
+            photoVersionId: 729...
+            smallPhotoUrl: https://<my_domain>/profilephoto/7292o000000oAgZ/T
+            standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+            url: /services/data/v58.0/connect/user-profiles/005.../photo
+          reputation: null
+          title: null
+          type: User
+          url: /services/data/v58.0/chatter/users/005...
+          userType: Internal
+    User:
+      title: User
+      required:
+      - additionalLabel
+      - communityNickname
+      - companyName
+      - displayName
+      - firstName
+      - id
+      - isActive
+      - isInThisCommunity
+      - lastName
+      - motif
+      - mySubscription
+      - name
+      - outOfOffice
+      - photo
+      - reputation
+      - title
+      - type
+      - url
+      - userType
+      type: object
+      properties:
+        additionalLabel:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        communityNickname:
+          type: string
+          example: example_value
+        companyName:
+          type: string
+          example: example_value
+        displayName:
+          type: string
+          example: example_value
+        firstName:
+          type: string
+          example: example_value
+        id:
+          type: string
+          example: abc123
+        isActive:
+          type: boolean
+          example: true
+        isInThisCommunity:
+          type: boolean
+          example: true
+        lastName:
+          type: string
+          example: example_value
+        motif:
+          $ref: '#/components/schemas/Motif'
+        mySubscription:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        name:
+          type: string
+          example: Example Title
+        outOfOffice:
+          $ref: '#/components/schemas/OutOfOffice'
+        photo:
+          $ref: '#/components/schemas/Photo'
+        reputation:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        title:
+          type:
+          - string
+          - 'null'
+          example: Example Title
+        type:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+        userType:
+          type: string
+          example: example_value
+      examples:
+      - additionalLabel: null
+        communityNickname: User1696423780773910041
+        companyName: Salesforce
+        displayName: Name
+        firstName: Firstname
+        id: 005...
+        isActive: true
+        isInThisCommunity: true
+        lastName: Name
+        motif:
+          color: 1B96FF
+          largeIconUrl: /img/icon/profile64.png
+          mediumIconUrl: /img/icon/profile32.png
+          smallIconUrl: /img/icon/profile16.png
+          svgIconUrl: null
+        mySubscription: null
+        name: Name
+        outOfOffice:
+          message: ''
+        photo:
+          fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+          largePhotoUrl: https://<my_domain>/profilephoto/729.../F
+          mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
+          photoVersionId: 729...
+          smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
+          standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+          url: /services/data/v58.0/connect/user-profiles/005.../photo
+        reputation: null
+        title: null
+        type: User
+        url: /services/data/v58.0/chatter/users/005...
+        userType: Internal
+    Edit6:
+      title: Edit6
+      required:
+      - isEditRestricted
+      - isEditableByMeUrl
+      - lastEditedBy
+      - lastEditedDate
+      - latestRevision
+      - relativeLastEditedDate
+      type: object
+      properties:
+        isEditRestricted:
+          type: boolean
+          example: true
+        isEditableByMeUrl:
+          type: string
+          example: https://www.example.com
+        lastEditedBy:
+          $ref: '#/components/schemas/LastEditedBy'
+        lastEditedDate:
+          type: string
+          example: example_value
+        latestRevision:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        relativeLastEditedDate:
+          type: string
+          example: example_value
+      examples:
+      - isEditRestricted: false
+        isEditableByMeUrl: /services/data/v58.0/chatter/comments/0D7.../capabilities/edit/is-editable-by-me
+        lastEditedBy:
+          additionalLabel: null
+          communityNickname: User1696423780773910041
+          companyName: Salesforce
+          displayName: Name
+          firstName: Firstname
+          id: 005...
+          isActive: true
+          isInThisCommunity: true
+          lastName: Name
+          motif:
+            color: 1B96FF
+            largeIconUrl: /img/icon/profile64.png
+            mediumIconUrl: /img/icon/profile32.png
+            smallIconUrl: /img/icon/profile16.png
+            svgIconUrl: null
+          mySubscription: null
+          name: Name
+          outOfOffice:
+            message: ''
+          photo:
+            fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+            largePhotoUrl: https://<my_domain>/profilephoto/7292o000000oAgZ/F
+            mediumPhotoUrl: https://<my_domain>/profilephoto/7292o000000oAgZ/M
+            photoVersionId: 729...
+            smallPhotoUrl: https://<my_domain>/profilephoto/7292o000000oAgZ/T
+            standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+            url: /services/data/v58.0/connect/user-profiles/005.../photo
+          reputation: null
+          title: null
+          type: User
+          url: /services/data/v58.0/chatter/users/005...
+          userType: Internal
+        lastEditedDate: '2023-11-22T11:22:36.000Z'
+        latestRevision: 2
+        relativeLastEditedDate: Just now
+    MessageSegment:
+      title: MessageSegment
+      required:
+      - text
+      - type
+      type: object
+      properties:
+        text:
+          type: string
+          example: example_value
+        type:
+          type: string
+          example: example_value
+      examples:
+      - text: New Feed Item
+        type: Text
+    GetRecordEditPageActions:
+      title: GetRecordEditPageActions
+      required:
+      - actions
+      - eTag
+      - url
+      type: object
+      properties:
+        actions:
+          $ref: '#/components/schemas/Actions5'
+        eTag:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - actions:
+          0014H00002LbR7QQAV:
+            actions:
+            - actionListContext: RecordEdit
+              actionTarget: null
+              actionTargetType: Invoke
+              apiName: SaveEdit
+              externalId: 00D58000000arpq:0014H00002LbR7QQAV::RecordEdit:Desktop:StandardButton:SaveEdit
+              iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/action/new_custom19_120.png
+              id: 0JV4H0000350887WAA
+              isMassAction: 'false'
+              label: Save
+              lwcComponent: null
+              primaryColor: null
+              relatedListRecordId: null
+              relatedSourceObject: null
+              section: Page
+              sourceObject: 0014H00002LbR7QQAV
+              subtype: LightningWebComponent_Action
+              targetObject: Account
+              targetUrl: null
+              type: StandardButton
+            - actionListContext: RecordEdit
+              actionTarget: null
+              actionTargetType: Invoke
+              apiName: SaveAndNew
+              externalId: 00D58000000arpq:0014H00002LbR7QQAV::RecordEdit:Desktop:StandardButton:SaveAndNew
+              iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/action/new_custom19_120.png
+              id: 0JV4H0000350888WAA
+              isMassAction: 'false'
+              label: Save &amp; New
+              lwcComponent: null
+              primaryColor: null
+              relatedListRecordId: null
+              relatedSourceObject: null
+              section: Page
+              sourceObject: 0014H00002LbR7QQAV
+              subtype: LightningWebComponent_Action
+              targetObject: Account
+              targetUrl: null
+              type: StandardButton
+            - actionListContext: RecordEdit
+              actionTarget: null
+              actionTargetType: Invoke
+              apiName: CancelEdit
+              externalId: 00D58000000arpq:0014H00002LbR7QQAV::RecordEdit:Desktop:StandardButton:CancelEdit
+              iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/action/new_custom19_120.png
+              id: 0JV4H0000350889WAA
+              isMassAction: 'false'
+              label: Cancel
+              lwcComponent: null
+              primaryColor: null
+              relatedListRecordId: null
+              relatedSourceObject: null
+              section: Page
+              sourceObject: 0014H00002LbR7QQAV
+              subtype: LightningWebComponent_Action
+              targetObject: Account
+              targetUrl: null
+              type: StandardButton
+            links: []
+            url: /services/data/v58.0/ui-api/actions/record/0014H00002LbR7QQAV/record-edit
+        eTag: 550367168889732c414e90f1a22d15af
+        url: /services/data/v58.0/ui-api/actions/record/0014H00002LbR7QQAV/record-edit
+    Status1:
+      title: Status1
+      required:
+      - feedEntityStatus
+      - isApprovableByMe
+      type: object
+      properties:
+        feedEntityStatus:
+          type: string
+          example: example_value
+        isApprovableByMe:
+          type: boolean
+          example: true
+      examples:
+      - feedEntityStatus: Published
+        isApprovableByMe: true
+    Motif:
+      title: Motif
+      required:
+      - color
+      - largeIconUrl
+      - mediumIconUrl
+      - smallIconUrl
+      - svgIconUrl
+      type: object
+      properties:
+        color:
+          type: string
+          example: example_value
+        largeIconUrl:
+          type: string
+          example: https://www.example.com
+        mediumIconUrl:
+          type: string
+          example: https://www.example.com
+        smallIconUrl:
+          type: string
+          example: https://www.example.com
+        svgIconUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+      examples:
+      - color: '939393'
+        largeIconUrl: /img/content/content64.png
+        mediumIconUrl: /img/content/content32.png
+        smallIconUrl: /img/icon/files16.png
+        svgIconUrl: null
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

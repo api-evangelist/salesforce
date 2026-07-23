@@ -1,0 +1,367 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Predict API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Predict
+paths:
+  /data/v64.0/smartdatadiscovery/predict:
+    parameters: []
+    post:
+      tags:
+      - Predict
+      summary: Salesforce Predict
+      description: Get available prediction definitions.
+      operationId: Predict
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/PredictRequest'
+              - examples:
+                - predictionDefinition: <PREDICTION_DEFINITION_ID>
+                  type: RawData
+                  columnNames:
+                  - Quantity
+                  - Category
+                  - Sub_Category
+                  - Sales
+                  - Profit_per_Order
+                  rows:
+                  - - '2'
+                    - Furniture
+                    - Chairs
+                    - '300'
+                    - '10'
+              contentMediaType: application/json
+            example:
+              predictionDefinition: <PREDICTION_DEFINITION_ID>
+              type: RawData
+              columnNames:
+              - Quantity
+              - Category
+              - Sub_Category
+              - Sales
+              - Profit_per_Order
+              rows:
+              - - '2'
+                - Furniture
+                - Chairs
+                - '300'
+                - '10'
+        required: true
+      responses:
+        '201':
+          description: Created
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Thu, 04 Mar 2021 13:53:39 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=31536002; includeSubDomains
+            Expect-CT:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=86400, report-uri="https://a.forcesslreports.com/Expect-CT-report/00D5Y000001crJvm"
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Predict'
+                - examples:
+                  - predictionDefinition: 1OR5Y0000010ws8
+                    predictions:
+                    - model:
+                        id: 1Ot5Y0000010wzNSAQ
+                      prediction:
+                        middleValues: []
+                        total: 88.5249425554759
+                      prescriptions: []
+                      status: Success
+                    settings:
+                      maxMiddleValues: 0
+                      maxPrescriptions: 0
+                      prescriptionImpactPercentage: 0
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                predictionDefinition: 1OR5Y0000010ws8
+                predictions:
+                - model:
+                    id: 1Ot5Y0000010wzNSAQ
+                  prediction:
+                    middleValues: []
+                    total: 88.5249425554759
+                  prescriptions: []
+                  status: Success
+                settings:
+                  maxMiddleValues: 0
+                  maxPrescriptions: 0
+                  prescriptionImpactPercentage: 0
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    PredictRequest:
+      title: PredictRequest
+      required:
+      - predictionDefinition
+      - type
+      - columnNames
+      - rows
+      type: object
+      properties:
+        predictionDefinition:
+          type: string
+          example: example_value
+        type:
+          type: string
+          example: example_value
+        columnNames:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        rows:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+          example: []
+      examples:
+      - predictionDefinition: <PREDICTION_DEFINITION_ID>
+        type: RawData
+        columnNames:
+        - Quantity
+        - Category
+        - Sub_Category
+        - Sales
+        - Profit_per_Order
+        rows:
+        - - '2'
+          - Furniture
+          - Chairs
+          - '300'
+          - '10'
+    Prediction1:
+      title: Prediction1
+      required:
+      - middleValues
+      - total
+      type: object
+      properties:
+        middleValues:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        total:
+          type: number
+          example: 42
+      examples:
+      - middleValues: []
+        total: 88.5249425554759
+    Settings:
+      title: Settings
+      required:
+      - maxMiddleValues
+      - maxPrescriptions
+      - prescriptionImpactPercentage
+      type: object
+      properties:
+        maxMiddleValues:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        maxPrescriptions:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        prescriptionImpactPercentage:
+          type: integer
+          contentEncoding: int32
+          example: 10
+      examples:
+      - maxMiddleValues: 0
+        maxPrescriptions: 0
+        prescriptionImpactPercentage: 0
+    Prediction:
+      title: Prediction
+      required:
+      - model
+      - prediction
+      - prescriptions
+      - status
+      type: object
+      properties:
+        model:
+          $ref: '#/components/schemas/Model'
+        prediction:
+          $ref: '#/components/schemas/Prediction1'
+        prescriptions:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        status:
+          type: string
+          example: example_value
+      examples:
+      - model:
+          id: 1Ot5Y0000010wzNSAQ
+        prediction:
+          middleValues: []
+          total: 88.5249425554759
+        prescriptions: []
+        status: Success
+    Predict:
+      title: Predict
+      required:
+      - predictionDefinition
+      - predictions
+      - settings
+      type: object
+      properties:
+        predictionDefinition:
+          type: string
+          example: example_value
+        predictions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Prediction'
+          description: ''
+          example: []
+        settings:
+          $ref: '#/components/schemas/Settings'
+      examples:
+      - predictionDefinition: 1OR5Y0000010ws8
+        predictions:
+        - model:
+            id: 1Ot5Y0000010wzNSAQ
+          prediction:
+            middleValues: []
+            total: 88.5249425554759
+          prescriptions: []
+          status: Success
+        settings:
+          maxMiddleValues: 0
+          maxPrescriptions: 0
+          prescriptionImpactPercentage: 0
+    Model:
+      title: Model
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+      examples:
+      - id: 1Ot5Y0000010wzNSAQ
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

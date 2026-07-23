@@ -1,0 +1,165 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Approvals API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Approvals
+paths:
+  /data/v64.0/process/approvals:
+    parameters: []
+    get:
+      tags:
+      - Approvals
+      summary: Salesforce Process Approvals
+      description: 'Returns a list of all approval processes. Can also be used to submit a particular record if that entity supports an approval process and one has already been defined. Records can be approved and rejected if the current user is an assigned approver. When using a POST request to do bulk approvals, the requests that succeed are committed and the requests that don’t succeed send back an error.
+
+        https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_process_approvals.htm'
+      operationId: ProcessApprovals
+      parameters:
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        schema:
+          const: application/json
+          type: string
+          examples:
+          - application/json
+        example: example_value
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    post:
+      tags:
+      - Approvals
+      summary: Salesforce Process Approvals Submit
+      description: 'Returns a list of all approval processes. Can also be used to submit a particular record if that entity supports an approval process and one has already been defined. Records can be approved and rejected if the current user is an assigned approver. When using a POST request to do bulk approvals, the requests that succeed are committed and the requests that don’t succeed send back an error.
+
+        https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_process_approvals.htm'
+      operationId: ProcessApprovalsSubmit
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/ProcessApprovalsSubmitRequest'
+              - examples:
+                - actionType: string
+                  contextActorId: ID
+                  contextId: ID
+                  comments: string
+                  nextApproverIds: ID[]
+                  processDefinitionNameOrId: string
+                  skipEntryCriteria: boolean
+              contentMediaType: application/json
+            example:
+              actionType: string
+              contextActorId: ID
+              contextId: ID
+              comments: string
+              nextApproverIds: ID[]
+              processDefinitionNameOrId: string
+              skipEntryCriteria: boolean
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    ProcessApprovalsSubmitRequest:
+      title: ProcessApprovalsSubmitRequest
+      required:
+      - actionType
+      - contextActorId
+      - contextId
+      - comments
+      - nextApproverIds
+      - processDefinitionNameOrId
+      - skipEntryCriteria
+      type: object
+      properties:
+        actionType:
+          type: string
+          example: example_value
+        contextActorId:
+          type: string
+          example: '500123'
+        contextId:
+          type: string
+          example: '500123'
+        comments:
+          type: string
+          example: example_value
+        nextApproverIds:
+          type: string
+          example: example_value
+        processDefinitionNameOrId:
+          type: string
+          example: '500123'
+        skipEntryCriteria:
+          type: string
+          example: example_value
+      examples:
+      - actionType: string
+        contextActorId: ID
+        contextId: ID
+        comments: string
+        nextApproverIds: ID[]
+        processDefinitionNameOrId: string
+        skipEntryCriteria: boolean
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

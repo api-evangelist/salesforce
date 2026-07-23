@@ -1,0 +1,1053 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Collections API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Collections
+paths:
+  /services/data/v64.0/apps/oauth/credentials/:
+    parameters: []
+    get:
+      tags:
+      - Collections
+      summary: Salesforce Collections
+      description: Returns credentials for all consumers associated with an external client app. See [OAuth Credentials by App ID](https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_credentials_by_app_id.htm).
+      operationId: Collections
+      parameters:
+      - name: Authorization
+        in: header
+        description: Replace <token> with your access token
+        required: true
+        schema:
+          type: string
+          examples:
+          - Bearer <token>
+        example: example_value
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+      servers:
+      - url: https://login.salesforce.com
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/composite/sobjects:
+    parameters: []
+    post:
+      tags:
+      - Collections
+      summary: Salesforce Sobject Collections Create
+      description: 'Executes actions on multiple records in one request. Use SObject Collections to reduce the number of round-trips between the client and server. This resource is available in API version 42.0 and later.
+
+
+        https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobjects_collections.htm'
+      operationId: SObjectCollectionsCreate
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/SObjectCollectionsCreateRequest'
+              - examples:
+                - allOrNone: false
+                  records:
+                  - attributes:
+                      type: Account
+                    Name: example.com
+                    BillingCity: San Francisco
+                  - attributes:
+                      type: Contact
+                    LastName: Johnson
+                    FirstName: Erica
+              contentMediaType: application/json
+            example:
+              allOrNone: false
+              records:
+              - attributes:
+                  type: Account
+                Name: example.com
+                BillingCity: San Francisco
+              - attributes:
+                  type: Contact
+                LastName: Johnson
+                FirstName: Erica
+        required: true
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Mon, 20 Nov 2023 15:25:46 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Sforce-Limit-Info:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: api-usage=44/15000
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SuccessfulSObjectCollectionsCreate'
+                description: ''
+                examples:
+                - - id: 001...
+                    success: true
+                    errors: []
+                  - id: 003...
+                    success: true
+                    errors: []
+                contentMediaType: application/json;charset=UTF-8
+              example:
+              - id: 001...
+                success: true
+                errors: []
+              - id: 003...
+                success: true
+                errors: []
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    patch:
+      tags:
+      - Collections
+      summary: Salesforce Sobject Collections Update
+      description: 'Executes actions on multiple records in one request. Use SObject Collections to reduce the number of round-trips between the client and server. This resource is available in API version 42.0 and later.
+
+
+        https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobjects_collections.htm'
+      operationId: SObjectCollectionsUpdate
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/SObjectCollectionsUpdateRequest'
+              - examples:
+                - allOrNone: false
+                  records:
+                  - attributes:
+                      type: Account
+                    id: <account-id>
+                    NumberOfEmployees: 27000
+              contentMediaType: application/json
+            example:
+              allOrNone: false
+              records:
+              - attributes:
+                  type: Account
+                id: <account-id>
+                NumberOfEmployees: 27000
+        required: true
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Mon, 20 Nov 2023 15:28:31 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Sforce-Limit-Info:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: api-usage=46/15000
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SObjectCollectionsUpdate'
+                description: ''
+                examples:
+                - - id: 001...
+                    success: true
+                    errors: []
+                contentMediaType: application/json;charset=UTF-8
+              example:
+              - id: 001...
+                success: true
+                errors: []
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    delete:
+      tags:
+      - Collections
+      summary: Salesforce Sobject Collections Delete
+      description: 'Executes actions on multiple records in one request. Use SObject Collections to reduce the number of round-trips between the client and server. This resource is available in API version 42.0 and later.
+
+
+        https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobjects_collections.htm'
+      operationId: SObjectCollectionsDelete
+      parameters:
+      - name: ids
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          examples:
+          - 0012o00003OBzVSAA1
+        example: example_value
+      - name: allOrNone
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: boolean
+          examples:
+          - true
+        example: true
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        schema:
+          const: application/json
+          type: string
+          examples:
+          - application/json
+        example: example_value
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Mon, 20 Nov 2023 15:31:21 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Sforce-Limit-Info:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: api-usage=49/15000
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SuccessfulSObjectCollectionsDelete'
+                description: ''
+                examples:
+                - - id: 001...
+                    success: true
+                    errors: []
+                contentMediaType: application/json;charset=UTF-8
+              example:
+              - id: 001...
+                success: true
+                errors: []
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/composite/sobjects/{SOBJECT_API_NAME}:
+    parameters: []
+    get:
+      tags:
+      - Collections
+      summary: Salesforce Sobject Collections Retrieve
+      description: 'Executes actions on multiple records in one request. Use SObject Collections to reduce the number of round-trips between the client and server. This resource is available in API version 42.0 and later.
+
+
+        https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobjects_collections.htm'
+      operationId: SObjectCollectionsRetrieve
+      parameters:
+      - name: ids
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+        example: example_value
+      - name: fields
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+        example: example_value
+      - name: SOBJECT_API_NAME
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: example_value
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        schema:
+          const: application/json
+          type: string
+          examples:
+          - application/json
+        example: example_value
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Mon, 20 Nov 2023 15:27:03 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Sforce-Limit-Info:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: api-usage=44/15000
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SuccessfulSObjectCollectionsRetrieve'
+                description: ''
+                examples:
+                - - attributes:
+                      type: Account
+                      url: /services/data/v58.0/sobjects/Account/001...
+                    Name: Sample Account
+                    Id: 001...
+                contentMediaType: application/json;charset=UTF-8
+              example:
+              - attributes:
+                  type: Account
+                  url: /services/data/v58.0/sobjects/Account/001...
+                Name: Sample Account
+                Id: 001...
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/composite/sobjects/{SOBJECT_API_NAME}/{FIELD_NAME}:
+    parameters: []
+    patch:
+      tags:
+      - Collections
+      summary: Salesforce Sobject Collections Upsert
+      description: 'Use a PATCH request with sObject Collections to either create or update (upsert) up to 200 records based on an external ID field. This method returns a list of UpsertResult objects. You can choose whether to roll back the entire request when an error occurs. This request is available in API version 46 and later.
+
+
+        [https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobjects_collections_upsert.htm](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobjects_collections_upsert.htm)'
+      operationId: SObjectCollectionsUpsert
+      parameters:
+      - name: SOBJECT_API_NAME
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - Account
+        example: example_value
+      - name: FIELD_NAME
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - Id
+        example: example_value
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/SObjectCollectionsUpsertRequest'
+              - examples:
+                - allOrNone: false
+                  records:
+                  - attributes:
+                      type: Account
+                    Name: Test Upsert
+                    Id: 0012o00003OBzVSAA1
+              contentMediaType: application/json
+            example:
+              allOrNone: false
+              records:
+              - attributes:
+                  type: Account
+                Name: Test Upsert
+                Id: 0012o00003OBzVSAA1
+        required: true
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Mon, 20 Nov 2023 15:29:54 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Sforce-Limit-Info:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: api-usage=48/15000
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SuccessfulSObjectCollectionsUpsert'
+                description: ''
+                examples:
+                - - id: 001...
+                    success: true
+                    errors: []
+                    created: false
+                contentMediaType: application/json;charset=UTF-8
+              example:
+              - id: 001...
+                success: true
+                errors: []
+                created: false
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    SObjectCollectionsCreateRequest:
+      title: SObjectCollectionsCreateRequest
+      required:
+      - allOrNone
+      - records
+      type: object
+      properties:
+        allOrNone:
+          type: boolean
+          example: true
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/Record5'
+          description: ''
+          example: []
+      examples:
+      - allOrNone: false
+        records:
+        - attributes:
+            type: Account
+          Name: example.com
+          BillingCity: San Francisco
+        - attributes:
+            type: Contact
+          LastName: Johnson
+          FirstName: Erica
+    Attributes3:
+      title: Attributes3
+      required:
+      - type
+      type: object
+      properties:
+        type:
+          type: string
+          example: example_value
+      examples:
+      - type: Account
+    SuccessfulSObjectCollectionsRetrieve:
+      title: SuccessfulSObjectCollectionsRetrieve
+      required:
+      - attributes
+      - Name
+      - Id
+      type: object
+      properties:
+        attributes:
+          $ref: '#/components/schemas/Attributes4'
+        Name:
+          type: string
+          example: Example Title
+        Id:
+          type: string
+          example: abc123
+      examples:
+      - attributes:
+          type: Account
+          url: /services/data/v58.0/sobjects/Account/001...
+        Name: Sample Account
+        Id: 001...
+    SuccessfulSObjectCollectionsUpsert:
+      title: SuccessfulSObjectCollectionsUpsert
+      required:
+      - id
+      - success
+      - errors
+      - created
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+        success:
+          type: boolean
+          example: true
+        errors:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        created:
+          type: boolean
+          example: true
+      examples:
+      - id: 001...
+        success: true
+        errors: []
+        created: false
+    Record7:
+      title: Record7
+      required:
+      - attributes
+      - Name
+      - Id
+      type: object
+      properties:
+        attributes:
+          $ref: '#/components/schemas/Attributes3'
+        Name:
+          type: string
+          example: Example Title
+        Id:
+          type: string
+          example: abc123
+      examples:
+      - attributes:
+          type: Account
+        Name: Test Upsert
+        Id: 0012o00003OBzVSAA1
+    SuccessfulSObjectCollectionsCreate:
+      title: SuccessfulSObjectCollectionsCreate
+      required:
+      - id
+      - success
+      - errors
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+        success:
+          type: boolean
+          example: true
+        errors:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+      examples:
+      - id: 001...
+        success: true
+        errors: []
+    SuccessfulSObjectCollectionsDelete:
+      title: SuccessfulSObjectCollectionsDelete
+      required:
+      - id
+      - success
+      - errors
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+        success:
+          type: boolean
+          example: true
+        errors:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+      examples:
+      - id: 001...
+        success: true
+        errors: []
+    SObjectCollectionsUpdate:
+      title: SObjectCollectionsUpdate
+      required:
+      - id
+      - success
+      - errors
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+        success:
+          type: boolean
+          example: true
+        errors:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+      examples:
+      - id: 001...
+        success: true
+        errors: []
+    Attributes4:
+      title: Attributes4
+      required:
+      - type
+      - url
+      type: object
+      properties:
+        type:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - type: Account
+        url: /services/data/v58.0/sobjects/Account/001...
+    Record5:
+      title: Record5
+      required:
+      - attributes
+      type: object
+      properties:
+        attributes:
+          $ref: '#/components/schemas/Attributes3'
+        Name:
+          type: string
+          example: Example Title
+        BillingCity:
+          type: string
+          example: example_value
+        LastName:
+          type: string
+          example: example_value
+        FirstName:
+          type: string
+          example: example_value
+      examples:
+      - attributes:
+          type: Account
+        Name: example.com
+        BillingCity: San Francisco
+    SObjectCollectionsUpdateRequest:
+      title: SObjectCollectionsUpdateRequest
+      required:
+      - allOrNone
+      - records
+      type: object
+      properties:
+        allOrNone:
+          type: boolean
+          example: true
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/Record6'
+          description: ''
+          example: []
+      examples:
+      - allOrNone: false
+        records:
+        - attributes:
+            type: Account
+          id: <account-id>
+          NumberOfEmployees: 27000
+    Record6:
+      title: Record6
+      required:
+      - attributes
+      - id
+      - NumberOfEmployees
+      type: object
+      properties:
+        attributes:
+          $ref: '#/components/schemas/Attributes3'
+        id:
+          type: string
+          example: abc123
+        NumberOfEmployees:
+          type: integer
+          contentEncoding: int32
+          example: 10
+      examples:
+      - attributes:
+          type: Account
+        id: <account-id>
+        NumberOfEmployees: 27000
+    SObjectCollectionsUpsertRequest:
+      title: SObjectCollectionsUpsertRequest
+      required:
+      - allOrNone
+      - records
+      type: object
+      properties:
+        allOrNone:
+          type: boolean
+          example: true
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/Record7'
+          description: ''
+          example: []
+      examples:
+      - allOrNone: false
+        records:
+        - attributes:
+            type: Account
+          Name: Test Upsert
+          Id: 0012o00003OBzVSAA1
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

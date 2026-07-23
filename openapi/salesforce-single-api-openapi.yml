@@ -1,0 +1,253 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Single API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Single
+paths:
+  /data/v64.0/sobjects/{EventApiName}:
+    parameters: []
+    post:
+      tags:
+      - Single
+      summary: Salesforce Publish Single Event
+      operationId: Publishsingleevent
+      parameters:
+      - name: EventApiName
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - Carbon_Comparison__e
+        example: example_value
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/PublishsingleeventRequest'
+              - examples:
+                - Annual_Mileage__c: 12000
+                  Current_Vehicle__c: Fast car
+                  Model_Year__c: 2019
+              contentMediaType: application/json
+            example:
+              Annual_Mileage__c: 12000
+              Current_Vehicle__c: Fast car
+              Model_Year__c: 2019
+        required: true
+      responses:
+        '201':
+          description: Created
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Mon, 03 Jul 2023 13:18:20 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Sforce-Limit-Info:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: api-usage=16/15000
+            Location:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: /services/data/v58.0/sobjects/Sample__e/e00xx0000000001AAA
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Publishsingleevent'
+                - examples:
+                  - id: e00xx0000000001AAA
+                    success: true
+                    errors:
+                    - statusCode: OPERATION_ENQUEUED
+                      message: 234995b6-53b6-4887-93fc-ecd0fac8b36c
+                      fields: []
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                id: e00xx0000000001AAA
+                success: true
+                errors:
+                - statusCode: OPERATION_ENQUEUED
+                  message: 234995b6-53b6-4887-93fc-ecd0fac8b36c
+                  fields: []
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    PublishsingleeventRequest:
+      title: PublishsingleeventRequest
+      required:
+      - Annual_Mileage__c
+      - Current_Vehicle__c
+      - Model_Year__c
+      type: object
+      properties:
+        Annual_Mileage__c:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        Current_Vehicle__c:
+          type: string
+          example: example_value
+        Model_Year__c:
+          type: integer
+          contentEncoding: int32
+          example: 10
+      examples:
+      - Annual_Mileage__c: 12000
+        Current_Vehicle__c: Fast car
+        Model_Year__c: 2019
+    Publishsingleevent:
+      title: Publishsingleevent
+      required:
+      - id
+      - success
+      - errors
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+        success:
+          type: boolean
+          example: true
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Errors7'
+          description: ''
+          example: []
+      examples:
+      - id: e00xx0000000001AAA
+        success: true
+        errors:
+        - statusCode: OPERATION_ENQUEUED
+          message: 234995b6-53b6-4887-93fc-ecd0fac8b36c
+          fields: []
+    Errors7:
+      title: Errors7
+      required:
+      - statusCode
+      - message
+      - fields
+      type: object
+      properties:
+        statusCode:
+          type: string
+          example: example_value
+        message:
+          type: string
+          example: example_value
+        fields:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+      examples:
+      - statusCode: OPERATION_ENQUEUED
+        message: 234995b6-53b6-4887-93fc-ecd0fac8b36c
+        fields: []
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: Salesforce Bulk API 2.0 Abort Rest API
+  title: Salesforce Bulk API 2.0 Abort Procedure API
   description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
 
     '
@@ -28,43 +28,63 @@ servers:
 security:
 - BearerAuth: []
 tags:
-- name: Rest
-  description: 'REST API provides a powerful, convenient, and simple Web services API for interacting with Lightning Platform. Its advantages include ease of integration and development, and it’s an excellent choice of technology for use with mobile applications and Web 2.0 projects. If you have many records to process, consider using Bulk API, which is based on REST principles and optimized for large sets of data.
-
-
-    📚 [REST API Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/intro_what_is_rest_api.htm)'
+- name: Procedure
 paths:
-  /apexrest/{urlMapping}:
+  /apexrest/{NAMESPACE}/v1/integrationprocedure/{TYPE_SUBTYPE}:
     parameters: []
     get:
       tags:
-      - Rest
-      summary: Salesforce Apex Rest
-      description: 'Gets the list of icons and colors used by themes in the Salesforce application. Theme information is provided for objects in your organization that use icons and colors in the Salesforce UI.
-
-
-        The If-Modified-Since header can be used with this resource, with a date format of EEE, dd MMM yyyy HH:mm:ss z. When this header is used, if the object metadata has not changed since the provided date, a 304 Not Modified status code is returned, with no response body.
-
-
-        https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_themes.htm'
-      operationId: ApexREST
+      - Procedure
+      summary: Salesforce Integration Procedure Invocation Using Get
+      operationId: IntegrationProcedureInvocationUsingGET
       parameters:
-      - name: urlMapping
+      - name: NAMESPACE
         in: path
-        description: Value of `urlMapping` as defined in `@RestResource` annotation in the Apex class.
+        description: 'The namespace: `omnistudio`, `vlocity_ins`, `vlocity_cmt`, or `vlocity_ps`'
         required: true
         schema:
           type: string
-        example: https://www.example.com
-      - name: Content-Type
-        in: header
-        description: ''
+        example: example_value
+      - name: TYPE_SUBTYPE
+        in: path
+        description: Type and SubType of the Integration Procedure separated by an underscore.
         required: true
         schema:
-          const: application/json
           type: string
-          examples:
-          - application/json
+        example: example_value
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    post:
+      tags:
+      - Procedure
+      summary: Salesforce Integration Procedure Invocation Using Post
+      operationId: IntegrationProcedureInvocationUsingPOST
+      parameters:
+      - name: NAMESPACE
+        in: path
+        description: The namespace is `omnistudio`, `vlocity_ins`, `vlocity_cmt`, or `vlocity_ps`
+        required: true
+        schema:
+          type: string
+        example: example_value
+      - name: TYPE_SUBTYPE
+        in: path
+        description: Type and SubType of the Integration Procedure separated by an underscore.
+        required: true
+        schema:
+          type: string
         example: example_value
       responses:
         '200':

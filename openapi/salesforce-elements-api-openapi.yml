@@ -1,0 +1,4813 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Elements API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Elements
+paths:
+  /data/v64.0/chatter/feeds/news/me/feed-elements:
+    parameters: []
+    get:
+      tags:
+      - Elements
+      summary: Salesforce News Feed Elements
+      description: 'All feed elements from all groups the context user either owns or is a member of, as well as all files, records, and users the context user follows. Use this resource to get information about feed elements and to post feed elements.
+
+
+        For information about posting a feed element, see Feed Elements, Post and Search.
+
+
+        https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resource_feeds_news.htm#cc_news_feed_elements'
+      operationId: NewsFeedElements
+      parameters: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Wed, 22 Nov 2023 11:04:02 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessfulNewsFeedElements'
+                - examples:
+                  - currentPageToken: null
+                    currentPageUrl: /services/data/v58.0/chatter/feeds/news/005.../feed-elements
+                    elements: []
+                    isModifiedToken: null
+                    isModifiedUrl: null
+                    nextPageToken: null
+                    nextPageUrl: null
+                    updatesToken: 2:1700651042000
+                    updatesUrl: /services/data/v58.0/chatter/feeds/news/005.../feed-elements?updatedSince=2%3A1700651042000
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                currentPageToken: null
+                currentPageUrl: /services/data/v58.0/chatter/feeds/news/005.../feed-elements
+                elements: []
+                isModifiedToken: null
+                isModifiedUrl: null
+                nextPageToken: null
+                nextPageUrl: null
+                updatesToken: 2:1700651042000
+                updatesUrl: /services/data/v58.0/chatter/feeds/news/005.../feed-elements?updatedSince=2%3A1700651042000
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/chatter/feeds/user-profile/{USER_ID}/feed-elements:
+    parameters: []
+    get:
+      tags:
+      - Elements
+      summary: Salesforce User Profile Feed Elements
+      description: 'Returns feed elements created when a user changes records that can be tracked in a feed, feed elements whose parent is the user, and feed elements that mention the user. This feed is different than the news feed, which returns more feed items, including group updates. You can post feed items to the user-profile feed. You can get another user’s user profile feed.
+
+
+        https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resource_feeds_user_profile.htm'
+      operationId: UserProfileFeedElements
+      parameters:
+      - name: USER_ID
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Wed, 22 Nov 2023 11:04:39 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessfulUserProfileFeedElements'
+                - examples:
+                  - currentPageToken: null
+                    currentPageUrl: /services/data/v58.0/chatter/feeds/user-profile/005.../feed-elements
+                    elements: []
+                    isModifiedToken: null
+                    isModifiedUrl: null
+                    nextPageToken: null
+                    nextPageUrl: null
+                    updatesToken: null
+                    updatesUrl: null
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                currentPageToken: null
+                currentPageUrl: /services/data/v58.0/chatter/feeds/user-profile/005.../feed-elements
+                elements: []
+                isModifiedToken: null
+                isModifiedUrl: null
+                nextPageToken: null
+                nextPageUrl: null
+                updatesToken: null
+                updatesUrl: null
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/chatter/feeds/record/{RECORD_GROUP_ID}/feed-elements:
+    parameters: []
+    get:
+      tags:
+      - Elements
+      summary: Salesforce Record Feed Elements
+      description: 'Returns the feed elements for all the records the context user is following, or all the feed elements of the specified recordId. Use this resource to search a feed or to get the feed elements for a specific feed, including another user’s feed. To use this resource to get the feed elements for a group, specify the group ID as the recordId.
+
+
+        https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resource_feeds_record.htm'
+      operationId: RecordFeedElements
+      parameters:
+      - name: RECORD_GROUP_ID
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Wed, 22 Nov 2023 11:05:44 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessfulRecordFeedElements'
+                - examples:
+                  - currentPageToken: null
+                    currentPageUrl: /services/data/v58.0/chatter/feeds/record/001.../feed-elements
+                    elements: []
+                    isModifiedToken: null
+                    isModifiedUrl: null
+                    nextPageToken: null
+                    nextPageUrl: null
+                    updatesToken: 2:1700651144000
+                    updatesUrl: /services/data/v58.0/chatter/feeds/record/001.../feed-elements?updatedSince=2%3A1700651144000
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                currentPageToken: null
+                currentPageUrl: /services/data/v58.0/chatter/feeds/record/001.../feed-elements
+                elements: []
+                isModifiedToken: null
+                isModifiedUrl: null
+                nextPageToken: null
+                nextPageUrl: null
+                updatesToken: 2:1700651144000
+                updatesUrl: /services/data/v58.0/chatter/feeds/record/001.../feed-elements?updatedSince=2%3A1700651144000
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/chatter/feed-elements:
+    parameters: []
+    post:
+      tags:
+      - Elements
+      summary: Salesforce Feed Elements, Post and Search
+      description: 'Feed item and comment bodies have a 10,000 character limit. Because this limit can change, we recommend that clients make a describeSObjects() call on the FeedItem or FeedComment object. To determine the maximum number of allowed characters, look at the length of the Body or CommentBody field.
+
+
+        https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_feed_element.htm'
+      operationId: FeedElements,PostandSearch
+      parameters:
+      - name: feedElementType
+        in: query
+        description: 'Feed elements are the top-level objects that a feed contains. The feed element type describes the characteristics of that feed element. One of these values:
+
+          Bundle—A container of feed elements. A bundle also has a body made up of message segments that can always be gracefully degraded to text-only values.
+
+          FeedItem—A feed item has a single parent and is scoped to one community or across all communities. A feed item can have capabilities such as bookmarks, canvas, content, comment, link, poll. Feed items have a body made up of message segments that can always be gracefully degraded to text-only values.
+
+          Recommendation—A recommendation is a feed element with a recommendations capability. A recommendation suggests records to follow, groups to join, or applications that are helpful to the context user.'
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          examples:
+          - FeedItem
+        example: example_value
+      - name: subjectId
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          examples:
+          - <USER_GROUP_RECORD_ID>
+        example: '500123'
+      - name: text
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          examples:
+          - New Feed Item
+        example: example_value
+      responses:
+        '201':
+          description: Created
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Wed, 22 Nov 2023 11:06:07 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessfulFeedElementsPostandSearch'
+                - examples:
+                  - actor:
+                      additionalLabel: null
+                      communityNickname: User1696423780773910041
+                      companyName: Salesforce
+                      displayName: Name
+                      firstName: Firstname
+                      id: 005...
+                      isActive: true
+                      isInThisCommunity: true
+                      lastName: Name
+                      motif:
+                        color: 1B96FF
+                        largeIconUrl: /img/icon/profile64.png
+                        mediumIconUrl: /img/icon/profile32.png
+                        smallIconUrl: /img/icon/profile16.png
+                        svgIconUrl: null
+                      mySubscription: null
+                      name: Name
+                      outOfOffice:
+                        message: ''
+                      photo:
+                        fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+                        largePhotoUrl: https://<my_domain>/profilephoto/729.../F
+                        mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
+                        photoVersionId: 729...
+                        smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
+                        standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+                        url: /services/data/v58.0/connect/user-profiles/005.../photo
+                      reputation: null
+                      title: null
+                      type: User
+                      url: /services/data/v58.0/chatter/users/005...
+                      userType: Internal
+                    body:
+                      isRichText: false
+                      messageSegments:
+                      - text: New Feed Item
+                        type: Text
+                      text: New Feed Item
+                    capabilities:
+                      associatedActions:
+                        platformActionGroups: []
+                      bookmarks:
+                        isBookmarkedByCurrentUser: false
+                      chatterLikes:
+                        isLikedByCurrentUser: false
+                        likesMessage: null
+                        myLike: null
+                        page:
+                          currentPageToken: 0
+                          currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/chatter-likes/items
+                          items: []
+                          nextPageToken: null
+                          nextPageUrl: null
+                          previousPageToken: null
+                          previousPageUrl: null
+                          total: 0
+                      close:
+                        canContextUserUpdateIsClosed: true
+                        isClosed: false
+                      comments:
+                        page:
+                          currentPageToken: null
+                          currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/comments/items
+                          items: []
+                          nextPageToken: null
+                          nextPageUrl: null
+                          previousPageToken: null
+                          previousPageUrl: null
+                          total: 0
+                      edit:
+                        isEditRestricted: false
+                        isEditableByMeUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/edit/is-editable-by-me
+                        lastEditedBy: null
+                        lastEditedDate: null
+                        latestRevision: 1
+                        relativeLastEditedDate: null
+                      interactions:
+                        count: 0
+                      mute:
+                        isMutedByMe: false
+                      readBy:
+                        isReadByMe: true
+                        lastReadDateByMe: '2023-11-22T11:06:07.000Z'
+                        page:
+                          currentPageToken: null
+                          currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/read-by/items?pageSize=3
+                          items: []
+                          nextPageToken: null
+                          nextPageUrl: null
+                          previousPageToken: null
+                          previousPageUrl: null
+                          total: 0
+                      status:
+                        feedEntityStatus: Published
+                        isApprovableByMe: true
+                      topics:
+                        canAssignTopics: true
+                        items: []
+                      upDownVote:
+                        downVoteCount: 0
+                        myVote: None
+                        upVoteCount: 0
+                    clientInfo:
+                      applicationName: Postman Playground
+                      applicationUrl: null
+                    createdDate: '2023-11-22T11:06:07.000Z'
+                    event: false
+                    feedElementType: FeedItem
+                    hasVerifiedComment: false
+                    header:
+                      isRichText: null
+                      messageSegments:
+                      - motif:
+                          color: 1B96FF
+                          largeIconUrl: /img/icon/profile64.png
+                          mediumIconUrl: /img/icon/profile32.png
+                          smallIconUrl: /img/icon/profile16.png
+                          svgIconUrl: null
+                        reference:
+                          id: 005...
+                          url: /services/data/v58.0/chatter/users/005...
+                        text: Name
+                        type: EntityLink
+                      text: Name
+                    id: 0D5...
+                    isDeleteRestricted: false
+                    isSharable: false
+                    modifiedDate: '2023-11-22T11:06:07.000Z'
+                    originalFeedItem: null
+                    originalFeedItemActor: null
+                    parent:
+                      entityLabel:
+                        label: Account
+                        labelPlural: Accounts
+                      id: 001...
+                      motif:
+                        color: 5867E8
+                        largeIconUrl: /img/icon/accounts64.png
+                        mediumIconUrl: /img/icon/accounts32.png
+                        smallIconUrl: /img/icon/accounts16.png
+                        svgIconUrl: null
+                      mySubscription: null
+                      name: Burlington Textiles Corp of America
+                      type: Account
+                      url: /services/data/v58.0/chatter/records/001...
+                    photoUrl: https://<my_domain>/profilephoto/729.../T
+                    relativeCreatedDate: Just now
+                    type: TextPost
+                    url: /services/data/v58.0/chatter/feed-elements/0D5...
+                    visibility: InternalUsers
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                actor:
+                  additionalLabel: null
+                  communityNickname: User1696423780773910041
+                  companyName: Salesforce
+                  displayName: Name
+                  firstName: Firstname
+                  id: 005...
+                  isActive: true
+                  isInThisCommunity: true
+                  lastName: Name
+                  motif:
+                    color: 1B96FF
+                    largeIconUrl: /img/icon/profile64.png
+                    mediumIconUrl: /img/icon/profile32.png
+                    smallIconUrl: /img/icon/profile16.png
+                    svgIconUrl: null
+                  mySubscription: null
+                  name: Name
+                  outOfOffice:
+                    message: ''
+                  photo:
+                    fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+                    largePhotoUrl: https://<my_domain>/profilephoto/729.../F
+                    mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
+                    photoVersionId: 729...
+                    smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
+                    standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+                    url: /services/data/v58.0/connect/user-profiles/005.../photo
+                  reputation: null
+                  title: null
+                  type: User
+                  url: /services/data/v58.0/chatter/users/005...
+                  userType: Internal
+                body:
+                  isRichText: false
+                  messageSegments:
+                  - text: New Feed Item
+                    type: Text
+                  text: New Feed Item
+                capabilities:
+                  associatedActions:
+                    platformActionGroups: []
+                  bookmarks:
+                    isBookmarkedByCurrentUser: false
+                  chatterLikes:
+                    isLikedByCurrentUser: false
+                    likesMessage: null
+                    myLike: null
+                    page:
+                      currentPageToken: 0
+                      currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/chatter-likes/items
+                      items: []
+                      nextPageToken: null
+                      nextPageUrl: null
+                      previousPageToken: null
+                      previousPageUrl: null
+                      total: 0
+                  close:
+                    canContextUserUpdateIsClosed: true
+                    isClosed: false
+                  comments:
+                    page:
+                      currentPageToken: null
+                      currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/comments/items
+                      items: []
+                      nextPageToken: null
+                      nextPageUrl: null
+                      previousPageToken: null
+                      previousPageUrl: null
+                      total: 0
+                  edit:
+                    isEditRestricted: false
+                    isEditableByMeUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/edit/is-editable-by-me
+                    lastEditedBy: null
+                    lastEditedDate: null
+                    latestRevision: 1
+                    relativeLastEditedDate: null
+                  interactions:
+                    count: 0
+                  mute:
+                    isMutedByMe: false
+                  readBy:
+                    isReadByMe: true
+                    lastReadDateByMe: '2023-11-22T11:06:07.000Z'
+                    page:
+                      currentPageToken: null
+                      currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/read-by/items?pageSize=3
+                      items: []
+                      nextPageToken: null
+                      nextPageUrl: null
+                      previousPageToken: null
+                      previousPageUrl: null
+                      total: 0
+                  status:
+                    feedEntityStatus: Published
+                    isApprovableByMe: true
+                  topics:
+                    canAssignTopics: true
+                    items: []
+                  upDownVote:
+                    downVoteCount: 0
+                    myVote: None
+                    upVoteCount: 0
+                clientInfo:
+                  applicationName: Postman Playground
+                  applicationUrl: null
+                createdDate: '2023-11-22T11:06:07.000Z'
+                event: false
+                feedElementType: FeedItem
+                hasVerifiedComment: false
+                header:
+                  isRichText: null
+                  messageSegments:
+                  - motif:
+                      color: 1B96FF
+                      largeIconUrl: /img/icon/profile64.png
+                      mediumIconUrl: /img/icon/profile32.png
+                      smallIconUrl: /img/icon/profile16.png
+                      svgIconUrl: null
+                    reference:
+                      id: 005...
+                      url: /services/data/v58.0/chatter/users/005...
+                    text: Name
+                    type: EntityLink
+                  text: Name
+                id: 0D5...
+                isDeleteRestricted: false
+                isSharable: false
+                modifiedDate: '2023-11-22T11:06:07.000Z'
+                originalFeedItem: null
+                originalFeedItemActor: null
+                parent:
+                  entityLabel:
+                    label: Account
+                    labelPlural: Accounts
+                  id: 001...
+                  motif:
+                    color: 5867E8
+                    largeIconUrl: /img/icon/accounts64.png
+                    mediumIconUrl: /img/icon/accounts32.png
+                    smallIconUrl: /img/icon/accounts16.png
+                    svgIconUrl: null
+                  mySubscription: null
+                  name: Burlington Textiles Corp of America
+                  type: Account
+                  url: /services/data/v58.0/chatter/records/001...
+                photoUrl: https://<my_domain>/profilephoto/729.../T
+                relativeCreatedDate: Just now
+                type: TextPost
+                url: /services/data/v58.0/chatter/feed-elements/0D5...
+                visibility: InternalUsers
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/chatter/feed-elements/batch:
+    parameters: []
+    post:
+      tags:
+      - Elements
+      summary: Salesforce Feed Elements, Batch Post
+      description: 'Post a batch of up to 500 feed elements.
+
+
+        https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_feed_element_batch_post.htm'
+      operationId: FeedElements,BatchPost
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FeedElementsBatchPostRequest'
+            examples:
+              Feedelements,batchpostRequestExample:
+                summary: Default FeedElements,BatchPost request
+                x-microcks-default: true
+                value:
+                  inputs:
+                  - {}
+        required: true
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Wed, 22 Nov 2023 11:11:25 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessfulFeedElementsBatchPost'
+                - examples:
+                  - hasErrors: true
+                    results:
+                    - result:
+                        actor:
+                          additionalLabel: null
+                          communityNickname: User1696423780773910041
+                          companyName: Salesforce
+                          displayName: Name
+                          firstName: Firstname
+                          id: 005...
+                          isActive: true
+                          isInThisCommunity: true
+                          lastName: Name
+                          motif:
+                            color: 1B96FF
+                            largeIconUrl: /img/icon/profile64.png
+                            mediumIconUrl: /img/icon/profile32.png
+                            smallIconUrl: /img/icon/profile16.png
+                            svgIconUrl: null
+                          mySubscription: null
+                          name: Name
+                          outOfOffice:
+                            message: ''
+                          photo:
+                            fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+                            largePhotoUrl: https://<my_domain>/profilephoto/729.../F
+                            mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
+                            photoVersionId: 729...
+                            smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
+                            standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+                            url: /services/data/v58.0/connect/user-profiles/005.../photo
+                          reputation: null
+                          title: null
+                          type: User
+                          url: /services/data/v58.0/chatter/users/005...
+                          userType: Internal
+                        body:
+                          isRichText: false
+                          messageSegments:
+                          - text: Post Number 1
+                            type: Text
+                          text: Post Number 1
+                        capabilities:
+                          associatedActions:
+                            platformActionGroups: []
+                          bookmarks:
+                            isBookmarkedByCurrentUser: false
+                          chatterLikes:
+                            isLikedByCurrentUser: false
+                            likesMessage: null
+                            myLike: null
+                            page:
+                              currentPageToken: 0
+                              currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/chatter-likes/items
+                              items: []
+                              nextPageToken: null
+                              nextPageUrl: null
+                              previousPageToken: null
+                              previousPageUrl: null
+                              total: 0
+                          close:
+                            canContextUserUpdateIsClosed: true
+                            isClosed: false
+                          comments:
+                            page:
+                              currentPageToken: null
+                              currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/comments/items
+                              items: []
+                              nextPageToken: null
+                              nextPageUrl: null
+                              previousPageToken: null
+                              previousPageUrl: null
+                              total: 0
+                          edit:
+                            isEditRestricted: false
+                            isEditableByMeUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/edit/is-editable-by-me
+                            lastEditedBy: null
+                            lastEditedDate: null
+                            latestRevision: 1
+                            relativeLastEditedDate: null
+                          interactions:
+                            count: 0
+                          mute:
+                            isMutedByMe: false
+                          readBy:
+                            isReadByMe: true
+                            lastReadDateByMe: '2023-11-22T11:11:25.000Z'
+                            page:
+                              currentPageToken: null
+                              currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/read-by/items?pageSize=3
+                              items: []
+                              nextPageToken: null
+                              nextPageUrl: null
+                              previousPageToken: null
+                              previousPageUrl: null
+                              total: 0
+                          status:
+                            feedEntityStatus: Published
+                            isApprovableByMe: true
+                          topics:
+                            canAssignTopics: true
+                            items: []
+                          upDownVote:
+                            downVoteCount: 0
+                            myVote: None
+                            upVoteCount: 0
+                        clientInfo:
+                          applicationName: Postman Playground
+                          applicationUrl: null
+                        createdDate: '2023-11-22T11:11:25.000Z'
+                        event: false
+                        feedElementType: FeedItem
+                        hasVerifiedComment: false
+                        header:
+                          isRichText: null
+                          messageSegments:
+                          - motif:
+                              color: 1B96FF
+                              largeIconUrl: /img/icon/profile64.png
+                              mediumIconUrl: /img/icon/profile32.png
+                              smallIconUrl: /img/icon/profile16.png
+                              svgIconUrl: null
+                            reference:
+                              id: 005...
+                              url: /services/data/v58.0/chatter/users/005...
+                            text: Name
+                            type: EntityLink
+                          text: Name
+                        id: 0D5...
+                        isDeleteRestricted: false
+                        isSharable: false
+                        modifiedDate: '2023-11-22T11:11:25.000Z'
+                        originalFeedItem: null
+                        originalFeedItemActor: null
+                        parent:
+                          entityLabel:
+                            label: Account
+                            labelPlural: Accounts
+                          id: 001...
+                          motif:
+                            color: 5867E8
+                            largeIconUrl: /img/icon/accounts64.png
+                            mediumIconUrl: /img/icon/accounts32.png
+                            smallIconUrl: /img/icon/accounts16.png
+                            svgIconUrl: null
+                          mySubscription: null
+                          name: Burlington Textiles Corp of America
+                          type: Account
+                          url: /services/data/v58.0/chatter/records/001...
+                        photoUrl: https://<my_domain>/profilephoto/729.../T
+                        relativeCreatedDate: Just now
+                        type: TextPost
+                        url: /services/data/v58.0/chatter/feed-elements/0D5...
+                        visibility: InternalUsers
+                      statusCode: 201
+                    - result:
+                        actor:
+                          additionalLabel: null
+                          communityNickname: User1696423780773910041
+                          companyName: Salesforce
+                          displayName: Name
+                          firstName: Firstname
+                          id: 005...
+                          isActive: true
+                          isInThisCommunity: true
+                          lastName: Name
+                          motif:
+                            color: 1B96FF
+                            largeIconUrl: /img/icon/profile64.png
+                            mediumIconUrl: /img/icon/profile32.png
+                            smallIconUrl: /img/icon/profile16.png
+                            svgIconUrl: null
+                          mySubscription: null
+                          name: Name
+                          outOfOffice:
+                            message: ''
+                          photo:
+                            fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+                            largePhotoUrl: https://<my_domain>/profilephoto/729.../F
+                            mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
+                            photoVersionId: 729...
+                            smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
+                            standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+                            url: /services/data/v58.0/connect/user-profiles/005.../photo
+                          reputation: null
+                          title: null
+                          type: User
+                          url: /services/data/v58.0/chatter/users/005...
+                          userType: Internal
+                        body:
+                          isRichText: false
+                          messageSegments:
+                          - text: Post Number 2
+                            type: Text
+                          text: Post Number 2
+                        capabilities:
+                          associatedActions:
+                            platformActionGroups: []
+                          bookmarks:
+                            isBookmarkedByCurrentUser: false
+                          chatterLikes:
+                            isLikedByCurrentUser: false
+                            likesMessage: null
+                            myLike: null
+                            page:
+                              currentPageToken: 0
+                              currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/chatter-likes/items
+                              items: []
+                              nextPageToken: null
+                              nextPageUrl: null
+                              previousPageToken: null
+                              previousPageUrl: null
+                              total: 0
+                          close:
+                            canContextUserUpdateIsClosed: true
+                            isClosed: false
+                          comments:
+                            page:
+                              currentPageToken: null
+                              currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/comments/items
+                              items: []
+                              nextPageToken: null
+                              nextPageUrl: null
+                              previousPageToken: null
+                              previousPageUrl: null
+                              total: 0
+                          edit:
+                            isEditRestricted: false
+                            isEditableByMeUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/edit/is-editable-by-me
+                            lastEditedBy: null
+                            lastEditedDate: null
+                            latestRevision: 1
+                            relativeLastEditedDate: null
+                          interactions:
+                            count: 0
+                          mute:
+                            isMutedByMe: false
+                          readBy:
+                            isReadByMe: true
+                            lastReadDateByMe: '2023-11-22T11:11:25.000Z'
+                            page:
+                              currentPageToken: null
+                              currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/read-by/items?pageSize=3
+                              items: []
+                              nextPageToken: null
+                              nextPageUrl: null
+                              previousPageToken: null
+                              previousPageUrl: null
+                              total: 0
+                          status:
+                            feedEntityStatus: Published
+                            isApprovableByMe: true
+                          topics:
+                            canAssignTopics: true
+                            items: []
+                          upDownVote:
+                            downVoteCount: 0
+                            myVote: None
+                            upVoteCount: 0
+                        clientInfo:
+                          applicationName: Postman Playground
+                          applicationUrl: null
+                        createdDate: '2023-11-22T11:11:25.000Z'
+                        event: false
+                        feedElementType: FeedItem
+                        hasVerifiedComment: false
+                        header:
+                          isRichText: null
+                          messageSegments:
+                          - motif:
+                              color: 1B96FF
+                              largeIconUrl: /img/icon/profile64.png
+                              mediumIconUrl: /img/icon/profile32.png
+                              smallIconUrl: /img/icon/profile16.png
+                              svgIconUrl: null
+                            reference:
+                              id: 005...
+                              url: /services/data/v58.0/chatter/users/005...
+                            text: Name
+                            type: EntityLink
+                          text: Name
+                        id: 0D5...
+                        isDeleteRestricted: false
+                        isSharable: true
+                        modifiedDate: '2023-11-22T11:11:25.000Z'
+                        originalFeedItem: null
+                        originalFeedItemActor: null
+                        parent:
+                          additionalLabel: null
+                          communityNickname: User1696423780773910041
+                          companyName: Salesforce
+                          displayName: Name
+                          firstName: Firstname
+                          id: 005...
+                          isActive: true
+                          isInThisCommunity: true
+                          lastName: Name
+                          motif:
+                            color: 1B96FF
+                            largeIconUrl: /img/icon/profile64.png
+                            mediumIconUrl: /img/icon/profile32.png
+                            smallIconUrl: /img/icon/profile16.png
+                            svgIconUrl: null
+                          mySubscription: null
+                          name: Name
+                          outOfOffice:
+                            message: ''
+                          photo:
+                            fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+                            largePhotoUrl: https://<my_domain>/profilephoto/729.../F
+                            mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
+                            photoVersionId: 729...
+                            smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
+                            standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+                            url: /services/data/v58.0/connect/user-profiles/005.../photo
+                          reputation: null
+                          title: null
+                          type: User
+                          url: /services/data/v58.0/chatter/users/005...
+                          userType: Internal
+                        photoUrl: https://<my_domain>/profilephoto/729.../T
+                        relativeCreatedDate: Just now
+                        type: TextPost
+                        url: /services/data/v58.0/chatter/feed-elements/0D5...
+                        visibility: AllUsers
+                      statusCode: 201
+                    - result:
+                      - errorCode: INVALID_MARKUP
+                        message: 'Error while parsing Rich Text Content: The value of attribute &quot;src&quot; associated with an element type &quot;img&quot; must not contain the &#39;&lt;&#39; character.'
+                      statusCode: 400
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                hasErrors: true
+                results:
+                - result:
+                    actor:
+                      additionalLabel: null
+                      communityNickname: User1696423780773910041
+                      companyName: Salesforce
+                      displayName: Name
+                      firstName: Firstname
+                      id: 005...
+                      isActive: true
+                      isInThisCommunity: true
+                      lastName: Name
+                      motif:
+                        color: 1B96FF
+                        largeIconUrl: /img/icon/profile64.png
+                        mediumIconUrl: /img/icon/profile32.png
+                        smallIconUrl: /img/icon/profile16.png
+                        svgIconUrl: null
+                      mySubscription: null
+                      name: Name
+                      outOfOffice:
+                        message: ''
+                      photo:
+                        fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+                        largePhotoUrl: https://<my_domain>/profilephoto/729.../F
+                        mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
+                        photoVersionId: 729...
+                        smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
+                        standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+                        url: /services/data/v58.0/connect/user-profiles/005.../photo
+                      reputation: null
+                      title: null
+                      type: User
+                      url: /services/data/v58.0/chatter/users/005...
+                      userType: Internal
+                    body:
+                      isRichText: false
+                      messageSegments:
+                      - text: Post Number 1
+                        type: Text
+                      text: Post Number 1
+                    capabilities:
+                      associatedActions:
+                        platformActionGroups: []
+                      bookmarks:
+                        isBookmarkedByCurrentUser: false
+                      chatterLikes:
+                        isLikedByCurrentUser: false
+                        likesMessage: null
+                        myLike: null
+                        page:
+                          currentPageToken: 0
+                          currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/chatter-likes/items
+                          items: []
+                          nextPageToken: null
+                          nextPageUrl: null
+                          previousPageToken: null
+                          previousPageUrl: null
+                          total: 0
+                      close:
+                        canContextUserUpdateIsClosed: true
+                        isClosed: false
+                      comments:
+                        page:
+                          currentPageToken: null
+                          currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/comments/items
+                          items: []
+                          nextPageToken: null
+                          nextPageUrl: null
+                          previousPageToken: null
+                          previousPageUrl: null
+                          total: 0
+                      edit:
+                        isEditRestricted: false
+                        isEditableByMeUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/edit/is-editable-by-me
+                        lastEditedBy: null
+                        lastEditedDate: null
+                        latestRevision: 1
+                        relativeLastEditedDate: null
+                      interactions:
+                        count: 0
+                      mute:
+                        isMutedByMe: false
+                      readBy:
+                        isReadByMe: true
+                        lastReadDateByMe: '2023-11-22T11:11:25.000Z'
+                        page:
+                          currentPageToken: null
+                          currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/read-by/items?pageSize=3
+                          items: []
+                          nextPageToken: null
+                          nextPageUrl: null
+                          previousPageToken: null
+                          previousPageUrl: null
+                          total: 0
+                      status:
+                        feedEntityStatus: Published
+                        isApprovableByMe: true
+                      topics:
+                        canAssignTopics: true
+                        items: []
+                      upDownVote:
+                        downVoteCount: 0
+                        myVote: None
+                        upVoteCount: 0
+                    clientInfo:
+                      applicationName: Postman Playground
+                      applicationUrl: null
+                    createdDate: '2023-11-22T11:11:25.000Z'
+                    event: false
+                    feedElementType: FeedItem
+                    hasVerifiedComment: false
+                    header:
+                      isRichText: null
+                      messageSegments:
+                      - motif:
+                          color: 1B96FF
+                          largeIconUrl: /img/icon/profile64.png
+                          mediumIconUrl: /img/icon/profile32.png
+                          smallIconUrl: /img/icon/profile16.png
+                          svgIconUrl: null
+                        reference:
+                          id: 005...
+                          url: /services/data/v58.0/chatter/users/005...
+                        text: Name
+                        type: EntityLink
+                      text: Name
+                    id: 0D5...
+                    isDeleteRestricted: false
+                    isSharable: false
+                    modifiedDate: '2023-11-22T11:11:25.000Z'
+                    originalFeedItem: null
+                    originalFeedItemActor: null
+                    parent:
+                      entityLabel:
+                        label: Account
+                        labelPlural: Accounts
+                      id: 001...
+                      motif:
+                        color: 5867E8
+                        largeIconUrl: /img/icon/accounts64.png
+                        mediumIconUrl: /img/icon/accounts32.png
+                        smallIconUrl: /img/icon/accounts16.png
+                        svgIconUrl: null
+                      mySubscription: null
+                      name: Burlington Textiles Corp of America
+                      type: Account
+                      url: /services/data/v58.0/chatter/records/001...
+                    photoUrl: https://<my_domain>/profilephoto/729.../T
+                    relativeCreatedDate: Just now
+                    type: TextPost
+                    url: /services/data/v58.0/chatter/feed-elements/0D5...
+                    visibility: InternalUsers
+                  statusCode: 201
+                - result:
+                    actor:
+                      additionalLabel: null
+                      communityNickname: User1696423780773910041
+                      companyName: Salesforce
+                      displayName: Name
+                      firstName: Firstname
+                      id: 005...
+                      isActive: true
+                      isInThisCommunity: true
+                      lastName: Name
+                      motif:
+                        color: 1B96FF
+                        largeIconUrl: /img/icon/profile64.png
+                        mediumIconUrl: /img/icon/profile32.png
+                        smallIconUrl: /img/icon/profile16.png
+                        svgIconUrl: null
+                      mySubscription: null
+                      name: Name
+                      outOfOffice:
+                        message: ''
+                      photo:
+                        fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+                        largePhotoUrl: https://<my_domain>/profilephoto/729.../F
+                        mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
+                        photoVersionId: 729...
+                        smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
+                        standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+                        url: /services/data/v58.0/connect/user-profiles/005.../photo
+                      reputation: null
+                      title: null
+                      type: User
+                      url: /services/data/v58.0/chatter/users/005...
+                      userType: Internal
+                    body:
+                      isRichText: false
+                      messageSegments:
+                      - text: Post Number 2
+                        type: Text
+                      text: Post Number 2
+                    capabilities:
+                      associatedActions:
+                        platformActionGroups: []
+                      bookmarks:
+                        isBookmarkedByCurrentUser: false
+                      chatterLikes:
+                        isLikedByCurrentUser: false
+                        likesMessage: null
+                        myLike: null
+                        page:
+                          currentPageToken: 0
+                          currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/chatter-likes/items
+                          items: []
+                          nextPageToken: null
+                          nextPageUrl: null
+                          previousPageToken: null
+                          previousPageUrl: null
+                          total: 0
+                      close:
+                        canContextUserUpdateIsClosed: true
+                        isClosed: false
+                      comments:
+                        page:
+                          currentPageToken: null
+                          currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/comments/items
+                          items: []
+                          nextPageToken: null
+                          nextPageUrl: null
+                          previousPageToken: null
+                          previousPageUrl: null
+                          total: 0
+                      edit:
+                        isEditRestricted: false
+                        isEditableByMeUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/edit/is-editable-by-me
+                        lastEditedBy: null
+                        lastEditedDate: null
+                        latestRevision: 1
+                        relativeLastEditedDate: null
+                      interactions:
+                        count: 0
+                      mute:
+                        isMutedByMe: false
+                      readBy:
+                        isReadByMe: true
+                        lastReadDateByMe: '2023-11-22T11:11:25.000Z'
+                        page:
+                          currentPageToken: null
+                          currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/read-by/items?pageSize=3
+                          items: []
+                          nextPageToken: null
+                          nextPageUrl: null
+                          previousPageToken: null
+                          previousPageUrl: null
+                          total: 0
+                      status:
+                        feedEntityStatus: Published
+                        isApprovableByMe: true
+                      topics:
+                        canAssignTopics: true
+                        items: []
+                      upDownVote:
+                        downVoteCount: 0
+                        myVote: None
+                        upVoteCount: 0
+                    clientInfo:
+                      applicationName: Postman Playground
+                      applicationUrl: null
+                    createdDate: '2023-11-22T11:11:25.000Z'
+                    event: false
+                    feedElementType: FeedItem
+                    hasVerifiedComment: false
+                    header:
+                      isRichText: null
+                      messageSegments:
+                      - motif:
+                          color: 1B96FF
+                          largeIconUrl: /img/icon/profile64.png
+                          mediumIconUrl: /img/icon/profile32.png
+                          smallIconUrl: /img/icon/profile16.png
+                          svgIconUrl: null
+                        reference:
+                          id: 005...
+                          url: /services/data/v58.0/chatter/users/005...
+                        text: Name
+                        type: EntityLink
+                      text: Name
+                    id: 0D5...
+                    isDeleteRestricted: false
+                    isSharable: true
+                    modifiedDate: '2023-11-22T11:11:25.000Z'
+                    originalFeedItem: null
+                    originalFeedItemActor: null
+                    parent:
+                      additionalLabel: null
+                      communityNickname: User1696423780773910041
+                      companyName: Salesforce
+                      displayName: Name
+                      firstName: Firstname
+                      id: 005...
+                      isActive: true
+                      isInThisCommunity: true
+                      lastName: Name
+                      motif:
+                        color: 1B96FF
+                        largeIconUrl: /img/icon/profile64.png
+                        mediumIconUrl: /img/icon/profile32.png
+                        smallIconUrl: /img/icon/profile16.png
+                        svgIconUrl: null
+                      mySubscription: null
+                      name: Name
+                      outOfOffice:
+                        message: ''
+                      photo:
+                        fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+                        largePhotoUrl: https://<my_domain>/profilephoto/729.../F
+                        mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
+                        photoVersionId: 729...
+                        smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
+                        standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+                        url: /services/data/v58.0/connect/user-profiles/005.../photo
+                      reputation: null
+                      title: null
+                      type: User
+                      url: /services/data/v58.0/chatter/users/005...
+                      userType: Internal
+                    photoUrl: https://<my_domain>/profilephoto/729.../T
+                    relativeCreatedDate: Just now
+                    type: TextPost
+                    url: /services/data/v58.0/chatter/feed-elements/0D5...
+                    visibility: AllUsers
+                  statusCode: 201
+                - result:
+                  - errorCode: INVALID_MARKUP
+                    message: 'Error while parsing Rich Text Content: The value of attribute &quot;src&quot; associated with an element type &quot;img&quot; must not contain the &#39;&lt;&#39; character.'
+                  statusCode: 400
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/chatter/feed-elements/{FEED_ELEMENT_ID}/capabilities/comments/items:
+    parameters: []
+    post:
+      tags:
+      - Elements
+      summary: Salesforce Feed Elements Capability, Comments Items
+      description: 'Access comments for a feed element, or add a comment to a feed element.
+
+        To upload a binary file to attach to a comment, you must send it in a multipart/form-data request. To send the text of the comment, you can choose to include a JSON or XML rich input body part in the multipart/form-data request. Alternately, you can choose to pass the information in request parameter parts. For information about how to create the multipart/form-data message, see Uploading Binary Files.
+
+
+        https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_feed_element_capability_comments_items.htm#connect_resources_feed_element_capability_comments_items'
+      operationId: FeedElementsCapability,CommentsItems
+      parameters:
+      - name: text
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          examples:
+          - New Comment
+        example: example_value
+      - name: FEED_ELEMENT_ID
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Wed, 22 Nov 2023 11:14:33 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/FeedElementsCapabilityCommentsItems'
+                - examples:
+                  - body:
+                      isRichText: false
+                      messageSegments:
+                      - text: New Comment
+                        type: Text
+                      text: New Comment
+                    capabilities:
+                      edit:
+                        isEditRestricted: false
+                        isEditableByMeUrl: /services/data/v58.0/chatter/comments/0D7.../capabilities/edit/is-editable-by-me
+                        lastEditedBy: null
+                        lastEditedDate: null
+                        latestRevision: 1
+                        relativeLastEditedDate: null
+                      status:
+                        feedEntityStatus: Published
+                        isApprovableByMe: true
+                      upDownVote:
+                        downVoteCount: 0
+                        myVote: None
+                        upVoteCount: 0
+                      verified:
+                        isVerifiableByMe: false
+                        isVerified: false
+                        isVerifiedByAnonymized: null
+                        lastVerifiedByUser: null
+                        lastVerifiedDate: null
+                    clientInfo:
+                      applicationName: Postman Playground
+                      applicationUrl: null
+                    createdDate: '2023-11-22T11:14:33.000Z'
+                    feedElement:
+                      id: 0D5...
+                      url: /services/data/v58.0/chatter/feed-elements/0D5...
+                    id: 0D7...
+                    isDeleteRestricted: false
+                    likes:
+                      currentPageToken: null
+                      currentPageUrl: /services/data/v58.0/chatter/comments/0D7.../likes
+                      items: []
+                      nextPageToken: null
+                      nextPageUrl: null
+                      previousPageToken: null
+                      previousPageUrl: null
+                      total: 0
+                    likesMessage: null
+                    moderationFlags: null
+                    myLike: null
+                    parent:
+                      id: 001...
+                      url: /services/data/v58.0/chatter/records/001...
+                    relativeCreatedDate: Just now
+                    threadLevel: 0
+                    threadParentId: null
+                    type: TextComment
+                    url: /services/data/v58.0/chatter/comments/0D7...
+                    user:
+                      additionalLabel: null
+                      communityNickname: User1696423780773910041
+                      companyName: Salesforce
+                      displayName: Name
+                      firstName: Firstname
+                      id: 005...
+                      isActive: true
+                      isInThisCommunity: true
+                      lastName: Name
+                      motif:
+                        color: 1B96FF
+                        largeIconUrl: /img/icon/profile64.png
+                        mediumIconUrl: /img/icon/profile32.png
+                        smallIconUrl: /img/icon/profile16.png
+                        svgIconUrl: null
+                      mySubscription: null
+                      name: Name
+                      outOfOffice:
+                        message: ''
+                      photo:
+                        fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+                        largePhotoUrl: https://<my_domain>/profilephoto/729.../F
+                        mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
+                        photoVersionId: 729...
+                        smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
+                        standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+                        url: /services/data/v58.0/connect/user-profiles/005.../photo
+                      reputation: null
+                      title: null
+                      type: User
+                      url: /services/data/v58.0/chatter/users/005...
+                      userType: Internal
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                body:
+                  isRichText: false
+                  messageSegments:
+                  - text: New Comment
+                    type: Text
+                  text: New Comment
+                capabilities:
+                  edit:
+                    isEditRestricted: false
+                    isEditableByMeUrl: /services/data/v58.0/chatter/comments/0D7.../capabilities/edit/is-editable-by-me
+                    lastEditedBy: null
+                    lastEditedDate: null
+                    latestRevision: 1
+                    relativeLastEditedDate: null
+                  status:
+                    feedEntityStatus: Published
+                    isApprovableByMe: true
+                  upDownVote:
+                    downVoteCount: 0
+                    myVote: None
+                    upVoteCount: 0
+                  verified:
+                    isVerifiableByMe: false
+                    isVerified: false
+                    isVerifiedByAnonymized: null
+                    lastVerifiedByUser: null
+                    lastVerifiedDate: null
+                clientInfo:
+                  applicationName: Postman Playground
+                  applicationUrl: null
+                createdDate: '2023-11-22T11:14:33.000Z'
+                feedElement:
+                  id: 0D5...
+                  url: /services/data/v58.0/chatter/feed-elements/0D5...
+                id: 0D7...
+                isDeleteRestricted: false
+                likes:
+                  currentPageToken: null
+                  currentPageUrl: /services/data/v58.0/chatter/comments/0D7.../likes
+                  items: []
+                  nextPageToken: null
+                  nextPageUrl: null
+                  previousPageToken: null
+                  previousPageUrl: null
+                  total: 0
+                likesMessage: null
+                moderationFlags: null
+                myLike: null
+                parent:
+                  id: 001...
+                  url: /services/data/v58.0/chatter/records/001...
+                relativeCreatedDate: Just now
+                threadLevel: 0
+                threadParentId: null
+                type: TextComment
+                url: /services/data/v58.0/chatter/comments/0D7...
+                user:
+                  additionalLabel: null
+                  communityNickname: User1696423780773910041
+                  companyName: Salesforce
+                  displayName: Name
+                  firstName: Firstname
+                  id: 005...
+                  isActive: true
+                  isInThisCommunity: true
+                  lastName: Name
+                  motif:
+                    color: 1B96FF
+                    largeIconUrl: /img/icon/profile64.png
+                    mediumIconUrl: /img/icon/profile32.png
+                    smallIconUrl: /img/icon/profile16.png
+                    svgIconUrl: null
+                  mySubscription: null
+                  name: Name
+                  outOfOffice:
+                    message: ''
+                  photo:
+                    fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+                    largePhotoUrl: https://<my_domain>/profilephoto/729.../F
+                    mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
+                    photoVersionId: 729...
+                    smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
+                    standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+                    url: /services/data/v58.0/connect/user-profiles/005.../photo
+                  reputation: null
+                  title: null
+                  type: User
+                  url: /services/data/v58.0/chatter/users/005...
+                  userType: Internal
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Parent:
+      title: Parent
+      required:
+      - entityLabel
+      - id
+      - motif
+      - mySubscription
+      - name
+      - type
+      - url
+      type: object
+      properties:
+        entityLabel:
+          $ref: '#/components/schemas/EntityLabel'
+        id:
+          type: string
+          example: abc123
+        motif:
+          $ref: '#/components/schemas/Motif'
+        mySubscription:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        name:
+          type: string
+          example: Example Title
+        type:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - entityLabel:
+          label: Account
+          labelPlural: Accounts
+        id: 001...
+        motif:
+          color: 5867E8
+          largeIconUrl: /img/icon/accounts64.png
+          mediumIconUrl: /img/icon/accounts32.png
+          smallIconUrl: /img/icon/accounts16.png
+          svgIconUrl: null
+        mySubscription: null
+        name: Burlington Textiles Corp of America
+        type: Account
+        url: /services/data/v58.0/chatter/records/001...
+    Edit:
+      title: Edit
+      required:
+      - isEditRestricted
+      - isEditableByMeUrl
+      - lastEditedBy
+      - lastEditedDate
+      - latestRevision
+      - relativeLastEditedDate
+      type: object
+      properties:
+        isEditRestricted:
+          type: boolean
+          example: true
+        isEditableByMeUrl:
+          type: string
+          example: https://www.example.com
+        lastEditedBy:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        lastEditedDate:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        latestRevision:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        relativeLastEditedDate:
+          type:
+          - string
+          - 'null'
+          example: example_value
+      examples:
+      - isEditRestricted: false
+        isEditableByMeUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/edit/is-editable-by-me
+        lastEditedBy: null
+        lastEditedDate: null
+        latestRevision: 1
+        relativeLastEditedDate: null
+    Header:
+      title: Header
+      required:
+      - isRichText
+      - messageSegments
+      - text
+      type: object
+      properties:
+        isRichText:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        messageSegments:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageSegment1'
+          description: ''
+          example: []
+        text:
+          type: string
+          example: example_value
+      examples:
+      - isRichText: null
+        messageSegments:
+        - motif:
+            color: 1B96FF
+            largeIconUrl: /img/icon/profile64.png
+            mediumIconUrl: /img/icon/profile32.png
+            smallIconUrl: /img/icon/profile16.png
+            svgIconUrl: null
+          reference:
+            id: 005...
+            url: /services/data/v58.0/chatter/users/005...
+          text: Name
+          type: EntityLink
+        text: Name
+    Input:
+      title: Input
+      required:
+      - richInput
+      type: object
+      properties:
+        richInput:
+          $ref: '#/components/schemas/RichInput'
+      examples:
+      - richInput:
+          subjectId: <USER_GROUP_RECORD_ID>
+          body:
+            messageSegments:
+            - type: Text
+              text: Post Number 1
+          capabilities:
+            files:
+              items:
+              - id: <FILE_ID>
+          feedElementType: FeedItem
+    Result2:
+      title: Result2
+      type: object
+      properties:
+        actor:
+          $ref: '#/components/schemas/Actor'
+        body:
+          $ref: '#/components/schemas/Body4'
+        capabilities:
+          $ref: '#/components/schemas/Capabilities'
+        clientInfo:
+          $ref: '#/components/schemas/ClientInfo'
+        createdDate:
+          type: string
+          example: example_value
+        event:
+          type: boolean
+          example: true
+        feedElementType:
+          type: string
+          example: example_value
+        hasVerifiedComment:
+          type: boolean
+          example: true
+        header:
+          $ref: '#/components/schemas/Header'
+        id:
+          type: string
+          example: abc123
+        isDeleteRestricted:
+          type: boolean
+          example: true
+        isSharable:
+          type: boolean
+          example: true
+        modifiedDate:
+          type: string
+          example: example_value
+        originalFeedItem:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        originalFeedItemActor:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        parent:
+          $ref: '#/components/schemas/Parent2'
+        photoUrl:
+          type: string
+          example: https://www.example.com
+        relativeCreatedDate:
+          type: string
+          example: example_value
+        type:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+        visibility:
+          type: string
+          example: example_value
+      examples:
+      - actor:
+          additionalLabel: null
+          communityNickname: User1696423780773910041
+          companyName: Salesforce
+          displayName: Name
+          firstName: Firstname
+          id: 005...
+          isActive: true
+          isInThisCommunity: true
+          lastName: Name
+          motif:
+            color: 1B96FF
+            largeIconUrl: /img/icon/profile64.png
+            mediumIconUrl: /img/icon/profile32.png
+            smallIconUrl: /img/icon/profile16.png
+            svgIconUrl: null
+          mySubscription: null
+          name: Name
+          outOfOffice:
+            message: ''
+          photo:
+            fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+            largePhotoUrl: https://<my_domain>/profilephoto/729.../F
+            mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
+            photoVersionId: 729...
+            smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
+            standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+            url: /services/data/v58.0/connect/user-profiles/005.../photo
+          reputation: null
+          title: null
+          type: User
+          url: /services/data/v58.0/chatter/users/005...
+          userType: Internal
+        body:
+          isRichText: false
+          messageSegments:
+          - text: Post Number 1
+            type: Text
+          text: Post Number 1
+        capabilities:
+          associatedActions:
+            platformActionGroups: []
+          bookmarks:
+            isBookmarkedByCurrentUser: false
+          chatterLikes:
+            isLikedByCurrentUser: false
+            likesMessage: null
+            myLike: null
+            page:
+              currentPageToken: 0
+              currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/chatter-likes/items
+              items: []
+              nextPageToken: null
+              nextPageUrl: null
+              previousPageToken: null
+              previousPageUrl: null
+              total: 0
+          close:
+            canContextUserUpdateIsClosed: true
+            isClosed: false
+          comments:
+            page:
+              currentPageToken: null
+              currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/comments/items
+              items: []
+              nextPageToken: null
+              nextPageUrl: null
+              previousPageToken: null
+              previousPageUrl: null
+              total: 0
+          edit:
+            isEditRestricted: false
+            isEditableByMeUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/edit/is-editable-by-me
+            lastEditedBy: null
+            lastEditedDate: null
+            latestRevision: 1
+            relativeLastEditedDate: null
+          interactions:
+            count: 0
+          mute:
+            isMutedByMe: false
+          readBy:
+            isReadByMe: true
+            lastReadDateByMe: '2023-11-22T11:11:25.000Z'
+            page:
+              currentPageToken: null
+              currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/read-by/items?pageSize=3
+              items: []
+              nextPageToken: null
+              nextPageUrl: null
+              previousPageToken: null
+              previousPageUrl: null
+              total: 0
+          status:
+            feedEntityStatus: Published
+            isApprovableByMe: true
+          topics:
+            canAssignTopics: true
+            items: []
+          upDownVote:
+            downVoteCount: 0
+            myVote: None
+            upVoteCount: 0
+        clientInfo:
+          applicationName: Postman Playground
+          applicationUrl: null
+        createdDate: '2023-11-22T11:11:25.000Z'
+        event: false
+        feedElementType: FeedItem
+        hasVerifiedComment: false
+        header:
+          isRichText: null
+          messageSegments:
+          - motif:
+              color: 1B96FF
+              largeIconUrl: /img/icon/profile64.png
+              mediumIconUrl: /img/icon/profile32.png
+              smallIconUrl: /img/icon/profile16.png
+              svgIconUrl: null
+            reference:
+              id: 005...
+              url: /services/data/v58.0/chatter/users/005...
+            text: Name
+            type: EntityLink
+          text: Name
+        id: 0D5...
+        isDeleteRestricted: false
+        isSharable: false
+        modifiedDate: '2023-11-22T11:11:25.000Z'
+        originalFeedItem: null
+        originalFeedItemActor: null
+        parent:
+          entityLabel:
+            label: Account
+            labelPlural: Accounts
+          id: 001...
+          motif:
+            color: 5867E8
+            largeIconUrl: /img/icon/accounts64.png
+            mediumIconUrl: /img/icon/accounts32.png
+            smallIconUrl: /img/icon/accounts16.png
+            svgIconUrl: null
+          mySubscription: null
+          name: Burlington Textiles Corp of America
+          type: Account
+          url: /services/data/v58.0/chatter/records/001...
+        photoUrl: https://<my_domain>/profilephoto/729.../T
+        relativeCreatedDate: Just now
+        type: TextPost
+        url: /services/data/v58.0/chatter/feed-elements/0D5...
+        visibility: InternalUsers
+    SuccessfulNewsFeedElements:
+      title: SuccessfulNewsFeedElements
+      required:
+      - currentPageToken
+      - currentPageUrl
+      - elements
+      - isModifiedToken
+      - isModifiedUrl
+      - nextPageToken
+      - nextPageUrl
+      - updatesToken
+      - updatesUrl
+      type: object
+      properties:
+        currentPageToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        currentPageUrl:
+          type: string
+          example: https://www.example.com
+        elements:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        isModifiedToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        isModifiedUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        nextPageToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        nextPageUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        updatesToken:
+          type: string
+          example: CAUQAA
+        updatesUrl:
+          type: string
+          example: https://www.example.com
+      examples:
+      - currentPageToken: null
+        currentPageUrl: /services/data/v58.0/chatter/feeds/news/005.../feed-elements
+        elements: []
+        isModifiedToken: null
+        isModifiedUrl: null
+        nextPageToken: null
+        nextPageUrl: null
+        updatesToken: 2:1700651042000
+        updatesUrl: /services/data/v58.0/chatter/feeds/news/005.../feed-elements?updatedSince=2%3A1700651042000
+    Motif:
+      title: Motif
+      required:
+      - color
+      - largeIconUrl
+      - mediumIconUrl
+      - smallIconUrl
+      - svgIconUrl
+      type: object
+      properties:
+        color:
+          type: string
+          example: example_value
+        largeIconUrl:
+          type: string
+          example: https://www.example.com
+        mediumIconUrl:
+          type: string
+          example: https://www.example.com
+        smallIconUrl:
+          type: string
+          example: https://www.example.com
+        svgIconUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+      examples:
+      - color: '939393'
+        largeIconUrl: /img/content/content64.png
+        mediumIconUrl: /img/content/content32.png
+        smallIconUrl: /img/icon/files16.png
+        svgIconUrl: null
+    SuccessfulUserProfileFeedElements:
+      title: SuccessfulUserProfileFeedElements
+      required:
+      - currentPageToken
+      - currentPageUrl
+      - elements
+      - isModifiedToken
+      - isModifiedUrl
+      - nextPageToken
+      - nextPageUrl
+      - updatesToken
+      - updatesUrl
+      type: object
+      properties:
+        currentPageToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        currentPageUrl:
+          type: string
+          example: https://www.example.com
+        elements:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        isModifiedToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        isModifiedUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        nextPageToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        nextPageUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        updatesToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        updatesUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+      examples:
+      - currentPageToken: null
+        currentPageUrl: /services/data/v58.0/chatter/feeds/user-profile/005.../feed-elements
+        elements: []
+        isModifiedToken: null
+        isModifiedUrl: null
+        nextPageToken: null
+        nextPageUrl: null
+        updatesToken: null
+        updatesUrl: null
+    Likes:
+      title: Likes
+      required:
+      - currentPageToken
+      - currentPageUrl
+      - items
+      - nextPageToken
+      - nextPageUrl
+      - previousPageToken
+      - previousPageUrl
+      - total
+      type: object
+      properties:
+        currentPageToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        currentPageUrl:
+          type: string
+          example: https://www.example.com
+        items:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        nextPageToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        nextPageUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        previousPageToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        previousPageUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        total:
+          type: integer
+          contentEncoding: int32
+          example: 42
+      examples:
+      - currentPageToken: null
+        currentPageUrl: /services/data/v58.0/chatter/comments/0D7.../likes
+        items: []
+        nextPageToken: null
+        nextPageUrl: null
+        previousPageToken: null
+        previousPageUrl: null
+        total: 0
+    Actor:
+      title: Actor
+      required:
+      - additionalLabel
+      - communityNickname
+      - companyName
+      - displayName
+      - firstName
+      - id
+      - isActive
+      - isInThisCommunity
+      - lastName
+      - motif
+      - mySubscription
+      - name
+      - outOfOffice
+      - photo
+      - reputation
+      - title
+      - type
+      - url
+      - userType
+      type: object
+      properties:
+        additionalLabel:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        communityNickname:
+          type: string
+          example: example_value
+        companyName:
+          type: string
+          example: example_value
+        displayName:
+          type: string
+          example: example_value
+        firstName:
+          type: string
+          example: example_value
+        id:
+          type: string
+          example: abc123
+        isActive:
+          type: boolean
+          example: true
+        isInThisCommunity:
+          type: boolean
+          example: true
+        lastName:
+          type: string
+          example: example_value
+        motif:
+          $ref: '#/components/schemas/Motif'
+        mySubscription:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        name:
+          type: string
+          example: Example Title
+        outOfOffice:
+          $ref: '#/components/schemas/OutOfOffice'
+        photo:
+          $ref: '#/components/schemas/Photo'
+        reputation:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        title:
+          type:
+          - string
+          - 'null'
+          example: Example Title
+        type:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+        userType:
+          type: string
+          example: example_value
+      examples:
+      - additionalLabel: null
+        communityNickname: User1696423780773910041
+        companyName: Salesforce
+        displayName: Name
+        firstName: Firstname
+        id: 005...
+        isActive: true
+        isInThisCommunity: true
+        lastName: Name
+        motif:
+          color: 1B96FF
+          largeIconUrl: /img/icon/profile64.png
+          mediumIconUrl: /img/icon/profile32.png
+          smallIconUrl: /img/icon/profile16.png
+          svgIconUrl: null
+        mySubscription: null
+        name: Name
+        outOfOffice:
+          message: ''
+        photo:
+          fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+          largePhotoUrl: https://<my_domain>/profilephoto/729.../F
+          mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
+          photoVersionId: 729...
+          smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
+          standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+          url: /services/data/v58.0/connect/user-profiles/005.../photo
+        reputation: null
+        title: null
+        type: User
+        url: /services/data/v58.0/chatter/users/005...
+        userType: Internal
+    UpDownVote:
+      title: UpDownVote
+      required:
+      - downVoteCount
+      - myVote
+      - upVoteCount
+      type: object
+      properties:
+        downVoteCount:
+          type: integer
+          contentEncoding: int32
+          example: 42
+        myVote:
+          type: string
+          example: example_value
+        upVoteCount:
+          type: integer
+          contentEncoding: int32
+          example: 42
+      examples:
+      - downVoteCount: 0
+        myVote: None
+        upVoteCount: 0
+    ReadBy:
+      title: ReadBy
+      required:
+      - isReadByMe
+      - lastReadDateByMe
+      - page
+      type: object
+      properties:
+        isReadByMe:
+          type: boolean
+          example: true
+        lastReadDateByMe:
+          type: string
+          example: example_value
+        page:
+          $ref: '#/components/schemas/Page1'
+      examples:
+      - isReadByMe: true
+        lastReadDateByMe: '2023-11-22T11:06:07.000Z'
+        page:
+          currentPageToken: null
+          currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/read-by/items?pageSize=3
+          items: []
+          nextPageToken: null
+          nextPageUrl: null
+          previousPageToken: null
+          previousPageUrl: null
+          total: 0
+    Result1:
+      title: Result1
+      required:
+      - result
+      - statusCode
+      type: object
+      properties:
+        result:
+          oneOf:
+          - allOf:
+            - $ref: '#/components/schemas/Result2'
+            - examples:
+              - actor:
+                  additionalLabel: null
+                  communityNickname: User1696423780773910041
+                  companyName: Salesforce
+                  displayName: Name
+                  firstName: Firstname
+                  id: 005...
+                  isActive: true
+                  isInThisCommunity: true
+                  lastName: Name
+                  motif:
+                    color: 1B96FF
+                    largeIconUrl: /img/icon/profile64.png
+                    mediumIconUrl: /img/icon/profile32.png
+                    smallIconUrl: /img/icon/profile16.png
+                    svgIconUrl: null
+                  mySubscription: null
+                  name: Name
+                  outOfOffice:
+                    message: ''
+                  photo:
+                    fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+                    largePhotoUrl: https://<my_domain>/profilephoto/729.../F
+                    mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
+                    photoVersionId: 729...
+                    smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
+                    standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+                    url: /services/data/v58.0/connect/user-profiles/005.../photo
+                  reputation: null
+                  title: null
+                  type: User
+                  url: /services/data/v58.0/chatter/users/005...
+                  userType: Internal
+                body:
+                  isRichText: false
+                  messageSegments:
+                  - text: Post Number 1
+                    type: Text
+                  text: Post Number 1
+                capabilities:
+                  associatedActions:
+                    platformActionGroups: []
+                  bookmarks:
+                    isBookmarkedByCurrentUser: false
+                  chatterLikes:
+                    isLikedByCurrentUser: false
+                    likesMessage: null
+                    myLike: null
+                    page:
+                      currentPageToken: 0
+                      currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/chatter-likes/items
+                      items: []
+                      nextPageToken: null
+                      nextPageUrl: null
+                      previousPageToken: null
+                      previousPageUrl: null
+                      total: 0
+                  close:
+                    canContextUserUpdateIsClosed: true
+                    isClosed: false
+                  comments:
+                    page:
+                      currentPageToken: null
+                      currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/comments/items
+                      items: []
+                      nextPageToken: null
+                      nextPageUrl: null
+                      previousPageToken: null
+                      previousPageUrl: null
+                      total: 0
+                  edit:
+                    isEditRestricted: false
+                    isEditableByMeUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/edit/is-editable-by-me
+                    lastEditedBy: null
+                    lastEditedDate: null
+                    latestRevision: 1
+                    relativeLastEditedDate: null
+                  interactions:
+                    count: 0
+                  mute:
+                    isMutedByMe: false
+                  readBy:
+                    isReadByMe: true
+                    lastReadDateByMe: '2023-11-22T11:11:25.000Z'
+                    page:
+                      currentPageToken: null
+                      currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/read-by/items?pageSize=3
+                      items: []
+                      nextPageToken: null
+                      nextPageUrl: null
+                      previousPageToken: null
+                      previousPageUrl: null
+                      total: 0
+                  status:
+                    feedEntityStatus: Published
+                    isApprovableByMe: true
+                  topics:
+                    canAssignTopics: true
+                    items: []
+                  upDownVote:
+                    downVoteCount: 0
+                    myVote: None
+                    upVoteCount: 0
+                clientInfo:
+                  applicationName: Postman Playground
+                  applicationUrl: null
+                createdDate: '2023-11-22T11:11:25.000Z'
+                event: false
+                feedElementType: FeedItem
+                hasVerifiedComment: false
+                header:
+                  isRichText: null
+                  messageSegments:
+                  - motif:
+                      color: 1B96FF
+                      largeIconUrl: /img/icon/profile64.png
+                      mediumIconUrl: /img/icon/profile32.png
+                      smallIconUrl: /img/icon/profile16.png
+                      svgIconUrl: null
+                    reference:
+                      id: 005...
+                      url: /services/data/v58.0/chatter/users/005...
+                    text: Name
+                    type: EntityLink
+                  text: Name
+                id: 0D5...
+                isDeleteRestricted: false
+                isSharable: false
+                modifiedDate: '2023-11-22T11:11:25.000Z'
+                originalFeedItem: null
+                originalFeedItemActor: null
+                parent:
+                  entityLabel:
+                    label: Account
+                    labelPlural: Accounts
+                  id: 001...
+                  motif:
+                    color: 5867E8
+                    largeIconUrl: /img/icon/accounts64.png
+                    mediumIconUrl: /img/icon/accounts32.png
+                    smallIconUrl: /img/icon/accounts16.png
+                    svgIconUrl: null
+                  mySubscription: null
+                  name: Burlington Textiles Corp of America
+                  type: Account
+                  url: /services/data/v58.0/chatter/records/001...
+                photoUrl: https://<my_domain>/profilephoto/729.../T
+                relativeCreatedDate: Just now
+                type: TextPost
+                url: /services/data/v58.0/chatter/feed-elements/0D5...
+                visibility: InternalUsers
+          - type: array
+            items:
+              $ref: '#/components/schemas/Result21'
+          example: example_value
+        statusCode:
+          type: integer
+          contentEncoding: int32
+          example: 10
+      examples:
+      - result:
+          actor:
+            additionalLabel: null
+            communityNickname: User1696423780773910041
+            companyName: Salesforce
+            displayName: Name
+            firstName: Firstname
+            id: 005...
+            isActive: true
+            isInThisCommunity: true
+            lastName: Name
+            motif:
+              color: 1B96FF
+              largeIconUrl: /img/icon/profile64.png
+              mediumIconUrl: /img/icon/profile32.png
+              smallIconUrl: /img/icon/profile16.png
+              svgIconUrl: null
+            mySubscription: null
+            name: Name
+            outOfOffice:
+              message: ''
+            photo:
+              fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+              largePhotoUrl: https://<my_domain>/profilephoto/729.../F
+              mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
+              photoVersionId: 729...
+              smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
+              standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+              url: /services/data/v58.0/connect/user-profiles/005.../photo
+            reputation: null
+            title: null
+            type: User
+            url: /services/data/v58.0/chatter/users/005...
+            userType: Internal
+          body:
+            isRichText: false
+            messageSegments:
+            - text: Post Number 1
+              type: Text
+            text: Post Number 1
+          capabilities:
+            associatedActions:
+              platformActionGroups: []
+            bookmarks:
+              isBookmarkedByCurrentUser: false
+            chatterLikes:
+              isLikedByCurrentUser: false
+              likesMessage: null
+              myLike: null
+              page:
+                currentPageToken: 0
+                currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/chatter-likes/items
+                items: []
+                nextPageToken: null
+                nextPageUrl: null
+                previousPageToken: null
+                previousPageUrl: null
+                total: 0
+            close:
+              canContextUserUpdateIsClosed: true
+              isClosed: false
+            comments:
+              page:
+                currentPageToken: null
+                currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/comments/items
+                items: []
+                nextPageToken: null
+                nextPageUrl: null
+                previousPageToken: null
+                previousPageUrl: null
+                total: 0
+            edit:
+              isEditRestricted: false
+              isEditableByMeUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/edit/is-editable-by-me
+              lastEditedBy: null
+              lastEditedDate: null
+              latestRevision: 1
+              relativeLastEditedDate: null
+            interactions:
+              count: 0
+            mute:
+              isMutedByMe: false
+            readBy:
+              isReadByMe: true
+              lastReadDateByMe: '2023-11-22T11:11:25.000Z'
+              page:
+                currentPageToken: null
+                currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/read-by/items?pageSize=3
+                items: []
+                nextPageToken: null
+                nextPageUrl: null
+                previousPageToken: null
+                previousPageUrl: null
+                total: 0
+            status:
+              feedEntityStatus: Published
+              isApprovableByMe: true
+            topics:
+              canAssignTopics: true
+              items: []
+            upDownVote:
+              downVoteCount: 0
+              myVote: None
+              upVoteCount: 0
+          clientInfo:
+            applicationName: Postman Playground
+            applicationUrl: null
+          createdDate: '2023-11-22T11:11:25.000Z'
+          event: false
+          feedElementType: FeedItem
+          hasVerifiedComment: false
+          header:
+            isRichText: null
+            messageSegments:
+            - motif:
+                color: 1B96FF
+                largeIconUrl: /img/icon/profile64.png
+                mediumIconUrl: /img/icon/profile32.png
+                smallIconUrl: /img/icon/profile16.png
+                svgIconUrl: null
+              reference:
+                id: 005...
+                url: /services/data/v58.0/chatter/users/005...
+              text: Name
+              type: EntityLink
+            text: Name
+          id: 0D5...
+          isDeleteRestricted: false
+          isSharable: false
+          modifiedDate: '2023-11-22T11:11:25.000Z'
+          originalFeedItem: null
+          originalFeedItemActor: null
+          parent:
+            entityLabel:
+              label: Account
+              labelPlural: Accounts
+            id: 001...
+            motif:
+              color: 5867E8
+              largeIconUrl: /img/icon/accounts64.png
+              mediumIconUrl: /img/icon/accounts32.png
+              smallIconUrl: /img/icon/accounts16.png
+              svgIconUrl: null
+            mySubscription: null
+            name: Burlington Textiles Corp of America
+            type: Account
+            url: /services/data/v58.0/chatter/records/001...
+          photoUrl: https://<my_domain>/profilephoto/729.../T
+          relativeCreatedDate: Just now
+          type: TextPost
+          url: /services/data/v58.0/chatter/feed-elements/0D5...
+          visibility: InternalUsers
+        statusCode: 201
+    Capabilities:
+      title: Capabilities
+      required:
+      - associatedActions
+      - bookmarks
+      - chatterLikes
+      - close
+      - comments
+      - edit
+      - interactions
+      - mute
+      - readBy
+      - status
+      - topics
+      - upDownVote
+      type: object
+      properties:
+        associatedActions:
+          $ref: '#/components/schemas/AssociatedActions'
+        bookmarks:
+          $ref: '#/components/schemas/Bookmarks'
+        chatterLikes:
+          $ref: '#/components/schemas/ChatterLikes'
+        close:
+          $ref: '#/components/schemas/Close'
+        comments:
+          $ref: '#/components/schemas/Comments'
+        edit:
+          $ref: '#/components/schemas/Edit'
+        interactions:
+          $ref: '#/components/schemas/Interactions'
+        mute:
+          $ref: '#/components/schemas/Mute'
+        readBy:
+          $ref: '#/components/schemas/ReadBy'
+        status:
+          $ref: '#/components/schemas/Status1'
+        topics:
+          $ref: '#/components/schemas/Topics2'
+        upDownVote:
+          $ref: '#/components/schemas/UpDownVote'
+      examples:
+      - associatedActions:
+          platformActionGroups: []
+        bookmarks:
+          isBookmarkedByCurrentUser: false
+        chatterLikes:
+          isLikedByCurrentUser: false
+          likesMessage: null
+          myLike: null
+          page:
+            currentPageToken: 0
+            currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/chatter-likes/items
+            items: []
+            nextPageToken: null
+            nextPageUrl: null
+            previousPageToken: null
+            previousPageUrl: null
+            total: 0
+        close:
+          canContextUserUpdateIsClosed: true
+          isClosed: false
+        comments:
+          page:
+            currentPageToken: null
+            currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/comments/items
+            items: []
+            nextPageToken: null
+            nextPageUrl: null
+            previousPageToken: null
+            previousPageUrl: null
+            total: 0
+        edit:
+          isEditRestricted: false
+          isEditableByMeUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/edit/is-editable-by-me
+          lastEditedBy: null
+          lastEditedDate: null
+          latestRevision: 1
+          relativeLastEditedDate: null
+        interactions:
+          count: 0
+        mute:
+          isMutedByMe: false
+        readBy:
+          isReadByMe: true
+          lastReadDateByMe: '2023-11-22T11:06:07.000Z'
+          page:
+            currentPageToken: null
+            currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/read-by/items?pageSize=3
+            items: []
+            nextPageToken: null
+            nextPageUrl: null
+            previousPageToken: null
+            previousPageUrl: null
+            total: 0
+        status:
+          feedEntityStatus: Published
+          isApprovableByMe: true
+        topics:
+          canAssignTopics: true
+          items: []
+        upDownVote:
+          downVoteCount: 0
+          myVote: None
+          upVoteCount: 0
+    MessageSegment5:
+      title: MessageSegment5
+      required:
+      - type
+      - text
+      type: object
+      properties:
+        type:
+          type: string
+          example: example_value
+        text:
+          type: string
+          example: example_value
+        fileId:
+          type: string
+          example: '500123'
+        altText:
+          type: string
+          example: example_value
+      examples:
+      - type: Text
+        text: Post Number 1
+    Photo:
+      title: Photo
+      required:
+      - fullEmailPhotoUrl
+      - largePhotoUrl
+      - mediumPhotoUrl
+      - photoVersionId
+      - smallPhotoUrl
+      - standardEmailPhotoUrl
+      - url
+      type: object
+      properties:
+        fullEmailPhotoUrl:
+          type: string
+          example: user@example.com
+        largePhotoUrl:
+          type: string
+          example: https://www.example.com
+        mediumPhotoUrl:
+          type: string
+          example: https://www.example.com
+        photoVersionId:
+          type: string
+          example: '500123'
+        smallPhotoUrl:
+          type: string
+          example: https://www.example.com
+        standardEmailPhotoUrl:
+          type: string
+          example: user@example.com
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+        largePhotoUrl: https://<my_domain>/profilephoto/729.../F
+        mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
+        photoVersionId: 729...
+        smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
+        standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+        url: /services/data/v58.0/connect/user-profiles/005.../photo
+    Bookmarks:
+      title: Bookmarks
+      required:
+      - isBookmarkedByCurrentUser
+      type: object
+      properties:
+        isBookmarkedByCurrentUser:
+          type: boolean
+          example: true
+      examples:
+      - isBookmarkedByCurrentUser: false
+    FeedElementsCapabilityCommentsItems:
+      title: FeedElementsCapabilityCommentsItems
+      required:
+      - body
+      - capabilities
+      - clientInfo
+      - createdDate
+      - feedElement
+      - id
+      - isDeleteRestricted
+      - likes
+      - likesMessage
+      - moderationFlags
+      - myLike
+      - parent
+      - relativeCreatedDate
+      - threadLevel
+      - threadParentId
+      - type
+      - url
+      - user
+      type: object
+      properties:
+        body:
+          $ref: '#/components/schemas/Body4'
+        capabilities:
+          $ref: '#/components/schemas/Capabilities6'
+        clientInfo:
+          $ref: '#/components/schemas/ClientInfo'
+        createdDate:
+          type: string
+          example: example_value
+        feedElement:
+          $ref: '#/components/schemas/FeedElement'
+        id:
+          type: string
+          example: abc123
+        isDeleteRestricted:
+          type: boolean
+          example: true
+        likes:
+          $ref: '#/components/schemas/Likes'
+        likesMessage:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        moderationFlags:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        myLike:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        parent:
+          $ref: '#/components/schemas/Parent4'
+        relativeCreatedDate:
+          type: string
+          example: example_value
+        threadLevel:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        threadParentId:
+          type:
+          - string
+          - 'null'
+          example: '500123'
+        type:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+        user:
+          $ref: '#/components/schemas/User'
+      examples:
+      - body:
+          isRichText: false
+          messageSegments:
+          - text: New Comment
+            type: Text
+          text: New Comment
+        capabilities:
+          edit:
+            isEditRestricted: false
+            isEditableByMeUrl: /services/data/v58.0/chatter/comments/0D7.../capabilities/edit/is-editable-by-me
+            lastEditedBy: null
+            lastEditedDate: null
+            latestRevision: 1
+            relativeLastEditedDate: null
+          status:
+            feedEntityStatus: Published
+            isApprovableByMe: true
+          upDownVote:
+            downVoteCount: 0
+            myVote: None
+            upVoteCount: 0
+          verified:
+            isVerifiableByMe: false
+            isVerified: false
+            isVerifiedByAnonymized: null
+            lastVerifiedByUser: null
+            lastVerifiedDate: null
+        clientInfo:
+          applicationName: Postman Playground
+          applicationUrl: null
+        createdDate: '2023-11-22T11:14:33.000Z'
+        feedElement:
+          id: 0D5...
+          url: /services/data/v58.0/chatter/feed-elements/0D5...
+        id: 0D7...
+        isDeleteRestricted: false
+        likes:
+          currentPageToken: null
+          currentPageUrl: /services/data/v58.0/chatter/comments/0D7.../likes
+          items: []
+          nextPageToken: null
+          nextPageUrl: null
+          previousPageToken: null
+          previousPageUrl: null
+          total: 0
+        likesMessage: null
+        moderationFlags: null
+        myLike: null
+        parent:
+          id: 001...
+          url: /services/data/v58.0/chatter/records/001...
+        relativeCreatedDate: Just now
+        threadLevel: 0
+        threadParentId: null
+        type: TextComment
+        url: /services/data/v58.0/chatter/comments/0D7...
+        user:
+          additionalLabel: null
+          communityNickname: User1696423780773910041
+          companyName: Salesforce
+          displayName: Name
+          firstName: Firstname
+          id: 005...
+          isActive: true
+          isInThisCommunity: true
+          lastName: Name
+          motif:
+            color: 1B96FF
+            largeIconUrl: /img/icon/profile64.png
+            mediumIconUrl: /img/icon/profile32.png
+            smallIconUrl: /img/icon/profile16.png
+            svgIconUrl: null
+          mySubscription: null
+          name: Name
+          outOfOffice:
+            message: ''
+          photo:
+            fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+            largePhotoUrl: https://<my_domain>/profilephoto/729.../F
+            mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
+            photoVersionId: 729...
+            smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
+            standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+            url: /services/data/v58.0/connect/user-profiles/005.../photo
+          reputation: null
+          title: null
+          type: User
+          url: /services/data/v58.0/chatter/users/005...
+          userType: Internal
+    RichInput:
+      title: RichInput
+      required:
+      - subjectId
+      - body
+      - feedElementType
+      type: object
+      properties:
+        subjectId:
+          type: string
+          example: '500123'
+        body:
+          $ref: '#/components/schemas/Body7'
+        capabilities:
+          $ref: '#/components/schemas/Capabilities1'
+        feedElementType:
+          type: string
+          example: example_value
+      examples:
+      - subjectId: <USER_GROUP_RECORD_ID>
+        body:
+          messageSegments:
+          - type: Text
+            text: Post Number 1
+        capabilities:
+          files:
+            items:
+            - id: <FILE_ID>
+        feedElementType: FeedItem
+    Item:
+      title: Item
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+      examples:
+      - id: <FILE_ID>
+    FeedElementsBatchPostRequest:
+      title: FeedElementsBatchPostRequest
+      required:
+      - inputs
+      type: object
+      properties:
+        inputs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Input'
+          description: ''
+          example: []
+    Topics2:
+      title: Topics2
+      required:
+      - canAssignTopics
+      - items
+      type: object
+      properties:
+        canAssignTopics:
+          type: boolean
+          example: true
+        items:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+      examples:
+      - canAssignTopics: true
+        items: []
+    ChatterLikes:
+      title: ChatterLikes
+      required:
+      - isLikedByCurrentUser
+      - likesMessage
+      - myLike
+      - page
+      type: object
+      properties:
+        isLikedByCurrentUser:
+          type: boolean
+          example: true
+        likesMessage:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        myLike:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        page:
+          $ref: '#/components/schemas/Page'
+      examples:
+      - isLikedByCurrentUser: false
+        likesMessage: null
+        myLike: null
+        page:
+          currentPageToken: 0
+          currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/chatter-likes/items
+          items: []
+          nextPageToken: null
+          nextPageUrl: null
+          previousPageToken: null
+          previousPageUrl: null
+          total: 0
+    ClientInfo:
+      title: ClientInfo
+      required:
+      - applicationName
+      - applicationUrl
+      type: object
+      properties:
+        applicationName:
+          type: string
+          example: example_value
+        applicationUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+      examples:
+      - applicationName: Postman Playground
+        applicationUrl: null
+    SuccessfulFeedElementsPostandSearch:
+      title: SuccessfulFeedElementsPostandSearch
+      required:
+      - actor
+      - body
+      - capabilities
+      - clientInfo
+      - createdDate
+      - event
+      - feedElementType
+      - hasVerifiedComment
+      - header
+      - id
+      - isDeleteRestricted
+      - isSharable
+      - modifiedDate
+      - originalFeedItem
+      - originalFeedItemActor
+      - parent
+      - photoUrl
+      - relativeCreatedDate
+      - type
+      - url
+      - visibility
+      type: object
+      properties:
+        actor:
+          $ref: '#/components/schemas/Actor'
+        body:
+          $ref: '#/components/schemas/Body4'
+        capabilities:
+          $ref: '#/components/schemas/Capabilities'
+        clientInfo:
+          $ref: '#/components/schemas/ClientInfo'
+        createdDate:
+          type: string
+          example: example_value
+        event:
+          type: boolean
+          example: true
+        feedElementType:
+          type: string
+          example: example_value
+        hasVerifiedComment:
+          type: boolean
+          example: true
+        header:
+          $ref: '#/components/schemas/Header'
+        id:
+          type: string
+          example: abc123
+        isDeleteRestricted:
+          type: boolean
+          example: true
+        isSharable:
+          type: boolean
+          example: true
+        modifiedDate:
+          type: string
+          example: example_value
+        originalFeedItem:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        originalFeedItemActor:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        parent:
+          $ref: '#/components/schemas/Parent'
+        photoUrl:
+          type: string
+          example: https://www.example.com
+        relativeCreatedDate:
+          type: string
+          example: example_value
+        type:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+        visibility:
+          type: string
+          example: example_value
+      examples:
+      - actor:
+          additionalLabel: null
+          communityNickname: User1696423780773910041
+          companyName: Salesforce
+          displayName: Name
+          firstName: Firstname
+          id: 005...
+          isActive: true
+          isInThisCommunity: true
+          lastName: Name
+          motif:
+            color: 1B96FF
+            largeIconUrl: /img/icon/profile64.png
+            mediumIconUrl: /img/icon/profile32.png
+            smallIconUrl: /img/icon/profile16.png
+            svgIconUrl: null
+          mySubscription: null
+          name: Name
+          outOfOffice:
+            message: ''
+          photo:
+            fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+            largePhotoUrl: https://<my_domain>/profilephoto/729.../F
+            mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
+            photoVersionId: 729...
+            smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
+            standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+            url: /services/data/v58.0/connect/user-profiles/005.../photo
+          reputation: null
+          title: null
+          type: User
+          url: /services/data/v58.0/chatter/users/005...
+          userType: Internal
+        body:
+          isRichText: false
+          messageSegments:
+          - text: New Feed Item
+            type: Text
+          text: New Feed Item
+        capabilities:
+          associatedActions:
+            platformActionGroups: []
+          bookmarks:
+            isBookmarkedByCurrentUser: false
+          chatterLikes:
+            isLikedByCurrentUser: false
+            likesMessage: null
+            myLike: null
+            page:
+              currentPageToken: 0
+              currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/chatter-likes/items
+              items: []
+              nextPageToken: null
+              nextPageUrl: null
+              previousPageToken: null
+              previousPageUrl: null
+              total: 0
+          close:
+            canContextUserUpdateIsClosed: true
+            isClosed: false
+          comments:
+            page:
+              currentPageToken: null
+              currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/comments/items
+              items: []
+              nextPageToken: null
+              nextPageUrl: null
+              previousPageToken: null
+              previousPageUrl: null
+              total: 0
+          edit:
+            isEditRestricted: false
+            isEditableByMeUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/edit/is-editable-by-me
+            lastEditedBy: null
+            lastEditedDate: null
+            latestRevision: 1
+            relativeLastEditedDate: null
+          interactions:
+            count: 0
+          mute:
+            isMutedByMe: false
+          readBy:
+            isReadByMe: true
+            lastReadDateByMe: '2023-11-22T11:06:07.000Z'
+            page:
+              currentPageToken: null
+              currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/read-by/items?pageSize=3
+              items: []
+              nextPageToken: null
+              nextPageUrl: null
+              previousPageToken: null
+              previousPageUrl: null
+              total: 0
+          status:
+            feedEntityStatus: Published
+            isApprovableByMe: true
+          topics:
+            canAssignTopics: true
+            items: []
+          upDownVote:
+            downVoteCount: 0
+            myVote: None
+            upVoteCount: 0
+        clientInfo:
+          applicationName: Postman Playground
+          applicationUrl: null
+        createdDate: '2023-11-22T11:06:07.000Z'
+        event: false
+        feedElementType: FeedItem
+        hasVerifiedComment: false
+        header:
+          isRichText: null
+          messageSegments:
+          - motif:
+              color: 1B96FF
+              largeIconUrl: /img/icon/profile64.png
+              mediumIconUrl: /img/icon/profile32.png
+              smallIconUrl: /img/icon/profile16.png
+              svgIconUrl: null
+            reference:
+              id: 005...
+              url: /services/data/v58.0/chatter/users/005...
+            text: Name
+            type: EntityLink
+          text: Name
+        id: 0D5...
+        isDeleteRestricted: false
+        isSharable: false
+        modifiedDate: '2023-11-22T11:06:07.000Z'
+        originalFeedItem: null
+        originalFeedItemActor: null
+        parent:
+          entityLabel:
+            label: Account
+            labelPlural: Accounts
+          id: 001...
+          motif:
+            color: 5867E8
+            largeIconUrl: /img/icon/accounts64.png
+            mediumIconUrl: /img/icon/accounts32.png
+            smallIconUrl: /img/icon/accounts16.png
+            svgIconUrl: null
+          mySubscription: null
+          name: Burlington Textiles Corp of America
+          type: Account
+          url: /services/data/v58.0/chatter/records/001...
+        photoUrl: https://<my_domain>/profilephoto/729.../T
+        relativeCreatedDate: Just now
+        type: TextPost
+        url: /services/data/v58.0/chatter/feed-elements/0D5...
+        visibility: InternalUsers
+    Parent2:
+      title: Parent2
+      required:
+      - id
+      - motif
+      - mySubscription
+      - name
+      - type
+      - url
+      type: object
+      properties:
+        entityLabel:
+          $ref: '#/components/schemas/EntityLabel'
+        id:
+          type: string
+          example: abc123
+        motif:
+          $ref: '#/components/schemas/Motif'
+        mySubscription:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        name:
+          type: string
+          example: Example Title
+        type:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+        additionalLabel:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        communityNickname:
+          type: string
+          example: example_value
+        companyName:
+          type: string
+          example: example_value
+        displayName:
+          type: string
+          example: example_value
+        firstName:
+          type: string
+          example: example_value
+        isActive:
+          type: boolean
+          example: true
+        isInThisCommunity:
+          type: boolean
+          example: true
+        lastName:
+          type: string
+          example: example_value
+        outOfOffice:
+          $ref: '#/components/schemas/OutOfOffice'
+        photo:
+          $ref: '#/components/schemas/Photo'
+        reputation:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        title:
+          type:
+          - string
+          - 'null'
+          example: Example Title
+        userType:
+          type: string
+          example: example_value
+      examples:
+      - entityLabel:
+          label: Account
+          labelPlural: Accounts
+        id: 001...
+        motif:
+          color: 5867E8
+          largeIconUrl: /img/icon/accounts64.png
+          mediumIconUrl: /img/icon/accounts32.png
+          smallIconUrl: /img/icon/accounts16.png
+          svgIconUrl: null
+        mySubscription: null
+        name: Burlington Textiles Corp of America
+        type: Account
+        url: /services/data/v58.0/chatter/records/001...
+    Capabilities6:
+      title: Capabilities6
+      required:
+      - edit
+      - status
+      - upDownVote
+      - verified
+      type: object
+      properties:
+        edit:
+          $ref: '#/components/schemas/Edit'
+        status:
+          $ref: '#/components/schemas/Status1'
+        upDownVote:
+          $ref: '#/components/schemas/UpDownVote'
+        verified:
+          $ref: '#/components/schemas/Verified'
+      examples:
+      - edit:
+          isEditRestricted: false
+          isEditableByMeUrl: /services/data/v58.0/chatter/comments/0D7.../capabilities/edit/is-editable-by-me
+          lastEditedBy: null
+          lastEditedDate: null
+          latestRevision: 1
+          relativeLastEditedDate: null
+        status:
+          feedEntityStatus: Published
+          isApprovableByMe: true
+        upDownVote:
+          downVoteCount: 0
+          myVote: None
+          upVoteCount: 0
+        verified:
+          isVerifiableByMe: false
+          isVerified: false
+          isVerifiedByAnonymized: null
+          lastVerifiedByUser: null
+          lastVerifiedDate: null
+    Parent4:
+      title: Parent4
+      required:
+      - id
+      - url
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - id: 001...
+        url: /services/data/v58.0/chatter/records/001...
+    SuccessfulRecordFeedElements:
+      title: SuccessfulRecordFeedElements
+      required:
+      - currentPageToken
+      - currentPageUrl
+      - elements
+      - isModifiedToken
+      - isModifiedUrl
+      - nextPageToken
+      - nextPageUrl
+      - updatesToken
+      - updatesUrl
+      type: object
+      properties:
+        currentPageToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        currentPageUrl:
+          type: string
+          example: https://www.example.com
+        elements:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        isModifiedToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        isModifiedUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        nextPageToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        nextPageUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        updatesToken:
+          type: string
+          example: CAUQAA
+        updatesUrl:
+          type: string
+          example: https://www.example.com
+      examples:
+      - currentPageToken: null
+        currentPageUrl: /services/data/v58.0/chatter/feeds/record/001.../feed-elements
+        elements: []
+        isModifiedToken: null
+        isModifiedUrl: null
+        nextPageToken: null
+        nextPageUrl: null
+        updatesToken: 2:1700651144000
+        updatesUrl: /services/data/v58.0/chatter/feeds/record/001.../feed-elements?updatedSince=2%3A1700651144000
+    AssociatedActions:
+      title: AssociatedActions
+      required:
+      - platformActionGroups
+      type: object
+      properties:
+        platformActionGroups:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+      examples:
+      - platformActionGroups: []
+    Verified:
+      title: Verified
+      required:
+      - isVerifiableByMe
+      - isVerified
+      - isVerifiedByAnonymized
+      - lastVerifiedByUser
+      - lastVerifiedDate
+      type: object
+      properties:
+        isVerifiableByMe:
+          type: boolean
+          example: true
+        isVerified:
+          type: boolean
+          example: true
+        isVerifiedByAnonymized:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        lastVerifiedByUser:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        lastVerifiedDate:
+          type:
+          - string
+          - 'null'
+          example: example_value
+      examples:
+      - isVerifiableByMe: false
+        isVerified: false
+        isVerifiedByAnonymized: null
+        lastVerifiedByUser: null
+        lastVerifiedDate: null
+    Close:
+      title: Close
+      required:
+      - canContextUserUpdateIsClosed
+      - isClosed
+      type: object
+      properties:
+        canContextUserUpdateIsClosed:
+          type: boolean
+          example: true
+        isClosed:
+          type: boolean
+          example: true
+      examples:
+      - canContextUserUpdateIsClosed: true
+        isClosed: false
+    Body4:
+      title: Body4
+      required:
+      - isRichText
+      - messageSegments
+      - text
+      type: object
+      properties:
+        isRichText:
+          type: boolean
+          example: true
+        messageSegments:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageSegment'
+          description: ''
+          example: []
+        text:
+          type: string
+          example: example_value
+      examples:
+      - isRichText: false
+        messageSegments:
+        - text: New Feed Item
+          type: Text
+        text: New Feed Item
+    Page:
+      title: Page
+      required:
+      - currentPageToken
+      - currentPageUrl
+      - items
+      - nextPageToken
+      - nextPageUrl
+      - previousPageToken
+      - previousPageUrl
+      - total
+      type: object
+      properties:
+        currentPageToken:
+          type: integer
+          contentEncoding: int32
+          example: CAUQAA
+        currentPageUrl:
+          type: string
+          example: https://www.example.com
+        items:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        nextPageToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        nextPageUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        previousPageToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        previousPageUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        total:
+          type: integer
+          contentEncoding: int32
+          example: 42
+      examples:
+      - currentPageToken: 0
+        currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/chatter-likes/items
+        items: []
+        nextPageToken: null
+        nextPageUrl: null
+        previousPageToken: null
+        previousPageUrl: null
+        total: 0
+    Mute:
+      title: Mute
+      required:
+      - isMutedByMe
+      type: object
+      properties:
+        isMutedByMe:
+          type: boolean
+          example: true
+      examples:
+      - isMutedByMe: false
+    FeedElement:
+      title: FeedElement
+      required:
+      - id
+      - url
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - id: 0D5...
+        url: /services/data/v58.0/chatter/feed-elements/0D5...
+    OutOfOffice:
+      title: OutOfOffice
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+          example: example_value
+      examples:
+      - message: ''
+    Reference:
+      title: Reference
+      required:
+      - id
+      - url
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - id: 005...
+        url: /services/data/v58.0/chatter/users/005...
+    Files:
+      title: Files
+      required:
+      - items
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+          description: ''
+          example: []
+      examples:
+      - items:
+        - id: <FILE_ID>
+    User:
+      title: User
+      required:
+      - additionalLabel
+      - communityNickname
+      - companyName
+      - displayName
+      - firstName
+      - id
+      - isActive
+      - isInThisCommunity
+      - lastName
+      - motif
+      - mySubscription
+      - name
+      - outOfOffice
+      - photo
+      - reputation
+      - title
+      - type
+      - url
+      - userType
+      type: object
+      properties:
+        additionalLabel:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        communityNickname:
+          type: string
+          example: example_value
+        companyName:
+          type: string
+          example: example_value
+        displayName:
+          type: string
+          example: example_value
+        firstName:
+          type: string
+          example: example_value
+        id:
+          type: string
+          example: abc123
+        isActive:
+          type: boolean
+          example: true
+        isInThisCommunity:
+          type: boolean
+          example: true
+        lastName:
+          type: string
+          example: example_value
+        motif:
+          $ref: '#/components/schemas/Motif'
+        mySubscription:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        name:
+          type: string
+          example: Example Title
+        outOfOffice:
+          $ref: '#/components/schemas/OutOfOffice'
+        photo:
+          $ref: '#/components/schemas/Photo'
+        reputation:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        title:
+          type:
+          - string
+          - 'null'
+          example: Example Title
+        type:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+        userType:
+          type: string
+          example: example_value
+      examples:
+      - additionalLabel: null
+        communityNickname: User1696423780773910041
+        companyName: Salesforce
+        displayName: Name
+        firstName: Firstname
+        id: 005...
+        isActive: true
+        isInThisCommunity: true
+        lastName: Name
+        motif:
+          color: 1B96FF
+          largeIconUrl: /img/icon/profile64.png
+          mediumIconUrl: /img/icon/profile32.png
+          smallIconUrl: /img/icon/profile16.png
+          svgIconUrl: null
+        mySubscription: null
+        name: Name
+        outOfOffice:
+          message: ''
+        photo:
+          fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+          largePhotoUrl: https://<my_domain>/profilephoto/729.../F
+          mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
+          photoVersionId: 729...
+          smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
+          standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+          url: /services/data/v58.0/connect/user-profiles/005.../photo
+        reputation: null
+        title: null
+        type: User
+        url: /services/data/v58.0/chatter/users/005...
+        userType: Internal
+    Interactions:
+      title: Interactions
+      required:
+      - count
+      type: object
+      properties:
+        count:
+          type: integer
+          contentEncoding: int32
+          example: 42
+      examples:
+      - count: 0
+    MessageSegment:
+      title: MessageSegment
+      required:
+      - text
+      - type
+      type: object
+      properties:
+        text:
+          type: string
+          example: example_value
+        type:
+          type: string
+          example: example_value
+      examples:
+      - text: New Feed Item
+        type: Text
+    EntityLabel:
+      title: EntityLabel
+      required:
+      - label
+      - labelPlural
+      type: object
+      properties:
+        label:
+          type: string
+          example: Example Title
+        labelPlural:
+          type: string
+          example: example_value
+      examples:
+      - label: Account
+        labelPlural: Accounts
+    Capabilities1:
+      title: Capabilities1
+      required:
+      - files
+      type: object
+      properties:
+        files:
+          $ref: '#/components/schemas/Files'
+      examples:
+      - files:
+          items:
+          - id: <FILE_ID>
+    MessageSegment1:
+      title: MessageSegment1
+      required:
+      - motif
+      - reference
+      - text
+      - type
+      type: object
+      properties:
+        motif:
+          $ref: '#/components/schemas/Motif'
+        reference:
+          $ref: '#/components/schemas/Reference'
+        text:
+          type: string
+          example: example_value
+        type:
+          type: string
+          example: example_value
+      examples:
+      - motif:
+          color: 1B96FF
+          largeIconUrl: /img/icon/profile64.png
+          mediumIconUrl: /img/icon/profile32.png
+          smallIconUrl: /img/icon/profile16.png
+          svgIconUrl: null
+        reference:
+          id: 005...
+          url: /services/data/v58.0/chatter/users/005...
+        text: Name
+        type: EntityLink
+    Comments:
+      title: Comments
+      required:
+      - page
+      type: object
+      properties:
+        page:
+          $ref: '#/components/schemas/Page1'
+      examples:
+      - page:
+          currentPageToken: null
+          currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/comments/items
+          items: []
+          nextPageToken: null
+          nextPageUrl: null
+          previousPageToken: null
+          previousPageUrl: null
+          total: 0
+    SuccessfulFeedElementsBatchPost:
+      title: SuccessfulFeedElementsBatchPost
+      required:
+      - hasErrors
+      - results
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          example: true
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Result1'
+          description: ''
+          example: []
+      examples:
+      - hasErrors: true
+        results:
+        - result:
+            actor:
+              additionalLabel: null
+              communityNickname: User1696423780773910041
+              companyName: Salesforce
+              displayName: Name
+              firstName: Firstname
+              id: 005...
+              isActive: true
+              isInThisCommunity: true
+              lastName: Name
+              motif:
+                color: 1B96FF
+                largeIconUrl: /img/icon/profile64.png
+                mediumIconUrl: /img/icon/profile32.png
+                smallIconUrl: /img/icon/profile16.png
+                svgIconUrl: null
+              mySubscription: null
+              name: Name
+              outOfOffice:
+                message: ''
+              photo:
+                fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+                largePhotoUrl: https://<my_domain>/profilephoto/729.../F
+                mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
+                photoVersionId: 729...
+                smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
+                standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+                url: /services/data/v58.0/connect/user-profiles/005.../photo
+              reputation: null
+              title: null
+              type: User
+              url: /services/data/v58.0/chatter/users/005...
+              userType: Internal
+            body:
+              isRichText: false
+              messageSegments:
+              - text: Post Number 1
+                type: Text
+              text: Post Number 1
+            capabilities:
+              associatedActions:
+                platformActionGroups: []
+              bookmarks:
+                isBookmarkedByCurrentUser: false
+              chatterLikes:
+                isLikedByCurrentUser: false
+                likesMessage: null
+                myLike: null
+                page:
+                  currentPageToken: 0
+                  currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/chatter-likes/items
+                  items: []
+                  nextPageToken: null
+                  nextPageUrl: null
+                  previousPageToken: null
+                  previousPageUrl: null
+                  total: 0
+              close:
+                canContextUserUpdateIsClosed: true
+                isClosed: false
+              comments:
+                page:
+                  currentPageToken: null
+                  currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/comments/items
+                  items: []
+                  nextPageToken: null
+                  nextPageUrl: null
+                  previousPageToken: null
+                  previousPageUrl: null
+                  total: 0
+              edit:
+                isEditRestricted: false
+                isEditableByMeUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/edit/is-editable-by-me
+                lastEditedBy: null
+                lastEditedDate: null
+                latestRevision: 1
+                relativeLastEditedDate: null
+              interactions:
+                count: 0
+              mute:
+                isMutedByMe: false
+              readBy:
+                isReadByMe: true
+                lastReadDateByMe: '2023-11-22T11:11:25.000Z'
+                page:
+                  currentPageToken: null
+                  currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/read-by/items?pageSize=3
+                  items: []
+                  nextPageToken: null
+                  nextPageUrl: null
+                  previousPageToken: null
+                  previousPageUrl: null
+                  total: 0
+              status:
+                feedEntityStatus: Published
+                isApprovableByMe: true
+              topics:
+                canAssignTopics: true
+                items: []
+              upDownVote:
+                downVoteCount: 0
+                myVote: None
+                upVoteCount: 0
+            clientInfo:
+              applicationName: Postman Playground
+              applicationUrl: null
+            createdDate: '2023-11-22T11:11:25.000Z'
+            event: false
+            feedElementType: FeedItem
+            hasVerifiedComment: false
+            header:
+              isRichText: null
+              messageSegments:
+              - motif:
+                  color: 1B96FF
+                  largeIconUrl: /img/icon/profile64.png
+                  mediumIconUrl: /img/icon/profile32.png
+                  smallIconUrl: /img/icon/profile16.png
+                  svgIconUrl: null
+                reference:
+                  id: 005...
+                  url: /services/data/v58.0/chatter/users/005...
+                text: Name
+                type: EntityLink
+              text: Name
+            id: 0D5...
+            isDeleteRestricted: false
+            isSharable: false
+            modifiedDate: '2023-11-22T11:11:25.000Z'
+            originalFeedItem: null
+            originalFeedItemActor: null
+            parent:
+              entityLabel:
+                label: Account
+                labelPlural: Accounts
+              id: 001...
+              motif:
+                color: 5867E8
+                largeIconUrl: /img/icon/accounts64.png
+                mediumIconUrl: /img/icon/accounts32.png
+                smallIconUrl: /img/icon/accounts16.png
+                svgIconUrl: null
+              mySubscription: null
+              name: Burlington Textiles Corp of America
+              type: Account
+              url: /services/data/v58.0/chatter/records/001...
+            photoUrl: https://<my_domain>/profilephoto/729.../T
+            relativeCreatedDate: Just now
+            type: TextPost
+            url: /services/data/v58.0/chatter/feed-elements/0D5...
+            visibility: InternalUsers
+          statusCode: 201
+        - result:
+            actor:
+              additionalLabel: null
+              communityNickname: User1696423780773910041
+              companyName: Salesforce
+              displayName: Name
+              firstName: Firstname
+              id: 005...
+              isActive: true
+              isInThisCommunity: true
+              lastName: Name
+              motif:
+                color: 1B96FF
+                largeIconUrl: /img/icon/profile64.png
+                mediumIconUrl: /img/icon/profile32.png
+                smallIconUrl: /img/icon/profile16.png
+                svgIconUrl: null
+              mySubscription: null
+              name: Name
+              outOfOffice:
+                message: ''
+              photo:
+                fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+                largePhotoUrl: https://<my_domain>/profilephoto/729.../F
+                mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
+                photoVersionId: 729...
+                smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
+                standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+                url: /services/data/v58.0/connect/user-profiles/005.../photo
+              reputation: null
+              title: null
+              type: User
+              url: /services/data/v58.0/chatter/users/005...
+              userType: Internal
+            body:
+              isRichText: false
+              messageSegments:
+              - text: Post Number 2
+                type: Text
+              text: Post Number 2
+            capabilities:
+              associatedActions:
+                platformActionGroups: []
+              bookmarks:
+                isBookmarkedByCurrentUser: false
+              chatterLikes:
+                isLikedByCurrentUser: false
+                likesMessage: null
+                myLike: null
+                page:
+                  currentPageToken: 0
+                  currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/chatter-likes/items
+                  items: []
+                  nextPageToken: null
+                  nextPageUrl: null
+                  previousPageToken: null
+                  previousPageUrl: null
+                  total: 0
+              close:
+                canContextUserUpdateIsClosed: true
+                isClosed: false
+              comments:
+                page:
+                  currentPageToken: null
+                  currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/comments/items
+                  items: []
+                  nextPageToken: null
+                  nextPageUrl: null
+                  previousPageToken: null
+                  previousPageUrl: null
+                  total: 0
+              edit:
+                isEditRestricted: false
+                isEditableByMeUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/edit/is-editable-by-me
+                lastEditedBy: null
+                lastEditedDate: null
+                latestRevision: 1
+                relativeLastEditedDate: null
+              interactions:
+                count: 0
+              mute:
+                isMutedByMe: false
+              readBy:
+                isReadByMe: true
+                lastReadDateByMe: '2023-11-22T11:11:25.000Z'
+                page:
+                  currentPageToken: null
+                  currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/read-by/items?pageSize=3
+                  items: []
+                  nextPageToken: null
+                  nextPageUrl: null
+                  previousPageToken: null
+                  previousPageUrl: null
+                  total: 0
+              status:
+                feedEntityStatus: Published
+                isApprovableByMe: true
+              topics:
+                canAssignTopics: true
+                items: []
+              upDownVote:
+                downVoteCount: 0
+                myVote: None
+                upVoteCount: 0
+            clientInfo:
+              applicationName: Postman Playground
+              applicationUrl: null
+            createdDate: '2023-11-22T11:11:25.000Z'
+            event: false
+            feedElementType: FeedItem
+            hasVerifiedComment: false
+            header:
+              isRichText: null
+              messageSegments:
+              - motif:
+                  color: 1B96FF
+                  largeIconUrl: /img/icon/profile64.png
+                  mediumIconUrl: /img/icon/profile32.png
+                  smallIconUrl: /img/icon/profile16.png
+                  svgIconUrl: null
+                reference:
+                  id: 005...
+                  url: /services/data/v58.0/chatter/users/005...
+                text: Name
+                type: EntityLink
+              text: Name
+            id: 0D5...
+            isDeleteRestricted: false
+            isSharable: true
+            modifiedDate: '2023-11-22T11:11:25.000Z'
+            originalFeedItem: null
+            originalFeedItemActor: null
+            parent:
+              additionalLabel: null
+              communityNickname: User1696423780773910041
+              companyName: Salesforce
+              displayName: Name
+              firstName: Firstname
+              id: 005...
+              isActive: true
+              isInThisCommunity: true
+              lastName: Name
+              motif:
+                color: 1B96FF
+                largeIconUrl: /img/icon/profile64.png
+                mediumIconUrl: /img/icon/profile32.png
+                smallIconUrl: /img/icon/profile16.png
+                svgIconUrl: null
+              mySubscription: null
+              name: Name
+              outOfOffice:
+                message: ''
+              photo:
+                fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+                largePhotoUrl: https://<my_domain>/profilephoto/729.../F
+                mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
+                photoVersionId: 729...
+                smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
+                standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+                url: /services/data/v58.0/connect/user-profiles/005.../photo
+              reputation: null
+              title: null
+              type: User
+              url: /services/data/v58.0/chatter/users/005...
+              userType: Internal
+            photoUrl: https://<my_domain>/profilephoto/729.../T
+            relativeCreatedDate: Just now
+            type: TextPost
+            url: /services/data/v58.0/chatter/feed-elements/0D5...
+            visibility: AllUsers
+          statusCode: 201
+        - result:
+          - errorCode: INVALID_MARKUP
+            message: 'Error while parsing Rich Text Content: The value of attribute &quot;src&quot; associated with an element type &quot;img&quot; must not contain the &#39;&lt;&#39; character.'
+          statusCode: 400
+    Status1:
+      title: Status1
+      required:
+      - feedEntityStatus
+      - isApprovableByMe
+      type: object
+      properties:
+        feedEntityStatus:
+          type: string
+          example: example_value
+        isApprovableByMe:
+          type: boolean
+          example: true
+      examples:
+      - feedEntityStatus: Published
+        isApprovableByMe: true
+    Body7:
+      title: Body7
+      required:
+      - messageSegments
+      type: object
+      properties:
+        messageSegments:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageSegment5'
+          description: ''
+          example: []
+      examples:
+      - messageSegments:
+        - type: Text
+          text: Post Number 1
+    Page1:
+      title: Page1
+      required:
+      - currentPageToken
+      - currentPageUrl
+      - items
+      - nextPageToken
+      - nextPageUrl
+      - previousPageToken
+      - previousPageUrl
+      - total
+      type: object
+      properties:
+        currentPageToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        currentPageUrl:
+          type: string
+          example: https://www.example.com
+        items:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        nextPageToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        nextPageUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        previousPageToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        previousPageUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        total:
+          type: integer
+          contentEncoding: int32
+          example: 42
+      examples:
+      - currentPageToken: null
+        currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/comments/items
+        items: []
+        nextPageToken: null
+        nextPageUrl: null
+        previousPageToken: null
+        previousPageUrl: null
+        total: 0
+    Result21:
+      title: Result21
+      required:
+      - errorCode
+      - message
+      type: object
+      properties:
+        errorCode:
+          type: string
+          example: example_value
+        message:
+          type: string
+          example: example_value
+      examples:
+      - errorCode: INVALID_MARKUP
+        message: 'Error while parsing Rich Text Content: The value of attribute &quot;src&quot; associated with an element type &quot;img&quot; must not contain the &#39;&lt;&#39; character.'
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

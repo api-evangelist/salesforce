@@ -1,0 +1,1648 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Deletes API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Deletes
+paths:
+  /data/v64.0/jobs/query/:
+    parameters: []
+    delete:
+      tags:
+      - Deletes
+      summary: Salesforce Delete Job Query
+      operationId: DeleteJobQuery
+      parameters: []
+      responses:
+        '204':
+          description: No Content
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Mon, 20 Nov 2023 15:08:40 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            Content-Security-Policy:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: upgrade-insecure-requests
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Sforce-Limit-Info:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: api-usage=23/15000
+          content: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/jobs/ingest/:
+    parameters: []
+    delete:
+      tags:
+      - Deletes
+      summary: Salesforce Delete Job
+      operationId: DeleteJob
+      parameters: []
+      responses:
+        '204':
+          description: No Content
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Mon, 20 Nov 2023 15:01:36 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            Content-Security-Policy:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: upgrade-insecure-requests
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Sforce-Limit-Info:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: api-usage=4/15000
+          content: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/composite/sobjects:
+    parameters: []
+    delete:
+      tags:
+      - Deletes
+      summary: Salesforce Sobject Collections Delete
+      description: 'Executes actions on multiple records in one request. Use SObject Collections to reduce the number of round-trips between the client and server. This resource is available in API version 42.0 and later.
+
+
+        https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobjects_collections.htm'
+      operationId: SObjectCollectionsDelete
+      parameters:
+      - name: ids
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          examples:
+          - 0012o00003OBzVSAA1
+        example: example_value
+      - name: allOrNone
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: boolean
+          examples:
+          - true
+        example: true
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        schema:
+          const: application/json
+          type: string
+          examples:
+          - application/json
+        example: example_value
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Mon, 20 Nov 2023 15:31:21 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Sforce-Limit-Info:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: api-usage=49/15000
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SuccessfulSObjectCollectionsDelete'
+                description: ''
+                examples:
+                - - id: 001...
+                    success: true
+                    errors: []
+                contentMediaType: application/json;charset=UTF-8
+              example:
+              - id: 001...
+                success: true
+                errors: []
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/connect/files/{FILE_ID}:
+    parameters: []
+    delete:
+      tags:
+      - Deletes
+      summary: Salesforce File Information - Delete
+      description: 'Get information about a specified file, including references to external files. Upload a new version of an existing file, including references to external files. Rename a file, move a file to a different folder, and delete a file.
+
+        To upload a new version of an existing file, make a POST request. Upload the new version as a binary part in a multipart/form-data request. See Uploading Binary Files. To upload a new file to the Files home, use /connect/files/users/me.Get information about a specified file, including references to external files.
+
+        https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_files_information.htm'
+      operationId: FileInformation-Delete
+      parameters:
+      - name: FILE_ID
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      responses:
+        '204':
+          description: No Content
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Mon, 20 Nov 2023 16:39:05 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            Content-Security-Policy:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: upgrade-insecure-requests
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+          content: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/named-credentials/credential:
+    parameters: []
+    delete:
+      tags:
+      - Deletes
+      summary: Salesforce Delete Credential
+      description: Delete a credential.
+      operationId: DeleteCredential
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/DeleteCredentialRequest'
+              - examples:
+                - externalCredential: SampleExternalCredential
+                  principalType: NamedPrincipal
+                  principalName: SamplePrincipal
+              contentMediaType: application/json
+            example:
+              externalCredential: SampleExternalCredential
+              principalType: NamedPrincipal
+              principalName: SamplePrincipal
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/named-credentials/external-credentials/{DEVELOPER_NAME}:
+    parameters: []
+    delete:
+      tags:
+      - Deletes
+      summary: Salesforce Delete External Credential
+      description: Delete an external credential.
+      operationId: DeleteExternalCredential
+      parameters:
+      - name: DEVELOPER_NAME
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: example_value
+      responses:
+        '204':
+          description: No Content
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Wed, 22 Nov 2023 12:09:23 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            Content-Security-Policy:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: upgrade-insecure-requests
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+          content: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/tooling/sobjects/NamedCredential/{NAMED_CREDENTIAL_ID}:
+    parameters: []
+    delete:
+      tags:
+      - Deletes
+      summary: Salesforce Delete Named Credential
+      operationId: Deletenamedcredential
+      parameters:
+      - name: NAMED_CREDENTIAL_ID
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - 'null'
+        example: '500123'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/chatter/feed-elements/{FEED_ELEMENT_ID}:
+    parameters: []
+    delete:
+      tags:
+      - Deletes
+      summary: Salesforce Feed Element - Delete
+      description: 'Access, edit, or delete a feed element. Feed items are the only type of feed element that can be edited.
+
+
+        https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_feed_element_specific.htm'
+      operationId: FeedElement-Delete
+      parameters:
+      - name: FEED_ELEMENT_ID
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      responses:
+        '204':
+          description: No Content
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Wed, 22 Nov 2023 11:13:51 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            Content-Security-Policy:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: upgrade-insecure-requests
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+          content: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/chatter/comments/{COMMENT_ID}:
+    parameters: []
+    delete:
+      tags:
+      - Deletes
+      summary: Salesforce Comment - Delete
+      description: 'Get information about, edit, or delete a comment.
+
+
+        https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_comments_specific.htm#connect_resources_comments_specific'
+      operationId: Comment-Delete
+      parameters:
+      - name: COMMENT_ID
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      responses:
+        '204':
+          description: No Content
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Wed, 22 Nov 2023 11:24:36 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            Content-Security-Policy:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: upgrade-insecure-requests
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+          content: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/chatter/subscriptions/{SUBSCRIPTION_ID}:
+    parameters: []
+    delete:
+      tags:
+      - Deletes
+      summary: Salesforce Delete Subscription
+      description: 'Information about the specified subscription. Also used to delete a subscription, for example, to unfollow a record or a topic.
+
+        A subscription ID is returned as part of the response body for follower and following resources, for example, /records/recordId/followers. In addition, subscriptions IDs are also returned in many summary response bodies, such as group summary or user summary.
+
+
+        https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_subscriptions.htm'
+      operationId: DeleteSubscription
+      parameters:
+      - name: SUBSCRIPTION_ID
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - 0E8...
+        example: '500123'
+      responses:
+        '204':
+          description: No Content
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Wed, 22 Nov 2023 11:34:47 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            Content-Security-Policy:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: upgrade-insecure-requests
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+          content: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/connect/business-rules/expression-set/{expressionSetId}:
+    parameters: []
+    delete:
+      tags:
+      - Deletes
+      summary: Salesforce Expression Set Delete
+      description: "# Expression Set Retrieve and Delete (DELETE, GET)\n\nEndpoints to read, and delete expression set.Resource\n\n```\n/connect/business-rules/expression-set/${expressionSetId}\n\n ```\n\nResource Example\n\n```\nhttps://yourInstance.salesforce.com/services/data/v59.0/connect\n            /business-rules/expressionSet/$11Oxx0000006PcLEAU\n\n ```\n\nAvailable version\n\n58.0\n\nRequires Chatter\n\nNo\n\nHTTP methods\n\nDELETE, GET\n\nRequest body for GET\n\nRoot XML tag\n\nJSON example\n\n```\n{\n  \"name\": \"CTX Mapping ES\",\n  \"apiName\": \"CTX_Mapping_ES_1\",\n  \"description\": \"...\",\n  \"usageType\": \"Bre\",\n  \"contextDefinitions\": [\n    {\n      \"id\": \"11Oxx0000006PcLEAU\"\n    }\n  ],\n  \"versions\": [\n    {\n      \"name\": \"CTX_Mapping_ES_1 V1\",\n      \"apiName\": \"CTX_Mapping_ES_1_V1\",\n      \"description\": \"Sample CTX Mapping\",\n      \"startDate\": \"2022-11-14T20:31:47.000+0000\",\n      \"endDate\": \"2022-11-14T20:31:47.000+0000\",\n      \"versionNumber\": 1,\n      \"rank\": 1,\n      \"enabled\": true,\n      \"showExplExternally\": false,\n      \"steps\": [\n        {\n          \"name\": \"Condition1\",\n          \"description\": \"Condition step for conditions w.r.t product\",\n          \"sequenceNumber\": 1,\n          \"resultIncluded\": true,\n          \"stepType\": \"Condition\",\n          \"conditionExpression\": {\n            \"expression\": \"productName == 'iPhone' && productColor == 'Red'\",\n            \"resultParameter\": \"condition_output__1\"\n          }\n        }\n      ],\n      \"variables\": [\n        {\n          \"name\": \"productName\",\n          \"collection\": false,\n          \"dataType\": \"Text\",\n          \"description\": \"productName\",\n          \"input\": true,\n          \"output\": false,\n          \"type\": \"Variable\"\n        },\n        {\n          \"name\": \"productColor\",\n          \"collection\": false,\n          \"dataType\": \"Text\",\n          \"description\": \"productColor\",\n          \"input\": true,\n          \"output\": false,\n          \"type\": \"Variable\"\n        },\n        {\n          \"name\": \"condition_output__1\",\n          \"dataType\": \"Boolean\",\n          \"description\": \"condition_output__1\",\n          \"input\": false,\n          \"output\": true,\n          \"resultStep\": \"Condition1\",\n          \"type\": \"Variable\"\n        }\n      ]\n    }\n  ]\n}\n\n ```\n\nProperties\n\n| Name | Type | Description | Required or Optional | Available Version |\n| --- | --- | --- | --- | --- |\n| apiName | String | Unique name of the expression set. | Required | 58.0 |\n| context​Definitions | [Context Definition Input](https://developer.salesforce.com/docs/atlas.en-us.industries_reference.meta/industries_reference/connect_requests_context_definition_input.htm) | List of context definitions in an expression set. | Optional | 58.0 |\n| description | String | Description of the expression set. | Optional | 58.0 |\n| name | String | Name of the expression set. | Required | 58.0 |\n| usage​Type | String | Usage type of the expression set.  <br>  <br>Valid values are:  <br>  <br>\\- AiAccelerator​SubscriberChurn​Prediction—Used for Industries Einstein  <br>  <br>\\- Bre—Used for Business Rules Engine  <br>  <br>\\- CustomLoyalty—Used for Loyalty Management  <br>  <br>\\- DefaultPricing—Used for Pricing Plans in Enterprise Product Catalog (EPC) by Communications Cloud  <br>  <br>\\- Qualification—Used for Industries Communications, Media, and Energy (CME)  <br>  <br>\\- RecordAlert—Used for Financial Services Cloud  <br>  <br>\\- ShipAndDebit—Used for Manufacturing Cloud  <br>  <br>\\- TierProcessing—Used for Loyalty Management  <br>  <br>\\- TransactionJournal—Used for Loyalty Management  <br>  <br>\\- WarrantyClaim—Used for Manufacturing Cloud | Required | 58.0 |\n| versions | [Expression Set Version Input](https://developer.salesforce.com/docs/atlas.en-us.industries_reference.meta/industries_reference/connect_requests_expression_set_version.htm)\\[\\] | List of the expression set versions. | Optional | 58.0 |\n\nResponse body for GET\n\n[Expression Set Output](https://developer.salesforce.com/docs/atlas.en-us.industries_reference.meta/industries_reference/connect_responses_expression_set_output.htm)"
+      operationId: ExpressionSetDelete
+      parameters:
+      - name: expressionSetId
+        in: path
+        description: 'Expression Set Id: For Example 9QLHo000000LBjEOAW'
+        required: true
+        schema:
+          type: string
+          examples:
+          - 9QLHo000000LBjEOA
+        example: '500123'
+      responses:
+        '204':
+          description: No Content
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Wed, 06 Sep 2023 10:27:12 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            Content-Security-Policy:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: upgrade-insecure-requests
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+          content: {}
+        '400':
+          description: Bad Request
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Wed, 06 Sep 2023 10:23:24 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Status400-ActiveExpressionCanNotBeDeleted1'
+                description: ''
+                examples:
+                - - errorCode: INVALID_INPUT
+                    message: An enabled Expression Set Version cannot be updated/deleted.
+                contentMediaType: application/json;charset=UTF-8
+              example:
+              - errorCode: INVALID_INPUT
+                message: An enabled Expression Set Version cannot be updated/deleted.
+        '404':
+          description: Not Found
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Wed, 06 Sep 2023 09:56:59 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Status404-RecordNotFound1'
+                description: ''
+                examples:
+                - - errorCode: NOT_FOUND
+                    message: The requested resource does not exist
+                contentMediaType: application/json;charset=UTF-8
+              example:
+              - errorCode: NOT_FOUND
+                message: The requested resource does not exist
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/connect/business-rules/decision-table/definitions/{decisionTableId}:
+    parameters: []
+    delete:
+      tags:
+      - Deletes
+      summary: Salesforce Delete Table
+      description: "# Decision Table Definitions ( DELETE)\n\nDelete a decision table definition associated with a decision table.\n\nResource\n\n```\n/connect/business-rules/decision-table/definitions/${decisionTableId}\n\n ```\n\nResource Example\n\n```\nhttps://yourInstance.salesforce.com/services/data/v59.0/connect/business-rules/decision-table/definitions/0lDxx00000002Ur\n\n ```\n\nAvailable version\n\n58.0\n\nRequires Chatter\n\nNo\n\nHTTP methods\n\nDELETE\n\nResponse body for DELETE\n\n[Decision Table Output](https://developer.salesforce.com/docs/atlas.en-us.industries_reference.meta/industries_reference/connect_responses_decision_table_output.htm)\n\n# Decision Table Output\n\nOutput representation of the decision table details.JSON example for GET, POST, and PATCH\n\n```\n{\n   \"code\":\"200\",\n   \"decisionTable\":{\n      \"collectOperator\":\"Count\",\n      \"conditionCriteria\":\"1 OR 2 OR 3\",\n      \"conditionType\":\"Any\",\n      \"decisionResultPolicy\":\"UniqueValues\",\n      \"description\":\"Eligiblity of Products using Qualification Rules\",\n      \"id\":\"0lDxx00000000BJ\",\n      \"parameters\":[\n         {\n            \"fieldName\":\"IsDeleted\",\n            \"isGroupByField\":false,\n            \"isPriority\":false,\n            \"operator\":\"Equals\",\n            \"sequence\":1,\n            \"usage\":\"Input\"\n         },\n         {\n            \"fieldName\":\"CreatedById\",\n            \"isGroupByField\":false,\n            \"isPriority\":false,\n            \"usage\":\"Output\"\n         },\n         {\n            \"fieldName\":\"Title\",\n            \"isGroupByField\":false,\n            \"isPriority\":false,\n            \"operator\":\"Equals\",\n            \"sequence\":3,\n            \"usage\":\"Input\"\n         },\n         {\n            \"fieldName\":\"Id\",\n            \"isGroupByField\":false,\n            \"isPriority\":false,\n            \"operator\":\"Equals\",\n            \"sequence\":2,\n            \"usage\":\"Input\"\n         }\n      ],\n      \"setupName\":\"Product Qualificiation eligibility3\",\n      \"sourceCriteria\":[\n         \n      ],\n      \"sourceObject\":\"AccountFeed\",\n      \"sourceType\":\"SingleSobject\",\n      \"sourceconditionLogic\":\"1 AND 2 AND 3\",\n      \"status\":\"Draft\"\n   },\n   \"isSuccess\":true,\n   \"message\":\"\"\n}\n\n ```\n\nJSON example for DELETE\n\n```\n{\n   \"code\":\"200\",\n   \"isSuccess\":true,\n   \"message\":\"\"\n}\n\n ```\n\n| Property Name | Type | Description | Filter Group and Version | Available Version |\n| --- | --- | --- | --- | --- |\n| code | String | Response code from the API request. | Small, 58.0 | 58.0 |\n| decisionTable | [Decision Table Definition Output](https://developer.salesforce.com/docs/atlas.en-us.industries_reference.meta/industries_reference/connect_responses_decision_table_definition_output.htm) | Details of the decision table definition associated with the decision table. | Small, 58.0 | 58.0 |\n| isSuccess | Boolean | Indicates whether the API request is successful (true) or not (false). | Small, 58.0 | 58.0 |\n| message | String | Error message when the API request fails. | Small, 58.0 | 58.0 |"
+      operationId: DeleteTable
+      parameters:
+      - name: decisionTableId
+        in: path
+        description: Decision Table Id
+        required: true
+        schema:
+          type: string
+          examples:
+          - 0lDHo0000008Pny
+        example: '500123'
+      responses:
+        '204':
+          description: No Content
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Tue, 19 Sep 2023 13:36:22 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            Content-Security-Policy:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: upgrade-insecure-requests
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+          content: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/tooling/sobjects/PlatformEventChannel/{PLATFORM_EVENT_CHANNEL_ID}:
+    parameters: []
+    delete:
+      tags:
+      - Deletes
+      summary: Salesforce Delete Event Channel
+      operationId: Deleteeventchannel
+      parameters:
+      - name: PLATFORM_EVENT_CHANNEL_ID
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      responses:
+        '204':
+          description: No Content
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Wed, 06 Dec 2023 16:56:00 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            Content-Security-Policy:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: upgrade-insecure-requests
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Sforce-Limit-Info:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: api-usage=303/15000
+          content: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/tooling/sobjects/PlatformEventChannelMember/{PLATFORM_EVENT_CHANNEL_MEMBER_ID}:
+    parameters: []
+    delete:
+      tags:
+      - Deletes
+      summary: Salesforce Delete Channel Member
+      operationId: Deletechannelmember
+      parameters:
+      - name: PLATFORM_EVENT_CHANNEL_MEMBER_ID
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - 'null'
+        example: '500123'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/tooling/sobjects/EventRelayConfig/{EVENT_RELAY_CONFIG_ID}:
+    parameters: []
+    delete:
+      tags:
+      - Deletes
+      summary: Salesforce Delete Event Relay
+      operationId: Deleteeventrelay
+      parameters:
+      - name: EVENT_RELAY_CONFIG_ID
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - 'null'
+        example: '500123'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/tooling/sobjects/ManagedEventSubscription/{managedEventSubscriptionId}:
+    parameters: []
+    delete:
+      tags:
+      - Deletes
+      summary: Salesforce Delete Managed Event Subscription
+      operationId: Deletemanagedeventsubscription
+      parameters:
+      - name: managedEventSubscriptionId
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/sobjects/{SOBJECT_API_NAME}/{RECORD_ID}:
+    parameters: []
+    delete:
+      tags:
+      - Deletes
+      summary: Salesforce Sobject Rows Delete
+      description: Accesses records based on the specified object ID. Retrieves, updates, or deletes records. This resource can also be used to retrieve field values. Use the GET method to retrieve records or fields, the DELETE method to delete records, and the PATCH method to update records.
+      operationId: SObjectRowsDelete
+      parameters:
+      - name: SOBJECT_API_NAME
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: example_value
+      - name: RECORD_ID
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        schema:
+          const: application/json
+          type: string
+          examples:
+          - application/json
+        example: example_value
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/tooling/sobjects/SandboxInfo/{SANDBOX_INFO_ID}:
+    parameters: []
+    delete:
+      tags:
+      - Deletes
+      summary: Salesforce Delete Sandbox
+      description: Deletes a sandbox.
+      operationId: DeleteSandbox
+      parameters:
+      - name: SANDBOX_INFO_ID
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      responses:
+        '204':
+          description: No Content
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Fri, 15 Dec 2023 13:34:29 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            Content-Security-Policy:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: upgrade-insecure-requests
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Sforce-Limit-Info:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: api-usage=2/15000
+          content: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/ui-api/records/{RECORD_ID}:
+    parameters: []
+    delete:
+      tags:
+      - Deletes
+      summary: Salesforce Delete a Record
+      description: 'Update a record''s data.
+
+        User Interface API enforces Salesforce validation rules. If a validation rule fails, the response is an Error with Output.
+
+
+        When you make a PATCH request to update a record, make sure that the record hasn’t changed since the user started editing it. To find out whether it’s safe to save a record, pass the If-Modified-Since HTTP header in the request.
+
+
+        As of API version 43.0, if you pass read-only fields in a request body, the response is an Error with Output.'
+      operationId: DeleteaRecord
+      parameters:
+      - name: RECORD_ID
+        in: path
+        description: Record ID
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      responses:
+        '204':
+          description: No Content
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Wed, 27 Sep 2023 16:05:14 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            Content-Security-Policy:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: upgrade-insecure-requests
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+          content: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/ui-api/favorites/{FAVORITE_ID}:
+    parameters: []
+    delete:
+      tags:
+      - Deletes
+      summary: Salesforce Delete a Favorite
+      description: Get a favorite.
+      operationId: DeleteaFavorite
+      parameters:
+      - name: FAVORITE_ID
+        in: path
+        description: The ID of a favorite
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      responses:
+        '204':
+          description: No Content
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Fri, 06 Oct 2023 10:09:14 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            Content-Security-Policy:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: upgrade-insecure-requests
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+          content: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    SuccessfulSObjectCollectionsDelete:
+      title: SuccessfulSObjectCollectionsDelete
+      required:
+      - id
+      - success
+      - errors
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+        success:
+          type: boolean
+          example: true
+        errors:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+      examples:
+      - id: 001...
+        success: true
+        errors: []
+    Status400-ActiveExpressionCanNotBeDeleted1:
+      title: Status400-ActiveExpressionCanNotBeDeleted1
+      required:
+      - errorCode
+      - message
+      type: object
+      properties:
+        errorCode:
+          type: string
+          example: example_value
+        message:
+          type: string
+          example: example_value
+      examples:
+      - errorCode: INVALID_INPUT
+        message: An enabled Expression Set Version cannot be updated/deleted.
+    Status404-RecordNotFound1:
+      title: Status404-RecordNotFound1
+      required:
+      - errorCode
+      - message
+      type: object
+      properties:
+        errorCode:
+          type: string
+          example: example_value
+        message:
+          type: string
+          example: example_value
+      examples:
+      - errorCode: NOT_FOUND
+        message: The requested resource does not exist
+    DeleteCredentialRequest:
+      title: DeleteCredentialRequest
+      required:
+      - externalCredential
+      - principalType
+      - principalName
+      type: object
+      properties:
+        externalCredential:
+          type: string
+          example: example_value
+        principalType:
+          type: string
+          example: example_value
+        principalName:
+          type: string
+          example: example_value
+      examples:
+      - externalCredential: SampleExternalCredential
+        principalType: NamedPrincipal
+        principalName: SamplePrincipal
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

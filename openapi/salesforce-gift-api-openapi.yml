@@ -1,0 +1,397 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Gift API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Gift
+paths:
+  /data/v64.0/connect/fundraising/transactions/payment-updates:
+    parameters: []
+    post:
+      tags:
+      - Gift
+      summary: Salesforce Update Gift Transaction Payments
+      description: "Update the gateway and processor metadata for gift transactions.\n\n## Required Attributes:\n\n- giftTransactionId\n    \n- transactionStatus"
+      operationId: UpdateGiftTransactionPayments
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/UpdateGiftTransactionPaymentsRequest'
+              - examples:
+                - updates:
+                  - giftTransactionId: <SFDC_GIFT_TRANSACTION_ID>
+                    transactionStatus: Paid
+                    processorReference: string
+                    gatewayReference: string
+                    lastGatewayResponseCode: invalid_cvc
+                    lastGatewayErrorMessage: The card’s security code is invalid. Check the card’s security code or use a different card.
+                    lastGatewayProcessedDateTime: '2023-07-06T21:57:51.000Z'
+                    processorTransactionFee: 0.5
+                    gatewayTransactionFee: 0.25
+                    donorCoverAmount: 10.5
+                  - giftTransactionId: <SFDC_GIFT_TRANSACTION_ID>
+                    transactionStatus: Paid
+                    processorReference: string
+                    gatewayReference: string
+                    lastGatewayResponseCode: invalid_cvc
+                    lastGatewayErrorMessage: The card’s security code is invalid. Check the card’s security code or use a different card.
+                    lastGatewayProcessedDateTime: '2023-07-06T21:57:51.000Z'
+                    processorTransactionFee: 1
+                    gatewayTransactionFee: 0.45
+                    donorCoverAmount: 20
+              contentMediaType: application/json
+            example:
+              updates:
+              - giftTransactionId: <SFDC_GIFT_TRANSACTION_ID>
+                transactionStatus: Paid
+                processorReference: string
+                gatewayReference: string
+                lastGatewayResponseCode: invalid_cvc
+                lastGatewayErrorMessage: The card’s security code is invalid. Check the card’s security code or use a different card.
+                lastGatewayProcessedDateTime: '2023-07-06T21:57:51.000Z'
+                processorTransactionFee: 0.5
+                gatewayTransactionFee: 0.25
+                donorCoverAmount: 10.5
+              - giftTransactionId: <SFDC_GIFT_TRANSACTION_ID>
+                transactionStatus: Paid
+                processorReference: string
+                gatewayReference: string
+                lastGatewayResponseCode: invalid_cvc
+                lastGatewayErrorMessage: The card’s security code is invalid. Check the card’s security code or use a different card.
+                lastGatewayProcessedDateTime: '2023-07-06T21:57:51.000Z'
+                processorTransactionFee: 1
+                gatewayTransactionFee: 0.45
+                donorCoverAmount: 20
+        required: true
+      responses:
+        '201':
+          description: Created
+          headers: {}
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Status201-UpdateTransactionPaymentSuccess'
+                - examples:
+                  - successes: 2
+                    failures: 0
+                    notProcessed: 0
+                    details:
+                    - success: true
+                      links:
+                        gifttransaction:
+                          href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
+                          id: <SFDC_GIFT_TRANSACTION_ID>
+                    - success: true
+                      links:
+                        gifttransaction:
+                          href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
+                          id: <SFDC_GIFT_TRANSACTION_ID>
+                contentMediaType: application/json
+              example:
+                successes: 2
+                failures: 0
+                notProcessed: 0
+                details:
+                - success: true
+                  links:
+                    gifttransaction:
+                      href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
+                      id: <SFDC_GIFT_TRANSACTION_ID>
+                - success: true
+                  links:
+                    gifttransaction:
+                      href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
+                      id: <SFDC_GIFT_TRANSACTION_ID>
+        '400':
+          description: Bad Request
+          headers: {}
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Status201-UpdateTransactionPaymentWithExternalIds1'
+                - examples:
+                  - successes: 1
+                    failures: 0
+                    notProcessed: 0
+                    details:
+                    - success: true
+                      links:
+                        gifttransaction:
+                          href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
+                          id: <SFDC_GIFT_TRANSACTION_ID>
+                contentMediaType: application/json
+              example:
+                successes: 1
+                failures: 0
+                notProcessed: 0
+                details:
+                - success: true
+                  links:
+                    gifttransaction:
+                      href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
+                      id: <SFDC_GIFT_TRANSACTION_ID>
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    UpdateGiftTransactionPaymentsRequest:
+      title: UpdateGiftTransactionPaymentsRequest
+      required:
+      - updates
+      type: object
+      properties:
+        updates:
+          type: array
+          items:
+            $ref: '#/components/schemas/Update'
+          description: ''
+          example: []
+      examples:
+      - updates:
+        - giftTransactionId: <SFDC_GIFT_TRANSACTION_ID>
+          transactionStatus: Paid
+          processorReference: string
+          gatewayReference: string
+          lastGatewayResponseCode: invalid_cvc
+          lastGatewayErrorMessage: The card’s security code is invalid. Check the card’s security code or use a different card.
+          lastGatewayProcessedDateTime: '2023-07-06T21:57:51.000Z'
+          processorTransactionFee: 0.5
+          gatewayTransactionFee: 0.25
+          donorCoverAmount: 10.5
+        - giftTransactionId: <SFDC_GIFT_TRANSACTION_ID>
+          transactionStatus: Paid
+          processorReference: string
+          gatewayReference: string
+          lastGatewayResponseCode: invalid_cvc
+          lastGatewayErrorMessage: The card’s security code is invalid. Check the card’s security code or use a different card.
+          lastGatewayProcessedDateTime: '2023-07-06T21:57:51.000Z'
+          processorTransactionFee: 1
+          gatewayTransactionFee: 0.45
+          donorCoverAmount: 20
+    Detail3:
+      title: Detail3
+      required:
+      - success
+      - links
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        links:
+          $ref: '#/components/schemas/Links3'
+      examples:
+      - success: true
+        links:
+          gifttransaction:
+            href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
+            id: <SFDC_GIFT_TRANSACTION_ID>
+    Status201-UpdateTransactionPaymentSuccess:
+      title: Status201-UpdateTransactionPaymentSuccess
+      required:
+      - successes
+      - failures
+      - notProcessed
+      - details
+      type: object
+      properties:
+        successes:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        failures:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        notProcessed:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/Detail3'
+          description: ''
+          example: []
+      examples:
+      - successes: 2
+        failures: 0
+        notProcessed: 0
+        details:
+        - success: true
+          links:
+            gifttransaction:
+              href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
+              id: <SFDC_GIFT_TRANSACTION_ID>
+        - success: true
+          links:
+            gifttransaction:
+              href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
+              id: <SFDC_GIFT_TRANSACTION_ID>
+    Update:
+      title: Update
+      required:
+      - giftTransactionId
+      - transactionStatus
+      - processorReference
+      - gatewayReference
+      - lastGatewayResponseCode
+      - lastGatewayErrorMessage
+      - lastGatewayProcessedDateTime
+      - processorTransactionFee
+      - gatewayTransactionFee
+      - donorCoverAmount
+      type: object
+      properties:
+        giftTransactionId:
+          type: string
+          example: '500123'
+        transactionStatus:
+          type: string
+          example: example_value
+        processorReference:
+          type: string
+          example: example_value
+        gatewayReference:
+          type: string
+          example: example_value
+        lastGatewayResponseCode:
+          type: string
+          example: example_value
+        lastGatewayErrorMessage:
+          type: string
+          example: example_value
+        lastGatewayProcessedDateTime:
+          type: string
+          example: '2026-01-15T10:30:00Z'
+        processorTransactionFee:
+          type: number
+          example: 42.5
+        gatewayTransactionFee:
+          type: number
+          example: 42.5
+        donorCoverAmount:
+          type: number
+          example: 42.5
+      examples:
+      - giftTransactionId: <SFDC_GIFT_TRANSACTION_ID>
+        transactionStatus: Paid
+        processorReference: string
+        gatewayReference: string
+        lastGatewayResponseCode: invalid_cvc
+        lastGatewayErrorMessage: The card’s security code is invalid. Check the card’s security code or use a different card.
+        lastGatewayProcessedDateTime: '2023-07-06T21:57:51.000Z'
+        processorTransactionFee: 0.5
+        gatewayTransactionFee: 0.25
+        donorCoverAmount: 10.5
+    Gifttransaction:
+      title: Gifttransaction
+      required:
+      - href
+      - id
+      type: object
+      properties:
+        href:
+          type: string
+          example: example_value
+        id:
+          type: string
+          example: abc123
+      examples:
+      - href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
+        id: <SFDC_GIFT_TRANSACTION_ID>
+    Status201-UpdateTransactionPaymentWithExternalIds1:
+      title: Status201-UpdateTransactionPaymentWithExternalIds1
+      required:
+      - successes
+      - failures
+      - notProcessed
+      - details
+      type: object
+      properties:
+        successes:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        failures:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        notProcessed:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/Detail3'
+          description: ''
+          example: []
+      examples:
+      - successes: 1
+        failures: 0
+        notProcessed: 0
+        details:
+        - success: true
+          links:
+            gifttransaction:
+              href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
+              id: <SFDC_GIFT_TRANSACTION_ID>
+    Links3:
+      title: Links3
+      required:
+      - gifttransaction
+      type: object
+      properties:
+        gifttransaction:
+          $ref: '#/components/schemas/Gifttransaction'
+      examples:
+      - gifttransaction:
+          href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
+          id: <SFDC_GIFT_TRANSACTION_ID>
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

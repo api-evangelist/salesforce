@@ -1,0 +1,504 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Themes API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Themes
+paths:
+  /data/v64.0/theme:
+    parameters: []
+    get:
+      tags:
+      - Themes
+      summary: Salesforce Themes
+      description: 'Gets the list of icons and colors used by themes in the Salesforce application. Theme information is provided for objects in your organization that use icons and colors in the Salesforce UI.
+
+
+        The If-Modified-Since header can be used with this resource, with a date format of EEE, dd MMM yyyy HH:mm:ss z. When this header is used, if the object metadata has not changed since the provided date, a 304 Not Modified status code is returned, with no response body.
+
+
+        https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_themes.htm'
+      operationId: Themes
+      parameters:
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        schema:
+          const: application/json
+          type: string
+          examples:
+          - application/json
+        example: example_value
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Wed, 27 Sep 2023 15:30:15 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Sforce-Limit-Info:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: api-usage=8/15000
+            ETag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: '"81846348--gzip"'
+            Last-Modified:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Tue, 19 Sep 2023 22:01:04 GMT
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Themes'
+                - examples:
+                  - themeItems:
+                    - colors:
+                      - color: 5867E8
+                        context: primary
+                        theme: theme4
+                      - color: 236FBD
+                        context: primary
+                        theme: theme3
+                      icons:
+                      - contentType: image/png
+                        height: 32
+                        theme: theme3
+                        url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/accounts32.png
+                        width: 32
+                      - contentType: image/png
+                        height: 16
+                        theme: theme3
+                        url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/accounts16.png
+                        width: 16
+                      - contentType: image/svg+xml
+                        height: 0
+                        theme: theme4
+                        url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/t4v35/standard/account.svg
+                        width: 0
+                      - contentType: image/png
+                        height: 60
+                        theme: theme4
+                        url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/t4v35/standard/account_60.png
+                        width: 60
+                      - contentType: image/png
+                        height: 120
+                        theme: theme4
+                        url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/t4v35/standard/account_120.png
+                        width: 120
+                      name: Account
+                    - colors:
+                      - color: 5867E8
+                        context: primary
+                        theme: theme4
+                      - color: 5867E8
+                        context: primary
+                        theme: theme3
+                      icons:
+                      - contentType: image/png
+                        height: 32
+                        theme: theme3
+                        url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/account_brand32.png
+                        width: 32
+                      - contentType: image/png
+                        height: 16
+                        theme: theme3
+                        url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/account_brand16.png
+                        width: 16
+                      - contentType: image/svg+xml
+                        height: 0
+                        theme: theme4
+                        url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/t4v35/standard/account_brand.svg
+                        width: 0
+                      - contentType: image/png
+                        height: 60
+                        theme: theme4
+                        url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/t4v35/standard/account_brand_60.png
+                        width: 60
+                      - contentType: image/png
+                        height: 120
+                        theme: theme4
+                        url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/t4v35/standard/brand_120.png
+                        width: 120
+                      name: AccountBrand
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                themeItems:
+                - colors:
+                  - color: 5867E8
+                    context: primary
+                    theme: theme4
+                  - color: 236FBD
+                    context: primary
+                    theme: theme3
+                  icons:
+                  - contentType: image/png
+                    height: 32
+                    theme: theme3
+                    url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/accounts32.png
+                    width: 32
+                  - contentType: image/png
+                    height: 16
+                    theme: theme3
+                    url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/accounts16.png
+                    width: 16
+                  - contentType: image/svg+xml
+                    height: 0
+                    theme: theme4
+                    url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/t4v35/standard/account.svg
+                    width: 0
+                  - contentType: image/png
+                    height: 60
+                    theme: theme4
+                    url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/t4v35/standard/account_60.png
+                    width: 60
+                  - contentType: image/png
+                    height: 120
+                    theme: theme4
+                    url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/t4v35/standard/account_120.png
+                    width: 120
+                  name: Account
+                - colors:
+                  - color: 5867E8
+                    context: primary
+                    theme: theme4
+                  - color: 5867E8
+                    context: primary
+                    theme: theme3
+                  icons:
+                  - contentType: image/png
+                    height: 32
+                    theme: theme3
+                    url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/account_brand32.png
+                    width: 32
+                  - contentType: image/png
+                    height: 16
+                    theme: theme3
+                    url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/account_brand16.png
+                    width: 16
+                  - contentType: image/svg+xml
+                    height: 0
+                    theme: theme4
+                    url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/t4v35/standard/account_brand.svg
+                    width: 0
+                  - contentType: image/png
+                    height: 60
+                    theme: theme4
+                    url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/t4v35/standard/account_brand_60.png
+                    width: 60
+                  - contentType: image/png
+                    height: 120
+                    theme: theme4
+                    url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/t4v35/standard/brand_120.png
+                    width: 120
+                  name: AccountBrand
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Color:
+      title: Color
+      required:
+      - color
+      - context
+      - theme
+      type: object
+      properties:
+        color:
+          type: string
+          example: example_value
+        context:
+          type: string
+          example: example_value
+        theme:
+          type: string
+          example: example_value
+      examples:
+      - color: 5867E8
+        context: primary
+        theme: theme4
+    ThemeItem:
+      title: ThemeItem
+      required:
+      - colors
+      - icons
+      - name
+      type: object
+      properties:
+        colors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Color'
+          description: ''
+          example: []
+        icons:
+          type: array
+          items:
+            $ref: '#/components/schemas/Icon'
+          description: ''
+          example: []
+        name:
+          type: string
+          example: Example Title
+      examples:
+      - colors:
+        - color: 5867E8
+          context: primary
+          theme: theme4
+        - color: 236FBD
+          context: primary
+          theme: theme3
+        icons:
+        - contentType: image/png
+          height: 32
+          theme: theme3
+          url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/accounts32.png
+          width: 32
+        - contentType: image/png
+          height: 16
+          theme: theme3
+          url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/accounts16.png
+          width: 16
+        - contentType: image/svg+xml
+          height: 0
+          theme: theme4
+          url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/t4v35/standard/account.svg
+          width: 0
+        - contentType: image/png
+          height: 60
+          theme: theme4
+          url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/t4v35/standard/account_60.png
+          width: 60
+        - contentType: image/png
+          height: 120
+          theme: theme4
+          url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/t4v35/standard/account_120.png
+          width: 120
+        name: Account
+    Themes:
+      title: Themes
+      required:
+      - themeItems
+      type: object
+      properties:
+        themeItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/ThemeItem'
+          description: ''
+          example: []
+      examples:
+      - themeItems:
+        - colors:
+          - color: 5867E8
+            context: primary
+            theme: theme4
+          - color: 236FBD
+            context: primary
+            theme: theme3
+          icons:
+          - contentType: image/png
+            height: 32
+            theme: theme3
+            url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/accounts32.png
+            width: 32
+          - contentType: image/png
+            height: 16
+            theme: theme3
+            url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/accounts16.png
+            width: 16
+          - contentType: image/svg+xml
+            height: 0
+            theme: theme4
+            url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/t4v35/standard/account.svg
+            width: 0
+          - contentType: image/png
+            height: 60
+            theme: theme4
+            url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/t4v35/standard/account_60.png
+            width: 60
+          - contentType: image/png
+            height: 120
+            theme: theme4
+            url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/t4v35/standard/account_120.png
+            width: 120
+          name: Account
+        - colors:
+          - color: 5867E8
+            context: primary
+            theme: theme4
+          - color: 5867E8
+            context: primary
+            theme: theme3
+          icons:
+          - contentType: image/png
+            height: 32
+            theme: theme3
+            url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/account_brand32.png
+            width: 32
+          - contentType: image/png
+            height: 16
+            theme: theme3
+            url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/account_brand16.png
+            width: 16
+          - contentType: image/svg+xml
+            height: 0
+            theme: theme4
+            url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/t4v35/standard/account_brand.svg
+            width: 0
+          - contentType: image/png
+            height: 60
+            theme: theme4
+            url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/t4v35/standard/account_brand_60.png
+            width: 60
+          - contentType: image/png
+            height: 120
+            theme: theme4
+            url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/t4v35/standard/brand_120.png
+            width: 120
+          name: AccountBrand
+    Icon:
+      title: Icon
+      required:
+      - contentType
+      - height
+      - theme
+      - url
+      - width
+      type: object
+      properties:
+        contentType:
+          type: string
+          example: example_value
+        height:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        theme:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+        width:
+          type: integer
+          contentEncoding: int32
+          example: 10
+      examples:
+      - contentType: image/png
+        height: 32
+        theme: theme3
+        url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/accounts32.png
+        width: 32
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

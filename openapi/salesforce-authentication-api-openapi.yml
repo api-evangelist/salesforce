@@ -1,0 +1,409 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Authentication API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Authentication
+  description: 'OAuth 2.0 token operations for obtaining access tokens using client credentials or authorization code flows.
+
+    '
+paths:
+  /v2/token:
+    post:
+      operationId: getAccessToken
+      summary: Get an access token
+      description: 'Obtains an OAuth 2.0 access token for authenticating subsequent API requests. Supports both client credentials (server-to-server) and authorization code grant types. The access token should be included in the Authorization header as "Bearer {access_token}" for all API calls. Tokens expire after a defined period; request a new token when needed.
+
+        '
+      tags:
+      - Authentication
+      security: []
+      requestBody:
+        required: true
+        description: OAuth 2.0 token request parameters.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRequest'
+      responses:
+        '200':
+          description: Access token obtained successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '400':
+          description: 'Bad request. Invalid client credentials, grant type, or request parameters.
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized. Invalid client ID or client secret.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /.well-known/auth-configuration:
+    parameters: []
+    get:
+      tags:
+      - Authentication
+      summary: Salesforce Authentication Configuration Endpoint
+      operationId: AuthenticationConfigurationEndpoint
+      parameters: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Thu, 16 Nov 2023 15:54:15 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Access-Control-Allow-Credentials:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 'false'
+            Access-Control-Allow-Methods:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: GET, POST, OPTIONS
+            Access-Control-Allow-Origin:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: '*'
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessfulAuthenticationConfigurationEndpoint'
+                - examples:
+                  - OrgId: 00D2o000000i6mB
+                    Url: https://<my_domain>
+                    MobileSDK:
+                      UseiOSNativeBrowserForAuthentication: false
+                      UseAndroidNativeBrowserForAuthentication: false
+                      shareBrowserSessionIOS: false
+                      shareBrowserSessionAndroid: false
+                    LoginPage: null
+                    SamlProviders: []
+                    AuthProviders: []
+                    CertificateLogin: null
+                    LoginPageType: standard
+                    LoginPageTypeConfigs: {}
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                OrgId: 00D2o000000i6mB
+                Url: https://<my_domain>
+                MobileSDK:
+                  UseiOSNativeBrowserForAuthentication: false
+                  UseAndroidNativeBrowserForAuthentication: false
+                  shareBrowserSessionIOS: false
+                  shareBrowserSessionAndroid: false
+                LoginPage: null
+                SamlProviders: []
+                AuthProviders: []
+                CertificateLogin: null
+                LoginPageType: standard
+                LoginPageTypeConfigs: {}
+      deprecated: false
+      security: []
+      servers:
+      - url: https://login.salesforce.com
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    TokenResponse:
+      type: object
+      description: OAuth 2.0 access token response from the Marketing Cloud token endpoint.
+      properties:
+        access_token:
+          type: string
+          description: 'The OAuth 2.0 access token for authenticating API requests. Include in the Authorization header as "Bearer {access_token}".
+
+            '
+        token_type:
+          type: string
+          description: The token type. Always "Bearer" for Marketing Cloud.
+        expires_in:
+          type: integer
+          description: The number of seconds until the access token expires.
+        scope:
+          type: string
+          description: Space-separated list of permission scopes granted.
+        refresh_token:
+          type: string
+          description: 'A refresh token for obtaining a new access token without re-authentication. Only present for authorization_code grant type.
+
+            '
+        rest_instance_url:
+          type: string
+          format: uri
+          description: 'The REST API base URL for this Marketing Cloud account. Use this as the base URL for all subsequent REST API requests.
+
+            '
+        soap_instance_url:
+          type: string
+          format: uri
+          description: The SOAP API base URL for this Marketing Cloud account.
+    TokenRequest:
+      type: object
+      description: 'OAuth 2.0 token request parameters for obtaining a Marketing Cloud access token.
+
+        '
+      required:
+      - grant_type
+      - client_id
+      - client_secret
+      properties:
+        grant_type:
+          type: string
+          enum:
+          - client_credentials
+          - authorization_code
+          - refresh_token
+          description: 'The OAuth 2.0 grant type. Use client_credentials for server-to-server integrations, authorization_code for user-context integrations, or refresh_token to refresh an existing token.
+
+            '
+        client_id:
+          type: string
+          description: 'The client ID of the Marketing Cloud installed package API integration.
+
+            '
+        client_secret:
+          type: string
+          description: 'The client secret of the Marketing Cloud installed package API integration.
+
+            '
+        code:
+          type: string
+          description: 'The authorization code returned by the authorization server. Required when grant_type is authorization_code.
+
+            '
+        redirect_uri:
+          type: string
+          format: uri
+          description: 'The redirect URI configured in the installed package. Required when grant_type is authorization_code.
+
+            '
+        refresh_token:
+          type: string
+          description: 'The refresh token from a previous token response. Required when grant_type is refresh_token.
+
+            '
+        scope:
+          type: string
+          description: 'Space-separated list of permission scopes requested. If not specified, all scopes configured for the installed package are granted.
+
+            '
+    Error:
+      type: object
+      description: An error response from the Marketing Cloud REST API.
+      properties:
+        message:
+          type: string
+          description: Human-readable description of the error.
+        errorcode:
+          type: integer
+          description: Marketing Cloud numeric error code.
+        documentation:
+          type: string
+          description: URL to documentation about this error.
+    SuccessfulAuthenticationConfigurationEndpoint:
+      title: SuccessfulAuthenticationConfigurationEndpoint
+      required:
+      - OrgId
+      - Url
+      - MobileSDK
+      - LoginPage
+      - SamlProviders
+      - AuthProviders
+      - CertificateLogin
+      - LoginPageType
+      - LoginPageTypeConfigs
+      type: object
+      properties:
+        OrgId:
+          type: string
+          example: '500123'
+        Url:
+          type: string
+          example: https://www.example.com
+        MobileSDK:
+          $ref: '#/components/schemas/MobileSDK'
+        LoginPage:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        SamlProviders:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        AuthProviders:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        CertificateLogin:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        LoginPageType:
+          type: string
+          example: example_value
+        LoginPageTypeConfigs:
+          type: object
+          example: example_value
+      examples:
+      - OrgId: 00D2o000000i6mB
+        Url: https://<my_domain>
+        MobileSDK:
+          UseiOSNativeBrowserForAuthentication: false
+          UseAndroidNativeBrowserForAuthentication: false
+          shareBrowserSessionIOS: false
+          shareBrowserSessionAndroid: false
+        LoginPage: null
+        SamlProviders: []
+        AuthProviders: []
+        CertificateLogin: null
+        LoginPageType: standard
+        LoginPageTypeConfigs: {}
+    MobileSDK:
+      title: MobileSDK
+      required:
+      - UseiOSNativeBrowserForAuthentication
+      - UseAndroidNativeBrowserForAuthentication
+      - shareBrowserSessionIOS
+      - shareBrowserSessionAndroid
+      type: object
+      properties:
+        UseiOSNativeBrowserForAuthentication:
+          type: boolean
+          example: true
+        UseAndroidNativeBrowserForAuthentication:
+          type: boolean
+          example: true
+        shareBrowserSessionIOS:
+          type: boolean
+          example: true
+        shareBrowserSessionAndroid:
+          type: boolean
+          example: '500123'
+      examples:
+      - UseiOSNativeBrowserForAuthentication: false
+        UseAndroidNativeBrowserForAuthentication: false
+        shareBrowserSessionIOS: false
+        shareBrowserSessionAndroid: false
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

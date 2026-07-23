@@ -1,0 +1,855 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Access API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Access
+paths:
+  /data/v64.0/tooling/sobjects/{SOBJECT_API_NAME}/{RECORD_ID}:
+    parameters: []
+    get:
+      tags:
+      - Access
+      summary: Salesforce Access Records
+      operationId: AccessRecords
+      parameters:
+      - name: SOBJECT_API_NAME
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: example_value
+      - name: RECORD_ID
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Mon, 11 Dec 2023 10:38:26 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Sforce-Limit-Info:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: api-usage=308/15000
+            Last-Modified:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Sun, 26 Nov 2023 14:10:11 GMT
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/AccessRecords'
+                - examples:
+                  - attributes:
+                      type: ApexClass
+                      url: /services/data/v59.0/tooling/sobjects/ApexClass/01p4H00000A4kfqQAB
+                    Id: 01p4H00000A4kfqQAB
+                    NamespacePrefix: smon
+                    Name: GenericEventPostMock
+                    ApiVersion: 59
+                    Status: Active
+                    IsValid: false
+                    BodyCrc: -1
+                    Body: "/*\nThis file is generated and isn't the actual source code for this\nmanaged global class.\nThis read-only file shows the class's global constructors,\nmethods, variables, and properties.\nTo enable code to compile, all methods return null.\n*/\nglobal class GenericEventPostMock implements System.HttpCalloutMock {\n    global GenericEventPostMock(Integer statusCode) {\n\n    }\n    global System.HttpResponse respond(System.HttpRequest req) {\n        return null;\n    }\n}\n"
+                    LengthWithoutComments: -1
+                    CreatedDate: 2023-11-20T08:03:40.000+0000
+                    CreatedById: 00558000000yFyDAAU
+                    LastModifiedDate: 2023-11-20T08:03:40.000+0000
+                    LastModifiedById: 00558000000yFyDAAU
+                    SystemModstamp: 2023-11-26T14:10:11.000+0000
+                    ManageableState: installed
+                    SymbolTable:
+                      constructors:
+                      - annotations: []
+                        location:
+                          column: 12
+                          line: 5
+                        modifiers:
+                        - global
+                        name: GenericEventPostMock
+                        parameters:
+                        - name: statusCode
+                          type: Integer
+                        references: []
+                        type: null
+                      externalReferences: []
+                      id: smon.GenericEventPostMock
+                      innerClasses: []
+                      interfaces:
+                      - System.HttpCalloutMock
+                      key: smon.GenericEventPostMock
+                      methods:
+                      - annotations: []
+                        location:
+                          column: 25
+                          line: 9
+                        modifiers:
+                        - global
+                        name: respond
+                        parameters:
+                        - name: req
+                          type: System.HttpRequest
+                        references: []
+                        returnType: System.HttpResponse
+                        type: null
+                      name: GenericEventPostMock
+                      namespace: smon
+                      parentClass: ''
+                      properties: []
+                      tableDeclaration:
+                        annotations:
+                        - name: IsTest
+                        location:
+                          column: 14
+                          line: 2
+                        modifiers:
+                        - testMethod
+                        - global
+                        name: GenericEventPostMock
+                        references: []
+                        type: smon.GenericEventPostMock
+                      variables: []
+                    Metadata:
+                      apiVersion: 59
+                      packageVersions: []
+                      status: Active
+                      urls: null
+                    FullName: smon__GenericEventPostMock
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                attributes:
+                  type: ApexClass
+                  url: /services/data/v59.0/tooling/sobjects/ApexClass/01p4H00000A4kfqQAB
+                Id: 01p4H00000A4kfqQAB
+                NamespacePrefix: smon
+                Name: GenericEventPostMock
+                ApiVersion: 59
+                Status: Active
+                IsValid: false
+                BodyCrc: -1
+                Body: "/*\nThis file is generated and isn't the actual source code for this\nmanaged global class.\nThis read-only file shows the class's global constructors,\nmethods, variables, and properties.\nTo enable code to compile, all methods return null.\n*/\nglobal class GenericEventPostMock implements System.HttpCalloutMock {\n    global GenericEventPostMock(Integer statusCode) {\n\n    }\n    global System.HttpResponse respond(System.HttpRequest req) {\n        return null;\n    }\n}\n"
+                LengthWithoutComments: -1
+                CreatedDate: 2023-11-20T08:03:40.000+0000
+                CreatedById: 00558000000yFyDAAU
+                LastModifiedDate: 2023-11-20T08:03:40.000+0000
+                LastModifiedById: 00558000000yFyDAAU
+                SystemModstamp: 2023-11-26T14:10:11.000+0000
+                ManageableState: installed
+                SymbolTable:
+                  constructors:
+                  - annotations: []
+                    location:
+                      column: 12
+                      line: 5
+                    modifiers:
+                    - global
+                    name: GenericEventPostMock
+                    parameters:
+                    - name: statusCode
+                      type: Integer
+                    references: []
+                    type: null
+                  externalReferences: []
+                  id: smon.GenericEventPostMock
+                  innerClasses: []
+                  interfaces:
+                  - System.HttpCalloutMock
+                  key: smon.GenericEventPostMock
+                  methods:
+                  - annotations: []
+                    location:
+                      column: 25
+                      line: 9
+                    modifiers:
+                    - global
+                    name: respond
+                    parameters:
+                    - name: req
+                      type: System.HttpRequest
+                    references: []
+                    returnType: System.HttpResponse
+                    type: null
+                  name: GenericEventPostMock
+                  namespace: smon
+                  parentClass: ''
+                  properties: []
+                  tableDeclaration:
+                    annotations:
+                    - name: IsTest
+                    location:
+                      column: 14
+                      line: 2
+                    modifiers:
+                    - testMethod
+                    - global
+                    name: GenericEventPostMock
+                    references: []
+                    type: smon.GenericEventPostMock
+                  variables: []
+                Metadata:
+                  apiVersion: 59
+                  packageVersions: []
+                  status: Active
+                  urls: null
+                FullName: smon__GenericEventPostMock
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Constructor:
+      title: Constructor
+      required:
+      - annotations
+      - location
+      - modifiers
+      - name
+      - parameters
+      - references
+      - type
+      type: object
+      properties:
+        annotations:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        location:
+          $ref: '#/components/schemas/Location'
+        modifiers:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        name:
+          type: string
+          example: Example Title
+        parameters:
+          type: array
+          items:
+            $ref: '#/components/schemas/Parameter5'
+          description: ''
+          example: []
+        references:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        type:
+          type:
+          - string
+          - 'null'
+          example: example_value
+      examples:
+      - annotations: []
+        location:
+          column: 12
+          line: 5
+        modifiers:
+        - global
+        name: GenericEventPostMock
+        parameters:
+        - name: statusCode
+          type: Integer
+        references: []
+        type: null
+    Annotation:
+      title: Annotation
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+          example: Example Title
+      examples:
+      - name: IsTest
+    SymbolTable:
+      title: SymbolTable
+      required:
+      - constructors
+      - externalReferences
+      - id
+      - innerClasses
+      - interfaces
+      - key
+      - methods
+      - name
+      - namespace
+      - parentClass
+      - properties
+      - tableDeclaration
+      - variables
+      type: object
+      properties:
+        constructors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Constructor'
+          description: ''
+          example: []
+        externalReferences:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        id:
+          type: string
+          example: abc123
+        innerClasses:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        interfaces:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        key:
+          type: string
+          example: example_value
+        methods:
+          type: array
+          items:
+            $ref: '#/components/schemas/Method'
+          description: ''
+          example: []
+        name:
+          type: string
+          example: Example Title
+        namespace:
+          type: string
+          example: example_value
+        parentClass:
+          type: string
+          example: example_value
+        properties:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        tableDeclaration:
+          $ref: '#/components/schemas/TableDeclaration'
+        variables:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+      examples:
+      - constructors:
+        - annotations: []
+          location:
+            column: 12
+            line: 5
+          modifiers:
+          - global
+          name: GenericEventPostMock
+          parameters:
+          - name: statusCode
+            type: Integer
+          references: []
+          type: null
+        externalReferences: []
+        id: smon.GenericEventPostMock
+        innerClasses: []
+        interfaces:
+        - System.HttpCalloutMock
+        key: smon.GenericEventPostMock
+        methods:
+        - annotations: []
+          location:
+            column: 25
+            line: 9
+          modifiers:
+          - global
+          name: respond
+          parameters:
+          - name: req
+            type: System.HttpRequest
+          references: []
+          returnType: System.HttpResponse
+          type: null
+        name: GenericEventPostMock
+        namespace: smon
+        parentClass: ''
+        properties: []
+        tableDeclaration:
+          annotations:
+          - name: IsTest
+          location:
+            column: 14
+            line: 2
+          modifiers:
+          - testMethod
+          - global
+          name: GenericEventPostMock
+          references: []
+          type: smon.GenericEventPostMock
+        variables: []
+    Metadata17:
+      title: Metadata17
+      required:
+      - apiVersion
+      - packageVersions
+      - status
+      - urls
+      type: object
+      properties:
+        apiVersion:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        packageVersions:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        status:
+          type: string
+          example: example_value
+        urls:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+      examples:
+      - apiVersion: 59
+        packageVersions: []
+        status: Active
+        urls: null
+    Location:
+      title: Location
+      required:
+      - column
+      - line
+      type: object
+      properties:
+        column:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        line:
+          type: integer
+          contentEncoding: int32
+          example: 10
+      examples:
+      - column: 12
+        line: 5
+    TableDeclaration:
+      title: TableDeclaration
+      required:
+      - annotations
+      - location
+      - modifiers
+      - name
+      - references
+      - type
+      type: object
+      properties:
+        annotations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Annotation'
+          description: ''
+          example: []
+        location:
+          $ref: '#/components/schemas/Location'
+        modifiers:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        name:
+          type: string
+          example: Example Title
+        references:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        type:
+          type: string
+          example: example_value
+      examples:
+      - annotations:
+        - name: IsTest
+        location:
+          column: 14
+          line: 2
+        modifiers:
+        - testMethod
+        - global
+        name: GenericEventPostMock
+        references: []
+        type: smon.GenericEventPostMock
+    AccessRecords:
+      title: AccessRecords
+      required:
+      - attributes
+      - Id
+      - NamespacePrefix
+      - Name
+      - ApiVersion
+      - Status
+      - IsValid
+      - BodyCrc
+      - Body
+      - LengthWithoutComments
+      - CreatedDate
+      - CreatedById
+      - LastModifiedDate
+      - LastModifiedById
+      - SystemModstamp
+      - ManageableState
+      - SymbolTable
+      - Metadata
+      - FullName
+      type: object
+      properties:
+        attributes:
+          $ref: '#/components/schemas/Attributes4'
+        Id:
+          type: string
+          example: abc123
+        NamespacePrefix:
+          type: string
+          example: example_value
+        Name:
+          type: string
+          example: Example Title
+        ApiVersion:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        Status:
+          type: string
+          example: example_value
+        IsValid:
+          type: boolean
+          example: '500123'
+        BodyCrc:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        Body:
+          type: string
+          example: example_value
+        LengthWithoutComments:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        CreatedDate:
+          type: string
+          example: example_value
+        CreatedById:
+          type: string
+          example: '500123'
+        LastModifiedDate:
+          type: string
+          example: example_value
+        LastModifiedById:
+          type: string
+          example: '500123'
+        SystemModstamp:
+          type: string
+          example: example_value
+        ManageableState:
+          type: string
+          example: example_value
+        SymbolTable:
+          $ref: '#/components/schemas/SymbolTable'
+        Metadata:
+          $ref: '#/components/schemas/Metadata17'
+        FullName:
+          type: string
+          example: example_value
+      examples:
+      - attributes:
+          type: ApexClass
+          url: /services/data/v59.0/tooling/sobjects/ApexClass/01p4H00000A4kfqQAB
+        Id: 01p4H00000A4kfqQAB
+        NamespacePrefix: smon
+        Name: GenericEventPostMock
+        ApiVersion: 59
+        Status: Active
+        IsValid: false
+        BodyCrc: -1
+        Body: "/*\nThis file is generated and isn't the actual source code for this\nmanaged global class.\nThis read-only file shows the class's global constructors,\nmethods, variables, and properties.\nTo enable code to compile, all methods return null.\n*/\nglobal class GenericEventPostMock implements System.HttpCalloutMock {\n    global GenericEventPostMock(Integer statusCode) {\n\n    }\n    global System.HttpResponse respond(System.HttpRequest req) {\n        return null;\n    }\n}\n"
+        LengthWithoutComments: -1
+        CreatedDate: 2023-11-20T08:03:40.000+0000
+        CreatedById: 00558000000yFyDAAU
+        LastModifiedDate: 2023-11-20T08:03:40.000+0000
+        LastModifiedById: 00558000000yFyDAAU
+        SystemModstamp: 2023-11-26T14:10:11.000+0000
+        ManageableState: installed
+        SymbolTable:
+          constructors:
+          - annotations: []
+            location:
+              column: 12
+              line: 5
+            modifiers:
+            - global
+            name: GenericEventPostMock
+            parameters:
+            - name: statusCode
+              type: Integer
+            references: []
+            type: null
+          externalReferences: []
+          id: smon.GenericEventPostMock
+          innerClasses: []
+          interfaces:
+          - System.HttpCalloutMock
+          key: smon.GenericEventPostMock
+          methods:
+          - annotations: []
+            location:
+              column: 25
+              line: 9
+            modifiers:
+            - global
+            name: respond
+            parameters:
+            - name: req
+              type: System.HttpRequest
+            references: []
+            returnType: System.HttpResponse
+            type: null
+          name: GenericEventPostMock
+          namespace: smon
+          parentClass: ''
+          properties: []
+          tableDeclaration:
+            annotations:
+            - name: IsTest
+            location:
+              column: 14
+              line: 2
+            modifiers:
+            - testMethod
+            - global
+            name: GenericEventPostMock
+            references: []
+            type: smon.GenericEventPostMock
+          variables: []
+        Metadata:
+          apiVersion: 59
+          packageVersions: []
+          status: Active
+          urls: null
+        FullName: smon__GenericEventPostMock
+    Method:
+      title: Method
+      required:
+      - annotations
+      - location
+      - modifiers
+      - name
+      - parameters
+      - references
+      - returnType
+      - type
+      type: object
+      properties:
+        annotations:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        location:
+          $ref: '#/components/schemas/Location'
+        modifiers:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        name:
+          type: string
+          example: Example Title
+        parameters:
+          type: array
+          items:
+            $ref: '#/components/schemas/Parameter5'
+          description: ''
+          example: []
+        references:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        returnType:
+          type: string
+          example: example_value
+        type:
+          type:
+          - string
+          - 'null'
+          example: example_value
+      examples:
+      - annotations: []
+        location:
+          column: 25
+          line: 9
+        modifiers:
+        - global
+        name: respond
+        parameters:
+        - name: req
+          type: System.HttpRequest
+        references: []
+        returnType: System.HttpResponse
+        type: null
+    Parameter5:
+      title: Parameter5
+      required:
+      - name
+      - type
+      type: object
+      properties:
+        name:
+          type: string
+          example: Example Title
+        type:
+          type: string
+          example: example_value
+      examples:
+      - name: statusCode
+        type: Integer
+    Attributes4:
+      title: Attributes4
+      required:
+      - type
+      - url
+      type: object
+      properties:
+        type:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - type: Account
+        url: /services/data/v58.0/sobjects/Account/001...
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

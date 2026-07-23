@@ -1,0 +1,316 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Dependencies API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Dependencies
+paths:
+  /data/v64.0/connect/business-rules/expression-set/version/{expressionSetVersionId}/dependencies:
+    parameters: []
+    get:
+      tags:
+      - Dependencies
+      summary: Salesforce Retrieve Expression Set Version Dependencies
+      description: "[https://developer.salesforce.com/docs/atlas.en-us.industries_reference.meta/industries_reference/connect_resources_expression_set_dependencies.htm](https://developer.salesforce.com/docs/atlas.en-us.industries_reference.meta/industries_reference/connect_resources_expression_set_dependencies.htm)\n\n# Expression Set Version Dependencies (GET)\n\nRetrieve expression set version dependencies.Resource\n\n```\n/connect/business-rules/expression-set/version/${expressionSetVersionId}/dependencies\n\n ```\n\nResource Example\n\n```\nhttps://yourInstance.salesforce.com/services/data/v58.0/connect/business-rules/expression-set/version/9QARN000000016v4AA/dependencies\n\n ```\n\nAvailable version\n\n58.0\n\nRequires Chatter\n\nNo\n\nHTTP methods\n\nGET\n\nResponse body for GET\n\n[Expression Set Version Dependency](https://developer.salesforce.com/docs/atlas.en-us.industries_reference.meta/industries_reference/connect_responses_expression_set_version_dependency_output.htm)"
+      operationId: Retrieveexpressionsetversiondependencies
+      parameters:
+      - name: expressionSetVersionId
+        in: path
+        description: 'Expression Set Version Id: For Example 9QLHo000000LBjEOAW'
+        required: true
+        schema:
+          type: string
+          examples:
+          - 9QMHo000000LBnbOAG
+        example: '500123'
+      responses:
+        '400':
+          description: Bad Request
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Wed, 06 Sep 2023 14:28:18 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Status400-BadRequest1'
+                description: ''
+                examples:
+                - - errorCode: INVALID_ID_FIELD
+                    message: 'Invalid identifier: 9QLHo000000LBjJOAW'
+                contentMediaType: application/json;charset=UTF-8
+              example:
+              - errorCode: INVALID_ID_FIELD
+                message: 'Invalid identifier: 9QLHo000000LBjJOAW'
+        '404':
+          description: Not Found
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Wed, 06 Sep 2023 14:29:34 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Status404-RecordNotFound1'
+                description: ''
+                examples:
+                - - errorCode: NOT_FOUND
+                    message: The requested resource does not exist
+                contentMediaType: application/json;charset=UTF-8
+              example:
+              - errorCode: NOT_FOUND
+                message: The requested resource does not exist
+        '500':
+          description: Server Error
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Wed, 06 Sep 2023 14:26:46 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Status500-UnexpectedError1'
+                description: ''
+                examples:
+                - - errorCode: INTERNAL_ERROR
+                    message: Unexpected Error
+                contentMediaType: application/json;charset=UTF-8
+              example:
+              - errorCode: INTERNAL_ERROR
+                message: Unexpected Error
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Status400-BadRequest1:
+      title: Status400-BadRequest1
+      required:
+      - errorCode
+      - message
+      type: object
+      properties:
+        errorCode:
+          type: string
+          example: example_value
+        message:
+          type: string
+          example: example_value
+      examples:
+      - errorCode: INVALID_ID_FIELD
+        message: 'Invalid identifier: 9QLHo000000LBjJOAW'
+    Status500-UnexpectedError1:
+      title: Status500-UnexpectedError1
+      required:
+      - errorCode
+      - message
+      type: object
+      properties:
+        errorCode:
+          type: string
+          example: example_value
+        message:
+          type: string
+          example: example_value
+      examples:
+      - errorCode: INTERNAL_ERROR
+        message: Unexpected Error
+    Status404-RecordNotFound1:
+      title: Status404-RecordNotFound1
+      required:
+      - errorCode
+      - message
+      type: object
+      properties:
+        errorCode:
+          type: string
+          example: example_value
+        message:
+          type: string
+          example: example_value
+      examples:
+      - errorCode: NOT_FOUND
+        message: The requested resource does not exist
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

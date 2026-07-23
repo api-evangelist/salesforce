@@ -1,0 +1,888 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Soap API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Soap
+paths:
+  /Soap/u/64.0:
+    parameters: []
+    post:
+      tags:
+      - Soap
+      summary: Salesforce Publish Multiple Events With Soap Call
+      operationId: PublishmultipleeventswithSOAPcall
+      parameters:
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        schema:
+          const: text/xml
+          type: string
+          examples:
+          - text/xml
+        example: example_value
+      - name: charset
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - UTF-8
+        example: example_value
+      - name: SOAPAction
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - create
+        example: example_value
+      - name: Accept
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - text/xml
+        example: example_value
+      requestBody:
+        description: ''
+        content:
+          application/xml:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/Envelope'
+              - xml:
+                  name: Envelope
+                  attribute: false
+                  wrapped: false
+                examples:
+                - "<Envelope>\n\n  <SOAP-ENV:Header xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">\n\n    <ns2:SessionHeader xmlns:ns2=\"urn:partner.soap.sforce.com\">\n\n      <ns2:sessionId></ns2:sessionId>\n\n    </ns2:SessionHeader>\n\n  </SOAP-ENV:Header>\n\n  <SOAP-ENV:Body xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">\n\n    <ns2:create xmlns:ns2=\"urn:partner.soap.sforce.com\">\n\n      <ns2:sObjects>\n\n        <ns1:type xmlns:ns1=\"urn:sobject.partner.soap.sforce.com\">Carbon_Comparison__e</ns1:type>\n\n        <Annual_Mileage__c>12000</Annual_Mileage__c>\n\n        <Current_Vehicle__c>Fast car 1</Current_Vehicle__c>\n\n        <Model_Year__c>2019</Model_Year__c>\n\n      </ns2:sObjects>\n\n      <ns2:sObjects>\n\n        <ns1:type xmlns:ns1=\"urn:sobject.partner.soap.sforce.com\">Carbon_Comparison__e</ns1:type>\n\n        <Annual_Mileage__c>12000</Annual_Mileage__c>\n\n        <Current_Vehicle__c>Fast car 2</Current_Vehicle__c>\n\n        <Model_Year__c>2019</Model_Year__c>\n\n      </ns2:sObjects>\n\n    </ns2:create>\n\n  </SOAP-ENV:Body>\n\n</Envelope>"
+              contentMediaType: application/xml
+            example: "<Envelope>\n\n  <SOAP-ENV:Header xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">\n\n    <ns2:SessionHeader xmlns:ns2=\"urn:partner.soap.sforce.com\">\n\n      <ns2:sessionId></ns2:sessionId>\n\n    </ns2:SessionHeader>\n\n  </SOAP-ENV:Header>\n\n  <SOAP-ENV:Body xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">\n\n    <ns2:create xmlns:ns2=\"urn:partner.soap.sforce.com\">\n\n      <ns2:sObjects>\n\n        <ns1:type xmlns:ns1=\"urn:sobject.partner.soap.sforce.com\">Carbon_Comparison__e</ns1:type>\n\n        <Annual_Mileage__c>12000</Annual_Mileage__c>\n\n        <Current_Vehicle__c>Fast car 1</Current_Vehicle__c>\n\n        <Model_Year__c>2019</Model_Year__c>\n\n      </ns2:sObjects>\n\n      <ns2:sObjects>\n\n        <ns1:type xmlns:ns1=\"urn:sobject.partner.soap.sforce.com\">Carbon_Comparison__e</ns1:type>\n\n        <Annual_Mileage__c>12000</Annual_Mileage__c>\n\n        <Current_Vehicle__c>Fast car 2</Current_Vehicle__c>\n\n        <Model_Year__c>2019</Model_Year__c>\n\n      </ns2:sObjects>\n\n    </ns2:create>\n\n  </SOAP-ENV:Body>\n\n</Envelope>"
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /Soap/m/64.0:
+    parameters: []
+    post:
+      tags:
+      - Soap
+      summary: Salesforce Soap Describemetadata
+      operationId: SOAPDescribeMetadata
+      parameters:
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        schema:
+          const: text/xml
+          type: string
+          examples:
+          - text/xml
+        example: example_value
+      - name: charset
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - UTF-8
+        example: example_value
+      - name: SOAPAction
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - login
+        example: example_value
+      - name: Accept
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - text/xml
+        example: example_value
+      requestBody:
+        description: ''
+        content:
+          application/xml:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/Envelope1'
+              - xml:
+                  name: Envelope
+                  attribute: false
+                  wrapped: false
+                examples:
+                - "<Envelope>\n\n  <soapenv:Header xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">\n\n    <tns:SessionHeader xmlns:tns=\"http://soap.sforce.com/2006/04/metadata\">\n\n      <tns:sessionId></tns:sessionId>\n\n    </tns:SessionHeader>\n\n  </soapenv:Header>\n\n  <soapenv:Body xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">\n\n    <tns:describeMetadata xmlns:tns=\"http://soap.sforce.com/2006/04/metadata\">\n\n      <asOfVersion>64</asOfVersion>\n\n    </tns:describeMetadata>\n\n  </soapenv:Body>\n\n</Envelope>"
+              contentMediaType: application/xml
+            example: "<Envelope>\n\n  <soapenv:Header xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">\n\n    <tns:SessionHeader xmlns:tns=\"http://soap.sforce.com/2006/04/metadata\">\n\n      <tns:sessionId></tns:sessionId>\n\n    </tns:SessionHeader>\n\n  </soapenv:Header>\n\n  <soapenv:Body xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">\n\n    <tns:describeMetadata xmlns:tns=\"http://soap.sforce.com/2006/04/metadata\">\n\n      <asOfVersion>64</asOfVersion>\n\n    </tns:describeMetadata>\n\n  </soapenv:Body>\n\n</Envelope>"
+        required: true
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Thu, 07 Sep 2023 09:22:24 GMT
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            text/xml; charset=utf-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Envelope2'
+                - xml:
+                    name: Envelope
+                    attribute: false
+                    wrapped: false
+                  examples:
+                  - "<Envelope>\n\n  <soapenv:Body xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">\n\n    <describeMetadataResponse>\n\n      <result>\n\n        <metadataObjects>\n\n          <directoryName>installedPackages</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>installedPackage</suffix>\n\n          <xmlName>InstalledPackage</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <childXmlNames>CustomLabel</childXmlNames>\n\n          <directoryName>labels</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>labels</suffix>\n\n          <xmlName>CustomLabels</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>staticresources</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>true</metaFile>\n\n          <suffix>resource</suffix>\n\n          <xmlName>StaticResource</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>scontrols</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>true</metaFile>\n\n          <suffix>scf</suffix>\n\n          <xmlName>Scontrol</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>certs</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>true</metaFile>\n\n          <suffix>crt</suffix>\n\n          <xmlName>Certificate</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>messageChannels</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>messageChannel</suffix>\n\n          <xmlName>LightningMessageChannel</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>lwc</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <xmlName>LightningComponentBundle</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>aura</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <xmlName>AuraDefinitionBundle</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>components</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>true</metaFile>\n\n          <suffix>component</suffix>\n\n          <xmlName>ApexComponent</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>pages</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>true</metaFile>\n\n          <suffix>page</suffix>\n\n          <xmlName>ApexPage</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>queues</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>queue</suffix>\n\n          <xmlName>Queue</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>inboundNetworkConnections</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>inboundNetworkConnection</suffix>\n\n          <xmlName>InboundNetworkConnection</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>outboundNetworkConnections</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>outboundNetworkConnection</suffix>\n\n          <xmlName>OutboundNetworkConnection</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>externalCredentials</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>externalCredential</suffix>\n\n          <xmlName>ExternalCredential</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>namedCredentials</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>namedCredential</suffix>\n\n          <xmlName>NamedCredential</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <childXmlNames>ExternalDataSrcDescriptor</childXmlNames>\n\n          <directoryName>dataSources</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>dataSource</suffix>\n\n          <xmlName>ExternalDataSource</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>externalServiceRegistrations</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>externalServiceRegistration</suffix>\n\n          <xmlName>ExternalServiceRegistration</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>roles</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>role</suffix>\n\n          <xmlName>Role</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>groups</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>group</suffix>\n\n          <xmlName>Group</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>globalValueSets</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>globalValueSet</suffix>\n\n          <xmlName>GlobalValueSet</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>standardValueSets</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>standardValueSet</suffix>\n\n          <xmlName>StandardValueSet</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>customPermissions</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>customPermission</suffix>\n\n          <xmlName>CustomPermission</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <childXmlNames>[\"CustomField\",\"Index\",\"BusinessProcess\",\"RecordType\",\"CompactLayout\",\"WebLink\",\"ValidationRule\",\"SharingReason\",\"ListView\",\"FieldSet\"]</childXmlNames>\n\n          <directoryName>objects</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>object</suffix>\n\n          <xmlName>CustomObject</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>reportTypes</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>reportType</suffix>\n\n          <xmlName>ReportType</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>reports</directoryName>\n\n          <inFolder>true</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>report</suffix>\n\n          <xmlName>Report</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>dashboards</directoryName>\n\n          <inFolder>true</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>dashboard</suffix>\n\n          <xmlName>Dashboard</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>analyticSnapshots</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>snapshot</suffix>\n\n          <xmlName>AnalyticSnapshot</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>feedFilters</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>feedFilter</suffix>\n\n          <xmlName>CustomFeedFilter</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>layouts</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>layout</suffix>\n\n          <xmlName>Layout</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>documents</directoryName>\n\n          <inFolder>true</inFolder>\n\n          <metaFile>true</metaFile>\n\n          <xmlName>Document</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>weblinks</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>weblink</suffix>\n\n          <xmlName>CustomPageWebLink</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>letterhead</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>letter</suffix>\n\n          <xmlName>Letterhead</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>email</directoryName>\n\n          <inFolder>true</inFolder>\n\n          <metaFile>true</metaFile>\n\n          <suffix>email</suffix>\n\n          <xmlName>EmailTemplate</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>quickActions</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>quickAction</suffix>\n\n          <xmlName>QuickAction</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>flexipages</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>flexipage</suffix>\n\n          <xmlName>FlexiPage</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>tabs</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>tab</suffix>\n\n          <xmlName>CustomTab</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>customApplicationComponents</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>customApplicationComponent</suffix>\n\n          <xmlName>CustomApplicationComponent</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>applications</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>app</suffix>\n\n          <xmlName>CustomApplication</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>customMetadata</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>md</suffix>\n\n          <xmlName>CustomMetadata</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>flows</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>flow</suffix>\n\n          <xmlName>Flow</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>flowDefinitions</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>flowDefinition</suffix>\n\n          <xmlName>FlowDefinition</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>flowtests</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>flowtest</suffix>\n\n          <xmlName>FlowTest</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>processflowmigrations</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>processflowmigration</suffix>\n\n          <xmlName>ProcessFlowMigration</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>contentassets</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>true</metaFile>\n\n          <suffix>asset</suffix>\n\n          <xmlName>ContentAsset</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <childXmlNames>[\"WorkflowFieldUpdate\",\"WorkflowKnowledgePublish\",\"WorkflowTask\",\"WorkflowAlert\",\"WorkflowSend\",\"WorkflowOutboundMessage\",\"WorkflowRule\"]</childXmlNames>\n\n          <directoryName>workflows</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>workflow</suffix>\n\n          <xmlName>Workflow</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <childXmlNames>AssignmentRule</childXmlNames>\n\n          <directoryName>assignmentRules</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>assignmentRules</suffix>\n\n          <xmlName>AssignmentRules</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <childXmlNames>AutoResponseRule</childXmlNames>\n\n          <directoryName>autoResponseRules</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>autoResponseRules</suffix>\n\n          <xmlName>AutoResponseRules</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <childXmlNames>EscalationRule</childXmlNames>\n\n          <directoryName>escalationRules</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>escalationRules</suffix>\n\n          <xmlName>EscalationRules</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>postTemplates</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>postTemplate</suffix>\n\n          <xmlName>PostTemplate</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>approvalProcesses</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>approvalProcess</suffix>\n\n          <xmlName>ApprovalProcess</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>homePageComponents</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>homePageComponent</suffix>\n\n          <xmlName>HomePageComponent</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>homePageLayouts</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>homePageLayout</suffix>\n\n          <xmlName>HomePageLayout</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>objectTranslations</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>objectTranslation</suffix>\n\n          <xmlName>CustomObjectTranslation</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>translations</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>translation</suffix>\n\n          <xmlName>Translations</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>globalValueSetTranslations</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>globalValueSetTranslation</suffix>\n\n          <xmlName>GlobalValueSetTranslation</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>standardValueSetTranslations</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>standardValueSetTranslation</suffix>\n\n          <xmlName>StandardValueSetTranslation</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>dw</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>true</metaFile>\n\n          <xmlName>DataWeaveResource</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>classes</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>true</metaFile>\n\n          <suffix>cls</suffix>\n\n          <xmlName>ApexClass</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>triggers</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>true</metaFile>\n\n          <suffix>trigger</suffix>\n\n          <xmlName>ApexTrigger</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>testSuites</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>testSuite</suffix>\n\n          <xmlName>ApexTestSuite</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>profiles</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>profile</suffix>\n\n          <xmlName>Profile</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>permissionsets</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>permissionset</suffix>\n\n          <xmlName>PermissionSet</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>mutingpermissionsets</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>mutingpermissionset</suffix>\n\n          <xmlName>MutingPermissionSet</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>permissionsetgroups</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>permissionsetgroup</suffix>\n\n          <xmlName>PermissionSetGroup</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>profilePasswordPolicies</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>profilePasswordPolicy</suffix>\n\n          <xmlName>ProfilePasswordPolicy</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>profileSessionSettings</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>profileSessionSetting</suffix>\n\n          <xmlName>ProfileSessionSetting</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>myDomainDiscoverableLogins</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>myDomainDiscoverableLogin</suffix>\n\n          <xmlName>MyDomainDiscoverableLogin</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>blacklistedConsumers</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>blacklistedConsumer</suffix>\n\n          <xmlName>BlacklistedConsumer</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>oauthcustomscopes</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>oauthcustomscope</suffix>\n\n          <xmlName>OauthCustomScope</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>userProvisioningConfigs</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>userProvisioningConfig</suffix>\n\n          <xmlName>UserProvisioningConfig</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>datacategorygroups</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>datacategorygroup</suffix>\n\n          <xmlName>DataCategoryGroup</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>remoteSiteSettings</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>remoteSite</suffix>\n\n          <xmlName>RemoteSiteSetting</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>cspTrustedSites</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>cspTrustedSite</suffix>\n\n          <xmlName>CspTrustedSite</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>redirectWhitelistUrls</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>redirectWhitelistUrl</suffix>\n\n          <xmlName>RedirectWhitelistUrl</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <childXmlNames>MatchingRule</childXmlNames>\n\n          <directoryName>matchingRules</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>matchingRule</suffix>\n\n          <xmlName>MatchingRules</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>duplicateRules</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>duplicateRule</suffix>\n\n          <xmlName>DuplicateRule</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>cleanDataServices</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>cleanDataService</suffix>\n\n          <xmlName>CleanDataService</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>customindex</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>indx</suffix>\n\n          <xmlName>CustomIndex</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>skilltypes</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>skilltype</suffix>\n\n          <xmlName>SkillType</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>skills</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>skill</suffix>\n\n          <xmlName>Skill</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>authproviders</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>authprovider</suffix>\n\n          <xmlName>AuthProvider</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>eclair</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>true</metaFile>\n\n          <suffix>geodata</suffix>\n\n          <xmlName>EclairGeoData</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>IPAddressRanges</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>IPAddressRange</suffix>\n\n          <xmlName>IPAddressRange</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>briefcaseDefinitions</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>briefcaseDefinition</suffix>\n\n          <xmlName>BriefcaseDefinition</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>channelLayouts</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>channelLayout</suffix>\n\n          <xmlName>ChannelLayout</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>sites</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>site</suffix>\n\n          <xmlName>CustomSite</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>recordAlertCategories</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>recordAlertCategory</suffix>\n\n          <xmlName>RecordAlertCategory</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>apexEmailNotifications</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>notifications</suffix>\n\n          <xmlName>ApexEmailNotifications</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <childXmlNames>[\"SharingOwnerRule\",\"SharingCriteriaRule\",\"SharingGuestRule\"]</childXmlNames>\n\n          <directoryName>sharingRules</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>sharingRules</suffix>\n\n          <xmlName>SharingRules</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>sharingSets</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>sharingSet</suffix>\n\n          <xmlName>SharingSet</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>iframeWhiteListUrlSettings</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>iframeWhiteListUrlSettings</suffix>\n\n          <xmlName>IframeWhiteListUrlSettings</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>communities</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>community</suffix>\n\n          <xmlName>Community</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>ChatterExtensions</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>ChatterExtension</suffix>\n\n          <xmlName>ChatterExtension</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>decisionTables</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>decisionTable</suffix>\n\n          <xmlName>DecisionTable</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>decisionTableDatasetLinks</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>decisionTableDatasetLink</suffix>\n\n          <xmlName>DecisionTableDatasetLink</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>aiApplications</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>ai</suffix>\n\n          <xmlName>AIApplication</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>aiApplicationConfigs</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>aiapplicationconfig</suffix>\n\n          <xmlName>AIApplicationConfig</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>mlPredictions</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>mlPrediction</suffix>\n\n          <xmlName>MLPredictionDefinition</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>mlRecommendations</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>mlRecommendation</suffix>\n\n          <xmlName>MLRecommendationDefinition</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>mlDataDefinitions</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>mlDataDefinition</suffix>\n\n          <xmlName>MLDataDefinition</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>batchProcessJobDefinitions</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>batchProcessJobDefinition</suffix>\n\n          <xmlName>BatchProcessJobDefinition</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>batchCalcJobDefinitions</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>batchCalcJobDefinition</suffix>\n\n          <xmlName>BatchCalcJobDefinition</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>ExplainabilityMsgTemplates</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>explainabilityMsgTemplate</suffix>\n\n          <xmlName>ExplainabilityMsgTemplate</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>expressionSetDefinition</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>expressionSetDefinition</suffix>\n\n          <xmlName>ExpressionSetDefinition</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>expressionSetVersion</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>expressionSetVersion</suffix>\n\n          <xmlName>ExpressionSetDefinitionVersion</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>decisionMatrixDefinition</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>decisionMatrixDefinition</suffix>\n\n          <xmlName>DecisionMatrixDefinition</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>decisionMatrixVersion</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>decisionMatrixVersion</suffix>\n\n          <xmlName>DecisionMatrixDefinitionVersion</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>expressionSetObjectAlias</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>expressionSetObjectAlias</suffix>\n\n          <xmlName>ExpressionSetObjectAlias</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>platformEventChannels</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>platformEventChannel</suffix>\n\n          <xmlName>PlatformEventChannel</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>platformEventChannelMembers</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>platformEventChannelMember</suffix>\n\n          <xmlName>PlatformEventChannelMember</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>eventRelays</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>eventRelay</suffix>\n\n          <xmlName>EventRelayConfig</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>callCenters</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>callCenter</suffix>\n\n          <xmlName>CallCenter</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>milestoneTypes</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>milestoneType</suffix>\n\n          <xmlName>MilestoneType</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>entitlementProcesses</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>entitlementProcess</suffix>\n\n          <xmlName>EntitlementProcess</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>entitlementTemplates</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>entitlementTemplate</suffix>\n\n          <xmlName>EntitlementTemplate</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>timeSheetTemplates</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>timeSheetTemplate</suffix>\n\n          <xmlName>TimeSheetTemplate</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>appointmentAssignmentPolicies</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>policy</suffix>\n\n          <xmlName>AppointmentAssignmentPolicy</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>appointmentSchedulingPolicies</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>policy</suffix>\n\n          <xmlName>AppointmentSchedulingPolicy</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>documentTypes</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>documentType</suffix>\n\n          <xmlName>DocumentType</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>messagingChannels</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>messagingChannel</suffix>\n\n          <xmlName>MessagingChannel</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>Canvases</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>Canvas</suffix>\n\n          <xmlName>CanvasMetadata</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>MobileApplicationDetails</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>MobileApplicationDetail</suffix>\n\n          <xmlName>MobileApplicationDetail</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>notificationtypes</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>notiftype</suffix>\n\n          <xmlName>CustomNotificationType</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>connectedApps</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>connectedApp</suffix>\n\n          <xmlName>ConnectedApp</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>appMenus</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>appMenu</suffix>\n\n          <xmlName>AppMenu</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>notificationTypeConfig</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>config</suffix>\n\n          <xmlName>NotificationTypeConfig</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>delegateGroups</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>delegateGroup</suffix>\n\n          <xmlName>DelegateGroup</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>brandingSets</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>brandingSet</suffix>\n\n          <xmlName>BrandingSet</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>managedContentTypes</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>managedContentType</suffix>\n\n          <xmlName>ManagedContentType</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>experiencePropertyTypeBundles</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>experiencePropertyTypeBundle</suffix>\n\n          <xmlName>ExperiencePropertyTypeBundle</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <childXmlNames>DigitalExperience</childXmlNames>\n\n          <directoryName>digitalExperiences</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>true</metaFile>\n\n          <suffix>digitalExperience</suffix>\n\n          <xmlName>DigitalExperienceBundle</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>siteDotComSites</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>true</metaFile>\n\n          <suffix>site</suffix>\n\n          <xmlName>SiteDotCom</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>networkBranding</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>true</metaFile>\n\n          <suffix>networkBranding</suffix>\n\n          <xmlName>NetworkBranding</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>flowCategories</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>flowCategory</suffix>\n\n          <xmlName>FlowCategory</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>lightningBolts</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>lightningBolt</suffix>\n\n          <xmlName>LightningBolt</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>lightningExperienceThemes</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>lightningExperienceTheme</suffix>\n\n          <xmlName>LightningExperienceTheme</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>lightningOnboardingConfigs</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>lightningOnboardingConfig</suffix>\n\n          <xmlName>LightningOnboardingConfig</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>customHelpMenuSections</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>customHelpMenuSection</suffix>\n\n          <xmlName>CustomHelpMenuSection</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>prompts</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>prompt</suffix>\n\n          <xmlName>Prompt</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>samlssoconfigs</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>samlssoconfig</suffix>\n\n          <xmlName>SamlSsoConfig</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>corsWhitelistOrigins</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>corsWhitelistOrigin</suffix>\n\n          <xmlName>CorsWhitelistOrigin</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>actionLinkGroupTemplates</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>actionLinkGroupTemplate</suffix>\n\n          <xmlName>ActionLinkGroupTemplate</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>transactionSecurityPolicies</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>transactionSecurityPolicy</suffix>\n\n          <xmlName>TransactionSecurityPolicy</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>synonymDictionaries</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>synonymDictionary</suffix>\n\n          <xmlName>SynonymDictionary</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>pathAssistants</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>pathAssistant</suffix>\n\n          <xmlName>PathAssistant</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>animationRules</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>animationRule</suffix>\n\n          <xmlName>AnimationRule</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>LeadConvertSettings</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>LeadConvertSetting</suffix>\n\n          <xmlName>LeadConvertSettings</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>cachePartitions</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>cachePartition</suffix>\n\n          <xmlName>PlatformCachePartition</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>topicsForObjects</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>topicsForObjects</suffix>\n\n          <xmlName>TopicsForObjects</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>restrictionRules</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>rule</suffix>\n\n          <xmlName>RestrictionRule</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>fieldRestrictionRules</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>rule</suffix>\n\n          <xmlName>FieldRestrictionRule</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>recommendationStrategies</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>recommendationStrategy</suffix>\n\n          <xmlName>RecommendationStrategy</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>entityImplements</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>entityImplements</suffix>\n\n          <xmlName>EntityImplements</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>emailservices</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>xml</suffix>\n\n          <xmlName>EmailServicesFunction</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>paymentGatewayProviders</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>paymentGatewayProvider</suffix>\n\n          <xmlName>PaymentGatewayProvider</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>gatewayProviderPaymentMethodTypes</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>gatewayProviderPaymentMethodType</suffix>\n\n          <xmlName>GatewayProviderPaymentMethodType</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>ActionLauncherItemDef</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>actionLauncherItemDef</suffix>\n\n          <xmlName>ActionLauncherItemDef</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>recordActionDeployments</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>deployment</suffix>\n\n          <xmlName>RecordActionDeployment</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>salesAgreementSettings</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>salesAgreementSetting</suffix>\n\n          <xmlName>SalesAgreementSettings</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>ObjectHierarchyRelationship</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>settings</suffix>\n\n          <xmlName>ObjectHierarchyRelationship</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>acctMgrTargetSettings</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>acctMgrTargetSetting</suffix>\n\n          <xmlName>AcctMgrTargetSettings</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>AccountForecastSettings</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>accountForecastSetting</suffix>\n\n          <xmlName>AccountForecastSettings</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>AdvAcctForecastPeriodGroup</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>advAcctForecastPeriodGroup</suffix>\n\n          <xmlName>AdvAcctForecastPeriodGroup</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>AdvAccountForecastSet</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>advAccountForecastSet</suffix>\n\n          <xmlName>AdvAccountForecastSet</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>AdvAcctForecastDimSource</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>advAcctForecastDimSource</suffix>\n\n          <xmlName>AdvAcctForecastDimSource</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>BusinessProcessTypeDefinitions</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>businessProcessTypeDefinition</suffix>\n\n          <xmlName>BusinessProcessTypeDefinition</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>ApplicationSubtypeDefinitions</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>applicationSubtypeDefinition</suffix>\n\n          <xmlName>ApplicationSubtypeDefinition</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>ExplainabilityActionDefinitions</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>explainabilityActionDefinition</suffix>\n\n          <xmlName>ExplainabilityActionDefinition</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>ExplainabilityActionVersions</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>explainabilityActionVersion</suffix>\n\n          <xmlName>ExplainabilityActionVersion</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>icons</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>icon</suffix>\n\n          <xmlName>Icon</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>EmbeddedServiceConfig</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>EmbeddedServiceConfig</suffix>\n\n          <xmlName>EmbeddedServiceConfig</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>EmbeddedServiceBranding</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>EmbeddedServiceBranding</suffix>\n\n          <xmlName>EmbeddedServiceBranding</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>EmbeddedServiceFlowConfig</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>EmbeddedServiceFlowConfig</suffix>\n\n          <xmlName>EmbeddedServiceFlowConfig</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>EmbeddedServiceMenuSettings</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>EmbeddedServiceMenuSettings</suffix>\n\n          <xmlName>EmbeddedServiceMenuSettings</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>callCoachingMediaProviders</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>callCoachingMediaProvider</suffix>\n\n          <xmlName>CallCoachingMediaProvider</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>actionPlanTemplates</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>apt</suffix>\n\n          <xmlName>ActionPlanTemplate</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>participantRoles</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>participantRole</suffix>\n\n          <xmlName>ParticipantRole</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>uiObjectRelationConfigs</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>uiObjectRelationConfig</suffix>\n\n          <xmlName>UIObjectRelationConfig</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>careRequestConfigurations</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>careRequestConfiguration</suffix>\n\n          <xmlName>CareRequestConfiguration</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>timelineObjectDefinitions</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>timelineObjectDefinition</suffix>\n\n          <xmlName>TimelineObjectDefinition</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>careBenefitVerifySettings</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>careBenefitVerifySettings</suffix>\n\n          <xmlName>CareBenefitVerifySettings</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>userProfileSearchScopes</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>userProfileSearchScope</suffix>\n\n          <xmlName>UserProfileSearchScope</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>relationshipGraphDefinitions</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>relationshipGraphDefinition</suffix>\n\n          <xmlName>RelationshipGraphDefinition</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>searchCustomizations</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>searchCustomization</suffix>\n\n          <xmlName>SearchCustomization</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>PlatformEventSubscriberConfigs</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>platformEventSubscriberConfig</suffix>\n\n          <xmlName>PlatformEventSubscriberConfig</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>SchedulingObjectives</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>schedulingObjective</suffix>\n\n          <xmlName>SchedulingObjective</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>recordAlertDataSources</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>recordAlertDataSource</suffix>\n\n          <xmlName>RecordAlertDataSource</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>recAlrtDataSrcExpSetDefs</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>recAlrtDataSrcExpSetDef</suffix>\n\n          <xmlName>RecAlrtDataSrcExpSetDef</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>recordAlertTemplates</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>recordAlertTemplate</suffix>\n\n          <xmlName>RecordAlertTemplate</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>careProviderSearchConfigs</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>careProviderSearchConfig</suffix>\n\n          <xmlName>CareProviderSearchConfig</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>careLimitTypes</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>careLimitType</suffix>\n\n          <xmlName>CareLimitType</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>SchedulingRules</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>schedulingRule</suffix>\n\n          <xmlName>SchedulingRule</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>settings</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>settings</suffix>\n\n          <xmlName>Settings</xmlName>\n\n        </metadataObjects>\n\n        <organizationNamespace></organizationNamespace>\n\n        <partialSaveAllowed>true</partialSaveAllowed>\n\n        <testRequired>false</testRequired>\n\n      </result>\n\n    </describeMetadataResponse>\n\n  </soapenv:Body>\n\n</Envelope>"
+                contentMediaType: text/xml; charset=utf-8
+              example: "<Envelope>\n\n  <soapenv:Body xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">\n\n    <describeMetadataResponse>\n\n      <result>\n\n        <metadataObjects>\n\n          <directoryName>installedPackages</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>installedPackage</suffix>\n\n          <xmlName>InstalledPackage</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <childXmlNames>CustomLabel</childXmlNames>\n\n          <directoryName>labels</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>labels</suffix>\n\n          <xmlName>CustomLabels</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>staticresources</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>true</metaFile>\n\n          <suffix>resource</suffix>\n\n          <xmlName>StaticResource</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>scontrols</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>true</metaFile>\n\n          <suffix>scf</suffix>\n\n          <xmlName>Scontrol</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>certs</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>true</metaFile>\n\n          <suffix>crt</suffix>\n\n          <xmlName>Certificate</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>messageChannels</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>messageChannel</suffix>\n\n          <xmlName>LightningMessageChannel</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>lwc</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <xmlName>LightningComponentBundle</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>aura</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <xmlName>AuraDefinitionBundle</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>components</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>true</metaFile>\n\n          <suffix>component</suffix>\n\n          <xmlName>ApexComponent</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>pages</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>true</metaFile>\n\n          <suffix>page</suffix>\n\n          <xmlName>ApexPage</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>queues</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>queue</suffix>\n\n          <xmlName>Queue</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>inboundNetworkConnections</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>inboundNetworkConnection</suffix>\n\n          <xmlName>InboundNetworkConnection</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>outboundNetworkConnections</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>outboundNetworkConnection</suffix>\n\n          <xmlName>OutboundNetworkConnection</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>externalCredentials</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>externalCredential</suffix>\n\n          <xmlName>ExternalCredential</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>namedCredentials</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>namedCredential</suffix>\n\n          <xmlName>NamedCredential</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <childXmlNames>ExternalDataSrcDescriptor</childXmlNames>\n\n          <directoryName>dataSources</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>dataSource</suffix>\n\n          <xmlName>ExternalDataSource</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>externalServiceRegistrations</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>externalServiceRegistration</suffix>\n\n          <xmlName>ExternalServiceRegistration</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>roles</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>role</suffix>\n\n          <xmlName>Role</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>groups</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>group</suffix>\n\n          <xmlName>Group</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>globalValueSets</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>globalValueSet</suffix>\n\n          <xmlName>GlobalValueSet</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>standardValueSets</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>standardValueSet</suffix>\n\n          <xmlName>StandardValueSet</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>customPermissions</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>customPermission</suffix>\n\n          <xmlName>CustomPermission</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <childXmlNames>[\"CustomField\",\"Index\",\"BusinessProcess\",\"RecordType\",\"CompactLayout\",\"WebLink\",\"ValidationRule\",\"SharingReason\",\"ListView\",\"FieldSet\"]</childXmlNames>\n\n          <directoryName>objects</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>object</suffix>\n\n          <xmlName>CustomObject</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>reportTypes</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>reportType</suffix>\n\n          <xmlName>ReportType</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>reports</directoryName>\n\n          <inFolder>true</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>report</suffix>\n\n          <xmlName>Report</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>dashboards</directoryName>\n\n          <inFolder>true</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>dashboard</suffix>\n\n          <xmlName>Dashboard</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>analyticSnapshots</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>snapshot</suffix>\n\n          <xmlName>AnalyticSnapshot</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>feedFilters</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>feedFilter</suffix>\n\n          <xmlName>CustomFeedFilter</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>layouts</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>layout</suffix>\n\n          <xmlName>Layout</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>documents</directoryName>\n\n          <inFolder>true</inFolder>\n\n          <metaFile>true</metaFile>\n\n          <xmlName>Document</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>weblinks</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>weblink</suffix>\n\n          <xmlName>CustomPageWebLink</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>letterhead</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>letter</suffix>\n\n          <xmlName>Letterhead</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>email</directoryName>\n\n          <inFolder>true</inFolder>\n\n          <metaFile>true</metaFile>\n\n          <suffix>email</suffix>\n\n          <xmlName>EmailTemplate</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>quickActions</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>quickAction</suffix>\n\n          <xmlName>QuickAction</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>flexipages</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>flexipage</suffix>\n\n          <xmlName>FlexiPage</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>tabs</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>tab</suffix>\n\n          <xmlName>CustomTab</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>customApplicationComponents</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>customApplicationComponent</suffix>\n\n          <xmlName>CustomApplicationComponent</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>applications</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>app</suffix>\n\n          <xmlName>CustomApplication</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>customMetadata</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>md</suffix>\n\n          <xmlName>CustomMetadata</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>flows</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>flow</suffix>\n\n          <xmlName>Flow</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>flowDefinitions</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>flowDefinition</suffix>\n\n          <xmlName>FlowDefinition</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>flowtests</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>flowtest</suffix>\n\n          <xmlName>FlowTest</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>processflowmigrations</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>processflowmigration</suffix>\n\n          <xmlName>ProcessFlowMigration</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>contentassets</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>true</metaFile>\n\n          <suffix>asset</suffix>\n\n          <xmlName>ContentAsset</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <childXmlNames>[\"WorkflowFieldUpdate\",\"WorkflowKnowledgePublish\",\"WorkflowTask\",\"WorkflowAlert\",\"WorkflowSend\",\"WorkflowOutboundMessage\",\"WorkflowRule\"]</childXmlNames>\n\n          <directoryName>workflows</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>workflow</suffix>\n\n          <xmlName>Workflow</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <childXmlNames>AssignmentRule</childXmlNames>\n\n          <directoryName>assignmentRules</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>assignmentRules</suffix>\n\n          <xmlName>AssignmentRules</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <childXmlNames>AutoResponseRule</childXmlNames>\n\n          <directoryName>autoResponseRules</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>autoResponseRules</suffix>\n\n          <xmlName>AutoResponseRules</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <childXmlNames>EscalationRule</childXmlNames>\n\n          <directoryName>escalationRules</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>escalationRules</suffix>\n\n          <xmlName>EscalationRules</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>postTemplates</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>postTemplate</suffix>\n\n          <xmlName>PostTemplate</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>approvalProcesses</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>approvalProcess</suffix>\n\n          <xmlName>ApprovalProcess</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>homePageComponents</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>homePageComponent</suffix>\n\n          <xmlName>HomePageComponent</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>homePageLayouts</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>homePageLayout</suffix>\n\n          <xmlName>HomePageLayout</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>objectTranslations</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>objectTranslation</suffix>\n\n          <xmlName>CustomObjectTranslation</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>translations</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>translation</suffix>\n\n          <xmlName>Translations</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>globalValueSetTranslations</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>globalValueSetTranslation</suffix>\n\n          <xmlName>GlobalValueSetTranslation</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>standardValueSetTranslations</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>standardValueSetTranslation</suffix>\n\n          <xmlName>StandardValueSetTranslation</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>dw</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>true</metaFile>\n\n          <xmlName>DataWeaveResource</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>classes</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>true</metaFile>\n\n          <suffix>cls</suffix>\n\n          <xmlName>ApexClass</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>triggers</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>true</metaFile>\n\n          <suffix>trigger</suffix>\n\n          <xmlName>ApexTrigger</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>testSuites</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>testSuite</suffix>\n\n          <xmlName>ApexTestSuite</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>profiles</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>profile</suffix>\n\n          <xmlName>Profile</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>permissionsets</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>permissionset</suffix>\n\n          <xmlName>PermissionSet</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>mutingpermissionsets</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>mutingpermissionset</suffix>\n\n          <xmlName>MutingPermissionSet</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>permissionsetgroups</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>permissionsetgroup</suffix>\n\n          <xmlName>PermissionSetGroup</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>profilePasswordPolicies</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>profilePasswordPolicy</suffix>\n\n          <xmlName>ProfilePasswordPolicy</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>profileSessionSettings</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>profileSessionSetting</suffix>\n\n          <xmlName>ProfileSessionSetting</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>myDomainDiscoverableLogins</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>myDomainDiscoverableLogin</suffix>\n\n          <xmlName>MyDomainDiscoverableLogin</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>blacklistedConsumers</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>blacklistedConsumer</suffix>\n\n          <xmlName>BlacklistedConsumer</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>oauthcustomscopes</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>oauthcustomscope</suffix>\n\n          <xmlName>OauthCustomScope</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>userProvisioningConfigs</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>userProvisioningConfig</suffix>\n\n          <xmlName>UserProvisioningConfig</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>datacategorygroups</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>datacategorygroup</suffix>\n\n          <xmlName>DataCategoryGroup</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>remoteSiteSettings</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>remoteSite</suffix>\n\n          <xmlName>RemoteSiteSetting</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>cspTrustedSites</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>cspTrustedSite</suffix>\n\n          <xmlName>CspTrustedSite</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>redirectWhitelistUrls</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>redirectWhitelistUrl</suffix>\n\n          <xmlName>RedirectWhitelistUrl</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <childXmlNames>MatchingRule</childXmlNames>\n\n          <directoryName>matchingRules</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>matchingRule</suffix>\n\n          <xmlName>MatchingRules</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>duplicateRules</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>duplicateRule</suffix>\n\n          <xmlName>DuplicateRule</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>cleanDataServices</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>cleanDataService</suffix>\n\n          <xmlName>CleanDataService</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>customindex</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>indx</suffix>\n\n          <xmlName>CustomIndex</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>skilltypes</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>skilltype</suffix>\n\n          <xmlName>SkillType</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>skills</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>skill</suffix>\n\n          <xmlName>Skill</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>authproviders</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>authprovider</suffix>\n\n          <xmlName>AuthProvider</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>eclair</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>true</metaFile>\n\n          <suffix>geodata</suffix>\n\n          <xmlName>EclairGeoData</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>IPAddressRanges</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>IPAddressRange</suffix>\n\n          <xmlName>IPAddressRange</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>briefcaseDefinitions</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>briefcaseDefinition</suffix>\n\n          <xmlName>BriefcaseDefinition</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>channelLayouts</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>channelLayout</suffix>\n\n          <xmlName>ChannelLayout</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>sites</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>site</suffix>\n\n          <xmlName>CustomSite</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>recordAlertCategories</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>recordAlertCategory</suffix>\n\n          <xmlName>RecordAlertCategory</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>apexEmailNotifications</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>notifications</suffix>\n\n          <xmlName>ApexEmailNotifications</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <childXmlNames>[\"SharingOwnerRule\",\"SharingCriteriaRule\",\"SharingGuestRule\"]</childXmlNames>\n\n          <directoryName>sharingRules</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>sharingRules</suffix>\n\n          <xmlName>SharingRules</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>sharingSets</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>sharingSet</suffix>\n\n          <xmlName>SharingSet</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>iframeWhiteListUrlSettings</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>iframeWhiteListUrlSettings</suffix>\n\n          <xmlName>IframeWhiteListUrlSettings</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>communities</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>community</suffix>\n\n          <xmlName>Community</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>ChatterExtensions</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>ChatterExtension</suffix>\n\n          <xmlName>ChatterExtension</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>decisionTables</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>decisionTable</suffix>\n\n          <xmlName>DecisionTable</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>decisionTableDatasetLinks</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>decisionTableDatasetLink</suffix>\n\n          <xmlName>DecisionTableDatasetLink</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>aiApplications</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>ai</suffix>\n\n          <xmlName>AIApplication</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>aiApplicationConfigs</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>aiapplicationconfig</suffix>\n\n          <xmlName>AIApplicationConfig</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>mlPredictions</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>mlPrediction</suffix>\n\n          <xmlName>MLPredictionDefinition</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>mlRecommendations</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>mlRecommendation</suffix>\n\n          <xmlName>MLRecommendationDefinition</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>mlDataDefinitions</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>mlDataDefinition</suffix>\n\n          <xmlName>MLDataDefinition</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>batchProcessJobDefinitions</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>batchProcessJobDefinition</suffix>\n\n          <xmlName>BatchProcessJobDefinition</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>batchCalcJobDefinitions</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>batchCalcJobDefinition</suffix>\n\n          <xmlName>BatchCalcJobDefinition</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>ExplainabilityMsgTemplates</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>explainabilityMsgTemplate</suffix>\n\n          <xmlName>ExplainabilityMsgTemplate</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>expressionSetDefinition</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>expressionSetDefinition</suffix>\n\n          <xmlName>ExpressionSetDefinition</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>expressionSetVersion</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>expressionSetVersion</suffix>\n\n          <xmlName>ExpressionSetDefinitionVersion</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>decisionMatrixDefinition</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>decisionMatrixDefinition</suffix>\n\n          <xmlName>DecisionMatrixDefinition</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>decisionMatrixVersion</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>decisionMatrixVersion</suffix>\n\n          <xmlName>DecisionMatrixDefinitionVersion</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>expressionSetObjectAlias</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>expressionSetObjectAlias</suffix>\n\n          <xmlName>ExpressionSetObjectAlias</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>platformEventChannels</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>platformEventChannel</suffix>\n\n          <xmlName>PlatformEventChannel</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>platformEventChannelMembers</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>platformEventChannelMember</suffix>\n\n          <xmlName>PlatformEventChannelMember</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>eventRelays</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>eventRelay</suffix>\n\n          <xmlName>EventRelayConfig</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>callCenters</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>callCenter</suffix>\n\n          <xmlName>CallCenter</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>milestoneTypes</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>milestoneType</suffix>\n\n          <xmlName>MilestoneType</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>entitlementProcesses</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>entitlementProcess</suffix>\n\n          <xmlName>EntitlementProcess</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>entitlementTemplates</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>entitlementTemplate</suffix>\n\n          <xmlName>EntitlementTemplate</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>timeSheetTemplates</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>timeSheetTemplate</suffix>\n\n          <xmlName>TimeSheetTemplate</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>appointmentAssignmentPolicies</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>policy</suffix>\n\n          <xmlName>AppointmentAssignmentPolicy</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>appointmentSchedulingPolicies</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>policy</suffix>\n\n          <xmlName>AppointmentSchedulingPolicy</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>documentTypes</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>documentType</suffix>\n\n          <xmlName>DocumentType</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>messagingChannels</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>messagingChannel</suffix>\n\n          <xmlName>MessagingChannel</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>Canvases</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>Canvas</suffix>\n\n          <xmlName>CanvasMetadata</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>MobileApplicationDetails</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>MobileApplicationDetail</suffix>\n\n          <xmlName>MobileApplicationDetail</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>notificationtypes</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>notiftype</suffix>\n\n          <xmlName>CustomNotificationType</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>connectedApps</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>connectedApp</suffix>\n\n          <xmlName>ConnectedApp</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>appMenus</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>appMenu</suffix>\n\n          <xmlName>AppMenu</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>notificationTypeConfig</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>config</suffix>\n\n          <xmlName>NotificationTypeConfig</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>delegateGroups</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>delegateGroup</suffix>\n\n          <xmlName>DelegateGroup</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>brandingSets</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>brandingSet</suffix>\n\n          <xmlName>BrandingSet</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>managedContentTypes</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>managedContentType</suffix>\n\n          <xmlName>ManagedContentType</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>experiencePropertyTypeBundles</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>experiencePropertyTypeBundle</suffix>\n\n          <xmlName>ExperiencePropertyTypeBundle</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <childXmlNames>DigitalExperience</childXmlNames>\n\n          <directoryName>digitalExperiences</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>true</metaFile>\n\n          <suffix>digitalExperience</suffix>\n\n          <xmlName>DigitalExperienceBundle</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>siteDotComSites</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>true</metaFile>\n\n          <suffix>site</suffix>\n\n          <xmlName>SiteDotCom</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>networkBranding</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>true</metaFile>\n\n          <suffix>networkBranding</suffix>\n\n          <xmlName>NetworkBranding</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>flowCategories</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>flowCategory</suffix>\n\n          <xmlName>FlowCategory</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>lightningBolts</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>lightningBolt</suffix>\n\n          <xmlName>LightningBolt</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>lightningExperienceThemes</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>lightningExperienceTheme</suffix>\n\n          <xmlName>LightningExperienceTheme</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>lightningOnboardingConfigs</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>lightningOnboardingConfig</suffix>\n\n          <xmlName>LightningOnboardingConfig</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>customHelpMenuSections</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>customHelpMenuSection</suffix>\n\n          <xmlName>CustomHelpMenuSection</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>prompts</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>prompt</suffix>\n\n          <xmlName>Prompt</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>samlssoconfigs</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>samlssoconfig</suffix>\n\n          <xmlName>SamlSsoConfig</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>corsWhitelistOrigins</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>corsWhitelistOrigin</suffix>\n\n          <xmlName>CorsWhitelistOrigin</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>actionLinkGroupTemplates</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>actionLinkGroupTemplate</suffix>\n\n          <xmlName>ActionLinkGroupTemplate</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>transactionSecurityPolicies</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>transactionSecurityPolicy</suffix>\n\n          <xmlName>TransactionSecurityPolicy</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>synonymDictionaries</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>synonymDictionary</suffix>\n\n          <xmlName>SynonymDictionary</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>pathAssistants</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>pathAssistant</suffix>\n\n          <xmlName>PathAssistant</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>animationRules</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>animationRule</suffix>\n\n          <xmlName>AnimationRule</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>LeadConvertSettings</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>LeadConvertSetting</suffix>\n\n          <xmlName>LeadConvertSettings</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>cachePartitions</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>cachePartition</suffix>\n\n          <xmlName>PlatformCachePartition</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>topicsForObjects</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>topicsForObjects</suffix>\n\n          <xmlName>TopicsForObjects</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>restrictionRules</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>rule</suffix>\n\n          <xmlName>RestrictionRule</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>fieldRestrictionRules</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>rule</suffix>\n\n          <xmlName>FieldRestrictionRule</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>recommendationStrategies</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>recommendationStrategy</suffix>\n\n          <xmlName>RecommendationStrategy</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>entityImplements</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>entityImplements</suffix>\n\n          <xmlName>EntityImplements</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>emailservices</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>xml</suffix>\n\n          <xmlName>EmailServicesFunction</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>paymentGatewayProviders</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>paymentGatewayProvider</suffix>\n\n          <xmlName>PaymentGatewayProvider</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>gatewayProviderPaymentMethodTypes</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>gatewayProviderPaymentMethodType</suffix>\n\n          <xmlName>GatewayProviderPaymentMethodType</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>ActionLauncherItemDef</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>actionLauncherItemDef</suffix>\n\n          <xmlName>ActionLauncherItemDef</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>recordActionDeployments</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>deployment</suffix>\n\n          <xmlName>RecordActionDeployment</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>salesAgreementSettings</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>salesAgreementSetting</suffix>\n\n          <xmlName>SalesAgreementSettings</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>ObjectHierarchyRelationship</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>settings</suffix>\n\n          <xmlName>ObjectHierarchyRelationship</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>acctMgrTargetSettings</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>acctMgrTargetSetting</suffix>\n\n          <xmlName>AcctMgrTargetSettings</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>AccountForecastSettings</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>accountForecastSetting</suffix>\n\n          <xmlName>AccountForecastSettings</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>AdvAcctForecastPeriodGroup</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>advAcctForecastPeriodGroup</suffix>\n\n          <xmlName>AdvAcctForecastPeriodGroup</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>AdvAccountForecastSet</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>advAccountForecastSet</suffix>\n\n          <xmlName>AdvAccountForecastSet</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>AdvAcctForecastDimSource</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>advAcctForecastDimSource</suffix>\n\n          <xmlName>AdvAcctForecastDimSource</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>BusinessProcessTypeDefinitions</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>businessProcessTypeDefinition</suffix>\n\n          <xmlName>BusinessProcessTypeDefinition</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>ApplicationSubtypeDefinitions</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>applicationSubtypeDefinition</suffix>\n\n          <xmlName>ApplicationSubtypeDefinition</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>ExplainabilityActionDefinitions</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>explainabilityActionDefinition</suffix>\n\n          <xmlName>ExplainabilityActionDefinition</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>ExplainabilityActionVersions</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>explainabilityActionVersion</suffix>\n\n          <xmlName>ExplainabilityActionVersion</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>icons</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>icon</suffix>\n\n          <xmlName>Icon</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>EmbeddedServiceConfig</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>EmbeddedServiceConfig</suffix>\n\n          <xmlName>EmbeddedServiceConfig</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>EmbeddedServiceBranding</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>EmbeddedServiceBranding</suffix>\n\n          <xmlName>EmbeddedServiceBranding</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>EmbeddedServiceFlowConfig</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>EmbeddedServiceFlowConfig</suffix>\n\n          <xmlName>EmbeddedServiceFlowConfig</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>EmbeddedServiceMenuSettings</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>EmbeddedServiceMenuSettings</suffix>\n\n          <xmlName>EmbeddedServiceMenuSettings</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>callCoachingMediaProviders</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>callCoachingMediaProvider</suffix>\n\n          <xmlName>CallCoachingMediaProvider</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>actionPlanTemplates</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>apt</suffix>\n\n          <xmlName>ActionPlanTemplate</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>participantRoles</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>participantRole</suffix>\n\n          <xmlName>ParticipantRole</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>uiObjectRelationConfigs</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>uiObjectRelationConfig</suffix>\n\n          <xmlName>UIObjectRelationConfig</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>careRequestConfigurations</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>careRequestConfiguration</suffix>\n\n          <xmlName>CareRequestConfiguration</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>timelineObjectDefinitions</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>timelineObjectDefinition</suffix>\n\n          <xmlName>TimelineObjectDefinition</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>careBenefitVerifySettings</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>careBenefitVerifySettings</suffix>\n\n          <xmlName>CareBenefitVerifySettings</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>userProfileSearchScopes</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>userProfileSearchScope</suffix>\n\n          <xmlName>UserProfileSearchScope</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>relationshipGraphDefinitions</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>relationshipGraphDefinition</suffix>\n\n          <xmlName>RelationshipGraphDefinition</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>searchCustomizations</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>searchCustomization</suffix>\n\n          <xmlName>SearchCustomization</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>PlatformEventSubscriberConfigs</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>platformEventSubscriberConfig</suffix>\n\n          <xmlName>PlatformEventSubscriberConfig</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>SchedulingObjectives</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>schedulingObjective</suffix>\n\n          <xmlName>SchedulingObjective</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>recordAlertDataSources</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>recordAlertDataSource</suffix>\n\n          <xmlName>RecordAlertDataSource</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>recAlrtDataSrcExpSetDefs</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>recAlrtDataSrcExpSetDef</suffix>\n\n          <xmlName>RecAlrtDataSrcExpSetDef</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>recordAlertTemplates</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>recordAlertTemplate</suffix>\n\n          <xmlName>RecordAlertTemplate</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>careProviderSearchConfigs</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>careProviderSearchConfig</suffix>\n\n          <xmlName>CareProviderSearchConfig</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>careLimitTypes</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>careLimitType</suffix>\n\n          <xmlName>CareLimitType</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>SchedulingRules</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>schedulingRule</suffix>\n\n          <xmlName>SchedulingRule</xmlName>\n\n        </metadataObjects>\n\n        <metadataObjects>\n\n          <directoryName>settings</directoryName>\n\n          <inFolder>false</inFolder>\n\n          <metaFile>false</metaFile>\n\n          <suffix>settings</suffix>\n\n          <xmlName>Settings</xmlName>\n\n        </metadataObjects>\n\n        <organizationNamespace></organizationNamespace>\n\n        <partialSaveAllowed>true</partialSaveAllowed>\n\n        <testRequired>false</testRequired>\n\n      </result>\n\n    </describeMetadataResponse>\n\n  </soapenv:Body>\n\n</Envelope>"
+      deprecated: false
+      security: []
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /services/Soap/c/64.0:
+    parameters: []
+    post:
+      tags:
+      - Soap
+      summary: Salesforce Soap Undelete
+      description: Undeletes records from the Recycle Bin.
+      operationId: SOAPundelete
+      parameters:
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        schema:
+          const: text/xml; charset=UTF-8
+          type: string
+          examples:
+          - text/xml; charset=UTF-8
+        example: example_value
+      - name: Accept
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - text/xml
+        example: example_value
+      - name: SOAPAction
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - undelete
+        example: example_value
+      requestBody:
+        description: ''
+        content:
+          application/xml:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/Envelope7'
+              - xml:
+                  name: Envelope
+                  attribute: false
+                  wrapped: false
+                examples:
+                - "<Envelope>\n\n  <soapenv:Header xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">\n\n    <urn:SessionHeader xmlns:urn=\"urn:enterprise.soap.sforce.com\">\n\n      <urn:sessionId></urn:sessionId>\n\n    </urn:SessionHeader>\n\n  </soapenv:Header>\n\n  <soapenv:Body xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">\n\n    <urn:undelete xmlns:urn=\"urn:enterprise.soap.sforce.com\">\n\n      <urn:ids></urn:ids>\n\n    </urn:undelete>\n\n  </soapenv:Body>\n\n</Envelope>"
+              contentMediaType: application/xml
+            example: "<Envelope>\n\n  <soapenv:Header xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">\n\n    <urn:SessionHeader xmlns:urn=\"urn:enterprise.soap.sforce.com\">\n\n      <urn:sessionId></urn:sessionId>\n\n    </urn:SessionHeader>\n\n  </soapenv:Header>\n\n  <soapenv:Body xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">\n\n    <urn:undelete xmlns:urn=\"urn:enterprise.soap.sforce.com\">\n\n      <urn:ids></urn:ids>\n\n    </urn:undelete>\n\n  </soapenv:Body>\n\n</Envelope>"
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://login.salesforce.com
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Body16:
+      title: Body16
+      required:
+      - create
+      type: object
+      properties:
+        create:
+          allOf:
+          - $ref: '#/components/schemas/create'
+          - xml:
+              name: create
+              namespace: urn:partner.soap.sforce.com
+              prefix: ns2
+              attribute: false
+              wrapped: false
+          example: example_value
+      xml:
+        name: Body
+        namespace: http://schemas.xmlsoap.org/soap/envelope/
+        prefix: SOAP-ENV
+        attribute: false
+        wrapped: false
+    Envelope:
+      title: Envelope
+      required:
+      - Header
+      - Body
+      type: object
+      properties:
+        Header:
+          allOf:
+          - $ref: '#/components/schemas/Header4'
+          - xml:
+              name: Header
+              namespace: http://schemas.xmlsoap.org/soap/envelope/
+              prefix: SOAP-ENV
+              attribute: false
+              wrapped: false
+          example: example_value
+        Body:
+          allOf:
+          - $ref: '#/components/schemas/Body16'
+          - xml:
+              name: Body
+              namespace: http://schemas.xmlsoap.org/soap/envelope/
+              prefix: SOAP-ENV
+              attribute: false
+              wrapped: false
+          example: example_value
+      xml:
+        name: Envelope
+        namespace: http://schemas.xmlsoap.org/soap/envelope/
+        prefix: SOAP-ENV
+        attribute: false
+        wrapped: false
+    SessionHeader4:
+      title: SessionHeader4
+      required:
+      - sessionId
+      type: object
+      properties:
+        sessionId:
+          type: string
+          xml:
+            name: sessionId
+            namespace: urn:enterprise.soap.sforce.com
+            prefix: urn
+            attribute: false
+            wrapped: false
+          example: '500123'
+      xml:
+        name: SessionHeader
+        namespace: urn:enterprise.soap.sforce.com
+        prefix: urn
+        attribute: false
+        wrapped: false
+    Envelope2:
+      title: Envelope2
+      required:
+      - Body
+      type: object
+      properties:
+        Body:
+          allOf:
+          - $ref: '#/components/schemas/Body18'
+          - xml:
+              name: Body
+              namespace: http://schemas.xmlsoap.org/soap/envelope/
+              prefix: soapenv
+              attribute: false
+              wrapped: false
+          example: example_value
+      xml:
+        name: Envelope
+        namespace: http://schemas.xmlsoap.org/soap/envelope/
+        prefix: soapenv
+        attribute: false
+        wrapped: false
+    result3:
+      title: result3
+      required:
+      - metadataObjects
+      - organizationNamespace
+      - partialSaveAllowed
+      - testRequired
+      type: object
+      properties:
+        metadataObjects:
+          type: array
+          items:
+            $ref: '#/components/schemas/metadataObjects'
+          description: ''
+          xml:
+            namespace: http://soap.sforce.com/2006/04/metadata
+            attribute: false
+            wrapped: false
+          example: []
+        organizationNamespace:
+          type: string
+          xml:
+            name: organizationNamespace
+            namespace: http://soap.sforce.com/2006/04/metadata
+            attribute: false
+            wrapped: false
+          example: example_value
+        partialSaveAllowed:
+          type: boolean
+          xml:
+            name: partialSaveAllowed
+            namespace: http://soap.sforce.com/2006/04/metadata
+            attribute: false
+            wrapped: false
+          example: true
+        testRequired:
+          type: boolean
+          xml:
+            name: testRequired
+            namespace: http://soap.sforce.com/2006/04/metadata
+            attribute: false
+            wrapped: false
+          example: true
+      xml:
+        name: result
+        namespace: http://soap.sforce.com/2006/04/metadata
+        attribute: false
+        wrapped: false
+    Body17:
+      title: Body17
+      required:
+      - describeMetadata
+      type: object
+      properties:
+        describeMetadata:
+          allOf:
+          - $ref: '#/components/schemas/describeMetadata'
+          - xml:
+              name: describeMetadata
+              namespace: http://soap.sforce.com/2006/04/metadata
+              prefix: tns
+              attribute: false
+              wrapped: false
+          example: example_value
+      xml:
+        name: Body
+        namespace: http://schemas.xmlsoap.org/soap/envelope/
+        prefix: soapenv
+        attribute: false
+        wrapped: false
+    metadataObjects:
+      title: metadataObjects
+      required:
+      - directoryName
+      - inFolder
+      - metaFile
+      - xmlName
+      type: object
+      properties:
+        directoryName:
+          type: string
+          xml:
+            name: directoryName
+            namespace: http://soap.sforce.com/2006/04/metadata
+            attribute: false
+            wrapped: false
+          example: example_value
+        inFolder:
+          type: boolean
+          xml:
+            name: inFolder
+            namespace: http://soap.sforce.com/2006/04/metadata
+            attribute: false
+            wrapped: false
+          example: true
+        metaFile:
+          type: boolean
+          xml:
+            name: metaFile
+            namespace: http://soap.sforce.com/2006/04/metadata
+            attribute: false
+            wrapped: false
+          example: true
+        suffix:
+          type: string
+          xml:
+            name: suffix
+            namespace: http://soap.sforce.com/2006/04/metadata
+            attribute: false
+            wrapped: false
+          example: example_value
+        xmlName:
+          type: string
+          xml:
+            name: xmlName
+            namespace: http://soap.sforce.com/2006/04/metadata
+            attribute: false
+            wrapped: false
+          example: example_value
+        childXmlNames:
+          type: string
+          xml:
+            name: childXmlNames
+            namespace: http://soap.sforce.com/2006/04/metadata
+            attribute: false
+            wrapped: false
+          example: example_value
+      xml:
+        name: metadataObjects
+        namespace: http://soap.sforce.com/2006/04/metadata
+        attribute: false
+        wrapped: false
+    Envelope7:
+      title: Envelope7
+      required:
+      - Header
+      - Body
+      type: object
+      properties:
+        Header:
+          allOf:
+          - $ref: '#/components/schemas/Header8'
+          - xml:
+              name: Header
+              namespace: http://schemas.xmlsoap.org/soap/envelope/
+              prefix: soapenv
+              attribute: false
+              wrapped: false
+          example: example_value
+        Body:
+          allOf:
+          - $ref: '#/components/schemas/Body23'
+          - xml:
+              name: Body
+              namespace: http://schemas.xmlsoap.org/soap/envelope/
+              prefix: soapenv
+              attribute: false
+              wrapped: false
+          example: example_value
+      xml:
+        name: Envelope
+        namespace: http://schemas.xmlsoap.org/soap/envelope/
+        prefix: soapenv
+        attribute: false
+        wrapped: false
+    SessionHeader1:
+      title: SessionHeader1
+      required:
+      - sessionId
+      type: object
+      properties:
+        sessionId:
+          type: string
+          xml:
+            name: sessionId
+            namespace: http://soap.sforce.com/2006/04/metadata
+            prefix: tns
+            attribute: false
+            wrapped: false
+          example: '500123'
+      xml:
+        name: SessionHeader
+        namespace: http://soap.sforce.com/2006/04/metadata
+        prefix: tns
+        attribute: false
+        wrapped: false
+    Header4:
+      title: Header4
+      required:
+      - SessionHeader
+      type: object
+      properties:
+        SessionHeader:
+          allOf:
+          - $ref: '#/components/schemas/SessionHeader'
+          - xml:
+              name: SessionHeader
+              namespace: urn:partner.soap.sforce.com
+              prefix: ns2
+              attribute: false
+              wrapped: false
+          example: example_value
+      xml:
+        name: Header
+        namespace: http://schemas.xmlsoap.org/soap/envelope/
+        prefix: SOAP-ENV
+        attribute: false
+        wrapped: false
+    Envelope1:
+      title: Envelope1
+      required:
+      - Header
+      - Body
+      type: object
+      properties:
+        Header:
+          allOf:
+          - $ref: '#/components/schemas/Header5'
+          - xml:
+              name: Header
+              namespace: http://schemas.xmlsoap.org/soap/envelope/
+              prefix: soapenv
+              attribute: false
+              wrapped: false
+          example: example_value
+        Body:
+          allOf:
+          - $ref: '#/components/schemas/Body17'
+          - xml:
+              name: Body
+              namespace: http://schemas.xmlsoap.org/soap/envelope/
+              prefix: soapenv
+              attribute: false
+              wrapped: false
+          example: example_value
+      xml:
+        name: Envelope
+        namespace: http://schemas.xmlsoap.org/soap/envelope/
+        prefix: soapenv
+        attribute: false
+        wrapped: false
+    undelete:
+      title: undelete
+      required:
+      - ids
+      type: object
+      properties:
+        ids:
+          type: string
+          xml:
+            name: ids
+            namespace: urn:enterprise.soap.sforce.com
+            prefix: urn
+            attribute: false
+            wrapped: false
+          example: example_value
+      xml:
+        name: undelete
+        namespace: urn:enterprise.soap.sforce.com
+        prefix: urn
+        attribute: false
+        wrapped: false
+    sObjects:
+      title: sObjects
+      required:
+      - type
+      - Annual_Mileage__c
+      - Current_Vehicle__c
+      - Model_Year__c
+      type: object
+      properties:
+        type:
+          type: string
+          xml:
+            name: type
+            namespace: urn:sobject.partner.soap.sforce.com
+            prefix: ns1
+            attribute: false
+            wrapped: false
+          example: example_value
+        Annual_Mileage__c:
+          type: integer
+          contentEncoding: int32
+          xml:
+            name: Annual_Mileage__c
+            namespace: ''
+            attribute: false
+            wrapped: false
+          example: 10
+        Current_Vehicle__c:
+          type: string
+          xml:
+            name: Current_Vehicle__c
+            namespace: ''
+            attribute: false
+            wrapped: false
+          example: example_value
+        Model_Year__c:
+          type: integer
+          contentEncoding: int32
+          xml:
+            name: Model_Year__c
+            namespace: ''
+            attribute: false
+            wrapped: false
+          example: 10
+      xml:
+        name: sObjects
+        namespace: urn:partner.soap.sforce.com
+        prefix: ns2
+        attribute: false
+        wrapped: false
+    describeMetadataResponse:
+      title: describeMetadataResponse
+      required:
+      - result
+      type: object
+      properties:
+        result:
+          allOf:
+          - $ref: '#/components/schemas/result3'
+          - xml:
+              name: result
+              namespace: http://soap.sforce.com/2006/04/metadata
+              attribute: false
+              wrapped: false
+          example: example_value
+      xml:
+        name: describeMetadataResponse
+        namespace: http://soap.sforce.com/2006/04/metadata
+        attribute: false
+        wrapped: false
+    Body23:
+      title: Body23
+      required:
+      - undelete
+      type: object
+      properties:
+        undelete:
+          allOf:
+          - $ref: '#/components/schemas/undelete'
+          - xml:
+              name: undelete
+              namespace: urn:enterprise.soap.sforce.com
+              prefix: urn
+              attribute: false
+              wrapped: false
+          example: example_value
+      xml:
+        name: Body
+        namespace: http://schemas.xmlsoap.org/soap/envelope/
+        prefix: soapenv
+        attribute: false
+        wrapped: false
+    SessionHeader:
+      title: SessionHeader
+      required:
+      - sessionId
+      type: object
+      properties:
+        sessionId:
+          type: string
+          xml:
+            name: sessionId
+            namespace: urn:partner.soap.sforce.com
+            prefix: ns2
+            attribute: false
+            wrapped: false
+          example: '500123'
+      xml:
+        name: SessionHeader
+        namespace: urn:partner.soap.sforce.com
+        prefix: ns2
+        attribute: false
+        wrapped: false
+    Body18:
+      title: Body18
+      required:
+      - describeMetadataResponse
+      type: object
+      properties:
+        describeMetadataResponse:
+          allOf:
+          - $ref: '#/components/schemas/describeMetadataResponse'
+          - xml:
+              name: describeMetadataResponse
+              namespace: http://soap.sforce.com/2006/04/metadata
+              attribute: false
+              wrapped: false
+          example: example_value
+      xml:
+        name: Body
+        namespace: http://schemas.xmlsoap.org/soap/envelope/
+        prefix: soapenv
+        attribute: false
+        wrapped: false
+    create:
+      title: create
+      required:
+      - sObjects
+      type: object
+      properties:
+        sObjects:
+          type: array
+          items:
+            $ref: '#/components/schemas/sObjects'
+          description: ''
+          xml:
+            namespace: urn:partner.soap.sforce.com
+            prefix: ns2
+            attribute: false
+            wrapped: false
+          example: []
+      xml:
+        name: create
+        namespace: urn:partner.soap.sforce.com
+        prefix: ns2
+        attribute: false
+        wrapped: false
+    describeMetadata:
+      title: describeMetadata
+      required:
+      - asOfVersion
+      type: object
+      properties:
+        asOfVersion:
+          type: number
+          xml:
+            name: asOfVersion
+            namespace: ''
+            attribute: false
+            wrapped: false
+          example: 42.5
+      xml:
+        name: describeMetadata
+        namespace: http://soap.sforce.com/2006/04/metadata
+        prefix: tns
+        attribute: false
+        wrapped: false
+    Header8:
+      title: Header8
+      required:
+      - SessionHeader
+      type: object
+      properties:
+        SessionHeader:
+          allOf:
+          - $ref: '#/components/schemas/SessionHeader4'
+          - xml:
+              name: SessionHeader
+              namespace: urn:enterprise.soap.sforce.com
+              prefix: urn
+              attribute: false
+              wrapped: false
+          example: example_value
+      xml:
+        name: Header
+        namespace: http://schemas.xmlsoap.org/soap/envelope/
+        prefix: soapenv
+        attribute: false
+        wrapped: false
+    Header5:
+      title: Header5
+      required:
+      - SessionHeader
+      type: object
+      properties:
+        SessionHeader:
+          allOf:
+          - $ref: '#/components/schemas/SessionHeader1'
+          - xml:
+              name: SessionHeader
+              namespace: http://soap.sforce.com/2006/04/metadata
+              prefix: tns
+              attribute: false
+              wrapped: false
+          example: example_value
+      xml:
+        name: Header
+        namespace: http://schemas.xmlsoap.org/soap/envelope/
+        prefix: soapenv
+        attribute: false
+        wrapped: false
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

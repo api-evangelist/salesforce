@@ -1,0 +1,119 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Limits API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Limits
+  description: Retrieve current API limit usage and quotas for the org.
+paths:
+  /limits:
+    get:
+      operationId: getOrgLimits
+      summary: Salesforce Get Org Api Limits
+      description: 'Returns the current API limit usage and remaining quotas for the Salesforce org. Includes limits for daily API requests, bulk API jobs, streaming API events, and other governor limits. Use this endpoint to monitor API consumption and avoid hitting limits.
+
+        '
+      tags:
+      - Limits
+      responses:
+        '200':
+          description: 'A map of limit names to their maximum and remaining values for the current org.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                description: 'Map of limit names to objects containing Max (maximum allowed) and Remaining (currently available) values.
+
+                  '
+                additionalProperties:
+                  type: object
+                  properties:
+                    Max:
+                      type: integer
+                      description: Maximum allowed value for this limit.
+                    Remaining:
+                      type: integer
+                      description: Remaining available value for this limit.
+              examples:
+                Getorglimits200Example:
+                  summary: Default getOrgLimits 200 response
+                  x-microcks-default: true
+                  value: {}
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Getorglimits401Example:
+                  summary: Default getOrgLimits 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Error:
+      type: object
+      description: 'An error response from the Salesforce REST API, describing the problem with the request.
+
+        '
+      properties:
+        message:
+          type: string
+          description: Human-readable description of the error.
+          example: example_value
+        errorCode:
+          type: string
+          description: 'Salesforce error code (e.g., MALFORMED_QUERY, INVALID_FIELD, REQUIRED_FIELD_MISSING).
+
+            '
+          example: example_value
+        fields:
+          type: array
+          description: 'List of field names related to the error, if applicable (e.g., for field validation errors).
+
+            '
+          items:
+            type: string
+          example: []
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

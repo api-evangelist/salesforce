@@ -1,0 +1,511 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Invoke API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Invoke
+paths:
+  /data/v64.0/connect/business-rules/decision-table/lookup/{decisionTableId}:
+    parameters: []
+    post:
+      tags:
+      - Invoke
+      summary: Salesforce Invoke
+      description: "# Invoke Decision Tables\n\nInvoke a decision table by passing multiple input conditions within the same request.Resource\n\n```\n/connect/business-rules/decision-table/lookup/${decisionTableId}\n\n ```\n\nResource example\n\n```\nhttps://yourInstance.salesforce.com/services/data/v59.0/connect\n/business-rules/decision-table/lookup/${0lDD2000000004NMAQ}\n\n ```\n\nAvailable version\n\n58.0\n\nRequires Chatter\n\nNo\n\nHTTP methods\n\nPOST\n\nRequest body for POST\n\nJSON example\n\n```\n{\n   \"datasetLinkName\" : \"transactionMapping\",\n   “conditions” :[\n      {\n        “conditionsList”: [\n          {\n              \"fieldName\": \"Product__c\",\n              \"value\": \"Nike\",\n              \"operator\": \"Matches\" //Operator is optional\n          },\n          {\n              \"fieldName\": \"Price__c\",\n              \"value\": 1000,\n              \"operator\": \"GreaterThan\"\n          }\n        ]\n      },\n      {\n        “conditionsList”: [\n          {\n              \"fieldName\": \"Product__c\",\n              \"value\": \"Adidas\",\n              \"operator\": \"Matches\" //Operator is optional\n          },\n          {\n              \"fieldName\": \"Price__c\",\n              \"value\": 1500,\n              \"operator\": \"GreaterThan\"\n          }\n        ]\n\n ```\n\nProperties\n\n| Name | Type | Description | Required or Optional | Available Version |\n| --- | --- | --- | --- | --- |\n| conditions | [Decision Table Condition List](https://developer.salesforce.com/docs/atlas.en-us.industries_reference.meta/industries_reference/connect_requests_decision_table_condition_list_input.htm) | The list of decision table conditions on which the decision table executes and provides outcomes. | Required | 58.0 |\n| datasetLinkName | String | The API name of the dataset link provided as an input for the decision table execution. | Optional | 58.0 |\n\nResponse body for POST\n\n[Decision Table Bulk Outcome](https://developer.salesforce.com/docs/atlas.en-us.industries_reference.meta/industries_reference/connect_responses_decision_table_bulk_outcome.htm)\n\n# Decision Table Bulk Outcome\n\nOutput representation of the decision table bulk look-up.\n\n| Property Name | Type | Description | Filter Group and Version | Available Version |\n| --- | --- | --- | --- | --- |\n| outputs | [Decision Table Outcome](https://developer.salesforce.com/docs/atlas.en-us.industries_reference.meta/industries_reference/connect_responses_decision_table_outcome.htm) | List of the output of the Decision Table bulk lookup. | Small, 58.0 | 58.0 |"
+      operationId: Invoke
+      parameters:
+      - name: decisionTableId
+        in: path
+        description: Decision Table Id
+        required: true
+        schema:
+          type: string
+          examples:
+          - 0lDHo0000008Po3
+        example: '500123'
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/InvokeRequest'
+              - examples:
+                - datasetLinkName: transactionMapping
+                  conditions:
+                  - conditionsList:
+                    - fieldName: Product__c
+                      value: Nike
+                      operator: Matches
+                    - fieldName: Price__c
+                      value: 1000
+                      operator: GreaterThan
+                  - conditionsList:
+                    - fieldName: Product__c
+                      value: Adidas
+                      operator: Matches
+                    - fieldName: Price__c
+                      value: 1500
+                      operator: GreaterThan
+              contentMediaType: application/json
+            example:
+              datasetLinkName: transactionMapping
+              conditions:
+              - conditionsList:
+                - fieldName: Product__c
+                  value: Nike
+                  operator: Matches
+                - fieldName: Price__c
+                  value: 1000
+                  operator: GreaterThan
+              - conditionsList:
+                - fieldName: Product__c
+                  value: Adidas
+                  operator: Matches
+                - fieldName: Price__c
+                  value: 1500
+                  operator: GreaterThan
+        required: true
+      responses:
+        '201':
+          description: Created
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Tue, 19 Sep 2023 14:17:24 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Status201-Error'
+                - examples:
+                  - outputs:
+                    - errorCode: 400
+                      errorMessage: Specify valid name for Data set Link
+                      outcomeList: []
+                      outcomeType: null
+                      successStatus: false
+                    - errorCode: 400
+                      errorMessage: Specify valid name for Data set Link
+                      outcomeList: []
+                      outcomeType: null
+                      successStatus: false
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                outputs:
+                - errorCode: 400
+                  errorMessage: Specify valid name for Data set Link
+                  outcomeList: []
+                  outcomeType: null
+                  successStatus: false
+                - errorCode: 400
+                  errorMessage: Specify valid name for Data set Link
+                  outcomeList: []
+                  outcomeType: null
+                  successStatus: false
+        '400':
+          description: Bad Request
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Tue, 19 Sep 2023 14:16:11 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Status400-InvalidOperation1'
+                description: ''
+                examples:
+                - - errorCode: INVALID_OPERATION
+                    message: Can't execute decision table which is not in Active state.
+                contentMediaType: application/json;charset=UTF-8
+              example:
+              - errorCode: INVALID_OPERATION
+                message: Can't execute decision table which is not in Active state.
+        '404':
+          description: Not Found
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Tue, 19 Sep 2023 14:11:45 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Status404-NotFound1'
+                description: ''
+                examples:
+                - - errorCode: NOT_FOUND
+                    message: The requested resource does not exist
+                contentMediaType: application/json;charset=UTF-8
+              example:
+              - errorCode: NOT_FOUND
+                message: The requested resource does not exist
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Status404-NotFound1:
+      title: Status404-NotFound1
+      required:
+      - errorCode
+      - message
+      type: object
+      properties:
+        errorCode:
+          type: string
+          example: example_value
+        message:
+          type: string
+          example: example_value
+      examples:
+      - errorCode: NOT_FOUND
+        message: The requested resource does not exist
+    Status201-Error:
+      title: Status201-Error
+      required:
+      - outputs
+      type: object
+      properties:
+        outputs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Output4'
+          description: ''
+          example: []
+      examples:
+      - outputs:
+        - errorCode: 400
+          errorMessage: Specify valid name for Data set Link
+          outcomeList: []
+          outcomeType: null
+          successStatus: false
+        - errorCode: 400
+          errorMessage: Specify valid name for Data set Link
+          outcomeList: []
+          outcomeType: null
+          successStatus: false
+    Status400-InvalidOperation1:
+      title: Status400-InvalidOperation1
+      required:
+      - errorCode
+      - message
+      type: object
+      properties:
+        errorCode:
+          type: string
+          example: example_value
+        message:
+          type: string
+          example: example_value
+      examples:
+      - errorCode: INVALID_OPERATION
+        message: Can't execute decision table which is not in Active state.
+    Output4:
+      title: Output4
+      required:
+      - errorCode
+      - errorMessage
+      - outcomeList
+      - outcomeType
+      - successStatus
+      type: object
+      properties:
+        errorCode:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        errorMessage:
+          type: string
+          example: example_value
+        outcomeList:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        outcomeType:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        successStatus:
+          type: boolean
+          example: true
+      examples:
+      - errorCode: 400
+        errorMessage: Specify valid name for Data set Link
+        outcomeList: []
+        outcomeType: null
+        successStatus: false
+    Condition:
+      title: Condition
+      required:
+      - conditionsList
+      type: object
+      properties:
+        conditionsList:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConditionsList'
+          description: ''
+          example: []
+      examples:
+      - conditionsList:
+        - fieldName: Product__c
+          value: Nike
+          operator: Matches
+        - fieldName: Price__c
+          value: 1000
+          operator: GreaterThan
+    ConditionsList:
+      title: ConditionsList
+      required:
+      - fieldName
+      - value
+      - operator
+      type: object
+      properties:
+        fieldName:
+          type: string
+          example: example_value
+        value:
+          oneOf:
+          - type: string
+          - type: integer
+            contentEncoding: int32
+          example: example_value
+        operator:
+          type: string
+          example: example_value
+      examples:
+      - fieldName: Product__c
+        value: Nike
+        operator: Matches
+    InvokeRequest:
+      title: InvokeRequest
+      required:
+      - datasetLinkName
+      - conditions
+      type: object
+      properties:
+        datasetLinkName:
+          type: string
+          example: example_value
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Condition'
+          description: ''
+          example: []
+      examples:
+      - datasetLinkName: transactionMapping
+        conditions:
+        - conditionsList:
+          - fieldName: Product__c
+            value: Nike
+            operator: Matches
+          - fieldName: Price__c
+            value: 1000
+            operator: GreaterThan
+        - conditionsList:
+          - fieldName: Product__c
+            value: Adidas
+            operator: Matches
+          - fieldName: Price__c
+            value: 1500
+            operator: GreaterThan
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

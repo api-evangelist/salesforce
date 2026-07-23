@@ -1,0 +1,728 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Sandbox API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Sandbox
+  description: Manage sandboxes
+paths:
+  /data/v64.0/tooling/sobjects/SandboxInfo:
+    parameters: []
+    post:
+      tags:
+      - Sandbox
+      summary: Salesforce Create/clone Sandbox
+      description: Creates or clones a sandbox. If you wish to clone, fill the SourceId body field with the org Id of the source sandbox.
+      operationId: Create/CloneSandbox
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/CreateCloneSandboxRequest'
+              - examples:
+                - SandboxName: devSandbox
+                  LicenseType: DEVELOPER
+                  TemplateId: null
+                  HistoryDays: 0
+                  CopyChatter: false
+                  AutoActivate: false
+                  ApexClassId: null
+                  Description: My new fresh sandbox
+                  SourceId: null
+              contentMediaType: application/json
+            example:
+              SandboxName: devSandbox
+              LicenseType: DEVELOPER
+              TemplateId: null
+              HistoryDays: 0
+              CopyChatter: false
+              AutoActivate: false
+              ApexClassId: null
+              Description: My new fresh sandbox
+              SourceId: null
+        required: true
+      responses:
+        '201':
+          description: Created
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Mon, 11 Dec 2023 10:44:57 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Sforce-Limit-Info:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: api-usage=312/15000
+            Location:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: /services/data/v59.0/tooling/sobjects/SandboxInfo/0GQ4H000000CxSzWAK
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/CreateSandbox'
+                - examples:
+                  - id: 0GQ4H000000CxSzWAK
+                    success: true
+                    errors: []
+                    warnings: []
+                    infos: []
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                id: 0GQ4H000000CxSzWAK
+                success: true
+                errors: []
+                warnings: []
+                infos: []
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/tooling/sobjects/SandboxInfo/{SANDBOX_INFO_ID}:
+    parameters: []
+    get:
+      tags:
+      - Sandbox
+      summary: Salesforce Get Sandbox
+      description: Retrieves a sandbox record.
+      operationId: GetSandbox
+      parameters:
+      - name: SANDBOX_INFO_ID
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Mon, 11 Dec 2023 10:45:48 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Sforce-Limit-Info:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: api-usage=316/15000
+            Last-Modified:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Mon, 11 Dec 2023 10:44:58 GMT
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/GetSandbox'
+                - examples:
+                  - attributes:
+                      type: SandboxInfo
+                      url: /services/data/v59.0/tooling/sobjects/SandboxInfo/0GQ4H000000CxSzWAK
+                    Id: 0GQ4H000000CxSzWAK
+                    IsDeleted: false
+                    CreatedDate: 2023-12-11T10:44:58.000+0000
+                    CreatedById: 00558000000yFyDAAU
+                    LastModifiedDate: 2023-12-11T10:44:58.000+0000
+                    LastModifiedById: 00558000000yFyDAAU
+                    SystemModstamp: 2023-12-11T10:44:58.000+0000
+                    SandboxName: devSandbox
+                    LicenseType: DEVELOPER
+                    TemplateId: null
+                    HistoryDays: 0
+                    CopyChatter: false
+                    AutoActivate: false
+                    ApexClassId: null
+                    Description: My new fresh sandbox
+                    SourceId: null
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                attributes:
+                  type: SandboxInfo
+                  url: /services/data/v59.0/tooling/sobjects/SandboxInfo/0GQ4H000000CxSzWAK
+                Id: 0GQ4H000000CxSzWAK
+                IsDeleted: false
+                CreatedDate: 2023-12-11T10:44:58.000+0000
+                CreatedById: 00558000000yFyDAAU
+                LastModifiedDate: 2023-12-11T10:44:58.000+0000
+                LastModifiedById: 00558000000yFyDAAU
+                SystemModstamp: 2023-12-11T10:44:58.000+0000
+                SandboxName: devSandbox
+                LicenseType: DEVELOPER
+                TemplateId: null
+                HistoryDays: 0
+                CopyChatter: false
+                AutoActivate: false
+                ApexClassId: null
+                Description: My new fresh sandbox
+                SourceId: null
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    patch:
+      tags:
+      - Sandbox
+      summary: Salesforce Refresh Sandbox
+      description: Refreshes a sandbox.
+      operationId: RefreshSandbox
+      parameters:
+      - name: SANDBOX_INFO_ID
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/RefreshSandboxRequest'
+              - examples:
+                - LicenseType: DEVELOPER
+                  AutoActivate: true
+              contentMediaType: application/json
+            example:
+              LicenseType: DEVELOPER
+              AutoActivate: true
+        required: true
+      responses:
+        '204':
+          description: No Content
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Wed, 13 Dec 2023 12:33:55 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            Content-Security-Policy:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: upgrade-insecure-requests
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Sforce-Limit-Info:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: api-usage=2/15000
+          content: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    delete:
+      tags:
+      - Sandbox
+      summary: Salesforce Delete Sandbox
+      description: Deletes a sandbox.
+      operationId: DeleteSandbox
+      parameters:
+      - name: SANDBOX_INFO_ID
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      responses:
+        '204':
+          description: No Content
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Fri, 15 Dec 2023 13:34:29 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            Content-Security-Policy:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: upgrade-insecure-requests
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Sforce-Limit-Info:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: api-usage=2/15000
+          content: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    RefreshSandboxRequest:
+      title: RefreshSandboxRequest
+      required:
+      - LicenseType
+      - AutoActivate
+      type: object
+      properties:
+        LicenseType:
+          type: string
+          example: example_value
+        AutoActivate:
+          type: boolean
+          example: true
+      examples:
+      - LicenseType: DEVELOPER
+        AutoActivate: true
+    GetSandbox:
+      title: GetSandbox
+      required:
+      - attributes
+      - Id
+      - IsDeleted
+      - CreatedDate
+      - CreatedById
+      - LastModifiedDate
+      - LastModifiedById
+      - SystemModstamp
+      - SandboxName
+      - LicenseType
+      - TemplateId
+      - HistoryDays
+      - CopyChatter
+      - AutoActivate
+      - ApexClassId
+      - Description
+      - SourceId
+      type: object
+      properties:
+        attributes:
+          $ref: '#/components/schemas/Attributes4'
+        Id:
+          type: string
+          example: abc123
+        IsDeleted:
+          type: boolean
+          example: true
+        CreatedDate:
+          type: string
+          example: example_value
+        CreatedById:
+          type: string
+          example: '500123'
+        LastModifiedDate:
+          type: string
+          example: example_value
+        LastModifiedById:
+          type: string
+          example: '500123'
+        SystemModstamp:
+          type: string
+          example: example_value
+        SandboxName:
+          type: string
+          example: example_value
+        LicenseType:
+          type: string
+          example: example_value
+        TemplateId:
+          type:
+          - string
+          - 'null'
+          example: '500123'
+        HistoryDays:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        CopyChatter:
+          type: boolean
+          example: true
+        AutoActivate:
+          type: boolean
+          example: true
+        ApexClassId:
+          type:
+          - string
+          - 'null'
+          example: '500123'
+        Description:
+          type: string
+          example: A sample description.
+        SourceId:
+          type:
+          - string
+          - 'null'
+          example: '500123'
+      examples:
+      - attributes:
+          type: SandboxInfo
+          url: /services/data/v59.0/tooling/sobjects/SandboxInfo/0GQ4H000000CxSzWAK
+        Id: 0GQ4H000000CxSzWAK
+        IsDeleted: false
+        CreatedDate: 2023-12-11T10:44:58.000+0000
+        CreatedById: 00558000000yFyDAAU
+        LastModifiedDate: 2023-12-11T10:44:58.000+0000
+        LastModifiedById: 00558000000yFyDAAU
+        SystemModstamp: 2023-12-11T10:44:58.000+0000
+        SandboxName: devSandbox
+        LicenseType: DEVELOPER
+        TemplateId: null
+        HistoryDays: 0
+        CopyChatter: false
+        AutoActivate: false
+        ApexClassId: null
+        Description: My new fresh sandbox
+        SourceId: null
+    Attributes4:
+      title: Attributes4
+      required:
+      - type
+      - url
+      type: object
+      properties:
+        type:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - type: Account
+        url: /services/data/v58.0/sobjects/Account/001...
+    CreateSandbox:
+      title: CreateSandbox
+      required:
+      - id
+      - success
+      - errors
+      - warnings
+      - infos
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+        success:
+          type: boolean
+          example: true
+        errors:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        warnings:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        infos:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+      examples:
+      - id: 0GQ4H000000CxSzWAK
+        success: true
+        errors: []
+        warnings: []
+        infos: []
+    CreateCloneSandboxRequest:
+      title: CreateCloneSandboxRequest
+      required:
+      - SandboxName
+      - LicenseType
+      - TemplateId
+      - HistoryDays
+      - CopyChatter
+      - AutoActivate
+      - ApexClassId
+      - Description
+      - SourceId
+      type: object
+      properties:
+        SandboxName:
+          type: string
+          example: example_value
+        LicenseType:
+          type: string
+          example: example_value
+        TemplateId:
+          type:
+          - string
+          - 'null'
+          example: '500123'
+        HistoryDays:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        CopyChatter:
+          type: boolean
+          example: true
+        AutoActivate:
+          type: boolean
+          example: true
+        ApexClassId:
+          type:
+          - string
+          - 'null'
+          example: '500123'
+        Description:
+          type: string
+          example: A sample description.
+        SourceId:
+          type:
+          - string
+          - 'null'
+          example: '500123'
+      examples:
+      - SandboxName: devSandbox
+        LicenseType: DEVELOPER
+        TemplateId: null
+        HistoryDays: 0
+        CopyChatter: false
+        AutoActivate: false
+        ApexClassId: null
+        Description: My new fresh sandbox
+        SourceId: null
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

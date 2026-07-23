@@ -1,0 +1,212 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Redeem API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Redeem
+paths:
+  /data/v64.0/loyalty/programs/{loyaltyProgramName}/members/{membershipNumber}/vouchers/{voucherCode}/redeem:
+    parameters: []
+    post:
+      tags:
+      - Redeem
+      summary: Salesforce Redeem Voucher
+      description: 'Standard Documentation:
+
+
+        [https://developer.salesforce.com/docs/atlas.en-us.loyalty.meta/loyalty/connect_resources_redeem_voucher.htm](https://developer.salesforce.com/docs/atlas.en-us.loyalty.meta/loyalty/connect_resources_redeem_voucher.htm)'
+      operationId: RedeemVoucher
+      parameters:
+      - name: voucherNumber
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+        example: example_value
+      - name: loyaltyProgramName
+        in: path
+        description: The loyalty program name.
+        required: true
+        schema:
+          type: string
+        example: example_value
+      - name: membershipNumber
+        in: path
+        description: The loyalty program membership number.
+        required: true
+        schema:
+          type: string
+        example: example_value
+      - name: voucherCode
+        in: path
+        description: The voucher code to be redeemed.
+        required: true
+        schema:
+          type: string
+        example: example_value
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/RedeemVoucherRequest'
+              - examples:
+                - currencyIsoCode: EUR
+                  redeemAmount: 1.5
+              contentMediaType: application/json
+            example:
+              currencyIsoCode: EUR
+              redeemAmount: 1.5
+        required: true
+      responses:
+        '201':
+          description: Created
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Mon, 27 May 2024 19:35:17 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/RedeemVoucher'
+                - examples:
+                  - currencyIsoCode: EUR
+                    remainingAmount: 3.5
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                currencyIsoCode: EUR
+                remainingAmount: 3.5
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    RedeemVoucherRequest:
+      title: RedeemVoucherRequest
+      required:
+      - currencyIsoCode
+      - redeemAmount
+      type: object
+      properties:
+        currencyIsoCode:
+          type: string
+          example: example_value
+        redeemAmount:
+          type: number
+          example: 42.5
+      examples:
+      - currencyIsoCode: EUR
+        redeemAmount: 1.5
+    RedeemVoucher:
+      title: RedeemVoucher
+      required:
+      - currencyIsoCode
+      - remainingAmount
+      type: object
+      properties:
+        currencyIsoCode:
+          type: string
+          example: example_value
+        remainingAmount:
+          type: number
+          example: 42.5
+      examples:
+      - currencyIsoCode: EUR
+        remainingAmount: 3.5
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

@@ -1,0 +1,433 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Child API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Child
+paths:
+  /data/v64.0/ui-api/records/{RECORD_ID}/child-relationships/{RELATIONSHIP_NAME}:
+    parameters: []
+    get:
+      tags:
+      - Child
+      summary: Salesforce Get Child Records
+      description: Get child records for a specified record and child relationship name. Relationships are connections between records. On a record detail page, each record in a related list has a child relationship to the parent record.
+      operationId: GetChildRecords
+      parameters:
+      - name: RECORD_ID
+        in: path
+        description: Record ID
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      - name: RELATIONSHIP_NAME
+        in: path
+        description: API name of the relationship
+        required: true
+        schema:
+          type: string
+        example: example_value
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Wed, 27 Sep 2023 15:57:35 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/GetChildRecords'
+                - examples:
+                  - count: 1
+                    currentPageToken: 1;5;001B000000UnQ2wIAF;Contacts;Contact.Id,Contact.Name;
+                    currentPageUrl: /services/data/v58.0/ui-api/records/001B000000UnQ2wIAF/child-relationships/Contacts?fields=Contact.Id%2CContact.Name&page=1&pageSize=5
+                    nextPageToken: null
+                    nextPageUrl: null
+                    previousPageToken: null
+                    previousPageUrl: null
+                    records:
+                    - apiName: Contact
+                      childRelationships: {}
+                      eTag: c3d33add9008aed557a1efa68173aa9b
+                      fields:
+                        AccountId:
+                          displayValue: null
+                          value: 001B000000UnQ2wIAF
+                        Id:
+                          displayValue: null
+                          value: 003B00000097MToIAM
+                        Name:
+                          displayValue: null
+                          value: Jack Rogers
+                      id: 003B00000097MToIAM
+                      lastModifiedById: 005B0000003TOI6IAO
+                      lastModifiedDate: '2017-08-18T14:46:22.000Z'
+                      recordTypeId: 012000000000000AAA
+                      recordTypeInfo: null
+                      systemModstamp: '2017-08-18T14:46:22.000Z'
+                      weakEtag: 1503067582000
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                count: 1
+                currentPageToken: 1;5;001B000000UnQ2wIAF;Contacts;Contact.Id,Contact.Name;
+                currentPageUrl: /services/data/v58.0/ui-api/records/001B000000UnQ2wIAF/child-relationships/Contacts?fields=Contact.Id%2CContact.Name&page=1&pageSize=5
+                nextPageToken: null
+                nextPageUrl: null
+                previousPageToken: null
+                previousPageUrl: null
+                records:
+                - apiName: Contact
+                  childRelationships: {}
+                  eTag: c3d33add9008aed557a1efa68173aa9b
+                  fields:
+                    AccountId:
+                      displayValue: null
+                      value: 001B000000UnQ2wIAF
+                    Id:
+                      displayValue: null
+                      value: 003B00000097MToIAM
+                    Name:
+                      displayValue: null
+                      value: Jack Rogers
+                  id: 003B00000097MToIAM
+                  lastModifiedById: 005B0000003TOI6IAO
+                  lastModifiedDate: '2017-08-18T14:46:22.000Z'
+                  recordTypeId: 012000000000000AAA
+                  recordTypeInfo: null
+                  systemModstamp: '2017-08-18T14:46:22.000Z'
+                  weakEtag: 1503067582000
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    AccountId2:
+      title: AccountId2
+      required:
+      - displayValue
+      - value
+      type: object
+      properties:
+        displayValue:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        value:
+          type: string
+          example: example_value
+      examples:
+      - displayValue: null
+        value: 001B000000UnQ2wIAF
+    Fields16:
+      title: Fields16
+      required:
+      - AccountId
+      - Id
+      - Name
+      type: object
+      properties:
+        AccountId:
+          $ref: '#/components/schemas/AccountId2'
+        Id:
+          $ref: '#/components/schemas/Id8'
+        Name:
+          $ref: '#/components/schemas/Name21'
+      examples:
+      - AccountId:
+          displayValue: null
+          value: 001B000000UnQ2wIAF
+        Id:
+          displayValue: null
+          value: 003B00000097MToIAM
+        Name:
+          displayValue: null
+          value: Jack Rogers
+    GetChildRecords:
+      title: GetChildRecords
+      required:
+      - count
+      - currentPageToken
+      - currentPageUrl
+      - nextPageToken
+      - nextPageUrl
+      - previousPageToken
+      - previousPageUrl
+      - records
+      type: object
+      properties:
+        count:
+          type: integer
+          contentEncoding: int32
+          example: 42
+        currentPageToken:
+          type: string
+          example: CAUQAA
+        currentPageUrl:
+          type: string
+          example: https://www.example.com
+        nextPageToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        nextPageUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        previousPageToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        previousPageUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/Records1'
+          description: ''
+          example: []
+      examples:
+      - count: 1
+        currentPageToken: 1;5;001B000000UnQ2wIAF;Contacts;Contact.Id,Contact.Name;
+        currentPageUrl: /services/data/v58.0/ui-api/records/001B000000UnQ2wIAF/child-relationships/Contacts?fields=Contact.Id%2CContact.Name&page=1&pageSize=5
+        nextPageToken: null
+        nextPageUrl: null
+        previousPageToken: null
+        previousPageUrl: null
+        records:
+        - apiName: Contact
+          childRelationships: {}
+          eTag: c3d33add9008aed557a1efa68173aa9b
+          fields:
+            AccountId:
+              displayValue: null
+              value: 001B000000UnQ2wIAF
+            Id:
+              displayValue: null
+              value: 003B00000097MToIAM
+            Name:
+              displayValue: null
+              value: Jack Rogers
+          id: 003B00000097MToIAM
+          lastModifiedById: 005B0000003TOI6IAO
+          lastModifiedDate: '2017-08-18T14:46:22.000Z'
+          recordTypeId: 012000000000000AAA
+          recordTypeInfo: null
+          systemModstamp: '2017-08-18T14:46:22.000Z'
+          weakEtag: 1503067582000
+    Records1:
+      title: Records1
+      required:
+      - apiName
+      - childRelationships
+      - eTag
+      - fields
+      - id
+      - lastModifiedById
+      - lastModifiedDate
+      - recordTypeId
+      - recordTypeInfo
+      - systemModstamp
+      - weakEtag
+      type: object
+      properties:
+        apiName:
+          type: string
+          example: example_value
+        childRelationships:
+          type: object
+          example: example_value
+        eTag:
+          type: string
+          example: example_value
+        fields:
+          $ref: '#/components/schemas/Fields16'
+        id:
+          type: string
+          example: abc123
+        lastModifiedById:
+          type: string
+          example: '500123'
+        lastModifiedDate:
+          type: string
+          example: example_value
+        recordTypeId:
+          type: string
+          example: '500123'
+        recordTypeInfo:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        systemModstamp:
+          type: string
+          example: example_value
+        weakEtag:
+          type: integer
+          contentEncoding: int64
+          example: 10
+      examples:
+      - apiName: Contact
+        childRelationships: {}
+        eTag: c3d33add9008aed557a1efa68173aa9b
+        fields:
+          AccountId:
+            displayValue: null
+            value: 001B000000UnQ2wIAF
+          Id:
+            displayValue: null
+            value: 003B00000097MToIAM
+          Name:
+            displayValue: null
+            value: Jack Rogers
+        id: 003B00000097MToIAM
+        lastModifiedById: 005B0000003TOI6IAO
+        lastModifiedDate: '2017-08-18T14:46:22.000Z'
+        recordTypeId: 012000000000000AAA
+        recordTypeInfo: null
+        systemModstamp: '2017-08-18T14:46:22.000Z'
+        weakEtag: 1503067582000
+    Id8:
+      title: Id8
+      required:
+      - displayValue
+      - value
+      type: object
+      properties:
+        displayValue:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        value:
+          type: string
+          example: example_value
+      examples:
+      - displayValue: null
+        value: 005B0000003TOI6IAO
+    Name21:
+      title: Name21
+      required:
+      - displayValue
+      - value
+      type: object
+      properties:
+        displayValue:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        value:
+          type: string
+          example: example_value
+      examples:
+      - displayValue: null
+        value: Philippe Ozil
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

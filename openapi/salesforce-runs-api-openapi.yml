@@ -1,0 +1,822 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Runs API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Runs
+paths:
+  /data/v64.0/einstein/ai-evaluations/runs:
+    parameters: []
+    post:
+      tags:
+      - Runs
+      summary: Salesforce Run Agent Test
+      description: Generates a response based on the specified prompt template and input parameters ([documentation](https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_prompt_template.htm)).
+      operationId: Runagenttest
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/RunagenttestRequest'
+              - examples:
+                - aiEvaluationDefinitionName: <YOUR_TEST_API_NAME>
+              contentMediaType: application/json
+            example:
+              aiEvaluationDefinitionName: <YOUR_TEST_API_NAME>
+        required: true
+      responses:
+        '201':
+          description: Created
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Wed, 10 Sep 2025 13:46:14 GMT
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+            Connection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: keep-alive
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Sforce-Limit-Info:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: api-usage=183/5000000
+            Set-Cookie:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: CookieConsentPolicy=0:1; path=/; expires=Thu, 10-Sep-2026 13:46:14 GMT; Max-Age=31536000; secure
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Server:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: sfdcedge
+            X-SFDC-Request-Id:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 543c8913aa732b136328d39c8546b5ac
+            X-Request-Id:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 543c8913aa732b136328d39c8546b5ac
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Runagenttest'
+                - examples:
+                  - runId: 4KBAU0000002oK54AI
+                    status: NEW
+                contentMediaType: application/json
+              example:
+                runId: 4KBAU0000002oK54AI
+                status: NEW
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/tooling/runTestsAsynchronous:
+    parameters: []
+    post:
+      tags:
+      - Runs
+      summary: Salesforce Tooling Run Tests Async
+      description: Runs one or more methods within one or more Apex classes, using the asynchronous test execution mechanism. In the request body, you can specify test class names and IDs, suite names and IDs, the maximum number of failed tests to allow, and the test level, as comma-separated lists or as an array. You can also indicate whether to opt out of collecting code coverage information during the test run (available in API version 43.0 and later).
+      operationId: ToolingRunTestsAsync
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: string
+              examples:
+              - "{\n    \"classNames\": \"comma-separated list of class names\",\n    \"classids\": \"comma-separated list of class IDs\",\n    \"suiteNames\": \"comma-separated list of test suite names\",\n    \"suiteids\": \"comma-separated list of test suite IDs\",\n    \"maxFailedTests\": \"integer value\",\n    \"testLevel\": \"TestLevel enum value\",\n    \"skipCodeCoverage\": \"boolean value\"\n}\n\nor \n\n{\n    \"tests\": [\n        {\n            \"className\": \"YourClassName\",\n            \"testMethods\": [\n                \"testMethod1\",\n                \"testMethod2\",\n                \"testMethod3\"\n            ]\n        }\n    ],\n    \"maxFailedTests\": \"integer value\",\n    \"testLevel\": \"TestLevel enum value\",\n    \"skipCodeCoverage\": \"boolean value\"\n}\n"
+              contentMediaType: application/json
+            example: "{\n    \"classNames\": \"comma-separated list of class names\",\n    \"classids\": \"comma-separated list of class IDs\",\n    \"suiteNames\": \"comma-separated list of test suite names\",\n    \"suiteids\": \"comma-separated list of test suite IDs\",\n    \"maxFailedTests\": \"integer value\",\n    \"testLevel\": \"TestLevel enum value\",\n    \"skipCodeCoverage\": \"boolean value\"\n}\n\nor \n\n{\n    \"tests\": [\n        {\n            \"className\": \"YourClassName\",\n            \"testMethods\": [\n                \"testMethod1\",\n                \"testMethod2\",\n                \"testMethod3\"\n            ]\n        }\n    ],\n    \"maxFailedTests\": \"integer value\",\n    \"testLevel\": \"TestLevel enum value\",\n    \"skipCodeCoverage\": \"boolean value\"\n}\n"
+        required: true
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Mon, 11 Dec 2023 10:04:34 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Sforce-Limit-Info:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: api-usage=250/15000
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: string
+                examples:
+                - '"7074H0000DCt2IZ"'
+                contentMediaType: application/json;charset=UTF-8
+              example: '"7074H0000DCt2IZ"'
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/tooling/runTestsSynchronous:
+    parameters: []
+    post:
+      tags:
+      - Runs
+      summary: Salesforce Tooling Run Tests Sync
+      description: Runs one or more methods within one or more Apex classes, using the asynchronous test execution mechanism. In the request body, you can specify test class names and IDs, suite names and IDs, the maximum number of failed tests to allow, and the test level, as comma-separated lists or as an array. You can also indicate whether to opt out of collecting code coverage information during the test run (available in API version 43.0 and later).
+      operationId: ToolingRunTestsSync
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: string
+              examples:
+              - "[\n    {\n        \"className\": \"YourClassName\",\n        \"testMethods\": [\n            \"testMethod1\",\n            \"testMethod2\",\n            \"testMethod3\"\n        ]\n    },\n    {\n        \"maxFailedTests\": \"2\"\n    }\n]\n\nor\n\n{\n    \"tests\": [\n        {\n            \"className\": \"YourClassName\",\n            \"testMethods\": [\n                \"testMethod1\",\n                \"testMethod2\",\n                \"testMethod3\"\n            ]\n        }\n    ],\n    \"maxFailedTests\": \"integer value\",\n    \"testLevel\": \"TestLevel enum value\",\n    \"skipCodeCoverage\": \"boolean value\"\n}\n"
+              contentMediaType: application/json
+            example: "[\n    {\n        \"className\": \"YourClassName\",\n        \"testMethods\": [\n            \"testMethod1\",\n            \"testMethod2\",\n            \"testMethod3\"\n        ]\n    },\n    {\n        \"maxFailedTests\": \"2\"\n    }\n]\n\nor\n\n{\n    \"tests\": [\n        {\n            \"className\": \"YourClassName\",\n            \"testMethods\": [\n                \"testMethod1\",\n                \"testMethod2\",\n                \"testMethod3\"\n            ]\n        }\n    ],\n    \"maxFailedTests\": \"integer value\",\n    \"testLevel\": \"TestLevel enum value\",\n    \"skipCodeCoverage\": \"boolean value\"\n}\n"
+        required: true
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Mon, 11 Dec 2023 09:59:37 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Sforce-Limit-Info:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: api-usage=246/15000
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ToolingRunTestsSync'
+                - examples:
+                  - apexLogId: 07L4H00000SpGroUAF
+                    codeCoverage:
+                    - id: 01q4H000000WjD8QAK
+                      locationsNotCovered:
+                      - {}
+                      - {}
+                      name: StateTrigger
+                      namespace: null
+                      numLocations: 2
+                      numLocationsNotCovered: 2
+                      type: Trigger
+                    - id: 01q58000000RLTyAAO
+                      locationsNotCovered:
+                      - {}
+                      - {}
+                      - {}
+                      name: RestrictContactByName
+                      namespace: null
+                      numLocations: 3
+                      numLocationsNotCovered: 3
+                      type: Trigger
+                    - id: 01q58000000RLBhAAO
+                      locationsNotCovered:
+                      - {}
+                      - {}
+                      - {}
+                      - {}
+                      - {}
+                      - {}
+                      name: ClosedOpportunityTrigger
+                      namespace: null
+                      numLocations: 6
+                      numLocationsNotCovered: 6
+                      type: Trigger
+                    - id: 01p4H000009PEFIQA4
+                      locationsNotCovered:
+                      - {}
+                      - {}
+                      name: PrepareSandbox
+                      namespace: null
+                      numLocations: 22
+                      numLocationsNotCovered: 2
+                      type: Class
+                    codeCoverageWarnings:
+                    - id: 01q4H000000WjD8QAK
+                      message: Test coverage of selected Apex Trigger is 0%, at least 1% test coverage is required
+                      name: StateTrigger
+                      namespace: null
+                    - id: 01q58000000RLTyAAO
+                      message: Test coverage of selected Apex Trigger is 0%, at least 1% test coverage is required
+                      name: RestrictContactByName
+                      namespace: null
+                    - id: 01q58000000RLBhAAO
+                      message: Test coverage of selected Apex Trigger is 0%, at least 1% test coverage is required
+                      name: ClosedOpportunityTrigger
+                      namespace: null
+                    - id: 01q4H000000WjD8QAK
+                      message: Average test coverage across all Apex Classes and Triggers is 60%, at least 75% test coverage is required.
+                      name: null
+                      namespace: ''
+                    failures: []
+                    flowCoverage: []
+                    flowCoverageWarnings: []
+                    numFailures: 0
+                    numTestsRun: 1
+                    successes:
+                    - id: 01p4H00000A0zYxQAJ
+                      methodName: runApexClass_should_work
+                      name: PrepareSandboxTest
+                      namespace: null
+                      seeAllData: false
+                      time: 1088
+                    totalTime: 1261
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                apexLogId: 07L4H00000SpGroUAF
+                codeCoverage:
+                - id: 01q4H000000WjD8QAK
+                  locationsNotCovered:
+                  - {}
+                  - {}
+                  name: StateTrigger
+                  namespace: null
+                  numLocations: 2
+                  numLocationsNotCovered: 2
+                  type: Trigger
+                - id: 01q58000000RLTyAAO
+                  locationsNotCovered:
+                  - {}
+                  - {}
+                  - {}
+                  name: RestrictContactByName
+                  namespace: null
+                  numLocations: 3
+                  numLocationsNotCovered: 3
+                  type: Trigger
+                - id: 01q58000000RLBhAAO
+                  locationsNotCovered:
+                  - {}
+                  - {}
+                  - {}
+                  - {}
+                  - {}
+                  - {}
+                  name: ClosedOpportunityTrigger
+                  namespace: null
+                  numLocations: 6
+                  numLocationsNotCovered: 6
+                  type: Trigger
+                - id: 01p4H000009PEFIQA4
+                  locationsNotCovered:
+                  - {}
+                  - {}
+                  name: PrepareSandbox
+                  namespace: null
+                  numLocations: 22
+                  numLocationsNotCovered: 2
+                  type: Class
+                codeCoverageWarnings:
+                - id: 01q4H000000WjD8QAK
+                  message: Test coverage of selected Apex Trigger is 0%, at least 1% test coverage is required
+                  name: StateTrigger
+                  namespace: null
+                - id: 01q58000000RLTyAAO
+                  message: Test coverage of selected Apex Trigger is 0%, at least 1% test coverage is required
+                  name: RestrictContactByName
+                  namespace: null
+                - id: 01q58000000RLBhAAO
+                  message: Test coverage of selected Apex Trigger is 0%, at least 1% test coverage is required
+                  name: ClosedOpportunityTrigger
+                  namespace: null
+                - id: 01q4H000000WjD8QAK
+                  message: Average test coverage across all Apex Classes and Triggers is 60%, at least 75% test coverage is required.
+                  name: null
+                  namespace: ''
+                failures: []
+                flowCoverage: []
+                flowCoverageWarnings: []
+                numFailures: 0
+                numTestsRun: 1
+                successes:
+                - id: 01p4H00000A0zYxQAJ
+                  methodName: runApexClass_should_work
+                  name: PrepareSandboxTest
+                  namespace: null
+                  seeAllData: false
+                  time: 1088
+                totalTime: 1261
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    RunagenttestRequest:
+      title: RunagenttestRequest
+      required:
+      - aiEvaluationDefinitionName
+      type: object
+      properties:
+        aiEvaluationDefinitionName:
+          type: string
+          example: example_value
+      examples:
+      - aiEvaluationDefinitionName: <YOUR_TEST_API_NAME>
+    CodeCoverageWarning:
+      title: CodeCoverageWarning
+      required:
+      - id
+      - message
+      - name
+      - namespace
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+        message:
+          type: string
+          example: example_value
+        name:
+          type:
+          - string
+          - 'null'
+          example: Example Title
+        namespace:
+          type:
+          - string
+          - 'null'
+          example: example_value
+      examples:
+      - id: 01q4H000000WjD8QAK
+        message: Test coverage of selected Apex Trigger is 0%, at least 1% test coverage is required
+        name: StateTrigger
+        namespace: null
+    CodeCoverage:
+      title: CodeCoverage
+      required:
+      - id
+      - locationsNotCovered
+      - name
+      - namespace
+      - numLocations
+      - numLocationsNotCovered
+      - type
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+        locationsNotCovered:
+          type: array
+          items:
+            type: object
+          description: ''
+          example: []
+        name:
+          type: string
+          example: Example Title
+        namespace:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        numLocations:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        numLocationsNotCovered:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        type:
+          type: string
+          example: example_value
+      examples:
+      - id: 01q4H000000WjD8QAK
+        locationsNotCovered:
+        - {}
+        - {}
+        name: StateTrigger
+        namespace: null
+        numLocations: 2
+        numLocationsNotCovered: 2
+        type: Trigger
+    Runagenttest:
+      title: Runagenttest
+      required:
+      - runId
+      - status
+      type: object
+      properties:
+        runId:
+          type: string
+          example: '500123'
+        status:
+          type: string
+          example: example_value
+      examples:
+      - runId: 4KBAU0000002oK54AI
+        status: NEW
+    ToolingRunTestsSync:
+      title: ToolingRunTestsSync
+      required:
+      - apexLogId
+      - codeCoverage
+      - codeCoverageWarnings
+      - failures
+      - flowCoverage
+      - flowCoverageWarnings
+      - numFailures
+      - numTestsRun
+      - successes
+      - totalTime
+      type: object
+      properties:
+        apexLogId:
+          type: string
+          example: '500123'
+        codeCoverage:
+          type: array
+          items:
+            $ref: '#/components/schemas/CodeCoverage'
+          description: ''
+          example: []
+        codeCoverageWarnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/CodeCoverageWarning'
+          description: ''
+          example: []
+        failures:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        flowCoverage:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        flowCoverageWarnings:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        numFailures:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        numTestsRun:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        successes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Success1'
+          description: ''
+          example: []
+        totalTime:
+          type: integer
+          contentEncoding: int32
+          example: 1700000000000
+      examples:
+      - apexLogId: 07L4H00000SpGroUAF
+        codeCoverage:
+        - id: 01q4H000000WjD8QAK
+          locationsNotCovered:
+          - {}
+          - {}
+          name: StateTrigger
+          namespace: null
+          numLocations: 2
+          numLocationsNotCovered: 2
+          type: Trigger
+        - id: 01q58000000RLTyAAO
+          locationsNotCovered:
+          - {}
+          - {}
+          - {}
+          name: RestrictContactByName
+          namespace: null
+          numLocations: 3
+          numLocationsNotCovered: 3
+          type: Trigger
+        - id: 01q58000000RLBhAAO
+          locationsNotCovered:
+          - {}
+          - {}
+          - {}
+          - {}
+          - {}
+          - {}
+          name: ClosedOpportunityTrigger
+          namespace: null
+          numLocations: 6
+          numLocationsNotCovered: 6
+          type: Trigger
+        - id: 01p4H000009PEFIQA4
+          locationsNotCovered:
+          - {}
+          - {}
+          name: PrepareSandbox
+          namespace: null
+          numLocations: 22
+          numLocationsNotCovered: 2
+          type: Class
+        codeCoverageWarnings:
+        - id: 01q4H000000WjD8QAK
+          message: Test coverage of selected Apex Trigger is 0%, at least 1% test coverage is required
+          name: StateTrigger
+          namespace: null
+        - id: 01q58000000RLTyAAO
+          message: Test coverage of selected Apex Trigger is 0%, at least 1% test coverage is required
+          name: RestrictContactByName
+          namespace: null
+        - id: 01q58000000RLBhAAO
+          message: Test coverage of selected Apex Trigger is 0%, at least 1% test coverage is required
+          name: ClosedOpportunityTrigger
+          namespace: null
+        - id: 01q4H000000WjD8QAK
+          message: Average test coverage across all Apex Classes and Triggers is 60%, at least 75% test coverage is required.
+          name: null
+          namespace: ''
+        failures: []
+        flowCoverage: []
+        flowCoverageWarnings: []
+        numFailures: 0
+        numTestsRun: 1
+        successes:
+        - id: 01p4H00000A0zYxQAJ
+          methodName: runApexClass_should_work
+          name: PrepareSandboxTest
+          namespace: null
+          seeAllData: false
+          time: 1088
+        totalTime: 1261
+    Success1:
+      title: Success1
+      required:
+      - id
+      - methodName
+      - name
+      - namespace
+      - seeAllData
+      - time
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+        methodName:
+          type: string
+          example: example_value
+        name:
+          type: string
+          example: Example Title
+        namespace:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        seeAllData:
+          type: boolean
+          example: true
+        time:
+          type: integer
+          contentEncoding: int32
+          example: 1700000000000
+      examples:
+      - id: 01p4H00000A0zYxQAJ
+        methodName: runApexClass_should_work
+        name: PrepareSandboxTest
+        namespace: null
+        seeAllData: false
+        time: 1088
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

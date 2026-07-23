@@ -1,0 +1,333 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Ingest Job Data API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Ingest Job Data
+  description: 'Operations for uploading CSV data to ingest jobs and retrieving job results (successful, failed, and unprocessed records).
+
+    '
+paths:
+  /ingest/{jobId}/batches:
+    put:
+      operationId: uploadJobData
+      summary: Salesforce Upload Job Data (csv)
+      description: 'Uploads CSV data to an ingest job that is in the Open state. The CSV must include a header row matching the field API names for the object. Multiple upload calls can be made for the same job; data is appended. After uploading all data, close the job with PATCH /ingest/{jobId} to begin processing.
+
+        '
+      tags:
+      - Ingest Job Data
+      parameters:
+      - $ref: '#/components/parameters/jobId'
+      requestBody:
+        required: true
+        description: 'CSV data to upload to the ingest job. The first row must be a header row with field API names.
+
+          '
+        content:
+          text/csv:
+            schema:
+              type: string
+              format: binary
+              description: 'CSV-formatted data with a header row and one record per subsequent row. Field names in the header must match the Salesforce field API names for the object.
+
+                '
+            examples:
+              UploadjobdataRequestExample:
+                summary: Default uploadJobData request
+                x-microcks-default: true
+                value: example_value
+      responses:
+        '201':
+          description: Data uploaded successfully to the ingest job.
+        '400':
+          description: 'Bad request. Invalid CSV format, job not in Open state, or data exceeds size limits.
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Uploadjobdata400Example:
+                  summary: Default uploadJobData 400 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Uploadjobdata401Example:
+                  summary: Default uploadJobData 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+        '404':
+          description: Job not found for the specified job ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Uploadjobdata404Example:
+                  summary: Default uploadJobData 404 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /ingest/{jobId}/successfulResults:
+    get:
+      operationId: getSuccessfulResults
+      summary: Salesforce Get Successful Records From an Ingest Job
+      description: 'Returns a CSV file containing the records that were successfully processed by the ingest job. Each row corresponds to a record from the uploaded data that was inserted, updated, upserted, or deleted successfully. Only available after the job reaches JobComplete state.
+
+        '
+      tags:
+      - Ingest Job Data
+      parameters:
+      - $ref: '#/components/parameters/jobId'
+      responses:
+        '200':
+          description: 'CSV data containing the successfully processed records, with sf__Id and sf__Created columns added.
+
+            '
+          content:
+            text/csv:
+              schema:
+                type: string
+                description: 'CSV data of successfully processed records. Includes sf__Id (the Salesforce record ID) and sf__Created (true if created, false if updated) columns.
+
+                  '
+              examples:
+                Getsuccessfulresults200Example:
+                  summary: Default getSuccessfulResults 200 response
+                  x-microcks-default: true
+                  value: example_value
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Getsuccessfulresults401Example:
+                  summary: Default getSuccessfulResults 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+        '404':
+          description: Job not found or job has not completed processing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Getsuccessfulresults404Example:
+                  summary: Default getSuccessfulResults 404 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /ingest/{jobId}/failedResults:
+    get:
+      operationId: getFailedResults
+      summary: Salesforce Get Failed Records From an Ingest Job
+      description: 'Returns a CSV file containing the records from the ingest job that failed to process. Each row includes the original record data plus sf__Error and sf__Id columns describing the failure reason. Use this to identify and fix records that need to be resubmitted.
+
+        '
+      tags:
+      - Ingest Job Data
+      parameters:
+      - $ref: '#/components/parameters/jobId'
+      responses:
+        '200':
+          description: 'CSV data containing failed records with error details in the sf__Error column.
+
+            '
+          content:
+            text/csv:
+              schema:
+                type: string
+                description: 'CSV data of failed records. Includes sf__Error (error message describing the failure) and sf__Id (the record ID if applicable) columns.
+
+                  '
+              examples:
+                Getfailedresults200Example:
+                  summary: Default getFailedResults 200 response
+                  x-microcks-default: true
+                  value: example_value
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Getfailedresults401Example:
+                  summary: Default getFailedResults 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+        '404':
+          description: Job not found or job has not completed processing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Getfailedresults404Example:
+                  summary: Default getFailedResults 404 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /ingest/{jobId}/unprocessedrecords:
+    get:
+      operationId: getUnprocessedRecords
+      summary: Salesforce Get Unprocessed Records From an Ingest Job
+      description: 'Returns a CSV file containing the records from the ingest job that were not processed, typically because the job was aborted before processing completed. Use these records to resubmit them in a new job.
+
+        '
+      tags:
+      - Ingest Job Data
+      parameters:
+      - $ref: '#/components/parameters/jobId'
+      responses:
+        '200':
+          description: CSV data containing unprocessed records from the aborted job.
+          content:
+            text/csv:
+              schema:
+                type: string
+                description: 'CSV data of unprocessed records in the same format as the original uploaded data.
+
+                  '
+              examples:
+                Getunprocessedrecords200Example:
+                  summary: Default getUnprocessedRecords 200 response
+                  x-microcks-default: true
+                  value: example_value
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Getunprocessedrecords401Example:
+                  summary: Default getUnprocessedRecords 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+        '404':
+          description: Job not found for the specified job ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Getunprocessedrecords404Example:
+                  summary: Default getUnprocessedRecords 404 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Error:
+      type: object
+      description: An error response from the Salesforce Bulk API 2.0.
+      properties:
+        message:
+          type: string
+          description: Human-readable description of the error.
+          example: example_value
+        errorCode:
+          type: string
+          description: Salesforce error code identifying the type of error.
+          example: example_value
+        fields:
+          type: array
+          description: List of field names related to the error, if applicable.
+          items:
+            type: string
+          example: []
+  parameters:
+    jobId:
+      name: jobId
+      in: path
+      required: true
+      description: The unique identifier of the Bulk API 2.0 job.
+      schema:
+        type: string
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

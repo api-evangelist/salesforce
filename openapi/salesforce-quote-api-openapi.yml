@@ -1,0 +1,503 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Quote API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Quote
+paths:
+  /apexrest/SBQQ/ServiceRouter:
+    parameters: []
+    post:
+      tags:
+      - Quote
+      summary: Salesforce Save Quote Api
+      description: 'The Save Quote API saves a CPQ quote.
+
+        Available in: Salesforce CPQ Summer ’16 and later
+
+
+        https://developer.salesforce.com/docs/atlas.en-us.cpq_dev_api.meta/cpq_dev_api/cpq_quote_api_save_final.htm'
+      operationId: SaveQuoteAPI
+      parameters:
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        schema:
+          const: application/json
+          type: string
+          examples:
+          - application/json
+        example: example_value
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    get:
+      tags:
+      - Quote
+      summary: Salesforce Read Quote Api
+      description: 'The Read Quote API reads a quote from a CPQ quote ID.
+
+        Available in: Salesforce CPQ Summer ’16 and later
+
+
+        https://developer.salesforce.com/docs/atlas.en-us.cpq_dev_api.meta/cpq_dev_api/cpq_api_read_quote.htm'
+      operationId: ReadQuoteAPI
+      parameters:
+      - name: reader
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          examples:
+          - SBQQ.QuoteAPI.QuoteReader
+        example: example_value
+      - name: uid
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+        example: '500123'
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        schema:
+          const: application/json
+          type: string
+          examples:
+          - application/json
+        example: example_value
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/commerce/quotes/actions/place:
+    parameters: []
+    post:
+      tags:
+      - Quote
+      summary: Salesforce Create or Update Quote
+      description: "This example creates a quote for the following products.\n\n- 5 Virtual Routers sold on a 1-year termed subscription at $35/item\n- 1 Bronze Service Level Agreement sold on an evergreen subscription at $10/month\n    \n\nSee [place quote](https://developer.salesforce.com/docs/revenue/subscription-management/references/quotes?meta=Create+or+update+a+quote+with+place+quote)."
+      operationId: CreateorUpdateQuote
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/CreateorUpdateQuoteRequest'
+              - examples:
+                - pricingPref: skip
+                  graph:
+                    graphId: refQuoteGraph
+                    records:
+                    - referenceId: refQuote
+                      record:
+                        attributes:
+                          type: Quote
+                          method: POST
+                        Name: Quote_{{$randomCompanyName}}
+                        Pricebook2Id: '{{standardPricebook}}'
+                    - referenceId: refQuoteLineItem1
+                      record:
+                        attributes:
+                          type: QuoteLineItem
+                          method: POST
+                        QuoteId: '@{refQuote.id}'
+                        PricebookEntryId: '{{VirtualRouterTermedPBE}}'
+                        Product2Id: '{{VirtualRouterProduct}}'
+                        Quantity: 5
+                        UnitPrice: 35
+                        PeriodBoundary: Anniversary
+                        BillingFrequency: Monthly
+                        StartDate: '2023-01-01T00:00:00.000Z'
+                        EndDate: '2024-01-01T00:00:00.000Z'
+                    - referenceId: refQuoteLineItem2
+                      record:
+                        attributes:
+                          type: QuoteLineItem
+                          method: POST
+                        QuoteId: '@{refQuote.id}'
+                        PricebookEntryId: '{{SLABronzeEvergrnMonthPBE}}'
+                        Product2Id: '{{SLA_BronzeProduct}}'
+                        Quantity: 1
+                        UnitPrice: 10
+                        PeriodBoundary: DayOfPeriod
+                        PeriodBoundaryDay: 4
+                        BillingFrequency: Monthly
+                        StartDate: '2023-01-01T00:00:00.000Z'
+              contentMediaType: application/json
+            example:
+              pricingPref: skip
+              graph:
+                graphId: refQuoteGraph
+                records:
+                - referenceId: refQuote
+                  record:
+                    attributes:
+                      type: Quote
+                      method: POST
+                    Name: Quote_{{$randomCompanyName}}
+                    Pricebook2Id: '{{standardPricebook}}'
+                - referenceId: refQuoteLineItem1
+                  record:
+                    attributes:
+                      type: QuoteLineItem
+                      method: POST
+                    QuoteId: '@{refQuote.id}'
+                    PricebookEntryId: '{{VirtualRouterTermedPBE}}'
+                    Product2Id: '{{VirtualRouterProduct}}'
+                    Quantity: 5
+                    UnitPrice: 35
+                    PeriodBoundary: Anniversary
+                    BillingFrequency: Monthly
+                    StartDate: '2023-01-01T00:00:00.000Z'
+                    EndDate: '2024-01-01T00:00:00.000Z'
+                - referenceId: refQuoteLineItem2
+                  record:
+                    attributes:
+                      type: QuoteLineItem
+                      method: POST
+                    QuoteId: '@{refQuote.id}'
+                    PricebookEntryId: '{{SLABronzeEvergrnMonthPBE}}'
+                    Product2Id: '{{SLA_BronzeProduct}}'
+                    Quantity: 1
+                    UnitPrice: 10
+                    PeriodBoundary: DayOfPeriod
+                    PeriodBoundaryDay: 4
+                    BillingFrequency: Monthly
+                    StartDate: '2023-01-01T00:00:00.000Z'
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/actions/standard/createOrderFromQuote:
+    parameters: []
+    post:
+      tags:
+      - Quote
+      summary: Salesforce Create Order From Quote
+      operationId: CreateOrderFromQuote
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/CreateOrderFromQuoteRequest'
+              - examples:
+                - inputs:
+                  - quoteRecordId: '{{currentQuote}}'
+              contentMediaType: application/json
+            example:
+              inputs:
+              - quoteRecordId: '{{currentQuote}}'
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Record23:
+      title: Record23
+      required:
+      - attributes
+      type: object
+      properties:
+        attributes:
+          $ref: '#/components/schemas/Attributes22'
+        Name:
+          type: string
+          example: Example Title
+        Pricebook2Id:
+          type: string
+          example: '500123'
+        QuoteId:
+          type: string
+          example: '500123'
+        PricebookEntryId:
+          type: string
+          example: '500123'
+        Product2Id:
+          type: string
+          example: '500123'
+        Quantity:
+          type: number
+          example: 42.5
+        UnitPrice:
+          type: number
+          example: 42.5
+        PeriodBoundary:
+          type: string
+          example: example_value
+        BillingFrequency:
+          type: string
+          example: example_value
+        StartDate:
+          type: string
+          example: example_value
+        EndDate:
+          type: string
+          example: example_value
+        PeriodBoundaryDay:
+          type: integer
+          contentEncoding: int32
+          example: 10
+      examples:
+      - attributes:
+          type: Quote
+          method: POST
+        Name: Quote_{{$randomCompanyName}}
+        Pricebook2Id: '{{standardPricebook}}'
+    Attributes22:
+      title: Attributes22
+      required:
+      - type
+      - method
+      type: object
+      properties:
+        type:
+          type: string
+          example: example_value
+        method:
+          type: string
+          example: example_value
+      examples:
+      - type: Quote
+        method: POST
+    Record22:
+      title: Record22
+      required:
+      - referenceId
+      - record
+      type: object
+      properties:
+        referenceId:
+          type: string
+          example: '500123'
+        record:
+          $ref: '#/components/schemas/Record23'
+      examples:
+      - referenceId: refQuote
+        record:
+          attributes:
+            type: Quote
+            method: POST
+          Name: Quote_{{$randomCompanyName}}
+          Pricebook2Id: '{{standardPricebook}}'
+    CreateOrderFromQuoteRequest:
+      title: CreateOrderFromQuoteRequest
+      required:
+      - inputs
+      type: object
+      properties:
+        inputs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Inputs2'
+          description: ''
+          example: []
+      examples:
+      - inputs:
+        - quoteRecordId: '{{currentQuote}}'
+    Inputs2:
+      title: Inputs2
+      required:
+      - quoteRecordId
+      type: object
+      properties:
+        quoteRecordId:
+          type: string
+          example: '500123'
+      examples:
+      - quoteRecordId: '{{currentQuote}}'
+    Graph5:
+      title: Graph5
+      required:
+      - graphId
+      - records
+      type: object
+      properties:
+        graphId:
+          type: string
+          example: '500123'
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/Record22'
+          description: ''
+          example: []
+      examples:
+      - graphId: refQuoteGraph
+        records:
+        - referenceId: refQuote
+          record:
+            attributes:
+              type: Quote
+              method: POST
+            Name: Quote_{{$randomCompanyName}}
+            Pricebook2Id: '{{standardPricebook}}'
+        - referenceId: refQuoteLineItem1
+          record:
+            attributes:
+              type: QuoteLineItem
+              method: POST
+            QuoteId: '@{refQuote.id}'
+            PricebookEntryId: '{{VirtualRouterTermedPBE}}'
+            Product2Id: '{{VirtualRouterProduct}}'
+            Quantity: 5
+            UnitPrice: 35
+            PeriodBoundary: Anniversary
+            BillingFrequency: Monthly
+            StartDate: '2023-01-01T00:00:00.000Z'
+            EndDate: '2024-01-01T00:00:00.000Z'
+        - referenceId: refQuoteLineItem2
+          record:
+            attributes:
+              type: QuoteLineItem
+              method: POST
+            QuoteId: '@{refQuote.id}'
+            PricebookEntryId: '{{SLABronzeEvergrnMonthPBE}}'
+            Product2Id: '{{SLA_BronzeProduct}}'
+            Quantity: 1
+            UnitPrice: 10
+            PeriodBoundary: DayOfPeriod
+            PeriodBoundaryDay: 4
+            BillingFrequency: Monthly
+            StartDate: '2023-01-01T00:00:00.000Z'
+    CreateorUpdateQuoteRequest:
+      title: CreateorUpdateQuoteRequest
+      required:
+      - pricingPref
+      - graph
+      type: object
+      properties:
+        pricingPref:
+          type: string
+          example: example_value
+        graph:
+          $ref: '#/components/schemas/Graph5'
+      examples:
+      - pricingPref: skip
+        graph:
+          graphId: refQuoteGraph
+          records:
+          - referenceId: refQuote
+            record:
+              attributes:
+                type: Quote
+                method: POST
+              Name: Quote_{{$randomCompanyName}}
+              Pricebook2Id: '{{standardPricebook}}'
+          - referenceId: refQuoteLineItem1
+            record:
+              attributes:
+                type: QuoteLineItem
+                method: POST
+              QuoteId: '@{refQuote.id}'
+              PricebookEntryId: '{{VirtualRouterTermedPBE}}'
+              Product2Id: '{{VirtualRouterProduct}}'
+              Quantity: 5
+              UnitPrice: 35
+              PeriodBoundary: Anniversary
+              BillingFrequency: Monthly
+              StartDate: '2023-01-01T00:00:00.000Z'
+              EndDate: '2024-01-01T00:00:00.000Z'
+          - referenceId: refQuoteLineItem2
+            record:
+              attributes:
+                type: QuoteLineItem
+                method: POST
+              QuoteId: '@{refQuote.id}'
+              PricebookEntryId: '{{SLABronzeEvergrnMonthPBE}}'
+              Product2Id: '{{SLA_BronzeProduct}}'
+              Quantity: 1
+              UnitPrice: 10
+              PeriodBoundary: DayOfPeriod
+              PeriodBoundaryDay: 4
+              BillingFrequency: Monthly
+              StartDate: '2023-01-01T00:00:00.000Z'
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

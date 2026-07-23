@@ -1,0 +1,257 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Generate API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Generate
+paths:
+  /data/v64.0/einstein/prompt-templates/{PROMPT_TEMPLATE_API_NAME}/generations:
+    parameters: []
+    post:
+      tags:
+      - Generate
+      summary: Salesforce Generate Response Based on Prompt Template
+      description: Generates a response based on the specified prompt template and input parameters ([documentation](https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_prompt_template.htm)).
+      operationId: GenerateResponseBasedonPromptTemplate
+      parameters:
+      - name: PROMPT_TEMPLATE_API_NAME
+        in: path
+        description: API name of the prompt template to invoke
+        required: true
+        schema:
+          type: string
+        example: example_value
+      requestBody:
+        description: ''
+        content:
+          text/plain:
+            schema:
+              type: string
+              examples:
+              - "{\n  \"isPreview\": \"false\",\n  \"inputParams\": {\n    \"valueMap\": {\n      <INPUT_PARAMS>\n    }\n  },\n  \"additionalConfig\": {\n      \"numGenerations\": 1,\n      \"temperature\": 0,\n      \"frequencyPenalty\": 0.0,\n      \"presencePenalty\": 0.0,\n      \"additionalParameters\": {},\n      \"applicationName\": \"PromptBuilderPreview\"\n  }\n}"
+              contentMediaType: text/plain
+            example: "{\n  \"isPreview\": \"false\",\n  \"inputParams\": {\n    \"valueMap\": {\n      <INPUT_PARAMS>\n    }\n  },\n  \"additionalConfig\": {\n      \"numGenerations\": 1,\n      \"temperature\": 0,\n      \"frequencyPenalty\": 0.0,\n      \"presencePenalty\": 0.0,\n      \"additionalParameters\": {},\n      \"applicationName\": \"PromptBuilderPreview\"\n  }\n}"
+        required: true
+      responses:
+        '201':
+          description: Created
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Wed, 27 Mar 2024 10:30:55 GMT
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+            Connection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: keep-alive
+            Set-Cookie:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: CookieConsentPolicy=0:1; path=/; expires=Thu, 27-Mar-2025 10:30:46 GMT; Max-Age=31536000; secure
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Origin-Trial:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: AqlAE64ET63tVSana3qdVkfkPAgyUhY8GwcehUlpqv067CevOpumeNUlx9YouLkBxJ0CT+EwIb8/SiNbF2NGvwYAAABfeyJvcmlnaW4iOiJodHRwczovL3NhbGVzZm9yY2UuY29tOjQ0MyIsImZlYXR1cmUiOiJUcGNkIiwiZXhwaXJ5IjoxNzM1MzQzOTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZX0=
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Server:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: sfdcedge
+            X-SFDC-Request-Id:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 7070edfcd5d02a0d047af20b8dccf83e
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/GenerateResponseBasedonPromptTemplate'
+                - examples:
+                  - generations:
+                    - parameters: '{finish_reason=stop, index=0, logprobs=null}'
+                      responseId: 893db990-7acb-4845-ad65-54d82606ca65
+                      text: "{\n &quot;twitter&quot;: &quot;\U0001F31F Exciting new listing! Explore our luxurious property, [Provide:{PROPERTY NAME}], featuring [Provide:{BEDS}] beds, [Provide:{BATHS}] baths, and an asking price of [Provide:{ASKING PRICE}]. Click the link for a sneak peek! [Provide:{PICTURE}]&quot;,\n &quot;linkedin&quot;: &quot;\U0001F31F\U0001F31F Don&#39;t miss out on this incredible opportunity! Discover the stunning property, [Provide:{PROPERTY NAME}], offering [Provide:{BEDS}] beds, [Provide:{BATHS}] baths, and an asking price of [Provide:{ASKING PRICE}]. Click the link below to see more! [Provide:{PICTURE}]&quot;,\n &quot;blockkit&quot;: {\n    &quot;blocks&quot;: [\n        {\n            &quot;type&quot;: &quot;section&quot;,\n            &quot;text&quot;: {\n                &quot;type&quot;: &quot;mrkdwn&quot;,\n                &quot;text&quot;: &quot;*Luxury Property Alert!* &#92;n&#92;n\U0001F31F\U0001F31F\U0001F31F&#92;n&#92;nIntroducing [Provide:{PROPERTY NAME}], a magnificent home with [Provide:{BEDS}] beds and [Provide:{BATHS}] baths. Priced at [Provide:{ASKING PRICE}].&quot;\n            },\n            &quot;accessory&quot;: {\n                &quot;type&quot;: &quot;image&quot;,\n                &quot;image_url&quot;: &quot;[Provide:{PICTURE}]&quot;,\n                &quot;alt_text&quot;: &quot;Luxury Property&quot;\n            }\n        },\n        {\n            &quot;type&quot;: &quot;divider&quot;\n        },\n        {\n            &quot;type&quot;: &quot;actions&quot;,\n            &quot;elements&quot;: [\n                {\n                    &quot;type&quot;: &quot;button&quot;,\n                    &quot;text&quot;: {\n                        &quot;type&quot;: &quot;plain_text&quot;,\n                        &quot;text&quot;: &quot;View Property&quot;,\n                        &quot;emoji&quot;: true\n                    },\n                    &quot;url&quot;: &quot;https://d1q000001ewauuaq-dev-ed.develop.lightning.force.com/[Provide:{RECORD ID}]&quot;\n                }\n            ]\n        }\n    ]\n  }\n}"
+                    parameters: null
+                    prompt: "You&#39;re the community manager for Dreamhouse, a real estate agency that sells luxury properties. \nCreate social media posts for twitter, linkedin and slack (block kit format) describing the property.\n\nInstructions:\n&quot;&quot;&quot;\nUse clear, concise, and straightforward language using the active voice and strictly avoiding the use of filler words and phrases and redundant language.\nMake sure the response is valid JSON.\nWhen you generate the posts, include the name of the property, [Provide:{PROPERTY NAME}], and explain the characteristics of the house, such as [Provide:{BATHS}], [Provide:{BEDS}]and[Provide:{ASKING PRICE}]. Also include a link to the picture of the property, [Provide:{PICTURE}]. \n\nThe twitter post should include emojis.\nThe linkedin post should include several emojis and bullets, and also have a special output formatting: Text render environment only supports Unicode and emoji. Use symbols from Unicode’s Mathematical Alphanumeric Symbols block liberally to produce facsimiles of bold, italics, line separation, and other formatting. Examples for a sample sentence:\n\nitalics sans: \U0001D61B\U0001D629\U0001D626 \U0001D618\U0001D636\U0001D62A\U0001D624\U0001D62C \U0001D609\U0001D633\U0001D630\U0001D638\U0001D62F \U0001D60D\U0001D630\U0001D639 \U0001D611\U0001D636\U0001D62E\U0001D631\U0001D626\U0001D625 \U0001D616\U0001D637\U0001D626\U0001D633 \U0001D635\U0001D629\U0001D626 \U0001D62D\U0001D622\U0001D63B\U0001D63A \U0001D625\U0001D630\U0001D628.\nbold sans: \U0001D5E7\U0001D5F5\U0001D5F2 \U0001D5E4\U0001D602\U0001D5F6\U0001D5F0\U0001D5F8 \U0001D5D5\U0001D5FF\U0001D5FC\U0001D604\U0001D5FB \U0001D5D9\U0001D5FC\U0001D605 \U0001D5DD\U0001D602\U0001D5FA\U0001D5FD\U0001D5F2\U0001D5F1 \U0001D5E2\U0001D603\U0001D5F2\U0001D5FF \U0001D601\U0001D5F5\U0001D5F2 \U0001D5F9\U0001D5EE\U0001D607\U0001D606 \U0001D5F1\U0001D5FC\U0001D5F4.\nbold italic sans: \U0001D64F\U0001D65D\U0001D65A \U0001D64C\U0001D66A\U0001D65E\U0001D658\U0001D660 \U0001D63D\U0001D667\U0001D664\U0001D66C\U0001D663 \U0001D641\U0001D664\U0001D66D \U0001D645\U0001D66A\U0001D662\U0001D665\U0001D65A\U0001D659 \U0001D64A\U0001D66B\U0001D65A\U0001D667 \U0001D669\U0001D65D\U0001D65A \U0001D661\U0001D656\U0001D66F\U0001D66E \U0001D659\U0001D664\U0001D65C.\nitalics serif: \U0001D447ℎ\U0001D452 \U0001D444\U0001D462\U0001D456\U0001D450\U0001D458 \U0001D435\U0001D45F\U0001D45C\U0001D464\U0001D45B \U0001D439\U0001D45C\U0001D465 \U0001D43D\U0001D462\U0001D45A\U0001D45D\U0001D452\U0001D451 \U0001D442\U0001D463\U0001D452\U0001D45F \U0001D461ℎ\U0001D452 \U0001D459\U0001D44E\U0001D467\U0001D466 \U0001D451\U0001D45C\U0001D454.\n\nThe block kit code should be valid block kit code.\nWhen you generate the block kit code: \n- Add several sections. \n- Include the name of the property, [Provide:{PROPERTY NAME}], and explain the characteristics of the house, such as [Provide:{BATHS}], [Provide:{BEDS}] and [Provide:{ASKING PRICE}]. \n- Include a the picture of the property, which image_url is [Provide:{PICTURE}]. \n- Include a button which url points to https://d1q000001ewauuaq-dev-ed.develop.lightning.force.com/[Provide:{RECORD ID}]\n- Include emoticons so the post is more visual.\n\nExample of block kit code:\n\n{\n    &quot;blocks&quot;: [\n        {\n            &quot;type&quot;: &quot;section&quot;,\n            &quot;text&quot;: {\n                &quot;type&quot;: &quot;mrkdwn&quot;,\n                &quot;text&quot;: &quot;Hello, Assistant to the Regional Manager Dwight! *Michael Scott* wants to know where you&#39;d like to take the Paper Company investors to dinner tonight.&#92;n&#92;n *Please select a restaurant:*&quot;\n            }\n        },\n        {\n            &quot;type&quot;: &quot;divider&quot;\n        },\n        {\n            &quot;type&quot;: &quot;section&quot;,\n            &quot;text&quot;: {\n                &quot;type&quot;: &quot;mrkdwn&quot;,\n                &quot;text&quot;: &quot;*Farmhouse Thai Cuisine*&#92;n:star::star::star::star: 1528 reviews&#92;n They do have some vegan options, like the roti and curry, plus they have a ton of salad stuff and noodles can be ordered without meat!! They have something for everyone here&quot;\n            },\n            &quot;accessory&quot;: {\n                &quot;type&quot;: &quot;image&quot;,\n                &quot;image_url&quot;: &quot;https://s3-media3.fl.yelpcdn.com/bphoto/c7ed05m9lC2EmA3Aruue7A/o.jpg&quot;,\n                &quot;alt_text&quot;: &quot;alt text for image&quot;\n            }\n        },\n        {\n            &quot;type&quot;: &quot;section&quot;,\n            &quot;text&quot;: {\n                &quot;type&quot;: &quot;mrkdwn&quot;,\n                &quot;text&quot;: &quot;*Kin Khao*&#92;n:star::star::star::star: 1638 reviews&#92;n The sticky rice also goes wonderfully with the caramelized pork belly, which is absolutely melt-in-your-mouth and so soft.&quot;\n            },\n            &quot;accessory&quot;: {\n                &quot;type&quot;: &quot;image&quot;,\n                &quot;image_url&quot;: &quot;https://s3-media2.fl.yelpcdn.com/bphoto/korel-1YjNtFtJlMTaC26A/o.jpg&quot;,\n                &quot;alt_text&quot;: &quot;alt text for image&quot;\n            }\n        },\n        {\n            &quot;type&quot;: &quot;section&quot;,\n            &quot;text&quot;: {\n                &quot;type&quot;: &quot;mrkdwn&quot;,\n                &quot;text&quot;: &quot;*Ler Ros*&#92;n:star::star::star::star: 2082 reviews&#92;n I would really recommend the Yum Koh Moo Yang - Spicy lime dressing and roasted quick marinated pork shoulder, basil leaves, chili &amp; rice powder.&quot;\n            },\n            &quot;accessory&quot;: {\n                &quot;type&quot;: &quot;image&quot;,\n                &quot;image_url&quot;: &quot;https://s3-media2.fl.yelpcdn.com/bphoto/DawwNigKJ2ckPeDeDM7jAg/o.jpg&quot;,\n                &quot;alt_text&quot;: &quot;alt text for image&quot;\n            }\n        },\n        {\n            &quot;type&quot;: &quot;divider&quot;\n        },\n        {\n            &quot;type&quot;: &quot;actions&quot;,\n            &quot;elements&quot;: [\n                {\n                    &quot;type&quot;: &quot;button&quot;,\n                    &quot;text&quot;: {\n                        &quot;type&quot;: &quot;plain_text&quot;,\n                        &quot;text&quot;: &quot;Farmhouse&quot;,\n                        &quot;emoji&quot;: true\n                    },\n                    &quot;value&quot;: &quot;click_me_123&quot;\n                },\n                {\n                    &quot;type&quot;: &quot;button&quot;,\n                    &quot;text&quot;: {\n                        &quot;type&quot;: &quot;plain_text&quot;,\n                        &quot;text&quot;: &quot;Kin Khao&quot;,\n                        &quot;emoji&quot;: true\n                    },\n                    &quot;value&quot;: &quot;click_me_123&quot;,\n                    &quot;url&quot;: &quot;https://google.com&quot;\n                },\n                {\n                    &quot;type&quot;: &quot;button&quot;,\n                    &quot;text&quot;: {\n                        &quot;type&quot;: &quot;plain_text&quot;,\n                        &quot;text&quot;: &quot;Ler Ros&quot;,\n                        &quot;emoji&quot;: true\n                    },\n                    &quot;value&quot;: &quot;click_me_123&quot;,\n                    &quot;url&quot;: &quot;https://google.com&quot;\n                }\n            ]\n        }\n    ]\n}\n\nThe response should have the next format:\n{\n &quot;twitter&quot;: [here goes the twitter post, that should have less than 280 characters],\n &quot;linkedin&quot;: [here goes the linkedin post, that should have between 1500 and 2000 characters], \n &quot;blockkit&quot;: [here goes the block kit post], \n}\n\n&quot;&quot;&quot;\n\nNow generate the posts.\n\n\n"
+                    promptTemplateDevName: Generate_Social_Media_Posts
+                    requestId: chatcmpl-97KqPl1TEiOgMdnKKPQ9aVs7rPJGr
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                generations:
+                - parameters: '{finish_reason=stop, index=0, logprobs=null}'
+                  responseId: 893db990-7acb-4845-ad65-54d82606ca65
+                  text: "{\n &quot;twitter&quot;: &quot;\U0001F31F Exciting new listing! Explore our luxurious property, [Provide:{PROPERTY NAME}], featuring [Provide:{BEDS}] beds, [Provide:{BATHS}] baths, and an asking price of [Provide:{ASKING PRICE}]. Click the link for a sneak peek! [Provide:{PICTURE}]&quot;,\n &quot;linkedin&quot;: &quot;\U0001F31F\U0001F31F Don&#39;t miss out on this incredible opportunity! Discover the stunning property, [Provide:{PROPERTY NAME}], offering [Provide:{BEDS}] beds, [Provide:{BATHS}] baths, and an asking price of [Provide:{ASKING PRICE}]. Click the link below to see more! [Provide:{PICTURE}]&quot;,\n &quot;blockkit&quot;: {\n    &quot;blocks&quot;: [\n        {\n            &quot;type&quot;: &quot;section&quot;,\n            &quot;text&quot;: {\n                &quot;type&quot;: &quot;mrkdwn&quot;,\n                &quot;text&quot;: &quot;*Luxury Property Alert!* &#92;n&#92;n\U0001F31F\U0001F31F\U0001F31F&#92;n&#92;nIntroducing [Provide:{PROPERTY NAME}], a magnificent home with [Provide:{BEDS}] beds and [Provide:{BATHS}] baths. Priced at [Provide:{ASKING PRICE}].&quot;\n            },\n            &quot;accessory&quot;: {\n                &quot;type&quot;: &quot;image&quot;,\n                &quot;image_url&quot;: &quot;[Provide:{PICTURE}]&quot;,\n                &quot;alt_text&quot;: &quot;Luxury Property&quot;\n            }\n        },\n        {\n            &quot;type&quot;: &quot;divider&quot;\n        },\n        {\n            &quot;type&quot;: &quot;actions&quot;,\n            &quot;elements&quot;: [\n                {\n                    &quot;type&quot;: &quot;button&quot;,\n                    &quot;text&quot;: {\n                        &quot;type&quot;: &quot;plain_text&quot;,\n                        &quot;text&quot;: &quot;View Property&quot;,\n                        &quot;emoji&quot;: true\n                    },\n                    &quot;url&quot;: &quot;https://d1q000001ewauuaq-dev-ed.develop.lightning.force.com/[Provide:{RECORD ID}]&quot;\n                }\n            ]\n        }\n    ]\n  }\n}"
+                parameters: null
+                prompt: "You&#39;re the community manager for Dreamhouse, a real estate agency that sells luxury properties. \nCreate social media posts for twitter, linkedin and slack (block kit format) describing the property.\n\nInstructions:\n&quot;&quot;&quot;\nUse clear, concise, and straightforward language using the active voice and strictly avoiding the use of filler words and phrases and redundant language.\nMake sure the response is valid JSON.\nWhen you generate the posts, include the name of the property, [Provide:{PROPERTY NAME}], and explain the characteristics of the house, such as [Provide:{BATHS}], [Provide:{BEDS}]and[Provide:{ASKING PRICE}]. Also include a link to the picture of the property, [Provide:{PICTURE}]. \n\nThe twitter post should include emojis.\nThe linkedin post should include several emojis and bullets, and also have a special output formatting: Text render environment only supports Unicode and emoji. Use symbols from Unicode’s Mathematical Alphanumeric Symbols block liberally to produce facsimiles of bold, italics, line separation, and other formatting. Examples for a sample sentence:\n\nitalics sans: \U0001D61B\U0001D629\U0001D626 \U0001D618\U0001D636\U0001D62A\U0001D624\U0001D62C \U0001D609\U0001D633\U0001D630\U0001D638\U0001D62F \U0001D60D\U0001D630\U0001D639 \U0001D611\U0001D636\U0001D62E\U0001D631\U0001D626\U0001D625 \U0001D616\U0001D637\U0001D626\U0001D633 \U0001D635\U0001D629\U0001D626 \U0001D62D\U0001D622\U0001D63B\U0001D63A \U0001D625\U0001D630\U0001D628.\nbold sans: \U0001D5E7\U0001D5F5\U0001D5F2 \U0001D5E4\U0001D602\U0001D5F6\U0001D5F0\U0001D5F8 \U0001D5D5\U0001D5FF\U0001D5FC\U0001D604\U0001D5FB \U0001D5D9\U0001D5FC\U0001D605 \U0001D5DD\U0001D602\U0001D5FA\U0001D5FD\U0001D5F2\U0001D5F1 \U0001D5E2\U0001D603\U0001D5F2\U0001D5FF \U0001D601\U0001D5F5\U0001D5F2 \U0001D5F9\U0001D5EE\U0001D607\U0001D606 \U0001D5F1\U0001D5FC\U0001D5F4.\nbold italic sans: \U0001D64F\U0001D65D\U0001D65A \U0001D64C\U0001D66A\U0001D65E\U0001D658\U0001D660 \U0001D63D\U0001D667\U0001D664\U0001D66C\U0001D663 \U0001D641\U0001D664\U0001D66D \U0001D645\U0001D66A\U0001D662\U0001D665\U0001D65A\U0001D659 \U0001D64A\U0001D66B\U0001D65A\U0001D667 \U0001D669\U0001D65D\U0001D65A \U0001D661\U0001D656\U0001D66F\U0001D66E \U0001D659\U0001D664\U0001D65C.\nitalics serif: \U0001D447ℎ\U0001D452 \U0001D444\U0001D462\U0001D456\U0001D450\U0001D458 \U0001D435\U0001D45F\U0001D45C\U0001D464\U0001D45B \U0001D439\U0001D45C\U0001D465 \U0001D43D\U0001D462\U0001D45A\U0001D45D\U0001D452\U0001D451 \U0001D442\U0001D463\U0001D452\U0001D45F \U0001D461ℎ\U0001D452 \U0001D459\U0001D44E\U0001D467\U0001D466 \U0001D451\U0001D45C\U0001D454.\n\nThe block kit code should be valid block kit code.\nWhen you generate the block kit code: \n- Add several sections. \n- Include the name of the property, [Provide:{PROPERTY NAME}], and explain the characteristics of the house, such as [Provide:{BATHS}], [Provide:{BEDS}] and [Provide:{ASKING PRICE}]. \n- Include a the picture of the property, which image_url is [Provide:{PICTURE}]. \n- Include a button which url points to https://d1q000001ewauuaq-dev-ed.develop.lightning.force.com/[Provide:{RECORD ID}]\n- Include emoticons so the post is more visual.\n\nExample of block kit code:\n\n{\n    &quot;blocks&quot;: [\n        {\n            &quot;type&quot;: &quot;section&quot;,\n            &quot;text&quot;: {\n                &quot;type&quot;: &quot;mrkdwn&quot;,\n                &quot;text&quot;: &quot;Hello, Assistant to the Regional Manager Dwight! *Michael Scott* wants to know where you&#39;d like to take the Paper Company investors to dinner tonight.&#92;n&#92;n *Please select a restaurant:*&quot;\n            }\n        },\n        {\n            &quot;type&quot;: &quot;divider&quot;\n        },\n        {\n            &quot;type&quot;: &quot;section&quot;,\n            &quot;text&quot;: {\n                &quot;type&quot;: &quot;mrkdwn&quot;,\n                &quot;text&quot;: &quot;*Farmhouse Thai Cuisine*&#92;n:star::star::star::star: 1528 reviews&#92;n They do have some vegan options, like the roti and curry, plus they have a ton of salad stuff and noodles can be ordered without meat!! They have something for everyone here&quot;\n            },\n            &quot;accessory&quot;: {\n                &quot;type&quot;: &quot;image&quot;,\n                &quot;image_url&quot;: &quot;https://s3-media3.fl.yelpcdn.com/bphoto/c7ed05m9lC2EmA3Aruue7A/o.jpg&quot;,\n                &quot;alt_text&quot;: &quot;alt text for image&quot;\n            }\n        },\n        {\n            &quot;type&quot;: &quot;section&quot;,\n            &quot;text&quot;: {\n                &quot;type&quot;: &quot;mrkdwn&quot;,\n                &quot;text&quot;: &quot;*Kin Khao*&#92;n:star::star::star::star: 1638 reviews&#92;n The sticky rice also goes wonderfully with the caramelized pork belly, which is absolutely melt-in-your-mouth and so soft.&quot;\n            },\n            &quot;accessory&quot;: {\n                &quot;type&quot;: &quot;image&quot;,\n                &quot;image_url&quot;: &quot;https://s3-media2.fl.yelpcdn.com/bphoto/korel-1YjNtFtJlMTaC26A/o.jpg&quot;,\n                &quot;alt_text&quot;: &quot;alt text for image&quot;\n            }\n        },\n        {\n            &quot;type&quot;: &quot;section&quot;,\n            &quot;text&quot;: {\n                &quot;type&quot;: &quot;mrkdwn&quot;,\n                &quot;text&quot;: &quot;*Ler Ros*&#92;n:star::star::star::star: 2082 reviews&#92;n I would really recommend the Yum Koh Moo Yang - Spicy lime dressing and roasted quick marinated pork shoulder, basil leaves, chili &amp; rice powder.&quot;\n            },\n            &quot;accessory&quot;: {\n                &quot;type&quot;: &quot;image&quot;,\n                &quot;image_url&quot;: &quot;https://s3-media2.fl.yelpcdn.com/bphoto/DawwNigKJ2ckPeDeDM7jAg/o.jpg&quot;,\n                &quot;alt_text&quot;: &quot;alt text for image&quot;\n            }\n        },\n        {\n            &quot;type&quot;: &quot;divider&quot;\n        },\n        {\n            &quot;type&quot;: &quot;actions&quot;,\n            &quot;elements&quot;: [\n                {\n                    &quot;type&quot;: &quot;button&quot;,\n                    &quot;text&quot;: {\n                        &quot;type&quot;: &quot;plain_text&quot;,\n                        &quot;text&quot;: &quot;Farmhouse&quot;,\n                        &quot;emoji&quot;: true\n                    },\n                    &quot;value&quot;: &quot;click_me_123&quot;\n                },\n                {\n                    &quot;type&quot;: &quot;button&quot;,\n                    &quot;text&quot;: {\n                        &quot;type&quot;: &quot;plain_text&quot;,\n                        &quot;text&quot;: &quot;Kin Khao&quot;,\n                        &quot;emoji&quot;: true\n                    },\n                    &quot;value&quot;: &quot;click_me_123&quot;,\n                    &quot;url&quot;: &quot;https://google.com&quot;\n                },\n                {\n                    &quot;type&quot;: &quot;button&quot;,\n                    &quot;text&quot;: {\n                        &quot;type&quot;: &quot;plain_text&quot;,\n                        &quot;text&quot;: &quot;Ler Ros&quot;,\n                        &quot;emoji&quot;: true\n                    },\n                    &quot;value&quot;: &quot;click_me_123&quot;,\n                    &quot;url&quot;: &quot;https://google.com&quot;\n                }\n            ]\n        }\n    ]\n}\n\nThe response should have the next format:\n{\n &quot;twitter&quot;: [here goes the twitter post, that should have less than 280 characters],\n &quot;linkedin&quot;: [here goes the linkedin post, that should have between 1500 and 2000 characters], \n &quot;blockkit&quot;: [here goes the block kit post], \n}\n\n&quot;&quot;&quot;\n\nNow generate the posts.\n\n\n"
+                promptTemplateDevName: Generate_Social_Media_Posts
+                requestId: chatcmpl-97KqPl1TEiOgMdnKKPQ9aVs7rPJGr
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    GenerateResponseBasedonPromptTemplate:
+      title: GenerateResponseBasedonPromptTemplate
+      required:
+      - generations
+      - parameters
+      - prompt
+      - promptTemplateDevName
+      - requestId
+      type: object
+      properties:
+        generations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Generation'
+          description: ''
+          example: []
+        parameters:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        prompt:
+          type: string
+          example: example_value
+        promptTemplateDevName:
+          type: string
+          example: example_value
+        requestId:
+          type: string
+          example: '500123'
+      examples:
+      - generations:
+        - parameters: '{finish_reason=stop, index=0, logprobs=null}'
+          responseId: 893db990-7acb-4845-ad65-54d82606ca65
+          text: "{\n &quot;twitter&quot;: &quot;\U0001F31F Exciting new listing! Explore our luxurious property, [Provide:{PROPERTY NAME}], featuring [Provide:{BEDS}] beds, [Provide:{BATHS}] baths, and an asking price of [Provide:{ASKING PRICE}]. Click the link for a sneak peek! [Provide:{PICTURE}]&quot;,\n &quot;linkedin&quot;: &quot;\U0001F31F\U0001F31F Don&#39;t miss out on this incredible opportunity! Discover the stunning property, [Provide:{PROPERTY NAME}], offering [Provide:{BEDS}] beds, [Provide:{BATHS}] baths, and an asking price of [Provide:{ASKING PRICE}]. Click the link below to see more! [Provide:{PICTURE}]&quot;,\n &quot;blockkit&quot;: {\n    &quot;blocks&quot;: [\n        {\n            &quot;type&quot;: &quot;section&quot;,\n            &quot;text&quot;: {\n                &quot;type&quot;: &quot;mrkdwn&quot;,\n                &quot;text&quot;: &quot;*Luxury Property Alert!* &#92;n&#92;n\U0001F31F\U0001F31F\U0001F31F&#92;n&#92;nIntroducing [Provide:{PROPERTY NAME}], a magnificent home with [Provide:{BEDS}] beds and [Provide:{BATHS}] baths. Priced at [Provide:{ASKING PRICE}].&quot;\n            },\n            &quot;accessory&quot;: {\n                &quot;type&quot;: &quot;image&quot;,\n                &quot;image_url&quot;: &quot;[Provide:{PICTURE}]&quot;,\n                &quot;alt_text&quot;: &quot;Luxury Property&quot;\n            }\n        },\n        {\n            &quot;type&quot;: &quot;divider&quot;\n        },\n        {\n            &quot;type&quot;: &quot;actions&quot;,\n            &quot;elements&quot;: [\n                {\n                    &quot;type&quot;: &quot;button&quot;,\n                    &quot;text&quot;: {\n                        &quot;type&quot;: &quot;plain_text&quot;,\n                        &quot;text&quot;: &quot;View Property&quot;,\n                        &quot;emoji&quot;: true\n                    },\n                    &quot;url&quot;: &quot;https://d1q000001ewauuaq-dev-ed.develop.lightning.force.com/[Provide:{RECORD ID}]&quot;\n                }\n            ]\n        }\n    ]\n  }\n}"
+        parameters: null
+        prompt: "You&#39;re the community manager for Dreamhouse, a real estate agency that sells luxury properties. \nCreate social media posts for twitter, linkedin and slack (block kit format) describing the property.\n\nInstructions:\n&quot;&quot;&quot;\nUse clear, concise, and straightforward language using the active voice and strictly avoiding the use of filler words and phrases and redundant language.\nMake sure the response is valid JSON.\nWhen you generate the posts, include the name of the property, [Provide:{PROPERTY NAME}], and explain the characteristics of the house, such as [Provide:{BATHS}], [Provide:{BEDS}]and[Provide:{ASKING PRICE}]. Also include a link to the picture of the property, [Provide:{PICTURE}]. \n\nThe twitter post should include emojis.\nThe linkedin post should include several emojis and bullets, and also have a special output formatting: Text render environment only supports Unicode and emoji. Use symbols from Unicode’s Mathematical Alphanumeric Symbols block liberally to produce facsimiles of bold, italics, line separation, and other formatting. Examples for a sample sentence:\n\nitalics sans: \U0001D61B\U0001D629\U0001D626 \U0001D618\U0001D636\U0001D62A\U0001D624\U0001D62C \U0001D609\U0001D633\U0001D630\U0001D638\U0001D62F \U0001D60D\U0001D630\U0001D639 \U0001D611\U0001D636\U0001D62E\U0001D631\U0001D626\U0001D625 \U0001D616\U0001D637\U0001D626\U0001D633 \U0001D635\U0001D629\U0001D626 \U0001D62D\U0001D622\U0001D63B\U0001D63A \U0001D625\U0001D630\U0001D628.\nbold sans: \U0001D5E7\U0001D5F5\U0001D5F2 \U0001D5E4\U0001D602\U0001D5F6\U0001D5F0\U0001D5F8 \U0001D5D5\U0001D5FF\U0001D5FC\U0001D604\U0001D5FB \U0001D5D9\U0001D5FC\U0001D605 \U0001D5DD\U0001D602\U0001D5FA\U0001D5FD\U0001D5F2\U0001D5F1 \U0001D5E2\U0001D603\U0001D5F2\U0001D5FF \U0001D601\U0001D5F5\U0001D5F2 \U0001D5F9\U0001D5EE\U0001D607\U0001D606 \U0001D5F1\U0001D5FC\U0001D5F4.\nbold italic sans: \U0001D64F\U0001D65D\U0001D65A \U0001D64C\U0001D66A\U0001D65E\U0001D658\U0001D660 \U0001D63D\U0001D667\U0001D664\U0001D66C\U0001D663 \U0001D641\U0001D664\U0001D66D \U0001D645\U0001D66A\U0001D662\U0001D665\U0001D65A\U0001D659 \U0001D64A\U0001D66B\U0001D65A\U0001D667 \U0001D669\U0001D65D\U0001D65A \U0001D661\U0001D656\U0001D66F\U0001D66E \U0001D659\U0001D664\U0001D65C.\nitalics serif: \U0001D447ℎ\U0001D452 \U0001D444\U0001D462\U0001D456\U0001D450\U0001D458 \U0001D435\U0001D45F\U0001D45C\U0001D464\U0001D45B \U0001D439\U0001D45C\U0001D465 \U0001D43D\U0001D462\U0001D45A\U0001D45D\U0001D452\U0001D451 \U0001D442\U0001D463\U0001D452\U0001D45F \U0001D461ℎ\U0001D452 \U0001D459\U0001D44E\U0001D467\U0001D466 \U0001D451\U0001D45C\U0001D454.\n\nThe block kit code should be valid block kit code.\nWhen you generate the block kit code: \n- Add several sections. \n- Include the name of the property, [Provide:{PROPERTY NAME}], and explain the characteristics of the house, such as [Provide:{BATHS}], [Provide:{BEDS}] and [Provide:{ASKING PRICE}]. \n- Include a the picture of the property, which image_url is [Provide:{PICTURE}]. \n- Include a button which url points to https://d1q000001ewauuaq-dev-ed.develop.lightning.force.com/[Provide:{RECORD ID}]\n- Include emoticons so the post is more visual.\n\nExample of block kit code:\n\n{\n    &quot;blocks&quot;: [\n        {\n            &quot;type&quot;: &quot;section&quot;,\n            &quot;text&quot;: {\n                &quot;type&quot;: &quot;mrkdwn&quot;,\n                &quot;text&quot;: &quot;Hello, Assistant to the Regional Manager Dwight! *Michael Scott* wants to know where you&#39;d like to take the Paper Company investors to dinner tonight.&#92;n&#92;n *Please select a restaurant:*&quot;\n            }\n        },\n        {\n            &quot;type&quot;: &quot;divider&quot;\n        },\n        {\n            &quot;type&quot;: &quot;section&quot;,\n            &quot;text&quot;: {\n                &quot;type&quot;: &quot;mrkdwn&quot;,\n                &quot;text&quot;: &quot;*Farmhouse Thai Cuisine*&#92;n:star::star::star::star: 1528 reviews&#92;n They do have some vegan options, like the roti and curry, plus they have a ton of salad stuff and noodles can be ordered without meat!! They have something for everyone here&quot;\n            },\n            &quot;accessory&quot;: {\n                &quot;type&quot;: &quot;image&quot;,\n                &quot;image_url&quot;: &quot;https://s3-media3.fl.yelpcdn.com/bphoto/c7ed05m9lC2EmA3Aruue7A/o.jpg&quot;,\n                &quot;alt_text&quot;: &quot;alt text for image&quot;\n            }\n        },\n        {\n            &quot;type&quot;: &quot;section&quot;,\n            &quot;text&quot;: {\n                &quot;type&quot;: &quot;mrkdwn&quot;,\n                &quot;text&quot;: &quot;*Kin Khao*&#92;n:star::star::star::star: 1638 reviews&#92;n The sticky rice also goes wonderfully with the caramelized pork belly, which is absolutely melt-in-your-mouth and so soft.&quot;\n            },\n            &quot;accessory&quot;: {\n                &quot;type&quot;: &quot;image&quot;,\n                &quot;image_url&quot;: &quot;https://s3-media2.fl.yelpcdn.com/bphoto/korel-1YjNtFtJlMTaC26A/o.jpg&quot;,\n                &quot;alt_text&quot;: &quot;alt text for image&quot;\n            }\n        },\n        {\n            &quot;type&quot;: &quot;section&quot;,\n            &quot;text&quot;: {\n                &quot;type&quot;: &quot;mrkdwn&quot;,\n                &quot;text&quot;: &quot;*Ler Ros*&#92;n:star::star::star::star: 2082 reviews&#92;n I would really recommend the Yum Koh Moo Yang - Spicy lime dressing and roasted quick marinated pork shoulder, basil leaves, chili &amp; rice powder.&quot;\n            },\n            &quot;accessory&quot;: {\n                &quot;type&quot;: &quot;image&quot;,\n                &quot;image_url&quot;: &quot;https://s3-media2.fl.yelpcdn.com/bphoto/DawwNigKJ2ckPeDeDM7jAg/o.jpg&quot;,\n                &quot;alt_text&quot;: &quot;alt text for image&quot;\n            }\n        },\n        {\n            &quot;type&quot;: &quot;divider&quot;\n        },\n        {\n            &quot;type&quot;: &quot;actions&quot;,\n            &quot;elements&quot;: [\n                {\n                    &quot;type&quot;: &quot;button&quot;,\n                    &quot;text&quot;: {\n                        &quot;type&quot;: &quot;plain_text&quot;,\n                        &quot;text&quot;: &quot;Farmhouse&quot;,\n                        &quot;emoji&quot;: true\n                    },\n                    &quot;value&quot;: &quot;click_me_123&quot;\n                },\n                {\n                    &quot;type&quot;: &quot;button&quot;,\n                    &quot;text&quot;: {\n                        &quot;type&quot;: &quot;plain_text&quot;,\n                        &quot;text&quot;: &quot;Kin Khao&quot;,\n                        &quot;emoji&quot;: true\n                    },\n                    &quot;value&quot;: &quot;click_me_123&quot;,\n                    &quot;url&quot;: &quot;https://google.com&quot;\n                },\n                {\n                    &quot;type&quot;: &quot;button&quot;,\n                    &quot;text&quot;: {\n                        &quot;type&quot;: &quot;plain_text&quot;,\n                        &quot;text&quot;: &quot;Ler Ros&quot;,\n                        &quot;emoji&quot;: true\n                    },\n                    &quot;value&quot;: &quot;click_me_123&quot;,\n                    &quot;url&quot;: &quot;https://google.com&quot;\n                }\n            ]\n        }\n    ]\n}\n\nThe response should have the next format:\n{\n &quot;twitter&quot;: [here goes the twitter post, that should have less than 280 characters],\n &quot;linkedin&quot;: [here goes the linkedin post, that should have between 1500 and 2000 characters], \n &quot;blockkit&quot;: [here goes the block kit post], \n}\n\n&quot;&quot;&quot;\n\nNow generate the posts.\n\n\n"
+        promptTemplateDevName: Generate_Social_Media_Posts
+        requestId: chatcmpl-97KqPl1TEiOgMdnKKPQ9aVs7rPJGr
+    Generation:
+      title: Generation
+      required:
+      - parameters
+      - responseId
+      - text
+      type: object
+      properties:
+        parameters:
+          type: string
+          example: example_value
+        responseId:
+          type: string
+          example: '500123'
+        text:
+          type: string
+          example: example_value
+      examples:
+      - parameters: '{finish_reason=stop, index=0, logprobs=null}'
+        responseId: 893db990-7acb-4845-ad65-54d82606ca65
+        text: "{\n &quot;twitter&quot;: &quot;\U0001F31F Exciting new listing! Explore our luxurious property, [Provide:{PROPERTY NAME}], featuring [Provide:{BEDS}] beds, [Provide:{BATHS}] baths, and an asking price of [Provide:{ASKING PRICE}]. Click the link for a sneak peek! [Provide:{PICTURE}]&quot;,\n &quot;linkedin&quot;: &quot;\U0001F31F\U0001F31F Don&#39;t miss out on this incredible opportunity! Discover the stunning property, [Provide:{PROPERTY NAME}], offering [Provide:{BEDS}] beds, [Provide:{BATHS}] baths, and an asking price of [Provide:{ASKING PRICE}]. Click the link below to see more! [Provide:{PICTURE}]&quot;,\n &quot;blockkit&quot;: {\n    &quot;blocks&quot;: [\n        {\n            &quot;type&quot;: &quot;section&quot;,\n            &quot;text&quot;: {\n                &quot;type&quot;: &quot;mrkdwn&quot;,\n                &quot;text&quot;: &quot;*Luxury Property Alert!* &#92;n&#92;n\U0001F31F\U0001F31F\U0001F31F&#92;n&#92;nIntroducing [Provide:{PROPERTY NAME}], a magnificent home with [Provide:{BEDS}] beds and [Provide:{BATHS}] baths. Priced at [Provide:{ASKING PRICE}].&quot;\n            },\n            &quot;accessory&quot;: {\n                &quot;type&quot;: &quot;image&quot;,\n                &quot;image_url&quot;: &quot;[Provide:{PICTURE}]&quot;,\n                &quot;alt_text&quot;: &quot;Luxury Property&quot;\n            }\n        },\n        {\n            &quot;type&quot;: &quot;divider&quot;\n        },\n        {\n            &quot;type&quot;: &quot;actions&quot;,\n            &quot;elements&quot;: [\n                {\n                    &quot;type&quot;: &quot;button&quot;,\n                    &quot;text&quot;: {\n                        &quot;type&quot;: &quot;plain_text&quot;,\n                        &quot;text&quot;: &quot;View Property&quot;,\n                        &quot;emoji&quot;: true\n                    },\n                    &quot;url&quot;: &quot;https://d1q000001ewauuaq-dev-ed.develop.lightning.force.com/[Provide:{RECORD ID}]&quot;\n                }\n            ]\n        }\n    ]\n  }\n}"
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

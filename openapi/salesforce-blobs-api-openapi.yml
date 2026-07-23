@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: Salesforce Bulk API 2.0 Abort Rest API
+  title: Salesforce Bulk API 2.0 Abort Blobs API
   description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
 
     '
@@ -28,34 +28,38 @@ servers:
 security:
 - BearerAuth: []
 tags:
-- name: Rest
-  description: 'REST API provides a powerful, convenient, and simple Web services API for interacting with Lightning Platform. Its advantages include ease of integration and development, and it’s an excellent choice of technology for use with mobile applications and Web 2.0 projects. If you have many records to process, consider using Bulk API, which is based on REST principles and optimized for large sets of data.
-
-
-    📚 [REST API Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/intro_what_is_rest_api.htm)'
+- name: Blobs
 paths:
-  /apexrest/{urlMapping}:
+  /data/v64.0/sobjects/{SOBJECT_API_NAME}/{RECORD_ID}/{BLOB_FIELD}:
     parameters: []
     get:
       tags:
-      - Rest
-      summary: Salesforce Apex Rest
-      description: 'Gets the list of icons and colors used by themes in the Salesforce application. Theme information is provided for objects in your organization that use icons and colors in the Salesforce UI.
-
-
-        The If-Modified-Since header can be used with this resource, with a date format of EEE, dd MMM yyyy HH:mm:ss z. When this header is used, if the object metadata has not changed since the provided date, a 304 Not Modified status code is returned, with no response body.
-
-
-        https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_themes.htm'
-      operationId: ApexREST
+      - Blobs
+      summary: Salesforce Sobject Blob Retrieve
+      description: Retrieves the specified blob field from an individual record.
+      operationId: SObjectBlobRetrieve
       parameters:
-      - name: urlMapping
+      - name: SOBJECT_API_NAME
         in: path
-        description: Value of `urlMapping` as defined in `@RestResource` annotation in the Apex class.
+        description: ''
         required: true
         schema:
           type: string
-        example: https://www.example.com
+        example: example_value
+      - name: RECORD_ID
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      - name: BLOB_FIELD
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: example_value
       - name: Content-Type
         in: header
         description: ''

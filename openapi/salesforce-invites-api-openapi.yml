@@ -1,0 +1,200 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Invites API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Invites
+paths:
+  /data/v64.0/chatter/groups/group/{GROUP_ID}/invite:
+    parameters: []
+    post:
+      tags:
+      - Invites
+      summary: Salesforce Group Invites
+      description: 'Invite internal and external users to join a group.
+
+
+        https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_groups_invites.htm#connect_resources_groups_invites'
+      operationId: GroupInvites
+      parameters:
+      - name: GROUP_ID
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/GroupInvitesRequest'
+              - examples:
+                - invitees:
+                    emails:
+                    - testemail1@sfdcpostman.com
+                    - testemail2@sfdcpostman.com
+                  message: Join this group to participate in the discussion about your favorite feature.
+              contentMediaType: application/json
+            example:
+              invitees:
+                emails:
+                - testemail1@sfdcpostman.com
+                - testemail2@sfdcpostman.com
+              message: Join this group to participate in the discussion about your favorite feature.
+        required: true
+      responses:
+        '201':
+          description: Created
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Wed, 22 Nov 2023 11:49:28 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: string
+                examples:
+                - "{\n    \"invitations\": [\n        {\n            \"email\": \"testemail1@sfdcpostman.com\",\n            \"status\": \"Invited\",\n            \"userId\": \"\"\n        },\n        ...\n    ]\n}"
+                contentMediaType: application/json;charset=UTF-8
+              example: "{\n    \"invitations\": [\n        {\n            \"email\": \"testemail1@sfdcpostman.com\",\n            \"status\": \"Invited\",\n            \"userId\": \"\"\n        },\n        ...\n    ]\n}"
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Invitees:
+      title: Invitees
+      required:
+      - emails
+      type: object
+      properties:
+        emails:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: user@example.com
+      examples:
+      - emails:
+        - testemail1@sfdcpostman.com
+        - testemail2@sfdcpostman.com
+    GroupInvitesRequest:
+      title: GroupInvitesRequest
+      required:
+      - invitees
+      - message
+      type: object
+      properties:
+        invitees:
+          $ref: '#/components/schemas/Invitees'
+        message:
+          type: string
+          example: example_value
+      examples:
+      - invitees:
+          emails:
+          - testemail1@sfdcpostman.com
+          - testemail2@sfdcpostman.com
+        message: Join this group to participate in the discussion about your favorite feature.
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

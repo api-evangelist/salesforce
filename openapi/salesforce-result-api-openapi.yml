@@ -1,0 +1,441 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Result API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Result
+paths:
+  /data/v64.0/jobs/query//results:
+    parameters: []
+    get:
+      tags:
+      - Result
+      summary: Salesforce Get Job Query Result
+      operationId: GetJobQueryResult
+      parameters:
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        schema:
+          const: application/json
+          type: string
+          examples:
+          - application/json
+        example: example_value
+      - name: Accept
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - test/csv
+        example: example_value
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /async/64.0/job//batch/{_batchId}/result:
+    parameters: []
+    get:
+      tags:
+      - Result
+      summary: Salesforce Bulk Retrieve Batch Result
+      operationId: BulkRetrieveBatchResult
+      parameters:
+      - name: X-SFDC-Session
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: example_value
+      - name: Accept-Encoding
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - gzip
+        example: example_value
+      - name: Content-Encoding
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - gzip
+        example: example_value
+      - name: _batchId
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Thu, 16 Nov 2023 16:20:11 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            text/csv:
+              schema:
+                type: string
+                examples:
+                - '"Id","Success","Created","Error"
+
+                  "001...","true","true",""
+
+                  '
+                contentMediaType: text/csv
+              example: '"Id","Success","Created","Error"
+
+                "001...","true","true",""
+
+                '
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /async/64.0/job//batch/{_batchId}/result/{batchResultId}:
+    parameters: []
+    get:
+      tags:
+      - Result
+      summary: Salesforce Bulk Retrieve Batch Result Data
+      operationId: BulkRetrieveBatchResultData
+      parameters:
+      - name: batchResultId
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - 'null'
+        example: '500123'
+      - name: X-SFDC-Session
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: example_value
+      - name: Accept-Encoding
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - gzip
+        example: example_value
+      - name: Content-Encoding
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - gzip
+        example: example_value
+      - name: _batchId
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Thu, 16 Nov 2023 16:36:36 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            text/csv; charset=UTF-8:
+              schema:
+                type: string
+                examples:
+                - '"Id","Name"
+
+                  "001...","GenePoint"
+
+                  "001...","United Oil & Gas, UK"
+
+                  "001...","United Oil & Gas, Singapore"
+
+                  "001...","Edge Communications"
+
+                  "001...","Burlington Textiles Corp of America"
+
+                  "001...","Pyramid Construction Inc."
+
+                  "001...","Dickenson plc"
+
+                  "001...","Grand Hotels & Resorts Ltd"
+
+                  "001...","Express Logistics and Transport"
+
+                  "001...","University of Arizona"
+
+                  "001...","United Oil & Gas Corp."
+
+                  "001...","sForce"
+
+                  "001...","Exemple de comptes pour les autorisations"
+
+                  "001...","Tom Jones"
+
+                  '
+                contentMediaType: text/csv; charset=UTF-8
+              example: '"Id","Name"
+
+                "001...","GenePoint"
+
+                "001...","United Oil & Gas, UK"
+
+                "001...","United Oil & Gas, Singapore"
+
+                "001...","Edge Communications"
+
+                "001...","Burlington Textiles Corp of America"
+
+                "001...","Pyramid Construction Inc."
+
+                "001...","Dickenson plc"
+
+                "001...","Grand Hotels & Resorts Ltd"
+
+                "001...","Express Logistics and Transport"
+
+                "001...","University of Arizona"
+
+                "001...","United Oil & Gas Corp."
+
+                "001...","sForce"
+
+                "001...","Exemple de comptes pour les autorisations"
+
+                "001...","Tom Jones"
+
+                '
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/search/layout:
+    parameters: []
+    get:
+      tags:
+      - Result
+      summary: Salesforce Search Result Layouts
+      description: 'Returns search result layout information for the objects in the query string. For each object, this call returns the list of fields displayed on the search results page as columns, the number of rows displayed on the first page, and the label used on the search results page.
+
+        This call supports bulk fetch for up to 100 objects in a query.
+
+
+        https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_search_layouts.htm'
+      operationId: SearchResultLayouts
+      parameters:
+      - name: q
+        in: query
+        description: Comma delimited object list
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+        example: example_value
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        schema:
+          const: application/json
+          type: string
+          examples:
+          - application/json
+        example: example_value
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

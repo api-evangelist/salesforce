@@ -1,0 +1,307 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Sale API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Sale
+paths:
+  /data/v64.0/commerce/pricing/salestransaction/actions/calculate-price:
+    parameters: []
+    post:
+      tags:
+      - Sale
+      summary: Salesforce Calculate Price (new Sale)
+      description: 'Calculate the price of a new sale that contains two order items: a term-defined subscription order for a bronze-level SLA, and an evergreen subscription order for a virtual router. The payload for the term-defined order contains both a start date and an end date. Instead of an end date, you can also include a start date and a subscription term.
+
+
+        See [Calculate Price](https://developer.salesforce.com/docs/revenue/subscription-management/references/prices?meta=Summary).'
+      operationId: CalculatePrice(NewSale)
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/CalculatePriceNewSaleRequest'
+              - examples:
+                - listPricebookId: '{{standardPricebook}}'
+                  pricingFlow: GET_PRICE_USING_CONTEXT
+                  graph:
+                    graphId: '1'
+                    records:
+                    - referenceId: ref_sales_txn
+                      record:
+                        attributes:
+                          type: SalesTransactionShape
+                        CurrencyIsoCode: USD
+                    - referenceId: Item_1_Evergreen
+                      record:
+                        attributes:
+                          type: SalesTransactionItemShape
+                        SalesTransactionShapeId: '@{ref_sales_txn.Id}'
+                        StartDate: '2023-01-01T00:00:00.000Z'
+                        ProductId: '{{SLA_BronzeProduct}}'
+                        ProductSellingModelId: '{{EvergreenMonthlyPSM}}'
+                        Quantity: 3
+                        PricingTransactionType: NewSale
+                        CurrencyIsoCode: USD
+                    - referenceId: Item_2_Termed
+                      record:
+                        attributes:
+                          type: SalesTransactionItemShape
+                        SalesTransactionShapeId: '@{ref_sales_txn.Id}'
+                        StartDate: '2023-01-01T00:00:00.000Z'
+                        EndDate: '2023-12-31T00:00:00.000Z'
+                        ProductId: '{{VirtualRouterProduct}}'
+                        ProductSellingModelId: '{{TermMonthlyPSM}}'
+                        Quantity: 100
+                        PricingTransactionType: NewSale
+                        CurrencyIsoCode: USD
+              contentMediaType: application/json
+            example:
+              listPricebookId: '{{standardPricebook}}'
+              pricingFlow: GET_PRICE_USING_CONTEXT
+              graph:
+                graphId: '1'
+                records:
+                - referenceId: ref_sales_txn
+                  record:
+                    attributes:
+                      type: SalesTransactionShape
+                    CurrencyIsoCode: USD
+                - referenceId: Item_1_Evergreen
+                  record:
+                    attributes:
+                      type: SalesTransactionItemShape
+                    SalesTransactionShapeId: '@{ref_sales_txn.Id}'
+                    StartDate: '2023-01-01T00:00:00.000Z'
+                    ProductId: '{{SLA_BronzeProduct}}'
+                    ProductSellingModelId: '{{EvergreenMonthlyPSM}}'
+                    Quantity: 3
+                    PricingTransactionType: NewSale
+                    CurrencyIsoCode: USD
+                - referenceId: Item_2_Termed
+                  record:
+                    attributes:
+                      type: SalesTransactionItemShape
+                    SalesTransactionShapeId: '@{ref_sales_txn.Id}'
+                    StartDate: '2023-01-01T00:00:00.000Z'
+                    EndDate: '2023-12-31T00:00:00.000Z'
+                    ProductId: '{{VirtualRouterProduct}}'
+                    ProductSellingModelId: '{{TermMonthlyPSM}}'
+                    Quantity: 100
+                    PricingTransactionType: NewSale
+                    CurrencyIsoCode: USD
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Attributes3:
+      title: Attributes3
+      required:
+      - type
+      type: object
+      properties:
+        type:
+          type: string
+          example: example_value
+      examples:
+      - type: Account
+    Graph2:
+      title: Graph2
+      required:
+      - graphId
+      - records
+      type: object
+      properties:
+        graphId:
+          type: string
+          example: '500123'
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/Record16'
+          description: ''
+          example: []
+      examples:
+      - graphId: '1'
+        records:
+        - referenceId: ref_sales_txn
+          record:
+            attributes:
+              type: SalesTransactionShape
+            CurrencyIsoCode: USD
+        - referenceId: Item_1_Evergreen
+          record:
+            attributes:
+              type: SalesTransactionItemShape
+            SalesTransactionShapeId: '@{ref_sales_txn.Id}'
+            StartDate: '2023-01-01T00:00:00.000Z'
+            ProductId: '{{SLA_BronzeProduct}}'
+            ProductSellingModelId: '{{EvergreenMonthlyPSM}}'
+            Quantity: 3
+            PricingTransactionType: NewSale
+            CurrencyIsoCode: USD
+        - referenceId: Item_2_Termed
+          record:
+            attributes:
+              type: SalesTransactionItemShape
+            SalesTransactionShapeId: '@{ref_sales_txn.Id}'
+            StartDate: '2023-01-01T00:00:00.000Z'
+            EndDate: '2023-12-31T00:00:00.000Z'
+            ProductId: '{{VirtualRouterProduct}}'
+            ProductSellingModelId: '{{TermMonthlyPSM}}'
+            Quantity: 100
+            PricingTransactionType: NewSale
+            CurrencyIsoCode: USD
+    Record17:
+      title: Record17
+      required:
+      - attributes
+      - CurrencyIsoCode
+      type: object
+      properties:
+        attributes:
+          $ref: '#/components/schemas/Attributes3'
+        CurrencyIsoCode:
+          type: string
+          example: example_value
+        SalesTransactionShapeId:
+          type: string
+          example: '500123'
+        StartDate:
+          type: string
+          example: example_value
+        ProductId:
+          type: string
+          example: '500123'
+        ProductSellingModelId:
+          type: string
+          example: '500123'
+        Quantity:
+          type: number
+          example: 42.5
+        PricingTransactionType:
+          type: string
+          example: example_value
+        EndDate:
+          type: string
+          example: example_value
+      examples:
+      - attributes:
+          type: SalesTransactionShape
+        CurrencyIsoCode: USD
+    Record16:
+      title: Record16
+      required:
+      - referenceId
+      - record
+      type: object
+      properties:
+        referenceId:
+          type: string
+          example: '500123'
+        record:
+          $ref: '#/components/schemas/Record17'
+      examples:
+      - referenceId: ref_sales_txn
+        record:
+          attributes:
+            type: SalesTransactionShape
+          CurrencyIsoCode: USD
+    CalculatePriceNewSaleRequest:
+      title: CalculatePriceNewSaleRequest
+      required:
+      - listPricebookId
+      - pricingFlow
+      - graph
+      type: object
+      properties:
+        listPricebookId:
+          type: string
+          example: '500123'
+        pricingFlow:
+          type: string
+          example: example_value
+        graph:
+          $ref: '#/components/schemas/Graph2'
+      examples:
+      - listPricebookId: '{{standardPricebook}}'
+        pricingFlow: GET_PRICE_USING_CONTEXT
+        graph:
+          graphId: '1'
+          records:
+          - referenceId: ref_sales_txn
+            record:
+              attributes:
+                type: SalesTransactionShape
+              CurrencyIsoCode: USD
+          - referenceId: Item_1_Evergreen
+            record:
+              attributes:
+                type: SalesTransactionItemShape
+              SalesTransactionShapeId: '@{ref_sales_txn.Id}'
+              StartDate: '2023-01-01T00:00:00.000Z'
+              ProductId: '{{SLA_BronzeProduct}}'
+              ProductSellingModelId: '{{EvergreenMonthlyPSM}}'
+              Quantity: 3
+              PricingTransactionType: NewSale
+              CurrencyIsoCode: USD
+          - referenceId: Item_2_Termed
+            record:
+              attributes:
+                type: SalesTransactionItemShape
+              SalesTransactionShapeId: '@{ref_sales_txn.Id}'
+              StartDate: '2023-01-01T00:00:00.000Z'
+              EndDate: '2023-12-31T00:00:00.000Z'
+              ProductId: '{{VirtualRouterProduct}}'
+              ProductSellingModelId: '{{TermMonthlyPSM}}'
+              Quantity: 100
+              PricingTransactionType: NewSale
+              CurrencyIsoCode: USD
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

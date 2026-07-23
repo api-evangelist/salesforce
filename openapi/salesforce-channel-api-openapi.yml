@@ -1,0 +1,1865 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Channel API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Channel
+paths:
+  /data/v64.0/tooling/sobjects/PlatformEventChannel:
+    parameters: []
+    post:
+      tags:
+      - Channel
+      summary: Salesforce Create Channel
+      operationId: Createchannel
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/CreatechannelRequest'
+              - examples:
+                - FullName: Account_Channel__chn
+                  Metadata:
+                    channelType: data
+                    label: Account Channel
+              contentMediaType: application/json
+            example:
+              FullName: Account_Channel__chn
+              Metadata:
+                channelType: data
+                label: Account Channel
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/tooling/sobjects/PlatformEventChannel/{PLATFORM_EVENT_CHANNEL_ID}:
+    parameters: []
+    patch:
+      tags:
+      - Channel
+      summary: Salesforce Update Channel
+      operationId: Updatechannel
+      parameters:
+      - name: PLATFORM_EVENT_CHANNEL_ID
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - 0YLRM0000004DlP4AU
+        example: '500123'
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/UpdatechannelRequest'
+              - examples:
+                - FullName: Account_Channel__chn
+                  Metadata:
+                    channelType: data
+                    label: Account Channel 2
+                    urls: null
+              contentMediaType: application/json
+            example:
+              FullName: Account_Channel__chn
+              Metadata:
+                channelType: data
+                label: Account Channel 2
+                urls: null
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    get:
+      tags:
+      - Channel
+      summary: Salesforce Get Event Channel
+      operationId: Geteventchannel
+      parameters:
+      - name: PLATFORM_EVENT_CHANNEL_ID
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - 0YL4H0000004C93WAE
+        example: '500123'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Mon, 03 Jul 2023 13:15:59 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Sforce-Limit-Info:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: api-usage=7/15000
+            Last-Modified:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Mon, 11 Jan 2021 19:33:54 GMT
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Geteventchannel'
+                - examples:
+                  - attributes:
+                      type: PlatformEventChannel
+                      url: /services/data/v58.0/tooling/sobjects/PlatformEventChannel/0YL4H0000004C93WAE
+                    Id: 0YL4H0000004C93WAE
+                    IsDeleted: false
+                    DeveloperName: HREvents
+                    Language: en_US
+                    MasterLabel: Custom Channel for the HR App
+                    NamespacePrefix: null
+                    ManageableState: unmanaged
+                    CreatedDate: 2021-01-11T19:33:54.000+0000
+                    CreatedById: 00558000000yFyDAAU
+                    LastModifiedDate: 2021-01-11T19:33:54.000+0000
+                    LastModifiedById: 00558000000yFyDAAU
+                    SystemModstamp: 2021-01-11T19:33:54.000+0000
+                    ChannelType: data
+                    FullName: HREvents__chn
+                    Metadata:
+                      channelType: data
+                      label: Custom Channel for the HR App
+                      urls: null
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                attributes:
+                  type: PlatformEventChannel
+                  url: /services/data/v58.0/tooling/sobjects/PlatformEventChannel/0YL4H0000004C93WAE
+                Id: 0YL4H0000004C93WAE
+                IsDeleted: false
+                DeveloperName: HREvents
+                Language: en_US
+                MasterLabel: Custom Channel for the HR App
+                NamespacePrefix: null
+                ManageableState: unmanaged
+                CreatedDate: 2021-01-11T19:33:54.000+0000
+                CreatedById: 00558000000yFyDAAU
+                LastModifiedDate: 2021-01-11T19:33:54.000+0000
+                LastModifiedById: 00558000000yFyDAAU
+                SystemModstamp: 2021-01-11T19:33:54.000+0000
+                ChannelType: data
+                FullName: HREvents__chn
+                Metadata:
+                  channelType: data
+                  label: Custom Channel for the HR App
+                  urls: null
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    delete:
+      tags:
+      - Channel
+      summary: Salesforce Delete Event Channel
+      operationId: Deleteeventchannel
+      parameters:
+      - name: PLATFORM_EVENT_CHANNEL_ID
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      responses:
+        '204':
+          description: No Content
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Wed, 06 Dec 2023 16:56:00 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            Content-Security-Policy:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: upgrade-insecure-requests
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Sforce-Limit-Info:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: api-usage=303/15000
+          content: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/tooling/sobjects/PlatformEventChannelMember/{PLATFORM_EVENT_CHANNEL_MEMBER_ID}:
+    parameters: []
+    patch:
+      tags:
+      - Channel
+      summary: Salesforce Add Enriched Fields to Channel Member
+      operationId: Addenrichedfieldstochannelmember
+      parameters:
+      - name: PLATFORM_EVENT_CHANNEL_MEMBER_ID
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/AddenrichedfieldstochannelmemberRequest'
+              - examples:
+                - FullName: Account_Channel_chn_AccountChangeEvent
+                  Metadata:
+                    enrichedFields:
+                    - name: External_Account_ID__c
+                    eventChannel: Account_Channel__chn
+                    selectedEntity: AccountChangeEvent
+              contentMediaType: application/json
+            example:
+              FullName: Account_Channel_chn_AccountChangeEvent
+              Metadata:
+                enrichedFields:
+                - name: External_Account_ID__c
+                eventChannel: Account_Channel__chn
+                selectedEntity: AccountChangeEvent
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    get:
+      tags:
+      - Channel
+      summary: Salesforce Get Channel Member
+      operationId: Getchannelmember
+      parameters:
+      - name: PLATFORM_EVENT_CHANNEL_MEMBER_ID
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Mon, 03 Jul 2023 13:17:20 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Sforce-Limit-Info:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: api-usage=9/15000
+            Last-Modified:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Fri, 30 Dec 2022 15:10:39 GMT
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Getchannelmember'
+                - examples:
+                  - attributes:
+                      type: PlatformEventChannelMember
+                      url: /services/data/v58.0/tooling/sobjects/PlatformEventChannelMember/0v84H000000PAvIQAW
+                    Id: 0v84H000000PAvIQAW
+                    IsDeleted: false
+                    DeveloperName: ChangeEvents_ContactChangeEvent
+                    Language: en_US
+                    MasterLabel: ContactChangeEvent
+                    NamespacePrefix: null
+                    ManageableState: unmanaged
+                    CreatedDate: 2022-12-30T15:10:39.000+0000
+                    CreatedById: 00558000000yFyDAAU
+                    LastModifiedDate: 2022-12-30T15:10:39.000+0000
+                    LastModifiedById: 00558000000yFyDAAU
+                    SystemModstamp: 2022-12-30T15:10:39.000+0000
+                    FullName: ChangeEvents_ContactChangeEvent
+                    Metadata:
+                      enrichedFields: []
+                      eventChannel: ChangeEvents
+                      filterExpression: null
+                      selectedEntity: ContactChangeEvent
+                      urls: null
+                    EventChannel: ChangeEvents
+                    SelectedEntity: ContactChangeEvent
+                    FilterExpression: null
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                attributes:
+                  type: PlatformEventChannelMember
+                  url: /services/data/v58.0/tooling/sobjects/PlatformEventChannelMember/0v84H000000PAvIQAW
+                Id: 0v84H000000PAvIQAW
+                IsDeleted: false
+                DeveloperName: ChangeEvents_ContactChangeEvent
+                Language: en_US
+                MasterLabel: ContactChangeEvent
+                NamespacePrefix: null
+                ManageableState: unmanaged
+                CreatedDate: 2022-12-30T15:10:39.000+0000
+                CreatedById: 00558000000yFyDAAU
+                LastModifiedDate: 2022-12-30T15:10:39.000+0000
+                LastModifiedById: 00558000000yFyDAAU
+                SystemModstamp: 2022-12-30T15:10:39.000+0000
+                FullName: ChangeEvents_ContactChangeEvent
+                Metadata:
+                  enrichedFields: []
+                  eventChannel: ChangeEvents
+                  filterExpression: null
+                  selectedEntity: ContactChangeEvent
+                  urls: null
+                EventChannel: ChangeEvents
+                SelectedEntity: ContactChangeEvent
+                FilterExpression: null
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    delete:
+      tags:
+      - Channel
+      summary: Salesforce Delete Channel Member
+      operationId: Deletechannelmember
+      parameters:
+      - name: PLATFORM_EVENT_CHANNEL_MEMBER_ID
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - 'null'
+        example: '500123'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/tooling/sobjects/PlatformEventChannelMember:
+    parameters: []
+    post:
+      tags:
+      - Channel
+      summary: Salesforce Create Channel Member
+      operationId: Createchannelmember
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/CreatechannelmemberRequest'
+              - examples:
+                - FullName: Account_Channel_chn_AccountChangeEvent
+                  Metadata:
+                    eventChannel: Account_Channel__chn
+                    selectedEntity: AccountChangeEvent
+              contentMediaType: application/json
+            example:
+              FullName: Account_Channel_chn_AccountChangeEvent
+              Metadata:
+                eventChannel: Account_Channel__chn
+                selectedEntity: AccountChangeEvent
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/tooling/sobjects/PlatformEventChannel/describe:
+    parameters: []
+    get:
+      tags:
+      - Channel
+      summary: Salesforce Describe Event Channel
+      operationId: Describeeventchannel
+      parameters: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Mon, 03 Jul 2023 13:16:20 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Sforce-Limit-Info:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: api-usage=7/15000
+            ETag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: '"2aa989f9--gzip"'
+            Last-Modified:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Mon, 03 Jul 2023 13:05:05 GMT
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/Describeeventchannel'
+              examples:
+                Describeeventchannel200Example:
+                  summary: Default Describeeventchannel 200 response
+                  x-microcks-default: true
+                  value:
+                    actionOverrides:
+                    - example_value
+                    activateable: true
+                    associateEntityType: example_value
+                    associateParentEntity: example_value
+                    childRelationships:
+                    - example_value
+                    compactLayoutable: true
+                    createable: true
+                    custom: true
+                    customSetting: true
+                    deepCloneable: true
+                    defaultImplementation: example_value
+                    deletable: true
+                    deprecatedAndHidden: true
+                    extendedBy: example_value
+                    extendsInterfaces: example_value
+                    feedEnabled: true
+                    fields:
+                    - aggregatable: true
+                      aiPredictionField: true
+                      autoNumber: true
+                      byteLength: 10
+                      calculated: true
+                      calculatedFormula: example_value
+                      cascadeDelete: true
+                      caseSensitive: true
+                      compoundFieldName: example_value
+                      controllerName: example_value
+                      createable: true
+                      custom: true
+                      defaultValue: example_value
+                      defaultValueFormula: example_value
+                      defaultedOnCreate: true
+                      dependentPicklist: true
+                      deprecatedAndHidden: true
+                      digits: 10
+                      displayLocationInDecimal: true
+                      encrypted: true
+                      externalId: '500123'
+                      extraTypeInfo: example_value
+                      filterable: true
+                      filteredLookupInfo: example_value
+                      formulaTreatNullNumberAsZero: true
+                      groupable: true
+                      highScaleNumber: true
+                      htmlFormatted: true
+                      idLookup: true
+                      inlineHelpText: example_value
+                      label: Example Title
+                      length: 10
+                      mask: example_value
+                      maskType: example_value
+                      name: Example Title
+                      nameField: true
+                      namePointing: true
+                      nillable: true
+                      permissionable: true
+                      picklistValues: {}
+                      polymorphicForeignKey: true
+                      precision: 10
+                      queryByDistance: true
+                      referenceTargetField: example_value
+                      referenceTo: {}
+                      relationshipName: example_value
+                      relationshipOrder: example_value
+                      restrictedDelete: true
+                      restrictedPicklist: true
+                      scale: 10
+                      searchPrefilterable: true
+                      soapType: example_value
+                      sortable: true
+                      type: example_value
+                      unique: true
+                      updateable: true
+                      writeRequiresMasterRead: true
+                    hasSubtypes: true
+                    implementedBy: example_value
+                    implementsInterfaces: example_value
+                    isInterface: true
+                    isSubtype: true
+                    keyPrefix: example_value
+                    label: Example Title
+                    labelPlural: example_value
+                    layoutable: true
+                    listviewable: example_value
+                    lookupLayoutable: example_value
+                    mergeable: true
+                    mruEnabled: true
+                    name: Example Title
+                    namedLayoutInfos:
+                    - example_value
+                    networkScopeFieldName: example_value
+                    queryable: true
+                    recordTypeInfos:
+                    - example_value
+                    replicateable: true
+                    retrieveable: true
+                    searchLayoutable: true
+                    searchable: true
+                    sobjectDescribeOption: example_value
+                    supportedScopes:
+                    - label: Example Title
+                      name: Example Title
+                    triggerable: true
+                    undeletable: true
+                    updateable: true
+                    urls:
+                      rowTemplate: example_value
+                      describe: example_value
+                      sobject: example_value
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    UpdatechannelRequest:
+      title: UpdatechannelRequest
+      required:
+      - FullName
+      - Metadata
+      type: object
+      properties:
+        FullName:
+          type: string
+          example: example_value
+        Metadata:
+          $ref: '#/components/schemas/Metadata1'
+      examples:
+      - FullName: Account_Channel__chn
+        Metadata:
+          channelType: data
+          label: Account Channel 2
+          urls: null
+    Urls2:
+      title: Urls2
+      required:
+      - rowTemplate
+      - describe
+      - sobject
+      type: object
+      properties:
+        rowTemplate:
+          type: string
+          example: example_value
+        describe:
+          type: string
+          example: example_value
+        sobject:
+          type: string
+          example: example_value
+      examples:
+      - rowTemplate: /services/data/v58.0/tooling/sobjects/PlatformEventChannel/{ID}
+        describe: /services/data/v58.0/tooling/sobjects/PlatformEventChannel/describe
+        sobject: /services/data/v58.0/tooling/sobjects/PlatformEventChannel
+    SupportedScope:
+      title: SupportedScope
+      required:
+      - label
+      - name
+      type: object
+      properties:
+        label:
+          type: string
+          example: Example Title
+        name:
+          type: string
+          example: Example Title
+      examples:
+      - label: All platform event channels
+        name: everything
+    Metadata1:
+      title: Metadata1
+      required:
+      - channelType
+      - label
+      - urls
+      type: object
+      properties:
+        channelType:
+          type: string
+          example: example_value
+        label:
+          type: string
+          example: Example Title
+        urls:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+      examples:
+      - channelType: data
+        label: Account Channel 2
+        urls: null
+    CreatechannelRequest:
+      title: CreatechannelRequest
+      required:
+      - FullName
+      - Metadata
+      type: object
+      properties:
+        FullName:
+          type: string
+          example: example_value
+        Metadata:
+          $ref: '#/components/schemas/Metadata'
+      examples:
+      - FullName: Account_Channel__chn
+        Metadata:
+          channelType: data
+          label: Account Channel
+    Field1:
+      title: Field1
+      required:
+      - aggregatable
+      - aiPredictionField
+      - autoNumber
+      - byteLength
+      - calculated
+      - calculatedFormula
+      - cascadeDelete
+      - caseSensitive
+      - compoundFieldName
+      - controllerName
+      - createable
+      - custom
+      - defaultValue
+      - defaultValueFormula
+      - defaultedOnCreate
+      - dependentPicklist
+      - deprecatedAndHidden
+      - digits
+      - displayLocationInDecimal
+      - encrypted
+      - externalId
+      - extraTypeInfo
+      - filterable
+      - filteredLookupInfo
+      - formulaTreatNullNumberAsZero
+      - groupable
+      - highScaleNumber
+      - htmlFormatted
+      - idLookup
+      - inlineHelpText
+      - label
+      - length
+      - mask
+      - maskType
+      - name
+      - nameField
+      - namePointing
+      - nillable
+      - permissionable
+      - picklistValues
+      - polymorphicForeignKey
+      - precision
+      - queryByDistance
+      - referenceTargetField
+      - referenceTo
+      - relationshipName
+      - relationshipOrder
+      - restrictedDelete
+      - restrictedPicklist
+      - scale
+      - searchPrefilterable
+      - soapType
+      - sortable
+      - type
+      - unique
+      - updateable
+      - writeRequiresMasterRead
+      type: object
+      properties:
+        aggregatable:
+          type: boolean
+          example: true
+        aiPredictionField:
+          type: boolean
+          example: true
+        autoNumber:
+          type: boolean
+          example: true
+        byteLength:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        calculated:
+          type: boolean
+          example: true
+        calculatedFormula:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        cascadeDelete:
+          type: boolean
+          example: true
+        caseSensitive:
+          type: boolean
+          example: true
+        compoundFieldName:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        controllerName:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        createable:
+          type: boolean
+          example: true
+        custom:
+          type: boolean
+          example: true
+        defaultValue:
+          oneOf:
+          - type:
+            - string
+            - 'null'
+          - type: boolean
+          - {}
+          example: example_value
+        defaultValueFormula:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        defaultedOnCreate:
+          type: boolean
+          example: true
+        dependentPicklist:
+          type: boolean
+          example: true
+        deprecatedAndHidden:
+          type: boolean
+          example: true
+        digits:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        displayLocationInDecimal:
+          type: boolean
+          example: true
+        encrypted:
+          type: boolean
+          example: true
+        externalId:
+          type: boolean
+          example: '500123'
+        extraTypeInfo:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        filterable:
+          type: boolean
+          example: true
+        filteredLookupInfo:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        formulaTreatNullNumberAsZero:
+          type: boolean
+          example: true
+        groupable:
+          type: boolean
+          example: true
+        highScaleNumber:
+          type: boolean
+          example: true
+        htmlFormatted:
+          type: boolean
+          example: true
+        idLookup:
+          type: boolean
+          example: true
+        inlineHelpText:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        label:
+          type: string
+          example: Example Title
+        length:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        mask:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        maskType:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        name:
+          type: string
+          example: Example Title
+        nameField:
+          type: boolean
+          example: true
+        namePointing:
+          type: boolean
+          example: true
+        nillable:
+          type: boolean
+          example: true
+        permissionable:
+          type: boolean
+          example: true
+        picklistValues:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/PicklistValue'
+            - allOf:
+              - $ref: '#/components/schemas/PicklistValue1'
+              - examples:
+                - active: true
+                  defaultValue: false
+                  label: English
+                  validFor: null
+                  value: en_US
+          description: ''
+          example: []
+        polymorphicForeignKey:
+          type: boolean
+          example: true
+        precision:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        queryByDistance:
+          type: boolean
+          example: true
+        referenceTargetField:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        referenceTo:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        relationshipName:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        relationshipOrder:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        restrictedDelete:
+          type: boolean
+          example: true
+        restrictedPicklist:
+          type: boolean
+          example: true
+        scale:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        searchPrefilterable:
+          type: boolean
+          example: true
+        soapType:
+          type: string
+          example: example_value
+        sortable:
+          type: boolean
+          example: true
+        type:
+          type: string
+          example: example_value
+        unique:
+          type: boolean
+          example: true
+        updateable:
+          type: boolean
+          example: true
+        writeRequiresMasterRead:
+          type: boolean
+          example: true
+    EnrichedField:
+      title: EnrichedField
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+          example: Example Title
+      examples:
+      - name: External_Account_ID__c
+    CreatechannelmemberRequest:
+      title: CreatechannelmemberRequest
+      required:
+      - FullName
+      - Metadata
+      type: object
+      properties:
+        FullName:
+          type: string
+          example: example_value
+        Metadata:
+          $ref: '#/components/schemas/Metadata3'
+      examples:
+      - FullName: Account_Channel_chn_AccountChangeEvent
+        Metadata:
+          eventChannel: Account_Channel__chn
+          selectedEntity: AccountChangeEvent
+    PicklistValue:
+      title: PicklistValue
+      type: object
+      properties:
+        active:
+          type: boolean
+          example: true
+        defaultValue:
+          type: boolean
+          example: true
+        label:
+          type: string
+          example: Example Title
+        validFor:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        value:
+          type: string
+          example: example_value
+    Describeeventchannel:
+      title: Describeeventchannel
+      required:
+      - actionOverrides
+      - activateable
+      - associateEntityType
+      - associateParentEntity
+      - childRelationships
+      - compactLayoutable
+      - createable
+      - custom
+      - customSetting
+      - deepCloneable
+      - defaultImplementation
+      - deletable
+      - deprecatedAndHidden
+      - extendedBy
+      - extendsInterfaces
+      - feedEnabled
+      - fields
+      - hasSubtypes
+      - implementedBy
+      - implementsInterfaces
+      - isInterface
+      - isSubtype
+      - keyPrefix
+      - label
+      - labelPlural
+      - layoutable
+      - listviewable
+      - lookupLayoutable
+      - mergeable
+      - mruEnabled
+      - name
+      - namedLayoutInfos
+      - networkScopeFieldName
+      - queryable
+      - recordTypeInfos
+      - replicateable
+      - retrieveable
+      - searchLayoutable
+      - searchable
+      - sobjectDescribeOption
+      - supportedScopes
+      - triggerable
+      - undeletable
+      - updateable
+      - urls
+      type: object
+      properties:
+        actionOverrides:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        activateable:
+          type: boolean
+          example: true
+        associateEntityType:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        associateParentEntity:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        childRelationships:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        compactLayoutable:
+          type: boolean
+          example: true
+        createable:
+          type: boolean
+          example: true
+        custom:
+          type: boolean
+          example: true
+        customSetting:
+          type: boolean
+          example: true
+        deepCloneable:
+          type: boolean
+          example: true
+        defaultImplementation:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        deletable:
+          type: boolean
+          example: true
+        deprecatedAndHidden:
+          type: boolean
+          example: true
+        extendedBy:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        extendsInterfaces:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        feedEnabled:
+          type: boolean
+          example: true
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/Field1'
+          description: ''
+          example: []
+        hasSubtypes:
+          type: boolean
+          example: true
+        implementedBy:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        implementsInterfaces:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        isInterface:
+          type: boolean
+          example: true
+        isSubtype:
+          type: boolean
+          example: true
+        keyPrefix:
+          type: string
+          example: example_value
+        label:
+          type: string
+          example: Example Title
+        labelPlural:
+          type: string
+          example: example_value
+        layoutable:
+          type: boolean
+          example: true
+        listviewable:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        lookupLayoutable:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        mergeable:
+          type: boolean
+          example: true
+        mruEnabled:
+          type: boolean
+          example: true
+        name:
+          type: string
+          example: Example Title
+        namedLayoutInfos:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        networkScopeFieldName:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        queryable:
+          type: boolean
+          example: true
+        recordTypeInfos:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        replicateable:
+          type: boolean
+          example: true
+        retrieveable:
+          type: boolean
+          example: true
+        searchLayoutable:
+          type: boolean
+          example: true
+        searchable:
+          type: boolean
+          example: true
+        sobjectDescribeOption:
+          type: string
+          example: example_value
+        supportedScopes:
+          type: array
+          items:
+            $ref: '#/components/schemas/SupportedScope'
+          description: ''
+          example: []
+        triggerable:
+          type: boolean
+          example: true
+        undeletable:
+          type: boolean
+          example: true
+        updateable:
+          type: boolean
+          example: true
+        urls:
+          $ref: '#/components/schemas/Urls2'
+    Metadata3:
+      title: Metadata3
+      required:
+      - eventChannel
+      - selectedEntity
+      type: object
+      properties:
+        eventChannel:
+          type: string
+          example: example_value
+        selectedEntity:
+          type: string
+          example: example_value
+      examples:
+      - eventChannel: Account_Channel__chn
+        selectedEntity: AccountChangeEvent
+    Metadata2:
+      title: Metadata2
+      required:
+      - enrichedFields
+      - eventChannel
+      - selectedEntity
+      type: object
+      properties:
+        enrichedFields:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnrichedField'
+          description: ''
+          example: []
+        eventChannel:
+          type: string
+          example: example_value
+        selectedEntity:
+          type: string
+          example: example_value
+      examples:
+      - enrichedFields:
+        - name: External_Account_ID__c
+        eventChannel: Account_Channel__chn
+        selectedEntity: AccountChangeEvent
+    AddenrichedfieldstochannelmemberRequest:
+      title: AddenrichedfieldstochannelmemberRequest
+      required:
+      - FullName
+      - Metadata
+      type: object
+      properties:
+        FullName:
+          type: string
+          example: example_value
+        Metadata:
+          $ref: '#/components/schemas/Metadata2'
+      examples:
+      - FullName: Account_Channel_chn_AccountChangeEvent
+        Metadata:
+          enrichedFields:
+          - name: External_Account_ID__c
+          eventChannel: Account_Channel__chn
+          selectedEntity: AccountChangeEvent
+    Metadata9:
+      title: Metadata9
+      required:
+      - enrichedFields
+      - eventChannel
+      - filterExpression
+      - selectedEntity
+      - urls
+      type: object
+      properties:
+        enrichedFields:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        eventChannel:
+          type: string
+          example: example_value
+        filterExpression:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        selectedEntity:
+          type: string
+          example: example_value
+        urls:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+      examples:
+      - enrichedFields: []
+        eventChannel: ChangeEvents
+        filterExpression: null
+        selectedEntity: ContactChangeEvent
+        urls: null
+    PicklistValue1:
+      title: PicklistValue1
+      required:
+      - active
+      - defaultValue
+      - label
+      - validFor
+      - value
+      type: object
+      properties:
+        active:
+          type: boolean
+          example: true
+        defaultValue:
+          type: boolean
+          example: true
+        label:
+          type:
+          - string
+          - 'null'
+          example: Example Title
+        validFor:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        value:
+          type: string
+          example: example_value
+      examples:
+      - active: true
+        defaultValue: false
+        label: English
+        validFor: null
+        value: en_US
+    Getchannelmember:
+      title: Getchannelmember
+      required:
+      - attributes
+      - Id
+      - IsDeleted
+      - DeveloperName
+      - Language
+      - MasterLabel
+      - NamespacePrefix
+      - ManageableState
+      - CreatedDate
+      - CreatedById
+      - LastModifiedDate
+      - LastModifiedById
+      - SystemModstamp
+      - FullName
+      - Metadata
+      - EventChannel
+      - SelectedEntity
+      - FilterExpression
+      type: object
+      properties:
+        attributes:
+          $ref: '#/components/schemas/Attributes4'
+        Id:
+          type: string
+          example: abc123
+        IsDeleted:
+          type: boolean
+          example: true
+        DeveloperName:
+          type: string
+          example: example_value
+        Language:
+          type: string
+          example: example_value
+        MasterLabel:
+          type: string
+          example: example_value
+        NamespacePrefix:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        ManageableState:
+          type: string
+          example: example_value
+        CreatedDate:
+          type: string
+          example: example_value
+        CreatedById:
+          type: string
+          example: '500123'
+        LastModifiedDate:
+          type: string
+          example: example_value
+        LastModifiedById:
+          type: string
+          example: '500123'
+        SystemModstamp:
+          type: string
+          example: example_value
+        FullName:
+          type: string
+          example: example_value
+        Metadata:
+          $ref: '#/components/schemas/Metadata9'
+        EventChannel:
+          type: string
+          example: example_value
+        SelectedEntity:
+          type: string
+          example: example_value
+        FilterExpression:
+          type:
+          - string
+          - 'null'
+          example: example_value
+      examples:
+      - attributes:
+          type: PlatformEventChannelMember
+          url: /services/data/v58.0/tooling/sobjects/PlatformEventChannelMember/0v84H000000PAvIQAW
+        Id: 0v84H000000PAvIQAW
+        IsDeleted: false
+        DeveloperName: ChangeEvents_ContactChangeEvent
+        Language: en_US
+        MasterLabel: ContactChangeEvent
+        NamespacePrefix: null
+        ManageableState: unmanaged
+        CreatedDate: 2022-12-30T15:10:39.000+0000
+        CreatedById: 00558000000yFyDAAU
+        LastModifiedDate: 2022-12-30T15:10:39.000+0000
+        LastModifiedById: 00558000000yFyDAAU
+        SystemModstamp: 2022-12-30T15:10:39.000+0000
+        FullName: ChangeEvents_ContactChangeEvent
+        Metadata:
+          enrichedFields: []
+          eventChannel: ChangeEvents
+          filterExpression: null
+          selectedEntity: ContactChangeEvent
+          urls: null
+        EventChannel: ChangeEvents
+        SelectedEntity: ContactChangeEvent
+        FilterExpression: null
+    Geteventchannel:
+      title: Geteventchannel
+      required:
+      - attributes
+      - Id
+      - IsDeleted
+      - DeveloperName
+      - Language
+      - MasterLabel
+      - NamespacePrefix
+      - ManageableState
+      - CreatedDate
+      - CreatedById
+      - LastModifiedDate
+      - LastModifiedById
+      - SystemModstamp
+      - ChannelType
+      - FullName
+      - Metadata
+      type: object
+      properties:
+        attributes:
+          $ref: '#/components/schemas/Attributes4'
+        Id:
+          type: string
+          example: abc123
+        IsDeleted:
+          type: boolean
+          example: true
+        DeveloperName:
+          type: string
+          example: example_value
+        Language:
+          type: string
+          example: example_value
+        MasterLabel:
+          type: string
+          example: example_value
+        NamespacePrefix:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        ManageableState:
+          type: string
+          example: example_value
+        CreatedDate:
+          type: string
+          example: example_value
+        CreatedById:
+          type: string
+          example: '500123'
+        LastModifiedDate:
+          type: string
+          example: example_value
+        LastModifiedById:
+          type: string
+          example: '500123'
+        SystemModstamp:
+          type: string
+          example: example_value
+        ChannelType:
+          type: string
+          example: example_value
+        FullName:
+          type: string
+          example: example_value
+        Metadata:
+          $ref: '#/components/schemas/Metadata1'
+      examples:
+      - attributes:
+          type: PlatformEventChannel
+          url: /services/data/v58.0/tooling/sobjects/PlatformEventChannel/0YL4H0000004C93WAE
+        Id: 0YL4H0000004C93WAE
+        IsDeleted: false
+        DeveloperName: HREvents
+        Language: en_US
+        MasterLabel: Custom Channel for the HR App
+        NamespacePrefix: null
+        ManageableState: unmanaged
+        CreatedDate: 2021-01-11T19:33:54.000+0000
+        CreatedById: 00558000000yFyDAAU
+        LastModifiedDate: 2021-01-11T19:33:54.000+0000
+        LastModifiedById: 00558000000yFyDAAU
+        SystemModstamp: 2021-01-11T19:33:54.000+0000
+        ChannelType: data
+        FullName: HREvents__chn
+        Metadata:
+          channelType: data
+          label: Custom Channel for the HR App
+          urls: null
+    Metadata:
+      title: Metadata
+      required:
+      - channelType
+      - label
+      type: object
+      properties:
+        channelType:
+          type: string
+          example: example_value
+        label:
+          type: string
+          example: Example Title
+      examples:
+      - channelType: data
+        label: Account Channel
+    Attributes4:
+      title: Attributes4
+      required:
+      - type
+      - url
+      type: object
+      properties:
+        type:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - type: Account
+        url: /services/data/v58.0/sobjects/Account/001...
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

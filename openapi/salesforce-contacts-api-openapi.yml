@@ -1,0 +1,250 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Contacts API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Contacts
+  description: 'Operations for listing, retrieving, and deleting Marketing Cloud contact records.
+
+    '
+paths:
+  /contacts/v1/contacts:
+    get:
+      operationId: listContacts
+      summary: List contacts
+      description: 'Returns a paginated list of contacts in the Marketing Cloud account. Contacts are the core subscriber entities that can be subscribed to email, SMS, or other channels. Use the page and pageSize parameters to paginate through large contact lists.
+
+        '
+      tags:
+      - Contacts
+      parameters:
+      - name: page
+        in: query
+        required: false
+        description: The page number to retrieve. Defaults to 1.
+        schema:
+          type: integer
+          default: 1
+          minimum: 1
+      - name: pageSize
+        in: query
+        required: false
+        description: The number of contacts to return per page. Defaults to 50.
+        schema:
+          type: integer
+          default: 50
+          minimum: 1
+          maximum: 200
+      responses:
+        '200':
+          description: Paginated list of contacts.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    description: Array of contact records.
+                    items:
+                      $ref: '#/components/schemas/Contact'
+                  count:
+                    type: integer
+                    description: Total number of contacts matching the request.
+                  page:
+                    type: integer
+                    description: The current page number.
+                  pageSize:
+                    type: integer
+                    description: The number of items per page.
+        '401':
+          description: Unauthorized. Invalid or expired access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: deleteContacts
+      summary: Delete contacts
+      description: 'Deletes one or more contacts from Marketing Cloud. Deletion is asynchronous; the response indicates the operation was accepted. Contact deletion removes the contact and their data across all business units in the account.
+
+        '
+      tags:
+      - Contacts
+      requestBody:
+        required: true
+        description: Contact keys identifying the contacts to delete.
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - contactKeys
+              properties:
+                contactKeys:
+                  type: array
+                  description: Array of contact keys (subscriber keys) to delete.
+                  items:
+                    type: string
+                deleteOperationType:
+                  type: string
+                  enum:
+                  - ContactAndAttributes
+                  - BusinessUnit
+                  - Enterprise
+                  description: 'The scope of the deletion operation. ContactAndAttributes deletes the contact and all attribute data. BusinessUnit deletes the contact from the current business unit. Enterprise deletes from all business units.
+
+                    '
+      responses:
+        '200':
+          description: Contact deletion request accepted successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  requestServiceMessageID:
+                    type: string
+                    description: 'Unique ID for the deletion request. Use this to track the deletion status.
+
+                      '
+                  resultMessages:
+                    type: array
+                    description: Result messages for the deletion request.
+                    items:
+                      type: string
+        '400':
+          description: Bad request. Invalid contact keys or deletion type.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized. Invalid or expired access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /contacts/v1/contacts/{contactKey}:
+    get:
+      operationId: getContact
+      summary: Get a contact by contact key
+      description: 'Retrieves a single Marketing Cloud contact by their contact key. The contact key is a unique identifier for the contact, typically the subscriber key or email address used when the contact was created.
+
+        '
+      tags:
+      - Contacts
+      parameters:
+      - name: contactKey
+        in: path
+        required: true
+        description: 'The unique contact key (subscriber key) of the Marketing Cloud contact to retrieve.
+
+          '
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The requested Marketing Cloud contact.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+        '401':
+          description: Unauthorized. Invalid or expired access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Contact not found for the specified contact key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      description: An error response from the Marketing Cloud REST API.
+      properties:
+        message:
+          type: string
+          description: Human-readable description of the error.
+        errorcode:
+          type: integer
+          description: Marketing Cloud numeric error code.
+        documentation:
+          type: string
+          description: URL to documentation about this error.
+    Contact:
+      type: object
+      description: 'A Marketing Cloud contact record representing a subscriber or customer who can receive communications across email, SMS, and other channels.
+
+        '
+      properties:
+        contactKey:
+          type: string
+          description: 'The unique identifier for this contact. Typically the subscriber key or email address.
+
+            '
+        contactId:
+          type: integer
+          description: The internal numeric ID assigned to the contact by Marketing Cloud.
+        contactStatus:
+          type: string
+          description: 'The current status of the contact (e.g., Active, Unsubscribed, Held, Bounced).
+
+            '
+        isAnonymous:
+          type: boolean
+          description: Whether the contact is an anonymous (cookie-tracked) contact.
+        attributeSets:
+          type: array
+          description: 'Array of attribute sets containing the contact''s profile data organized by Data Extension or attribute group.
+
+            '
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: The name of the attribute set.
+              items:
+                type: array
+                description: Array of attribute values in this set.
+                items:
+                  type: object
+                  additionalProperties: true
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

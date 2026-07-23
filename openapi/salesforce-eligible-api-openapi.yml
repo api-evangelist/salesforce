@@ -1,0 +1,214 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Eligible API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Eligible
+paths:
+  /data/v64.0/global-promotions-management/eligible-promotions:
+    parameters: []
+    post:
+      tags:
+      - Eligible
+      summary: Salesforce Eligible Promotions
+      description: '[Eligible Promotions](https://developer.salesforce.com/docs/atlas.en-us.loyalty.meta/loyalty/connect_resources_eligible_promotions.htm)
+
+
+        NOTE:
+
+
+        In the Pre-request. Script Tab, make changes in the variables value accordingly with the real Process Name to invoke.'
+      operationId: EligiblePromotions
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/EligiblePromotionsRequest'
+              - examples:
+                - cart:
+                    cartDetails:
+                    - activityStartDate: '2023-06-14T12:45:19.000Z'
+                      contactId: 003xx000004WjzAAAS
+                      transactionAmount: 499
+                      currencyISOCode: INR
+                      cartLineDetails:
+                      - cartLineProductId: 01txx0000006iTsAAI
+                        cartLineItemQuantity: 3
+                        cartLineItemAmount: 499
+                        cartLineProductCatalogId: 0ZSSB0000002d8X4AQ
+              contentMediaType: application/json
+            example:
+              cart:
+                cartDetails:
+                - activityStartDate: '2023-06-14T12:45:19.000Z'
+                  contactId: 003xx000004WjzAAAS
+                  transactionAmount: 499
+                  currencyISOCode: INR
+                  cartLineDetails:
+                  - cartLineProductId: 01txx0000006iTsAAI
+                    cartLineItemQuantity: 3
+                    cartLineItemAmount: 499
+                    cartLineProductCatalogId: 0ZSSB0000002d8X4AQ
+        required: true
+      responses:
+        default:
+          description: ''
+          headers: {}
+          content: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Cart:
+      title: Cart
+      required:
+      - cartDetails
+      type: object
+      properties:
+        cartDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartDetail'
+          description: ''
+          example: []
+      examples:
+      - cartDetails:
+        - activityStartDate: '2023-06-14T12:45:19.000Z'
+          contactId: 003xx000004WjzAAAS
+          transactionAmount: 499
+          currencyISOCode: INR
+          cartLineDetails:
+          - cartLineProductId: 01txx0000006iTsAAI
+            cartLineItemQuantity: 3
+            cartLineItemAmount: 499
+            cartLineProductCatalogId: 0ZSSB0000002d8X4AQ
+    EligiblePromotionsRequest:
+      title: EligiblePromotionsRequest
+      required:
+      - cart
+      type: object
+      properties:
+        cart:
+          $ref: '#/components/schemas/Cart'
+      examples:
+      - cart:
+          cartDetails:
+          - activityStartDate: '2023-06-14T12:45:19.000Z'
+            contactId: 003xx000004WjzAAAS
+            transactionAmount: 499
+            currencyISOCode: INR
+            cartLineDetails:
+            - cartLineProductId: 01txx0000006iTsAAI
+              cartLineItemQuantity: 3
+              cartLineItemAmount: 499
+              cartLineProductCatalogId: 0ZSSB0000002d8X4AQ
+    CartDetail:
+      title: CartDetail
+      required:
+      - activityStartDate
+      - contactId
+      - transactionAmount
+      - currencyISOCode
+      - cartLineDetails
+      type: object
+      properties:
+        activityStartDate:
+          type: string
+          example: example_value
+        contactId:
+          type: string
+          example: '500123'
+        transactionAmount:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        currencyISOCode:
+          type: string
+          example: example_value
+        cartLineDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartLineDetail'
+          description: ''
+          example: []
+      examples:
+      - activityStartDate: '2023-06-14T12:45:19.000Z'
+        contactId: 003xx000004WjzAAAS
+        transactionAmount: 499
+        currencyISOCode: INR
+        cartLineDetails:
+        - cartLineProductId: 01txx0000006iTsAAI
+          cartLineItemQuantity: 3
+          cartLineItemAmount: 499
+          cartLineProductCatalogId: 0ZSSB0000002d8X4AQ
+    CartLineDetail:
+      title: CartLineDetail
+      required:
+      - cartLineProductId
+      - cartLineItemQuantity
+      - cartLineItemAmount
+      - cartLineProductCatalogId
+      type: object
+      properties:
+        cartLineProductId:
+          type: string
+          example: '500123'
+        cartLineItemQuantity:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        cartLineItemAmount:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        cartLineProductCatalogId:
+          type: string
+          example: '500123'
+      examples:
+      - cartLineProductId: 01txx0000006iTsAAI
+        cartLineItemQuantity: 3
+        cartLineItemAmount: 499
+        cartLineProductCatalogId: 0ZSSB0000002d8X4AQ
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

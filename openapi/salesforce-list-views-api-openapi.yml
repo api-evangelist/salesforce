@@ -1,0 +1,218 @@
+openapi: 3.1.0
+info:
+  title: Salesforce Bulk API 2.0 Abort List Views API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: List Views
+  description: Retrieve list view data and metadata for use in UI components
+paths:
+  /list-ui/{objectApiName}:
+    get:
+      operationId: getListsByObjectName
+      summary: Salesforce Get List Views for an Object
+      description: Returns metadata and data for all list views accessible to the current user for the specified object type.
+      tags:
+      - List Views
+      parameters:
+      - $ref: '#/components/parameters/ObjectApiName'
+      - $ref: '#/components/parameters/PageSize'
+      - $ref: '#/components/parameters/PageToken'
+      responses:
+        '200':
+          description: List views retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListViewCollection'
+              examples:
+                Getlistsbyobjectname200Example:
+                  summary: Default getListsByObjectName 200 response
+                  x-microcks-default: true
+                  value:
+                    count: 42
+                    currentPageToken: CAUQAA
+                    nextPageToken: CAUQAA
+                    previousPageToken: CAUQAA
+                    results:
+                    - id: abc123
+                      apiName: example_value
+                      label: Example Title
+                      url: https://www.example.com
+        '404':
+          $ref: '#/components/responses/NotFound'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /list-ui/{objectApiName}/{listViewApiName}:
+    get:
+      operationId: getListView
+      summary: Salesforce Get a Specific List View
+      description: Returns the data and metadata for a specific list view.
+      tags:
+      - List Views
+      parameters:
+      - $ref: '#/components/parameters/ObjectApiName'
+      - name: listViewApiName
+        in: path
+        required: true
+        description: The API name of the list view (e.g., AllAccounts, RecentlyViewed)
+        schema:
+          type: string
+        example: example_value
+      - $ref: '#/components/parameters/PageSize'
+      - $ref: '#/components/parameters/PageToken'
+      responses:
+        '200':
+          description: List view data retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListViewResult'
+              examples:
+                Getlistview200Example:
+                  summary: Default getListView 200 response
+                  x-microcks-default: true
+                  value:
+                    id: abc123
+                    label: Example Title
+                    records:
+                    - {}
+                    sortBy: example_value
+        '404':
+          $ref: '#/components/responses/NotFound'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      description: API error response
+      properties:
+        errorCode:
+          type: string
+          description: Machine-readable error code
+          example: example_value
+        message:
+          type: string
+          description: Human-readable error message
+          example: example_value
+    ListViewSummary:
+      type: object
+      description: Summary information about a list view
+      properties:
+        id:
+          type: string
+          example: abc123
+        apiName:
+          type: string
+          example: example_value
+        label:
+          type: string
+          example: Example Title
+        url:
+          type: string
+          example: https://www.example.com
+    ListViewResult:
+      type: object
+      description: Data and metadata for a list view
+      properties:
+        id:
+          type: string
+          example: abc123
+        label:
+          type: string
+          example: Example Title
+        records:
+          type: array
+          items:
+            type: object
+          example: []
+        sortBy:
+          type: string
+          example: example_value
+    ListViewCollection:
+      type: object
+      description: Collection of list views for an object
+      properties:
+        count:
+          type: integer
+          example: 42
+        currentPageToken:
+          type: string
+          example: CAUQAA
+        nextPageToken:
+          type: string
+          nullable: true
+          example: CAUQAA
+        previousPageToken:
+          type: string
+          nullable: true
+          example: CAUQAA
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ListViewSummary'
+          example: []
+  responses:
+    NotFound:
+      description: Not found. The requested resource does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  parameters:
+    PageToken:
+      name: pageToken
+      in: query
+      description: Token for retrieving the next page of results
+      schema:
+        type: string
+    ObjectApiName:
+      name: objectApiName
+      in: path
+      required: true
+      description: The API name of the Salesforce object (e.g., Account, Contact, MyObject__c)
+      schema:
+        type: string
+    PageSize:
+      name: pageSize
+      in: query
+      description: Number of records per page
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 2000
+        default: 50
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '
