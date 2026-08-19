@@ -1,0 +1,675 @@
+{
+  "item": [
+    {
+      "id": "017c7913-d7d1-4e09-b208-94f1eb5d9583",
+      "name": "Registration",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "5f7a0426-cf47-4515-8f4a-4b43aa92324d",
+          "name": "Salesforce Registration - Initialize",
+          "request": {
+            "name": "Salesforce Registration - Initialize",
+            "description": {
+              "content": "Submits the registration data to the init/registration endpoint and returns a request identifier. At the same time, an OTP is sent out to the end users via email or sms. Registration data is passed in the request body, and is formatted with JSON, with 5 keys: `userdata`, `customdata`, `password`, `recaptcha`, and `verificationmethod`. The first two keys are JSON structures, and the last 3 keys are strings.\n\nThis request returns JSON, and includes an identifier (request identifier).",
+              "type": "text/plain"
+            },
+            "url": {
+              "protocol": "https",
+              "path": [
+                "services",
+                "auth",
+                "headless",
+                "init",
+                "registration"
+              ],
+              "host": [
+                "login",
+                "salesforce",
+                "com"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userdata\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"email\": \"<string>\",\n    \"username\": \"<string>\"\n  },\n  \"customdata\": {\n    \"mobilePhone\": \"<string>\",\n    \"streetAddress\": \"<string>\",\n    \"city\": \"<string>\",\n    \"state\": \"<string>\",\n    \"zip\": \"<string>\",\n    \"privacyPolicy\": \"<boolean>\"\n  },\n  \"password\": \"<string>\",\n  \"recaptcha\": \"<string>\",\n  \"verificationmethod\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "fc900366-612e-4ccf-99c2-d1e7c3ad72d5",
+              "originalRequest": {
+                "url": {
+                  "protocol": "https",
+                  "path": [
+                    "services",
+                    "auth",
+                    "headless",
+                    "init",
+                    "registration"
+                  ],
+                  "host": [
+                    "login",
+                    "salesforce",
+                    "com"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"userdata\": {\n    \"firstName\": \"userFirstName\",\n    \"lastName\": \"userLastName\",\n    \"email\": \"<email>\",\n    \"username\": \"<username>\"\n  },\n  \"customdata\": {\n    \"mobilePhone\": \"+12035408967\",\n    \"streetAddress\": \"12 N Lands End Rd\",\n    \"city\": \"Lantana\",\n    \"state\": \"Florida\",\n    \"zip\": \"20537\",\n    \"privacyPolicy\": true\n  },\n  \"password\": \"Test123!\",\n  \"recaptcha\": \"<recaptcha-token>\",\n  \"verificationmethod\": \"email\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7f96639c-d47e-4c5d-a995-801fa07cd4f3",
+          "name": "Salesforce Registration - Authorize",
+          "request": {
+            "name": "Salesforce Registration - Authorize",
+            "description": {
+              "content": "After you send your registration data to initialize, this request allows you to process that registration data, and as a part of this request you also verify the users email or sms number. The request itself is a authorization call for the Code and Credential flow. It includes 3 specific headers: `Auth-Request-Type` which is set to `user-registration`, `Auth-Verification-Type` which is set to email or sms, and an Authorization Basic header, which is the base 64 encoded result of `identifier:otp` where `identifier` is the value returned in your initialize registration call, and `otp` is the value sent to the end user via email or sms.\n\nThe response from this API is the Auth Code, which is then exchanged for the Access Token.",
+              "type": "text/plain"
+            },
+            "url": {
+              "protocol": "https",
+              "path": [
+                "services",
+                "oauth2",
+                "authorize"
+              ],
+              "host": [
+                "login",
+                "salesforce",
+                "com"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) Required for User Registration",
+                "key": "Auth-Request-Type",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) Must match init/registration, email or sms",
+                "key": "Auth-Verification-Type",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "response_type",
+                  "value": "<string>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "client_id",
+                  "value": "<string>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "redirect_uri",
+                  "value": "<string>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "scope",
+                  "value": "<string>",
+                  "description": "(Required) Comma seperated list of scopes, optional"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "bd14e727-85d9-4a32-81d5-1f1329ac59ca",
+              "originalRequest": {
+                "url": {
+                  "protocol": "https",
+                  "path": [
+                    "services",
+                    "oauth2",
+                    "authorize"
+                  ],
+                  "host": [
+                    "login",
+                    "salesforce",
+                    "com"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Required for User Registration",
+                    "key": "Auth-Request-Type",
+                    "value": "user-registration"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Must match init/registration, email or sms",
+                    "key": "Auth-Verification-Type",
+                    "value": "email"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Base64 encoded <Identifier:OTP>",
+                    "key": "Authorization",
+                    "value": "Basic <base64Encoded identifier:otp>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "response_type",
+                      "value": "example_value"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "client_id",
+                      "value": "500123"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "redirect_uri",
+                      "value": "example_value"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Comma seperated list of scopes, optional",
+                        "type": "text/plain"
+                      },
+                      "key": "scope",
+                      "value": "example_value"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7945a582-e878-417e-bd11-285601f38518",
+          "name": "Salesforce Registration - Token Exchange",
+          "request": {
+            "name": "Salesforce Registration - Token Exchange",
+            "description": {
+              "content": "This exchanges the auth code returned in the Authorize Request for an access token and refresh token. This follows the standard Auth Code flow/Webserver Code Flow pattern. The Code is the return form the Authorization call.",
+              "type": "text/plain"
+            },
+            "url": {
+              "protocol": "https",
+              "path": [
+                "services",
+                "oauth2",
+                "token"
+              ],
+              "host": [
+                "login",
+                "salesforce",
+                "com"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "code",
+                  "value": "<string>",
+                  "description": "(Required) Auth Code from the Authorize response"
+                },
+                {
+                  "disabled": false,
+                  "key": "grant_type",
+                  "value": "<string>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "client_id",
+                  "value": "<string>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "redirect_uri",
+                  "value": "<string>",
+                  "description": "(Required) "
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "1276bb0f-bc5c-46f7-bf60-d12e23cabf12",
+              "originalRequest": {
+                "url": {
+                  "protocol": "https",
+                  "path": [
+                    "services",
+                    "oauth2",
+                    "token"
+                  ],
+                  "host": [
+                    "login",
+                    "salesforce",
+                    "com"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Auth Code from the Authorize response",
+                        "type": "text/plain"
+                      },
+                      "key": "code",
+                      "value": "example_value"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "grant_type",
+                      "value": "example_value"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "client_id",
+                      "value": "500123"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "redirect_uri",
+                      "value": "example_value"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2c9c8e07-bafb-43ce-b6e3-684bc07a9385",
+          "name": "Salesforce Openid Connect Dynamic Client Registration Endpoint",
+          "request": {
+            "name": "Salesforce Openid Connect Dynamic Client Registration Endpoint",
+            "description": {},
+            "url": {
+              "protocol": "https",
+              "path": [
+                "services",
+                "oauth2",
+                "register"
+              ],
+              "host": [
+                "login",
+                "salesforce",
+                "com"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json;charset=UTF-8"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"redirect_uris\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"response_types\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"grant_types\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"application_type\": \"<string>\",\n  \"contacts\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"client_name\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ddadb00a-88ae-407f-94c7-256093f18fc8",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "protocol": "https",
+                  "path": [
+                    "services",
+                    "oauth2",
+                    "register"
+                  ],
+                  "host": [
+                    "login",
+                    "salesforce",
+                    "com"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "Authorization",
+                    "value": "Bearer {{init_access_token}}"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json;charset=UTF-8"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"redirect_uris\": [\n    \"http://localhost\"\n  ],\n  \"response_types\": [\n    \"code\",\n    \"token\",\n    \"id_token\"\n  ],\n  \"grant_types\": [\n    \"authorization_code\",\n    \"implicit\",\n    \"refresh_token\"\n  ],\n  \"application_type\": \"web\",\n  \"contacts\": [\n    \"abc@sf.com\",\n    \"ve7jtb@example.org\"\n  ],\n  \"client_name\": \"Example Olivier\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "disabled": false,
+                  "key": "Date",
+                  "value": "",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "Strict-Transport-Security",
+                  "value": "",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "X-Content-Type-Options",
+                  "value": "",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "X-XSS-Protection",
+                  "value": "",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "X-Robots-Tag",
+                  "value": "",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "Cache-Control",
+                  "value": "",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "Expires",
+                  "value": "",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "Vary",
+                  "value": "",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "Content-Encoding",
+                  "value": "",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "Transfer-Encoding",
+                  "value": "",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json;charset=UTF-8"
+                }
+              ],
+              "body": "\"{\\n    \\\"client_id\\\": \\\"<client_id>\\\",\\n    \\\"client_secret\\\": \\\"<client_secret>\\\",\\n    \\\"registration_access_token\\\": \\\"<token>\\\",\\n    \\\"registration_client_uri\\\": \\\"https://login.salesforce.com/services/oauth2/register/<client_id>\\\",\\n    \\\"client_id_issued_at\\\": <timestamp>,\\n    \\\"client_secret_expires_at\\\": 0,\\n    \\\"token_endpoint_auth_method\\\": \\\"client_secret_post\\\",\\n    \\\"redirect_uris\\\": [\\n        \\\"http://localhost\\\"\\n    ],\\n    \\\"response_types\\\": [\\n        \\\"code\\\",\\n        \\\"token\\\",\\n        \\\"id_token\\\"\\n    ],\\n    \\\"grant_types\\\": [\\n        \\\"authorization_code\\\",\\n        \\\"hybrid_auth_code\\\",\\n        \\\"implicit\\\",\\n        \\\"refresh_token\\\"\\n    ],\\n    \\\"contacts\\\": [\\n        \\\"abc@sf.com\\\"\\n    ],\\n    \\\"client_name\\\": \\\"Sample Customer\\\",\\n    \\\"scopes\\\": [\\n        \\\"openid\\\",\\n        \\\"refresh_token\\\",\\n        \\\"id\\\",\\n        \\\"api\\\"\\n    ]\\n}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "yourInstance",
+      "key": "instance"
+    },
+    {
+      "description": {
+        "content": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "63.0",
+      "key": "version"
+    },
+    {
+      "type": "string",
+      "value": "https://{{instance}}.salesforce.com/services/data/v{{version}}/jobs",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "540ae5d6-94b1-4e86-a33e-a34f7b821f14",
+    "name": "Salesforce Bulk API 2.0 Abort Registration API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.\n\n\nContact Support:\n Name: Salesforce Developers",
+      "type": "text/plain"
+    }
+  }
+}

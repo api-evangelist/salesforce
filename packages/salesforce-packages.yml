@@ -1,12 +1,19 @@
-generated: '2026-06-20'
+generated: '2026-08-13'
 method: searched
-source: developer.salesforce.com/tools + npm + PyPI + Maven Central + GitHub (forcedotcom/salesforcecli/salesforce orgs)
+source: >-
+  developer.salesforce.com/tools + registry.npmjs.org + pypi.org + search.maven.org +
+  trunk.cocoapods.org (all queried unauthenticated on 2026-08-13)
 notes: >-
-  Salesforce publishes first-party tooling packages (CLI, MCP server, LWC engine, Mobile SDKs) but
-  does not ship a single official general-purpose server-side REST SDK for Node/Python/Ruby; the
-  ecosystem standard clients for those languages are community-maintained (jsforce, simple-salesforce)
-  and are recorded here as official:false. Java SOAP stubs (force-wsc, partner/enterprise WSDL jars)
-  are first-party via Maven Central.
+  Salesforce publishes first-party tooling packages (CLI, MCP server, Agents SDK, LWC engine,
+  SLDS, Mobile SDKs, Java SOAP stubs) but does not ship a single official general-purpose
+  server-side REST SDK for Node/Python/Ruby; the ecosystem standard clients for those languages
+  are community-maintained (jsforce, simple-salesforce) and are recorded here as official:false.
+  `version` and `published` are read from each registry's metadata endpoint on the date above.
+  DECAY SIGNAL: the JavaScript and Java toolchains are current (npm packages published within the
+  last 45 days), but com.force.api:force-wsc and com.force.api:force-partner-api last shipped
+  64.0.3 on 2025-05-14 — pinned to API v64.0 while the platform is on v67.0 (Summer '26), i.e.
+  the first-party Java SOAP stubs are three seasonal releases behind the API they wrap.
+checked: '2026-08-13'
 packages:
   # --- First-party tooling / developer platform ---
   - language: javascript
@@ -16,6 +23,8 @@ packages:
     install: npm install -g @salesforce/cli
     binary: sf
     official: true
+    version: 2.147.7
+    published: '2026-08-05'
     description: Official Salesforce CLI (sf) for org, project, metadata, Apex, and data operations.
   - language: javascript
     registry: npm
@@ -23,6 +32,8 @@ packages:
     url: https://www.npmjs.com/package/@salesforce/mcp
     install: npx -y @salesforce/mcp
     official: true
+    version: 0.30.15
+    published: '2026-07-09'
     description: Official Salesforce DX MCP Server exposing org operations to MCP-capable assistants.
     source_repo: https://github.com/salesforcecli/mcp
   - language: javascript
@@ -31,21 +42,38 @@ packages:
     url: https://www.npmjs.com/package/@salesforce/core
     install: npm install @salesforce/core
     official: true
+    version: 9.1.2
+    published: '2026-08-11'
     description: Core library for building Salesforce CLI plugins and Node tooling (auth, connection, org).
+  - language: javascript
+    registry: npm
+    name: "@salesforce/agents"
+    url: https://www.npmjs.com/package/@salesforce/agents
+    install: npm install @salesforce/agents
+    official: true
+    version: 2.0.1
+    published: '2026-08-10'
+    description: >-
+      First-party Node library for creating, previewing and testing Agentforce agents; backs the
+      `sf agent` CLI topic.
   - language: javascript
     registry: npm
     name: "@lwc/engine-dom"
     url: https://www.npmjs.com/package/@lwc/engine-dom
     install: npm install @lwc/engine-dom
     official: true
+    version: 9.4.1
+    published: '2026-08-12'
     description: Lightning Web Components engine (open-source LWC framework runtime).
     source_repo: https://github.com/salesforce/lwc
-  - language: javascript
+  - language: css
     registry: npm
-    name: "@salesforce/design-system-react"
+    name: "@salesforce-ux/design-system"
     url: https://www.npmjs.com/package/@salesforce-ux/design-system
     install: npm install @salesforce-ux/design-system
     official: true
+    version: 2.264.0
+    published: '2026-07-22'
     description: Salesforce Lightning Design System (SLDS) CSS framework and design tokens.
     source_repo: https://github.com/salesforce-ux/design-system
   # --- First-party mobile ---
@@ -55,29 +83,52 @@ packages:
     url: https://github.com/forcedotcom/SalesforceMobileSDK-iOS
     install: pod 'SalesforceSDKCore'
     official: true
+    version: null
+    published: null
     description: Salesforce Mobile SDK for iOS (Swift/Objective-C).
+    note: >-
+      CocoaPods trunk answers for SalesforceSDKCore but lists exactly one version, 0.1.0
+      (2023-04-06), which does not correspond to any shipped Mobile SDK release (the SDK line is
+      at 13.x). Recorded as version: null — checked, nothing trustworthy to record. The
+      maintained iOS distribution is the GitHub repo (SPM / binary frameworks), which has no
+      unauthenticated registry metadata endpoint to date.
   - language: java
     registry: maven
-    name: com.salesforce.mobilesdk
-    url: https://github.com/forcedotcom/SalesforceMobileSDK-Android
-    install: implementation 'com.salesforce.mobilesdk:SalesforceSDK'
+    name: com.salesforce.mobilesdk:SalesforceSDK
+    url: https://central.sonatype.com/artifact/com.salesforce.mobilesdk/SalesforceSDK
+    install: implementation 'com.salesforce.mobilesdk:SalesforceSDK:13.0.1'
     official: true
+    version: 13.0.1
+    published: null
     description: Salesforce Mobile SDK for Android (Java/Kotlin).
+    note: >-
+      Maven Central solrsearch returned latestVersion 13.0.1 for every com.salesforce.mobilesdk
+      artifact (SalesforceSDK, SalesforceHybrid, SalesforceReact, SmartStore, MobileSync); the
+      gav timestamp query timed out repeatedly, so the release date is unrecorded rather than
+      guessed.
   # --- First-party Java SOAP stubs ---
   - language: java
     registry: maven
     name: com.force.api:force-wsc
     url: https://mvnrepository.com/artifact/com.force.api/force-wsc
-    install: <dependency><groupId>com.force.api</groupId><artifactId>force-wsc</artifactId></dependency>
+    install: <dependency><groupId>com.force.api</groupId><artifactId>force-wsc</artifactId><version>64.0.3</version></dependency>
     official: true
+    version: 64.0.3
+    published: '2025-05-14'
     description: Web Service Connector (WSC) — Salesforce SOAP/Bulk API Java client generator.
+    note: >-
+      Version tracks the API version it generates stubs for. 64.0.3 corresponds to API v64.0
+      (Summer '25); the platform is on v67.0 (Summer '26) — three seasonal releases behind.
   - language: java
     registry: maven
     name: com.force.api:force-partner-api
     url: https://mvnrepository.com/artifact/com.force.api/force-partner-api
-    install: <dependency><groupId>com.force.api</groupId><artifactId>force-partner-api</artifactId></dependency>
+    install: <dependency><groupId>com.force.api</groupId><artifactId>force-partner-api</artifactId><version>64.0.3</version></dependency>
     official: true
+    version: 64.0.3
+    published: '2025-05-14'
     description: Generated Java stubs for the Salesforce Partner (SOAP) API.
+    note: Same v64.0 pin and same 2025-05-14 release date as force-wsc.
   # --- Community de-facto standard clients (not first-party) ---
   - language: javascript
     registry: npm
@@ -85,6 +136,8 @@ packages:
     url: https://www.npmjs.com/package/jsforce
     install: npm install jsforce
     official: false
+    version: 3.10.19
+    published: '2026-07-02'
     description: Community Salesforce API library for Node.js and the browser (REST/SOAP/Bulk/Streaming).
     source_repo: https://github.com/jsforce/jsforce
   - language: python
@@ -93,5 +146,7 @@ packages:
     url: https://pypi.org/project/simple-salesforce/
     install: pip install simple-salesforce
     official: false
+    version: 1.12.10
+    published: '2026-07-08'
     description: Community low-level Salesforce REST/Bulk/Apex client for Python.
     source_repo: https://github.com/simple-salesforce/simple-salesforce

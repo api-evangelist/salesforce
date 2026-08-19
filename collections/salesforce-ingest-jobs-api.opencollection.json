@@ -1,0 +1,125 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Salesforce Bulk API 2.0 Abort Ingest Jobs API",
+    "version": "v63.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Ingest Jobs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Salesforce List Ingest Jobs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/ingest",
+            "params": [
+              {
+                "name": "isPkChunkingEnabled",
+                "value": "true",
+                "type": "query",
+                "description": "Filter results to only jobs with PK chunking enabled (true) or disabled (false).\n"
+              },
+              {
+                "name": "jobType",
+                "value": "Classic",
+                "type": "query",
+                "description": "Filter results by job type. Use Classic for Bulk API 1.0 jobs or V2Ingest for Bulk API 2.0 ingest jobs.\n"
+              }
+            ]
+          },
+          "docs": "Returns a list of ingest jobs in the org. By default returns all jobs created by all users. Use query parameters to filter by state or other criteria. Results are ordered by creation date descending.\n"
+        },
+        {
+          "info": {
+            "name": "Salesforce Create an Ingest Job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/ingest",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new ingest job for bulk data operations (insert, update, upsert, delete, or hardDelete). After creating the job, upload data using the PUT /ingest/{jobId}/batches endpoint, then close the job to begin processing. Monitor the job state until it reaches JobComplete or Failed.\n"
+        },
+        {
+          "info": {
+            "name": "Salesforce Get Ingest Job Info",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/ingest/:jobId",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the Bulk API 2.0 job."
+              }
+            ]
+          },
+          "docs": "Returns detailed information about a specific ingest job, including its current state, number of records processed, number of failures, and any error messages. Use this to monitor job progress and determine when processing is complete.\n"
+        },
+        {
+          "info": {
+            "name": "Salesforce Update or Close an Ingest Job",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/ingest/:jobId",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the Bulk API 2.0 job."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the state of an ingest job. Use this to close the job after uploading all data (set state to UploadComplete), which triggers processing. Can also abort a job that is Open or UploadComplete by setting state to Aborted.\n"
+        },
+        {
+          "info": {
+            "name": "Salesforce Delete an Ingest Job",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/ingest/:jobId",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the Bulk API 2.0 job."
+              }
+            ]
+          },
+          "docs": "Deletes an ingest job and all associated data. Only jobs in the Aborted state can be deleted. First abort the job if it is in a different state, then delete it.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

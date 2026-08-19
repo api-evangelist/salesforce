@@ -1,11 +1,20 @@
-generated: '2026-06-20'
-method: searched
-source: live probes of Salesforce auth + developer hosts
+generated: '2026-08-13'
+method: probed
+source: live probes of Salesforce identity, API and developer hosts
 notes: >-
-  The OpenID Connect discovery document is served from the Salesforce identity host
-  (login.salesforce.com). developer.salesforce.com does not expose /.well-known/ discovery
-  documents. Instance/My Domain hosts ({instance}.salesforce.com) mirror the login-host OIDC
-  configuration with instance-specific issuer/endpoints.
+  Salesforce serves real /.well-known/ discovery documents from two hosts. The identity host
+  (login.salesforce.com) publishes the OpenID Connect Discovery 1.0 document. The Agentforce /
+  platform API host (api.salesforce.com) publishes BOTH RFC 8414 OAuth 2.0 Authorization Server
+  Metadata and RFC 9728 OAuth 2.0 Protected Resource Metadata — the pair an MCP client needs to
+  discover authorization for a remote tool surface. Both api.salesforce.com documents were newly
+  discovered on 2026-08-13 and are saved verbatim here. developer.salesforce.com and
+  www.salesforce.com serve no /.well-known/ documents at all; developer.salesforce.com returns a
+  404 HTML SPA shell for every path, which is a miss, not a document. Instance / My Domain hosts
+  ({instance}.salesforce.com) mirror the login-host OIDC configuration with instance-specific
+  issuer and endpoints. No security.txt is served on any Salesforce host — the responsible
+  disclosure program lives at security.salesforce.com/responsible-disclosure-policy instead
+  (see security/salesforce-vulnerability-disclosure.yml).
+checked: '2026-08-13'
 hosts:
   - host: https://login.salesforce.com
     documents:
@@ -15,13 +24,86 @@ hosts:
         standard: OpenID Connect Discovery 1.0
       - path: /.well-known/security.txt
         status: 404
+      - path: /security.txt
+        status: 404
       - path: /.well-known/oauth-authorization-server
         status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: https://api.salesforce.com
+    documents:
+      - path: /.well-known/oauth-authorization-server
+        status: 200
+        file: salesforce-api-oauth-authorization-server.json
+        standard: RFC 8414 OAuth 2.0 Authorization Server Metadata
+        note: >-
+          issuer https://login.salesforce.com; authorization_code + refresh_token grants;
+          PKCE S256; scopes_supported [api, sfap_api, refresh_token, einstein_gpt_api].
+      - path: /.well-known/oauth-protected-resource
+        status: 200
+        file: salesforce-api-oauth-protected-resource.json
+        standard: RFC 9728 OAuth 2.0 Protected Resource Metadata
+        note: >-
+          resource https://api.salesforce.com:443; same four scopes. sfap_api and
+          einstein_gpt_api are the Agentforce / Models API scopes.
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
   - host: https://developer.salesforce.com
+    note: >-
+      Every /.well-known/ path returns HTTP 404 with a 12,631-byte HTML SPA shell. Recorded as
+      absent — an HTML body is not a discovery document.
     documents:
       - path: /.well-known/security.txt
         status: 404
       - path: /.well-known/openid-configuration
         status: 404
       - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: https://www.salesforce.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
         status: 404

@@ -3,22 +3,71 @@ specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
 provider: Salesforce
 providerId: salesforce
+generated: '2026-08-13'
+method: searched
+source: https://www.salesforce.com/sales/pricing/
 created: '2026-05-04'
-modified: '2026-05-04'
-reconciled: true
+modified: '2026-08-13'
+plan_count: 6
+description: >-
+  Salesforce Sales Cloud editions, read directly from the published Sales Cloud pricing page on
+  2026-08-13 (HTTP 200). Prices are per user per month in USD.
+notes: >-
+  CORRECTION 2026-08-13: this file previously carried method: generated from the 2026-05-04 bulk
+  sweep and priced Pro Suite at $65. The live page prices Pro Suite at $100 USD/user/month. The
+  Free Suite tier was also missing entirely. Both are fixed here from the live page.
+  API-RELEVANT FINDING: API access is NOT included at every tier. The pricing page describes
+  Enterprise as "the CRM for sales with more flexibility and web API", and the feature comparison
+  grid lists "Web Services API" as an add-on at "Additional $25 USD/user/month" on the lower
+  suites. In other words, on Starter and Pro the API is a paid upsell on top of the seat, and it
+  is bundled from Enterprise upward. Salesforce does not publish a metered per-call API price;
+  API consumption is governed by the org's daily request allocation, which is itself a function
+  of edition and licensed-user count — see rate-limits/salesforce-rate-limits.yml.
+  Salesforce sells many other clouds (Service, Marketing, Commerce, Data Cloud, Platform,
+  Agentforce add-ons, Tableau, MuleSoft, Slack) on separate pricing pages with their own tiers;
+  this artifact covers the Sales Cloud ladder, which is the one the platform APIs key off.
 tags:
   - CRM
   - Sales Cloud
-  - Service Cloud
-description: Salesforce Sales Cloud (Agentforce Sales) per-user-per-month editions.
+  - Agentforce
+currency: USD
+billing_unit: user/month
+api_access:
+  included_from: Enterprise
+  addon_below: 'Web Services API — Additional $25 USD/user/month'
+  metered_api_pricing: false
+  quota_model: >-
+    Rolling 24-hour org-wide API request allocation derived from edition base + per-license
+    adder + purchased API Call Add-Ons.
 sources:
   - https://www.salesforce.com/sales/pricing/
   - https://www.salesforce.com/pricing/
 plans:
+  - id: salesforce-free-suite
+    name: Free Suite
+    type: free
+    description: Free entry tier listed in the Sales Cloud edition comparison grid at $0 user/month.
+    entries:
+      - label: Per user
+        name: seat
+        type: subscription
+        metric: user
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '0.00'
+        currency: USD
+        userMultiplied: true
+    elements:
+      - name: Lead, account, contact and opportunity basics
   - id: salesforce-starter
     name: Starter Suite
     type: paid
-    description: $25/user/month annual.
+    description: >-
+      "The smart CRM suite with even more sales, service, marketing – plus commerce."
+      $25 USD/User/Month, billed monthly or annually.
+    billing_period: monthly-or-annual
     entries:
       - label: Per user
         name: seat
@@ -29,16 +78,27 @@ plans:
         geo: global
         unit: 1
         price: '25.00'
+        currency: USD
         userMultiplied: true
+    international:
+      - {currency: EUR, price: '25.00'}
+      - {currency: AUD, price: '35.00'}
+      - {currency: JPY, price: '3000'}
+      - {currency: SEK, price: '250.00'}
+      - {currency: GBP, price: '20.00'}
     elements:
-      - name: Pre-built CRM
-      - name: Email integration
+      - name: Lead, Account, Contact and Opportunity Management
+      - name: Built-in sales flows and lead routing
+      - name: Email integration with Gmail or Outlook
       - name: Basic reporting
       - name: AppExchange
   - id: salesforce-pro
     name: Pro Suite
     type: paid
-    description: $65/user/month annual.
+    description: >-
+      "The flexible CRM suite with more automation and customization across sales, service,
+      marketing, and commerce." $100 USD/User/Month, billed annually.
+    billing_period: annual
     entries:
       - label: Per user
         name: seat
@@ -48,17 +108,29 @@ plans:
         timeFrame: month
         geo: global
         unit: 1
-        price: '65.00'
+        price: '100.00'
+        currency: USD
         userMultiplied: true
+    international:
+      - {currency: EUR, price: '100.00'}
+      - {currency: AUD, price: '140.00'}
+      - {currency: JPY, price: '12000'}
+      - {currency: SEK, price: '1000.00'}
+      - {currency: GBP, price: '80.00'}
     elements:
-      - name: All Starter features
+      - name: Everything in Starter Suite
       - name: Forecasting
-      - name: Quotes/orders
-      - name: Customizable reports
+      - name: Quotes and orders
+      - name: Customizable reports and dashboards
+      - name: Access to AgentExchange
+      - name: 'Web Services API (add-on, +$25 USD/user/month)'
   - id: salesforce-enterprise
     name: Enterprise
     type: enterprise
-    description: $175/user/month annual.
+    description: >-
+      "The CRM for sales with more flexibility and web API." $175 USD/User/Month, billed
+      annually. This is the lowest edition where the web services API is bundled.
+    billing_period: annual
     entries:
       - label: Per user
         name: seat
@@ -69,16 +141,28 @@ plans:
         geo: global
         unit: 1
         price: '175.00'
+        currency: USD
         userMultiplied: true
+    international:
+      - {currency: EUR, price: '175.00'}
+      - {currency: AUD, price: '245.00'}
+      - {currency: JPY, price: '21000'}
+      - {currency: SEK, price: '1750.00'}
+      - {currency: GBP, price: '140.00'}
     elements:
-      - name: Workflow automation
+      - name: Everything in Pro Suite
+      - name: Web Services API included
+      - name: Workflow and approvals automation
       - name: Custom apps via Apex
-      - name: Advanced API access
+      - name: Advanced pipeline management and deal insights
       - name: Sandboxes
   - id: salesforce-unlimited
     name: Unlimited
     type: enterprise
-    description: $350/user/month annual.
+    description: >-
+      "The CRM for sales with intelligent automation and developer support built in."
+      $350 USD/User/Month, billed annually.
+    billing_period: annual
     entries:
       - label: Per user
         name: seat
@@ -89,17 +173,28 @@ plans:
         geo: global
         unit: 1
         price: '350.00'
+        currency: USD
         userMultiplied: true
+    international:
+      - {currency: EUR, price: '350.00'}
+      - {currency: AUD, price: '490.00'}
+      - {currency: JPY, price: '42000'}
+      - {currency: SEK, price: '3500.00'}
+      - {currency: GBP, price: '280.00'}
     elements:
-      - name: Unlimited custom apps
-      - name: Premier support
-      - name: Sandbox suite
-      - name: 24/7 access
-      - name: Einstein Predictions
-  - id: salesforce-agentforce-1
+      - name: Everything in Enterprise
+      - name: Predictive AI
+      - name: Conversation intelligence
+      - name: Premier support and developer support
+      - name: Full Sandbox included per org
+      - name: Lightning Platform
+  - id: salesforce-agentforce-1-sales
     name: Agentforce 1 Sales
     type: enterprise
-    description: $550/user/month annual. AI-driven autonomous sales agents.
+    description: >-
+      "The complete Sales CRM with built-in AI and unified data."
+      $550 USD/User/Month, billed annually.
+    billing_period: annual
     entries:
       - label: Per user
         name: seat
@@ -110,9 +205,17 @@ plans:
         geo: global
         unit: 1
         price: '550.00'
+        currency: USD
         userMultiplied: true
+    international:
+      - {currency: EUR, price: '550.00'}
+      - {currency: AUD, price: '770.00'}
+      - {currency: JPY, price: '66000'}
+      - {currency: SEK, price: '5500.00'}
+      - {currency: GBP, price: '440.00'}
     elements:
-      - name: Autonomous AI agents
+      - name: Everything in Unlimited plus the full suite of AI
+      - name: Unmetered Agentforce usage for employees
       - name: Data Cloud included
-      - name: Industry AI agents
-      - name: Premier success plan
+      - name: Salesforce Spiff and Sales Programs
+      - name: Slack Enterprise+ included

@@ -1,0 +1,68 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Salesforce Bulk API 2.0 Abort Photo API",
+    "version": "v63.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Photo",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Salesforce User Photo",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/connect/user-profiles/me/photo",
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "json",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "fileUpload",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Get, post, and crop a user photo.\nTo use an image from the Files page as a user photo, pass the file ID in the fileId property of the request body or in the fileId request parameter. Images uploaded on the User page don’t have a file ID and can’t be used as the fileId.\n\nTo upload a binary file as the user photo, you must send it in a multipart/form-data message. For information about how to create the multipart/form-data message, see Uploading Binary Files.\n\nTo display user profile photos in a f"
+        },
+        {
+          "info": {
+            "name": "Salesforce Get Photo Actions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/ui-api/actions/photo/:RECORD_IDS",
+            "params": [
+              {
+                "name": "RECORD_IDS",
+                "value": "example_value",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get the photo actions for pages. Currently, only group and user pages support photo actions."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

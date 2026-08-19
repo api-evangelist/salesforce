@@ -1,0 +1,73 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Salesforce Bulk API 2.0 Abort Messaging API",
+    "version": "v63.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Messaging",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create an email send (triggered send)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/messaging/v1/email/messages",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates and initiates a triggered email send to one or more recipients. Each send requires a message definition key referencing a triggered send definition configured in Marketing Cloud Email Studio. Supports personalization attributes and subscriber data overrides.\n"
+        },
+        {
+          "info": {
+            "name": "Create an SMS send",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/messaging/v1/sms/messages",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates and initiates an SMS message send to one or more recipients. Requires a message definition key referencing an SMS definition configured in Marketing Cloud MobileConnect. Supports personalization attributes for dynamic message content.\n"
+        },
+        {
+          "info": {
+            "name": "Get email message send status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/messaging/v1/email/messages/:messageKey",
+            "params": [
+              {
+                "name": "messageKey",
+                "value": "",
+                "type": "path",
+                "description": "The unique message key (recipientSendId) returned when the email send was created.\n"
+              }
+            ]
+          },
+          "docs": "Retrieves the status of a triggered email send for a specific recipient using the messageKey (recipientSendId) returned when the send was created. Returns the current delivery status and any error details.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

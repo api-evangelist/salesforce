@@ -1,0 +1,138 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Salesforce Bulk API 2.0 Abort Elements API",
+    "version": "v63.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Elements",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Salesforce News Feed Elements",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/chatter/feeds/news/me/feed-elements"
+          },
+          "docs": "All feed elements from all groups the context user either owns or is a member of, as well as all files, records, and users the context user follows. Use this resource to get information about feed elements and to post feed elements.\n\nFor information about posting a feed element, see Feed Elements, Post and Search.\n\nhttps://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resource_feeds_news.htm#cc_news_feed_elements"
+        },
+        {
+          "info": {
+            "name": "Salesforce User Profile Feed Elements",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/chatter/feeds/user-profile/:USER_ID/feed-elements",
+            "params": [
+              {
+                "name": "USER_ID",
+                "value": "500123",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns feed elements created when a user changes records that can be tracked in a feed, feed elements whose parent is the user, and feed elements that mention the user. This feed is different than the news feed, which returns more feed items, including group updates. You can post feed items to the user-profile feed. You can get another user’s user profile feed.\n\nhttps://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resource_feeds_user_profile.htm"
+        },
+        {
+          "info": {
+            "name": "Salesforce Record Feed Elements",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/chatter/feeds/record/:RECORD_GROUP_ID/feed-elements",
+            "params": [
+              {
+                "name": "RECORD_GROUP_ID",
+                "value": "500123",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns the feed elements for all the records the context user is following, or all the feed elements of the specified recordId. Use this resource to search a feed or to get the feed elements for a specific feed, including another user’s feed. To use this resource to get the feed elements for a group, specify the group ID as the recordId.\n\nhttps://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resource_feeds_record.htm"
+        },
+        {
+          "info": {
+            "name": "Salesforce Feed Elements, Post and Search",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/chatter/feed-elements",
+            "params": [
+              {
+                "name": "feedElementType",
+                "value": "example_value",
+                "type": "query",
+                "description": "Feed elements are the top-level objects that a feed contains. The feed element type describes the characteristics of that feed element. One of these values:\nBundle—A container of feed elements. A bundle also has a body made up of message segments that can always be gracefully degraded to text-only values.\nFeedItem—A feed item has a single parent and is scoped to one community or across all communities. A feed item can have capabilities such as bookmarks, canvas, content, comment, link, poll. Feed items have a body made up of message segments that can always be gracefully degraded to text-only values.\nRecommendation—A recommendation is a feed element with a recommendations capability. A recommendation suggests records to follow, groups to join, or applications that are helpful to the context user."
+              },
+              {
+                "name": "subjectId",
+                "value": "500123",
+                "type": "query"
+              },
+              {
+                "name": "text",
+                "value": "example_value",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Feed item and comment bodies have a 10,000 character limit. Because this limit can change, we recommend that clients make a describeSObjects() call on the FeedItem or FeedComment object. To determine the maximum number of allowed characters, look at the length of the Body or CommentBody field.\n\nhttps://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_feed_element.htm"
+        },
+        {
+          "info": {
+            "name": "Salesforce Feed Elements, Batch Post",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/chatter/feed-elements/batch",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Post a batch of up to 500 feed elements.\n\nhttps://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_feed_element_batch_post.htm"
+        },
+        {
+          "info": {
+            "name": "Salesforce Feed Elements Capability, Comments Items",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/chatter/feed-elements/:FEED_ELEMENT_ID/capabilities/comments/items",
+            "params": [
+              {
+                "name": "text",
+                "value": "example_value",
+                "type": "query"
+              },
+              {
+                "name": "FEED_ELEMENT_ID",
+                "value": "500123",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Access comments for a feed element, or add a comment to a feed element.\nTo upload a binary file to attach to a comment, you must send it in a multipart/form-data request. To send the text of the comment, you can choose to include a JSON or XML rich input body part in the multipart/form-data request. Alternately, you can choose to pass the information in request parameter parts. For information about how to create the multipart/form-data message, see Uploading Binary Files.\n\nhttps://developer.sal"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

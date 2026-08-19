@@ -3,54 +3,139 @@ specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
 provider: Salesforce
 providerId: salesforce
+generated: '2026-08-13'
+method: searched
+source: https://developer.salesforce.com/docs/atlas.en-us.salesforce_app_limits_cheatsheet.meta/salesforce_app_limits_cheatsheet/salesforce_app_limits_platform_api.htm
 created: '2026-05-04'
-modified: '2026-05-04'
-reconciled: true
+modified: '2026-08-13'
+limit_count: 9
+description: >-
+  Salesforce platform API request limits, read from the published API Request Limits and
+  Allocations cheat sheet on 2026-08-13.
+notes: >-
+  CORRECTION 2026-08-13: this file previously carried method: generated from the 2026-05-04 bulk
+  sweep and stated flat per-edition daily figures (Enterprise 1,000,000 / Unlimited 5,000,000).
+  That is wrong in shape as well as in number. Salesforce's allocation is a FORMULA, not a fixed
+  per-edition ceiling:
+    100,000 + (licensed users x per-license adder) + purchased API Call Add-Ons
+  where the per-license adder is 1,000 calls for Enterprise and Professional and 5,000 calls for
+  Unlimited and Performance. The 5,000,000 figure is the Full Sandbox allocation, not the
+  Unlimited production allocation. Corrected below.
+  The runtime signal an agent should actually read is the `Sforce-Limit-Info` response header,
+  which Salesforce returns on every REST response carrying `api-usage=<used>/<total>` for the
+  rolling 24-hour window. Salesforce does NOT emit RFC-standard `RateLimit-*` or `X-RateLimit-*`
+  headers and does not emit `Retry-After`; there is no server-supplied backoff hint, so a client
+  must derive its own from `Sforce-Limit-Info`.
+  Limits are enforced as Salesforce exception codes in the error body rather than as a dedicated
+  HTTP status: `REQUEST_LIMIT_EXCEEDED` for both the daily allocation and the concurrency cap,
+  `QUERY_TIMEOUT` (REST) / `REQUEST_RUNNING_TOO_LONG` (SOAP) on the 10-minute timeout.
 tags:
   - Rate Limiting
   - CRM
-description: Salesforce REST/SOAP/Bulk API limits scale with edition.
 sources:
-  - https://www.salesforce.com/sales/pricing/
-  - https://www.salesforce.com/pricing/
   - https://developer.salesforce.com/docs/atlas.en-us.salesforce_app_limits_cheatsheet.meta/salesforce_app_limits_cheatsheet/salesforce_app_limits_platform_api.htm
+  - https://www.salesforce.com/sales/pricing/
 headers:
   limit: Sforce-Limit-Info
+  limit_format: 'api-usage=<used>/<total>'
+  standard_ratelimit_headers: false
+  retry_after: false
+  note: >-
+    No RateLimit-*, X-RateLimit-* or Retry-After headers are emitted. Sforce-Limit-Info is the
+    only runtime signal. Bulk API 2.0 query results additionally use the Sforce-Locator response
+    header for result paging (not a rate-limit signal).
 responseCodes:
-  throttled: 503
-  apiLimitExceeded: 403
+  daily_allocation_exceeded:
+    exception_code: REQUEST_LIMIT_EXCEEDED
+    http: 403
+  concurrency_exceeded:
+    exception_code: REQUEST_LIMIT_EXCEEDED
+    http: 403
+  query_timeout:
+    exception_code: QUERY_TIMEOUT
+    soap_equivalent: REQUEST_RUNNING_TOO_LONG
+allocation_formula:
+  base: 100000
+  expression: '100,000 + (number of licenses x calls per license type) + purchased API Call Add-Ons'
+  per_license_adder:
+    enterprise: 1000
+    professional: 1000
+    unlimited: 5000
+    performance: 5000
+  applies_to: [Enterprise, Professional, Unlimited, Performance]
+  note: Developer Edition is a flat allocation and does not use the formula.
 limits:
-  - name: Daily API requests (Pro)
+  - name: Daily API requests — Developer Edition
     scope: org
-    metric: requests_per_day
+    metric: requests
+    limit: 15000
+    window: 24h
+    timeFrame: day
+    note: Flat allocation; the formula does not apply.
+  - name: Daily API requests — Enterprise / Professional (base)
+    scope: org
+    metric: requests
     limit: 100000
+    window: 24h
     timeFrame: day
-  - name: Daily API requests (Enterprise)
+    note: Base only. Add 1,000 calls per Salesforce or Salesforce Platform license, plus add-ons.
+  - name: Daily API requests — Unlimited / Performance (base)
     scope: org
-    metric: requests_per_day
-    limit: 1000000
+    metric: requests
+    limit: 100000
+    window: 24h
     timeFrame: day
-  - name: Daily API requests (Unlimited)
+    note: Base only. Add 5,000 calls per Salesforce or Salesforce Platform license, plus add-ons.
+  - name: Daily API requests — Full Sandbox
     scope: org
-    metric: requests_per_day
+    metric: requests
     limit: 5000000
+    window: 24h
     timeFrame: day
-  - name: Concurrent long-running calls
+  - name: Concurrent long-running requests — production / sandbox
     scope: org
     metric: concurrent
     limit: 25
-  - name: Bulk API v1 batches per day
+    note: Applies to requests running 20 seconds or longer.
+  - name: Concurrent long-running requests — Developer / Trial
     scope: org
-    metric: batches_per_day
-    limit: 15000
-    timeFrame: day
-  - name: Streaming events/day
+    metric: concurrent
+    limit: 5
+    note: Applies to requests running 20 seconds or longer.
+  - name: Debugging Header calls
     scope: org
-    metric: events_per_day
-    limit: 250000
+    metric: requests
+    limit: 1000
+    window: 24h
     timeFrame: day
+    note: Separate allocation from the main API request allocation.
+  - name: API request timeout
+    scope: request
+    metric: seconds
+    limit: 600
+    note: 10 minutes for REST and SOAP requests, excluding queries.
+  - name: Combined URI and headers size
+    scope: request
+    metric: bytes
+    limit: 16384
 policies:
-  - name: Per-user adder
-    description: Org daily limit increases by ~1,000 calls per licensed user.
-  - name: Bulk over Composite
-    description: Use Bulk API for >2,000 records to preserve REST quota.
+  - name: Read Sforce-Limit-Info on every response
+    description: >-
+      The header reports api-usage=<used>/<total> for the rolling 24-hour window. This is the only
+      runtime backoff signal Salesforce provides — there is no Retry-After.
+  - name: Poll getOrgLimits before large jobs
+    description: >-
+      GET /services/data/v{version}/limits returns {Max, Remaining} for DailyApiRequests,
+      DailyBulkApiBatches, DailyStreamingApiEvents and more. Fail fast rather than halfway.
+  - name: Bulk over REST for large volumes
+    description: >-
+      Use Bulk API 2.0 for more than ~2,000 records; a whole job costs a handful of calls where
+      paged SOQL costs one call per page.
+  - name: Composite to collapse round trips
+    description: >-
+      A Composite request counts as ONE API call regardless of how many subrequests it carries
+      (max 25). See skills/salesforce-composite-write.md.
+related:
+  conventions: conventions/salesforce-conventions.yml
+  errors: errors/salesforce-error-codes.yml
+  plans: plans/salesforce-plans-pricing.yml

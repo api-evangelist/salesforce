@@ -1,0 +1,58 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Salesforce Bulk API 2.0 Abort Query API",
+    "version": "v63.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Query",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Salesforce Execute a Soql Query",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/query",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Executes a SOQL (Salesforce Object Query Language) query and returns matching records. The query is passed in the request body as a JSON object with a \"q\" property. If results span multiple pages, a nextRecordsUrl is included to retrieve the next batch.\n"
+        },
+        {
+          "info": {
+            "name": "Salesforce Get the Next Page of Query Results",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/query/:queryId",
+            "params": [
+              {
+                "name": "queryId",
+                "value": "500123",
+                "type": "path",
+                "description": "The query ID token from the nextRecordsUrl of a previous query response.\n"
+              }
+            ]
+          },
+          "docs": "Retrieves the next page of results from a paginated SOQL query. The queryId is obtained from the nextRecordsUrl in a previous query response. Continue calling this endpoint until the done field in the response is true.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

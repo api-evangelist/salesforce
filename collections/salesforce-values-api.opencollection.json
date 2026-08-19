@@ -1,0 +1,118 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Salesforce Bulk API 2.0 Abort Values API",
+    "version": "v63.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Values",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Salesforce Get Values for a Picklist Field",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/ui-api/object-info/:SOBJECT_API_NAME/picklist-values/:RECORD_TYPE_ID/:FIELD_API_NAME",
+            "params": [
+              {
+                "name": "SOBJECT_API_NAME",
+                "value": "example_value",
+                "type": "path",
+                "description": "Object API Name"
+              },
+              {
+                "name": "RECORD_TYPE_ID",
+                "value": "500123",
+                "type": "path",
+                "description": "Record type Id. Use `012000000000000AAA` as default when there are no custom record types."
+              },
+              {
+                "name": "FIELD_API_NAME",
+                "value": "example_value",
+                "type": "path",
+                "description": "Field API Name (optional)"
+              }
+            ]
+          },
+          "docs": "Get metadata about a specific object. The response includes metadata describing fields, child relationships, record type, and theme."
+        },
+        {
+          "info": {
+            "name": "Salesforce Get Values for All Picklist Fields of a Record Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/ui-api/object-info/:SOBJECT_API_NAME/picklist-values/:RECORD_TYPE_ID",
+            "params": [
+              {
+                "name": "SOBJECT_API_NAME",
+                "value": "example_value",
+                "type": "path",
+                "description": "Object API Name"
+              },
+              {
+                "name": "RECORD_TYPE_ID",
+                "value": "500123",
+                "type": "path",
+                "description": "Record type Id. Use `012000000000000AAA` as default when there are no custom record types."
+              }
+            ]
+          },
+          "docs": "Get metadata about a specific object. The response includes metadata describing fields, child relationships, record type, and theme."
+        },
+        {
+          "info": {
+            "name": "Salesforce Get Default Values to Clone a Record",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/ui-api/record-defaults/clone/:RECORD_ID",
+            "params": [
+              {
+                "name": "RECORD_ID",
+                "value": "500123",
+                "type": "path",
+                "description": "Record ID"
+              }
+            ]
+          },
+          "docs": "Get the default layout information, object information, and data for cloning a record. After getting the default values, make a request to POST /ui-api/records to create the record.\nThe response contains the default field values for a record cloned from the record specified in <RECORD_ID>, optionally of the specified recordTypeId.\n\nIt also contains the corresponding layout information for edit mode. In the Salesforce user interface, an admin with “Customize Application” permission can mark a fie"
+        },
+        {
+          "info": {
+            "name": "Salesforce Get Default Values to Create a Record",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/ui-api/record-defaults/create/:SOBJECT_API_NAME",
+            "params": [
+              {
+                "name": "SOBJECT_API_NAME",
+                "value": "example_value",
+                "type": "path",
+                "description": "sObject API name"
+              }
+            ]
+          },
+          "docs": "Get the default values for fields for a new record of a specified object and optional record type. After getting the default values, make a request to POST /ui-api/records to create the record.\nThe response contains the default field values for the Full layout type for a new record of the object type specified in <SOBJECT_API_NAME>.\n\nIt also contains the corresponding layout for create mode. In the Salesforce user interface, an admin with “Customize Application” permission can mark a field as re"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

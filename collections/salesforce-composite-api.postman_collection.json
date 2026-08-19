@@ -1,0 +1,1751 @@
+{
+  "item": [
+    {
+      "id": "2d37b429-d89e-4bfa-9e5d-9a96588c1e22",
+      "name": "Composite",
+      "description": {
+        "content": "The Composite API executes a series of REST API requests in a single POST request, or retrieves a list of other composite resources with a GET request.\n\nThere are three types of Composite requests sometime referred to as APIs:\n- [Composite](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_composite.htm) (the original)\n- [Composite Batch](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_batch.htm)\n- [Composite Graph](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_graph.htm) (the most recent)",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f14a1618-108d-4a09-a0f4-4646a43e563e",
+          "name": "Salesforce Composite",
+          "request": {
+            "name": "Salesforce Composite",
+            "description": {
+              "content": "Executes a series of REST API requests in a single call. You can use the output of one request as the input to a subsequent request. The response bodies and HTTP statuses of the requests are returned in a single response body. The entire request counts as a single call toward your API limits.\nThe requests in a composite call are called subrequests. All subrequests are executed in the context of the same user. In a subrequest’s body, you specify a reference ID that maps to the subrequest’s response. You can then refer to the ID in the url or body fields of later subrequests by using a JavaScript-like reference notation.\n\nhttps://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_composite.htm",
+              "type": "text/plain"
+            },
+            "url": {
+              "protocol": "https",
+              "path": [
+                "data",
+                "v64.0",
+                "composite"
+              ],
+              "host": [
+                "services"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json;charset=UTF-8"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"compositeRequest\": [\n    {\n      \"method\": \"<string>\",\n      \"url\": \"<string>\",\n      \"referenceId\": \"<string>\",\n      \"body\": {\n        \"Name\": \"<string>\",\n        \"LastName\": \"<string>\",\n        \"AccountId\": \"<string>\"\n      }\n    },\n    {\n      \"method\": \"<string>\",\n      \"url\": \"<string>\",\n      \"referenceId\": \"<string>\",\n      \"body\": {\n        \"Name\": \"<string>\",\n        \"LastName\": \"<string>\",\n        \"AccountId\": \"<string>\"\n      }\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7cad2bb0-0e4f-4f47-bd01-0eb8a0c1f4c9",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "protocol": "https",
+                  "path": [
+                    "data",
+                    "v64.0",
+                    "composite"
+                  ],
+                  "host": [
+                    "services"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Only used for Postman Notebooks. Auth is defined at collection-level and inherited down.",
+                    "key": "Authorization",
+                    "value": "example_value"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json;charset=UTF-8"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"compositeRequest\": [\n    {\n      \"method\": \"POST\",\n      \"url\": \"/services/data/v64.0/sobjects/Account\",\n      \"referenceId\": \"refAccount\",\n      \"body\": {\n        \"Name\": \"Sample Account\"\n      }\n    },\n    {\n      \"method\": \"POST\",\n      \"url\": \"/services/data/v64.0/sobjects/Contact\",\n      \"referenceId\": \"refContact\",\n      \"body\": {\n        \"LastName\": \"Sample Contact\",\n        \"AccountId\": \"@{refAccount.id}\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "key": "Date",
+                  "value": "",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "Strict-Transport-Security",
+                  "value": "",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "X-Content-Type-Options",
+                  "value": "",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "X-XSS-Protection",
+                  "value": "",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "X-Robots-Tag",
+                  "value": "",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "Cache-Control",
+                  "value": "",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "Sforce-Limit-Info",
+                  "value": "",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "Vary",
+                  "value": "",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "Content-Encoding",
+                  "value": "",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "Transfer-Encoding",
+                  "value": "",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json;charset=UTF-8"
+                }
+              ],
+              "body": "{\n  \"compositeResponse\": [\n    {\n      \"body\": {\n        \"id\": \"001...\",\n        \"success\": true,\n        \"errors\": []\n      },\n      \"httpHeaders\": {\n        \"Location\": \"/services/data/v53.0/sobjects/Account/001...\"\n      },\n      \"httpStatusCode\": 201,\n      \"referenceId\": \"refAccount\"\n    },\n    {\n      \"body\": {\n        \"id\": \"0032o00003WauzJAAR\",\n        \"success\": true,\n        \"errors\": []\n      },\n      \"httpHeaders\": {\n        \"Location\": \"/services/data/v53.0/sobjects/Contact/003...\"\n      },\n      \"httpStatusCode\": 201,\n      \"referenceId\": \"refContact\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5522feb4-d0d5-4ed1-bdb3-3fe3aac0a8b6",
+          "name": "Salesforce Composite Graph",
+          "request": {
+            "name": "Salesforce Composite Graph",
+            "description": {
+              "content": "Composite graphs provide an enhanced way to perform composite requests, which execute a series of REST API requests in a single call.\nRegular composite requests allow you to execute a series of REST API requests in a single call. And you can use the output of one request as the input to a subsequent request.\n\nComposite graphs extend this by allowing you to assemble a more complicated and complete series of related objects and records.\n\nComposite graphs also enable you to ensure that the steps in a given set of operations are either all completed or all not completed. This avoids requiring you to check for a mix of successful and unsuccessful results.\n\nRegular composite requests have a limit of 25 subrequests. Composite graphs increase this limit to 500. This gives a single API call much greater power.\n\nhttps://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_graph_introduction.htm",
+              "type": "text/plain"
+            },
+            "url": {
+              "protocol": "https",
+              "path": [
+                "data",
+                "v64.0",
+                "composite",
+                "graph"
+              ],
+              "host": [
+                "services"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"graphs\": [\n    {\n      \"graphId\": \"<string>\",\n      \"compositeRequest\": [\n        {\n          \"method\": \"<string>\",\n          \"url\": \"<string>\",\n          \"referenceId\": \"<string>\",\n          \"body\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"method\": \"<string>\",\n          \"url\": \"<string>\",\n          \"referenceId\": \"<string>\",\n          \"body\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ]\n    },\n    {\n      \"graphId\": \"<string>\",\n      \"compositeRequest\": [\n        {\n          \"method\": \"<string>\",\n          \"url\": \"<string>\",\n          \"referenceId\": \"<string>\",\n          \"body\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"method\": \"<string>\",\n          \"url\": \"<string>\",\n          \"referenceId\": \"<string>\",\n          \"body\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3082cf06-8688-4b25-83f0-2afbb2052c4d",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "protocol": "https",
+                  "path": [
+                    "data",
+                    "v64.0",
+                    "composite",
+                    "graph"
+                  ],
+                  "host": [
+                    "services"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"graphs\": [\n    {\n      \"graphId\": \"graph1\",\n      \"compositeRequest\": [\n        {\n          \"method\": \"POST\",\n          \"url\": \"/services/data/v64.0/sobjects/Account/\",\n          \"referenceId\": \"newAccount\",\n          \"body\": {\n            \"Name\": \"ACME Inc.\",\n            \"Custom__c\": \"Hello world\"\n          }\n        },\n        {\n          \"method\": \"GET\",\n          \"url\": \"/services/data/v64.0/sobjects/Account/@{newAccount.id}\",\n          \"referenceId\": \"newAccountInfo\"\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "key": "cache-control",
+                  "value": "",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"graphs\": [\n    {\n      \"graphId\": \"graph1\",\n      \"graphResponse\": {\n        \"compositeResponse\": [\n          {\n            \"body\": {\n              \"id\": \"0014H00002x6HUhQAM\",\n              \"success\": true,\n              \"errors\": []\n            },\n            \"httpHeaders\": {\n              \"Location\": \"/services/data/v50.0/sobjects/Account/0014H00002x6HUhQAM\"\n            },\n            \"httpStatusCode\": 201,\n            \"referenceId\": \"newAccount\"\n          },\n          {\n            \"body\": {\n              \"id\": \"0034H00002JsInQQAV\",\n              \"success\": true,\n              \"errors\": []\n            },\n            \"httpHeaders\": {\n              \"Location\": \"/services/data/v50.0/sobjects/Contact/0034H00002JsInQQAV\"\n            },\n            \"httpStatusCode\": 201,\n            \"referenceId\": \"newContact\"\n          }\n        ]\n      },\n      \"isSuccessful\": true\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "63887c3a-4109-45cb-8c54-581d6a9e314f",
+          "name": "Salesforce Composite Batch",
+          "request": {
+            "name": "Salesforce Composite Batch",
+            "description": {
+              "content": "Executes up to 25 subrequests in a single request. The response bodies and HTTP statuses of the subrequests in the batch are returned in a single response body. Each subrequest counts against rate limits.\nThe requests in a batch are called subrequests. All subrequests are executed in the context of the same user. Subrequests are independent, and you can’t pass information between them. Subrequests execute serially in their order in the request body. When a subrequest executes successfully, it commits its data. Commits are reflected in the output of later subrequests. If a subrequest fails, commits made by previous subrequests are not rolled back. If a batch request doesn’t complete within 10 minutes, the batch times out and the remaining subrequests aren’t executed.\n\nhttps://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_batch.htm",
+              "type": "text/plain"
+            },
+            "url": {
+              "protocol": "https",
+              "path": [
+                "data",
+                "v64.0",
+                "composite",
+                "batch"
+              ],
+              "host": [
+                "services"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json;charset=UTF-8"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"haltOnError\": \"<boolean>\",\n  \"batchRequests\": [\n    {\n      \"method\": \"<string>\",\n      \"url\": \"<string>\"\n    },\n    {\n      \"method\": \"<string>\",\n      \"url\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6f7552e3-b45a-4c61-9ab0-c099cee5e178",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "protocol": "https",
+                  "path": [
+                    "data",
+                    "v64.0",
+                    "composite",
+                    "batch"
+                  ],
+                  "host": [
+                    "services"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json;charset=UTF-8"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"haltOnError\": true,\n  \"batchRequests\": [\n    {\n      \"method\": \"GET\",\n      \"url\": \"v64.0/query/?q=SELECT+Id,+Name+FROM+Account LIMIT 2\"\n    },\n    {\n      \"method\": \"GET\",\n      \"url\": \"v64.0/query/?q=SELECT+Id,+Name+FROM+Opportunity LIMIT 2\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "key": "Date",
+                  "value": "",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "Strict-Transport-Security",
+                  "value": "",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "X-Content-Type-Options",
+                  "value": "",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "X-XSS-Protection",
+                  "value": "",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "X-Robots-Tag",
+                  "value": "",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "Cache-Control",
+                  "value": "",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "Sforce-Limit-Info",
+                  "value": "",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "Vary",
+                  "value": "",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "Content-Encoding",
+                  "value": "",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "Transfer-Encoding",
+                  "value": "",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json;charset=UTF-8"
+                }
+              ],
+              "body": "\"{\\n    \\\"hasErrors\\\": false,\\n    \\\"results\\\": [\\n        {\\n            \\\"statusCode\\\": 200,\\n            \\\"result\\\": {\\n                \\\"totalSize\\\": 2,\\n                \\\"done\\\": true,\\n                \\\"records\\\": [\\n                    {\\n                        \\\"attributes\\\": {\\n                            \\\"type\\\": \\\"Account\\\",\\n                            \\\"url\\\": \\\"/services/data/v58.0/sobjects/Account/001...\\\"\\n                        },\\n                        \\\"Id\\\": \\\"001...\\\",\\n                        \\\"Name\\\": \\\"Sample Account\\\"\\n                    },\\n                    ...\\n                ]\\n            }\\n        },\\n        {\\n            \\\"statusCode\\\": 200,\\n            \\\"result\\\": {\\n                \\\"totalSize\\\": 2,\\n                \\\"done\\\": true,\\n                \\\"records\\\": [\\n                    {\\n                        \\\"attributes\\\": {\\n                            \\\"type\\\": \\\"Opportunity\\\",\\n                            \\\"url\\\": \\\"/services/data/v58.0/sobjects/Opportunity/006...\\\"\\n                        },\\n                        \\\"Id\\\": \\\"006...\\\",\\n                        \\\"Name\\\": \\\"Edge Emergency Generator\\\"\\n                    },\\n                    ...\\n                ]\\n            }\\n        }\\n    ]\\n}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "dd18b04a-8c6a-436e-9c11-678f35aaf620",
+          "name": "Salesforce Execute a Batch of Requests",
+          "request": {
+            "name": "Salesforce Execute a Batch of Requests",
+            "description": {
+              "content": "Executes up to 25 independent REST API subrequests in a single HTTP call. All requests are processed independently; failure of one does not affect others. Returns an array of results in the same order as the subrequests. Use this to reduce the number of round trips when making multiple unrelated requests.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "composite",
+                "batch"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                  "type": "any",
+                  "value": "{{instance}}",
+                  "key": "instance"
+                },
+                {
+                  "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                  "type": "any",
+                  "value": "{{version}}",
+                  "key": "version"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"batchRequests\": [\n    {\n      \"method\": \"<string>\",\n      \"url\": \"<string>\",\n      \"richInput\": \"<object>\"\n    },\n    {\n      \"method\": \"<string>\",\n      \"url\": \"<string>\",\n      \"richInput\": \"<object>\"\n    }\n  ],\n  \"haltOnError\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "fcf272f4-2f6d-4bfc-8da4-eae6434a7102",
+              "name": "Results for each subrequest in the batch, in the same order.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "composite",
+                    "batch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"batchRequests\": [\n    {\n      \"method\": \"GET\",\n      \"url\": \"https://www.example.com\",\n      \"richInput\": \"example_value\"\n    }\n  ],\n  \"haltOnError\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"hasErrors\": true,\n  \"results\": [\n    {\n      \"statusCode\": 10,\n      \"result\": \"example_value\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "845fd703-20fa-49f9-9526-6b76f3448366",
+              "name": "Unauthorized. Invalid or expired OAuth token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "composite",
+                    "batch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"batchRequests\": [\n    {\n      \"method\": \"GET\",\n      \"url\": \"https://www.example.com\",\n      \"richInput\": \"example_value\"\n    }\n  ],\n  \"haltOnError\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "503111dd-7f93-4688-9b9f-e5ffdf2de867",
+          "name": "Salesforce Execute a Composite Request With Dependent Subrequests",
+          "request": {
+            "name": "Salesforce Execute a Composite Request With Dependent Subrequests",
+            "description": {
+              "content": "Executes a series of REST API requests where later requests can reference the results of earlier requests using reference IDs. Supports up to 25 subrequests. If any subrequest fails and allOrNone is true, all changes are rolled back. Use this for complex multi-step operations where later steps depend on earlier results.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "composite"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                  "type": "any",
+                  "value": "{{instance}}",
+                  "key": "instance"
+                },
+                {
+                  "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                  "type": "any",
+                  "value": "{{version}}",
+                  "key": "version"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"compositeRequest\": [\n    {\n      \"method\": \"<string>\",\n      \"url\": \"<string>\",\n      \"referenceId\": \"<string>\",\n      \"body\": \"<object>\"\n    },\n    {\n      \"method\": \"<string>\",\n      \"url\": \"<string>\",\n      \"referenceId\": \"<string>\",\n      \"body\": \"<object>\"\n    }\n  ],\n  \"allOrNone\": false,\n  \"collateSubrequests\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9ea5721f-43b1-4fc0-9fb6-830d434a2110",
+              "name": "Results for each subrequest, including reference IDs, status codes, and response bodies.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "composite"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"allOrNone\": true,\n  \"collateSubrequests\": true,\n  \"compositeRequest\": [\n    {\n      \"method\": \"GET\",\n      \"url\": \"https://www.example.com\",\n      \"referenceId\": \"500123\",\n      \"body\": \"example_value\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"compositeResponse\": [\n    {\n      \"body\": \"example_value\",\n      \"httpHeaders\": \"example_value\",\n      \"httpStatusCode\": 10,\n      \"referenceId\": \"500123\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7e8f5960-1687-461f-8deb-f3921d87d4a5",
+              "name": "Bad request. Invalid subrequest structure or circular reference detected.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "composite"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"allOrNone\": true,\n  \"collateSubrequests\": true,\n  \"compositeRequest\": [\n    {\n      \"method\": \"GET\",\n      \"url\": \"https://www.example.com\",\n      \"referenceId\": \"500123\",\n      \"body\": \"example_value\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "99696728-6f73-49cc-ac51-69a695c6e635",
+              "name": "Unauthorized. Invalid or expired OAuth token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "composite"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"allOrNone\": true,\n  \"collateSubrequests\": true,\n  \"compositeRequest\": [\n    {\n      \"method\": \"GET\",\n      \"url\": \"https://www.example.com\",\n      \"referenceId\": \"500123\",\n      \"body\": \"example_value\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "76a267ae-c55c-4d8a-bfee-6bc6ed6f5656",
+          "name": "Salesforce Sobject Collections Create",
+          "request": {
+            "name": "Salesforce Sobject Collections Create",
+            "description": {
+              "content": "Creates up to 200 records in a single API call using SObject Collections. All records must be of the same or different SObject types. If allOrNone is true, all records must succeed or none are committed. Returns an array of save results with IDs or errors for each record.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "composite",
+                "sobjects"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                  "type": "any",
+                  "value": "{{instance}}",
+                  "key": "instance"
+                },
+                {
+                  "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                  "type": "any",
+                  "value": "{{version}}",
+                  "key": "version"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"allOrNone\": \"<boolean>\",\n  \"records\": [\n    {\n      \"attributes\": {\n        \"type\": \"<string>\",\n        \"url\": \"<uri>\"\n      },\n      \"Id\": \"<string>\"\n    },\n    {\n      \"attributes\": {\n        \"type\": \"<string>\",\n        \"url\": \"<uri>\"\n      },\n      \"Id\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d4230dc8-12ab-4022-993f-9353711f2756",
+              "name": "Array of save results with IDs or errors for each record.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "composite",
+                    "sobjects"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"allOrNone\": true,\n  \"records\": [\n    {\n      \"attributes\": {\n        \"type\": \"example_value\",\n        \"url\": \"https://www.example.com\"\n      },\n      \"Id\": \"abc123\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"abc123\",\n    \"success\": true,\n    \"errors\": [\n      {\n        \"message\": \"example_value\",\n        \"errorCode\": \"example_value\",\n        \"fields\": {}\n      }\n    ]\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "220f7adc-9d0e-459f-afec-2497143e08ad",
+              "name": "Unauthorized. Invalid or expired OAuth token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "composite",
+                    "sobjects"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"allOrNone\": true,\n  \"records\": [\n    {\n      \"attributes\": {\n        \"type\": \"example_value\",\n        \"url\": \"https://www.example.com\"\n      },\n      \"Id\": \"abc123\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1f4f1e1c-9786-4a39-91ee-85c071719857",
+          "name": "Salesforce Sobject Collections Update",
+          "request": {
+            "name": "Salesforce Sobject Collections Update",
+            "description": {
+              "content": "Updates up to 200 records in a single API call using SObject Collections. Each record must include its ID and the fields to update. If allOrNone is true, all updates must succeed or none are committed. Returns an array of save results for each record.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "composite",
+                "sobjects"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                  "type": "any",
+                  "value": "{{instance}}",
+                  "key": "instance"
+                },
+                {
+                  "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                  "type": "any",
+                  "value": "{{version}}",
+                  "key": "version"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"allOrNone\": \"<boolean>\",\n  \"records\": [\n    {\n      \"attributes\": {\n        \"type\": \"<string>\",\n        \"url\": \"<uri>\"\n      },\n      \"Id\": \"<string>\"\n    },\n    {\n      \"attributes\": {\n        \"type\": \"<string>\",\n        \"url\": \"<uri>\"\n      },\n      \"Id\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2f6461c5-36d6-45d1-a2ac-c9630ddd3f13",
+              "name": "Array of save results with success flag or errors for each record.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "composite",
+                    "sobjects"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"allOrNone\": true,\n  \"records\": [\n    {\n      \"attributes\": {\n        \"type\": \"example_value\",\n        \"url\": \"https://www.example.com\"\n      },\n      \"Id\": \"abc123\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"abc123\",\n    \"success\": true,\n    \"errors\": [\n      {\n        \"message\": \"example_value\",\n        \"errorCode\": \"example_value\",\n        \"fields\": {}\n      }\n    ]\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "da33c650-0465-4396-b454-1cc04049515c",
+              "name": "Unauthorized. Invalid or expired OAuth token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "composite",
+                    "sobjects"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"allOrNone\": true,\n  \"records\": [\n    {\n      \"attributes\": {\n        \"type\": \"example_value\",\n        \"url\": \"https://www.example.com\"\n      },\n      \"Id\": \"abc123\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5af7b7bc-2306-4ff8-b2d1-79d773dcc572",
+          "name": "Salesforce Sobject Collections Delete",
+          "request": {
+            "name": "Salesforce Sobject Collections Delete",
+            "description": {
+              "content": "Deletes up to 200 records in a single API call using SObject Collections. Record IDs are passed as a comma-separated query parameter. If allOrNone is true, all deletions must succeed or none are committed.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "composite",
+                "sobjects"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "ids",
+                  "value": "<string>",
+                  "description": "(Required) Comma-separated list of up to 200 record IDs to delete.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "allOrNone",
+                  "value": "false",
+                  "description": "If true, all records must be deleted successfully or none are committed. Defaults to false.\n"
+                }
+              ],
+              "variable": [
+                {
+                  "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                  "type": "any",
+                  "value": "{{instance}}",
+                  "key": "instance"
+                },
+                {
+                  "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                  "type": "any",
+                  "value": "{{version}}",
+                  "key": "version"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f3e97baf-b047-464b-b70f-9173743ba6c0",
+              "name": "Array of delete results with success flag or errors for each record.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "composite",
+                    "sobjects"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "001Dn00000pFakE001,001Dn00000pFakE002"
+                    },
+                    {
+                      "key": "allOrNone",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"abc123\",\n    \"success\": true,\n    \"errors\": [\n      {\n        \"message\": \"example_value\",\n        \"errorCode\": \"example_value\",\n        \"fields\": {}\n      }\n    ]\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "66c183fd-90e3-4616-9831-ca1c1ec6dcba",
+              "name": "Unauthorized. Invalid or expired OAuth token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "composite",
+                    "sobjects"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "001Dn00000pFakE001,001Dn00000pFakE002"
+                    },
+                    {
+                      "key": "allOrNone",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "79d32b7c-5824-4da1-9e23-ed27e0c4ccda",
+          "name": "Salesforce Sobject Collections Retrieve",
+          "request": {
+            "name": "Salesforce Sobject Collections Retrieve",
+            "description": {
+              "content": "Retrieves up to 2000 records of the specified SObject type in a single API call. Record IDs are passed as a comma-separated query parameter. All records must be of the same SObject type. Returns all accessible fields for each record.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "composite",
+                "sobjects",
+                ":sobjectType"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "ids",
+                  "value": "<string>",
+                  "description": "(Required) Comma-separated list of up to 2000 record IDs to retrieve.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "fields",
+                  "value": "<string>",
+                  "description": "Comma-separated list of field names to return for each record. Returns all accessible fields if not specified.\n"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "sobjectType",
+                  "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                },
+                {
+                  "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                  "type": "any",
+                  "value": "{{instance}}",
+                  "key": "instance"
+                },
+                {
+                  "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                  "type": "any",
+                  "value": "{{version}}",
+                  "key": "version"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a8e13e2b-c1c7-4c3f-8c61-6b50df76b0c2",
+              "name": "Array of SObject records for the specified IDs.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "composite",
+                    "sobjects",
+                    ":sobjectType"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "example_value"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sobjectType",
+                      "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"attributes\": {\n      \"type\": \"example_value\",\n      \"url\": \"https://www.example.com\"\n    },\n    \"Id\": \"abc123\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e7a927ca-0278-44d0-b2fc-312d3af93cd9",
+              "name": "Unauthorized. Invalid or expired OAuth token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "composite",
+                    "sobjects",
+                    ":sobjectType"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "example_value"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sobjectType",
+                      "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "yourInstance",
+      "key": "instance"
+    },
+    {
+      "description": {
+        "content": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "63.0",
+      "key": "version"
+    },
+    {
+      "type": "string",
+      "value": "https://{{instance}}.salesforce.com/services/data/v{{version}}/jobs",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "68d47b3a-ad88-46e5-878f-867eb63bda14",
+    "name": "Salesforce Bulk API 2.0 Abort Composite API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.\n\n\nContact Support:\n Name: Salesforce Developers",
+      "type": "text/plain"
+    }
+  }
+}

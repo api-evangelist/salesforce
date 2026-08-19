@@ -1,0 +1,84 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Salesforce Bulk API 2.0 Abort Data Extensions API",
+    "version": "v63.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Data Extensions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Data Extension rows",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v1/async/dataextensions/key::key/rows",
+            "params": [
+              {
+                "name": "key",
+                "value": "",
+                "type": "path",
+                "description": "The external key of the Data Extension. Find this in Marketing Cloud Email Studio under the Data Extension properties.\n"
+              },
+              {
+                "name": "$pageSize",
+                "value": "",
+                "type": "query",
+                "description": "The number of rows to return per page. Defaults to 50."
+              },
+              {
+                "name": "$page",
+                "value": "",
+                "type": "query",
+                "description": "The page number to retrieve. Defaults to 1."
+              },
+              {
+                "name": "$orderBy",
+                "value": "",
+                "type": "query",
+                "description": "Field name and direction for sorting results (e.g., \"LastName ASC\" or \"CreatedDate DESC\").\n"
+              }
+            ]
+          },
+          "docs": "Retrieves rows from a Marketing Cloud Data Extension identified by its external key. Data Extensions are custom tables for storing subscriber data, lookup tables, or any structured data used in campaigns and journeys. Use the $pageSize and $page parameters to paginate through large data sets.\n"
+        },
+        {
+          "info": {
+            "name": "Insert rows into a Data Extension",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v1/async/dataextensions/key::key/rows",
+            "params": [
+              {
+                "name": "key",
+                "value": "",
+                "type": "path",
+                "description": "The external key of the Data Extension to insert rows into."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Inserts one or more rows into a Marketing Cloud Data Extension. If a row with the same primary key already exists, the operation upserts the row (updates existing values). Returns the number of rows inserted or updated.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

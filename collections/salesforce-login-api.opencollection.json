@@ -1,0 +1,39 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Salesforce Bulk API 2.0 Abort Login API",
+    "version": "v63.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Login",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Salesforce Passwordless Login - Initialize",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/services/auth/headless/init/passwordless/login",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submits the passwordless login data to the init/passwordless/login endpoint and returns a request identifier. At the same time, an OTP is sent out to the end users via email or sms. Passwordless login data is passed in the request body, and is formatted with JSON, with 3 keys: `username`, `recaptcha`, and `verificationmethod`. All 3 keys are strings.\n\nThis request returns JSON, and includes an identifier (request identifier)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,50 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Salesforce Bulk API 2.0 Abort Authentication API",
+    "version": "v63.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get an access token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/v2/token",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Obtains an OAuth 2.0 access token for authenticating subsequent API requests. Supports both client credentials (server-to-server) and authorization code grant types. The access token should be included in the Authorization header as \"Bearer {access_token}\" for all API calls. Tokens expire after a defined period; request a new token when needed.\n"
+        },
+        {
+          "info": {
+            "name": "Salesforce Authentication Configuration Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/.well-known/auth-configuration"
+          },
+          "docs": "Salesforce Authentication Configuration Endpoint"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

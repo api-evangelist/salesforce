@@ -1,0 +1,191 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Salesforce Bulk API 2.0 Abort Composite API",
+    "version": "v63.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Composite",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Salesforce Composite",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/composite",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": "example_value"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Executes a series of REST API requests in a single call. You can use the output of one request as the input to a subsequent request. The response bodies and HTTP statuses of the requests are returned in a single response body. The entire request counts as a single call toward your API limits.\nThe requests in a composite call are called subrequests. All subrequests are executed in the context of the same user. In a subrequest’s body, you specify a reference ID that maps to the subrequest’s respon"
+        },
+        {
+          "info": {
+            "name": "Salesforce Composite Graph",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/composite/graph",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Composite graphs provide an enhanced way to perform composite requests, which execute a series of REST API requests in a single call.\nRegular composite requests allow you to execute a series of REST API requests in a single call. And you can use the output of one request as the input to a subsequent request.\n\nComposite graphs extend this by allowing you to assemble a more complicated and complete series of related objects and records.\n\nComposite graphs also enable you to ensure that the steps in"
+        },
+        {
+          "info": {
+            "name": "Salesforce Composite Batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/composite/batch",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Executes up to 25 subrequests in a single request. The response bodies and HTTP statuses of the subrequests in the batch are returned in a single response body. Each subrequest counts against rate limits.\nThe requests in a batch are called subrequests. All subrequests are executed in the context of the same user. Subrequests are independent, and you can’t pass information between them. Subrequests execute serially in their order in the request body. When a subrequest executes successfully, it co"
+        },
+        {
+          "info": {
+            "name": "Salesforce Execute a Batch of Requests",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/composite/batch",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Executes up to 25 independent REST API subrequests in a single HTTP call. All requests are processed independently; failure of one does not affect others. Returns an array of results in the same order as the subrequests. Use this to reduce the number of round trips when making multiple unrelated requests.\n"
+        },
+        {
+          "info": {
+            "name": "Salesforce Execute a Composite Request With Dependent Subrequests",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/composite",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Executes a series of REST API requests where later requests can reference the results of earlier requests using reference IDs. Supports up to 25 subrequests. If any subrequest fails and allOrNone is true, all changes are rolled back. Use this for complex multi-step operations where later steps depend on earlier results.\n"
+        },
+        {
+          "info": {
+            "name": "Salesforce Sobject Collections Create",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/composite/sobjects",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates up to 200 records in a single API call using SObject Collections. All records must be of the same or different SObject types. If allOrNone is true, all records must succeed or none are committed. Returns an array of save results with IDs or errors for each record.\n"
+        },
+        {
+          "info": {
+            "name": "Salesforce Sobject Collections Update",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/composite/sobjects",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates up to 200 records in a single API call using SObject Collections. Each record must include its ID and the fields to update. If allOrNone is true, all updates must succeed or none are committed. Returns an array of save results for each record.\n"
+        },
+        {
+          "info": {
+            "name": "Salesforce Sobject Collections Delete",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/composite/sobjects",
+            "params": [
+              {
+                "name": "ids",
+                "value": "001Dn00000pFakE001,001Dn00000pFakE002",
+                "type": "query",
+                "description": "Comma-separated list of up to 200 record IDs to delete.\n"
+              },
+              {
+                "name": "allOrNone",
+                "value": "true",
+                "type": "query",
+                "description": "If true, all records must be deleted successfully or none are committed. Defaults to false.\n"
+              }
+            ]
+          },
+          "docs": "Deletes up to 200 records in a single API call using SObject Collections. Record IDs are passed as a comma-separated query parameter. If allOrNone is true, all deletions must succeed or none are committed.\n"
+        },
+        {
+          "info": {
+            "name": "Salesforce Sobject Collections Retrieve",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/composite/sobjects/:sobjectType",
+            "params": [
+              {
+                "name": "sobjectType",
+                "value": "",
+                "type": "path",
+                "description": "The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+              },
+              {
+                "name": "ids",
+                "value": "example_value",
+                "type": "query",
+                "description": "Comma-separated list of up to 2000 record IDs to retrieve.\n"
+              },
+              {
+                "name": "fields",
+                "value": "example_value",
+                "type": "query",
+                "description": "Comma-separated list of field names to return for each record. Returns all accessible fields if not specified.\n"
+              }
+            ]
+          },
+          "docs": "Retrieves up to 2000 records of the specified SObject type in a single API call. Record IDs are passed as a comma-separated query parameter. All records must be of the same SObject type. Returns all accessible fields for each record.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,1148 @@
+{
+  "item": [
+    {
+      "id": "99b4fc5b-9410-4c83-b866-949746b8f04d",
+      "name": "Ingest Job Data",
+      "description": {
+        "content": "Operations for uploading CSV data to ingest jobs and retrieving job results (successful, failed, and unprocessed records).\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d2ca2574-f5a3-4659-a605-a6bfb1d1d7cc",
+          "name": "Salesforce Upload Job Data (csv)",
+          "request": {
+            "name": "Salesforce Upload Job Data (csv)",
+            "description": {
+              "content": "Uploads CSV data to an ingest job that is in the Open state. The CSV must include a header row matching the field API names for the object. Multiple upload calls can be made for the same job; data is appended. After uploading all data, close the job with PATCH /ingest/{jobId} to begin processing.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ingest",
+                ":jobId",
+                "batches"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "jobId",
+                  "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                },
+                {
+                  "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                  "type": "any",
+                  "value": "{{instance}}",
+                  "key": "instance"
+                },
+                {
+                  "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                  "type": "any",
+                  "value": "{{version}}",
+                  "key": "version"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "text/csv"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "<binary>"
+            }
+          },
+          "response": [
+            {
+              "id": "815f34f9-bdb2-4d7d-9ab9-581f38d526c6",
+              "name": "Data uploaded successfully to the ingest job.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ingest",
+                    ":jobId",
+                    "batches"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "example_value"
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9f9c797b-e8e3-4da4-ac19-c87250110077",
+              "name": "Bad request. Invalid CSV format, job not in Open state, or data exceeds size limits.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ingest",
+                    ":jobId",
+                    "batches"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "example_value"
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b6e4b939-5d90-4a4f-b407-81f02d32cbb8",
+              "name": "Unauthorized. Invalid or expired OAuth token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ingest",
+                    ":jobId",
+                    "batches"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "example_value"
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "75a143fe-3b60-490a-98c2-7075ff3bde31",
+              "name": "Job not found for the specified job ID.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ingest",
+                    ":jobId",
+                    "batches"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "example_value"
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2cbf88a8-e39e-4561-861e-b6c030ebcb09",
+          "name": "Salesforce Get Successful Records From an Ingest Job",
+          "request": {
+            "name": "Salesforce Get Successful Records From an Ingest Job",
+            "description": {
+              "content": "Returns a CSV file containing the records that were successfully processed by the ingest job. Each row corresponds to a record from the uploaded data that was inserted, updated, upserted, or deleted successfully. Only available after the job reaches JobComplete state.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ingest",
+                ":jobId",
+                "successfulResults"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "jobId",
+                  "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                },
+                {
+                  "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                  "type": "any",
+                  "value": "{{instance}}",
+                  "key": "instance"
+                },
+                {
+                  "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                  "type": "any",
+                  "value": "{{version}}",
+                  "key": "version"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/csv"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a2dea183-34eb-4729-8748-9cd46c98f595",
+              "name": "CSV data containing the successfully processed records, with sf__Id and sf__Created columns added.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ingest",
+                    ":jobId",
+                    "successfulResults"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/csv"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/csv"
+                }
+              ],
+              "body": "example_value",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c3834f37-cb81-4ba3-8a4a-53c7310444b5",
+              "name": "Unauthorized. Invalid or expired OAuth token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ingest",
+                    ":jobId",
+                    "successfulResults"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f8d434a7-cfca-4b69-9647-ca50e9c9d4d3",
+              "name": "Job not found or job has not completed processing.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ingest",
+                    ":jobId",
+                    "successfulResults"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7bfcb3ab-53cf-4307-b787-d02ffa356cfd",
+          "name": "Salesforce Get Failed Records From an Ingest Job",
+          "request": {
+            "name": "Salesforce Get Failed Records From an Ingest Job",
+            "description": {
+              "content": "Returns a CSV file containing the records from the ingest job that failed to process. Each row includes the original record data plus sf__Error and sf__Id columns describing the failure reason. Use this to identify and fix records that need to be resubmitted.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ingest",
+                ":jobId",
+                "failedResults"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "jobId",
+                  "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                },
+                {
+                  "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                  "type": "any",
+                  "value": "{{instance}}",
+                  "key": "instance"
+                },
+                {
+                  "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                  "type": "any",
+                  "value": "{{version}}",
+                  "key": "version"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/csv"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "775dea60-477f-4cc7-bf0f-0372c54630b8",
+              "name": "CSV data containing failed records with error details in the sf__Error column.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ingest",
+                    ":jobId",
+                    "failedResults"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/csv"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/csv"
+                }
+              ],
+              "body": "example_value",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d0442a63-01c5-4d90-a29c-c2411fefbf41",
+              "name": "Unauthorized. Invalid or expired OAuth token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ingest",
+                    ":jobId",
+                    "failedResults"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ec317517-4bbb-4b90-8a51-255f8ccf2879",
+              "name": "Job not found or job has not completed processing.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ingest",
+                    ":jobId",
+                    "failedResults"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0d3ba6fd-9112-403c-90f9-50dd66c8664d",
+          "name": "Salesforce Get Unprocessed Records From an Ingest Job",
+          "request": {
+            "name": "Salesforce Get Unprocessed Records From an Ingest Job",
+            "description": {
+              "content": "Returns a CSV file containing the records from the ingest job that were not processed, typically because the job was aborted before processing completed. Use these records to resubmit them in a new job.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ingest",
+                ":jobId",
+                "unprocessedrecords"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "jobId",
+                  "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                },
+                {
+                  "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                  "type": "any",
+                  "value": "{{instance}}",
+                  "key": "instance"
+                },
+                {
+                  "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                  "type": "any",
+                  "value": "{{version}}",
+                  "key": "version"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/csv"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ab3f9588-f9da-4c54-b549-be08d0eeae08",
+              "name": "CSV data containing unprocessed records from the aborted job.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ingest",
+                    ":jobId",
+                    "unprocessedrecords"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/csv"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/csv"
+                }
+              ],
+              "body": "example_value",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9215314e-46d7-415b-b4ff-6972d8ab5c0d",
+              "name": "Unauthorized. Invalid or expired OAuth token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ingest",
+                    ":jobId",
+                    "unprocessedrecords"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "df2a6adc-416b-46f8-91e4-eb5abc5e9d0a",
+              "name": "Job not found for the specified job ID.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ingest",
+                    ":jobId",
+                    "unprocessedrecords"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "yourInstance",
+      "key": "instance"
+    },
+    {
+      "description": {
+        "content": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "63.0",
+      "key": "version"
+    },
+    {
+      "type": "string",
+      "value": "https://{{instance}}.salesforce.com/services/data/v{{version}}/jobs",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "8631b389-8f14-4733-89f6-42bce2990159",
+    "name": "Salesforce Bulk API 2.0 Abort Ingest Job Data API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.\n\n\nContact Support:\n Name: Salesforce Developers",
+      "type": "text/plain"
+    }
+  }
+}

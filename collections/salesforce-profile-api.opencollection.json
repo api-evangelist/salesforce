@@ -1,0 +1,78 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Salesforce Bulk API 2.0 Abort Profile API",
+    "version": "v63.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Profile",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Salesforce User Profile Feed Elements",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/chatter/feeds/user-profile/:USER_ID/feed-elements",
+            "params": [
+              {
+                "name": "USER_ID",
+                "value": "500123",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns feed elements created when a user changes records that can be tracked in a feed, feed elements whose parent is the user, and feed elements that mention the user. This feed is different than the news feed, which returns more feed items, including group updates. You can post feed items to the user-profile feed. You can get another user’s user profile feed.\n\nhttps://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resource_feeds_user_profile.htm"
+        },
+        {
+          "info": {
+            "name": "Salesforce Member Profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/loyalty-programs/:loyaltyProgramName/members",
+            "params": [
+              {
+                "name": "memberId",
+                "value": "500123",
+                "type": "query",
+                "description": "The ID of the loyalty program member."
+              },
+              {
+                "name": "membershipNumber",
+                "value": "example_value",
+                "type": "query",
+                "description": "The membership number of the loyalty program member."
+              },
+              {
+                "name": "programCurrencyName",
+                "value": "example_value",
+                "type": "query",
+                "description": "The name of the loyalty program currency associated with the member.\nUse this parameter to get the details of the member’s points-related information for a specific currency."
+              },
+              {
+                "name": "loyaltyProgramName",
+                "value": "example_value",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Standard Documentation:\n\n[https://developer.salesforce.com/docs/atlas.en-us.loyalty.meta/loyalty/connect_resources_member_profile.htm](https://developer.salesforce.com/docs/atlas.en-us.loyalty.meta/loyalty/connect_resources_member_profile.htm)"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

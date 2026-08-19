@@ -1,0 +1,225 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Salesforce Bulk API 2.0 Abort Groups API",
+    "version": "v63.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Groups",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Salesforce List of Groups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/chatter/groups"
+          },
+          "docs": "A list of all the groups in the organization. Get information about groups or create a group.\n\nhttps://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_groups_ListOfGroups.htm"
+        },
+        {
+          "info": {
+            "name": "Salesforce List of Groups - Post",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/chatter/groups",
+            "params": [
+              {
+                "name": "name",
+                "value": "Example Title",
+                "type": "query"
+              },
+              {
+                "name": "visibility",
+                "value": "example_value",
+                "type": "query",
+                "description": "PrivateAccess—Only members of the group can see posts to this group.\nPublicAccess—All users within the community can see posts to this group.\nUnlisted—Reserved for future use."
+              },
+              {
+                "name": "description",
+                "value": "A sample description.",
+                "type": "query"
+              },
+              {
+                "name": "information",
+                "value": "example_value",
+                "type": "query",
+                "description": "If the group is private, the “Information” section is visible only to members."
+              },
+              {
+                "name": "isArchived",
+                "value": "true",
+                "type": "query"
+              },
+              {
+                "name": "isAutoArchiveDisabled",
+                "value": "true",
+                "type": "query",
+                "description": "true if automatic archiving is turned off for the group, false otherwise. Defaults to false. If true, if there are no posts or comments for 90 days the group is archived."
+              },
+              {
+                "name": "isBroadcast",
+                "value": "true",
+                "type": "query",
+                "description": "true if only group owners and managers can create posts in the group, false otherwise."
+              },
+              {
+                "name": "canHaveChatterGuests",
+                "value": "true",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "A list of all the groups in the organization. Get information about groups or create a group.\n\nhttps://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_groups_ListOfGroups.htm"
+        },
+        {
+          "info": {
+            "name": "Salesforce Group Members—private",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/chatter/groups/:GROUP_ID/members/requests",
+            "params": [
+              {
+                "name": "GROUP_ID",
+                "value": "500123",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Request membership in a private group or get the status of requests to a join a private group.\n\nhttps://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_groups_GroupMembersRequests.htm"
+        },
+        {
+          "info": {
+            "name": "Salesforce Group Members—private - Post",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/chatter/groups/:GROUP_ID/members/requests",
+            "params": [
+              {
+                "name": "GROUP_ID",
+                "value": "500123",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Request membership in a private group or get the status of requests to a join a private group.\n\nhttps://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_groups_GroupMembersRequests.htm"
+        },
+        {
+          "info": {
+            "name": "Salesforce Group Invites",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/chatter/groups/group/:GROUP_ID/invite",
+            "params": [
+              {
+                "name": "GROUP_ID",
+                "value": "500123",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Invite internal and external users to join a group.\n\nhttps://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_groups_invites.htm#connect_resources_groups_invites"
+        },
+        {
+          "info": {
+            "name": "Salesforce Group Members",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/chatter/groups/:GROUP_ID/members",
+            "params": [
+              {
+                "name": "userId",
+                "value": "500123",
+                "type": "query"
+              },
+              {
+                "name": "GROUP_ID",
+                "value": "500123",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Members of a specified group. Get the members and add a member to a group. To add a member, the context user must be the group owner or moderator.\n\nhttps://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_groups_GroupMembers.htm"
+        },
+        {
+          "info": {
+            "name": "Salesforce Group Membership Requests—private",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/chatter/group-membership-requests/:CHATTER_GROUP_REQUEST_ID",
+            "params": [
+              {
+                "name": "status",
+                "value": "example_value",
+                "type": "query"
+              },
+              {
+                "name": "responseMessage",
+                "value": "example_value",
+                "type": "query"
+              },
+              {
+                "name": "CHATTER_GROUP_REQUEST_ID",
+                "value": "500123",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Update the status of a request by a user to join a private group or get information about a request to join a private group.\n\nhttps://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_group_membership_requests.htm?search_text=group-membership-requests"
+        },
+        {
+          "info": {
+            "name": "Salesforce Data Category Groups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/support/dataCategoryGroups",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "example_value"
+              }
+            ],
+            "params": [
+              {
+                "name": "sObjectName",
+                "value": "example_value",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns the list of list views for the specified sObject, including the ID and other basic information about each list view. You can also get basic information for a specific list view by ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,131 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Salesforce Bulk API 2.0 Abort Assets API",
+    "version": "v63.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Assets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List content assets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/asset/v1/content/assets",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number to retrieve. Defaults to 1."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "The number of assets to return per page. Defaults to 50."
+              },
+              {
+                "name": "assetType",
+                "value": "",
+                "type": "query",
+                "description": "Filter by asset type name (e.g., templatebasedemail, htmlemail, image, document, block).\n"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of Marketing Cloud Content Builder assets including emails, images, documents, and other content items. Supports filtering by asset type and searching by name.\n"
+        },
+        {
+          "info": {
+            "name": "Create a content asset",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/asset/v1/content/assets",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new content asset in Marketing Cloud Content Builder. Assets can be emails, templates, images, blocks, or other content types. The asset type is specified using the assetType object. File content can be provided inline as a base64 string or referenced by URL.\n"
+        },
+        {
+          "info": {
+            "name": "Get a content asset by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/asset/v1/content/assets/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The numeric ID of the Marketing Cloud content asset."
+              }
+            ]
+          },
+          "docs": "Retrieves a single Marketing Cloud Content Builder asset by its numeric ID. Returns the asset metadata and content.\n"
+        },
+        {
+          "info": {
+            "name": "Update a content asset",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/asset/v1/content/assets/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The numeric ID of the Marketing Cloud content asset."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Replaces the content and metadata of an existing Marketing Cloud Content Builder asset. The entire asset definition must be provided; partial updates are not supported. Returns the updated asset.\n"
+        },
+        {
+          "info": {
+            "name": "Delete a content asset",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/asset/v1/content/assets/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The numeric ID of the Marketing Cloud content asset."
+              }
+            ]
+          },
+          "docs": "Deletes a Marketing Cloud Content Builder asset by its numeric ID. Deletion is permanent and cannot be undone. Ensure the asset is not in use by active journeys or sends before deleting.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

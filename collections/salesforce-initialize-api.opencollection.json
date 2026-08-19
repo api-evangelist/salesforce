@@ -1,0 +1,69 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Salesforce Bulk API 2.0 Abort Initialize API",
+    "version": "v63.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Initialize",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Salesforce Registration - Initialize",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/services/auth/headless/init/registration",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submits the registration data to the init/registration endpoint and returns a request identifier. At the same time, an OTP is sent out to the end users via email or sms. Registration data is passed in the request body, and is formatted with JSON, with 5 keys: `userdata`, `customdata`, `password`, `recaptcha`, and `verificationmethod`. The first two keys are JSON structures, and the last 3 keys are strings.\n\nThis request returns JSON, and includes an identifier (request identifier)."
+        },
+        {
+          "info": {
+            "name": "Salesforce Forgot Password - Initialize",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/services/auth/headless/forgot_password",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Salesforce Forgot Password - Initialize"
+        },
+        {
+          "info": {
+            "name": "Salesforce Passwordless Login - Initialize",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/services/auth/headless/init/passwordless/login",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submits the passwordless login data to the init/passwordless/login endpoint and returns a request identifier. At the same time, an OTP is sent out to the end users via email or sms. Passwordless login data is passed in the request body, and is formatted with JSON, with 3 keys: `username`, `recaptcha`, and `verificationmethod`. All 3 keys are strings.\n\nThis request returns JSON, and includes an identifier (request identifier)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,247 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Salesforce Bulk API 2.0 Abort Search API",
+    "version": "v63.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Search",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Salesforce Feed Elements, Post and Search",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/chatter/feed-elements",
+            "params": [
+              {
+                "name": "feedElementType",
+                "value": "example_value",
+                "type": "query",
+                "description": "Feed elements are the top-level objects that a feed contains. The feed element type describes the characteristics of that feed element. One of these values:\nBundle—A container of feed elements. A bundle also has a body made up of message segments that can always be gracefully degraded to text-only values.\nFeedItem—A feed item has a single parent and is scoped to one community or across all communities. A feed item can have capabilities such as bookmarks, canvas, content, comment, link, poll. Feed items have a body made up of message segments that can always be gracefully degraded to text-only values.\nRecommendation—A recommendation is a feed element with a recommendations capability. A recommendation suggests records to follow, groups to join, or applications that are helpful to the context user."
+              },
+              {
+                "name": "subjectId",
+                "value": "500123",
+                "type": "query"
+              },
+              {
+                "name": "text",
+                "value": "example_value",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Feed item and comment bodies have a 10,000 character limit. Because this limit can change, we recommend that clients make a describeSObjects() call on the FeedItem or FeedComment object. To determine the maximum number of allowed characters, look at the length of the Body or CommentBody field.\n\nhttps://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_feed_element.htm"
+        },
+        {
+          "info": {
+            "name": "Salesforce Search",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/search",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "example_value"
+              }
+            ],
+            "params": [
+              {
+                "name": "q",
+                "value": "example_value",
+                "type": "query",
+                "description": "A SOSL statement that is properly URL-encoded."
+              }
+            ]
+          },
+          "docs": "Executes the specified SOSL search. The search string must be URL-encoded.\n\nhttps://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_search.htm"
+        },
+        {
+          "info": {
+            "name": "Salesforce Search Scope and Order",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/search/scopeOrder",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "example_value"
+              }
+            ]
+          },
+          "docs": "Returns an ordered list of objects in the default global search scope of a logged-in user. Global search keeps track of which objects the user interacts with and how often and arranges the search results accordingly. Objects used most frequently appear at the top of the list.\nThe returned list reflects the object order in the user’s default search scope, including any pinned objects on the user’s search results page. This call is useful if you want to implement a custom search results page using"
+        },
+        {
+          "info": {
+            "name": "Salesforce Search Result Layouts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/search/layout",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "example_value"
+              }
+            ],
+            "params": [
+              {
+                "name": "q",
+                "value": "example_value",
+                "type": "query",
+                "description": "Comma delimited object list"
+              }
+            ]
+          },
+          "docs": "Returns search result layout information for the objects in the query string. For each object, this call returns the list of fields displayed on the search results page as columns, the number of rows displayed on the first page, and the label used on the search results page.\nThis call supports bulk fetch for up to 100 objects in a query.\n\nhttps://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_search_layouts.htm"
+        },
+        {
+          "info": {
+            "name": "Salesforce Search for Records Suggested by Autocomplete and Instant Results",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/search/suggestions",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "example_value"
+              }
+            ],
+            "params": [
+              {
+                "name": "q",
+                "value": "example_value",
+                "type": "query"
+              },
+              {
+                "name": "sobject",
+                "value": "example_value",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a list of suggested records whose names match the user’s search string. The suggestions resource provides autocomplete results and instant results for users to navigate directly to likely relevant records, before performing a full search.\n\nhttps://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_search_suggest_records.htm"
+        },
+        {
+          "info": {
+            "name": "Salesforce Search Suggested Queries",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/search/suggestSearchQueries",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "example_value"
+              }
+            ],
+            "params": [
+              {
+                "name": "q",
+                "value": "example_value",
+                "type": "query"
+              },
+              {
+                "name": "language",
+                "value": "example_value",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a list of suggested searches based on the user’s query string text matching searches that other users have performed in Salesforce Knowledge. Provides a way to improve search effectiveness, before the user performs a search.\n\nhttps://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_search_suggest_queries.htm"
+        },
+        {
+          "info": {
+            "name": "Salesforce Parameterized Search",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/parameterizedSearch",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "example_value"
+              }
+            ],
+            "params": [
+              {
+                "name": "q",
+                "value": "example_value",
+                "type": "query",
+                "description": "A search string that is properly URL-encoded"
+              }
+            ]
+          },
+          "docs": "Executes a simple RESTful search using parameters instead of a SOSL clause. Indicate parameters in a URL in the GET method. Or, use POST for more complex JSON searches."
+        },
+        {
+          "info": {
+            "name": "Salesforce Tooling Search",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/tooling/search",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "example_value"
+              }
+            ],
+            "params": [
+              {
+                "name": "q",
+                "value": "example_value",
+                "type": "query",
+                "description": "SOSL search statement"
+              }
+            ]
+          },
+          "docs": "Runs one or more methods within one or more Apex classes, using the asynchronous test execution mechanism. In the request body, you can specify test class names and IDs, suite names and IDs, the maximum number of failed tests to allow, and the test level, as comma-separated lists or as an array. You can also indicate whether to opt out of collecting code coverage information during the test run (available in API version 43.0 and later)."
+        },
+        {
+          "info": {
+            "name": "Salesforce Execute a Sosl Search",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/search",
+            "params": [
+              {
+                "name": "q",
+                "value": "FIND {Jane Smith} IN ALL FIELDS RETURNING Contact(Id, Name, Email), Account(Id, Name)",
+                "type": "query",
+                "description": "The SOSL search string to execute. Must include a FIND clause and optionally IN, RETURNING, and WITH clauses.\n"
+              }
+            ]
+          },
+          "docs": "Executes a SOSL (Salesforce Object Search Language) search query across multiple objects simultaneously. The SOSL query is passed as a query parameter. Returns matching records from all specified objects, supporting full-text search capabilities.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

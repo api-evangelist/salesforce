@@ -1,0 +1,165 @@
+{
+  "item": [
+    {
+      "id": "47031342-b6b2-450f-947e-a7cac1d6eb45",
+      "name": "Login",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "675d8014-69ff-4c6e-8b86-964bb4c843f2",
+          "name": "Salesforce Passwordless Login - Initialize",
+          "request": {
+            "name": "Salesforce Passwordless Login - Initialize",
+            "description": {
+              "content": "Submits the passwordless login data to the init/passwordless/login endpoint and returns a request identifier. At the same time, an OTP is sent out to the end users via email or sms. Passwordless login data is passed in the request body, and is formatted with JSON, with 3 keys: `username`, `recaptcha`, and `verificationmethod`. All 3 keys are strings.\n\nThis request returns JSON, and includes an identifier (request identifier).",
+              "type": "text/plain"
+            },
+            "url": {
+              "protocol": "https",
+              "path": [
+                "services",
+                "auth",
+                "headless",
+                "init",
+                "passwordless",
+                "login"
+              ],
+              "host": [
+                "login",
+                "salesforce",
+                "com"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"<string>\",\n  \"recaptcha\": \"<string>\",\n  \"verificationmethod\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ae98b23f-b433-434f-b60b-292ee6ae5a42",
+              "originalRequest": {
+                "url": {
+                  "protocol": "https",
+                  "path": [
+                    "services",
+                    "auth",
+                    "headless",
+                    "init",
+                    "passwordless",
+                    "login"
+                  ],
+                  "host": [
+                    "login",
+                    "salesforce",
+                    "com"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"<username>\",\n  \"recaptcha\": \"<recaptcha-token>\",\n  \"verificationmethod\": \"email or sms\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "yourInstance",
+      "key": "instance"
+    },
+    {
+      "description": {
+        "content": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "63.0",
+      "key": "version"
+    },
+    {
+      "type": "string",
+      "value": "https://{{instance}}.salesforce.com/services/data/v{{version}}/jobs",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "5ce3ecbd-0923-420b-8e38-500f46c8b6a9",
+    "name": "Salesforce Bulk API 2.0 Abort Login API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.\n\n\nContact Support:\n Name: Salesforce Developers",
+      "type": "text/plain"
+    }
+  }
+}

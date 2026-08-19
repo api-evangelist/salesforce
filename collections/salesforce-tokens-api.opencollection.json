@@ -1,0 +1,203 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Salesforce Bulk API 2.0 Abort Tokens API",
+    "version": "v63.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Tokens",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Salesforce Registration - Token Exchange",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/services/oauth2/token",
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "code",
+                  "value": ""
+                },
+                {
+                  "name": "grant_type",
+                  "value": ""
+                },
+                {
+                  "name": "client_id",
+                  "value": ""
+                },
+                {
+                  "name": "redirect_uri",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "This exchanges the auth code returned in the Authorize Request for an access token and refresh token. This follows the standard Auth Code flow/Webserver Code Flow pattern. The Code is the return form the Authorization call."
+        },
+        {
+          "info": {
+            "name": "Salesforce Revoke Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/services/oauth2/revoke",
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "token",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "This calls the standard revoke endpoint, passing in your access token. This endpoint should be called as part of your logout process to invalidate the access and refresh token. "
+        },
+        {
+          "info": {
+            "name": "Salesforce Oauth App Users Tokens",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/services/data/v64.0/apps/oauth/usage///tokens",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": "example_value"
+              }
+            ]
+          },
+          "docs": "Lists all tokens for a user of the external client app. See [Refresh Token by User and App](https://developer.salesforce.com/docs/atlas.en-us.246.0.chatterapi.meta/chatterapi/connect_resources_usage_app_id_user_id_tokens.htm)."
+        },
+        {
+          "info": {
+            "name": "Salesforce Oauth User Tokens Revoke",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/services/data/v64.0/apps/oauth/usage///tokens",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": "example_value"
+              }
+            ]
+          },
+          "docs": "Revokes all tokens for a user of the external client app. See [Refresh Token by User and App](https://developer.salesforce.com/docs/atlas.en-us.246.0.chatterapi.meta/chatterapi/connect_resources_usage_app_id_user_id_tokens.htm)."
+        },
+        {
+          "info": {
+            "name": "Salesforce Oauth Tokens Revoke",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/services/data/v64.0/apps/oauth/usage//tokens",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": "example_value"
+              }
+            ]
+          },
+          "docs": "Revokes all tokens available for the external client app. See [Refresh Token by App ID](https://developer.salesforce.com/docs/atlas.en-us.246.0.chatterapi.meta/chatterapi/connect_resources_usage_app_id_tokens.htm)."
+        },
+        {
+          "info": {
+            "name": "Salesforce Oauth Token Revoke",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/services/data/v64.0/apps/oauth/usage/tokens/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": "example_value"
+              }
+            ]
+          },
+          "docs": "Revokes one token. See [OAuth Refresh Token](https://developer.salesforce.com/docs/atlas.en-us.246.0.chatterapi.meta/chatterapi/connect_resources_usage_tokens_token_id.htm)."
+        },
+        {
+          "info": {
+            "name": "Salesforce Openid Connect Token Introspection Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/services/oauth2/introspect",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "example_value"
+              },
+              {
+                "name": "Accept",
+                "value": "example_value"
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "token",
+                  "value": ""
+                },
+                {
+                  "name": "token_type_hint",
+                  "value": ""
+                },
+                {
+                  "name": "client_id",
+                  "value": ""
+                },
+                {
+                  "name": "client_secret",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Salesforce Openid Connect Token Introspection Endpoint"
+        },
+        {
+          "info": {
+            "name": "Salesforce Id Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs//",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "example_value"
+              }
+            ]
+          },
+          "docs": "Salesforce Id Token"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,48 @@
+generated: '2026-08-13'
+method: generated
+source: >-
+  openapi/*.yml (operationIds verified by grep against the refined specs),
+  conventions/salesforce-conventions.yml, errors/salesforce-error-codes.yml,
+  rate-limits/salesforce-rate-limits.yml, lifecycle/salesforce-lifecycle.yml,
+  arazzo/*.yml (flow selection mirrors the published workflows)
+notes: >-
+  Packaged Agent Skills for the Salesforce platform REST + Bulk APIs. Salesforce publishes no
+  AGENTS.md or provider-authored skill pack, so these are GENERATED — but every operationId
+  named in the frontmatter was verified to exist in this repo's refined OpenAPI documents before
+  being written, and every convention (error array shape, Sforce-Limit-Info, Sforce-Locator,
+  the absence of a generic idempotency header) is taken from the artifacts listed above rather
+  than from memory. Flows mirror the arazzo/ workflows already in this repo.
+provider: Salesforce
+providerId: salesforce
+skill_count: 5
+skills:
+  - name: salesforce-soql-query
+    file: salesforce-soql-query.md
+    api: Salesforce REST API
+    description: Run a SOQL query and page through every result row via nextRecordsUrl.
+    operations: [executeQuery, QueryAll, listApiVersions]
+    arazzo: arazzo/salesforce-soql-query-workflow.yml
+  - name: salesforce-upsert-by-external-id
+    file: salesforce-upsert-by-external-id.md
+    api: Salesforce REST API
+    description: The one idempotent write path on the platform — create-or-update keyed on your own external ID.
+    operations: [SObjectRowsbyExternalID, SObjectDescribe, SObjectRows, SObjectCreate]
+    arazzo: arazzo/salesforce-upsert-by-external-id-workflow.yml
+  - name: salesforce-bulk-query
+    file: salesforce-bulk-query.md
+    api: Salesforce Bulk API 2.0
+    description: Asynchronous large-result extraction with Sforce-Locator header paging over CSV.
+    operations: [createQueryJob, GetJobInfoQuery, GetJobQueryResult, AbortaJobQuery, GetAllQueryJobs]
+    arazzo: arazzo/salesforce-bulk-query-workflow.yml
+  - name: salesforce-describe-and-discover
+    file: salesforce-describe-and-discover.md
+    api: Salesforce REST API
+    description: Version, object and field discovery plus org limit headroom, before any call.
+    operations: [listApiVersions, DescribeGlobal, SObjectDescribe, SObjectBasicInformation, getOrgLimits]
+    arazzo: arazzo/salesforce-describe-sobject-workflow.yml
+  - name: salesforce-composite-write
+    file: salesforce-composite-write.md
+    api: Salesforce Composite API
+    description: Write a dependent record graph in one request using @{ref.id} chaining.
+    operations: [Composite, CompositeBatch, CompositeGraph, SObjectTree, SObjectCollectionsCreate, SObjectCollectionsUpsert]
+    arazzo: arazzo/salesforce-create-account-with-contacts-workflow.yml

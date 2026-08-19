@@ -1,0 +1,55 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Salesforce Bulk API 2.0 Abort Query Job Results API",
+    "version": "v63.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Query Job Results",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Salesforce Get Query Job Results",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/query/:jobId/results",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the Bulk API 2.0 job."
+              },
+              {
+                "name": "maxRecords",
+                "value": "10",
+                "type": "query",
+                "description": "Maximum number of records to return in this response. Defaults to 50000. Use with the locator parameter to paginate through large result sets.\n"
+              },
+              {
+                "name": "locator",
+                "value": "example_value",
+                "type": "query",
+                "description": "A locator token from the Sforce-Locator response header of a previous request to retrieve the next page of results.\n"
+              }
+            ]
+          },
+          "docs": "Returns the results of a completed query job as CSV data. The results may be paginated; check for a Sforce-Locator response header to retrieve subsequent pages by passing the locator value as a query parameter. Only available after the job reaches JobComplete state.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

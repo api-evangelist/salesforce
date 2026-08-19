@@ -1,0 +1,100 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Salesforce Bulk API 2.0 Abort Quote API",
+    "version": "v63.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Quote",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Salesforce Read Quote Api",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/apexrest/SBQQ/ServiceRouter",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "example_value"
+              }
+            ],
+            "params": [
+              {
+                "name": "reader",
+                "value": "example_value",
+                "type": "query"
+              },
+              {
+                "name": "uid",
+                "value": "500123",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "The Read Quote API reads a quote from a CPQ quote ID.\nAvailable in: Salesforce CPQ Summer ’16 and later\n\nhttps://developer.salesforce.com/docs/atlas.en-us.cpq_dev_api.meta/cpq_dev_api/cpq_api_read_quote.htm"
+        },
+        {
+          "info": {
+            "name": "Salesforce Save Quote Api",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/apexrest/SBQQ/ServiceRouter",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "example_value"
+              }
+            ]
+          },
+          "docs": "The Save Quote API saves a CPQ quote.\nAvailable in: Salesforce CPQ Summer ’16 and later\n\nhttps://developer.salesforce.com/docs/atlas.en-us.cpq_dev_api.meta/cpq_dev_api/cpq_quote_api_save_final.htm"
+        },
+        {
+          "info": {
+            "name": "Salesforce Create or Update Quote",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/commerce/quotes/actions/place",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This example creates a quote for the following products.\n\n- 5 Virtual Routers sold on a 1-year termed subscription at $35/item\n- 1 Bronze Service Level Agreement sold on an evergreen subscription at $10/month\n    \n\nSee [place quote](https://developer.salesforce.com/docs/revenue/subscription-management/references/quotes?meta=Create+or+update+a+quote+with+place+quote)."
+        },
+        {
+          "info": {
+            "name": "Salesforce Create Order From Quote",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/actions/standard/createOrderFromQuote",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Salesforce Create Order From Quote"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

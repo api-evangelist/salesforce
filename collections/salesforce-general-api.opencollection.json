@@ -1,0 +1,69 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Salesforce Bulk API 2.0 Abort General API",
+    "version": "v63.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "General",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Salesforce Users Files, General",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/connect/files/users/me",
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "fileData",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Upload a file, including references to external files, to the Files home or get information about files a user owns. These files don’t include files shared with a user, files a user follows, or general organization files.\nWhen you upload a file to the Files home, it is private and available only to the file owner.\n\nTo upload a file, send it in a multipart/form-data request. You can include the description and title of the file in the multipart/form-data request as a JSON or XML request body. You"
+        },
+        {
+          "info": {
+            "name": "Salesforce User Messages, General",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/chatter/users/me/messages",
+            "params": [
+              {
+                "name": "text",
+                "value": "example_value",
+                "type": "query"
+              },
+              {
+                "name": "recipients",
+                "value": "example_value",
+                "type": "query",
+                "description": "Comma-separated list of User IDs"
+              }
+            ]
+          },
+          "docs": "Returns all the messages for all the private conversations for the context user. Also used to search across all messages and post a message.\nTo return all private conversations for the context user, see User Conversations, General.\n\nhttps://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_users_messages_general.htm"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

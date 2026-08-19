@@ -1,0 +1,142 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Salesforce Bulk API 2.0 Abort External API",
+    "version": "v63.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "External",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Salesforce List External Credentials",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/named-credentials/external-credentials"
+          },
+          "docs": "Get external credentials that the user can authenticate to."
+        },
+        {
+          "info": {
+            "name": "Salesforce Create External Credential",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/named-credentials/external-credentials",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an external credential."
+        },
+        {
+          "info": {
+            "name": "Salesforce Get External Credentials by Developer Name",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/named-credentials/external-credentials/:DEVELOPER_NAME",
+            "params": [
+              {
+                "name": "DEVELOPER_NAME",
+                "value": "example_value",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get an external credential, including the named credentials and principals associated with it and the type and status of each principal."
+        },
+        {
+          "info": {
+            "name": "Salesforce Update External Credential",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/named-credentials/external-credentials/:DEVELOPER_NAME",
+            "params": [
+              {
+                "name": "DEVELOPER_NAME",
+                "value": "example_value",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an external credential."
+        },
+        {
+          "info": {
+            "name": "Salesforce Delete External Credential",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/named-credentials/external-credentials/:DEVELOPER_NAME",
+            "params": [
+              {
+                "name": "DEVELOPER_NAME",
+                "value": "example_value",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete an external credential."
+        },
+        {
+          "info": {
+            "name": "Salesforce Sobject Rows by External Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/sobjects/:SOBJECT_API_NAME/:FIELD_NAME/:FIELD_VALUE",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "example_value"
+              }
+            ],
+            "params": [
+              {
+                "name": "SOBJECT_API_NAME",
+                "value": "example_value",
+                "type": "path"
+              },
+              {
+                "name": "FIELD_NAME",
+                "value": "example_value",
+                "type": "path"
+              },
+              {
+                "name": "FIELD_VALUE",
+                "value": "example_value",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Creates new records or updates existing records (upserts records) based on the value of a specified external ID field.\n\nIf the specified value doesn't exist, a new record is created.\nIf a record does exist with that value, the field values specified in the request body are updated.\nIf the value is not unique, the REST API returns a 300 response with the list of matching records.\n\nHEAD, GET, PATCH, DELETE, POST"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

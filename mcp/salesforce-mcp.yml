@@ -1,34 +1,97 @@
-generated: '2026-06-20'
+generated: '2026-08-13'
 method: searched
 status: published
 source: https://github.com/salesforcecli/mcp
 docs: https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_mcp.htm
+package: https://www.npmjs.com/package/@salesforce/mcp
 notes: >-
   Salesforce ships an official open-source MCP server — the Salesforce DX MCP Server
-  (@salesforce/mcp) — that exposes org operations (query records, deploy/retrieve metadata,
-  run Apex tests, LWC development, code analysis) to MCP-capable assistants such as Agentforce
-  for Developers, Cursor, VS Code agents, and Claude Desktop. It runs locally over stdio and
-  authenticates with the developer's existing Salesforce CLI orgs. Separately, Agentforce
-  provides a native MCP client and an enterprise MCP server registry for runtime agents.
+  (@salesforce/mcp) — that exposes org operations (SOQL query, deploy/retrieve metadata, org and
+  scratch-org management, Apex/agent tests, LWC development, code analysis, DevOps Center, mobile
+  capabilities) to MCP-capable assistants such as Agentforce for Developers, Cursor, VS Code
+  agents and Claude Desktop. It runs LOCALLY over stdio against the developer's already
+  authenticated Salesforce CLI orgs. Separately, Agentforce ships a native MCP *client* and an
+  enterprise MCP Server registry — that is Salesforce CONSUMING third-party MCP servers at agent
+  runtime, not Salesforce serving a hosted MCP endpoint for its own platform APIs.
+  CORRECTION 2026-08-13: the previous round recorded deployment.mode = remote with endpoint
+  https://www.salesforce.com/agentforce/mcp-support/. That URL is a marketing page, not an MCP
+  endpoint (its own probe field already read "not-mcp"). Corrected to local-stdio. Candidate
+  remote endpoints were probed on 2026-08-13 and all missed:
+  api.salesforce.com/mcp 404, /mcp/v1 404, /platform/mcp 404, /einstein/mcp 404,
+  mcp.salesforce.com/mcp no DNS/connection. Salesforce publishes no hosted MCP URL an agent can
+  POST to; an operator must install and run the npm package first.
 servers:
-  - name: Salesforce DX MCP Server
-    package: "@salesforce/mcp"
-    transport: stdio
-    install: npx -y @salesforce/mcp --orgs DEFAULT_TARGET_ORG --toolsets all
-    repo: https://github.com/salesforcecli/mcp
-    tool_count: "60+"
-    auth: Uses locally-authenticated Salesforce CLI org connections.
-    toolsets:
-      - orgs (list/open/display authenticated orgs)
-      - data (SOQL query, DML on records)
-      - metadata (deploy/retrieve source and metadata)
-      - testing (run Apex tests, get test results)
-      - lwc (Lightning Web Component development)
-      - code-analysis (static analysis / Code Analyzer)
-      - users (assign permission sets, manage users)
-  - name: Agentforce MCP support
-    transport: http
-    docs: https://www.salesforce.com/agentforce/mcp-support/
-    description: >-
-      Native MCP client in Agentforce plus an enterprise MCP Server registry for
-      policy-enforced, identity-aware agent tool access at runtime.
+- name: Salesforce DX MCP Server
+  package: '@salesforce/mcp'
+  version: 0.30.15
+  published: '2026-07-09'
+  transport: stdio
+  install: npx -y @salesforce/mcp --orgs DEFAULT_TARGET_ORG --toolsets all
+  repo: https://github.com/salesforcecli/mcp
+  auth: Uses locally-authenticated Salesforce CLI org connections (no MCP-level OAuth).
+  tool_count_note: >-
+    ~60+ tools across toolsets; the LWC Experts toolset alone contributes roughly 40. The
+    named tools below are read verbatim from the repository README — tools not individually
+    enumerated upstream are described at toolset granularity rather than invented.
+  toolsets:
+  - name: core
+    always_enabled: true
+    tools: [get_username, resume_tool_operation]
+  - name: data
+    tools: [run_soql_query]
+  - name: metadata
+    tools: [deploy_metadata, retrieve_metadata]
+  - name: orgs
+    tools: [list_all_orgs, open_org, create_scratch_org, create_org_snapshot, delete_org]
+  - name: users
+    tools: [assign_permission_set]
+  - name: testing
+    tools: [run_apex_test, run_agent_test]
+  - name: code-analysis
+    tools: [run_code_analyzer, list_code_analyzer_rules, describe_code_analyzer_rule,
+            query_code_analyzer_results, create-custom-rule, generate_xpath_prompt]
+  - name: lwc-experts
+    tools: []
+    note: ~40 tools for LWC component creation, testing, accessibility, design guidance, LDS/GraphQL and migration. Not individually enumerated upstream.
+  - name: devops-center
+    tools: []
+    note: Work-item management, merge-conflict detection/resolution, deployment diagnostics.
+  - name: mobile
+    tools: []
+    note: Mobile capability integrations (barcode, biometrics, location, geofencing, NFC) and offline-compatibility analysis.
+  - name: aura-experts
+    tools: []
+  - name: scale-products
+    tools: []
+    note: Apex performance analysis.
+- name: Agentforce MCP support
+  role: client
+  transport: http
+  docs: https://www.salesforce.com/agentforce/mcp-support/
+  description: >-
+    Native MCP client inside Agentforce plus an enterprise MCP Server registry for
+    policy-enforced, identity-aware agent tool access at runtime. Salesforce is the CONSUMER
+    here; this is not a Salesforce-served MCP endpoint and is not counted as one.
+deployment:
+  mode: local-stdio
+  endpoint: null
+  install: npx -y @salesforce/mcp --orgs DEFAULT_TARGET_ORG --toolsets all
+  package: https://www.npmjs.com/package/@salesforce/mcp
+  auth: none
+  auth_note: >-
+    The server itself takes no MCP-level credential; it reuses the operator's local Salesforce
+    CLI org authentication, so it inherits that user's full org permissions.
+  verified: probed
+  checked: '2026-08-13'
+  probes:
+    - {url: 'https://api.salesforce.com/mcp', status: 404}
+    - {url: 'https://api.salesforce.com/mcp/v1', status: 404}
+    - {url: 'https://api.salesforce.com/platform/mcp', status: 404}
+    - {url: 'https://api.salesforce.com/einstein/mcp', status: 404}
+    - {url: 'https://mcp.salesforce.com/mcp', status: 0, note: no connection}
+oauth_discovery:
+  note: >-
+    api.salesforce.com serves RFC 8414 + RFC 9728 metadata (see well-known/), which is the
+    discovery pair an MCP client would use — but no MCP resource is mounted behind it today.
+  authorization_server: well-known/salesforce-api-oauth-authorization-server.json
+  protected_resource: well-known/salesforce-api-oauth-protected-resource.json

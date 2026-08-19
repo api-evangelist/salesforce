@@ -1,0 +1,1416 @@
+{
+  "item": [
+    {
+      "id": "ece645ea-6db7-45bf-a7dd-788995b84f96",
+      "name": "Ingest Jobs",
+      "description": {
+        "content": "Operations for creating and managing ingest jobs that insert, update, upsert, delete, or hard delete records in bulk using CSV data.\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "63b73f26-9e0e-475b-bdff-b9ea1f5ef8bb",
+          "name": "Salesforce Create an Ingest Job",
+          "request": {
+            "name": "Salesforce Create an Ingest Job",
+            "description": {
+              "content": "Creates a new ingest job for bulk data operations (insert, update, upsert, delete, or hardDelete). After creating the job, upload data using the PUT /ingest/{jobId}/batches endpoint, then close the job to begin processing. Monitor the job state until it reaches JobComplete or Failed.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ingest"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                  "type": "any",
+                  "value": "{{instance}}",
+                  "key": "instance"
+                },
+                {
+                  "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                  "type": "any",
+                  "value": "{{version}}",
+                  "key": "version"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"operation\": \"<string>\",\n  \"object\": \"<string>\",\n  \"externalIdFieldName\": \"<string>\",\n  \"contentType\": \"CSV\",\n  \"lineEnding\": \"LF\",\n  \"columnDelimiter\": \"COMMA\",\n  \"assignmentRuleId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "cb080ed7-43c0-4e7e-8f13-d5e77c9d2106",
+              "name": "Ingest job created successfully with Open state.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ingest"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"operation\": \"insert\",\n  \"object\": \"example_value\",\n  \"externalIdFieldName\": \"example_value\",\n  \"contentType\": \"CSV\",\n  \"lineEnding\": \"LF\",\n  \"columnDelimiter\": \"COMMA\",\n  \"assignmentRuleId\": \"500123\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"abc123\",\n  \"operation\": \"insert\",\n  \"object\": \"example_value\",\n  \"state\": \"Open\",\n  \"createdDate\": \"2026-01-15T10:30:00Z\",\n  \"systemModstamp\": \"2026-01-15T10:30:00Z\",\n  \"numberRecordsProcessed\": 10,\n  \"numberRecordsFailed\": 10,\n  \"totalProcessingTime\": 1700000000000,\n  \"errorMessage\": \"example_value\",\n  \"contentType\": \"CSV\",\n  \"lineEnding\": \"LF\",\n  \"columnDelimiter\": \"COMMA\",\n  \"externalIdFieldName\": \"example_value\",\n  \"jobType\": \"example_value\",\n  \"createdById\": \"500123\",\n  \"apiVersion\": 42.5\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "26d8290f-9925-4a1e-acd1-e59fc14ac5bc",
+              "name": "Bad request. Invalid operation, object type, or configuration parameters.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ingest"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"operation\": \"insert\",\n  \"object\": \"example_value\",\n  \"externalIdFieldName\": \"example_value\",\n  \"contentType\": \"CSV\",\n  \"lineEnding\": \"LF\",\n  \"columnDelimiter\": \"COMMA\",\n  \"assignmentRuleId\": \"500123\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ed36955e-07a4-44d4-b027-96d7eeffba63",
+              "name": "Unauthorized. Invalid or expired OAuth token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ingest"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"operation\": \"insert\",\n  \"object\": \"example_value\",\n  \"externalIdFieldName\": \"example_value\",\n  \"contentType\": \"CSV\",\n  \"lineEnding\": \"LF\",\n  \"columnDelimiter\": \"COMMA\",\n  \"assignmentRuleId\": \"500123\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "38eb9d8a-4af0-4ee9-8007-830cac9626c1",
+          "name": "Salesforce List Ingest Jobs",
+          "request": {
+            "name": "Salesforce List Ingest Jobs",
+            "description": {
+              "content": "Returns a list of ingest jobs in the org. By default returns all jobs created by all users. Use query parameters to filter by state or other criteria. Results are ordered by creation date descending.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ingest"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "isPkChunkingEnabled",
+                  "value": "<boolean>",
+                  "description": "Filter results to only jobs with PK chunking enabled (true) or disabled (false).\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "jobType",
+                  "value": "<string>",
+                  "description": "Filter results by job type. Use Classic for Bulk API 1.0 jobs or V2Ingest for Bulk API 2.0 ingest jobs.\n"
+                }
+              ],
+              "variable": [
+                {
+                  "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                  "type": "any",
+                  "value": "{{instance}}",
+                  "key": "instance"
+                },
+                {
+                  "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                  "type": "any",
+                  "value": "{{version}}",
+                  "key": "version"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "346e2aac-a3ac-48ad-aede-85037dcee0d3",
+              "name": "List of ingest jobs matching the filter criteria.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ingest"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "isPkChunkingEnabled",
+                      "value": "true"
+                    },
+                    {
+                      "key": "jobType",
+                      "value": "Classic"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"done\": true,\n  \"nextRecordsUrl\": \"https://www.example.com\",\n  \"records\": [\n    {\n      \"id\": \"abc123\",\n      \"operation\": \"insert\",\n      \"object\": \"example_value\",\n      \"createdDate\": \"2026-01-15T10:30:00Z\",\n      \"systemModstamp\": \"2026-01-15T10:30:00Z\",\n      \"numberRecordsProcessed\": 10,\n      \"numberRecordsFailed\": 10,\n      \"totalProcessingTime\": 1700000000000,\n      \"errorMessage\": \"example_value\",\n      \"contentType\": \"CSV\",\n      \"lineEnding\": \"LF\",\n      \"columnDelimiter\": \"COMMA\",\n      \"externalIdFieldName\": \"example_value\",\n      \"jobType\": \"example_value\",\n      \"createdById\": \"500123\",\n      \"apiVersion\": 42.5\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "be7a1290-b23c-44da-b365-762d301acc6c",
+              "name": "Unauthorized. Invalid or expired OAuth token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ingest"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "isPkChunkingEnabled",
+                      "value": "true"
+                    },
+                    {
+                      "key": "jobType",
+                      "value": "Classic"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e4b34c61-da58-4d08-8f7c-fb2aa9cb1f62",
+          "name": "Salesforce Get Ingest Job Info",
+          "request": {
+            "name": "Salesforce Get Ingest Job Info",
+            "description": {
+              "content": "Returns detailed information about a specific ingest job, including its current state, number of records processed, number of failures, and any error messages. Use this to monitor job progress and determine when processing is complete.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ingest",
+                ":jobId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "jobId",
+                  "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                },
+                {
+                  "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                  "type": "any",
+                  "value": "{{instance}}",
+                  "key": "instance"
+                },
+                {
+                  "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                  "type": "any",
+                  "value": "{{version}}",
+                  "key": "version"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8b01a697-a807-41eb-97e7-5e14025bee98",
+              "name": "Detailed information about the specified ingest job.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ingest",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"abc123\",\n  \"operation\": \"insert\",\n  \"object\": \"example_value\",\n  \"state\": \"Open\",\n  \"createdDate\": \"2026-01-15T10:30:00Z\",\n  \"systemModstamp\": \"2026-01-15T10:30:00Z\",\n  \"numberRecordsProcessed\": 10,\n  \"numberRecordsFailed\": 10,\n  \"totalProcessingTime\": 1700000000000,\n  \"errorMessage\": \"example_value\",\n  \"contentType\": \"CSV\",\n  \"lineEnding\": \"LF\",\n  \"columnDelimiter\": \"COMMA\",\n  \"externalIdFieldName\": \"example_value\",\n  \"jobType\": \"example_value\",\n  \"createdById\": \"500123\",\n  \"apiVersion\": 42.5\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "23e1b906-cb4a-4b0b-9e22-d668f5836c84",
+              "name": "Unauthorized. Invalid or expired OAuth token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ingest",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "05d43749-78e4-4cf2-a323-b722f8b86089",
+              "name": "Job not found for the specified job ID.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ingest",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5423d860-039f-438a-aac2-e8c4fb614280",
+          "name": "Salesforce Update or Close an Ingest Job",
+          "request": {
+            "name": "Salesforce Update or Close an Ingest Job",
+            "description": {
+              "content": "Updates the state of an ingest job. Use this to close the job after uploading all data (set state to UploadComplete), which triggers processing. Can also abort a job that is Open or UploadComplete by setting state to Aborted.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ingest",
+                ":jobId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "jobId",
+                  "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                },
+                {
+                  "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                  "type": "any",
+                  "value": "{{instance}}",
+                  "key": "instance"
+                },
+                {
+                  "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                  "type": "any",
+                  "value": "{{version}}",
+                  "key": "version"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"state\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1af99c0b-e207-47f9-9ba6-33926bfe1089",
+              "name": "Ingest job updated successfully with the new state.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ingest",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"state\": \"UploadComplete\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"abc123\",\n  \"operation\": \"insert\",\n  \"object\": \"example_value\",\n  \"state\": \"Open\",\n  \"createdDate\": \"2026-01-15T10:30:00Z\",\n  \"systemModstamp\": \"2026-01-15T10:30:00Z\",\n  \"numberRecordsProcessed\": 10,\n  \"numberRecordsFailed\": 10,\n  \"totalProcessingTime\": 1700000000000,\n  \"errorMessage\": \"example_value\",\n  \"contentType\": \"CSV\",\n  \"lineEnding\": \"LF\",\n  \"columnDelimiter\": \"COMMA\",\n  \"externalIdFieldName\": \"example_value\",\n  \"jobType\": \"example_value\",\n  \"createdById\": \"500123\",\n  \"apiVersion\": 42.5\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bc0952d2-1a03-4f32-8ca7-147ffc2ea6bb",
+              "name": "Bad request. Invalid state transition for the current job state.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ingest",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"state\": \"UploadComplete\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a811b49d-8ced-4d27-932b-dd8072817861",
+              "name": "Unauthorized. Invalid or expired OAuth token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ingest",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"state\": \"UploadComplete\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "85a2ef15-240f-492d-9e76-fbdea2166b57",
+              "name": "Job not found for the specified job ID.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ingest",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"state\": \"UploadComplete\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e7fc3691-a3a3-419f-b1e6-2458a54e4e87",
+          "name": "Salesforce Delete an Ingest Job",
+          "request": {
+            "name": "Salesforce Delete an Ingest Job",
+            "description": {
+              "content": "Deletes an ingest job and all associated data. Only jobs in the Aborted state can be deleted. First abort the job if it is in a different state, then delete it.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ingest",
+                ":jobId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "jobId",
+                  "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                },
+                {
+                  "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                  "type": "any",
+                  "value": "{{instance}}",
+                  "key": "instance"
+                },
+                {
+                  "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                  "type": "any",
+                  "value": "{{version}}",
+                  "key": "version"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "19470813-58ff-4125-b3f7-4e8b80614df4",
+              "name": "Ingest job deleted successfully. No body is returned.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ingest",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "349d6244-2331-4750-a976-65f120868bf9",
+              "name": "Bad request. Job is not in Aborted state and cannot be deleted.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ingest",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5588cf98-8179-41ad-98e8-e67006e62fb4",
+              "name": "Unauthorized. Invalid or expired OAuth token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ingest",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "274c0233-3a02-4337-8f36-176cdcc6c608",
+              "name": "Job not found for the specified job ID.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ingest",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The unique identifier of the Bulk API 2.0 job."
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "yourInstance",
+      "key": "instance"
+    },
+    {
+      "description": {
+        "content": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "63.0",
+      "key": "version"
+    },
+    {
+      "type": "string",
+      "value": "https://{{instance}}.salesforce.com/services/data/v{{version}}/jobs",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "225baa62-e6d6-4343-9312-dd9490d21c76",
+    "name": "Salesforce Bulk API 2.0 Abort Ingest Jobs API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.\n\n\nContact Support:\n Name: Salesforce Developers",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,142 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Salesforce Bulk API 2.0 Abort Registration API",
+    "version": "v63.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Registration",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Salesforce Registration - Initialize",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/services/auth/headless/init/registration",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submits the registration data to the init/registration endpoint and returns a request identifier. At the same time, an OTP is sent out to the end users via email or sms. Registration data is passed in the request body, and is formatted with JSON, with 5 keys: `userdata`, `customdata`, `password`, `recaptcha`, and `verificationmethod`. The first two keys are JSON structures, and the last 3 keys are strings.\n\nThis request returns JSON, and includes an identifier (request identifier)."
+        },
+        {
+          "info": {
+            "name": "Salesforce Registration - Authorize",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/services/oauth2/authorize",
+            "headers": [
+              {
+                "name": "Auth-Request-Type",
+                "value": "example_value"
+              },
+              {
+                "name": "Auth-Verification-Type",
+                "value": "example_value"
+              },
+              {
+                "name": "Authorization",
+                "value": "example_value"
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "response_type",
+                  "value": ""
+                },
+                {
+                  "name": "client_id",
+                  "value": ""
+                },
+                {
+                  "name": "redirect_uri",
+                  "value": ""
+                },
+                {
+                  "name": "scope",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "After you send your registration data to initialize, this request allows you to process that registration data, and as a part of this request you also verify the users email or sms number. The request itself is a authorization call for the Code and Credential flow. It includes 3 specific headers: `Auth-Request-Type` which is set to `user-registration`, `Auth-Verification-Type` which is set to email or sms, and an Authorization Basic header, which is the base 64 encoded result of `identifier:otp`"
+        },
+        {
+          "info": {
+            "name": "Salesforce Registration - Token Exchange",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/services/oauth2/token",
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "code",
+                  "value": ""
+                },
+                {
+                  "name": "grant_type",
+                  "value": ""
+                },
+                {
+                  "name": "client_id",
+                  "value": ""
+                },
+                {
+                  "name": "redirect_uri",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "This exchanges the auth code returned in the Authorize Request for an access token and refresh token. This follows the standard Auth Code flow/Webserver Code Flow pattern. The Code is the return form the Authorization call."
+        },
+        {
+          "info": {
+            "name": "Salesforce Openid Connect Dynamic Client Registration Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/services/oauth2/register",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": "example_value"
+              },
+              {
+                "name": "Authorization",
+                "value": "example_value"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Salesforce Openid Connect Dynamic Client Registration Endpoint"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,312 @@
+{
+  "item": [
+    {
+      "id": "6c16bdaa-560c-46a1-bc92-2c74b8e34977",
+      "name": "QueryAll",
+      "description": {
+        "content": "Execute SOQL queryAll to include soft-deleted and archived records in results.\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "8e35a258-3748-42df-8de8-c48f0f90cabb",
+          "name": "Salesforce Execute a Queryall (includes Deleted Records)",
+          "request": {
+            "name": "Salesforce Execute a Queryall (includes Deleted Records)",
+            "description": {
+              "content": "Executes a SOQL query that includes soft-deleted records and archived records in the results, unlike the standard /query endpoint which excludes them. Use this endpoint for data recovery, audit trails, or replication scenarios where deleted records must be included.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "queryAll"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                  "type": "any",
+                  "value": "{{instance}}",
+                  "key": "instance"
+                },
+                {
+                  "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                  "type": "any",
+                  "value": "{{version}}",
+                  "key": "version"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"q\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9f9ad4f0-3222-41b2-9a8b-dbf0c44bc79e",
+              "name": "Query results including deleted and archived records, with totalSize, done flag, and records array.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "queryAll"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"q\": \"example_value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"totalSize\": 42,\n  \"done\": true,\n  \"nextRecordsUrl\": \"https://www.example.com\",\n  \"records\": [\n    {\n      \"attributes\": {},\n      \"Id\": \"abc123\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e8c20777-410e-4c44-a921-6dd2507ffd8c",
+              "name": "Bad request. Invalid SOQL syntax or query validation failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "queryAll"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"q\": \"example_value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d6bccf34-d01c-4a1c-8552-fb8e32768740",
+              "name": "Unauthorized. Invalid or expired OAuth token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "queryAll"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"q\": \"example_value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "yourInstance",
+      "key": "instance"
+    },
+    {
+      "description": {
+        "content": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "63.0",
+      "key": "version"
+    },
+    {
+      "type": "string",
+      "value": "https://{{instance}}.salesforce.com/services/data/v{{version}}/jobs",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "51e1a2f3-07c6-46af-b21b-f8fc1a499c26",
+    "name": "Salesforce Bulk API 2.0 Abort QueryAll API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.\n\n\nContact Support:\n Name: Salesforce Developers",
+      "type": "text/plain"
+    }
+  }
+}

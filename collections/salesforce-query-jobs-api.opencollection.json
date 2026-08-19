@@ -1,0 +1,119 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Salesforce Bulk API 2.0 Abort Query Jobs API",
+    "version": "v63.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Query Jobs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Salesforce List Query Jobs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/query",
+            "params": [
+              {
+                "name": "jobType",
+                "value": "V2Query",
+                "type": "query",
+                "description": "Filter results by job type. Use V2Query for Bulk API 2.0 query jobs.\n"
+              }
+            ]
+          },
+          "docs": "Returns a list of query jobs in the org. Results are ordered by creation date descending. Use query parameters to filter by job state.\n"
+        },
+        {
+          "info": {
+            "name": "Salesforce Create a Query Job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/query",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new query job to extract large volumes of data from Salesforce using a SOQL query. Query jobs are asynchronous; after creating the job, poll the job status until it reaches JobComplete, then retrieve results using the GET /query/{jobId}/results endpoint.\n"
+        },
+        {
+          "info": {
+            "name": "Salesforce Get Query Job Info",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/query/:jobId",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the Bulk API 2.0 job."
+              }
+            ]
+          },
+          "docs": "Returns detailed information about a specific query job, including its current state, number of records processed, and any error messages. Poll this endpoint until the state reaches JobComplete or Failed before retrieving results.\n"
+        },
+        {
+          "info": {
+            "name": "Salesforce Abort or Close a Query Job",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/query/:jobId",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the Bulk API 2.0 job."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the state of a query job. Use this to abort a query job that is currently running or queued by setting state to Aborted.\n"
+        },
+        {
+          "info": {
+            "name": "Salesforce Delete a Query Job",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/query/:jobId",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the Bulk API 2.0 job."
+              }
+            ]
+          },
+          "docs": "Deletes a query job and all associated results. Only jobs in the Aborted or JobComplete state can be deleted.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

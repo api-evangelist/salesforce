@@ -1,0 +1,95 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Salesforce Bulk API 2.0 Abort Journeys API",
+    "version": "v63.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Journeys",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List journeys",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/interaction/v1/interactions",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number to retrieve. Defaults to 1."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "The number of journeys to return per page. Defaults to 50."
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter journeys by status. Use Draft, Published, ScheduledToSend, Stopped, or Deleted.\n"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of Marketing Cloud Journey Builder journeys (interactions). Includes both active and inactive journeys. Use the page and pageSize parameters to paginate. Can filter by journey status.\n"
+        },
+        {
+          "info": {
+            "name": "Get a journey by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/interaction/v1/interactions/:interactionId",
+            "params": [
+              {
+                "name": "interactionId",
+                "value": "",
+                "type": "path",
+                "description": "The unique ID of the journey (interaction) to retrieve."
+              },
+              {
+                "name": "versionNumber",
+                "value": "",
+                "type": "query",
+                "description": "The version number of the journey to retrieve. If not specified, returns the latest version.\n"
+              }
+            ]
+          },
+          "docs": "Retrieves detailed information about a specific Marketing Cloud Journey Builder journey, including its activities, triggers, goals, and current status.\n"
+        },
+        {
+          "info": {
+            "name": "Fire a journey entry event",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/interaction/v1/events",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Fires an event that causes contacts to enter a Marketing Cloud Journey Builder journey at the specified event-triggered entry source. The event definition key must match an API event or custom event configured as the journey's entry source. Supports passing contact data to personalize the journey experience.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

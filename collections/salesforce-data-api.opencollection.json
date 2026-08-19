@@ -1,0 +1,385 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Salesforce Bulk API 2.0 Abort Data API",
+    "version": "v63.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Data",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Salesforce Bulk Retrieve Batch Result Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/async/64.0/job//batch/:_batchId/result/:batchResultId",
+            "headers": [
+              {
+                "name": "X-SFDC-Session",
+                "value": "example_value"
+              },
+              {
+                "name": "Accept-Encoding",
+                "value": "example_value"
+              },
+              {
+                "name": "Content-Encoding",
+                "value": "example_value"
+              }
+            ],
+            "params": [
+              {
+                "name": "batchResultId",
+                "value": "500123",
+                "type": "path"
+              },
+              {
+                "name": "_batchId",
+                "value": "500123",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Salesforce Bulk Retrieve Batch Result Data"
+        },
+        {
+          "info": {
+            "name": "Salesforce Upload Job Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/jobs/ingest//batches",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "example_value"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "File",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Salesforce Upload Job Data"
+        },
+        {
+          "info": {
+            "name": "Salesforce Runexpressionset",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/actions/custom/runExpressionSet/:expressionSetAPIName",
+            "params": [
+              {
+                "name": "expressionSetAPIName",
+                "value": "example_value",
+                "type": "path",
+                "description": "The API name of an expression set is unique within your Salesforce instance."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "# Expression Set Actions\n\nInvoke an active expression set. An expression set is a user-defined rule that accepts an input and returns the output based on the configured function.\n\nThe configured function of an expression set can be a simple decision matrix lookup, a calculation based on a mathematical formula, a condition, or another expression set.\n\nThese actions are available in API version 55.0 and later.\n\n## Supported REST HTTP Methods\n\nURI/services/data/v55.0/actions/custom/runExpressionSet"
+        },
+        {
+          "info": {
+            "name": "Salesforce Rundecisionmatrix",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/actions/custom/runDecisionMatrix/:UniqueName",
+            "params": [
+              {
+                "name": "UniqueName",
+                "value": "example_value",
+                "type": "path",
+                "description": "The value of UniqueName is the unique identifier of the record, which is sourced from the name of a decision matrix."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "# Decision Matrix Actions\n\nInvoke a decision matrix in a flow with the Decision Matrix Actions. A decision matrix is a user-defined table where you can look up an output based on the inputs you provide.\n\nFor example, you can look up a candidate’s eligibility to avail medical insurance in a decision matrix based on the candidate’s age and gender.\n\nThese actions are available in API version 55.0 and later.\n\n## Supported REST HTTP Methods\n\nURI/services/data/v55.0/actions/custom/runDecisionMatrix/{U"
+        },
+        {
+          "info": {
+            "name": "Salesforce Sobject Approvallayouts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/sobjects/:SOBJECT_API_NAME/describe/approvalLayouts/:APPROVAL_PROCESS_NAME",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "example_value"
+              }
+            ],
+            "params": [
+              {
+                "name": "SOBJECT_API_NAME",
+                "value": "example_value",
+                "type": "path"
+              },
+              {
+                "name": "APPROVAL_PROCESS_NAME",
+                "value": "example_value",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns a list of approval layouts for a specified object. Specify a particular approval process name to limit the return value to one specific approval layout. This resource is available in REST API version 30.0 and later.\n\napprovalProcessName parameter is optional"
+        },
+        {
+          "info": {
+            "name": "Salesforce Sobject Compactlayouts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/sobjects/:SOBJECT_API_NAME/describe/describe/compactLayouts",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "example_value"
+              }
+            ],
+            "params": [
+              {
+                "name": "SOBJECT_API_NAME",
+                "value": "example_value",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns a list of compact layouts for a specific object. This resource is available in REST API version 29.0 and later."
+        },
+        {
+          "info": {
+            "name": "Salesforce Sobject Platformaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/sobjects/PlatformAction",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "example_value"
+              }
+            ]
+          },
+          "docs": "PlatformAction is a virtual read-only object. It enables you to query for actions displayed in the UI, given a user, a context, device format, and a record ID. Examples include standard and custom buttons, quick actions, and productivity actions.\nReturns the description of the PlatformAction."
+        },
+        {
+          "info": {
+            "name": "Salesforce Data Category Groups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/support/dataCategoryGroups",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "example_value"
+              }
+            ],
+            "params": [
+              {
+                "name": "sObjectName",
+                "value": "example_value",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns the list of list views for the specified sObject, including the ID and other basic information about each list view. You can also get basic information for a specific list view by ID."
+        },
+        {
+          "info": {
+            "name": "Salesforce Data Category Detail",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/support/dataCategoryGroups/:GROUP/dataCategories/:CATEGORY",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "example_value"
+              }
+            ],
+            "params": [
+              {
+                "name": "GROUP",
+                "value": "example_value",
+                "type": "path"
+              },
+              {
+                "name": "CATEGORY",
+                "value": "example_value",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get data category details and the child categories by a given category."
+        },
+        {
+          "info": {
+            "name": "Salesforce Articles Details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/support/knowledgeArticles/:ARTICLE_ID",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "example_value"
+              }
+            ],
+            "params": [
+              {
+                "name": "ARTICLE_ID",
+                "value": "500123",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get all online article fields, accessible to the user."
+        },
+        {
+          "info": {
+            "name": "Salesforce Limits",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/limits"
+          },
+          "docs": "Lists information about limits in your org. For each limit, this resource returns the maximum allocation and the remaining allocation based on usage. This resource is available in REST API version 29.0 and later for API users with the View Setup and Configuration permission"
+        },
+        {
+          "info": {
+            "name": "Salesforce Appmenu",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/appMenu",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "example_value"
+              }
+            ]
+          },
+          "docs": "Returns a list of items in either the Salesforce app drop-down menu or the Salesforce for Android, iOS, and mobile web navigation menu."
+        },
+        {
+          "info": {
+            "name": "Salesforce Queryall",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/queryAll",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "example_value"
+              }
+            ],
+            "params": [
+              {
+                "name": "q",
+                "value": "example_value",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Executes the specified SOQL query. Unlike the Query resource, QueryAll will return records that have been deleted because of a merge or delete. QueryAll will also return information about archived Task and Event records. QueryAll is available in API version 29.0 and later.\n\nIf the query results are too large, the response contains the first batch of results and a query identifier in the nextRecordsUrl field of the response. The identifier can be used in an additional request to retrieve the next"
+        },
+        {
+          "info": {
+            "name": "Salesforce Createassetfromorder",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/actions/standard/createOrUpdateAssetFromOrder",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Salesforce Createassetfromorder"
+        },
+        {
+          "info": {
+            "name": "Salesforce Tooling Executeanonymous",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/tooling/executeAnonymous",
+            "params": [
+              {
+                "name": "anonymousBody",
+                "value": "example_value",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Executes Apex code anonymously. Available from API version 29.0 or later."
+        },
+        {
+          "info": {
+            "name": "Salesforce Get Record Data and Object Metadata",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/ui-api/record-ui/:RECORD_IDS",
+            "params": [
+              {
+                "name": "RECORD_IDS",
+                "value": "example_value",
+                "type": "path",
+                "description": "Comma-separated list of record IDs"
+              }
+            ]
+          },
+          "docs": "Get layout information, metadata, and data to build UI for a single record or for a collection of records.\nThe response contains layout information for whichever layout types are specified in the layoutTypes parameter.\n\nIt contains data for the records specified in the recordIds parameter.\n\nThe response contains object metadata for the object types of the records specified in the recordIds parameter, and for any nested objects. For example, a request to /ui-api/record-ui/001RM000003RsOHYA0, whic"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,206 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Salesforce Bulk API 2.0 Abort SObjects API",
+    "version": "v63.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "SObjects",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Salesforce List All Sobjects",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/sobjects"
+          },
+          "docs": "Returns a list of all available SObject types in the org, including both standard and custom objects. Each entry includes the object name, label, key prefix, and whether the object is queryable, searchable, and retrievable.\n"
+        },
+        {
+          "info": {
+            "name": "Salesforce Describe an Sobject",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/sobjects/:sobjectType",
+            "params": [
+              {
+                "name": "sobjectType",
+                "value": "",
+                "type": "path",
+                "description": "The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+              }
+            ]
+          },
+          "docs": "Returns metadata about a specific SObject type, including field definitions, relationships, and available REST endpoints. This is equivalent to calling the describe endpoint but returns a shorter summary. For the full field list use /sobjects/{sobjectType}/describe.\n"
+        },
+        {
+          "info": {
+            "name": "Salesforce Create a New Record",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/sobjects/:sobjectType",
+            "params": [
+              {
+                "name": "sobjectType",
+                "value": "",
+                "type": "path",
+                "description": "The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new record of the specified SObject type. The request body must contain the field values for the new record in JSON format. Returns the ID of the newly created record on success.\n"
+        },
+        {
+          "info": {
+            "name": "Salesforce Get a Record by Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/sobjects/:sobjectType/:id",
+            "params": [
+              {
+                "name": "sobjectType",
+                "value": "",
+                "type": "path",
+                "description": "The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The 18-character Salesforce record ID."
+              }
+            ]
+          },
+          "docs": "Retrieves a single SObject record by its 18-character ID. Returns all accessible fields for the record. To retrieve only specific fields, use a SOQL query via the /query endpoint instead.\n"
+        },
+        {
+          "info": {
+            "name": "Salesforce Update a Record",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/sobjects/:sobjectType/:id",
+            "params": [
+              {
+                "name": "sobjectType",
+                "value": "",
+                "type": "path",
+                "description": "The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The 18-character Salesforce record ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing SObject record identified by its 18-character ID. Only the fields included in the request body are updated; omitted fields retain their current values. Returns no body on success.\n"
+        },
+        {
+          "info": {
+            "name": "Salesforce Delete a Record",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/sobjects/:sobjectType/:id",
+            "params": [
+              {
+                "name": "sobjectType",
+                "value": "",
+                "type": "path",
+                "description": "The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The 18-character Salesforce record ID."
+              }
+            ]
+          },
+          "docs": "Deletes an existing SObject record by its 18-character ID. The record is moved to the Recycle Bin unless the object does not support soft delete, in which case it is permanently removed.\n"
+        },
+        {
+          "info": {
+            "name": "Salesforce Get a Blob Field Value",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/sobjects/:sobjectType/:id/:blobField",
+            "params": [
+              {
+                "name": "sobjectType",
+                "value": "",
+                "type": "path",
+                "description": "The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The 18-character Salesforce record ID."
+              },
+              {
+                "name": "blobField",
+                "value": "example_value",
+                "type": "path",
+                "description": "The API name of the blob field to retrieve (e.g., Body, VersionData, Photo).\n"
+              }
+            ]
+          },
+          "docs": "Retrieves the binary content of a blob (binary large object) field on an SObject record. Examples include the Body field on Attachment or VersionData on ContentVersion. Returns the raw binary content with the appropriate MIME type.\n"
+        },
+        {
+          "info": {
+            "name": "Salesforce Full Describe of an Sobject",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/sobjects/:sobjectType/describe",
+            "params": [
+              {
+                "name": "sobjectType",
+                "value": "",
+                "type": "path",
+                "description": "The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+              }
+            ]
+          },
+          "docs": "Returns a complete description of the specified SObject type, including all field definitions with their data types, labels, picklist values, relationship metadata, and child relationships. Use this endpoint when you need detailed schema information for a specific object type.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

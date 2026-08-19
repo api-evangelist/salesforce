@@ -1,0 +1,2265 @@
+{
+  "item": [
+    {
+      "id": "4d8c35ea-2f09-44e2-ab8f-dfd23623454e",
+      "name": "SObjects",
+      "description": {
+        "content": "Operations for listing, describing, creating, reading, updating, and deleting Salesforce SObject records and metadata.\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "259c708d-6e99-4f64-b98a-25de0fc66e58",
+          "name": "Salesforce List All Sobjects",
+          "request": {
+            "name": "Salesforce List All Sobjects",
+            "description": {
+              "content": "Returns a list of all available SObject types in the org, including both standard and custom objects. Each entry includes the object name, label, key prefix, and whether the object is queryable, searchable, and retrievable.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sobjects"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                  "type": "any",
+                  "value": "{{instance}}",
+                  "key": "instance"
+                },
+                {
+                  "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                  "type": "any",
+                  "value": "{{version}}",
+                  "key": "version"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e1f0b624-7bb3-4bff-b6b0-7cdc30d394e0",
+              "name": "A list of all SObject types available in the org.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sobjects"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"encoding\": \"example_value\",\n  \"maxBatchSize\": 10,\n  \"sobjects\": [\n    {\n      \"name\": \"Example Title\",\n      \"label\": \"Example Title\",\n      \"keyPrefix\": \"example_value\",\n      \"queryable\": true,\n      \"searchable\": true,\n      \"retrieveable\": true,\n      \"urls\": \"https://www.example.com\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "128d80b1-01fa-4398-9c77-23a4ed870677",
+              "name": "Unauthorized. Invalid or expired OAuth token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sobjects"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "80bcbc97-da0a-40da-922a-19407583fc9d",
+          "name": "Salesforce Describe an Sobject",
+          "request": {
+            "name": "Salesforce Describe an Sobject",
+            "description": {
+              "content": "Returns metadata about a specific SObject type, including field definitions, relationships, and available REST endpoints. This is equivalent to calling the describe endpoint but returns a shorter summary. For the full field list use /sobjects/{sobjectType}/describe.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sobjects",
+                ":sobjectType"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "sobjectType",
+                  "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                },
+                {
+                  "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                  "type": "any",
+                  "value": "{{instance}}",
+                  "key": "instance"
+                },
+                {
+                  "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                  "type": "any",
+                  "value": "{{version}}",
+                  "key": "version"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "452aa64c-8716-412b-ab14-5db83152c92f",
+              "name": "Metadata describing the specified SObject type.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sobjects",
+                    ":sobjectType"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sobjectType",
+                      "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"Example Title\",\n  \"label\": \"Example Title\",\n  \"labelPlural\": \"example_value\",\n  \"keyPrefix\": \"example_value\",\n  \"queryable\": true,\n  \"searchable\": true,\n  \"createable\": true,\n  \"updateable\": true,\n  \"deletable\": true,\n  \"fields\": [\n    {\n      \"name\": \"Example Title\",\n      \"label\": \"Example Title\",\n      \"type\": \"example_value\",\n      \"nillable\": true,\n      \"updateable\": true,\n      \"createable\": true,\n      \"length\": 10\n    }\n  ],\n  \"urls\": \"https://www.example.com\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f1598458-324e-4138-9d08-f0da7e214f64",
+              "name": "Unauthorized. Invalid or expired OAuth token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sobjects",
+                    ":sobjectType"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sobjectType",
+                      "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1a29459c-0434-423c-9322-638067eded66",
+              "name": "The specified SObject type was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sobjects",
+                    ":sobjectType"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sobjectType",
+                      "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a24eef09-3339-438c-b4d8-2828239fc8fc",
+          "name": "Salesforce Create a New Record",
+          "request": {
+            "name": "Salesforce Create a New Record",
+            "description": {
+              "content": "Creates a new record of the specified SObject type. The request body must contain the field values for the new record in JSON format. Returns the ID of the newly created record on success.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sobjects",
+                ":sobjectType"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "sobjectType",
+                  "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                },
+                {
+                  "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                  "type": "any",
+                  "value": "{{instance}}",
+                  "key": "instance"
+                },
+                {
+                  "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                  "type": "any",
+                  "value": "{{version}}",
+                  "key": "version"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"attributes\": {\n    \"type\": \"<string>\",\n    \"url\": \"<uri>\"\n  },\n  \"Id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "557413af-6066-4add-9c36-cb46c75d0840",
+              "name": "Record created successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sobjects",
+                    ":sobjectType"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sobjectType",
+                      "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"attributes\": {\n    \"type\": \"example_value\",\n    \"url\": \"https://www.example.com\"\n  },\n  \"Id\": \"abc123\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"abc123\",\n  \"success\": true,\n  \"errors\": [\n    {\n      \"message\": \"example_value\",\n      \"errorCode\": \"example_value\",\n      \"fields\": [\n        {}\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f650a9f0-694e-4d9a-bbd6-4542f4e5c577",
+              "name": "Bad request. Missing required fields or invalid field values.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sobjects",
+                    ":sobjectType"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sobjectType",
+                      "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"attributes\": {\n    \"type\": \"example_value\",\n    \"url\": \"https://www.example.com\"\n  },\n  \"Id\": \"abc123\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f9397859-546b-4f77-80f8-ad284e2c3467",
+              "name": "Unauthorized. Invalid or expired OAuth token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sobjects",
+                    ":sobjectType"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sobjectType",
+                      "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"attributes\": {\n    \"type\": \"example_value\",\n    \"url\": \"https://www.example.com\"\n  },\n  \"Id\": \"abc123\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "76443af0-09a6-406e-866b-4e8be930f474",
+          "name": "Salesforce Get a Record by Id",
+          "request": {
+            "name": "Salesforce Get a Record by Id",
+            "description": {
+              "content": "Retrieves a single SObject record by its 18-character ID. Returns all accessible fields for the record. To retrieve only specific fields, use a SOQL query via the /query endpoint instead.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sobjects",
+                ":sobjectType",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "sobjectType",
+                  "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The 18-character Salesforce record ID."
+                },
+                {
+                  "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                  "type": "any",
+                  "value": "{{instance}}",
+                  "key": "instance"
+                },
+                {
+                  "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                  "type": "any",
+                  "value": "{{version}}",
+                  "key": "version"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f4bf7c66-92bf-480b-ab30-000a349a4f21",
+              "name": "The requested SObject record.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sobjects",
+                    ":sobjectType",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sobjectType",
+                      "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The 18-character Salesforce record ID."
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"attributes\": {\n    \"type\": \"example_value\",\n    \"url\": \"https://www.example.com\"\n  },\n  \"Id\": \"abc123\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5d27671f-f8d5-4ca6-ae55-fff425643af5",
+              "name": "Unauthorized. Invalid or expired OAuth token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sobjects",
+                    ":sobjectType",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sobjectType",
+                      "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The 18-character Salesforce record ID."
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c2bfb9fb-c9b4-4d4f-9555-e80f35baf6a4",
+              "name": "Record not found for the given ID and SObject type.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sobjects",
+                    ":sobjectType",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sobjectType",
+                      "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The 18-character Salesforce record ID."
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8adadbfe-e5ed-4962-928f-90ec6012a8a0",
+          "name": "Salesforce Update a Record",
+          "request": {
+            "name": "Salesforce Update a Record",
+            "description": {
+              "content": "Updates an existing SObject record identified by its 18-character ID. Only the fields included in the request body are updated; omitted fields retain their current values. Returns no body on success.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sobjects",
+                ":sobjectType",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "sobjectType",
+                  "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The 18-character Salesforce record ID."
+                },
+                {
+                  "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                  "type": "any",
+                  "value": "{{instance}}",
+                  "key": "instance"
+                },
+                {
+                  "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                  "type": "any",
+                  "value": "{{version}}",
+                  "key": "version"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"attributes\": {\n    \"type\": \"<string>\",\n    \"url\": \"<uri>\"\n  },\n  \"Id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "bb906b38-af30-44e9-93c2-c203e74b8a76",
+              "name": "Record updated successfully. No body is returned.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sobjects",
+                    ":sobjectType",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sobjectType",
+                      "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The 18-character Salesforce record ID."
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"attributes\": {\n    \"type\": \"example_value\",\n    \"url\": \"https://www.example.com\"\n  },\n  \"Id\": \"abc123\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1fbfb808-c5f5-4dd5-b487-943d7025be16",
+              "name": "Bad request. Invalid field values or field not updateable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sobjects",
+                    ":sobjectType",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sobjectType",
+                      "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The 18-character Salesforce record ID."
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"attributes\": {\n    \"type\": \"example_value\",\n    \"url\": \"https://www.example.com\"\n  },\n  \"Id\": \"abc123\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "43d427c7-c58c-4dac-a553-d43bbe95df60",
+              "name": "Unauthorized. Invalid or expired OAuth token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sobjects",
+                    ":sobjectType",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sobjectType",
+                      "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The 18-character Salesforce record ID."
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"attributes\": {\n    \"type\": \"example_value\",\n    \"url\": \"https://www.example.com\"\n  },\n  \"Id\": \"abc123\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "84c9c459-30f5-4b6f-a0a5-682c3ae929af",
+              "name": "Record not found for the given ID and SObject type.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sobjects",
+                    ":sobjectType",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sobjectType",
+                      "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The 18-character Salesforce record ID."
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"attributes\": {\n    \"type\": \"example_value\",\n    \"url\": \"https://www.example.com\"\n  },\n  \"Id\": \"abc123\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "20b12778-a59d-4d97-852d-c2c433d5ab84",
+          "name": "Salesforce Delete a Record",
+          "request": {
+            "name": "Salesforce Delete a Record",
+            "description": {
+              "content": "Deletes an existing SObject record by its 18-character ID. The record is moved to the Recycle Bin unless the object does not support soft delete, in which case it is permanently removed.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sobjects",
+                ":sobjectType",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "sobjectType",
+                  "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The 18-character Salesforce record ID."
+                },
+                {
+                  "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                  "type": "any",
+                  "value": "{{instance}}",
+                  "key": "instance"
+                },
+                {
+                  "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                  "type": "any",
+                  "value": "{{version}}",
+                  "key": "version"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "76769e07-042e-45f1-8327-4e1e0895ef48",
+              "name": "Record deleted successfully. No body is returned.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sobjects",
+                    ":sobjectType",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sobjectType",
+                      "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The 18-character Salesforce record ID."
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b0ea1160-08c1-463b-9d32-284bc271f57a",
+              "name": "Unauthorized. Invalid or expired OAuth token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sobjects",
+                    ":sobjectType",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sobjectType",
+                      "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The 18-character Salesforce record ID."
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dbc2e1e9-e4fa-4a27-a59b-d2060458f328",
+              "name": "Record not found for the given ID and SObject type.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sobjects",
+                    ":sobjectType",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sobjectType",
+                      "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The 18-character Salesforce record ID."
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4f21a54a-78d4-4cb8-be65-80ad1313cb4c",
+          "name": "Salesforce Get a Blob Field Value",
+          "request": {
+            "name": "Salesforce Get a Blob Field Value",
+            "description": {
+              "content": "Retrieves the binary content of a blob (binary large object) field on an SObject record. Examples include the Body field on Attachment or VersionData on ContentVersion. Returns the raw binary content with the appropriate MIME type.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sobjects",
+                ":sobjectType",
+                ":id",
+                ":blobField"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "sobjectType",
+                  "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The 18-character Salesforce record ID."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "blobField",
+                  "description": "(Required) The API name of the blob field to retrieve (e.g., Body, VersionData, Photo).\n"
+                },
+                {
+                  "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                  "type": "any",
+                  "value": "{{instance}}",
+                  "key": "instance"
+                },
+                {
+                  "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                  "type": "any",
+                  "value": "{{version}}",
+                  "key": "version"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/octet-stream"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f37a673f-28fa-4bdc-a16b-e08ff9d0a6e4",
+              "name": "The raw binary content of the blob field.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sobjects",
+                    ":sobjectType",
+                    ":id",
+                    ":blobField"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sobjectType",
+                      "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The 18-character Salesforce record ID."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "blobField",
+                      "description": "(Required) The API name of the blob field to retrieve (e.g., Body, VersionData, Photo).\n"
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/octet-stream"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/octet-stream"
+                }
+              ],
+              "body": "example_value",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2cc2527b-52a7-4a2c-8864-062d067d688e",
+              "name": "Unauthorized. Invalid or expired OAuth token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sobjects",
+                    ":sobjectType",
+                    ":id",
+                    ":blobField"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sobjectType",
+                      "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The 18-character Salesforce record ID."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "blobField",
+                      "description": "(Required) The API name of the blob field to retrieve (e.g., Body, VersionData, Photo).\n"
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9dfb59c9-98c0-4d26-bc02-d0799753683a",
+              "name": "Record or blob field not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sobjects",
+                    ":sobjectType",
+                    ":id",
+                    ":blobField"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sobjectType",
+                      "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The 18-character Salesforce record ID."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "blobField",
+                      "description": "(Required) The API name of the blob field to retrieve (e.g., Body, VersionData, Photo).\n"
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9d0995fc-777f-47d7-980a-4bd1e76bb5e8",
+          "name": "Salesforce Full Describe of an Sobject",
+          "request": {
+            "name": "Salesforce Full Describe of an Sobject",
+            "description": {
+              "content": "Returns a complete description of the specified SObject type, including all field definitions with their data types, labels, picklist values, relationship metadata, and child relationships. Use this endpoint when you need detailed schema information for a specific object type.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sobjects",
+                ":sobjectType",
+                "describe"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "sobjectType",
+                  "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                },
+                {
+                  "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                  "type": "any",
+                  "value": "{{instance}}",
+                  "key": "instance"
+                },
+                {
+                  "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                  "type": "any",
+                  "value": "{{version}}",
+                  "key": "version"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "56155144-954b-4b06-9133-32cd4a2518e9",
+              "name": "Full metadata describing the SObject type and all its fields.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sobjects",
+                    ":sobjectType",
+                    "describe"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sobjectType",
+                      "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"Example Title\",\n  \"label\": \"Example Title\",\n  \"labelPlural\": \"example_value\",\n  \"keyPrefix\": \"example_value\",\n  \"queryable\": true,\n  \"searchable\": true,\n  \"createable\": true,\n  \"updateable\": true,\n  \"deletable\": true,\n  \"fields\": [\n    {\n      \"name\": \"Example Title\",\n      \"label\": \"Example Title\",\n      \"type\": \"example_value\",\n      \"nillable\": true,\n      \"updateable\": true,\n      \"createable\": true,\n      \"length\": 10\n    }\n  ],\n  \"urls\": \"https://www.example.com\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "64d8d3f1-0198-4b1b-87ed-b876132c3bb5",
+              "name": "Unauthorized. Invalid or expired OAuth token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sobjects",
+                    ":sobjectType",
+                    "describe"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sobjectType",
+                      "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "373b7943-65be-4051-9273-e8a879af7626",
+              "name": "The specified SObject type was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sobjects",
+                    ":sobjectType",
+                    "describe"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sobjectType",
+                      "description": "(Required) The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).\n"
+                    },
+                    {
+                      "description": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    },
+                    {
+                      "description": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+                      "type": "any",
+                      "value": "{{version}}",
+                      "key": "version"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"example_value\",\n  \"errorCode\": \"example_value\",\n  \"fields\": [\n    \"example_value\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "yourInstance",
+      "key": "instance"
+    },
+    {
+      "description": {
+        "content": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "63.0",
+      "key": "version"
+    },
+    {
+      "type": "string",
+      "value": "https://{{instance}}.salesforce.com/services/data/v{{version}}/jobs",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "40bc0911-3e39-44f3-a2da-8e3be263df12",
+    "name": "Salesforce Bulk API 2.0 Abort SObjects API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.\n\n\nContact Support:\n Name: Salesforce Developers",
+      "type": "text/plain"
+    }
+  }
+}

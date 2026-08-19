@@ -1,0 +1,121 @@
+generated: '2026-08-13'
+method: derived
+source: >-
+  mcp/salesforce-mcp.yml (tool names read verbatim from github.com/salesforcecli/mcp) bound to
+  operationIds grepped from openapi/*.yml in this repo
+notes: >-
+  Binds each Salesforce DX MCP Server tool to the REST operation(s) that back it, so an agent can
+  see the real parameters behind a tool name. IMPORTANT SHAPE FINDING: the Salesforce MCP server
+  is a DEVELOPER-TOOLCHAIN server, not a data-plane wrapper. Only three of its named tools map
+  onto the public REST surface at all (run_soql_query, run_apex_test, assign_permission_set);
+  everything else is either local CLI/filesystem state (org auth, scratch orgs, code analysis,
+  LWC scaffolding) or the SOAP Metadata API, which has no REST operation in the 257 harvested
+  OpenAPI documents. The consequence is a very large rest_only set: 385 distinct operationIds
+  are reachable over REST with no MCP tool in front of them. An agent that wants Salesforce CRM
+  data still has to call the REST API directly — the MCP server will not get it there.
+  The live MCP schemas were NOT introspected: the server is stdio-only and requires a
+  locally-authenticated org, so inputSchema could not be read. Bindings below are by
+  name/semantics against the documented tool list; confidence is set accordingly.
+surfaces:
+  openapi:
+    path: openapi/
+    document_count: 257
+    operation_count: 385
+    note: One refined document per tag; _original/salesforce-openapi.yml is the harvested source.
+  graphql:
+    endpoint: https://{instance}.salesforce.com/services/data/v{version}/graphql
+    artifact: graphql/salesforce-graphql.md
+    gated: true
+    note: >-
+      Requires an authenticated org session; the schema is org-specific (generated from that
+      org's sObjects), so there is no single public SDL to introspect.
+  mcp:
+    url: null
+    transport: stdio
+    package: '@salesforce/mcp'
+    gated: true
+    note: Local stdio only; no hosted endpoint. See mcp/salesforce-mcp.yml deployment block.
+crosswalk:
+  - tool: run_soql_query
+    category: data
+    rest: [executeQuery, QueryAll]
+    binding: GET /services/data/v{version}/query?q={soql} (and /queryAll for deleted/archived)
+    confidence: high
+    note: >-
+      Inherits the `q` SOQL query parameter and the QueryResult envelope
+      (totalSize/done/nextRecordsUrl/records). Pagination is the REST cursor, not an MCP concern.
+  - tool: run_apex_test
+    category: testing
+    rest: [ToolingRunTestsAsync, ToolingRunTestsSync]
+    binding: POST /services/data/v{version}/tooling/runTestsAsynchronous (or runTestsSynchronous)
+    confidence: high
+  - tool: run_agent_test
+    category: testing
+    rest: [Runagenttest, Getteststatus, Gettestresults]
+    binding: Agent API test-run start plus status/result polling operations
+    confidence: medium
+    note: Composite — one tool call spans three REST operations (start, poll status, fetch results).
+  - tool: assign_permission_set
+    category: users
+    rest: [SObjectCreate]
+    binding: POST /services/data/v{version}/sobjects/PermissionSetAssignment
+    confidence: medium
+    note: >-
+      Generic sObject create against the PermissionSetAssignment standard object; the operation
+      is not permission-set-specific, so the binding is semantic rather than 1:1.
+mcp_only:
+  - {tool: get_username, reason: "Reads local Salesforce CLI auth state; no server-side resource."}
+  - {tool: resume_tool_operation, reason: "MCP session-management primitive for long-running tool calls."}
+  - {tool: deploy_metadata, reason: "SOAP Metadata API deploy(); no REST operation in the harvested specs."}
+  - {tool: retrieve_metadata, reason: "SOAP Metadata API retrieve(); no REST operation in the harvested specs."}
+  - {tool: list_all_orgs, reason: "Enumerates locally authenticated CLI orgs — local state, not an API resource."}
+  - {tool: open_org, reason: "Launches a browser session against a local org alias; no API call."}
+  - {tool: create_scratch_org, reason: "Dev Hub scratch-org creation via CLI/Tooling ScratchOrgInfo; not a public REST operation."}
+  - {tool: create_org_snapshot, reason: "Dev Hub OrgSnapshot lifecycle; not exposed on the public REST surface."}
+  - {tool: delete_org, reason: "Removes a local org authorization / deletes a scratch org via Dev Hub."}
+  - {tool: run_code_analyzer, reason: "Local static analysis of project source; no server side."}
+  - {tool: list_code_analyzer_rules, reason: "Local rule catalog."}
+  - {tool: describe_code_analyzer_rule, reason: "Local rule catalog."}
+  - {tool: query_code_analyzer_results, reason: "Reads local analysis output."}
+  - {tool: create-custom-rule, reason: "Writes a local Code Analyzer rule definition."}
+  - {tool: generate_xpath_prompt, reason: "Local authoring helper for PMD/XPath rules."}
+  - {toolset: lwc-experts, reason: "~40 local component-authoring, testing, accessibility and migration tools; operate on project files."}
+  - {toolset: aura-experts, reason: "Local Aura component authoring/migration helpers."}
+  - {toolset: devops-center, reason: "DevOps Center work items and merge-conflict resolution; no public REST operations harvested."}
+  - {toolset: mobile, reason: "Mobile capability scaffolding (barcode, biometrics, NFC, geofencing) and offline analysis; client-side."}
+  - {toolset: scale-products, reason: "Apex performance analysis over local source and org debug data."}
+rest_only:
+  count: 381
+  note: >-
+    381 of 385 harvested operationIds have no MCP tool in front of them. Representative
+    high-traffic examples below; the full list is openapi/*.yml.
+  examples:
+    - SObjectRows
+    - SObjectRowsUpdate
+    - SObjectRowsDelete
+    - SObjectRowsbyExternalID
+    - SObjectCreate
+    - SObjectDescribe
+    - SObjectCollectionsCreate
+    - SObjectCollectionsUpsert
+    - SObjectTree
+    - DescribeGlobal
+    - Search
+    - ParameterizedSearch
+    - createQueryJob
+    - GetJobQueryResult
+    - getOrgLimits
+    - listApiVersions
+    - SObjectGetUpdated
+    - SObjectGetDeleted
+    - RetrieveOpenAPISchema
+    - ApexREST
+coverage:
+  mcp_tools_named: 24
+  mcp_toolsets: 12
+  mapped_to_rest: 4
+  mcp_only: 20
+  rest_operations_total: 385
+  rest_operations_covered: 4
+  rest_only: 381
+  rest_coverage_pct: 1.0

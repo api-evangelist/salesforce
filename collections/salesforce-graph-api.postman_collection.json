@@ -1,0 +1,172 @@
+{
+  "item": [
+    {
+      "id": "47164949-d280-48c3-8d0e-5af78b806438",
+      "name": "Graph",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "3a87747b-3294-4108-b4f5-0813c3737204",
+          "name": "Salesforce Composite Graph",
+          "request": {
+            "name": "Salesforce Composite Graph",
+            "description": {
+              "content": "Composite graphs provide an enhanced way to perform composite requests, which execute a series of REST API requests in a single call.\nRegular composite requests allow you to execute a series of REST API requests in a single call. And you can use the output of one request as the input to a subsequent request.\n\nComposite graphs extend this by allowing you to assemble a more complicated and complete series of related objects and records.\n\nComposite graphs also enable you to ensure that the steps in a given set of operations are either all completed or all not completed. This avoids requiring you to check for a mix of successful and unsuccessful results.\n\nRegular composite requests have a limit of 25 subrequests. Composite graphs increase this limit to 500. This gives a single API call much greater power.\n\nhttps://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_graph_introduction.htm",
+              "type": "text/plain"
+            },
+            "url": {
+              "protocol": "https",
+              "path": [
+                "data",
+                "v64.0",
+                "composite",
+                "graph"
+              ],
+              "host": [
+                "services"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"graphs\": [\n    {\n      \"graphId\": \"<string>\",\n      \"compositeRequest\": [\n        {\n          \"method\": \"<string>\",\n          \"url\": \"<string>\",\n          \"referenceId\": \"<string>\",\n          \"body\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"method\": \"<string>\",\n          \"url\": \"<string>\",\n          \"referenceId\": \"<string>\",\n          \"body\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ]\n    },\n    {\n      \"graphId\": \"<string>\",\n      \"compositeRequest\": [\n        {\n          \"method\": \"<string>\",\n          \"url\": \"<string>\",\n          \"referenceId\": \"<string>\",\n          \"body\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"method\": \"<string>\",\n          \"url\": \"<string>\",\n          \"referenceId\": \"<string>\",\n          \"body\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e264bfe8-ebf1-49fe-88fa-34c2153b6a8f",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "protocol": "https",
+                  "path": [
+                    "data",
+                    "v64.0",
+                    "composite",
+                    "graph"
+                  ],
+                  "host": [
+                    "services"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"graphs\": [\n    {\n      \"graphId\": \"graph1\",\n      \"compositeRequest\": [\n        {\n          \"method\": \"POST\",\n          \"url\": \"/services/data/v64.0/sobjects/Account/\",\n          \"referenceId\": \"newAccount\",\n          \"body\": {\n            \"Name\": \"ACME Inc.\",\n            \"Custom__c\": \"Hello world\"\n          }\n        },\n        {\n          \"method\": \"GET\",\n          \"url\": \"/services/data/v64.0/sobjects/Account/@{newAccount.id}\",\n          \"referenceId\": \"newAccountInfo\"\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "key": "cache-control",
+                  "value": "",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"graphs\": [\n    {\n      \"graphId\": \"graph1\",\n      \"graphResponse\": {\n        \"compositeResponse\": [\n          {\n            \"body\": {\n              \"id\": \"0014H00002x6HUhQAM\",\n              \"success\": true,\n              \"errors\": []\n            },\n            \"httpHeaders\": {\n              \"Location\": \"/services/data/v50.0/sobjects/Account/0014H00002x6HUhQAM\"\n            },\n            \"httpStatusCode\": 201,\n            \"referenceId\": \"newAccount\"\n          },\n          {\n            \"body\": {\n              \"id\": \"0034H00002JsInQQAV\",\n              \"success\": true,\n              \"errors\": []\n            },\n            \"httpHeaders\": {\n              \"Location\": \"/services/data/v50.0/sobjects/Contact/0034H00002JsInQQAV\"\n            },\n            \"httpStatusCode\": 201,\n            \"referenceId\": \"newContact\"\n          }\n        ]\n      },\n      \"isSuccessful\": true\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).\n",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "yourInstance",
+      "key": "instance"
+    },
+    {
+      "description": {
+        "content": "The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.\n",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "63.0",
+      "key": "version"
+    },
+    {
+      "type": "string",
+      "value": "https://{{instance}}.salesforce.com/services/data/v{{version}}/jobs",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "c94bf929-d2f8-44ea-87ac-6711de7fff34",
+    "name": "Salesforce Bulk API 2.0 Abort Graph API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.\n\n\nContact Support:\n Name: Salesforce Developers",
+      "type": "text/plain"
+    }
+  }
+}

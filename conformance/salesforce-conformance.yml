@@ -1,10 +1,29 @@
-generated: '2026-06-20'
-method: derived
-source: openapi/*, asyncapi/*, grpc/salesforce-pubsub-api.proto, scopes/salesforce-scopes.yml, well-known/salesforce-openid-configuration.json
+generated: '2026-08-13'
+method: probed
+source: >-
+  openapi/*, asyncapi/*, grpc/salesforce-pubsub-api.proto, scopes/salesforce-scopes.yml,
+  well-known/* (live probes of login.salesforce.com and api.salesforce.com on 2026-08-13),
+  security/salesforce-trust-center.yml
 notes: >-
-  Standards conformance derived from the harvested artifacts and Salesforce documentation. "conforms"
-  reflects whether the API surface implements the standard, with evidence pointing at the artifact.
+  Standards conformance derived from the harvested artifacts and Salesforce documentation, with
+  the OAuth/OIDC discovery rows upgraded to probed on 2026-08-13 against live 200 responses.
+  "conforms" reflects whether the API surface implements the standard, with evidence pointing at
+  the artifact.
+checked: '2026-08-13'
 standards:
+  - {id: rfc8414-oauth-authorization-server-metadata, conforms: true, method: probed, evidence: "GET https://api.salesforce.com/.well-known/oauth-authorization-server -> 200; saved verbatim to well-known/salesforce-api-oauth-authorization-server.json"}
+  - {id: rfc9728-oauth-protected-resource-metadata, conforms: true, method: probed, evidence: "GET https://api.salesforce.com/.well-known/oauth-protected-resource -> 200; saved verbatim to well-known/salesforce-api-oauth-protected-resource.json"}
+  - {id: pkce-rfc7636, conforms: true, method: probed, evidence: "code_challenge_methods_supported: [S256] in well-known/salesforce-api-oauth-authorization-server.json"}
+  - {id: rfc9116-security-txt, conforms: false, method: probed, evidence: "No security.txt on any Salesforce host — /.well-known/security.txt and /security.txt return 404 on www, developer, login and api hosts (well-known/salesforce-well-known.yml). Disclosure program lives at security.salesforce.com instead."}
+  - {id: idempotency-key, conforms: false, evidence: "No generic Idempotency-Key header; conventions/salesforce-conventions.yml records idempotency.header as null. Upsert on an External Id field (SObjectRowsbyExternalID) is the only idempotent write path."}
+  - {id: a2a-agent-card, conforms: false, method: probed, evidence: "GET /.well-known/agent-card.json and /.well-known/agent.json return 404 on www, developer, login and api.salesforce.com (2026-08-13)."}
+  - {id: mcp, conforms: true, method: searched, evidence: "Official @salesforce/mcp Salesforce DX MCP Server (stdio, local install only); no hosted endpoint — mcp/salesforce-mcp.yml"}
+  - {id: soc2, conforms: true, evidence: "SOC 1/2/3 attestations published at compliance.salesforce.com — security/salesforce-trust-center.yml"}
+  - {id: iso27001, conforms: true, evidence: "ISO 27001/27017/27018 and ISO 42001 certifications published at compliance.salesforce.com"}
+  - {id: pci-dss, conforms: true, evidence: "PCI DSS listed at compliance.salesforce.com"}
+  - {id: hipaa, conforms: true, evidence: "HIPAA and HITRUST listed at compliance.salesforce.com"}
+  - {id: fedramp, conforms: true, evidence: "FedRAMP and TX-RAMP authorizations listed at compliance.salesforce.com"}
+  - {id: gdpr, conforms: true, evidence: "GDPR program documented at compliance.salesforce.com"}
   - {id: oauth2, conforms: true, evidence: "OpenAPI securitySchemes (BearerAuth) + OIDC token/authorize endpoints in well-known/salesforce-openid-configuration.json"}
   - {id: oidc, conforms: true, evidence: "login.salesforce.com/.well-known/openid-configuration present with issuer, jwks_uri, id_token signing"}
   - {id: openid-connect-discovery, conforms: true, evidence: "well-known/salesforce-openid-configuration.json"}

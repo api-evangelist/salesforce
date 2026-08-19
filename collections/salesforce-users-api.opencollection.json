@@ -1,0 +1,307 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Salesforce Bulk API 2.0 Abort Users API",
+    "version": "v63.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Salesforce User Agent Flow",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/services/oauth2/authorize",
+            "params": [
+              {
+                "name": "response_type",
+                "value": "example_value",
+                "type": "query"
+              },
+              {
+                "name": "client_id",
+                "value": "500123",
+                "type": "query"
+              },
+              {
+                "name": "redirect_uri",
+                "value": "example_value",
+                "type": "query"
+              },
+              {
+                "name": "display",
+                "value": "example_value",
+                "type": "query"
+              },
+              {
+                "name": "login_hint",
+                "value": "example_value",
+                "type": "query"
+              },
+              {
+                "name": "nonce",
+                "value": "example_value",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Salesforce User Agent Flow"
+        },
+        {
+          "info": {
+            "name": "Salesforce Get User Info",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/services/oauth2/userinfo",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": "example_value"
+              },
+              {
+                "name": "Content-Type",
+                "value": "example_value"
+              }
+            ]
+          },
+          "docs": "This requests uses an access token to get user information from Salesforce using the standard `/userinfo` endpoint."
+        },
+        {
+          "info": {
+            "name": "Salesforce Oauth App Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/services/data/v64.0/apps/oauth/usage//users",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": "example_value"
+              }
+            ],
+            "params": [
+              {
+                "name": "page",
+                "value": "10",
+                "type": "query",
+                "description": "Page number for the usage information. Defaults to 0."
+              },
+              {
+                "name": "pageSize",
+                "value": "10",
+                "type": "query",
+                "description": "Number of usage entries per page. Defaults to 100."
+              }
+            ]
+          },
+          "docs": "Lists all users for the external client app indicated by the app ID. See [OAuth Users by App ID](https://developer.salesforce.com/docs/atlas.en-us.246.0.chatterapi.meta/chatterapi/connect_resources_usage_app_id_users.htm)."
+        },
+        {
+          "info": {
+            "name": "Salesforce Oauth App Users Tokens",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/services/data/v64.0/apps/oauth/usage///tokens",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": "example_value"
+              }
+            ]
+          },
+          "docs": "Lists all tokens for a user of the external client app. See [Refresh Token by User and App](https://developer.salesforce.com/docs/atlas.en-us.246.0.chatterapi.meta/chatterapi/connect_resources_usage_app_id_user_id_tokens.htm)."
+        },
+        {
+          "info": {
+            "name": "Salesforce Oauth User Tokens Revoke",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/services/data/v64.0/apps/oauth/usage///tokens",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": "example_value"
+              }
+            ]
+          },
+          "docs": "Revokes all tokens for a user of the external client app. See [Refresh Token by User and App](https://developer.salesforce.com/docs/atlas.en-us.246.0.chatterapi.meta/chatterapi/connect_resources_usage_app_id_user_id_tokens.htm)."
+        },
+        {
+          "info": {
+            "name": "Salesforce Users Files, General",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/connect/files/users/me",
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "fileData",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Upload a file, including references to external files, to the Files home or get information about files a user owns. These files don’t include files shared with a user, files a user follows, or general organization files.\nWhen you upload a file to the Files home, it is private and available only to the file owner.\n\nTo upload a file, send it in a multipart/form-data request. You can include the description and title of the file in the multipart/form-data request as a JSON or XML request body. You"
+        },
+        {
+          "info": {
+            "name": "Salesforce User Profile Feed Elements",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/chatter/feeds/user-profile/:USER_ID/feed-elements",
+            "params": [
+              {
+                "name": "USER_ID",
+                "value": "500123",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns feed elements created when a user changes records that can be tracked in a feed, feed elements whose parent is the user, and feed elements that mention the user. This feed is different than the news feed, which returns more feed items, including group updates. You can post feed items to the user-profile feed. You can get another user’s user profile feed.\n\nhttps://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resource_feeds_user_profile.htm"
+        },
+        {
+          "info": {
+            "name": "Salesforce User Photo",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/connect/user-profiles/me/photo",
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "json",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "fileUpload",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Get, post, and crop a user photo.\nTo use an image from the Files page as a user photo, pass the file ID in the fileId property of the request body or in the fileId request parameter. Images uploaded on the User page don’t have a file ID and can’t be used as the fileId.\n\nTo upload a binary file as the user photo, you must send it in a multipart/form-data message. For information about how to create the multipart/form-data message, see Uploading Binary Files.\n\nTo display user profile photos in a f"
+        },
+        {
+          "info": {
+            "name": "Salesforce User Messages, General",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/chatter/users/me/messages",
+            "params": [
+              {
+                "name": "text",
+                "value": "example_value",
+                "type": "query"
+              },
+              {
+                "name": "recipients",
+                "value": "example_value",
+                "type": "query",
+                "description": "Comma-separated list of User IDs"
+              }
+            ]
+          },
+          "docs": "Returns all the messages for all the private conversations for the context user. Also used to search across all messages and post a message.\nTo return all private conversations for the context user, see User Conversations, General.\n\nhttps://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_users_messages_general.htm"
+        },
+        {
+          "info": {
+            "name": "Salesforce Sobject User Password",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/sobjects/User/:USER_ID/password",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "example_value"
+              }
+            ],
+            "params": [
+              {
+                "name": "USER_ID",
+                "value": "500123",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Set, reset, or get information about a user password. This resource is available in REST API version 24.0 and later."
+        },
+        {
+          "info": {
+            "name": "Salesforce Sobject Self Service User Password",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/data/v64.0/sobjects/SelfServiceUser/:USER_ID/password",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "example_value"
+              }
+            ],
+            "params": [
+              {
+                "name": "USER_ID",
+                "value": "500123",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Set, reset, or get information about a user password. This resource is available in REST API version 24.0 and later."
+        },
+        {
+          "info": {
+            "name": "Salesforce User Info",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/oauth2/userinfo",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "example_value"
+              }
+            ]
+          },
+          "docs": "Salesforce User Info"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

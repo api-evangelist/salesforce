@@ -1,0 +1,95 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Salesforce Bulk API 2.0 Abort Revoke API",
+    "version": "v63.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Revoke",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Salesforce Revoke Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/services/oauth2/revoke",
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "token",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "This calls the standard revoke endpoint, passing in your access token. This endpoint should be called as part of your logout process to invalidate the access and refresh token. "
+        },
+        {
+          "info": {
+            "name": "Salesforce Oauth User Tokens Revoke",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/services/data/v64.0/apps/oauth/usage///tokens",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": "example_value"
+              }
+            ]
+          },
+          "docs": "Revokes all tokens for a user of the external client app. See [Refresh Token by User and App](https://developer.salesforce.com/docs/atlas.en-us.246.0.chatterapi.meta/chatterapi/connect_resources_usage_app_id_user_id_tokens.htm)."
+        },
+        {
+          "info": {
+            "name": "Salesforce Oauth Tokens Revoke",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/services/data/v64.0/apps/oauth/usage//tokens",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": "example_value"
+              }
+            ]
+          },
+          "docs": "Revokes all tokens available for the external client app. See [Refresh Token by App ID](https://developer.salesforce.com/docs/atlas.en-us.246.0.chatterapi.meta/chatterapi/connect_resources_usage_app_id_tokens.htm)."
+        },
+        {
+          "info": {
+            "name": "Salesforce Oauth Token Revoke",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/services/data/v64.0/apps/oauth/usage/tokens/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": "example_value"
+              }
+            ]
+          },
+          "docs": "Revokes one token. See [OAuth Refresh Token](https://developer.salesforce.com/docs/atlas.en-us.246.0.chatterapi.meta/chatterapi/connect_resources_usage_tokens_token_id.htm)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

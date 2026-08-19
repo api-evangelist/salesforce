@@ -1,0 +1,83 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Salesforce Bulk API 2.0 Abort Contacts API",
+    "version": "v63.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Contacts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List contacts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/contacts/v1/contacts",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number to retrieve. Defaults to 1."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "The number of contacts to return per page. Defaults to 50."
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of contacts in the Marketing Cloud account. Contacts are the core subscriber entities that can be subscribed to email, SMS, or other channels. Use the page and pageSize parameters to paginate through large contact lists.\n"
+        },
+        {
+          "info": {
+            "name": "Delete contacts",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/contacts/v1/contacts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Deletes one or more contacts from Marketing Cloud. Deletion is asynchronous; the response indicates the operation was accepted. Contact deletion removes the contact and their data across all business units in the account.\n"
+        },
+        {
+          "info": {
+            "name": "Get a contact by contact key",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.salesforce.com/services/data/v{version}/jobs/contacts/v1/contacts/:contactKey",
+            "params": [
+              {
+                "name": "contactKey",
+                "value": "",
+                "type": "path",
+                "description": "The unique contact key (subscriber key) of the Marketing Cloud contact to retrieve.\n"
+              }
+            ]
+          },
+          "docs": "Retrieves a single Marketing Cloud contact by their contact key. The contact key is a unique identifier for the contact, typically the subscriber key or email address used when the contact was created.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
