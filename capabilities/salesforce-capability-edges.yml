@@ -1,0 +1,305 @@
+slug: salesforce
+provider: Salesforce
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Banking & Capital Markets
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 29
+edges:
+- tag: Quote
+  spec_file: salesforce-quote-api-openapi.yml
+  capability_id: BC-410.40
+  capability_id_l1: BC-410
+  capability_name: Quote & Configuration Management
+  confidence: 0.9
+  evidence: '"Save Quote Api" via /apexrest/SBQQ/ServiceRouter, "Create or Update Quote", "Create Order
+    From Quote"'
+  reason: Operations read, save and convert sales quotes through the Salesforce CPQ (SBQQ) service router,
+    which is configure-price-quote functionality within Sales Management.
+- tag: Redeem
+  spec_file: salesforce-redeem-api-openapi.yml
+  capability_id: BC-420.40
+  capability_id_l1: BC-420
+  capability_name: Loyalty & Retention Management
+  confidence: 0.88
+  evidence: POST /data/v64.0/loyalty/programs/{loyaltyProgramName}/members/{membershipNumber}/vouchers/{voucherCode}/redeem  RedeemVoucher
+  reason: The single operation redeems a loyalty-programme member voucher, which is loyalty programme
+    operation — Loyalty & Retention Management.
+- tag: Corporate
+  spec_file: salesforce-corporate-api-openapi.yml
+  capability_id: BC-420.40
+  capability_id_l1: BC-420
+  capability_name: Loyalty & Retention Management
+  confidence: 0.85
+  evidence: POST /data/v64.0/loyalty-programs/{loyaltyProgramName}/corporate-member-enrollments  CorporateMemberEnrollments
+  reason: Enrols corporate members into a named loyalty programme (schemas CorporateMemberEnrollments,
+    TransactionJournal), which is loyalty programme administration.
+- tag: Promotions
+  spec_file: salesforce-promotions-api-openapi.yml
+  capability_id: BC-440.30
+  capability_id_l1: BC-440
+  capability_name: Discount & Promotion Management
+  confidence: 0.85
+  evidence: POST /global-promotions-management/eligible-promotions 'Eligible Promotions'; POST /global-promotions-management/promotions
+    'Promotions Creation'; schemas PromotionEligibility, PromotionLimits
+  reason: Creates promotions and evaluates promotion eligibility with limits and eligible product/channel/tier
+    schemas — clearly promotional offer management.
+- tag: Benefits
+  spec_file: salesforce-benefits-api-openapi.yml
+  capability_id: BC-420.40
+  capability_id_l1: BC-420
+  capability_name: Loyalty & Retention Management
+  confidence: 0.82
+  evidence: GET /data/v64.0/connect/loyalty/member/{memberId}/memberbenefits — 'Salesforce Member Benefits'
+  reason: Despite the misleading title, the operation retrieves loyalty programme member benefits, which
+    is loyalty programme administration, not employee benefits. Maps to Loyalty & Retention Management.
+- tag: Journals
+  spec_file: salesforce-journals-api-openapi.yml
+  capability_id: BC-420.40
+  capability_id_l1: BC-420
+  capability_name: Loyalty & Retention Management
+  confidence: 0.82
+  evidence: 'POST /connect/realtime/loyalty/programs/{loyaltyProgramName}  TransactionJournalsExecution;
+    schemas: TransactionJournal3, AppliedPromotion, Reward'
+  reason: Despite the accounting-sounding tag, the operation posts loyalty-program transaction journals
+    with applied promotions and rewards — loyalty programme operation, not general ledger.
+- tag: Sandbox
+  spec_file: salesforce-sandbox-api-openapi.yml
+  capability_id: BC-4210.20
+  capability_id_l1: BC-4210
+  capability_name: Environment Management
+  confidence: 0.8
+  evidence: POST /data/v64.0/tooling/sobjects/SandboxInfo  Create/CloneSandbox ... RefreshSandbox ...
+    DeleteSandbox
+  reason: Create, refresh and delete non-production sandbox orgs — provisioning and stewardship of non-production
+    environments.
+- tag: Tests
+  spec_file: salesforce-tests-api-openapi.yml
+  capability_id: BC-4200.50
+  capability_id_l1: BC-4200
+  capability_name: Software Quality Engineering
+  confidence: 0.8
+  evidence: POST /data/v64.0/einstein/ai-evaluations/runs  Runagenttest  Salesforce Run Agent Test; GET
+    .../runs/{runId}/results  Gettestresults
+  reason: Operations run tests (agent evaluations and Apex tooling tests), poll status and fetch results
+    with TestCase/TestResult/CodeCoverage schemas — test execution and result management, i.e. software
+    quality engineering.
+- tag: Eligible
+  spec_file: salesforce-eligible-api-openapi.yml
+  capability_id: BC-440.30
+  capability_id_l1: BC-440
+  capability_name: Discount & Promotion Management
+  confidence: 0.78
+  evidence: POST /global-promotions-management/eligible-promotions 'Eligible Promotions'; schemas Cart,
+    CartLineDetail, EligiblePromotionsRequest
+  reason: Evaluates which promotions a cart qualifies for under global promotions management — promotion/discount
+    determination, i.e. Discount & Promotion Management.
+- tag: Journeys
+  spec_file: salesforce-journeys-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.78
+  evidence: GET /interaction/v1/interactions  listJourneys; POST /interaction/v1/events  fireJourneyEvent  Fire
+    a journey entry event
+  reason: Marketing Cloud journey (interaction) listing and firing of journey entry events is marketing-automation
+    orchestration. Sub-capability could arguably be lifecycle/demand generation, hence not higher confidence.
+- tag: Oauth
+  spec_file: salesforce-oauth-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.78
+  evidence: GET /services/data/v64.0/apps/oauth/usage//users  OAuthAppUsers; DELETE .../tokens  OAuthUserTokensRevoke
+  reason: Operations inspect connected-app OAuth usage per user and revoke access tokens — access administration
+    for identities, i.e. Identity & Access Management rather than a business function.
+- tag: Password
+  spec_file: salesforce-password-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.78
+  evidence: POST /services/auth/headless/forgot_password  ForgotPassword-Initialize; GET /data/v64.0/sobjects/User/{USER_ID}/password
+  reason: Credential/password lifecycle operations for user accounts map to Identity & Access Management;
+    it is authentication plumbing but that capability exists in the list.
+- tag: Promotion
+  spec_file: salesforce-promotion-api-openapi.yml
+  capability_id: BC-440.30
+  capability_id_l1: BC-440
+  capability_name: Discount & Promotion Management
+  confidence: 0.78
+  evidence: GET /data/v64.0/global-promotions-management/promotions/{promotionId} 'Promotion Details'
+  reason: Retrieves promotion definitions from global promotions management — promotion administration
+    under Discount & Promotion Management; only one read operation so not maximal confidence.
+- tag: Cancel
+  spec_file: salesforce-cancel-api-openapi.yml
+  capability_id: BC-420.40
+  capability_id_l1: BC-420
+  capability_name: Loyalty & Retention Management
+  confidence: 0.75
+  evidence: POST /data/v64.0/connect/loyalty/programs/{loyaltyProgramName}/program-processes/{processName}
+    — 'Salesforce Cancel a Voucher'
+  reason: The operation runs a loyalty programme process to cancel a member voucher, which is loyalty
+    programme operation. Confidence moderated because the endpoint is a generic loyalty program-process
+    invoker.
+- tag: Contacts
+  spec_file: salesforce-contacts-api-openapi.yml
+  capability_id: BC-420.10
+  capability_id_l1: BC-420
+  capability_name: Customer Data Management
+  confidence: 0.75
+  evidence: GET /contacts/v1/contacts  listContacts  List contacts; GET /contacts/v1/contacts/{contactKey}  getContact  Get
+    a contact by contact key
+  reason: CRUD over contact records keyed by contactKey with a Contact schema — maintenance of the customer/contact
+    master record.
+- tag: Credential
+  spec_file: salesforce-credential-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.75
+  evidence: POST /data/v64.0/named-credentials/external-credentials  CreateExternalCredential; schemas
+    'Principal', 'CalloutOptions', 'NamedCredential'
+  reason: Operations manage Salesforce Named/External Credentials — stored authentication principals used
+    for outbound callouts. This is credential/identity-and-access administration (BC-620.20 Identity &
+    Access Management). Slight ambiguity as it is integration plumbing, hence 0.75.
+- tag: Execution
+  spec_file: salesforce-execution-api-openapi.yml
+  capability_id: BC-420.40
+  capability_id_l1: BC-420
+  capability_name: Loyalty & Retention Management
+  confidence: 0.75
+  evidence: POST /connect/realtime/loyalty/programs/{loyaltyProgramName} "Transaction Journals Execution";
+    schemas TransactionJournal3, AppliedPromotion, Reward
+  reason: The operation executes loyalty program transaction journals with applied promotions and rewards,
+    which is loyalty programme operation, not a generic execution utility.
+- tag: History
+  spec_file: salesforce-history-api-openapi.yml
+  capability_id: BC-420.40
+  capability_id_l1: BC-420
+  capability_name: Loyalty & Retention Management
+  confidence: 0.75
+  evidence: POST /data/v64.0/connect/loyalty/programs/{loyaltyProgramName}/transaction-history  TransactionHistory
+  reason: The single operation posts transaction history against a named loyalty program (schemas TransactionHistory,
+    TransactionHistoryRequest), which is loyalty programme operation, not generic audit history.
+- tag: Individual
+  spec_file: salesforce-individual-api-openapi.yml
+  capability_id: BC-420.40
+  capability_id_l1: BC-420
+  capability_name: Loyalty & Retention Management
+  confidence: 0.75
+  evidence: POST /data/v64.0/loyalty-programs/{loyaltyProgramName}/individual-member-enrollments  IndividualMemberEnrollments
+  reason: Despite the generic tag 'Individual', the operation enrolls individual members into a loyalty
+    program (schema IndividualMemberEnrollmentsRequest, TransactionJournal), i.e. loyalty programme membership
+    management.
+- tag: Predict
+  spec_file: salesforce-predict-api-openapi.yml
+  capability_id: BC-610.60
+  capability_id_l1: BC-610
+  capability_name: Artificial Intelligence Management
+  confidence: 0.75
+  evidence: POST /data/v64.0/smartdatadiscovery/predict 'Salesforce Predict'; schemas Prediction, Model,
+    PredictRequest
+  reason: Invokes a predictive model to score data (Einstein Discovery), which is AI/ML model consumption
+    under Artificial Intelligence Management; single thin operation caps confidence.
+- tag: Refresh
+  spec_file: salesforce-refresh-api-openapi.yml
+  capability_id: BC-4210.20
+  capability_id_l1: BC-4210
+  capability_name: Environment Management
+  confidence: 0.75
+  evidence: PATCH /data/v64.0/tooling/sobjects/SandboxInfo/{SANDBOX_INFO_ID}  RefreshSandbox
+  reason: Refreshing a sandbox is stewardship of a non-production environment used for development/testing,
+    matching Environment Management. Only one operation, so moderate confidence.
+- tag: Summaries
+  spec_file: salesforce-summaries-api-openapi.yml
+  capability_id: BC-420.40
+  capability_id_l1: BC-420
+  capability_name: Loyalty & Retention Management
+  confidence: 0.75
+  evidence: GET /data/v64.0/loyalty/programs/{loyaltyProgramName}/members/{membershipNumber}/transaction-ledger-summary  TransactionLedgerSummary
+  reason: The single operation retrieves a loyalty program member's transaction ledger summary, which
+    realises loyalty programme administration; schema TransactionJournal2 confirms loyalty ledger context.
+    Thin (one endpoint) so confidence moderate.
+- tag: Credentials
+  spec_file: salesforce-credentials-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.7
+  evidence: GET /data/v64.0/named-credentials/external-credentials  ListExternalCredentials; GET .../named-credential-setup  ListNamedCredentials
+  reason: Read-side listing of the same Named/External Credential objects — stored authentication material
+    for external system access, i.e. credential administration under Identity & Access Management. Lower
+    confidence because it is purely list operations on integration configuration.
+- tag: Initiate
+  spec_file: salesforce-initiate-api-openapi.yml
+  capability_id: BC-4240
+  capability_id_l1: BC-4240
+  capability_name: Subscription Lifecycle Management
+  confidence: 0.7
+  evidence: POST /data/v64.0/asset-management/assets/collection/actions/initiate-renewal  InitiateRenewal;
+    .../initiate-cancellation  InitiateCancellation; .../initiate-amend-quantity  InitiateAmendQuantity
+  reason: Asset-management actions to renew, cancel and amend quantity on subscribed assets are in-life
+    subscription lifecycle transactions. Left at L1 because the operations span renewal, cancellation
+    and modification sub-capabilities equally.
+- tag: Member
+  spec_file: salesforce-member-api-openapi.yml
+  capability_id: BC-420.40
+  capability_id_l1: BC-420
+  capability_name: Loyalty & Retention Management
+  confidence: 0.7
+  evidence: POST /data/v64.0/loyalty-programs/{loyaltyProgramName}/individual-member-enrollments  IndividualMemberEnrollments;
+    GET .../member/{memberId}/memberbenefits  MemberBenefits; MemberTier, MemberVouchers
+  reason: Majority of operations enrol members into loyalty programmes and retrieve member benefits, tiers
+    and vouchers — loyalty programme administration. Confidence tempered because the tag also mixes in
+    unrelated PlatformEventChannelMember technical objects.
+- tag: Messaging
+  spec_file: salesforce-messaging-api-openapi.yml
+  capability_id: BC-400.60
+  capability_id_l1: BC-400
+  capability_name: Digital Marketing Management
+  confidence: 0.7
+  evidence: POST /messaging/v1/email/messages  createEmailSend  Create an email send (triggered send);
+    POST /messaging/v1/sms/messages  createSmsSend
+  reason: Marketing Cloud transactional/triggered email and SMS sends with delivery status — outbound
+    digital messaging execution typical of marketing automation. Could alternatively be read as customer
+    notification plumbing, hence 0.7.
+- tag: Models
+  spec_file: salesforce-models-api-openapi.yml
+  capability_id: BC-610.60
+  capability_id_l1: BC-610
+  capability_name: Artificial Intelligence Management
+  confidence: 0.7
+  evidence: GET /data/v64.0/smartdatadiscovery/predictionDefinitions/{PREDICTION_DEFINITION_ID}/models  Predictionmodels;
+    schemas Model, ModelField, PrescribableField
+  reason: Lists Einstein prediction models attached to prediction definitions (ML model lifecycle), plus
+    decision-model (DMN) export. Predominantly AI/ML model management; the DMN business-rules export adds
+    some ambiguity.
+- tag: Runs
+  spec_file: salesforce-runs-api-openapi.yml
+  capability_id: BC-4200.50
+  capability_id_l1: BC-4200
+  capability_name: Software Quality Engineering
+  confidence: 0.7
+  evidence: 'POST /data/v64.0/tooling/runTestsAsynchronous  ToolingRunTestsAsync ... schemas: CodeCoverage,
+    CodeCoverageWarning, TestResult'
+  reason: Operations execute Apex/agent test runs and return code coverage — automated test execution,
+    i.e. software quality engineering; moderate confidence given thin surface.
+- tag: Save
+  spec_file: salesforce-save-api-openapi.yml
+  capability_id: BC-410.40
+  capability_id_l1: BC-410
+  capability_name: Quote & Configuration Management
+  confidence: 0.7
+  evidence: POST /apexrest/SBQQ/ServiceRouter  SaveQuoteAPI  Salesforce Save Quote Api
+  reason: The single operation saves a CPQ quote (SBQQ = Salesforce CPQ), which is quote and configuration
+    management within Sales Management. Tag string 'Save' is generic but the operation names the quote
+    explicitly.
