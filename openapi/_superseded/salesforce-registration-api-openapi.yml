@@ -1,0 +1,579 @@
+openapi: 3.2.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Registration API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Registration
+paths:
+  /services/auth/headless/init/registration:
+    parameters: []
+    post:
+      tags:
+      - Registration
+      summary: Salesforce Registration - Initialize
+      description: 'Submits the registration data to the init/registration endpoint and returns a request identifier. At the same time, an OTP is sent out to the end users via email or sms. Registration data is passed in the request body, and is formatted with JSON, with 5 keys: `userdata`, `customdata`, `password`, `recaptcha`, and `verificationmethod`. The first two keys are JSON structures, and the last 3 keys are strings.
+
+
+        This request returns JSON, and includes an identifier (request identifier).'
+      operationId: Registration-Initialize
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/Registration-InitializeRequest'
+              - examples:
+                - userdata:
+                    firstName: userFirstName
+                    lastName: userLastName
+                    email: <email>
+                    username: <username>
+                  customdata:
+                    mobilePhone: '+12035408967'
+                    streetAddress: 12 N Lands End Rd
+                    city: Lantana
+                    state: Florida
+                    zip: '20537'
+                    privacyPolicy: true
+                  password: Test123!
+                  recaptcha: <recaptcha-token>
+                  verificationmethod: email
+              contentMediaType: application/json
+            example:
+              userdata:
+                firstName: userFirstName
+                lastName: userLastName
+                email: <email>
+                username: <username>
+              customdata:
+                mobilePhone: '+12035408967'
+                streetAddress: 12 N Lands End Rd
+                city: Lantana
+                state: Florida
+                zip: '20537'
+                privacyPolicy: true
+              password: Test123!
+              recaptcha: <recaptcha-token>
+              verificationmethod: email
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+      servers:
+      - url: https://login.salesforce.com
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /services/oauth2/authorize:
+    parameters: []
+    post:
+      tags:
+      - Registration
+      summary: Salesforce Registration - Authorize
+      description: 'After you send your registration data to initialize, this request allows you to process that registration data, and as a part of this request you also verify the users email or sms number. The request itself is a authorization call for the Code and Credential flow. It includes 3 specific headers: `Auth-Request-Type` which is set to `user-registration`, `Auth-Verification-Type` which is set to email or sms, and an Authorization Basic header, which is the base 64 encoded result of `identifier:otp` where `identifier` is the value returned in your initialize registration call, and `otp` is the value sent to the end user via email or sms.
+
+
+        The response from this API is the Auth Code, which is then exchanged for the Access Token.'
+      operationId: Registration-Authorize
+      parameters:
+      - name: Auth-Request-Type
+        in: header
+        description: Required for User Registration
+        required: true
+        schema:
+          type: string
+          examples:
+          - user-registration
+        example: example_value
+      - name: Auth-Verification-Type
+        in: header
+        description: Must match init/registration, email or sms
+        required: true
+        schema:
+          type: string
+          examples:
+          - email
+        example: example_value
+      - name: Authorization
+        in: header
+        description: Base64 encoded <Identifier:OTP>
+        required: true
+        schema:
+          type: string
+          examples:
+          - Basic <base64Encoded identifier:otp>
+        example: example_value
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            encoding: {}
+            schema:
+              required:
+              - response_type
+              - client_id
+              - redirect_uri
+              - scope
+              type: object
+              properties:
+                response_type:
+                  type: string
+                  examples:
+                  - code_credentials
+                client_id:
+                  type: string
+                  examples:
+                  - '{{vault:salesforce-consumer-key}}'
+                redirect_uri:
+                  type: string
+                scope:
+                  type: string
+                  description: Comma seperated list of scopes, optional
+              contentMediaType: application/x-www-form-urlencoded
+            examples:
+              RegistrationAuthorizeRequestExample:
+                summary: Default Registration-Authorize request
+                x-microcks-default: true
+                value:
+                  response_type: example_value
+                  client_id: '500123'
+                  redirect_uri: example_value
+                  scope: example_value
+        required: false
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+      servers:
+      - url: https://login.salesforce.com
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /services/oauth2/token:
+    parameters: []
+    post:
+      tags:
+      - Registration
+      summary: Salesforce Registration - Token Exchange
+      description: This exchanges the auth code returned in the Authorize Request for an access token and refresh token. This follows the standard Auth Code flow/Webserver Code Flow pattern. The Code is the return form the Authorization call.
+      operationId: Registration-TokenExchange
+      parameters: []
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            encoding: {}
+            schema:
+              required:
+              - code
+              - grant_type
+              - client_id
+              - redirect_uri
+              type: object
+              properties:
+                code:
+                  type: string
+                  description: Auth Code from the Authorize response
+                  examples:
+                  - <code>
+                grant_type:
+                  type: string
+                  examples:
+                  - authorization_code
+                client_id:
+                  type: string
+                  examples:
+                  - '{{vault:salesforce-consumer-key}}'
+                redirect_uri:
+                  type: string
+              contentMediaType: application/x-www-form-urlencoded
+            examples:
+              RegistrationTokenexchangeRequestExample:
+                summary: Default Registration-TokenExchange request
+                x-microcks-default: true
+                value:
+                  code: example_value
+                  grant_type: example_value
+                  client_id: '500123'
+                  redirect_uri: example_value
+        required: false
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+      servers:
+      - url: https://login.salesforce.com
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /services/oauth2/register:
+    parameters: []
+    post:
+      tags:
+      - Registration
+      summary: Salesforce Openid Connect Dynamic Client Registration Endpoint
+      operationId: OpenIDConnectDynamicClientRegistrationEndpoint
+      parameters:
+      - name: Accept
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - application/json
+        example: example_value
+      - name: Authorization
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - Bearer {{init_access_token}}
+        example: example_value
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/OpenIDConnectDynamicClientRegistrationEndpointRequest'
+              - examples:
+                - redirect_uris:
+                  - http://localhost
+                  response_types:
+                  - code
+                  - token
+                  - id_token
+                  grant_types:
+                  - authorization_code
+                  - implicit
+                  - refresh_token
+                  application_type: web
+                  contacts:
+                  - abc@sf.com
+                  - ve7jtb@example.org
+                  client_name: Example Olivier
+              contentMediaType: application/json
+            example:
+              redirect_uris:
+              - http://localhost
+              response_types:
+              - code
+              - token
+              - id_token
+              grant_types:
+              - authorization_code
+              - implicit
+              - refresh_token
+              application_type: web
+              contacts:
+              - abc@sf.com
+              - ve7jtb@example.org
+              client_name: Example Olivier
+        required: true
+      responses:
+        '201':
+          description: Created
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Thu, 16 Nov 2023 16:04:08 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Expires:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Thu, 01 Jan 1970 00:00:00 GMT
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: string
+                examples:
+                - "{\n    \"client_id\": \"<client_id>\",\n    \"client_secret\": \"<client_secret>\",\n    \"registration_access_token\": \"<token>\",\n    \"registration_client_uri\": \"https://login.salesforce.com/services/oauth2/register/<client_id>\",\n    \"client_id_issued_at\": <timestamp>,\n    \"client_secret_expires_at\": 0,\n    \"token_endpoint_auth_method\": \"client_secret_post\",\n    \"redirect_uris\": [\n        \"http://localhost\"\n    ],\n    \"response_types\": [\n        \"code\",\n        \"token\",\n        \"id_token\"\n    ],\n    \"grant_types\": [\n        \"authorization_code\",\n        \"hybrid_auth_code\",\n        \"implicit\",\n        \"refresh_token\"\n    ],\n    \"contacts\": [\n        \"abc@sf.com\"\n    ],\n    \"client_name\": \"Sample Customer\",\n    \"scopes\": [\n        \"openid\",\n        \"refresh_token\",\n        \"id\",\n        \"api\"\n    ]\n}"
+                contentMediaType: application/json;charset=UTF-8
+              example: "{\n    \"client_id\": \"<client_id>\",\n    \"client_secret\": \"<client_secret>\",\n    \"registration_access_token\": \"<token>\",\n    \"registration_client_uri\": \"https://login.salesforce.com/services/oauth2/register/<client_id>\",\n    \"client_id_issued_at\": <timestamp>,\n    \"client_secret_expires_at\": 0,\n    \"token_endpoint_auth_method\": \"client_secret_post\",\n    \"redirect_uris\": [\n        \"http://localhost\"\n    ],\n    \"response_types\": [\n        \"code\",\n        \"token\",\n        \"id_token\"\n    ],\n    \"grant_types\": [\n        \"authorization_code\",\n        \"hybrid_auth_code\",\n        \"implicit\",\n        \"refresh_token\"\n    ],\n    \"contacts\": [\n        \"abc@sf.com\"\n    ],\n    \"client_name\": \"Sample Customer\",\n    \"scopes\": [\n        \"openid\",\n        \"refresh_token\",\n        \"id\",\n        \"api\"\n    ]\n}"
+      deprecated: false
+      security: []
+      servers:
+      - url: https://login.salesforce.com
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Userdata:
+      title: Userdata
+      required:
+      - firstName
+      - lastName
+      - email
+      - username
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: example_value
+        lastName:
+          type: string
+          example: example_value
+        email:
+          type: string
+          example: user@example.com
+        username:
+          type: string
+          example: example_value
+      examples:
+      - firstName: userFirstName
+        lastName: userLastName
+        email: <email>
+        username: <username>
+    Customdata:
+      title: Customdata
+      required:
+      - mobilePhone
+      - streetAddress
+      - city
+      - state
+      - zip
+      - privacyPolicy
+      type: object
+      properties:
+        mobilePhone:
+          type: string
+          example: example_value
+        streetAddress:
+          type: string
+          example: example_value
+        city:
+          type: string
+          example: example_value
+        state:
+          type: string
+          example: example_value
+        zip:
+          type: string
+          example: example_value
+        privacyPolicy:
+          type: boolean
+          example: true
+      examples:
+      - mobilePhone: '+12035408967'
+        streetAddress: 12 N Lands End Rd
+        city: Lantana
+        state: Florida
+        zip: '20537'
+        privacyPolicy: true
+    Registration-InitializeRequest:
+      title: Registration-InitializeRequest
+      required:
+      - userdata
+      - customdata
+      - password
+      - recaptcha
+      - verificationmethod
+      type: object
+      properties:
+        userdata:
+          $ref: '#/components/schemas/Userdata'
+        customdata:
+          $ref: '#/components/schemas/Customdata'
+        password:
+          type: string
+          example: example_value
+        recaptcha:
+          type: string
+          example: example_value
+        verificationmethod:
+          type: string
+          example: example_value
+      examples:
+      - userdata:
+          firstName: userFirstName
+          lastName: userLastName
+          email: <email>
+          username: <username>
+        customdata:
+          mobilePhone: '+12035408967'
+          streetAddress: 12 N Lands End Rd
+          city: Lantana
+          state: Florida
+          zip: '20537'
+          privacyPolicy: true
+        password: Test123!
+        recaptcha: <recaptcha-token>
+        verificationmethod: email
+    OpenIDConnectDynamicClientRegistrationEndpointRequest:
+      title: OpenIDConnectDynamicClientRegistrationEndpointRequest
+      required:
+      - redirect_uris
+      - response_types
+      - grant_types
+      - application_type
+      - contacts
+      - client_name
+      type: object
+      properties:
+        redirect_uris:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        response_types:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        grant_types:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        application_type:
+          type: string
+          example: example_value
+        contacts:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        client_name:
+          type: string
+          example: example_value
+      examples:
+      - redirect_uris:
+        - http://localhost
+        response_types:
+        - code
+        - token
+        - id_token
+        grant_types:
+        - authorization_code
+        - implicit
+        - refresh_token
+        application_type: web
+        contacts:
+        - abc@sf.com
+        - ve7jtb@example.org
+        client_name: Example Olivier
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

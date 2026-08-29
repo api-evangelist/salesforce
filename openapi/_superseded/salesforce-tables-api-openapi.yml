@@ -1,0 +1,176 @@
+openapi: 3.2.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Tables API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Tables
+paths:
+  /data/v64.0/connect/business-rules/lookup-tables:
+    parameters: []
+    get:
+      tags:
+      - Tables
+      summary: Salesforce Retrieve Lookup Tables
+      description: "# Lookup Tables (GET)\n\nRetrieve lookup tables.Resource\n\n```\n/connect/business-rules/lookup-tables\n\n ```\n\nResource example\n\n```\nhttps://yourInstance.salesforce.com/services/data/v59.0/connect/business-rules/lookup-tables?searchKey=D&usageType=Bre&lookupTypes=DecisionTable,DecisionMatrix\n\n ```\n\n```\nhttps://yourInstance.salesforce.com/services/data/v59.0/connect/business-rules/lookup-tables?searchKey=D&usageType=Bre\n\n ```\n\nAvailable version59.0Requires ChatterNoHTTP methodsGETRequest parameters for GET\n\n| Parameter Name | Type | Description | Required or Optional | Available Version |\n| --- | --- | --- | --- | --- |\n| lookupTypes | String | Type of lookup table. Valid values are:<br><br>- DecisionMatrix<br>    <br>- DecisionTable | Optional | 59.0 |\n| searchKey | String | The search text entered by the user to retrieve a list of lookup tables. | Required | 59.0 |\n| usageType | String | Usage type of the lookup table. Valid values are:<br><br>- AiAccelerator​SubscriberChurn​Prediction—Used for Industries Einstein<br>    <br>- Bre—Used for Business Rules Engine<br>    <br>- CustomLoyalty—Used for Loyalty Management<br>    <br>- DefaultPricing—Used for Pricing Plans in Enterprise Product Catalog (EPC) by Communications Cloud<br>    <br>- Qualification—Used for Industries Communications, Media, and Energy (CME)<br>    <br>- RecordAlert—Used for Financial Services Cloud<br>    <br>- ShipAndDebit—Used for Manufacturing Cloud<br>    <br>- TierProcessing—Used for Loyalty Management<br>    <br>- TransactionJournal—Used for Loyalty Management<br>    <br>- WarrantyClaim—Used for Manufacturing Cloud | Required | 59.0 |\n\nResponse body for GET[Lookup Tables Result List](https://developer.salesforce.com/docs/atlas.en-us.industries_reference.meta/industries_reference/connect_responses_lookup_tables_result_list.htm)"
+      operationId: Retrievelookuptables
+      parameters:
+      - name: searchKey
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          examples:
+          - my
+        example: example_value
+      - name: usageType
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          examples:
+          - Bre
+        example: example_value
+      - name: lookupTypes
+        in: query
+        description: 'Optional: Type of lookup table. Valid values are: DecisionMatrix, DecisionTable'
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          examples:
+          - DecisionTable
+        example: example_value
+      responses:
+        '404':
+          description: Not Found
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Wed, 06 Sep 2023 08:56:11 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/404-BecauseVersion59.0NotPresentInTargetOrg1'
+                description: ''
+                examples:
+                - - errorCode: NOT_FOUND
+                    message: The requested resource does not exist
+                contentMediaType: application/json;charset=UTF-8
+              example:
+              - errorCode: NOT_FOUND
+                message: The requested resource does not exist
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    404-BecauseVersion59.0NotPresentInTargetOrg1:
+      title: 404-BecauseVersion59.0NotPresentInTargetOrg1
+      required:
+      - errorCode
+      - message
+      type: object
+      properties:
+        errorCode:
+          type: string
+          example: example_value
+        message:
+          type: string
+          example: example_value
+      examples:
+      - errorCode: NOT_FOUND
+        message: The requested resource does not exist
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

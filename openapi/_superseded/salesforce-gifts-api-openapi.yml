@@ -1,0 +1,1372 @@
+openapi: 3.2.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Gifts API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Gifts
+paths:
+  /data/v64.0/connect/fundraising/gifts:
+    parameters: []
+    post:
+      tags:
+      - Gifts
+      summary: Salesforce Create Gifts
+      description: "Create gift transactions with related new or matched donor, optional transaction designations, and payment instrument metadata. Supports custom fields for the donor account and gift transaction.\n\n## Required Attributes:\n\n- donor.donorType (\"individual\" or \"organization\")\n    \n- donor.lastName || donor.organizationName\n    \n- gift.amount\n    \n- gift.receivedDate\n    \n- git.status\n    \n- paymentInstrument.type\n    \n\nAll other attributes are optional can be left as an empty string or just removed from the request body entirely. The only exceptions to this are:\n\n- CustomFields collections - These cannot be left in the request body as an empty collection or with an empty string for the FieldName.\n    \n\n## Validated Property Formats (an empty string is considered valid)\n\n- DateTime - YYYY-MM-DDTHH:MM:SSZ\n    \n- Date - YYYY-MM-DD\n    \n- Email - a valid formatted email address\n    \n\n### Other Attributes:\n\n- OutreachSource -- This is optional. Be sure to create the OutreachSourceCode record in the system if passing a value\n    \n- Will accept either an OutreachSourceCode.id (SalesforceId) or an OutreachSourceCode.Code.\n    \n\n### Custom Fields:\n\n- The field_value can be a text string (inc. for a date data-type) or a numeric value (without quotes)\n    \n- Do not include an empty collection or an empty fieldName in the request body"
+      operationId: CreateGifts
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/CreateGiftsRequest'
+              - examples:
+                - processingOptions:
+                    donorOptions:
+                      defaultUpdateLogic: update_all
+                  gifts:
+                  - amount: 150.25
+                    currencyIsoCode: USD
+                    receivedDate: '2024-07-06T00:00:00.000Z'
+                    donorCoverAmount: 0.25
+                    transactionStatus: Unpaid
+                    commitmentId: <SFDC_COMMITMENT_ID>
+                    paymentIdentifier: '1234'
+                    gatewayTransactionFee: 0.75
+                    processorTransactionFee: 0.45
+                    processorReference: cls-1247586928747
+                    gatewayReference: 102656693ac3ca6e0cdafbfe89ab99
+                    lastGatewayResponseCode: invalid_cvc
+                    lastGatewayErrorMessage: The card’s security code is invalid. Check the card’s security code or use a different card.
+                    lastGatewayProcessedDateTime: '2023-07-06T21:57:51.000Z'
+                    campaign:
+                      id: <SFDC_CAMPAIGN_ID>
+                    outreachSourceCode:
+                      id: <SFDC_OUTREACH_SOURCE_CODE_ID>
+                      sourceCode: AnimalEmailCampaign2023
+                    donor:
+                      donorType: individual
+                      id: <SFDC_PERSON_ACCOUNT_ID>
+                      organizationName: <Organization_Name>
+                      firstName: Test
+                      lastName: Donor
+                      phone: 510-434-8920
+                      email: test.user@example.com
+                      address:
+                      - addressType: mailing
+                        street: 123 Main Street
+                        city: Oakland
+                        state: CA
+                        postalCode: '94610'
+                        country: US
+                      accountCustomFields:
+                      - fieldName: string
+                        fieldValue: string
+                    paymentInstrument:
+                      type: credit card
+                      accountHolderName: test donor
+                      expiryMonth: '10'
+                      expiryYear: '2027'
+                      last4: '4585'
+                      cardBrand: visa
+                      bankName: chase
+                      digitalWalletProvider: apple pay
+                      bankAccountHolderType: primary
+                      bankAccountType: checking
+                      bankAccountNumber: '123456'
+                      bankCode: HBUK
+                      gatewayName: stripe
+                      processorName: test processor
+                      processorPaymentReference: string
+                      gatewayReference: string
+                    designations:
+                    - designationId: <SFDC_GIFT_DESIGNATION_ID>
+                      percent: 10
+                      amount: 150.25
+                    giftTransactionCustomFields:
+                    - fieldName: string
+                      fieldValue: string
+                  - amount: 250
+                    currencyIsoCode: USD
+                    receivedDate: '2024-07-06T00:00:00.000Z'
+                    donorCoverAmount: 0.25
+                    transactionStatus: Unpaid
+                    commitmentId: <SFDC_COMMITMENT_ID>
+                    paymentIdentifier: '1234'
+                    gatewayTransactionFee: 0.75
+                    processorTransactionFee: 0.45
+                    processorReference: cls-1247586928747
+                    gatewayReference: 102656693ac3ca6e0cdafbfe89ab99
+                    lastGatewayResponseCode: invalid_cvc
+                    lastGatewayErrorMessage: The card’s security code is invalid. Check the card’s security code or use a different card.
+                    lastGatewayProcessedDateTime: '2023-07-06T21:57:51.000Z'
+                    campaign:
+                      id: <SFDC_CAMPAIGN_ID>
+                    outreachSourceCode:
+                      id: <SFDC_OUTREACH_SOURCE_CODE_ID>
+                      sourceCode: AnimalEmailCampaign2023
+                    donor:
+                      donorType: individual
+                      id: <SFDC_PERSON_ACCOUNT_ID>
+                      organizationName: <Organization_Name>
+                      firstName: Test
+                      lastName: Donor
+                      phone: 510-434-8920
+                      email: test.user@example.com
+                      address:
+                      - addressType: mailing
+                        street: 123 Main Street
+                        city: Oakland
+                        state: CA
+                        postalCode: '94610'
+                        country: US
+                      accountCustomFields:
+                      - fieldName: string
+                        fieldValue: string
+                    paymentInstrument:
+                      type: credit card
+                      accountHolderName: test donor
+                      expiryMonth: '10'
+                      expiryYear: '2027'
+                      last4: '4585'
+                      cardBrand: visa
+                      bankName: chase
+                      digitalWalletProvider: apple pay
+                      bankAccountHolderType: primary
+                      bankAccountType: checking
+                      bankAccountNumber: '123456'
+                      bankCode: HBUK
+                      gatewayName: stripe
+                      processorName: test processor
+                      processorPaymentReference: string
+                      gatewayReference: string
+                    designations:
+                    - designationId: <SFDC_GIFT_DESIGNATION_ID>
+                      percent: 10
+                      amount: 150.25
+                    giftTransactionCustomFields:
+                    - fieldName: string
+                      fieldValue: string
+              contentMediaType: application/json
+            example:
+              processingOptions:
+                donorOptions:
+                  defaultUpdateLogic: update_all
+              gifts:
+              - amount: 150.25
+                currencyIsoCode: USD
+                receivedDate: '2024-07-06T00:00:00.000Z'
+                donorCoverAmount: 0.25
+                transactionStatus: Unpaid
+                commitmentId: <SFDC_COMMITMENT_ID>
+                paymentIdentifier: '1234'
+                gatewayTransactionFee: 0.75
+                processorTransactionFee: 0.45
+                processorReference: cls-1247586928747
+                gatewayReference: 102656693ac3ca6e0cdafbfe89ab99
+                lastGatewayResponseCode: invalid_cvc
+                lastGatewayErrorMessage: The card’s security code is invalid. Check the card’s security code or use a different card.
+                lastGatewayProcessedDateTime: '2023-07-06T21:57:51.000Z'
+                campaign:
+                  id: <SFDC_CAMPAIGN_ID>
+                outreachSourceCode:
+                  id: <SFDC_OUTREACH_SOURCE_CODE_ID>
+                  sourceCode: AnimalEmailCampaign2023
+                donor:
+                  donorType: individual
+                  id: <SFDC_PERSON_ACCOUNT_ID>
+                  organizationName: <Organization_Name>
+                  firstName: Test
+                  lastName: Donor
+                  phone: 510-434-8920
+                  email: test.user@example.com
+                  address:
+                  - addressType: mailing
+                    street: 123 Main Street
+                    city: Oakland
+                    state: CA
+                    postalCode: '94610'
+                    country: US
+                  accountCustomFields:
+                  - fieldName: string
+                    fieldValue: string
+                paymentInstrument:
+                  type: credit card
+                  accountHolderName: test donor
+                  expiryMonth: '10'
+                  expiryYear: '2027'
+                  last4: '4585'
+                  cardBrand: visa
+                  bankName: chase
+                  digitalWalletProvider: apple pay
+                  bankAccountHolderType: primary
+                  bankAccountType: checking
+                  bankAccountNumber: '123456'
+                  bankCode: HBUK
+                  gatewayName: stripe
+                  processorName: test processor
+                  processorPaymentReference: string
+                  gatewayReference: string
+                designations:
+                - designationId: <SFDC_GIFT_DESIGNATION_ID>
+                  percent: 10
+                  amount: 150.25
+                giftTransactionCustomFields:
+                - fieldName: string
+                  fieldValue: string
+              - amount: 250
+                currencyIsoCode: USD
+                receivedDate: '2024-07-06T00:00:00.000Z'
+                donorCoverAmount: 0.25
+                transactionStatus: Unpaid
+                commitmentId: <SFDC_COMMITMENT_ID>
+                paymentIdentifier: '1234'
+                gatewayTransactionFee: 0.75
+                processorTransactionFee: 0.45
+                processorReference: cls-1247586928747
+                gatewayReference: 102656693ac3ca6e0cdafbfe89ab99
+                lastGatewayResponseCode: invalid_cvc
+                lastGatewayErrorMessage: The card’s security code is invalid. Check the card’s security code or use a different card.
+                lastGatewayProcessedDateTime: '2023-07-06T21:57:51.000Z'
+                campaign:
+                  id: <SFDC_CAMPAIGN_ID>
+                outreachSourceCode:
+                  id: <SFDC_OUTREACH_SOURCE_CODE_ID>
+                  sourceCode: AnimalEmailCampaign2023
+                donor:
+                  donorType: individual
+                  id: <SFDC_PERSON_ACCOUNT_ID>
+                  organizationName: <Organization_Name>
+                  firstName: Test
+                  lastName: Donor
+                  phone: 510-434-8920
+                  email: test.user@example.com
+                  address:
+                  - addressType: mailing
+                    street: 123 Main Street
+                    city: Oakland
+                    state: CA
+                    postalCode: '94610'
+                    country: US
+                  accountCustomFields:
+                  - fieldName: string
+                    fieldValue: string
+                paymentInstrument:
+                  type: credit card
+                  accountHolderName: test donor
+                  expiryMonth: '10'
+                  expiryYear: '2027'
+                  last4: '4585'
+                  cardBrand: visa
+                  bankName: chase
+                  digitalWalletProvider: apple pay
+                  bankAccountHolderType: primary
+                  bankAccountType: checking
+                  bankAccountNumber: '123456'
+                  bankCode: HBUK
+                  gatewayName: stripe
+                  processorName: test processor
+                  processorPaymentReference: string
+                  gatewayReference: string
+                designations:
+                - designationId: <SFDC_GIFT_DESIGNATION_ID>
+                  percent: 10
+                  amount: 150.25
+                giftTransactionCustomFields:
+                - fieldName: string
+                  fieldValue: string
+        required: true
+      responses:
+        '201':
+          description: Created
+          headers: {}
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Status201-CreateGiftSuccess'
+                - examples:
+                  - successes: 2
+                    failures: 0
+                    notProcessed: 0
+                    details:
+                    - success: true
+                      links:
+                        account:
+                          href: /services/data/vXX.X/sobjects/sObject/<SFDC_ACCOUNT_ID>
+                          id: <SFDC_ACCOUNT_ID>
+                        gifttransaction:
+                          href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
+                          id: <SFDC_GIFT_TRANSACTION_ID>
+                        giftcommitment:
+                          href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
+                          id: <SFDC_GIFT_COMMITMENT_ID>
+                        paymentinstrument:
+                          href: /services/data/vXX.X/sobjects/sObject/<SFDC_PAYMENT_INSTRUMENT_ID>
+                          id: <SFDC_PAYMENT_INSTRUMENT_ID>
+                        gifttransactiondesignation:
+                        - href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_DESIGNATION_ID>
+                          id: <SFDC_GIFT_TRANSACTION_DESIGNATION_ID>
+                    - success: true
+                      links:
+                        account:
+                          href: /services/data/vXX.X/sobjects/sObject/<SFDC_ACCOUNT_ID>
+                          id: <SFDC_ACCOUNT_ID>
+                        gifttransaction:
+                          href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
+                          id: <SFDC_GIFT_TRANSACTION_ID>
+                        giftcommitment:
+                          href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
+                          id: <SFDC_GIFT_COMMITMENT_ID>
+                        paymentinstrument:
+                          href: /services/data/vXX.X/sobjects/sObject/<SFDC_PAYMENT_INSTRUMENT_ID>
+                          id: <SFDC_PAYMENT_INSTRUMENT_ID>
+                        gifttransactiondesignation:
+                        - href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_DESIGNATION_ID>
+                          id: <SFDC_GIFT_TRANSACTION_DESIGNATION_ID>
+                contentMediaType: application/json
+              example:
+                successes: 2
+                failures: 0
+                notProcessed: 0
+                details:
+                - success: true
+                  links:
+                    account:
+                      href: /services/data/vXX.X/sobjects/sObject/<SFDC_ACCOUNT_ID>
+                      id: <SFDC_ACCOUNT_ID>
+                    gifttransaction:
+                      href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
+                      id: <SFDC_GIFT_TRANSACTION_ID>
+                    giftcommitment:
+                      href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
+                      id: <SFDC_GIFT_COMMITMENT_ID>
+                    paymentinstrument:
+                      href: /services/data/vXX.X/sobjects/sObject/<SFDC_PAYMENT_INSTRUMENT_ID>
+                      id: <SFDC_PAYMENT_INSTRUMENT_ID>
+                    gifttransactiondesignation:
+                    - href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_DESIGNATION_ID>
+                      id: <SFDC_GIFT_TRANSACTION_DESIGNATION_ID>
+                - success: true
+                  links:
+                    account:
+                      href: /services/data/vXX.X/sobjects/sObject/<SFDC_ACCOUNT_ID>
+                      id: <SFDC_ACCOUNT_ID>
+                    gifttransaction:
+                      href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
+                      id: <SFDC_GIFT_TRANSACTION_ID>
+                    giftcommitment:
+                      href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
+                      id: <SFDC_GIFT_COMMITMENT_ID>
+                    paymentinstrument:
+                      href: /services/data/vXX.X/sobjects/sObject/<SFDC_PAYMENT_INSTRUMENT_ID>
+                      id: <SFDC_PAYMENT_INSTRUMENT_ID>
+                    gifttransactiondesignation:
+                    - href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_DESIGNATION_ID>
+                      id: <SFDC_GIFT_TRANSACTION_DESIGNATION_ID>
+        '400':
+          description: Bad Request
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: string
+                examples:
+                - "    // Even if the JSON request is valid, this is an example of a 400 error code that will be returned if duplicate matching rules are not active. Any non 200 error code would have a similar response structure.\n    {\n        \"errorCode\": \"UNKNOWN_EXCEPTION\",\n        \"message\": \"Provide active duplicate matching rules on Account and Person Account for donor matching. -- industries.fundraisingops.connect.impl.validator.ValidatorUtil.validateMatchingMethod(ValidatorUtil.java:103)\"\n    }"
+                contentMediaType: application/json
+              example: "    // Even if the JSON request is valid, this is an example of a 400 error code that will be returned if duplicate matching rules are not active. Any non 200 error code would have a similar response structure.\n    {\n        \"errorCode\": \"UNKNOWN_EXCEPTION\",\n        \"message\": \"Provide active duplicate matching rules on Account and Person Account for donor matching. -- industries.fundraisingops.connect.impl.validator.ValidatorUtil.validateMatchingMethod(ValidatorUtil.java:103)\"\n    }"
+        default:
+          description: ''
+          headers: {}
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Status201-CreateGiftSuccessWithExternalIds'
+                - examples:
+                  - successes: 2
+                    failures: 0
+                    notProcessed: 0
+                    details:
+                    - success: true
+                      links:
+                        account:
+                          href: /services/data/vXX.X/sobjects/sObject/<SFDC_ACCOUNT_ID>
+                          id: <SFDC_ACCOUNT_ID>
+                        gifttransaction:
+                          href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
+                          id: <SFDC_GIFT_TRANSACTION_ID>
+                        giftcommitment:
+                          href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
+                          id: <SFDC_GIFT_COMMITMENT_ID>
+                        paymentinstrument:
+                          href: /services/data/vXX.X/sobjects/sObject/<SFDC_PAYMENT_INSTRUMENT_ID>
+                          id: <SFDC_PAYMENT_INSTRUMENT_ID>
+                        gifttransactiondesignation:
+                        - href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_DESIGNATION_ID>
+                          id: <SFDC_GIFT_TRANSACTION_DESIGNATION_ID>
+                    - success: true
+                      links:
+                        account:
+                          href: /services/data/vXX.X/sobjects/sObject/<SFDC_ACCOUNT_ID>
+                          id: <SFDC_ACCOUNT_ID>
+                        gifttransaction:
+                          href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
+                          id: <SFDC_GIFT_TRANSACTION_ID>
+                        giftcommitment:
+                          href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
+                          id: <SFDC_GIFT_COMMITMENT_ID>
+                        paymentinstrument:
+                          href: /services/data/vXX.X/sobjects/sObject/<SFDC_PAYMENT_INSTRUMENT_ID>
+                          id: <SFDC_PAYMENT_INSTRUMENT_ID>
+                        gifttransactiondesignation:
+                        - href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_DESIGNATION_ID>
+                          id: <SFDC_GIFT_TRANSACTION_DESIGNATION_ID>
+                contentMediaType: application/json
+              example:
+                successes: 2
+                failures: 0
+                notProcessed: 0
+                details:
+                - success: true
+                  links:
+                    account:
+                      href: /services/data/vXX.X/sobjects/sObject/<SFDC_ACCOUNT_ID>
+                      id: <SFDC_ACCOUNT_ID>
+                    gifttransaction:
+                      href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
+                      id: <SFDC_GIFT_TRANSACTION_ID>
+                    giftcommitment:
+                      href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
+                      id: <SFDC_GIFT_COMMITMENT_ID>
+                    paymentinstrument:
+                      href: /services/data/vXX.X/sobjects/sObject/<SFDC_PAYMENT_INSTRUMENT_ID>
+                      id: <SFDC_PAYMENT_INSTRUMENT_ID>
+                    gifttransactiondesignation:
+                    - href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_DESIGNATION_ID>
+                      id: <SFDC_GIFT_TRANSACTION_DESIGNATION_ID>
+                - success: true
+                  links:
+                    account:
+                      href: /services/data/vXX.X/sobjects/sObject/<SFDC_ACCOUNT_ID>
+                      id: <SFDC_ACCOUNT_ID>
+                    gifttransaction:
+                      href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
+                      id: <SFDC_GIFT_TRANSACTION_ID>
+                    giftcommitment:
+                      href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
+                      id: <SFDC_GIFT_COMMITMENT_ID>
+                    paymentinstrument:
+                      href: /services/data/vXX.X/sobjects/sObject/<SFDC_PAYMENT_INSTRUMENT_ID>
+                      id: <SFDC_PAYMENT_INSTRUMENT_ID>
+                    gifttransactiondesignation:
+                    - href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_DESIGNATION_ID>
+                      id: <SFDC_GIFT_TRANSACTION_DESIGNATION_ID>
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Designation:
+      title: Designation
+      required:
+      - designationId
+      - percent
+      - amount
+      type: object
+      properties:
+        designationId:
+          type: string
+          example: '500123'
+        percent:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        amount:
+          type: number
+          example: 42.5
+      examples:
+      - designationId: <SFDC_GIFT_DESIGNATION_ID>
+        percent: 10
+        amount: 150.25
+    Status201-CreateGiftSuccessWithExternalIds:
+      title: Status201-CreateGiftSuccessWithExternalIds
+      required:
+      - successes
+      - failures
+      - notProcessed
+      - details
+      type: object
+      properties:
+        successes:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        failures:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        notProcessed:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/Detail'
+          description: ''
+          example: []
+      examples:
+      - successes: 2
+        failures: 0
+        notProcessed: 0
+        details:
+        - success: true
+          links:
+            account:
+              href: /services/data/vXX.X/sobjects/sObject/<SFDC_ACCOUNT_ID>
+              id: <SFDC_ACCOUNT_ID>
+            gifttransaction:
+              href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
+              id: <SFDC_GIFT_TRANSACTION_ID>
+            giftcommitment:
+              href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
+              id: <SFDC_GIFT_COMMITMENT_ID>
+            paymentinstrument:
+              href: /services/data/vXX.X/sobjects/sObject/<SFDC_PAYMENT_INSTRUMENT_ID>
+              id: <SFDC_PAYMENT_INSTRUMENT_ID>
+            gifttransactiondesignation:
+            - href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_DESIGNATION_ID>
+              id: <SFDC_GIFT_TRANSACTION_DESIGNATION_ID>
+        - success: true
+          links:
+            account:
+              href: /services/data/vXX.X/sobjects/sObject/<SFDC_ACCOUNT_ID>
+              id: <SFDC_ACCOUNT_ID>
+            gifttransaction:
+              href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
+              id: <SFDC_GIFT_TRANSACTION_ID>
+            giftcommitment:
+              href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
+              id: <SFDC_GIFT_COMMITMENT_ID>
+            paymentinstrument:
+              href: /services/data/vXX.X/sobjects/sObject/<SFDC_PAYMENT_INSTRUMENT_ID>
+              id: <SFDC_PAYMENT_INSTRUMENT_ID>
+            gifttransactiondesignation:
+            - href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_DESIGNATION_ID>
+              id: <SFDC_GIFT_TRANSACTION_DESIGNATION_ID>
+    Address1:
+      title: Address1
+      required:
+      - addressType
+      - street
+      - city
+      - state
+      - postalCode
+      - country
+      type: object
+      properties:
+        addressType:
+          type: string
+          example: example_value
+        street:
+          type: string
+          example: example_value
+        city:
+          type: string
+          example: example_value
+        state:
+          type: string
+          example: example_value
+        postalCode:
+          type: string
+          example: example_value
+        country:
+          type: string
+          example: 42
+      examples:
+      - addressType: mailing
+        street: 123 Main Street
+        city: Oakland
+        state: CA
+        postalCode: '94610'
+        country: US
+    CreateGiftsRequest:
+      title: CreateGiftsRequest
+      required:
+      - processingOptions
+      - gifts
+      type: object
+      properties:
+        processingOptions:
+          $ref: '#/components/schemas/ProcessingOptions'
+        gifts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Gift'
+          description: ''
+          example: []
+      examples:
+      - processingOptions:
+          donorOptions:
+            defaultUpdateLogic: update_all
+        gifts:
+        - amount: 150.25
+          currencyIsoCode: USD
+          receivedDate: '2024-07-06T00:00:00.000Z'
+          donorCoverAmount: 0.25
+          transactionStatus: Unpaid
+          commitmentId: <SFDC_COMMITMENT_ID>
+          paymentIdentifier: '1234'
+          gatewayTransactionFee: 0.75
+          processorTransactionFee: 0.45
+          processorReference: cls-1247586928747
+          gatewayReference: 102656693ac3ca6e0cdafbfe89ab99
+          lastGatewayResponseCode: invalid_cvc
+          lastGatewayErrorMessage: The card’s security code is invalid. Check the card’s security code or use a different card.
+          lastGatewayProcessedDateTime: '2023-07-06T21:57:51.000Z'
+          campaign:
+            id: <SFDC_CAMPAIGN_ID>
+          outreachSourceCode:
+            id: <SFDC_OUTREACH_SOURCE_CODE_ID>
+            sourceCode: AnimalEmailCampaign2023
+          donor:
+            donorType: individual
+            id: <SFDC_PERSON_ACCOUNT_ID>
+            organizationName: <Organization_Name>
+            firstName: Test
+            lastName: Donor
+            phone: 510-434-8920
+            email: test.user@example.com
+            address:
+            - addressType: mailing
+              street: 123 Main Street
+              city: Oakland
+              state: CA
+              postalCode: '94610'
+              country: US
+            accountCustomFields:
+            - fieldName: string
+              fieldValue: string
+          paymentInstrument:
+            type: credit card
+            accountHolderName: test donor
+            expiryMonth: '10'
+            expiryYear: '2027'
+            last4: '4585'
+            cardBrand: visa
+            bankName: chase
+            digitalWalletProvider: apple pay
+            bankAccountHolderType: primary
+            bankAccountType: checking
+            bankAccountNumber: '123456'
+            bankCode: HBUK
+            gatewayName: stripe
+            processorName: test processor
+            processorPaymentReference: string
+            gatewayReference: string
+          designations:
+          - designationId: <SFDC_GIFT_DESIGNATION_ID>
+            percent: 10
+            amount: 150.25
+          giftTransactionCustomFields:
+          - fieldName: string
+            fieldValue: string
+        - amount: 250
+          currencyIsoCode: USD
+          receivedDate: '2024-07-06T00:00:00.000Z'
+          donorCoverAmount: 0.25
+          transactionStatus: Unpaid
+          commitmentId: <SFDC_COMMITMENT_ID>
+          paymentIdentifier: '1234'
+          gatewayTransactionFee: 0.75
+          processorTransactionFee: 0.45
+          processorReference: cls-1247586928747
+          gatewayReference: 102656693ac3ca6e0cdafbfe89ab99
+          lastGatewayResponseCode: invalid_cvc
+          lastGatewayErrorMessage: The card’s security code is invalid. Check the card’s security code or use a different card.
+          lastGatewayProcessedDateTime: '2023-07-06T21:57:51.000Z'
+          campaign:
+            id: <SFDC_CAMPAIGN_ID>
+          outreachSourceCode:
+            id: <SFDC_OUTREACH_SOURCE_CODE_ID>
+            sourceCode: AnimalEmailCampaign2023
+          donor:
+            donorType: individual
+            id: <SFDC_PERSON_ACCOUNT_ID>
+            organizationName: <Organization_Name>
+            firstName: Test
+            lastName: Donor
+            phone: 510-434-8920
+            email: test.user@example.com
+            address:
+            - addressType: mailing
+              street: 123 Main Street
+              city: Oakland
+              state: CA
+              postalCode: '94610'
+              country: US
+            accountCustomFields:
+            - fieldName: string
+              fieldValue: string
+          paymentInstrument:
+            type: credit card
+            accountHolderName: test donor
+            expiryMonth: '10'
+            expiryYear: '2027'
+            last4: '4585'
+            cardBrand: visa
+            bankName: chase
+            digitalWalletProvider: apple pay
+            bankAccountHolderType: primary
+            bankAccountType: checking
+            bankAccountNumber: '123456'
+            bankCode: HBUK
+            gatewayName: stripe
+            processorName: test processor
+            processorPaymentReference: string
+            gatewayReference: string
+          designations:
+          - designationId: <SFDC_GIFT_DESIGNATION_ID>
+            percent: 10
+            amount: 150.25
+          giftTransactionCustomFields:
+          - fieldName: string
+            fieldValue: string
+    AccountCustomField:
+      title: AccountCustomField
+      required:
+      - fieldName
+      - fieldValue
+      type: object
+      properties:
+        fieldName:
+          type: string
+          example: example_value
+        fieldValue:
+          type: string
+          example: example_value
+      examples:
+      - fieldName: string
+        fieldValue: string
+    ProcessingOptions:
+      title: ProcessingOptions
+      required:
+      - donorOptions
+      type: object
+      properties:
+        donorOptions:
+          $ref: '#/components/schemas/DonorOptions'
+      examples:
+      - donorOptions:
+          defaultUpdateLogic: update_all
+    Status201-CreateGiftSuccess:
+      title: Status201-CreateGiftSuccess
+      required:
+      - successes
+      - failures
+      - notProcessed
+      - details
+      type: object
+      properties:
+        successes:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        failures:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        notProcessed:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/Detail'
+          description: ''
+          example: []
+      examples:
+      - successes: 2
+        failures: 0
+        notProcessed: 0
+        details:
+        - success: true
+          links:
+            account:
+              href: /services/data/vXX.X/sobjects/sObject/<SFDC_ACCOUNT_ID>
+              id: <SFDC_ACCOUNT_ID>
+            gifttransaction:
+              href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
+              id: <SFDC_GIFT_TRANSACTION_ID>
+            giftcommitment:
+              href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
+              id: <SFDC_GIFT_COMMITMENT_ID>
+            paymentinstrument:
+              href: /services/data/vXX.X/sobjects/sObject/<SFDC_PAYMENT_INSTRUMENT_ID>
+              id: <SFDC_PAYMENT_INSTRUMENT_ID>
+            gifttransactiondesignation:
+            - href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_DESIGNATION_ID>
+              id: <SFDC_GIFT_TRANSACTION_DESIGNATION_ID>
+        - success: true
+          links:
+            account:
+              href: /services/data/vXX.X/sobjects/sObject/<SFDC_ACCOUNT_ID>
+              id: <SFDC_ACCOUNT_ID>
+            gifttransaction:
+              href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
+              id: <SFDC_GIFT_TRANSACTION_ID>
+            giftcommitment:
+              href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
+              id: <SFDC_GIFT_COMMITMENT_ID>
+            paymentinstrument:
+              href: /services/data/vXX.X/sobjects/sObject/<SFDC_PAYMENT_INSTRUMENT_ID>
+              id: <SFDC_PAYMENT_INSTRUMENT_ID>
+            gifttransactiondesignation:
+            - href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_DESIGNATION_ID>
+              id: <SFDC_GIFT_TRANSACTION_DESIGNATION_ID>
+    Campaign:
+      title: Campaign
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+      examples:
+      - id: <SFDC_CAMPAIGN_ID>
+    PaymentInstrument:
+      title: PaymentInstrument
+      required:
+      - type
+      - accountHolderName
+      - expiryMonth
+      - expiryYear
+      - last4
+      - cardBrand
+      - bankName
+      - digitalWalletProvider
+      - bankAccountHolderType
+      - bankAccountType
+      - bankAccountNumber
+      - bankCode
+      - gatewayName
+      - processorName
+      - processorPaymentReference
+      - gatewayReference
+      type: object
+      properties:
+        type:
+          type: string
+          example: example_value
+        accountHolderName:
+          type: string
+          example: 42
+        expiryMonth:
+          type: string
+          example: example_value
+        expiryYear:
+          type: string
+          example: example_value
+        last4:
+          type: string
+          example: example_value
+        cardBrand:
+          type: string
+          example: example_value
+        bankName:
+          type: string
+          example: example_value
+        digitalWalletProvider:
+          type: string
+          example: example_value
+        bankAccountHolderType:
+          type: string
+          example: 42
+        bankAccountType:
+          type: string
+          example: 42
+        bankAccountNumber:
+          type: string
+          example: 42
+        bankCode:
+          type: string
+          example: example_value
+        gatewayName:
+          type: string
+          example: example_value
+        processorName:
+          type: string
+          example: example_value
+        processorPaymentReference:
+          type: string
+          example: example_value
+        gatewayReference:
+          type: string
+          example: example_value
+      examples:
+      - type: credit card
+        accountHolderName: test donor
+        expiryMonth: '10'
+        expiryYear: '2027'
+        last4: '4585'
+        cardBrand: visa
+        bankName: chase
+        digitalWalletProvider: apple pay
+        bankAccountHolderType: primary
+        bankAccountType: checking
+        bankAccountNumber: '123456'
+        bankCode: HBUK
+        gatewayName: stripe
+        processorName: test processor
+        processorPaymentReference: string
+        gatewayReference: string
+    Gifttransactiondesignation:
+      title: Gifttransactiondesignation
+      required:
+      - href
+      - id
+      type: object
+      properties:
+        href:
+          type: string
+          example: example_value
+        id:
+          type: string
+          example: abc123
+      examples:
+      - href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_DESIGNATION_ID>
+        id: <SFDC_GIFT_TRANSACTION_DESIGNATION_ID>
+    Gift:
+      title: Gift
+      required:
+      - amount
+      - currencyIsoCode
+      - receivedDate
+      - donorCoverAmount
+      - transactionStatus
+      - commitmentId
+      - paymentIdentifier
+      - gatewayTransactionFee
+      - processorTransactionFee
+      - processorReference
+      - gatewayReference
+      - lastGatewayResponseCode
+      - lastGatewayErrorMessage
+      - lastGatewayProcessedDateTime
+      - campaign
+      - outreachSourceCode
+      - donor
+      - paymentInstrument
+      - designations
+      - giftTransactionCustomFields
+      type: object
+      properties:
+        amount:
+          type: number
+          example: 42.5
+        currencyIsoCode:
+          type: string
+          example: example_value
+        receivedDate:
+          type: string
+          example: example_value
+        donorCoverAmount:
+          type: number
+          example: 42.5
+        transactionStatus:
+          type: string
+          example: example_value
+        commitmentId:
+          type: string
+          example: '500123'
+        paymentIdentifier:
+          type: string
+          example: example_value
+        gatewayTransactionFee:
+          type: number
+          example: 42.5
+        processorTransactionFee:
+          type: number
+          example: 42.5
+        processorReference:
+          type: string
+          example: example_value
+        gatewayReference:
+          type: string
+          example: example_value
+        lastGatewayResponseCode:
+          type: string
+          example: example_value
+        lastGatewayErrorMessage:
+          type: string
+          example: example_value
+        lastGatewayProcessedDateTime:
+          type: string
+          example: '2026-01-15T10:30:00Z'
+        campaign:
+          $ref: '#/components/schemas/Campaign'
+        outreachSourceCode:
+          $ref: '#/components/schemas/OutreachSourceCode'
+        donor:
+          $ref: '#/components/schemas/Donor'
+        paymentInstrument:
+          $ref: '#/components/schemas/PaymentInstrument'
+        designations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Designation'
+          description: ''
+          example: []
+        giftTransactionCustomFields:
+          type: array
+          items:
+            $ref: '#/components/schemas/GiftTransactionCustomField'
+          description: ''
+          example: []
+      examples:
+      - amount: 150.25
+        currencyIsoCode: USD
+        receivedDate: '2024-07-06T00:00:00.000Z'
+        donorCoverAmount: 0.25
+        transactionStatus: Unpaid
+        commitmentId: <SFDC_COMMITMENT_ID>
+        paymentIdentifier: '1234'
+        gatewayTransactionFee: 0.75
+        processorTransactionFee: 0.45
+        processorReference: cls-1247586928747
+        gatewayReference: 102656693ac3ca6e0cdafbfe89ab99
+        lastGatewayResponseCode: invalid_cvc
+        lastGatewayErrorMessage: The card’s security code is invalid. Check the card’s security code or use a different card.
+        lastGatewayProcessedDateTime: '2023-07-06T21:57:51.000Z'
+        campaign:
+          id: <SFDC_CAMPAIGN_ID>
+        outreachSourceCode:
+          id: <SFDC_OUTREACH_SOURCE_CODE_ID>
+          sourceCode: AnimalEmailCampaign2023
+        donor:
+          donorType: individual
+          id: <SFDC_PERSON_ACCOUNT_ID>
+          organizationName: <Organization_Name>
+          firstName: Test
+          lastName: Donor
+          phone: 510-434-8920
+          email: test.user@example.com
+          address:
+          - addressType: mailing
+            street: 123 Main Street
+            city: Oakland
+            state: CA
+            postalCode: '94610'
+            country: US
+          accountCustomFields:
+          - fieldName: string
+            fieldValue: string
+        paymentInstrument:
+          type: credit card
+          accountHolderName: test donor
+          expiryMonth: '10'
+          expiryYear: '2027'
+          last4: '4585'
+          cardBrand: visa
+          bankName: chase
+          digitalWalletProvider: apple pay
+          bankAccountHolderType: primary
+          bankAccountType: checking
+          bankAccountNumber: '123456'
+          bankCode: HBUK
+          gatewayName: stripe
+          processorName: test processor
+          processorPaymentReference: string
+          gatewayReference: string
+        designations:
+        - designationId: <SFDC_GIFT_DESIGNATION_ID>
+          percent: 10
+          amount: 150.25
+        giftTransactionCustomFields:
+        - fieldName: string
+          fieldValue: string
+    Paymentinstrument1:
+      title: Paymentinstrument1
+      required:
+      - href
+      - id
+      type: object
+      properties:
+        href:
+          type: string
+          example: example_value
+        id:
+          type: string
+          example: abc123
+      examples:
+      - href: /services/data/vXX.X/sobjects/sObject/<SFDC_PAYMENT_INSTRUMENT_ID>
+        id: <SFDC_PAYMENT_INSTRUMENT_ID>
+    DonorOptions:
+      title: DonorOptions
+      required:
+      - defaultUpdateLogic
+      type: object
+      properties:
+        defaultUpdateLogic:
+          type: string
+          example: example_value
+      examples:
+      - defaultUpdateLogic: update_all
+    GiftTransactionCustomField:
+      title: GiftTransactionCustomField
+      required:
+      - fieldName
+      - fieldValue
+      type: object
+      properties:
+        fieldName:
+          type: string
+          example: example_value
+        fieldValue:
+          type: string
+          example: example_value
+      examples:
+      - fieldName: string
+        fieldValue: string
+    Detail:
+      title: Detail
+      required:
+      - success
+      - links
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        links:
+          $ref: '#/components/schemas/Links'
+      examples:
+      - success: true
+        links:
+          account:
+            href: /services/data/vXX.X/sobjects/sObject/<SFDC_ACCOUNT_ID>
+            id: <SFDC_ACCOUNT_ID>
+          gifttransaction:
+            href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
+            id: <SFDC_GIFT_TRANSACTION_ID>
+          giftcommitment:
+            href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
+            id: <SFDC_GIFT_COMMITMENT_ID>
+          paymentinstrument:
+            href: /services/data/vXX.X/sobjects/sObject/<SFDC_PAYMENT_INSTRUMENT_ID>
+            id: <SFDC_PAYMENT_INSTRUMENT_ID>
+          gifttransactiondesignation:
+          - href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_DESIGNATION_ID>
+            id: <SFDC_GIFT_TRANSACTION_DESIGNATION_ID>
+    OutreachSourceCode:
+      title: OutreachSourceCode
+      required:
+      - id
+      - sourceCode
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+        sourceCode:
+          type: string
+          example: example_value
+      examples:
+      - id: <SFDC_OUTREACH_SOURCE_CODE_ID>
+        sourceCode: AnimalEmailCampaign2023
+    Links:
+      title: Links
+      required:
+      - account
+      - gifttransaction
+      - giftcommitment
+      - paymentinstrument
+      - gifttransactiondesignation
+      type: object
+      properties:
+        account:
+          $ref: '#/components/schemas/Account'
+        gifttransaction:
+          $ref: '#/components/schemas/Gifttransaction'
+        giftcommitment:
+          $ref: '#/components/schemas/Giftcommitment'
+        paymentinstrument:
+          $ref: '#/components/schemas/Paymentinstrument1'
+        gifttransactiondesignation:
+          type: array
+          items:
+            $ref: '#/components/schemas/Gifttransactiondesignation'
+          description: ''
+          example: []
+      examples:
+      - account:
+          href: /services/data/vXX.X/sobjects/sObject/<SFDC_ACCOUNT_ID>
+          id: <SFDC_ACCOUNT_ID>
+        gifttransaction:
+          href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
+          id: <SFDC_GIFT_TRANSACTION_ID>
+        giftcommitment:
+          href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
+          id: <SFDC_GIFT_COMMITMENT_ID>
+        paymentinstrument:
+          href: /services/data/vXX.X/sobjects/sObject/<SFDC_PAYMENT_INSTRUMENT_ID>
+          id: <SFDC_PAYMENT_INSTRUMENT_ID>
+        gifttransactiondesignation:
+        - href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_DESIGNATION_ID>
+          id: <SFDC_GIFT_TRANSACTION_DESIGNATION_ID>
+    Gifttransaction:
+      title: Gifttransaction
+      required:
+      - href
+      - id
+      type: object
+      properties:
+        href:
+          type: string
+          example: example_value
+        id:
+          type: string
+          example: abc123
+      examples:
+      - href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
+        id: <SFDC_GIFT_TRANSACTION_ID>
+    Account:
+      title: Account
+      required:
+      - href
+      - id
+      type: object
+      properties:
+        href:
+          type: string
+          example: example_value
+        id:
+          type: string
+          example: abc123
+      examples:
+      - href: /services/data/vXX.X/sobjects/sObject/<SFDC_ACCOUNT_ID>
+        id: <SFDC_ACCOUNT_ID>
+    Donor:
+      title: Donor
+      required:
+      - donorType
+      - id
+      - organizationName
+      - firstName
+      - lastName
+      - phone
+      - email
+      - address
+      - accountCustomFields
+      type: object
+      properties:
+        donorType:
+          type: string
+          example: example_value
+        id:
+          type: string
+          example: abc123
+        organizationName:
+          type: string
+          example: example_value
+        firstName:
+          type: string
+          example: example_value
+        lastName:
+          type: string
+          example: example_value
+        phone:
+          type: string
+          example: example_value
+        email:
+          type: string
+          example: user@example.com
+        address:
+          type: array
+          items:
+            $ref: '#/components/schemas/Address1'
+          description: ''
+          example: []
+        accountCustomFields:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountCustomField'
+          description: ''
+          example: 42
+      examples:
+      - donorType: individual
+        id: <SFDC_PERSON_ACCOUNT_ID>
+        organizationName: <Organization_Name>
+        firstName: Test
+        lastName: Donor
+        phone: 510-434-8920
+        email: test.user@example.com
+        address:
+        - addressType: mailing
+          street: 123 Main Street
+          city: Oakland
+          state: CA
+          postalCode: '94610'
+          country: US
+        accountCustomFields:
+        - fieldName: string
+          fieldValue: string
+    Giftcommitment:
+      title: Giftcommitment
+      required:
+      - href
+      - id
+      type: object
+      properties:
+        href:
+          type: string
+          example: example_value
+        id:
+          type: string
+          example: abc123
+      examples:
+      - href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
+        id: <SFDC_GIFT_COMMITMENT_ID>
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

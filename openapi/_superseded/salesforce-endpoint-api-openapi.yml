@@ -1,0 +1,1102 @@
+openapi: 3.2.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Endpoint API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Endpoint
+paths:
+  /.well-known/openid-configuration:
+    parameters: []
+    get:
+      tags:
+      - Endpoint
+      summary: Salesforce Openid Connect Discovery Endpoint
+      operationId: OpenIDConnectDiscoveryEndpoint
+      parameters: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Thu, 16 Nov 2023 15:53:35 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Access-Control-Allow-Credentials:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 'false'
+            Access-Control-Allow-Origin:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: '*'
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessfulOpenIDConnectDiscoveryEndpoint'
+                - examples:
+                  - end_session_endpoint: https://<my_domain>/services/auth/idp/oidc/logout
+                    frontchannel_logout_supported: true
+                    frontchannel_logout_session_supported: false
+                    issuer: https://<my_domain>
+                    authorization_endpoint: https://<my_domain>/services/oauth2/authorize
+                    token_endpoint: https://<my_domain>/services/oauth2/token
+                    revocation_endpoint: https://<my_domain>/services/oauth2/revoke
+                    userinfo_endpoint: https://<my_domain>/services/oauth2/userinfo
+                    jwks_uri: https://<my_domain>/id/keys
+                    registration_endpoint: https://<my_domain>/services/oauth2/register
+                    introspection_endpoint: https://<my_domain>/services/oauth2/introspect
+                    scopes_supported:
+                    - cdp_ingest_api
+                    - custom_permissions
+                    - cdp_segment_api
+                    - content
+                    - cdp_api
+                    - chatbot_api
+                    - cdp_identityresolution_api
+                    - interaction_api
+                    - wave_api
+                    - web
+                    - cdp_calculated_insight_api
+                    - einstein_gpt_api
+                    - offline_access
+                    - id
+                    - api
+                    - eclair_api
+                    - email
+                    - pardot_api
+                    - lightning
+                    - visualforce
+                    - cdp_query_api
+                    - sfap_api
+                    - address
+                    - openid
+                    - profile
+                    - cdp_profile_api
+                    - refresh_token
+                    - phone
+                    - user_registration_api
+                    - pwdless_login_api
+                    - chatter_api
+                    - full
+                    - forgot_password
+                    response_types_supported:
+                    - code
+                    - token
+                    - token id_token
+                    subject_types_supported:
+                    - public
+                    id_token_signing_alg_values_supported:
+                    - RS256
+                    display_values_supported:
+                    - page
+                    - popup
+                    - touch
+                    token_endpoint_auth_methods_supported:
+                    - client_secret_post
+                    - client_secret_basic
+                    - private_key_jwt
+                    claims_supported:
+                    - active
+                    - address
+                    - email
+                    - email_verified
+                    - family_name
+                    - given_name
+                    - is_app_installed
+                    - language
+                    - locale
+                    - name
+                    - nickname
+                    - organization_id
+                    - phone_number
+                    - phone_number_verified
+                    - photos
+                    - picture
+                    - preferred_username
+                    - profile
+                    - sub
+                    - updated_at
+                    - urls
+                    - user_id
+                    - user_type
+                    - zoneinfo
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                end_session_endpoint: https://<my_domain>/services/auth/idp/oidc/logout
+                frontchannel_logout_supported: true
+                frontchannel_logout_session_supported: false
+                issuer: https://<my_domain>
+                authorization_endpoint: https://<my_domain>/services/oauth2/authorize
+                token_endpoint: https://<my_domain>/services/oauth2/token
+                revocation_endpoint: https://<my_domain>/services/oauth2/revoke
+                userinfo_endpoint: https://<my_domain>/services/oauth2/userinfo
+                jwks_uri: https://<my_domain>/id/keys
+                registration_endpoint: https://<my_domain>/services/oauth2/register
+                introspection_endpoint: https://<my_domain>/services/oauth2/introspect
+                scopes_supported:
+                - cdp_ingest_api
+                - custom_permissions
+                - cdp_segment_api
+                - content
+                - cdp_api
+                - chatbot_api
+                - cdp_identityresolution_api
+                - interaction_api
+                - wave_api
+                - web
+                - cdp_calculated_insight_api
+                - einstein_gpt_api
+                - offline_access
+                - id
+                - api
+                - eclair_api
+                - email
+                - pardot_api
+                - lightning
+                - visualforce
+                - cdp_query_api
+                - sfap_api
+                - address
+                - openid
+                - profile
+                - cdp_profile_api
+                - refresh_token
+                - phone
+                - user_registration_api
+                - pwdless_login_api
+                - chatter_api
+                - full
+                - forgot_password
+                response_types_supported:
+                - code
+                - token
+                - token id_token
+                subject_types_supported:
+                - public
+                id_token_signing_alg_values_supported:
+                - RS256
+                display_values_supported:
+                - page
+                - popup
+                - touch
+                token_endpoint_auth_methods_supported:
+                - client_secret_post
+                - client_secret_basic
+                - private_key_jwt
+                claims_supported:
+                - active
+                - address
+                - email
+                - email_verified
+                - family_name
+                - given_name
+                - is_app_installed
+                - language
+                - locale
+                - name
+                - nickname
+                - organization_id
+                - phone_number
+                - phone_number_verified
+                - photos
+                - picture
+                - preferred_username
+                - profile
+                - sub
+                - updated_at
+                - urls
+                - user_id
+                - user_type
+                - zoneinfo
+      deprecated: false
+      security: []
+      servers:
+      - url: https://login.salesforce.com
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /.well-known/auth-configuration:
+    parameters: []
+    get:
+      tags:
+      - Endpoint
+      summary: Salesforce Authentication Configuration Endpoint
+      operationId: AuthenticationConfigurationEndpoint
+      parameters: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Thu, 16 Nov 2023 15:54:15 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Access-Control-Allow-Credentials:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 'false'
+            Access-Control-Allow-Methods:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: GET, POST, OPTIONS
+            Access-Control-Allow-Origin:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: '*'
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessfulAuthenticationConfigurationEndpoint'
+                - examples:
+                  - OrgId: 00D2o000000i6mB
+                    Url: https://<my_domain>
+                    MobileSDK:
+                      UseiOSNativeBrowserForAuthentication: false
+                      UseAndroidNativeBrowserForAuthentication: false
+                      shareBrowserSessionIOS: false
+                      shareBrowserSessionAndroid: false
+                    LoginPage: null
+                    SamlProviders: []
+                    AuthProviders: []
+                    CertificateLogin: null
+                    LoginPageType: standard
+                    LoginPageTypeConfigs: {}
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                OrgId: 00D2o000000i6mB
+                Url: https://<my_domain>
+                MobileSDK:
+                  UseiOSNativeBrowserForAuthentication: false
+                  UseAndroidNativeBrowserForAuthentication: false
+                  shareBrowserSessionIOS: false
+                  shareBrowserSessionAndroid: false
+                LoginPage: null
+                SamlProviders: []
+                AuthProviders: []
+                CertificateLogin: null
+                LoginPageType: standard
+                LoginPageTypeConfigs: {}
+      deprecated: false
+      security: []
+      servers:
+      - url: https://login.salesforce.com
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /services/oauth2/introspect:
+    parameters: []
+    post:
+      tags:
+      - Endpoint
+      summary: Salesforce Openid Connect Token Introspection Endpoint
+      operationId: OpenIDConnectTokenIntrospectionEndpoint
+      parameters:
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        schema:
+          const: application/x-www-form-urlencoded
+          type: string
+          examples:
+          - application/x-www-form-urlencoded
+        example: example_value
+      - name: Accept
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - application/json
+        example: example_value
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            encoding: {}
+            schema:
+              required:
+              - token
+              - token_type_hint
+              - client_id
+              - client_secret
+              type: object
+              properties:
+                token:
+                  type: string
+                token_type_hint:
+                  type: string
+                  examples:
+                  - access_token
+                client_id:
+                  type: string
+                  examples:
+                  - '{{vault:salesforce-consumer-key}}'
+                client_secret:
+                  type: string
+              contentMediaType: application/x-www-form-urlencoded
+            examples:
+              OpenidconnecttokenintrospectionendpointRequestExample:
+                summary: Default OpenIDConnectTokenIntrospectionEndpoint request
+                x-microcks-default: true
+                value:
+                  token: CAUQAA
+                  token_type_hint: CAUQAA
+                  client_id: '500123'
+                  client_secret: example_value
+        required: false
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Thu, 16 Nov 2023 15:54:42 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: string
+                examples:
+                - "{\n    \"active\": true,\n    \"scope\": \"<scope_list>\",\n    \"client_id\": \"<client_id>\",\n    \"username\": \"<username>\",\n    \"sub\": \"https://login.salesforce.com/id/00D.../005...\",\n    \"token_type\": \"access_token\",\n    \"exp\": <timestamp>,\n    \"iat\": <timestamp>,\n    \"nbf\": <timestamp>\n}"
+                contentMediaType: application/json;charset=UTF-8
+              example: "{\n    \"active\": true,\n    \"scope\": \"<scope_list>\",\n    \"client_id\": \"<client_id>\",\n    \"username\": \"<username>\",\n    \"sub\": \"https://login.salesforce.com/id/00D.../005...\",\n    \"token_type\": \"access_token\",\n    \"exp\": <timestamp>,\n    \"iat\": <timestamp>,\n    \"nbf\": <timestamp>\n}"
+      deprecated: false
+      security: []
+      servers:
+      - url: https://login.salesforce.com
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /services/oauth2/register:
+    parameters: []
+    post:
+      tags:
+      - Endpoint
+      summary: Salesforce Openid Connect Dynamic Client Registration Endpoint
+      operationId: OpenIDConnectDynamicClientRegistrationEndpoint
+      parameters:
+      - name: Accept
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - application/json
+        example: example_value
+      - name: Authorization
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - Bearer {{init_access_token}}
+        example: example_value
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/OpenIDConnectDynamicClientRegistrationEndpointRequest'
+              - examples:
+                - redirect_uris:
+                  - http://localhost
+                  response_types:
+                  - code
+                  - token
+                  - id_token
+                  grant_types:
+                  - authorization_code
+                  - implicit
+                  - refresh_token
+                  application_type: web
+                  contacts:
+                  - abc@sf.com
+                  - ve7jtb@example.org
+                  client_name: Example Olivier
+              contentMediaType: application/json
+            example:
+              redirect_uris:
+              - http://localhost
+              response_types:
+              - code
+              - token
+              - id_token
+              grant_types:
+              - authorization_code
+              - implicit
+              - refresh_token
+              application_type: web
+              contacts:
+              - abc@sf.com
+              - ve7jtb@example.org
+              client_name: Example Olivier
+        required: true
+      responses:
+        '201':
+          description: Created
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Thu, 16 Nov 2023 16:04:08 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Expires:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Thu, 01 Jan 1970 00:00:00 GMT
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: string
+                examples:
+                - "{\n    \"client_id\": \"<client_id>\",\n    \"client_secret\": \"<client_secret>\",\n    \"registration_access_token\": \"<token>\",\n    \"registration_client_uri\": \"https://login.salesforce.com/services/oauth2/register/<client_id>\",\n    \"client_id_issued_at\": <timestamp>,\n    \"client_secret_expires_at\": 0,\n    \"token_endpoint_auth_method\": \"client_secret_post\",\n    \"redirect_uris\": [\n        \"http://localhost\"\n    ],\n    \"response_types\": [\n        \"code\",\n        \"token\",\n        \"id_token\"\n    ],\n    \"grant_types\": [\n        \"authorization_code\",\n        \"hybrid_auth_code\",\n        \"implicit\",\n        \"refresh_token\"\n    ],\n    \"contacts\": [\n        \"abc@sf.com\"\n    ],\n    \"client_name\": \"Sample Customer\",\n    \"scopes\": [\n        \"openid\",\n        \"refresh_token\",\n        \"id\",\n        \"api\"\n    ]\n}"
+                contentMediaType: application/json;charset=UTF-8
+              example: "{\n    \"client_id\": \"<client_id>\",\n    \"client_secret\": \"<client_secret>\",\n    \"registration_access_token\": \"<token>\",\n    \"registration_client_uri\": \"https://login.salesforce.com/services/oauth2/register/<client_id>\",\n    \"client_id_issued_at\": <timestamp>,\n    \"client_secret_expires_at\": 0,\n    \"token_endpoint_auth_method\": \"client_secret_post\",\n    \"redirect_uris\": [\n        \"http://localhost\"\n    ],\n    \"response_types\": [\n        \"code\",\n        \"token\",\n        \"id_token\"\n    ],\n    \"grant_types\": [\n        \"authorization_code\",\n        \"hybrid_auth_code\",\n        \"implicit\",\n        \"refresh_token\"\n    ],\n    \"contacts\": [\n        \"abc@sf.com\"\n    ],\n    \"client_name\": \"Sample Customer\",\n    \"scopes\": [\n        \"openid\",\n        \"refresh_token\",\n        \"id\",\n        \"api\"\n    ]\n}"
+      deprecated: false
+      security: []
+      servers:
+      - url: https://login.salesforce.com
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    SuccessfulOpenIDConnectDiscoveryEndpoint:
+      title: SuccessfulOpenIDConnectDiscoveryEndpoint
+      required:
+      - end_session_endpoint
+      - frontchannel_logout_supported
+      - frontchannel_logout_session_supported
+      - issuer
+      - authorization_endpoint
+      - token_endpoint
+      - revocation_endpoint
+      - userinfo_endpoint
+      - jwks_uri
+      - registration_endpoint
+      - introspection_endpoint
+      - scopes_supported
+      - response_types_supported
+      - subject_types_supported
+      - id_token_signing_alg_values_supported
+      - display_values_supported
+      - token_endpoint_auth_methods_supported
+      - claims_supported
+      type: object
+      properties:
+        end_session_endpoint:
+          type: string
+          example: example_value
+        frontchannel_logout_supported:
+          type: boolean
+          example: true
+        frontchannel_logout_session_supported:
+          type: boolean
+          example: true
+        issuer:
+          type: string
+          example: example_value
+        authorization_endpoint:
+          type: string
+          example: example_value
+        token_endpoint:
+          type: string
+          example: CAUQAA
+        revocation_endpoint:
+          type: string
+          example: example_value
+        userinfo_endpoint:
+          type: string
+          example: example_value
+        jwks_uri:
+          type: string
+          example: example_value
+        registration_endpoint:
+          type: string
+          example: example_value
+        introspection_endpoint:
+          type: string
+          example: example_value
+        scopes_supported:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        response_types_supported:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        subject_types_supported:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        id_token_signing_alg_values_supported:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: CAUQAA
+        display_values_supported:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        token_endpoint_auth_methods_supported:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: CAUQAA
+        claims_supported:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+      examples:
+      - end_session_endpoint: https://<my_domain>/services/auth/idp/oidc/logout
+        frontchannel_logout_supported: true
+        frontchannel_logout_session_supported: false
+        issuer: https://<my_domain>
+        authorization_endpoint: https://<my_domain>/services/oauth2/authorize
+        token_endpoint: https://<my_domain>/services/oauth2/token
+        revocation_endpoint: https://<my_domain>/services/oauth2/revoke
+        userinfo_endpoint: https://<my_domain>/services/oauth2/userinfo
+        jwks_uri: https://<my_domain>/id/keys
+        registration_endpoint: https://<my_domain>/services/oauth2/register
+        introspection_endpoint: https://<my_domain>/services/oauth2/introspect
+        scopes_supported:
+        - cdp_ingest_api
+        - custom_permissions
+        - cdp_segment_api
+        - content
+        - cdp_api
+        - chatbot_api
+        - cdp_identityresolution_api
+        - interaction_api
+        - wave_api
+        - web
+        - cdp_calculated_insight_api
+        - einstein_gpt_api
+        - offline_access
+        - id
+        - api
+        - eclair_api
+        - email
+        - pardot_api
+        - lightning
+        - visualforce
+        - cdp_query_api
+        - sfap_api
+        - address
+        - openid
+        - profile
+        - cdp_profile_api
+        - refresh_token
+        - phone
+        - user_registration_api
+        - pwdless_login_api
+        - chatter_api
+        - full
+        - forgot_password
+        response_types_supported:
+        - code
+        - token
+        - token id_token
+        subject_types_supported:
+        - public
+        id_token_signing_alg_values_supported:
+        - RS256
+        display_values_supported:
+        - page
+        - popup
+        - touch
+        token_endpoint_auth_methods_supported:
+        - client_secret_post
+        - client_secret_basic
+        - private_key_jwt
+        claims_supported:
+        - active
+        - address
+        - email
+        - email_verified
+        - family_name
+        - given_name
+        - is_app_installed
+        - language
+        - locale
+        - name
+        - nickname
+        - organization_id
+        - phone_number
+        - phone_number_verified
+        - photos
+        - picture
+        - preferred_username
+        - profile
+        - sub
+        - updated_at
+        - urls
+        - user_id
+        - user_type
+        - zoneinfo
+    SuccessfulAuthenticationConfigurationEndpoint:
+      title: SuccessfulAuthenticationConfigurationEndpoint
+      required:
+      - OrgId
+      - Url
+      - MobileSDK
+      - LoginPage
+      - SamlProviders
+      - AuthProviders
+      - CertificateLogin
+      - LoginPageType
+      - LoginPageTypeConfigs
+      type: object
+      properties:
+        OrgId:
+          type: string
+          example: '500123'
+        Url:
+          type: string
+          example: https://www.example.com
+        MobileSDK:
+          $ref: '#/components/schemas/MobileSDK'
+        LoginPage:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        SamlProviders:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        AuthProviders:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        CertificateLogin:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        LoginPageType:
+          type: string
+          example: example_value
+        LoginPageTypeConfigs:
+          type: object
+          example: example_value
+      examples:
+      - OrgId: 00D2o000000i6mB
+        Url: https://<my_domain>
+        MobileSDK:
+          UseiOSNativeBrowserForAuthentication: false
+          UseAndroidNativeBrowserForAuthentication: false
+          shareBrowserSessionIOS: false
+          shareBrowserSessionAndroid: false
+        LoginPage: null
+        SamlProviders: []
+        AuthProviders: []
+        CertificateLogin: null
+        LoginPageType: standard
+        LoginPageTypeConfigs: {}
+    OpenIDConnectDynamicClientRegistrationEndpointRequest:
+      title: OpenIDConnectDynamicClientRegistrationEndpointRequest
+      required:
+      - redirect_uris
+      - response_types
+      - grant_types
+      - application_type
+      - contacts
+      - client_name
+      type: object
+      properties:
+        redirect_uris:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        response_types:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        grant_types:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        application_type:
+          type: string
+          example: example_value
+        contacts:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        client_name:
+          type: string
+          example: example_value
+      examples:
+      - redirect_uris:
+        - http://localhost
+        response_types:
+        - code
+        - token
+        - id_token
+        grant_types:
+        - authorization_code
+        - implicit
+        - refresh_token
+        application_type: web
+        contacts:
+        - abc@sf.com
+        - ve7jtb@example.org
+        client_name: Example Olivier
+    MobileSDK:
+      title: MobileSDK
+      required:
+      - UseiOSNativeBrowserForAuthentication
+      - UseAndroidNativeBrowserForAuthentication
+      - shareBrowserSessionIOS
+      - shareBrowserSessionAndroid
+      type: object
+      properties:
+        UseiOSNativeBrowserForAuthentication:
+          type: boolean
+          example: true
+        UseAndroidNativeBrowserForAuthentication:
+          type: boolean
+          example: true
+        shareBrowserSessionIOS:
+          type: boolean
+          example: true
+        shareBrowserSessionAndroid:
+          type: boolean
+          example: '500123'
+      examples:
+      - UseiOSNativeBrowserForAuthentication: false
+        UseAndroidNativeBrowserForAuthentication: false
+        shareBrowserSessionIOS: false
+        shareBrowserSessionAndroid: false
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

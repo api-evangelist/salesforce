@@ -1,0 +1,288 @@
+openapi: 3.2.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Query API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Query
+  description: Execute SOQL queries against Salesforce data.
+paths:
+  /query:
+    post:
+      operationId: executeQuery
+      summary: Salesforce Execute a Soql Query
+      description: 'Executes a SOQL (Salesforce Object Query Language) query and returns matching records. The query is passed in the request body as a JSON object with a "q" property. If results span multiple pages, a nextRecordsUrl is included to retrieve the next batch.
+
+        '
+      tags:
+      - Query
+      requestBody:
+        required: true
+        description: SOQL query to execute against Salesforce data.
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - q
+              properties:
+                q:
+                  type: string
+                  description: 'The SOQL query string to execute. Must be a valid SOQL statement including SELECT, FROM, and optional WHERE, ORDER BY, LIMIT clauses.
+
+                    '
+                  example: SELECT Id, Name, Email FROM Contact WHERE IsDeleted = false LIMIT 200
+            examples:
+              ExecutequeryRequestExample:
+                summary: Default executeQuery request
+                x-microcks-default: true
+                value:
+                  q: example_value
+      responses:
+        '200':
+          description: Query results with totalSize, done flag, and records array.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResult'
+              examples:
+                Executequery200Example:
+                  summary: Default executeQuery 200 response
+                  x-microcks-default: true
+                  value:
+                    totalSize: 42
+                    done: true
+                    nextRecordsUrl: https://www.example.com
+                    records:
+                    - attributes: {}
+                      Id: abc123
+        '400':
+          description: Bad request. Invalid SOQL syntax or query validation failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Executequery400Example:
+                  summary: Default executeQuery 400 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Executequery401Example:
+                  summary: Default executeQuery 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /query/{queryId}:
+    get:
+      operationId: getNextQueryPage
+      summary: Salesforce Get the Next Page of Query Results
+      description: 'Retrieves the next page of results from a paginated SOQL query. The queryId is obtained from the nextRecordsUrl in a previous query response. Continue calling this endpoint until the done field in the response is true.
+
+        '
+      tags:
+      - Query
+      parameters:
+      - name: queryId
+        in: path
+        required: true
+        description: 'The query ID token from the nextRecordsUrl of a previous query response.
+
+          '
+        schema:
+          type: string
+        example: '500123'
+      responses:
+        '200':
+          description: 'The next page of query results. Check the done field to determine if more pages remain.
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResult'
+              examples:
+                Getnextquerypage200Example:
+                  summary: Default getNextQueryPage 200 response
+                  x-microcks-default: true
+                  value:
+                    totalSize: 42
+                    done: true
+                    nextRecordsUrl: https://www.example.com
+                    records:
+                    - attributes: {}
+                      Id: abc123
+        '401':
+          description: Unauthorized. Invalid or expired OAuth token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Getnextquerypage401Example:
+                  summary: Default getNextQueryPage 401 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+        '404':
+          description: Query ID not found or expired.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Getnextquerypage404Example:
+                  summary: Default getNextQueryPage 404 response
+                  x-microcks-default: true
+                  value:
+                    message: example_value
+                    errorCode: example_value
+                    fields:
+                    - example_value
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    QueryResult:
+      type: object
+      description: 'The result of a SOQL query, containing the matching records and pagination metadata.
+
+        '
+      required:
+      - totalSize
+      - done
+      - records
+      properties:
+        totalSize:
+          type: integer
+          description: 'The total number of records matching the query. May be larger than the number of records in the current page if the result is paginated.
+
+            '
+          example: 42
+        done:
+          type: boolean
+          description: 'Whether all query results have been returned. If false, use nextRecordsUrl to retrieve the next page.
+
+            '
+          example: true
+        nextRecordsUrl:
+          type: string
+          format: uri
+          description: 'URL to retrieve the next page of results. Only present when done is false.
+
+            '
+          example: https://www.example.com
+        records:
+          type: array
+          description: 'Array of SObject records matching the query. May be a partial result if the total exceeds the page size.
+
+            '
+          items:
+            $ref: '#/components/schemas/SObjectRecord'
+          example: []
+    SObjectRecord:
+      type: object
+      description: 'A Salesforce SObject record. Contains an attributes object describing the record type and URL, plus any number of field name/value pairs depending on the object type.
+
+        '
+      required:
+      - attributes
+      properties:
+        attributes:
+          type: object
+          description: 'Metadata attributes for this SObject record, including its type and REST API URL.
+
+            '
+          required:
+          - type
+          properties:
+            type:
+              type: string
+              description: The API name of the SObject type (e.g., Account, Contact).
+            url:
+              type: string
+              format: uri
+              description: The REST API URL for this specific record.
+          example: example_value
+        Id:
+          type: string
+          description: The 18-character globally unique Salesforce record ID.
+          minLength: 15
+          maxLength: 18
+          example: abc123
+      additionalProperties: true
+    Error:
+      type: object
+      description: 'An error response from the Salesforce REST API, describing the problem with the request.
+
+        '
+      properties:
+        message:
+          type: string
+          description: Human-readable description of the error.
+          example: example_value
+        errorCode:
+          type: string
+          description: 'Salesforce error code (e.g., MALFORMED_QUERY, INVALID_FIELD, REQUIRED_FIELD_MISSING).
+
+            '
+          example: example_value
+        fields:
+          type: array
+          description: 'List of field names related to the error, if applicable (e.g., for field validation errors).
+
+            '
+          items:
+            type: string
+          example: []
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

@@ -1,32 +1,24 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Salesforce Bulk API 2.0 Abort List Views API
-  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
-
-    '
-  version: v63.0
+  title: Salesforce UI List Views API
+  description: The Salesforce UI API provides a comprehensive REST interface for building user interfaces that work with Salesforce metadata and data. It returns layout information, picklist values, list views, record data, and object metadata that Lightning components rely on. Unlike the general REST API, the UI API returns UI-ready data including display labels, field types, formatting hints, and page layout assignments.
+  version: '59.0'
   contact:
-    name: Salesforce Developers
-    url: https://developer.salesforce.com/
-  license:
-    name: Salesforce Developer Terms
-    url: https://www.salesforce.com/company/legal/agreements/
+    name: Salesforce Developer Support
+    url: https://developer.salesforce.com/docs/atlas.en-us.uiapi.meta/uiapi/
+  termsOfService: https://www.salesforce.com/company/legal/agreements/
 servers:
-- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
-  description: Salesforce Bulk API 2.0 jobs endpoint
+- url: https://{instanceName}.salesforce.com/services/data/v{version}/ui-api
+  description: Salesforce org UI API base
   variables:
-    instance:
-      default: yourInstance
-      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
-
-        '
+    instanceName:
+      description: Salesforce org instance name or custom domain
+      default: myorg
     version:
-      default: '63.0'
-      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
-
-        '
+      description: Salesforce API version
+      default: '59.0'
 security:
-- BearerAuth: []
+- oauthBearerToken: []
 tags:
 - name: List Views
   description: Retrieve list view data and metadata for use in UI components
@@ -109,6 +101,13 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  responses:
+    NotFound:
+      description: Not found. The requested resource does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   schemas:
     ErrorResponse:
       type: object
@@ -179,27 +178,7 @@ components:
           items:
             $ref: '#/components/schemas/ListViewSummary'
           example: []
-  responses:
-    NotFound:
-      description: Not found. The requested resource does not exist.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   parameters:
-    PageToken:
-      name: pageToken
-      in: query
-      description: Token for retrieving the next page of results
-      schema:
-        type: string
-    ObjectApiName:
-      name: objectApiName
-      in: path
-      required: true
-      description: The API name of the Salesforce object (e.g., Account, Contact, MyObject__c)
-      schema:
-        type: string
     PageSize:
       name: pageSize
       in: query
@@ -209,10 +188,24 @@ components:
         minimum: 1
         maximum: 2000
         default: 50
+    ObjectApiName:
+      name: objectApiName
+      in: path
+      required: true
+      description: The API name of the Salesforce object (e.g., Account, Contact, MyObject__c)
+      schema:
+        type: string
+    PageToken:
+      name: pageToken
+      in: query
+      description: Token for retrieving the next page of results
+      schema:
+        type: string
   securitySchemes:
-    BearerAuth:
+    oauthBearerToken:
       type: http
       scheme: bearer
-      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
-
-        '
+      description: Salesforce OAuth 2.0 Bearer Token
+externalDocs:
+  description: Salesforce UI API Documentation
+  url: https://developer.salesforce.com/docs/atlas.en-us.uiapi.meta/uiapi/

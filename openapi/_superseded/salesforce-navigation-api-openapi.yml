@@ -1,0 +1,1790 @@
+openapi: 3.2.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Navigation API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Navigation
+paths:
+  /data/v64.0/ui-api/apps/{APP_ID}/user-nav-items:
+    parameters: []
+    get:
+      tags:
+      - Navigation
+      summary: Salesforce Get Personalized Navigation Items
+      description: Get a user’s personalized navigation items (tabs).
+      operationId: GetPersonalizedNavigationItems
+      parameters:
+      - name: APP_ID
+        in: path
+        description: Application ID
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Fri, 06 Oct 2023 09:42:05 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            ETag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: '"0d35dc3820e3022bcf9145fc3ec5be69--gzip"'
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Resultwithpersonalizednav'
+                - examples:
+                  - currentPageUrl: /services/data/v58.0/ui-api/apps/06m58000000fBK2AAM/user-nav-items?formFactor=large
+                    eTag: 0d35dc3820e3022bcf9145fc3ec5be69
+                    navItems:
+                    - availableInClassic: true
+                      availableInLightning: true
+                      color: FF538A
+                      content: https://pozil-dev-ed.my.salesforce.com/lightning/page/home
+                      custom: false
+                      developerName: standard-home
+                      iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/home_120.png
+                      id: 0Qk4H0000009kokSAA
+                      itemType: Standard
+                      label: Home
+                      objectApiName: Home
+                      objectLabel: null
+                      objectLabelPlural: null
+                      pageReference:
+                        attributes:
+                          pageName: home
+                        state: {}
+                        type: standard__namedPage
+                      standardType: Home
+                    - availableInClassic: true
+                      availableInLightning: true
+                      color: FF5D2D
+                      content: https://pozil-dev-ed.my.salesforce.com/006/o
+                      custom: false
+                      developerName: standard-Opportunity
+                      iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/opportunity_120.png
+                      id: 0Qk4H0000009kolSAA
+                      itemType: Entity
+                      label: Opportunities
+                      objectApiName: Opportunity
+                      objectLabel: Opportunity
+                      objectLabelPlural: Opportunities
+                      pageReference:
+                        attributes:
+                          objectApiName: Opportunity
+                          actionName: home
+                        state: {}
+                        type: standard__objectPage
+                      standardType: null
+                    - availableInClassic: true
+                      availableInLightning: true
+                      color: FF5D2D
+                      content: https://pozil-dev-ed.my.salesforce.com/00Q/o
+                      custom: false
+                      developerName: standard-Lead
+                      iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/lead_120.png
+                      id: 0Qk4H0000009komSAA
+                      itemType: Entity
+                      label: Leads
+                      objectApiName: Lead
+                      objectLabel: Lead
+                      objectLabelPlural: Leads
+                      pageReference:
+                        attributes:
+                          objectApiName: Lead
+                          actionName: home
+                        state: {}
+                        type: standard__objectPage
+                      standardType: null
+                    - availableInClassic: false
+                      availableInLightning: true
+                      color: 3BA755
+                      content: https://pozil-dev-ed.my.salesforce.com/00T/o
+                      custom: false
+                      developerName: standard-Task
+                      iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/task_120.png
+                      id: 0Qk4H0000009konSAA
+                      itemType: Standard
+                      label: Tasks
+                      objectApiName: Task
+                      objectLabel: Task
+                      objectLabelPlural: Tasks
+                      pageReference:
+                        attributes:
+                          objectApiName: Task
+                          actionName: home
+                        state: {}
+                        type: standard__objectPage
+                      standardType: Tasks
+                    - availableInClassic: true
+                      availableInLightning: true
+                      color: '939393'
+                      content: https://pozil-dev-ed.my.salesforce.com/_ui/core/chatter/files/FileTabPage
+                      custom: false
+                      developerName: standard-File
+                      iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/file_120.png
+                      id: 0Qk4H0000009kooSAA
+                      itemType: Entity
+                      label: Files
+                      objectApiName: ContentDocument
+                      objectLabel: null
+                      objectLabelPlural: null
+                      pageReference:
+                        attributes:
+                          objectApiName: ContentDocument
+                          actionName: home
+                        state: {}
+                        type: standard__objectPage
+                      standardType: null
+                    - availableInClassic: true
+                      availableInLightning: true
+                      color: 5867E8
+                      content: https://pozil-dev-ed.my.salesforce.com/001/o
+                      custom: false
+                      developerName: standard-Account
+                      iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/account_120.png
+                      id: 0Qk4H0000009kopSAA
+                      itemType: Entity
+                      label: Accounts
+                      objectApiName: Account
+                      objectLabel: Account
+                      objectLabelPlural: Accounts
+                      pageReference:
+                        attributes:
+                          objectApiName: Account
+                          actionName: home
+                        state: {}
+                        type: standard__objectPage
+                      standardType: null
+                    - availableInClassic: true
+                      availableInLightning: true
+                      color: 5867E8
+                      content: https://pozil-dev-ed.my.salesforce.com/003/o
+                      custom: false
+                      developerName: standard-Contact
+                      iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/contact_120.png
+                      id: 0Qk4H0000009koqSAA
+                      itemType: Entity
+                      label: Contacts
+                      objectApiName: Contact
+                      objectLabel: Contact
+                      objectLabelPlural: Contacts
+                      pageReference:
+                        attributes:
+                          objectApiName: Contact
+                          actionName: home
+                        state: {}
+                        type: standard__objectPage
+                      standardType: null
+                    - availableInClassic: true
+                      availableInLightning: true
+                      color: FF538A
+                      content: https://pozil-dev-ed.my.salesforce.com/01Z/o
+                      custom: false
+                      developerName: standard-Dashboard
+                      iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/dashboard_120.png
+                      id: 0Qk4H0000009korSAA
+                      itemType: Standard
+                      label: Dashboards
+                      objectApiName: Dashboard
+                      objectLabel: Dashboard
+                      objectLabelPlural: Dashboards
+                      pageReference:
+                        attributes:
+                          objectApiName: Dashboard
+                          actionName: home
+                        state: {}
+                        type: standard__objectPage
+                      standardType: Dashboards
+                    - availableInClassic: true
+                      availableInLightning: true
+                      color: 06A59A
+                      content: https://pozil-dev-ed.my.salesforce.com/00O/o
+                      custom: false
+                      developerName: standard-report
+                      iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/report_120.png
+                      id: 0Qk4H0000009kosSAA
+                      itemType: Standard
+                      label: Reports
+                      objectApiName: Report
+                      objectLabel: Report
+                      objectLabelPlural: Reports
+                      pageReference:
+                        attributes:
+                          objectApiName: Report
+                          actionName: home
+                        state: {}
+                        type: standard__objectPage
+                      standardType: Reports
+                    - availableInClassic: false
+                      availableInLightning: true
+                      color: 1B96FF
+                      content: null
+                      custom: false
+                      developerName: standard-Feed
+                      iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/feed_120.png
+                      id: 0Qk4H0000009kotSAA
+                      itemType: Standard
+                      label: Chatter
+                      objectApiName: Feed
+                      objectLabel: null
+                      objectLabelPlural: null
+                      pageReference:
+                        attributes:
+                          pageName: chatter
+                        state: {}
+                        type: standard__namedPage
+                      standardType: Feed
+                    - availableInClassic: true
+                      availableInLightning: true
+                      color: 1B96FF
+                      content: https://pozil-dev-ed.my.salesforce.com/_ui/core/chatter/groups/GroupListPage
+                      custom: false
+                      developerName: standard-CollaborationGroup
+                      iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/groups_120.png
+                      id: 0Qk4H0000009kouSAA
+                      itemType: Standard
+                      label: Groups
+                      objectApiName: CollaborationGroup
+                      objectLabel: Group
+                      objectLabelPlural: Groups
+                      pageReference:
+                        attributes:
+                          objectApiName: CollaborationGroup
+                          actionName: home
+                        state: {}
+                        type: standard__objectPage
+                      standardType: Groups
+                    - availableInClassic: true
+                      availableInLightning: true
+                      color: 1B96FF
+                      content: https://pozil-dev-ed.my.salesforce.com/_ui/core/chatter/people/PeopleListPage
+                      custom: false
+                      developerName: standard-OtherUserProfile
+                      iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/user_120.png
+                      id: 0Qk4H0000009kovSAA
+                      itemType: Standard
+                      label: People
+                      objectApiName: User
+                      objectLabel: User
+                      objectLabelPlural: People
+                      pageReference:
+                        attributes:
+                          objectApiName: User
+                          actionName: home
+                        state: {}
+                        type: standard__objectPage
+                      standardType: People
+                    - availableInClassic: true
+                      availableInLightning: true
+                      color: FF5D2D
+                      content: https://pozil-dev-ed.my.salesforce.com/500/o
+                      custom: false
+                      developerName: standard-Case
+                      iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/case_120.png
+                      id: 0Qk4H0000009kowSAA
+                      itemType: Entity
+                      label: Cases
+                      objectApiName: Case
+                      objectLabel: Case
+                      objectLabelPlural: Cases
+                      pageReference:
+                        attributes:
+                          objectApiName: Case
+                          actionName: home
+                        state: {}
+                        type: standard__objectPage
+                      standardType: null
+                    - availableInClassic: false
+                      availableInLightning: true
+                      color: FF538A
+                      content: https://pozil-dev-ed.my.salesforce.com/00U/o
+                      custom: false
+                      developerName: standard-Event
+                      iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/event_120.png
+                      id: 0Qk4H0000009koxSAA
+                      itemType: Standard
+                      label: Calendar
+                      objectApiName: Event
+                      objectLabel: Event
+                      objectLabelPlural: Events
+                      pageReference:
+                        attributes:
+                          objectApiName: Event
+                          actionName: home
+                        state: {}
+                        type: standard__objectPage
+                      standardType: Events
+                    - availableInClassic: true
+                      availableInLightning: true
+                      color: 3BA755
+                      content: https://pozil-dev-ed.my.salesforce.com/_ui/sales/forecasting/ui/ForecastingTabPage
+                      custom: false
+                      developerName: standard-Forecasting3
+                      iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/forecasts_120.png
+                      id: 0Qk4H0000009koySAA
+                      itemType: Standard
+                      label: Forecasts
+                      objectApiName: Forecasting3
+                      objectLabel: null
+                      objectLabelPlural: null
+                      pageReference:
+                        attributes:
+                          pageName: forecasting
+                        state: {}
+                        type: standard__namedPage
+                      standardType: Forecasting3
+                    nextPageUrl: null
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                currentPageUrl: /services/data/v58.0/ui-api/apps/06m58000000fBK2AAM/user-nav-items?formFactor=large
+                eTag: 0d35dc3820e3022bcf9145fc3ec5be69
+                navItems:
+                - availableInClassic: true
+                  availableInLightning: true
+                  color: FF538A
+                  content: https://pozil-dev-ed.my.salesforce.com/lightning/page/home
+                  custom: false
+                  developerName: standard-home
+                  iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/home_120.png
+                  id: 0Qk4H0000009kokSAA
+                  itemType: Standard
+                  label: Home
+                  objectApiName: Home
+                  objectLabel: null
+                  objectLabelPlural: null
+                  pageReference:
+                    attributes:
+                      pageName: home
+                    state: {}
+                    type: standard__namedPage
+                  standardType: Home
+                - availableInClassic: true
+                  availableInLightning: true
+                  color: FF5D2D
+                  content: https://pozil-dev-ed.my.salesforce.com/006/o
+                  custom: false
+                  developerName: standard-Opportunity
+                  iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/opportunity_120.png
+                  id: 0Qk4H0000009kolSAA
+                  itemType: Entity
+                  label: Opportunities
+                  objectApiName: Opportunity
+                  objectLabel: Opportunity
+                  objectLabelPlural: Opportunities
+                  pageReference:
+                    attributes:
+                      objectApiName: Opportunity
+                      actionName: home
+                    state: {}
+                    type: standard__objectPage
+                  standardType: null
+                - availableInClassic: true
+                  availableInLightning: true
+                  color: FF5D2D
+                  content: https://pozil-dev-ed.my.salesforce.com/00Q/o
+                  custom: false
+                  developerName: standard-Lead
+                  iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/lead_120.png
+                  id: 0Qk4H0000009komSAA
+                  itemType: Entity
+                  label: Leads
+                  objectApiName: Lead
+                  objectLabel: Lead
+                  objectLabelPlural: Leads
+                  pageReference:
+                    attributes:
+                      objectApiName: Lead
+                      actionName: home
+                    state: {}
+                    type: standard__objectPage
+                  standardType: null
+                - availableInClassic: false
+                  availableInLightning: true
+                  color: 3BA755
+                  content: https://pozil-dev-ed.my.salesforce.com/00T/o
+                  custom: false
+                  developerName: standard-Task
+                  iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/task_120.png
+                  id: 0Qk4H0000009konSAA
+                  itemType: Standard
+                  label: Tasks
+                  objectApiName: Task
+                  objectLabel: Task
+                  objectLabelPlural: Tasks
+                  pageReference:
+                    attributes:
+                      objectApiName: Task
+                      actionName: home
+                    state: {}
+                    type: standard__objectPage
+                  standardType: Tasks
+                - availableInClassic: true
+                  availableInLightning: true
+                  color: '939393'
+                  content: https://pozil-dev-ed.my.salesforce.com/_ui/core/chatter/files/FileTabPage
+                  custom: false
+                  developerName: standard-File
+                  iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/file_120.png
+                  id: 0Qk4H0000009kooSAA
+                  itemType: Entity
+                  label: Files
+                  objectApiName: ContentDocument
+                  objectLabel: null
+                  objectLabelPlural: null
+                  pageReference:
+                    attributes:
+                      objectApiName: ContentDocument
+                      actionName: home
+                    state: {}
+                    type: standard__objectPage
+                  standardType: null
+                - availableInClassic: true
+                  availableInLightning: true
+                  color: 5867E8
+                  content: https://pozil-dev-ed.my.salesforce.com/001/o
+                  custom: false
+                  developerName: standard-Account
+                  iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/account_120.png
+                  id: 0Qk4H0000009kopSAA
+                  itemType: Entity
+                  label: Accounts
+                  objectApiName: Account
+                  objectLabel: Account
+                  objectLabelPlural: Accounts
+                  pageReference:
+                    attributes:
+                      objectApiName: Account
+                      actionName: home
+                    state: {}
+                    type: standard__objectPage
+                  standardType: null
+                - availableInClassic: true
+                  availableInLightning: true
+                  color: 5867E8
+                  content: https://pozil-dev-ed.my.salesforce.com/003/o
+                  custom: false
+                  developerName: standard-Contact
+                  iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/contact_120.png
+                  id: 0Qk4H0000009koqSAA
+                  itemType: Entity
+                  label: Contacts
+                  objectApiName: Contact
+                  objectLabel: Contact
+                  objectLabelPlural: Contacts
+                  pageReference:
+                    attributes:
+                      objectApiName: Contact
+                      actionName: home
+                    state: {}
+                    type: standard__objectPage
+                  standardType: null
+                - availableInClassic: true
+                  availableInLightning: true
+                  color: FF538A
+                  content: https://pozil-dev-ed.my.salesforce.com/01Z/o
+                  custom: false
+                  developerName: standard-Dashboard
+                  iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/dashboard_120.png
+                  id: 0Qk4H0000009korSAA
+                  itemType: Standard
+                  label: Dashboards
+                  objectApiName: Dashboard
+                  objectLabel: Dashboard
+                  objectLabelPlural: Dashboards
+                  pageReference:
+                    attributes:
+                      objectApiName: Dashboard
+                      actionName: home
+                    state: {}
+                    type: standard__objectPage
+                  standardType: Dashboards
+                - availableInClassic: true
+                  availableInLightning: true
+                  color: 06A59A
+                  content: https://pozil-dev-ed.my.salesforce.com/00O/o
+                  custom: false
+                  developerName: standard-report
+                  iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/report_120.png
+                  id: 0Qk4H0000009kosSAA
+                  itemType: Standard
+                  label: Reports
+                  objectApiName: Report
+                  objectLabel: Report
+                  objectLabelPlural: Reports
+                  pageReference:
+                    attributes:
+                      objectApiName: Report
+                      actionName: home
+                    state: {}
+                    type: standard__objectPage
+                  standardType: Reports
+                - availableInClassic: false
+                  availableInLightning: true
+                  color: 1B96FF
+                  content: null
+                  custom: false
+                  developerName: standard-Feed
+                  iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/feed_120.png
+                  id: 0Qk4H0000009kotSAA
+                  itemType: Standard
+                  label: Chatter
+                  objectApiName: Feed
+                  objectLabel: null
+                  objectLabelPlural: null
+                  pageReference:
+                    attributes:
+                      pageName: chatter
+                    state: {}
+                    type: standard__namedPage
+                  standardType: Feed
+                - availableInClassic: true
+                  availableInLightning: true
+                  color: 1B96FF
+                  content: https://pozil-dev-ed.my.salesforce.com/_ui/core/chatter/groups/GroupListPage
+                  custom: false
+                  developerName: standard-CollaborationGroup
+                  iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/groups_120.png
+                  id: 0Qk4H0000009kouSAA
+                  itemType: Standard
+                  label: Groups
+                  objectApiName: CollaborationGroup
+                  objectLabel: Group
+                  objectLabelPlural: Groups
+                  pageReference:
+                    attributes:
+                      objectApiName: CollaborationGroup
+                      actionName: home
+                    state: {}
+                    type: standard__objectPage
+                  standardType: Groups
+                - availableInClassic: true
+                  availableInLightning: true
+                  color: 1B96FF
+                  content: https://pozil-dev-ed.my.salesforce.com/_ui/core/chatter/people/PeopleListPage
+                  custom: false
+                  developerName: standard-OtherUserProfile
+                  iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/user_120.png
+                  id: 0Qk4H0000009kovSAA
+                  itemType: Standard
+                  label: People
+                  objectApiName: User
+                  objectLabel: User
+                  objectLabelPlural: People
+                  pageReference:
+                    attributes:
+                      objectApiName: User
+                      actionName: home
+                    state: {}
+                    type: standard__objectPage
+                  standardType: People
+                - availableInClassic: true
+                  availableInLightning: true
+                  color: FF5D2D
+                  content: https://pozil-dev-ed.my.salesforce.com/500/o
+                  custom: false
+                  developerName: standard-Case
+                  iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/case_120.png
+                  id: 0Qk4H0000009kowSAA
+                  itemType: Entity
+                  label: Cases
+                  objectApiName: Case
+                  objectLabel: Case
+                  objectLabelPlural: Cases
+                  pageReference:
+                    attributes:
+                      objectApiName: Case
+                      actionName: home
+                    state: {}
+                    type: standard__objectPage
+                  standardType: null
+                - availableInClassic: false
+                  availableInLightning: true
+                  color: FF538A
+                  content: https://pozil-dev-ed.my.salesforce.com/00U/o
+                  custom: false
+                  developerName: standard-Event
+                  iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/event_120.png
+                  id: 0Qk4H0000009koxSAA
+                  itemType: Standard
+                  label: Calendar
+                  objectApiName: Event
+                  objectLabel: Event
+                  objectLabelPlural: Events
+                  pageReference:
+                    attributes:
+                      objectApiName: Event
+                      actionName: home
+                    state: {}
+                    type: standard__objectPage
+                  standardType: Events
+                - availableInClassic: true
+                  availableInLightning: true
+                  color: 3BA755
+                  content: https://pozil-dev-ed.my.salesforce.com/_ui/sales/forecasting/ui/ForecastingTabPage
+                  custom: false
+                  developerName: standard-Forecasting3
+                  iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/forecasts_120.png
+                  id: 0Qk4H0000009koySAA
+                  itemType: Standard
+                  label: Forecasts
+                  objectApiName: Forecasting3
+                  objectLabel: null
+                  objectLabelPlural: null
+                  pageReference:
+                    attributes:
+                      pageName: forecasting
+                    state: {}
+                    type: standard__namedPage
+                  standardType: Forecasting3
+                nextPageUrl: null
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    put:
+      tags:
+      - Navigation
+      summary: Salesforce Update Personalized Navigation Items
+      description: Updates the order of a user’s personalized navigation items (tabs) and adds a navigation item to the list in the order specified.
+      operationId: UpdatePersonalizedNavigationItems
+      parameters:
+      - name: APP_ID
+        in: path
+        description: Application ID
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/ui-api/nav-items:
+    parameters: []
+    get:
+      tags:
+      - Navigation
+      summary: Salesforce Get All Navigation Items
+      description: Gets all navigation items (tabs) that the user has access to.
+      operationId: GetAllNavigationItems
+      parameters: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Fri, 06 Oct 2023 09:45:07 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            ETag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: '"425dfe9232c5bd0e9c6e4b94771c91b8--gzip"'
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/GetAllNavigationItems'
+                - examples:
+                  - currentPageUrl: /services/data/v58.0/ui-api/nav-items?formFactor=Small&page=1&pageSize=5
+                    eTag: 425dfe9232c5bd0e9c6e4b94771c91b8
+                    navItems:
+                    - availableInClassic: true
+                      availableInLightning: true
+                      color: null
+                      content: https://pozil-dev-ed.my.salesforce.com/4nK/o
+                      custom: false
+                      developerName: standard-AssetStatePeriod
+                      iconUrl: null
+                      id: null
+                      itemType: Entity
+                      label: Asset State Periods
+                      objectApiName: AssetStatePeriod
+                      objectLabel: Asset State Period
+                      objectLabelPlural: Asset State Periods
+                      pageReference:
+                        attributes:
+                          objectApiName: AssetStatePeriod
+                          actionName: home
+                        state: {}
+                        type: standard__objectPage
+                      standardType: null
+                    - availableInClassic: true
+                      availableInLightning: true
+                      color: null
+                      content: https://pozil-dev-ed.my.salesforce.com/02i/o
+                      custom: false
+                      developerName: standard-Asset
+                      iconUrl: null
+                      id: null
+                      itemType: Entity
+                      label: Assets
+                      objectApiName: Asset
+                      objectLabel: Asset
+                      objectLabelPlural: Assets
+                      pageReference:
+                        attributes:
+                          objectApiName: Asset
+                          actionName: home
+                        state: {}
+                        type: standard__objectPage
+                      standardType: null
+                    - availableInClassic: true
+                      availableInLightning: true
+                      color: null
+                      content: https://pozil-dev-ed.my.salesforce.com/0cI/o
+                      custom: false
+                      developerName: standard-AuthorizationForm
+                      iconUrl: null
+                      id: null
+                      itemType: Entity
+                      label: Authorization Form
+                      objectApiName: AuthorizationForm
+                      objectLabel: Authorization Form
+                      objectLabelPlural: Authorization Forms
+                      pageReference:
+                        attributes:
+                          objectApiName: AuthorizationForm
+                          actionName: home
+                        state: {}
+                        type: standard__objectPage
+                      standardType: null
+                    - availableInClassic: true
+                      availableInLightning: true
+                      color: null
+                      content: https://pozil-dev-ed.my.salesforce.com/0cK/o
+                      custom: false
+                      developerName: standard-AuthorizationFormConsent
+                      iconUrl: null
+                      id: null
+                      itemType: Entity
+                      label: Authorization Form Consent
+                      objectApiName: AuthorizationFormConsent
+                      objectLabel: Authorization Form Consent
+                      objectLabelPlural: Authorization Form Consents
+                      pageReference:
+                        attributes:
+                          objectApiName: AuthorizationFormConsent
+                          actionName: home
+                        state: {}
+                        type: standard__objectPage
+                      standardType: null
+                    - availableInClassic: true
+                      availableInLightning: true
+                      color: null
+                      content: https://pozil-dev-ed.my.salesforce.com/0cM/o
+                      custom: false
+                      developerName: standard-AuthorizationFormDataUse
+                      iconUrl: null
+                      id: null
+                      itemType: Entity
+                      label: Authorization Form Data Use
+                      objectApiName: AuthorizationFormDataUse
+                      objectLabel: Authorization Form Data Use
+                      objectLabelPlural: Authorization Form Data Uses
+                      pageReference:
+                        attributes:
+                          objectApiName: AuthorizationFormDataUse
+                          actionName: home
+                        state: {}
+                        type: standard__objectPage
+                      standardType: null
+                    nextPageUrl: /services/data/v58.0/ui-api/nav-items?formFactor=Small&page=2&pageSize=5
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                currentPageUrl: /services/data/v58.0/ui-api/nav-items?formFactor=Small&page=1&pageSize=5
+                eTag: 425dfe9232c5bd0e9c6e4b94771c91b8
+                navItems:
+                - availableInClassic: true
+                  availableInLightning: true
+                  color: null
+                  content: https://pozil-dev-ed.my.salesforce.com/4nK/o
+                  custom: false
+                  developerName: standard-AssetStatePeriod
+                  iconUrl: null
+                  id: null
+                  itemType: Entity
+                  label: Asset State Periods
+                  objectApiName: AssetStatePeriod
+                  objectLabel: Asset State Period
+                  objectLabelPlural: Asset State Periods
+                  pageReference:
+                    attributes:
+                      objectApiName: AssetStatePeriod
+                      actionName: home
+                    state: {}
+                    type: standard__objectPage
+                  standardType: null
+                - availableInClassic: true
+                  availableInLightning: true
+                  color: null
+                  content: https://pozil-dev-ed.my.salesforce.com/02i/o
+                  custom: false
+                  developerName: standard-Asset
+                  iconUrl: null
+                  id: null
+                  itemType: Entity
+                  label: Assets
+                  objectApiName: Asset
+                  objectLabel: Asset
+                  objectLabelPlural: Assets
+                  pageReference:
+                    attributes:
+                      objectApiName: Asset
+                      actionName: home
+                    state: {}
+                    type: standard__objectPage
+                  standardType: null
+                - availableInClassic: true
+                  availableInLightning: true
+                  color: null
+                  content: https://pozil-dev-ed.my.salesforce.com/0cI/o
+                  custom: false
+                  developerName: standard-AuthorizationForm
+                  iconUrl: null
+                  id: null
+                  itemType: Entity
+                  label: Authorization Form
+                  objectApiName: AuthorizationForm
+                  objectLabel: Authorization Form
+                  objectLabelPlural: Authorization Forms
+                  pageReference:
+                    attributes:
+                      objectApiName: AuthorizationForm
+                      actionName: home
+                    state: {}
+                    type: standard__objectPage
+                  standardType: null
+                - availableInClassic: true
+                  availableInLightning: true
+                  color: null
+                  content: https://pozil-dev-ed.my.salesforce.com/0cK/o
+                  custom: false
+                  developerName: standard-AuthorizationFormConsent
+                  iconUrl: null
+                  id: null
+                  itemType: Entity
+                  label: Authorization Form Consent
+                  objectApiName: AuthorizationFormConsent
+                  objectLabel: Authorization Form Consent
+                  objectLabelPlural: Authorization Form Consents
+                  pageReference:
+                    attributes:
+                      objectApiName: AuthorizationFormConsent
+                      actionName: home
+                    state: {}
+                    type: standard__objectPage
+                  standardType: null
+                - availableInClassic: true
+                  availableInLightning: true
+                  color: null
+                  content: https://pozil-dev-ed.my.salesforce.com/0cM/o
+                  custom: false
+                  developerName: standard-AuthorizationFormDataUse
+                  iconUrl: null
+                  id: null
+                  itemType: Entity
+                  label: Authorization Form Data Use
+                  objectApiName: AuthorizationFormDataUse
+                  objectLabel: Authorization Form Data Use
+                  objectLabelPlural: Authorization Form Data Uses
+                  pageReference:
+                    attributes:
+                      objectApiName: AuthorizationFormDataUse
+                      actionName: home
+                    state: {}
+                    type: standard__objectPage
+                  standardType: null
+                nextPageUrl: /services/data/v58.0/ui-api/nav-items?formFactor=Small&page=2&pageSize=5
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Attributes35:
+      title: Attributes35
+      required:
+      - objectApiName
+      - actionName
+      type: object
+      properties:
+        objectApiName:
+          type: string
+          example: example_value
+        actionName:
+          type: string
+          example: example_value
+      examples:
+      - objectApiName: AssetStatePeriod
+        actionName: home
+    NavItem6:
+      title: NavItem6
+      required:
+      - availableInClassic
+      - availableInLightning
+      - color
+      - content
+      - custom
+      - developerName
+      - iconUrl
+      - id
+      - itemType
+      - label
+      - objectApiName
+      - objectLabel
+      - objectLabelPlural
+      - pageReference
+      - standardType
+      type: object
+      properties:
+        availableInClassic:
+          type: boolean
+          example: true
+        availableInLightning:
+          type: boolean
+          example: true
+        color:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        content:
+          type: string
+          example: example_value
+        custom:
+          type: boolean
+          example: true
+        developerName:
+          type: string
+          example: example_value
+        iconUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        id:
+          type:
+          - string
+          - 'null'
+          example: abc123
+        itemType:
+          type: string
+          example: example_value
+        label:
+          type: string
+          example: Example Title
+        objectApiName:
+          type: string
+          example: example_value
+        objectLabel:
+          type: string
+          example: example_value
+        objectLabelPlural:
+          type: string
+          example: example_value
+        pageReference:
+          $ref: '#/components/schemas/PageReference6'
+        standardType:
+          type:
+          - string
+          - 'null'
+          example: example_value
+      examples:
+      - availableInClassic: true
+        availableInLightning: true
+        color: null
+        content: https://pozil-dev-ed.my.salesforce.com/4nK/o
+        custom: false
+        developerName: standard-AssetStatePeriod
+        iconUrl: null
+        id: null
+        itemType: Entity
+        label: Asset State Periods
+        objectApiName: AssetStatePeriod
+        objectLabel: Asset State Period
+        objectLabelPlural: Asset State Periods
+        pageReference:
+          attributes:
+            objectApiName: AssetStatePeriod
+            actionName: home
+          state: {}
+          type: standard__objectPage
+        standardType: null
+    Resultwithpersonalizednav:
+      title: Resultwithpersonalizednav
+      required:
+      - currentPageUrl
+      - eTag
+      - navItems
+      - nextPageUrl
+      type: object
+      properties:
+        currentPageUrl:
+          type: string
+          example: https://www.example.com
+        eTag:
+          type: string
+          example: example_value
+        navItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/NavItem5'
+          description: ''
+          example: []
+        nextPageUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+      examples:
+      - currentPageUrl: /services/data/v58.0/ui-api/apps/06m58000000fBK2AAM/user-nav-items?formFactor=large
+        eTag: 0d35dc3820e3022bcf9145fc3ec5be69
+        navItems:
+        - availableInClassic: true
+          availableInLightning: true
+          color: FF538A
+          content: https://pozil-dev-ed.my.salesforce.com/lightning/page/home
+          custom: false
+          developerName: standard-home
+          iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/home_120.png
+          id: 0Qk4H0000009kokSAA
+          itemType: Standard
+          label: Home
+          objectApiName: Home
+          objectLabel: null
+          objectLabelPlural: null
+          pageReference:
+            attributes:
+              pageName: home
+            state: {}
+            type: standard__namedPage
+          standardType: Home
+        - availableInClassic: true
+          availableInLightning: true
+          color: FF5D2D
+          content: https://pozil-dev-ed.my.salesforce.com/006/o
+          custom: false
+          developerName: standard-Opportunity
+          iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/opportunity_120.png
+          id: 0Qk4H0000009kolSAA
+          itemType: Entity
+          label: Opportunities
+          objectApiName: Opportunity
+          objectLabel: Opportunity
+          objectLabelPlural: Opportunities
+          pageReference:
+            attributes:
+              objectApiName: Opportunity
+              actionName: home
+            state: {}
+            type: standard__objectPage
+          standardType: null
+        - availableInClassic: true
+          availableInLightning: true
+          color: FF5D2D
+          content: https://pozil-dev-ed.my.salesforce.com/00Q/o
+          custom: false
+          developerName: standard-Lead
+          iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/lead_120.png
+          id: 0Qk4H0000009komSAA
+          itemType: Entity
+          label: Leads
+          objectApiName: Lead
+          objectLabel: Lead
+          objectLabelPlural: Leads
+          pageReference:
+            attributes:
+              objectApiName: Lead
+              actionName: home
+            state: {}
+            type: standard__objectPage
+          standardType: null
+        - availableInClassic: false
+          availableInLightning: true
+          color: 3BA755
+          content: https://pozil-dev-ed.my.salesforce.com/00T/o
+          custom: false
+          developerName: standard-Task
+          iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/task_120.png
+          id: 0Qk4H0000009konSAA
+          itemType: Standard
+          label: Tasks
+          objectApiName: Task
+          objectLabel: Task
+          objectLabelPlural: Tasks
+          pageReference:
+            attributes:
+              objectApiName: Task
+              actionName: home
+            state: {}
+            type: standard__objectPage
+          standardType: Tasks
+        - availableInClassic: true
+          availableInLightning: true
+          color: '939393'
+          content: https://pozil-dev-ed.my.salesforce.com/_ui/core/chatter/files/FileTabPage
+          custom: false
+          developerName: standard-File
+          iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/file_120.png
+          id: 0Qk4H0000009kooSAA
+          itemType: Entity
+          label: Files
+          objectApiName: ContentDocument
+          objectLabel: null
+          objectLabelPlural: null
+          pageReference:
+            attributes:
+              objectApiName: ContentDocument
+              actionName: home
+            state: {}
+            type: standard__objectPage
+          standardType: null
+        - availableInClassic: true
+          availableInLightning: true
+          color: 5867E8
+          content: https://pozil-dev-ed.my.salesforce.com/001/o
+          custom: false
+          developerName: standard-Account
+          iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/account_120.png
+          id: 0Qk4H0000009kopSAA
+          itemType: Entity
+          label: Accounts
+          objectApiName: Account
+          objectLabel: Account
+          objectLabelPlural: Accounts
+          pageReference:
+            attributes:
+              objectApiName: Account
+              actionName: home
+            state: {}
+            type: standard__objectPage
+          standardType: null
+        - availableInClassic: true
+          availableInLightning: true
+          color: 5867E8
+          content: https://pozil-dev-ed.my.salesforce.com/003/o
+          custom: false
+          developerName: standard-Contact
+          iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/contact_120.png
+          id: 0Qk4H0000009koqSAA
+          itemType: Entity
+          label: Contacts
+          objectApiName: Contact
+          objectLabel: Contact
+          objectLabelPlural: Contacts
+          pageReference:
+            attributes:
+              objectApiName: Contact
+              actionName: home
+            state: {}
+            type: standard__objectPage
+          standardType: null
+        - availableInClassic: true
+          availableInLightning: true
+          color: FF538A
+          content: https://pozil-dev-ed.my.salesforce.com/01Z/o
+          custom: false
+          developerName: standard-Dashboard
+          iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/dashboard_120.png
+          id: 0Qk4H0000009korSAA
+          itemType: Standard
+          label: Dashboards
+          objectApiName: Dashboard
+          objectLabel: Dashboard
+          objectLabelPlural: Dashboards
+          pageReference:
+            attributes:
+              objectApiName: Dashboard
+              actionName: home
+            state: {}
+            type: standard__objectPage
+          standardType: Dashboards
+        - availableInClassic: true
+          availableInLightning: true
+          color: 06A59A
+          content: https://pozil-dev-ed.my.salesforce.com/00O/o
+          custom: false
+          developerName: standard-report
+          iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/report_120.png
+          id: 0Qk4H0000009kosSAA
+          itemType: Standard
+          label: Reports
+          objectApiName: Report
+          objectLabel: Report
+          objectLabelPlural: Reports
+          pageReference:
+            attributes:
+              objectApiName: Report
+              actionName: home
+            state: {}
+            type: standard__objectPage
+          standardType: Reports
+        - availableInClassic: false
+          availableInLightning: true
+          color: 1B96FF
+          content: null
+          custom: false
+          developerName: standard-Feed
+          iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/feed_120.png
+          id: 0Qk4H0000009kotSAA
+          itemType: Standard
+          label: Chatter
+          objectApiName: Feed
+          objectLabel: null
+          objectLabelPlural: null
+          pageReference:
+            attributes:
+              pageName: chatter
+            state: {}
+            type: standard__namedPage
+          standardType: Feed
+        - availableInClassic: true
+          availableInLightning: true
+          color: 1B96FF
+          content: https://pozil-dev-ed.my.salesforce.com/_ui/core/chatter/groups/GroupListPage
+          custom: false
+          developerName: standard-CollaborationGroup
+          iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/groups_120.png
+          id: 0Qk4H0000009kouSAA
+          itemType: Standard
+          label: Groups
+          objectApiName: CollaborationGroup
+          objectLabel: Group
+          objectLabelPlural: Groups
+          pageReference:
+            attributes:
+              objectApiName: CollaborationGroup
+              actionName: home
+            state: {}
+            type: standard__objectPage
+          standardType: Groups
+        - availableInClassic: true
+          availableInLightning: true
+          color: 1B96FF
+          content: https://pozil-dev-ed.my.salesforce.com/_ui/core/chatter/people/PeopleListPage
+          custom: false
+          developerName: standard-OtherUserProfile
+          iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/user_120.png
+          id: 0Qk4H0000009kovSAA
+          itemType: Standard
+          label: People
+          objectApiName: User
+          objectLabel: User
+          objectLabelPlural: People
+          pageReference:
+            attributes:
+              objectApiName: User
+              actionName: home
+            state: {}
+            type: standard__objectPage
+          standardType: People
+        - availableInClassic: true
+          availableInLightning: true
+          color: FF5D2D
+          content: https://pozil-dev-ed.my.salesforce.com/500/o
+          custom: false
+          developerName: standard-Case
+          iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/case_120.png
+          id: 0Qk4H0000009kowSAA
+          itemType: Entity
+          label: Cases
+          objectApiName: Case
+          objectLabel: Case
+          objectLabelPlural: Cases
+          pageReference:
+            attributes:
+              objectApiName: Case
+              actionName: home
+            state: {}
+            type: standard__objectPage
+          standardType: null
+        - availableInClassic: false
+          availableInLightning: true
+          color: FF538A
+          content: https://pozil-dev-ed.my.salesforce.com/00U/o
+          custom: false
+          developerName: standard-Event
+          iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/event_120.png
+          id: 0Qk4H0000009koxSAA
+          itemType: Standard
+          label: Calendar
+          objectApiName: Event
+          objectLabel: Event
+          objectLabelPlural: Events
+          pageReference:
+            attributes:
+              objectApiName: Event
+              actionName: home
+            state: {}
+            type: standard__objectPage
+          standardType: Events
+        - availableInClassic: true
+          availableInLightning: true
+          color: 3BA755
+          content: https://pozil-dev-ed.my.salesforce.com/_ui/sales/forecasting/ui/ForecastingTabPage
+          custom: false
+          developerName: standard-Forecasting3
+          iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/forecasts_120.png
+          id: 0Qk4H0000009koySAA
+          itemType: Standard
+          label: Forecasts
+          objectApiName: Forecasting3
+          objectLabel: null
+          objectLabelPlural: null
+          pageReference:
+            attributes:
+              pageName: forecasting
+            state: {}
+            type: standard__namedPage
+          standardType: Forecasting3
+        nextPageUrl: null
+    PageReference:
+      title: PageReference
+      required:
+      - attributes
+      - state
+      - type
+      type: object
+      properties:
+        attributes:
+          $ref: '#/components/schemas/Attributes29'
+        state:
+          type: object
+          example: example_value
+        type:
+          type: string
+          example: example_value
+      examples:
+      - attributes:
+          pageName: home
+        state: {}
+        type: standard__namedPage
+    NavItem5:
+      title: NavItem5
+      required:
+      - availableInClassic
+      - availableInLightning
+      - color
+      - content
+      - custom
+      - developerName
+      - iconUrl
+      - id
+      - itemType
+      - label
+      - objectApiName
+      - objectLabel
+      - objectLabelPlural
+      - pageReference
+      - standardType
+      type: object
+      properties:
+        availableInClassic:
+          type: boolean
+          example: true
+        availableInLightning:
+          type: boolean
+          example: true
+        color:
+          type: string
+          example: example_value
+        content:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        custom:
+          type: boolean
+          example: true
+        developerName:
+          type: string
+          example: example_value
+        iconUrl:
+          type: string
+          example: https://www.example.com
+        id:
+          type: string
+          example: abc123
+        itemType:
+          type: string
+          example: example_value
+        label:
+          type: string
+          example: Example Title
+        objectApiName:
+          type: string
+          example: example_value
+        objectLabel:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        objectLabelPlural:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        pageReference:
+          $ref: '#/components/schemas/PageReference'
+        standardType:
+          type:
+          - string
+          - 'null'
+          example: example_value
+      examples:
+      - availableInClassic: true
+        availableInLightning: true
+        color: FF538A
+        content: https://pozil-dev-ed.my.salesforce.com/lightning/page/home
+        custom: false
+        developerName: standard-home
+        iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/home_120.png
+        id: 0Qk4H0000009kokSAA
+        itemType: Standard
+        label: Home
+        objectApiName: Home
+        objectLabel: null
+        objectLabelPlural: null
+        pageReference:
+          attributes:
+            pageName: home
+          state: {}
+          type: standard__namedPage
+        standardType: Home
+    PageReference6:
+      title: PageReference6
+      required:
+      - attributes
+      - state
+      - type
+      type: object
+      properties:
+        attributes:
+          $ref: '#/components/schemas/Attributes35'
+        state:
+          type: object
+          example: example_value
+        type:
+          type: string
+          example: example_value
+      examples:
+      - attributes:
+          objectApiName: AssetStatePeriod
+          actionName: home
+        state: {}
+        type: standard__objectPage
+    GetAllNavigationItems:
+      title: GetAllNavigationItems
+      required:
+      - currentPageUrl
+      - eTag
+      - navItems
+      - nextPageUrl
+      type: object
+      properties:
+        currentPageUrl:
+          type: string
+          example: https://www.example.com
+        eTag:
+          type: string
+          example: example_value
+        navItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/NavItem6'
+          description: ''
+          example: []
+        nextPageUrl:
+          type: string
+          example: https://www.example.com
+      examples:
+      - currentPageUrl: /services/data/v58.0/ui-api/nav-items?formFactor=Small&page=1&pageSize=5
+        eTag: 425dfe9232c5bd0e9c6e4b94771c91b8
+        navItems:
+        - availableInClassic: true
+          availableInLightning: true
+          color: null
+          content: https://pozil-dev-ed.my.salesforce.com/4nK/o
+          custom: false
+          developerName: standard-AssetStatePeriod
+          iconUrl: null
+          id: null
+          itemType: Entity
+          label: Asset State Periods
+          objectApiName: AssetStatePeriod
+          objectLabel: Asset State Period
+          objectLabelPlural: Asset State Periods
+          pageReference:
+            attributes:
+              objectApiName: AssetStatePeriod
+              actionName: home
+            state: {}
+            type: standard__objectPage
+          standardType: null
+        - availableInClassic: true
+          availableInLightning: true
+          color: null
+          content: https://pozil-dev-ed.my.salesforce.com/02i/o
+          custom: false
+          developerName: standard-Asset
+          iconUrl: null
+          id: null
+          itemType: Entity
+          label: Assets
+          objectApiName: Asset
+          objectLabel: Asset
+          objectLabelPlural: Assets
+          pageReference:
+            attributes:
+              objectApiName: Asset
+              actionName: home
+            state: {}
+            type: standard__objectPage
+          standardType: null
+        - availableInClassic: true
+          availableInLightning: true
+          color: null
+          content: https://pozil-dev-ed.my.salesforce.com/0cI/o
+          custom: false
+          developerName: standard-AuthorizationForm
+          iconUrl: null
+          id: null
+          itemType: Entity
+          label: Authorization Form
+          objectApiName: AuthorizationForm
+          objectLabel: Authorization Form
+          objectLabelPlural: Authorization Forms
+          pageReference:
+            attributes:
+              objectApiName: AuthorizationForm
+              actionName: home
+            state: {}
+            type: standard__objectPage
+          standardType: null
+        - availableInClassic: true
+          availableInLightning: true
+          color: null
+          content: https://pozil-dev-ed.my.salesforce.com/0cK/o
+          custom: false
+          developerName: standard-AuthorizationFormConsent
+          iconUrl: null
+          id: null
+          itemType: Entity
+          label: Authorization Form Consent
+          objectApiName: AuthorizationFormConsent
+          objectLabel: Authorization Form Consent
+          objectLabelPlural: Authorization Form Consents
+          pageReference:
+            attributes:
+              objectApiName: AuthorizationFormConsent
+              actionName: home
+            state: {}
+            type: standard__objectPage
+          standardType: null
+        - availableInClassic: true
+          availableInLightning: true
+          color: null
+          content: https://pozil-dev-ed.my.salesforce.com/0cM/o
+          custom: false
+          developerName: standard-AuthorizationFormDataUse
+          iconUrl: null
+          id: null
+          itemType: Entity
+          label: Authorization Form Data Use
+          objectApiName: AuthorizationFormDataUse
+          objectLabel: Authorization Form Data Use
+          objectLabelPlural: Authorization Form Data Uses
+          pageReference:
+            attributes:
+              objectApiName: AuthorizationFormDataUse
+              actionName: home
+            state: {}
+            type: standard__objectPage
+          standardType: null
+        nextPageUrl: /services/data/v58.0/ui-api/nav-items?formFactor=Small&page=2&pageSize=5
+    Attributes29:
+      title: Attributes29
+      type: object
+      properties:
+        pageName:
+          type: string
+          example: example_value
+        objectApiName:
+          type: string
+          example: example_value
+        actionName:
+          type: string
+          example: example_value
+      examples:
+      - pageName: home
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

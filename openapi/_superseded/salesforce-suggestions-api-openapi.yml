@@ -1,0 +1,1137 @@
+openapi: 3.2.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Suggestions API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Suggestions
+paths:
+  /data/v64.0/ui-api/lookups/{SOBJECT_API_NAME}/{FIELD_API_NAME}:
+    parameters: []
+    get:
+      tags:
+      - Suggestions
+      summary: Salesforce Get Lookup Field Suggestions
+      description: When a user edits a lookup field, use this resource to search for and display suggestions. You can search for most recently used matches, for matching names, or for any match in a searchable field. You can also specify lookup filter bindings for dependent lookups.
+      operationId: GetLookupFieldSuggestions
+      parameters:
+      - name: SOBJECT_API_NAME
+        in: path
+        description: sObject API name
+        required: true
+        schema:
+          type: string
+        example: example_value
+      - name: FIELD_API_NAME
+        in: path
+        description: Field API name
+        required: true
+        schema:
+          type: string
+        example: example_value
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Wed, 27 Sep 2023 16:07:13 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/GetLookupFieldSuggestions'
+                - examples:
+                  - lookupResults:
+                      Account:
+                        count: 2
+                        currentPageToken: null
+                        currentPageUrl: /services/data/v58.0/ui-api/lookups/Contact/AccountId/Account?searchType=Recent&page=1&pageSize=25
+                        nextPageToken: null
+                        nextPageUrl: null
+                        previousPageToken: null
+                        previousPageUrl: null
+                        records:
+                        - apiName: Account
+                          childRelationships: {}
+                          eTag: 610a250509b966f2eb376b3205824a8b
+                          fields:
+                            Id:
+                              displayValue: null
+                              value: 001B000000UnQ2yIAF
+                            Name:
+                              displayValue: null
+                              value: Dickenson plc
+                            Site:
+                              displayValue: null
+                              value: null
+                          id: 001B000000UnQ2yIAF
+                          lastModifiedById: 005B0000003TOI6IAO
+                          lastModifiedDate: '2017-08-18T14:46:22.000Z'
+                          recordTypeId: 012000000000000AAA
+                          recordTypeInfo: null
+                          systemModstamp: '2017-08-18T14:46:22.000Z'
+                          weakEtag: 1503067582000
+                        - apiName: Account
+                          childRelationships: {}
+                          eTag: d0b7cec61a65e01f88b2596dea75cbd8
+                          fields:
+                            Id:
+                              displayValue: null
+                              value: 001B000000UnQ2wIAF
+                            Name:
+                              displayValue: null
+                              value: Burlington Textiles Corp of America
+                            Site:
+                              displayValue: null
+                              value: null
+                          id: 001B000000UnQ2wIAF
+                          lastModifiedById: 005B0000003TOI6IAO
+                          lastModifiedDate: '2017-08-18T14:46:22.000Z'
+                          recordTypeId: 012000000000000AAA
+                          recordTypeInfo: null
+                          systemModstamp: '2017-08-18T14:46:22.000Z'
+                          weakEtag: 1503067582000
+                    metadata:
+                      Account:
+                        fieldApiName: null
+                        objectApiName: null
+                        secondaryField: Site
+                        targetInfo: {}
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                lookupResults:
+                  Account:
+                    count: 2
+                    currentPageToken: null
+                    currentPageUrl: /services/data/v58.0/ui-api/lookups/Contact/AccountId/Account?searchType=Recent&page=1&pageSize=25
+                    nextPageToken: null
+                    nextPageUrl: null
+                    previousPageToken: null
+                    previousPageUrl: null
+                    records:
+                    - apiName: Account
+                      childRelationships: {}
+                      eTag: 610a250509b966f2eb376b3205824a8b
+                      fields:
+                        Id:
+                          displayValue: null
+                          value: 001B000000UnQ2yIAF
+                        Name:
+                          displayValue: null
+                          value: Dickenson plc
+                        Site:
+                          displayValue: null
+                          value: null
+                      id: 001B000000UnQ2yIAF
+                      lastModifiedById: 005B0000003TOI6IAO
+                      lastModifiedDate: '2017-08-18T14:46:22.000Z'
+                      recordTypeId: 012000000000000AAA
+                      recordTypeInfo: null
+                      systemModstamp: '2017-08-18T14:46:22.000Z'
+                      weakEtag: 1503067582000
+                    - apiName: Account
+                      childRelationships: {}
+                      eTag: d0b7cec61a65e01f88b2596dea75cbd8
+                      fields:
+                        Id:
+                          displayValue: null
+                          value: 001B000000UnQ2wIAF
+                        Name:
+                          displayValue: null
+                          value: Burlington Textiles Corp of America
+                        Site:
+                          displayValue: null
+                          value: null
+                      id: 001B000000UnQ2wIAF
+                      lastModifiedById: 005B0000003TOI6IAO
+                      lastModifiedDate: '2017-08-18T14:46:22.000Z'
+                      recordTypeId: 012000000000000AAA
+                      recordTypeInfo: null
+                      systemModstamp: '2017-08-18T14:46:22.000Z'
+                      weakEtag: 1503067582000
+                metadata:
+                  Account:
+                    fieldApiName: null
+                    objectApiName: null
+                    secondaryField: Site
+                    targetInfo: {}
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/ui-api/lookups/{SOBJECT_API_NAME}/{FIELD_API_NAME}/{TARGET_API_NAME}:
+    parameters: []
+    get:
+      tags:
+      - Suggestions
+      summary: Salesforce Get Lookup Field Suggestions for a Specified Object
+      description: When a user edits a lookup field, use this resource to search for and display suggestions for a specified object. You can search for most recently used matches, for matching names, or for any match in a searchable field. You can also specify lookup filter bindings for dependent lookups.
+      operationId: GetLookupFieldSuggestionsforaSpecifiedObject
+      parameters:
+      - name: SOBJECT_API_NAME
+        in: path
+        description: The API name of a source object.
+        required: true
+        schema:
+          type: string
+        example: example_value
+      - name: FIELD_API_NAME
+        in: path
+        description: The API name of a lookup field on the source object.
+        required: true
+        schema:
+          type: string
+        example: example_value
+      - name: TARGET_API_NAME
+        in: path
+        description: The API name of the target (lookup) object.
+        required: true
+        schema:
+          type: string
+        example: example_value
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Wed, 27 Sep 2023 16:10:07 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/GetLookupFieldSuggestionsforaSpecifiedObject'
+                - examples:
+                  - count: 2
+                    currentPageToken: null
+                    currentPageUrl: /services/data/v58.0/ui-api/lookups/Contact/AccountId/Account?searchType=Recent&page=1&pageSize=25
+                    nextPageToken: null
+                    nextPageUrl: null
+                    previousPageToken: null
+                    previousPageUrl: null
+                    records:
+                    - apiName: Account
+                      childRelationships: {}
+                      eTag: 2316c5f4a27ac31b407d91aab610b281
+                      fields:
+                        DisambiguationField:
+                          displayValue: null
+                          value: null
+                        Id:
+                          displayValue: null
+                          value: 001B000000UnQ2yIAF
+                        Name:
+                          displayValue: null
+                          value: Dickenson plc
+                        Site:
+                          displayValue: null
+                          value: null
+                      id: 001B000000UnQ2yIAF
+                      lastModifiedById: 005B0000003TOI6IAO
+                      lastModifiedDate: '2017-08-18T14:46:22.000Z'
+                      recordTypeId: 012000000000000AAA
+                      recordTypeInfo: null
+                      systemModstamp: '2017-08-18T14:46:22.000Z'
+                      weakEtag: 1503067582000
+                    - apiName: Account
+                      childRelationships: {}
+                      eTag: cb5afb4494d9c9f6f81ab0e5f214585c
+                      fields:
+                        DisambiguationField:
+                          displayValue: null
+                          value: null
+                        Id:
+                          displayValue: null
+                          value: 001B000000UnQ2wIAF
+                        Name:
+                          displayValue: null
+                          value: Burlington Textiles Corp of America
+                        Site:
+                          displayValue: null
+                          value: null
+                      id: 001B000000UnQ2wIAF
+                      lastModifiedById: 005B0000003TOI6IAO
+                      lastModifiedDate: '2017-08-18T14:46:22.000Z'
+                      recordTypeId: 012000000000000AAA
+                      recordTypeInfo: null
+                      systemModstamp: '2017-08-18T14:46:22.000Z'
+                      weakEtag: 1503067582000
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                count: 2
+                currentPageToken: null
+                currentPageUrl: /services/data/v58.0/ui-api/lookups/Contact/AccountId/Account?searchType=Recent&page=1&pageSize=25
+                nextPageToken: null
+                nextPageUrl: null
+                previousPageToken: null
+                previousPageUrl: null
+                records:
+                - apiName: Account
+                  childRelationships: {}
+                  eTag: 2316c5f4a27ac31b407d91aab610b281
+                  fields:
+                    DisambiguationField:
+                      displayValue: null
+                      value: null
+                    Id:
+                      displayValue: null
+                      value: 001B000000UnQ2yIAF
+                    Name:
+                      displayValue: null
+                      value: Dickenson plc
+                    Site:
+                      displayValue: null
+                      value: null
+                  id: 001B000000UnQ2yIAF
+                  lastModifiedById: 005B0000003TOI6IAO
+                  lastModifiedDate: '2017-08-18T14:46:22.000Z'
+                  recordTypeId: 012000000000000AAA
+                  recordTypeInfo: null
+                  systemModstamp: '2017-08-18T14:46:22.000Z'
+                  weakEtag: 1503067582000
+                - apiName: Account
+                  childRelationships: {}
+                  eTag: cb5afb4494d9c9f6f81ab0e5f214585c
+                  fields:
+                    DisambiguationField:
+                      displayValue: null
+                      value: null
+                    Id:
+                      displayValue: null
+                      value: 001B000000UnQ2wIAF
+                    Name:
+                      displayValue: null
+                      value: Burlington Textiles Corp of America
+                    Site:
+                      displayValue: null
+                      value: null
+                  id: 001B000000UnQ2wIAF
+                  lastModifiedById: 005B0000003TOI6IAO
+                  lastModifiedDate: '2017-08-18T14:46:22.000Z'
+                  recordTypeId: 012000000000000AAA
+                  recordTypeInfo: null
+                  systemModstamp: '2017-08-18T14:46:22.000Z'
+                  weakEtag: 1503067582000
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    DisambiguationField:
+      title: DisambiguationField
+      required:
+      - displayValue
+      - value
+      type: object
+      properties:
+        displayValue:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        value:
+          type:
+          - string
+          - 'null'
+          example: example_value
+      examples:
+      - displayValue: null
+        value: null
+    Records2:
+      title: Records2
+      required:
+      - apiName
+      - childRelationships
+      - eTag
+      - fields
+      - id
+      - lastModifiedById
+      - lastModifiedDate
+      - recordTypeId
+      - recordTypeInfo
+      - systemModstamp
+      - weakEtag
+      type: object
+      properties:
+        apiName:
+          type: string
+          example: example_value
+        childRelationships:
+          type: object
+          example: example_value
+        eTag:
+          type: string
+          example: example_value
+        fields:
+          $ref: '#/components/schemas/Fields38'
+        id:
+          type: string
+          example: abc123
+        lastModifiedById:
+          type: string
+          example: '500123'
+        lastModifiedDate:
+          type: string
+          example: example_value
+        recordTypeId:
+          type: string
+          example: '500123'
+        recordTypeInfo:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        systemModstamp:
+          type: string
+          example: example_value
+        weakEtag:
+          type: integer
+          contentEncoding: int64
+          example: 10
+      examples:
+      - apiName: Account
+        childRelationships: {}
+        eTag: 610a250509b966f2eb376b3205824a8b
+        fields:
+          Id:
+            displayValue: null
+            value: 001B000000UnQ2yIAF
+          Name:
+            displayValue: null
+            value: Dickenson plc
+          Site:
+            displayValue: null
+            value: null
+        id: 001B000000UnQ2yIAF
+        lastModifiedById: 005B0000003TOI6IAO
+        lastModifiedDate: '2017-08-18T14:46:22.000Z'
+        recordTypeId: 012000000000000AAA
+        recordTypeInfo: null
+        systemModstamp: '2017-08-18T14:46:22.000Z'
+        weakEtag: 1503067582000
+    Records3:
+      title: Records3
+      required:
+      - apiName
+      - childRelationships
+      - eTag
+      - fields
+      - id
+      - lastModifiedById
+      - lastModifiedDate
+      - recordTypeId
+      - recordTypeInfo
+      - systemModstamp
+      - weakEtag
+      type: object
+      properties:
+        apiName:
+          type: string
+          example: example_value
+        childRelationships:
+          type: object
+          example: example_value
+        eTag:
+          type: string
+          example: example_value
+        fields:
+          $ref: '#/components/schemas/Fields39'
+        id:
+          type: string
+          example: abc123
+        lastModifiedById:
+          type: string
+          example: '500123'
+        lastModifiedDate:
+          type: string
+          example: example_value
+        recordTypeId:
+          type: string
+          example: '500123'
+        recordTypeInfo:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        systemModstamp:
+          type: string
+          example: example_value
+        weakEtag:
+          type: integer
+          contentEncoding: int64
+          example: 10
+      examples:
+      - apiName: Account
+        childRelationships: {}
+        eTag: 2316c5f4a27ac31b407d91aab610b281
+        fields:
+          DisambiguationField:
+            displayValue: null
+            value: null
+          Id:
+            displayValue: null
+            value: 001B000000UnQ2yIAF
+          Name:
+            displayValue: null
+            value: Dickenson plc
+          Site:
+            displayValue: null
+            value: null
+        id: 001B000000UnQ2yIAF
+        lastModifiedById: 005B0000003TOI6IAO
+        lastModifiedDate: '2017-08-18T14:46:22.000Z'
+        recordTypeId: 012000000000000AAA
+        recordTypeInfo: null
+        systemModstamp: '2017-08-18T14:46:22.000Z'
+        weakEtag: 1503067582000
+    GetLookupFieldSuggestions:
+      title: GetLookupFieldSuggestions
+      required:
+      - lookupResults
+      - metadata
+      type: object
+      properties:
+        lookupResults:
+          $ref: '#/components/schemas/LookupResults'
+        metadata:
+          $ref: '#/components/schemas/Metadata18'
+      examples:
+      - lookupResults:
+          Account:
+            count: 2
+            currentPageToken: null
+            currentPageUrl: /services/data/v58.0/ui-api/lookups/Contact/AccountId/Account?searchType=Recent&page=1&pageSize=25
+            nextPageToken: null
+            nextPageUrl: null
+            previousPageToken: null
+            previousPageUrl: null
+            records:
+            - apiName: Account
+              childRelationships: {}
+              eTag: 610a250509b966f2eb376b3205824a8b
+              fields:
+                Id:
+                  displayValue: null
+                  value: 001B000000UnQ2yIAF
+                Name:
+                  displayValue: null
+                  value: Dickenson plc
+                Site:
+                  displayValue: null
+                  value: null
+              id: 001B000000UnQ2yIAF
+              lastModifiedById: 005B0000003TOI6IAO
+              lastModifiedDate: '2017-08-18T14:46:22.000Z'
+              recordTypeId: 012000000000000AAA
+              recordTypeInfo: null
+              systemModstamp: '2017-08-18T14:46:22.000Z'
+              weakEtag: 1503067582000
+            - apiName: Account
+              childRelationships: {}
+              eTag: d0b7cec61a65e01f88b2596dea75cbd8
+              fields:
+                Id:
+                  displayValue: null
+                  value: 001B000000UnQ2wIAF
+                Name:
+                  displayValue: null
+                  value: Burlington Textiles Corp of America
+                Site:
+                  displayValue: null
+                  value: null
+              id: 001B000000UnQ2wIAF
+              lastModifiedById: 005B0000003TOI6IAO
+              lastModifiedDate: '2017-08-18T14:46:22.000Z'
+              recordTypeId: 012000000000000AAA
+              recordTypeInfo: null
+              systemModstamp: '2017-08-18T14:46:22.000Z'
+              weakEtag: 1503067582000
+        metadata:
+          Account:
+            fieldApiName: null
+            objectApiName: null
+            secondaryField: Site
+            targetInfo: {}
+    Site2:
+      title: Site2
+      required:
+      - displayValue
+      - value
+      type: object
+      properties:
+        displayValue:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        value:
+          type:
+          - string
+          - 'null'
+          example: example_value
+      examples:
+      - displayValue: null
+        value: null
+    Account15:
+      title: Account15
+      required:
+      - count
+      - currentPageToken
+      - currentPageUrl
+      - nextPageToken
+      - nextPageUrl
+      - previousPageToken
+      - previousPageUrl
+      - records
+      type: object
+      properties:
+        count:
+          type: integer
+          contentEncoding: int32
+          example: 42
+        currentPageToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        currentPageUrl:
+          type: string
+          example: https://www.example.com
+        nextPageToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        nextPageUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        previousPageToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        previousPageUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/Records2'
+          description: ''
+          example: []
+      examples:
+      - count: 2
+        currentPageToken: null
+        currentPageUrl: /services/data/v58.0/ui-api/lookups/Contact/AccountId/Account?searchType=Recent&page=1&pageSize=25
+        nextPageToken: null
+        nextPageUrl: null
+        previousPageToken: null
+        previousPageUrl: null
+        records:
+        - apiName: Account
+          childRelationships: {}
+          eTag: 610a250509b966f2eb376b3205824a8b
+          fields:
+            Id:
+              displayValue: null
+              value: 001B000000UnQ2yIAF
+            Name:
+              displayValue: null
+              value: Dickenson plc
+            Site:
+              displayValue: null
+              value: null
+          id: 001B000000UnQ2yIAF
+          lastModifiedById: 005B0000003TOI6IAO
+          lastModifiedDate: '2017-08-18T14:46:22.000Z'
+          recordTypeId: 012000000000000AAA
+          recordTypeInfo: null
+          systemModstamp: '2017-08-18T14:46:22.000Z'
+          weakEtag: 1503067582000
+        - apiName: Account
+          childRelationships: {}
+          eTag: d0b7cec61a65e01f88b2596dea75cbd8
+          fields:
+            Id:
+              displayValue: null
+              value: 001B000000UnQ2wIAF
+            Name:
+              displayValue: null
+              value: Burlington Textiles Corp of America
+            Site:
+              displayValue: null
+              value: null
+          id: 001B000000UnQ2wIAF
+          lastModifiedById: 005B0000003TOI6IAO
+          lastModifiedDate: '2017-08-18T14:46:22.000Z'
+          recordTypeId: 012000000000000AAA
+          recordTypeInfo: null
+          systemModstamp: '2017-08-18T14:46:22.000Z'
+          weakEtag: 1503067582000
+    Account16:
+      title: Account16
+      required:
+      - fieldApiName
+      - objectApiName
+      - secondaryField
+      - targetInfo
+      type: object
+      properties:
+        fieldApiName:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        objectApiName:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        secondaryField:
+          type: string
+          example: example_value
+        targetInfo:
+          type: object
+          example: example_value
+      examples:
+      - fieldApiName: null
+        objectApiName: null
+        secondaryField: Site
+        targetInfo: {}
+    LookupResults:
+      title: LookupResults
+      required:
+      - Account
+      type: object
+      properties:
+        Account:
+          $ref: '#/components/schemas/Account15'
+      examples:
+      - Account:
+          count: 2
+          currentPageToken: null
+          currentPageUrl: /services/data/v58.0/ui-api/lookups/Contact/AccountId/Account?searchType=Recent&page=1&pageSize=25
+          nextPageToken: null
+          nextPageUrl: null
+          previousPageToken: null
+          previousPageUrl: null
+          records:
+          - apiName: Account
+            childRelationships: {}
+            eTag: 610a250509b966f2eb376b3205824a8b
+            fields:
+              Id:
+                displayValue: null
+                value: 001B000000UnQ2yIAF
+              Name:
+                displayValue: null
+                value: Dickenson plc
+              Site:
+                displayValue: null
+                value: null
+            id: 001B000000UnQ2yIAF
+            lastModifiedById: 005B0000003TOI6IAO
+            lastModifiedDate: '2017-08-18T14:46:22.000Z'
+            recordTypeId: 012000000000000AAA
+            recordTypeInfo: null
+            systemModstamp: '2017-08-18T14:46:22.000Z'
+            weakEtag: 1503067582000
+          - apiName: Account
+            childRelationships: {}
+            eTag: d0b7cec61a65e01f88b2596dea75cbd8
+            fields:
+              Id:
+                displayValue: null
+                value: 001B000000UnQ2wIAF
+              Name:
+                displayValue: null
+                value: Burlington Textiles Corp of America
+              Site:
+                displayValue: null
+                value: null
+            id: 001B000000UnQ2wIAF
+            lastModifiedById: 005B0000003TOI6IAO
+            lastModifiedDate: '2017-08-18T14:46:22.000Z'
+            recordTypeId: 012000000000000AAA
+            recordTypeInfo: null
+            systemModstamp: '2017-08-18T14:46:22.000Z'
+            weakEtag: 1503067582000
+    Fields38:
+      title: Fields38
+      required:
+      - Id
+      - Name
+      - Site
+      type: object
+      properties:
+        Id:
+          $ref: '#/components/schemas/Id8'
+        Name:
+          $ref: '#/components/schemas/Name21'
+        Site:
+          $ref: '#/components/schemas/Site2'
+      examples:
+      - Id:
+          displayValue: null
+          value: 001B000000UnQ2yIAF
+        Name:
+          displayValue: null
+          value: Dickenson plc
+        Site:
+          displayValue: null
+          value: null
+    Fields39:
+      title: Fields39
+      required:
+      - DisambiguationField
+      - Id
+      - Name
+      - Site
+      type: object
+      properties:
+        DisambiguationField:
+          $ref: '#/components/schemas/DisambiguationField'
+        Id:
+          $ref: '#/components/schemas/Id8'
+        Name:
+          $ref: '#/components/schemas/Name21'
+        Site:
+          $ref: '#/components/schemas/Site2'
+      examples:
+      - DisambiguationField:
+          displayValue: null
+          value: null
+        Id:
+          displayValue: null
+          value: 001B000000UnQ2yIAF
+        Name:
+          displayValue: null
+          value: Dickenson plc
+        Site:
+          displayValue: null
+          value: null
+    Metadata18:
+      title: Metadata18
+      required:
+      - Account
+      type: object
+      properties:
+        Account:
+          $ref: '#/components/schemas/Account16'
+      examples:
+      - Account:
+          fieldApiName: null
+          objectApiName: null
+          secondaryField: Site
+          targetInfo: {}
+    Name21:
+      title: Name21
+      required:
+      - displayValue
+      - value
+      type: object
+      properties:
+        displayValue:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        value:
+          type: string
+          example: example_value
+      examples:
+      - displayValue: null
+        value: Philippe Ozil
+    Id8:
+      title: Id8
+      required:
+      - displayValue
+      - value
+      type: object
+      properties:
+        displayValue:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        value:
+          type: string
+          example: example_value
+      examples:
+      - displayValue: null
+        value: 005B0000003TOI6IAO
+    GetLookupFieldSuggestionsforaSpecifiedObject:
+      title: GetLookupFieldSuggestionsforaSpecifiedObject
+      required:
+      - count
+      - currentPageToken
+      - currentPageUrl
+      - nextPageToken
+      - nextPageUrl
+      - previousPageToken
+      - previousPageUrl
+      - records
+      type: object
+      properties:
+        count:
+          type: integer
+          contentEncoding: int32
+          example: 42
+        currentPageToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        currentPageUrl:
+          type: string
+          example: https://www.example.com
+        nextPageToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        nextPageUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        previousPageToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        previousPageUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/Records3'
+          description: ''
+          example: []
+      examples:
+      - count: 2
+        currentPageToken: null
+        currentPageUrl: /services/data/v58.0/ui-api/lookups/Contact/AccountId/Account?searchType=Recent&page=1&pageSize=25
+        nextPageToken: null
+        nextPageUrl: null
+        previousPageToken: null
+        previousPageUrl: null
+        records:
+        - apiName: Account
+          childRelationships: {}
+          eTag: 2316c5f4a27ac31b407d91aab610b281
+          fields:
+            DisambiguationField:
+              displayValue: null
+              value: null
+            Id:
+              displayValue: null
+              value: 001B000000UnQ2yIAF
+            Name:
+              displayValue: null
+              value: Dickenson plc
+            Site:
+              displayValue: null
+              value: null
+          id: 001B000000UnQ2yIAF
+          lastModifiedById: 005B0000003TOI6IAO
+          lastModifiedDate: '2017-08-18T14:46:22.000Z'
+          recordTypeId: 012000000000000AAA
+          recordTypeInfo: null
+          systemModstamp: '2017-08-18T14:46:22.000Z'
+          weakEtag: 1503067582000
+        - apiName: Account
+          childRelationships: {}
+          eTag: cb5afb4494d9c9f6f81ab0e5f214585c
+          fields:
+            DisambiguationField:
+              displayValue: null
+              value: null
+            Id:
+              displayValue: null
+              value: 001B000000UnQ2wIAF
+            Name:
+              displayValue: null
+              value: Burlington Textiles Corp of America
+            Site:
+              displayValue: null
+              value: null
+          id: 001B000000UnQ2wIAF
+          lastModifiedById: 005B0000003TOI6IAO
+          lastModifiedDate: '2017-08-18T14:46:22.000Z'
+          recordTypeId: 012000000000000AAA
+          recordTypeInfo: null
+          systemModstamp: '2017-08-18T14:46:22.000Z'
+          weakEtag: 1503067582000
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

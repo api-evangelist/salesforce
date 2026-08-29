@@ -1,191 +1,28 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Salesforce Bulk API 2.0 Abort Flow API
-  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
-
-    '
-  version: v63.0
-  contact:
-    name: Salesforce Developers
-    url: https://developer.salesforce.com/
-  license:
-    name: Salesforce Developer Terms
-    url: https://www.salesforce.com/company/legal/agreements/
+  title: Salesforce Flow API
+  description: 'Find the resources you need to start building. '
+  contact: {}
+  version: '1.0'
 servers:
-- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
-  description: Salesforce Bulk API 2.0 jobs endpoint
+- url: https://login.salesforce.com
+  variables: {}
+- url: https://id
+  variables: {}
+- url: https://services
+  variables: {}
+- url: '{{url}}{{site}}/services/oauth2'
   variables:
-    instance:
-      default: yourInstance
-      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
-
-        '
-    version:
-      default: '63.0'
-      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
-
-        '
+    url:
+      default: DefaultParameterValue
+    site:
+      default: DefaultParameterValue
 security:
-- BearerAuth: []
+- oauth2:
+  - api
 tags:
 - name: Flow
 paths:
-  /services/oauth2/authorize:
-    parameters: []
-    get:
-      tags:
-      - Flow
-      summary: Salesforce User Agent Flow
-      operationId: UserAgentFlow
-      parameters:
-      - name: response_type
-        in: query
-        description: ''
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-          examples:
-          - token
-        example: example_value
-      - name: client_id
-        in: query
-        description: ''
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-          examples:
-          - '{{vault:salesforce-consumer-key}}'
-        example: '500123'
-      - name: redirect_uri
-        in: query
-        description: ''
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-        example: example_value
-      - name: display
-        in: query
-        description: ''
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-          examples:
-          - touch
-        example: example_value
-      - name: login_hint
-        in: query
-        description: ''
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-        example: example_value
-      - name: nonce
-        in: query
-        description: ''
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-          examples:
-          - awesome
-        example: example_value
-      responses:
-        '200':
-          description: OK
-          headers:
-            Strict-Transport-Security:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: max-age=63072000; includeSubDomains
-            X-Content-Type-Options:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: nosniff
-            X-XSS-Protection:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: 1; mode=block
-            Content-Security-Policy:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: upgrade-insecure-requests
-            X-Robots-Tag:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: none
-            Cache-Control:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: must-revalidate,no-cache,no-store
-            Vary:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: Accept-Encoding
-            Content-Encoding:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: gzip
-            Connection:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: close
-          content:
-            text/html; charset=UTF-8:
-              schema:
-                type: string
-                examples:
-                - "\n\n\n<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\n<html>\n    <head>\n        <meta HTTP-EQUIV=\"PRAGMA\" CONTENT=\"NO-CACHE\">\n        <script>\nfunction redirectOnLoad() {\nif (this.SfdcApp && this.SfdcApp.projectOneNavigator) { SfdcApp.projectOneNavigator.handleRedirect('<my-domain>?ec=302&startURL=%2Fsetup%2Fsecur%2FRemoteAccessAuthorizationPage.apexp%3Fsource%3D<token>%26display%3Dtouch&display=touch'); }  else \nif (window.location.replace){ \nwindow.location.replace('<my-domain>>?ec=302&startURL=%2Fsetup%2Fsecur%2FRemoteAccessAuthorizationPage.apexp%3Fsource%3D<token>%26display%3Dtouch&display=touch');\n} else {\nwindow.location.href ='<my-domain>>?ec=302&startURL=%2Fsetup%2Fsecur%2FRemoteAccessAuthorizationPage.apexp%3Fsource%3D<token>%26display%3Dtouch&display=touch';\n} \n} \nredirectOnLoad();\n</script>\n    </head>\n</html>\n<!-- Body events -->\n<script type=\"text/javascript\">function bodyOnLoad(){if(window.PreferenceBits){window.PreferenceBits.prototype.csrfToken=\"null\";};}function bodyOnBeforeUnload(){}function bodyOnFocus(){}function bodyOnUnload(){}</script>\n</body>\n</html>\n<!--\n...................................................................................................\n...................................................................................................\n...................................................................................................\n...................................................................................................\n-->\n"
-                contentMediaType: text/html; charset=UTF-8
-              example: "\n\n\n<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\n<html>\n    <head>\n        <meta HTTP-EQUIV=\"PRAGMA\" CONTENT=\"NO-CACHE\">\n        <script>\nfunction redirectOnLoad() {\nif (this.SfdcApp && this.SfdcApp.projectOneNavigator) { SfdcApp.projectOneNavigator.handleRedirect('<my-domain>?ec=302&startURL=%2Fsetup%2Fsecur%2FRemoteAccessAuthorizationPage.apexp%3Fsource%3D<token>%26display%3Dtouch&display=touch'); }  else \nif (window.location.replace){ \nwindow.location.replace('<my-domain>>?ec=302&startURL=%2Fsetup%2Fsecur%2FRemoteAccessAuthorizationPage.apexp%3Fsource%3D<token>%26display%3Dtouch&display=touch');\n} else {\nwindow.location.href ='<my-domain>>?ec=302&startURL=%2Fsetup%2Fsecur%2FRemoteAccessAuthorizationPage.apexp%3Fsource%3D<token>%26display%3Dtouch&display=touch';\n} \n} \nredirectOnLoad();\n</script>\n    </head>\n</html>\n<!-- Body events -->\n<script type=\"text/javascript\">function bodyOnLoad(){if(window.PreferenceBits){window.PreferenceBits.prototype.csrfToken=\"null\";};}function bodyOnBeforeUnload(){}function bodyOnFocus(){}function bodyOnUnload(){}</script>\n</body>\n</html>\n<!--\n...................................................................................................\n...................................................................................................\n...................................................................................................\n...................................................................................................\n-->\n"
-      deprecated: false
-      security: []
-      servers:
-      - url: https://login.salesforce.com
-        variables: {}
-      x-api-evangelist-processing:
-        PascalCaseOperationSummaries: true
-        ChooseTags: true
-      x-microcks-operation:
-        delay: 0
-        dispatcher: FALLBACK
   /data/v64.0/actions/custom/flow/{flowApiName}:
     parameters: []
     post:
@@ -249,9 +86,10 @@ components:
       - inputs:
         - {}
   securitySchemes:
-    BearerAuth:
-      type: http
-      scheme: bearer
-      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
-
-        '
+    oauth2:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: '{DefaultParameterValue}{DefaultParameterValue}/services/oauth2/authorize'
+          scopes:
+            api: ''

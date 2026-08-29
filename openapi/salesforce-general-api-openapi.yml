@@ -1,334 +1,28 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Salesforce Bulk API 2.0 Abort General API
-  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
-
-    '
-  version: v63.0
-  contact:
-    name: Salesforce Developers
-    url: https://developer.salesforce.com/
-  license:
-    name: Salesforce Developer Terms
-    url: https://www.salesforce.com/company/legal/agreements/
+  title: Salesforce General API
+  description: 'Find the resources you need to start building. '
+  contact: {}
+  version: '1.0'
 servers:
-- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
-  description: Salesforce Bulk API 2.0 jobs endpoint
+- url: https://login.salesforce.com
+  variables: {}
+- url: https://id
+  variables: {}
+- url: https://services
+  variables: {}
+- url: '{{url}}{{site}}/services/oauth2'
   variables:
-    instance:
-      default: yourInstance
-      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
-
-        '
-    version:
-      default: '63.0'
-      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
-
-        '
+    url:
+      default: DefaultParameterValue
+    site:
+      default: DefaultParameterValue
 security:
-- BearerAuth: []
+- oauth2:
+  - api
 tags:
 - name: General
 paths:
-  /data/v64.0/connect/files/users/me:
-    parameters: []
-    post:
-      tags:
-      - General
-      summary: Salesforce Users Files, General
-      description: 'Upload a file, including references to external files, to the Files home or get information about files a user owns. These files don’t include files shared with a user, files a user follows, or general organization files.
-
-        When you upload a file to the Files home, it is private and available only to the file owner.
-
-
-        To upload a file, send it in a multipart/form-data request. You can include the description and title of the file in the multipart/form-data request as a JSON or XML request body. You can also send the information as request parameters. For information about how to create the multipart/form-data message, see Uploading Binary Files.
-
-        https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_users_files_general.htm'
-      operationId: UsersFiles,General
-      parameters: []
-      requestBody:
-        content:
-          multipart/form-data:
-            encoding: {}
-            schema:
-              required:
-              - fileData
-              type: object
-              properties:
-                fileData:
-                  type: string
-                  contentEncoding: base64
-              contentMediaType: multipart/form-data
-            examples:
-              Usersfiles,generalRequestExample:
-                summary: Default UsersFiles,General request
-                x-microcks-default: true
-                value:
-                  fileData: example_value
-        required: false
-      responses:
-        '201':
-          description: Created
-          headers:
-            Date:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: Mon, 20 Nov 2023 16:28:22 GMT
-            Strict-Transport-Security:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: max-age=63072000; includeSubDomains
-            X-Content-Type-Options:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: nosniff
-            X-XSS-Protection:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: 1; mode=block
-            X-Robots-Tag:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: none
-            Cache-Control:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: no-cache,must-revalidate,max-age=0,no-store,private
-            Vary:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: Accept-Encoding
-            Content-Encoding:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: gzip
-            Transfer-Encoding:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: chunked
-          content:
-            application/json;charset=UTF-8:
-              schema:
-                allOf:
-                - $ref: '#/components/schemas/SuccessfulUsersFilesGeneral'
-                - examples:
-                  - checksum: 71a50dbba44c78128b221b7df7bb51f1
-                    contentHubRepository: null
-                    contentModifiedDate: '2023-11-20T16:28:22.000Z'
-                    contentSize: 95
-                    contentUrl: null
-                    contentVersionId: 068xx0000004C92AAE
-                    createdDate: '2023-11-20T16:28:22.000Z'
-                    description: null
-                    downloadUrl: /services/data/v58.0/connect/files/069.../content?versionNumber=1
-                    externalDocumentUrl: null
-                    externalFilePermissionInformation: null
-                    fileAsset: null
-                    fileExtension: png
-                    fileType: Png
-                    flashRenditionStatus: Na
-                    id: 069...
-                    isFileAsset: false
-                    isInMyFileSync: false
-                    isMajorVersion: true
-                    mimeType: image/png
-                    moderationFlags: null
-                    modifiedDate: '2023-11-20T16:28:22.000Z'
-                    motif:
-                      color: '939393'
-                      largeIconUrl: /img/content/content64.png
-                      mediumIconUrl: /img/content/content32.png
-                      smallIconUrl: /img/icon/files16.png
-                      svgIconUrl: null
-                    mySubscription: null
-                    name: 1x1.png
-                    origin: Chatter
-                    owner:
-                      additionalLabel: null
-                      communityNickname: User1696423780773910041
-                      companyName: Salesforce
-                      displayName: Name
-                      firstName: Firstname
-                      id: 005...
-                      isActive: true
-                      isInThisCommunity: true
-                      lastName: Name
-                      motif:
-                        color: 1B96FF
-                        largeIconUrl: /img/icon/profile64.png
-                        mediumIconUrl: /img/icon/profile32.png
-                        smallIconUrl: /img/icon/profile16.png
-                        svgIconUrl: null
-                      mySubscription: null
-                      name: Name
-                      outOfOffice:
-                        message: ''
-                      photo:
-                        fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
-                        largePhotoUrl: https://<my_domain>/profilephoto/729.../F
-                        mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
-                        photoVersionId: 729...
-                        smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
-                        standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
-                        url: /services/data/v58.0/connect/user-profiles/005.../photo
-                      reputation: null
-                      title: null
-                      type: User
-                      url: /services/data/v58.0/chatter/users/005...
-                      userType: Internal
-                    pageCount: 0
-                    parentFolder: null
-                    pdfRenditionStatus: Na
-                    publishStatus: PrivateAccess
-                    renditionUrl: /services/data/v58.0/connect/files/069.../rendition?type=THUMB120BY90
-                    renditionUrl240By180: /services/data/v58.0/connect/files/069.../rendition?type=THUMB240BY180
-                    renditionUrl720By480: /services/data/v58.0/connect/files/069.../rendition?type=THUMB720BY480
-                    repositoryFileId: null
-                    repositoryFileUrl: null
-                    sharingOption: Allowed
-                    sharingPrivacy: None
-                    sharingRole: Owner
-                    systemModstamp: '2023-11-20T16:28:23.000Z'
-                    textPreview: null
-                    thumb120By90RenditionStatus: NotScheduled
-                    thumb240By180RenditionStatus: NotScheduled
-                    thumb720By480RenditionStatus: NotScheduled
-                    title: 1x1.png
-                    topics:
-                      currentPageUrl: null
-                      nextPageUrl: null
-                      topics: []
-                    type: File
-                    url: /services/data/v58.0/connect/files/069...?versionNumber=1
-                    versionNumber: '1'
-                contentMediaType: application/json;charset=UTF-8
-              example:
-                checksum: 71a50dbba44c78128b221b7df7bb51f1
-                contentHubRepository: null
-                contentModifiedDate: '2023-11-20T16:28:22.000Z'
-                contentSize: 95
-                contentUrl: null
-                contentVersionId: 068xx0000004C92AAE
-                createdDate: '2023-11-20T16:28:22.000Z'
-                description: null
-                downloadUrl: /services/data/v58.0/connect/files/069.../content?versionNumber=1
-                externalDocumentUrl: null
-                externalFilePermissionInformation: null
-                fileAsset: null
-                fileExtension: png
-                fileType: Png
-                flashRenditionStatus: Na
-                id: 069...
-                isFileAsset: false
-                isInMyFileSync: false
-                isMajorVersion: true
-                mimeType: image/png
-                moderationFlags: null
-                modifiedDate: '2023-11-20T16:28:22.000Z'
-                motif:
-                  color: '939393'
-                  largeIconUrl: /img/content/content64.png
-                  mediumIconUrl: /img/content/content32.png
-                  smallIconUrl: /img/icon/files16.png
-                  svgIconUrl: null
-                mySubscription: null
-                name: 1x1.png
-                origin: Chatter
-                owner:
-                  additionalLabel: null
-                  communityNickname: User1696423780773910041
-                  companyName: Salesforce
-                  displayName: Name
-                  firstName: Firstname
-                  id: 005...
-                  isActive: true
-                  isInThisCommunity: true
-                  lastName: Name
-                  motif:
-                    color: 1B96FF
-                    largeIconUrl: /img/icon/profile64.png
-                    mediumIconUrl: /img/icon/profile32.png
-                    smallIconUrl: /img/icon/profile16.png
-                    svgIconUrl: null
-                  mySubscription: null
-                  name: Name
-                  outOfOffice:
-                    message: ''
-                  photo:
-                    fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
-                    largePhotoUrl: https://<my_domain>/profilephoto/729.../F
-                    mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
-                    photoVersionId: 729...
-                    smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
-                    standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
-                    url: /services/data/v58.0/connect/user-profiles/005.../photo
-                  reputation: null
-                  title: null
-                  type: User
-                  url: /services/data/v58.0/chatter/users/005...
-                  userType: Internal
-                pageCount: 0
-                parentFolder: null
-                pdfRenditionStatus: Na
-                publishStatus: PrivateAccess
-                renditionUrl: /services/data/v58.0/connect/files/069.../rendition?type=THUMB120BY90
-                renditionUrl240By180: /services/data/v58.0/connect/files/069.../rendition?type=THUMB240BY180
-                renditionUrl720By480: /services/data/v58.0/connect/files/069.../rendition?type=THUMB720BY480
-                repositoryFileId: null
-                repositoryFileUrl: null
-                sharingOption: Allowed
-                sharingPrivacy: None
-                sharingRole: Owner
-                systemModstamp: '2023-11-20T16:28:23.000Z'
-                textPreview: null
-                thumb120By90RenditionStatus: NotScheduled
-                thumb240By180RenditionStatus: NotScheduled
-                thumb720By480RenditionStatus: NotScheduled
-                title: 1x1.png
-                topics:
-                  currentPageUrl: null
-                  nextPageUrl: null
-                  topics: []
-                type: File
-                url: /services/data/v58.0/connect/files/069...?versionNumber=1
-                versionNumber: '1'
-      deprecated: false
-      servers:
-      - url: https://services
-        variables: {}
-      x-api-evangelist-processing:
-        PascalCaseOperationSummaries: true
-        ChooseTags: true
-      x-microcks-operation:
-        delay: 0
-        dispatcher: FALLBACK
   /data/v64.0/chatter/users/me/messages:
     parameters: []
     post:
@@ -668,317 +362,124 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    Body14:
-      title: Body14
+    SuccessfulUserMessagesGeneral:
+      title: SuccessfulUserMessagesGeneral
       required:
-      - isRichText
-      - messageSegments
-      - text
-      type: object
-      properties:
-        isRichText:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        messageSegments:
-          type: array
-          items:
-            type: string
-          description: ''
-          example: []
-        text:
-          type: string
-          example: example_value
-      examples:
-      - isRichText: null
-        messageSegments: []
-        text: This is a private message
-    Topics:
-      title: Topics
-      required:
-      - currentPageUrl
-      - nextPageUrl
-      - topics
-      type: object
-      properties:
-        currentPageUrl:
-          type:
-          - string
-          - 'null'
-          example: https://www.example.com
-        nextPageUrl:
-          type:
-          - string
-          - 'null'
-          example: https://www.example.com
-        topics:
-          type: array
-          items:
-            type: string
-          description: ''
-          example: []
-      examples:
-      - currentPageUrl: null
-        nextPageUrl: null
-        topics: []
-    SuccessfulUsersFilesGeneral:
-      title: SuccessfulUsersFilesGeneral
-      required:
-      - checksum
-      - contentHubRepository
-      - contentModifiedDate
-      - contentSize
-      - contentUrl
-      - contentVersionId
-      - createdDate
-      - description
-      - downloadUrl
-      - externalDocumentUrl
-      - externalFilePermissionInformation
-      - fileAsset
-      - fileExtension
-      - fileType
-      - flashRenditionStatus
+      - body
+      - conversationId
+      - conversationUrl
       - id
-      - isFileAsset
-      - isInMyFileSync
-      - isMajorVersion
-      - mimeType
-      - moderationFlags
-      - modifiedDate
-      - motif
-      - mySubscription
-      - name
-      - origin
-      - owner
-      - pageCount
-      - parentFolder
-      - pdfRenditionStatus
-      - publishStatus
-      - renditionUrl
-      - renditionUrl240By180
-      - renditionUrl720By480
-      - repositoryFileId
-      - repositoryFileUrl
-      - sharingOption
-      - sharingPrivacy
-      - sharingRole
-      - systemModstamp
-      - textPreview
-      - thumb120By90RenditionStatus
-      - thumb240By180RenditionStatus
-      - thumb720By480RenditionStatus
-      - title
-      - topics
-      - type
+      - recipients
+      - sender
+      - sendingCommunity
+      - sentDate
       - url
-      - versionNumber
       type: object
       properties:
-        checksum:
-          type: string
-          example: example_value
-        contentHubRepository:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        contentModifiedDate:
-          type: string
-          example: example_value
-        contentSize:
-          type: integer
-          contentEncoding: int32
-          example: 10
-        contentUrl:
-          type:
-          - string
-          - 'null'
-          example: https://www.example.com
-        contentVersionId:
+        body:
+          $ref: '#/components/schemas/Body14'
+        conversationId:
           type: string
           example: '500123'
-        createdDate:
-          type: string
-          example: example_value
-        description:
-          type:
-          - string
-          - 'null'
-          example: A sample description.
-        downloadUrl:
+        conversationUrl:
           type: string
           example: https://www.example.com
-        externalDocumentUrl:
-          type:
-          - string
-          - 'null'
-          example: https://www.example.com
-        externalFilePermissionInformation:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        fileAsset:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        fileExtension:
-          type: string
-          example: example_value
-        fileType:
-          type: string
-          example: example_value
-        flashRenditionStatus:
-          type: string
-          example: example_value
         id:
           type: string
           example: abc123
-        isFileAsset:
-          type: boolean
-          example: true
-        isInMyFileSync:
-          type: boolean
-          example: true
-        isMajorVersion:
-          type: boolean
-          example: true
-        mimeType:
-          type: string
-          example: example_value
-        moderationFlags:
+        recipients:
+          type: array
+          items:
+            $ref: '#/components/schemas/Recipient'
+          description: ''
+          example: []
+        sender:
+          $ref: '#/components/schemas/Sender'
+        sendingCommunity:
           type:
           - string
           - 'null'
           example: example_value
-        modifiedDate:
-          type: string
-          example: example_value
-        motif:
-          $ref: '#/components/schemas/Motif'
-        mySubscription:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        name:
-          type: string
-          example: Example Title
-        origin:
-          type: string
-          example: example_value
-        owner:
-          $ref: '#/components/schemas/Owner'
-        pageCount:
-          type: integer
-          contentEncoding: int32
-          example: 42
-        parentFolder:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        pdfRenditionStatus:
-          type: string
-          example: example_value
-        publishStatus:
-          type: string
-          example: example_value
-        renditionUrl:
-          type: string
-          example: https://www.example.com
-        renditionUrl240By180:
-          type: string
-          example: https://www.example.com
-        renditionUrl720By480:
-          type: string
-          example: https://www.example.com
-        repositoryFileId:
-          type:
-          - string
-          - 'null'
-          example: '500123'
-        repositoryFileUrl:
-          type:
-          - string
-          - 'null'
-          example: https://www.example.com
-        sharingOption:
-          type: string
-          example: example_value
-        sharingPrivacy:
-          type: string
-          example: example_value
-        sharingRole:
-          type: string
-          example: example_value
-        systemModstamp:
-          type: string
-          example: example_value
-        textPreview:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        thumb120By90RenditionStatus:
-          type: string
-          example: example_value
-        thumb240By180RenditionStatus:
-          type: string
-          example: example_value
-        thumb720By480RenditionStatus:
-          type: string
-          example: example_value
-        title:
-          type: string
-          example: Example Title
-        topics:
-          $ref: '#/components/schemas/Topics'
-        type:
+        sentDate:
           type: string
           example: example_value
         url:
           type: string
           example: https://www.example.com
-        versionNumber:
-          type: string
-          example: example_value
       examples:
-      - checksum: 71a50dbba44c78128b221b7df7bb51f1
-        contentHubRepository: null
-        contentModifiedDate: '2023-11-20T16:28:22.000Z'
-        contentSize: 95
-        contentUrl: null
-        contentVersionId: 068xx0000004C92AAE
-        createdDate: '2023-11-20T16:28:22.000Z'
-        description: null
-        downloadUrl: /services/data/v58.0/connect/files/069.../content?versionNumber=1
-        externalDocumentUrl: null
-        externalFilePermissionInformation: null
-        fileAsset: null
-        fileExtension: png
-        fileType: Png
-        flashRenditionStatus: Na
-        id: 069...
-        isFileAsset: false
-        isInMyFileSync: false
-        isMajorVersion: true
-        mimeType: image/png
-        moderationFlags: null
-        modifiedDate: '2023-11-20T16:28:22.000Z'
-        motif:
-          color: '939393'
-          largeIconUrl: /img/content/content64.png
-          mediumIconUrl: /img/content/content32.png
-          smallIconUrl: /img/icon/files16.png
-          svgIconUrl: null
-        mySubscription: null
-        name: 1x1.png
-        origin: Chatter
-        owner:
+      - body:
+          isRichText: null
+          messageSegments: []
+          text: This is a private message
+        conversationId: 03M...
+        conversationUrl: /services/data/v58.0/chatter/users/me/conversations/03M...
+        id: 03J...
+        recipients:
+        - additionalLabel: null
+          communityNickname: automatedprocess
+          companyName: Salesforce
+          displayName: Automated Process
+          firstName: Automated
+          id: 005...
+          isActive: true
+          isInThisCommunity: true
+          lastName: Process
+          motif:
+            color: 1B96FF
+            largeIconUrl: /img/icon/profile64.png
+            mediumIconUrl: /img/icon/profile32.png
+            smallIconUrl: /img/icon/profile16.png
+            svgIconUrl: null
+          mySubscription: null
+          name: Automated Process
+          outOfOffice:
+            message: ''
+          photo:
+            fullEmailPhotoUrl: https://<my_domain>/img/userprofile/default_profile_200_v2.png?fromEmail=1
+            largePhotoUrl: https://<my_domain>/profilephoto/005/F
+            mediumPhotoUrl: https://<my_domain>/profilephoto/005/M
+            photoVersionId: null
+            smallPhotoUrl: https://<my_domain>/profilephoto/005/T
+            standardEmailPhotoUrl: https://<my_domain>/img/userprofile/default_profile_45_v2.png?fromEmail=1
+            url: /services/data/v58.0/connect/user-profiles/005.../photo
+          reputation: null
+          title: null
+          type: User
+          url: /services/data/v58.0/chatter/users/005...
+          userType: System
+        - additionalLabel: null
+          communityNickname: User1696423780773910041
+          companyName: Salesforce
+          displayName: Name
+          firstName: FirstName
+          id: 005...
+          isActive: true
+          isInThisCommunity: true
+          lastName: Name
+          motif:
+            color: 1B96FF
+            largeIconUrl: /img/icon/profile64.png
+            mediumIconUrl: /img/icon/profile32.png
+            smallIconUrl: /img/icon/profile16.png
+            svgIconUrl: null
+          mySubscription: null
+          name: Name
+          outOfOffice:
+            message: ''
+          photo:
+            fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+            largePhotoUrl: https://<my_domain>/profilephoto/729.../F
+            mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
+            photoVersionId: 729...
+            smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
+            standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+            url: /services/data/v58.0/connect/user-profiles/005.../photo
+          reputation: null
+          title: null
+          type: User
+          url: /services/data/v58.0/chatter/users/005...
+          userType: Internal
+        sender:
           additionalLabel: null
           communityNickname: User1696423780773910041
           companyName: Salesforce
@@ -1011,31 +512,89 @@ components:
           type: User
           url: /services/data/v58.0/chatter/users/005...
           userType: Internal
-        pageCount: 0
-        parentFolder: null
-        pdfRenditionStatus: Na
-        publishStatus: PrivateAccess
-        renditionUrl: /services/data/v58.0/connect/files/069.../rendition?type=THUMB120BY90
-        renditionUrl240By180: /services/data/v58.0/connect/files/069.../rendition?type=THUMB240BY180
-        renditionUrl720By480: /services/data/v58.0/connect/files/069.../rendition?type=THUMB720BY480
-        repositoryFileId: null
-        repositoryFileUrl: null
-        sharingOption: Allowed
-        sharingPrivacy: None
-        sharingRole: Owner
-        systemModstamp: '2023-11-20T16:28:23.000Z'
-        textPreview: null
-        thumb120By90RenditionStatus: NotScheduled
-        thumb240By180RenditionStatus: NotScheduled
-        thumb720By480RenditionStatus: NotScheduled
-        title: 1x1.png
-        topics:
-          currentPageUrl: null
-          nextPageUrl: null
-          topics: []
-        type: File
-        url: /services/data/v58.0/connect/files/069...?versionNumber=1
-        versionNumber: '1'
+        sendingCommunity: null
+        sentDate: <datetime>
+        url: /services/data/v58.0/chatter/users/me/messages/03J...
+    Photo15:
+      title: Photo15
+      required:
+      - fullEmailPhotoUrl
+      - largePhotoUrl
+      - mediumPhotoUrl
+      - photoVersionId
+      - smallPhotoUrl
+      - standardEmailPhotoUrl
+      - url
+      type: object
+      properties:
+        fullEmailPhotoUrl:
+          type: string
+          example: user@example.com
+        largePhotoUrl:
+          type: string
+          example: https://www.example.com
+        mediumPhotoUrl:
+          type: string
+          example: https://www.example.com
+        photoVersionId:
+          type:
+          - string
+          - 'null'
+          example: '500123'
+        smallPhotoUrl:
+          type: string
+          example: https://www.example.com
+        standardEmailPhotoUrl:
+          type: string
+          example: user@example.com
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - fullEmailPhotoUrl: https://<my_domain>/img/userprofile/default_group_profile_200_v2.png?fromEmail=1
+        largePhotoUrl: https://<my_domain>/profilephoto/0F9/F
+        mediumPhotoUrl: https://<my_domain>/profilephoto/0F9/M
+        photoVersionId: null
+        smallPhotoUrl: https://<my_domain>/profilephoto/0F9/T
+        standardEmailPhotoUrl: https://<my_domain>/img/userprofile/default_group_profile_45_v2.png?fromEmail=1
+        url: /services/data/v58.0/chatter/groups/0F9.../photo
+    OutOfOffice:
+      title: OutOfOffice
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+          example: example_value
+      examples:
+      - message: ''
+    Body14:
+      title: Body14
+      required:
+      - isRichText
+      - messageSegments
+      - text
+      type: object
+      properties:
+        isRichText:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        messageSegments:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        text:
+          type: string
+          example: example_value
+      examples:
+      - isRichText: null
+        messageSegments: []
+        text: This is a private message
     Photo:
       title: Photo
       required:
@@ -1196,278 +755,39 @@ components:
         type: User
         url: /services/data/v58.0/chatter/users/005...
         userType: System
-    SuccessfulUserMessagesGeneral:
-      title: SuccessfulUserMessagesGeneral
+    Motif:
+      title: Motif
       required:
-      - body
-      - conversationId
-      - conversationUrl
-      - id
-      - recipients
-      - sender
-      - sendingCommunity
-      - sentDate
-      - url
+      - color
+      - largeIconUrl
+      - mediumIconUrl
+      - smallIconUrl
+      - svgIconUrl
       type: object
       properties:
-        body:
-          $ref: '#/components/schemas/Body14'
-        conversationId:
+        color:
           type: string
-          example: '500123'
-        conversationUrl:
+          example: example_value
+        largeIconUrl:
           type: string
           example: https://www.example.com
-        id:
+        mediumIconUrl:
           type: string
-          example: abc123
-        recipients:
-          type: array
-          items:
-            $ref: '#/components/schemas/Recipient'
-          description: ''
-          example: []
-        sender:
-          $ref: '#/components/schemas/Sender'
-        sendingCommunity:
+          example: https://www.example.com
+        smallIconUrl:
+          type: string
+          example: https://www.example.com
+        svgIconUrl:
           type:
           - string
           - 'null'
-          example: example_value
-        sentDate:
-          type: string
-          example: example_value
-        url:
-          type: string
           example: https://www.example.com
       examples:
-      - body:
-          isRichText: null
-          messageSegments: []
-          text: This is a private message
-        conversationId: 03M...
-        conversationUrl: /services/data/v58.0/chatter/users/me/conversations/03M...
-        id: 03J...
-        recipients:
-        - additionalLabel: null
-          communityNickname: automatedprocess
-          companyName: Salesforce
-          displayName: Automated Process
-          firstName: Automated
-          id: 005...
-          isActive: true
-          isInThisCommunity: true
-          lastName: Process
-          motif:
-            color: 1B96FF
-            largeIconUrl: /img/icon/profile64.png
-            mediumIconUrl: /img/icon/profile32.png
-            smallIconUrl: /img/icon/profile16.png
-            svgIconUrl: null
-          mySubscription: null
-          name: Automated Process
-          outOfOffice:
-            message: ''
-          photo:
-            fullEmailPhotoUrl: https://<my_domain>/img/userprofile/default_profile_200_v2.png?fromEmail=1
-            largePhotoUrl: https://<my_domain>/profilephoto/005/F
-            mediumPhotoUrl: https://<my_domain>/profilephoto/005/M
-            photoVersionId: null
-            smallPhotoUrl: https://<my_domain>/profilephoto/005/T
-            standardEmailPhotoUrl: https://<my_domain>/img/userprofile/default_profile_45_v2.png?fromEmail=1
-            url: /services/data/v58.0/connect/user-profiles/005.../photo
-          reputation: null
-          title: null
-          type: User
-          url: /services/data/v58.0/chatter/users/005...
-          userType: System
-        - additionalLabel: null
-          communityNickname: User1696423780773910041
-          companyName: Salesforce
-          displayName: Name
-          firstName: FirstName
-          id: 005...
-          isActive: true
-          isInThisCommunity: true
-          lastName: Name
-          motif:
-            color: 1B96FF
-            largeIconUrl: /img/icon/profile64.png
-            mediumIconUrl: /img/icon/profile32.png
-            smallIconUrl: /img/icon/profile16.png
-            svgIconUrl: null
-          mySubscription: null
-          name: Name
-          outOfOffice:
-            message: ''
-          photo:
-            fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
-            largePhotoUrl: https://<my_domain>/profilephoto/729.../F
-            mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
-            photoVersionId: 729...
-            smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
-            standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
-            url: /services/data/v58.0/connect/user-profiles/005.../photo
-          reputation: null
-          title: null
-          type: User
-          url: /services/data/v58.0/chatter/users/005...
-          userType: Internal
-        sender:
-          additionalLabel: null
-          communityNickname: User1696423780773910041
-          companyName: Salesforce
-          displayName: Name
-          firstName: Firstname
-          id: 005...
-          isActive: true
-          isInThisCommunity: true
-          lastName: Name
-          motif:
-            color: 1B96FF
-            largeIconUrl: /img/icon/profile64.png
-            mediumIconUrl: /img/icon/profile32.png
-            smallIconUrl: /img/icon/profile16.png
-            svgIconUrl: null
-          mySubscription: null
-          name: Name
-          outOfOffice:
-            message: ''
-          photo:
-            fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
-            largePhotoUrl: https://<my_domain>/profilephoto/729.../F
-            mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
-            photoVersionId: 729...
-            smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
-            standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
-            url: /services/data/v58.0/connect/user-profiles/005.../photo
-          reputation: null
-          title: null
-          type: User
-          url: /services/data/v58.0/chatter/users/005...
-          userType: Internal
-        sendingCommunity: null
-        sentDate: <datetime>
-        url: /services/data/v58.0/chatter/users/me/messages/03J...
-    Owner:
-      title: Owner
-      required:
-      - additionalLabel
-      - communityNickname
-      - companyName
-      - displayName
-      - firstName
-      - id
-      - isActive
-      - isInThisCommunity
-      - lastName
-      - motif
-      - mySubscription
-      - name
-      - outOfOffice
-      - photo
-      - reputation
-      - title
-      - type
-      - url
-      - userType
-      type: object
-      properties:
-        additionalLabel:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        communityNickname:
-          type: string
-          example: example_value
-        companyName:
-          type: string
-          example: example_value
-        displayName:
-          type: string
-          example: example_value
-        firstName:
-          type: string
-          example: example_value
-        id:
-          type: string
-          example: abc123
-        isActive:
-          type: boolean
-          example: true
-        isInThisCommunity:
-          type: boolean
-          example: true
-        lastName:
-          type: string
-          example: example_value
-        motif:
-          $ref: '#/components/schemas/Motif'
-        mySubscription:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        name:
-          type: string
-          example: Example Title
-        outOfOffice:
-          $ref: '#/components/schemas/OutOfOffice'
-        photo:
-          $ref: '#/components/schemas/Photo'
-        reputation:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        title:
-          type:
-          - string
-          - 'null'
-          example: Example Title
-        type:
-          type: string
-          example: example_value
-        url:
-          type: string
-          example: https://www.example.com
-        userType:
-          type: string
-          example: example_value
-      examples:
-      - additionalLabel: null
-        communityNickname: User1696423780773910041
-        companyName: Salesforce
-        displayName: Name
-        firstName: Firstname
-        id: 005...
-        isActive: true
-        isInThisCommunity: true
-        lastName: Name
-        motif:
-          color: 1B96FF
-          largeIconUrl: /img/icon/profile64.png
-          mediumIconUrl: /img/icon/profile32.png
-          smallIconUrl: /img/icon/profile16.png
-          svgIconUrl: null
-        mySubscription: null
-        name: Name
-        outOfOffice:
-          message: ''
-        photo:
-          fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
-          largePhotoUrl: https://<my_domain>/profilephoto/729.../F
-          mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
-          photoVersionId: 729...
-          smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
-          standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
-          url: /services/data/v58.0/connect/user-profiles/005.../photo
-        reputation: null
-        title: null
-        type: User
-        url: /services/data/v58.0/chatter/users/005...
-        userType: Internal
+      - color: '939393'
+        largeIconUrl: /img/content/content64.png
+        mediumIconUrl: /img/content/content32.png
+        smallIconUrl: /img/icon/files16.png
+        svgIconUrl: null
     Sender:
       title: Sender
       required:
@@ -1587,97 +907,11 @@ components:
         type: User
         url: /services/data/v58.0/chatter/users/005...
         userType: Internal
-    Photo15:
-      title: Photo15
-      required:
-      - fullEmailPhotoUrl
-      - largePhotoUrl
-      - mediumPhotoUrl
-      - photoVersionId
-      - smallPhotoUrl
-      - standardEmailPhotoUrl
-      - url
-      type: object
-      properties:
-        fullEmailPhotoUrl:
-          type: string
-          example: user@example.com
-        largePhotoUrl:
-          type: string
-          example: https://www.example.com
-        mediumPhotoUrl:
-          type: string
-          example: https://www.example.com
-        photoVersionId:
-          type:
-          - string
-          - 'null'
-          example: '500123'
-        smallPhotoUrl:
-          type: string
-          example: https://www.example.com
-        standardEmailPhotoUrl:
-          type: string
-          example: user@example.com
-        url:
-          type: string
-          example: https://www.example.com
-      examples:
-      - fullEmailPhotoUrl: https://<my_domain>/img/userprofile/default_group_profile_200_v2.png?fromEmail=1
-        largePhotoUrl: https://<my_domain>/profilephoto/0F9/F
-        mediumPhotoUrl: https://<my_domain>/profilephoto/0F9/M
-        photoVersionId: null
-        smallPhotoUrl: https://<my_domain>/profilephoto/0F9/T
-        standardEmailPhotoUrl: https://<my_domain>/img/userprofile/default_group_profile_45_v2.png?fromEmail=1
-        url: /services/data/v58.0/chatter/groups/0F9.../photo
-    Motif:
-      title: Motif
-      required:
-      - color
-      - largeIconUrl
-      - mediumIconUrl
-      - smallIconUrl
-      - svgIconUrl
-      type: object
-      properties:
-        color:
-          type: string
-          example: example_value
-        largeIconUrl:
-          type: string
-          example: https://www.example.com
-        mediumIconUrl:
-          type: string
-          example: https://www.example.com
-        smallIconUrl:
-          type: string
-          example: https://www.example.com
-        svgIconUrl:
-          type:
-          - string
-          - 'null'
-          example: https://www.example.com
-      examples:
-      - color: '939393'
-        largeIconUrl: /img/content/content64.png
-        mediumIconUrl: /img/content/content32.png
-        smallIconUrl: /img/icon/files16.png
-        svgIconUrl: null
-    OutOfOffice:
-      title: OutOfOffice
-      required:
-      - message
-      type: object
-      properties:
-        message:
-          type: string
-          example: example_value
-      examples:
-      - message: ''
   securitySchemes:
-    BearerAuth:
-      type: http
-      scheme: bearer
-      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
-
-        '
+    oauth2:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: '{DefaultParameterValue}{DefaultParameterValue}/services/oauth2/authorize'
+          scopes:
+            api: ''

@@ -1,32 +1,31 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Salesforce Bulk API 2.0 Abort Authentication API
-  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+  title: Salesforce Authentication API
+  version: '1.0'
+  description: 'Operations tagged Authentication across 2 of this provider''s published API definitions: salesforce-marketing-cloud-rest-openapi.yml, salesforce-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://{subdomain}.rest.marketingcloudapis.com
+  description: 'Marketing Cloud REST API endpoint. The subdomain is the tenant-specific subdomain for the Marketing Cloud account.
 
     '
-  version: v63.0
-  contact:
-    name: Salesforce Developers
-    url: https://developer.salesforce.com/
-  license:
-    name: Salesforce Developer Terms
-    url: https://www.salesforce.com/company/legal/agreements/
-servers:
-- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
-  description: Salesforce Bulk API 2.0 jobs endpoint
   variables:
-    instance:
-      default: yourInstance
-      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+    subdomain:
+      default: YOUR_SUBDOMAIN
+      description: 'The Marketing Cloud tenant subdomain (also known as the MID-specific subdomain). Obtain this from the Marketing Cloud Setup > Company Settings > Account Info.
 
         '
-    version:
-      default: '63.0'
-      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
-
-        '
-security:
-- BearerAuth: []
+- url: https://login.salesforce.com
+  variables: {}
+- url: https://id
+  variables: {}
+- url: https://services
+  variables: {}
+- url: '{{url}}{{site}}/services/oauth2'
+  variables:
+    url:
+      default: DefaultParameterValue
+    site:
+      default: DefaultParameterValue
 tags:
 - name: Authentication
   description: 'OAuth 2.0 token operations for obtaining access tokens using client credentials or authorization code flows.
@@ -71,6 +70,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+    servers:
+    - url: https://{subdomain}.rest.marketingcloudapis.com
+      description: 'Marketing Cloud REST API endpoint. The subdomain is the tenant-specific subdomain for the Marketing Cloud account.
+
+        '
+      variables:
+        subdomain:
+          default: YOUR_SUBDOMAIN
+          description: 'The Marketing Cloud tenant subdomain (also known as the MID-specific subdomain). Obtain this from the Marketing Cloud Setup > Company Settings > Account Info.
+
+            '
   /.well-known/auth-configuration:
     parameters: []
     get:
@@ -212,41 +222,34 @@ paths:
       x-microcks-operation:
         delay: 0
         dispatcher: FALLBACK
+    servers:
+    - url: https://login.salesforce.com
+      variables: {}
+    - url: https://id
+      variables: {}
+    - url: https://services
+      variables: {}
+    - url: '{{url}}{{site}}/services/oauth2'
+      variables:
+        url:
+          default: DefaultParameterValue
+        site:
+          default: DefaultParameterValue
 components:
   schemas:
-    TokenResponse:
+    Error:
       type: object
-      description: OAuth 2.0 access token response from the Marketing Cloud token endpoint.
+      description: An error response from the Marketing Cloud REST API.
       properties:
-        access_token:
+        message:
           type: string
-          description: 'The OAuth 2.0 access token for authenticating API requests. Include in the Authorization header as "Bearer {access_token}".
-
-            '
-        token_type:
-          type: string
-          description: The token type. Always "Bearer" for Marketing Cloud.
-        expires_in:
+          description: Human-readable description of the error.
+        errorcode:
           type: integer
-          description: The number of seconds until the access token expires.
-        scope:
+          description: Marketing Cloud numeric error code.
+        documentation:
           type: string
-          description: Space-separated list of permission scopes granted.
-        refresh_token:
-          type: string
-          description: 'A refresh token for obtaining a new access token without re-authentication. Only present for authorization_code grant type.
-
-            '
-        rest_instance_url:
-          type: string
-          format: uri
-          description: 'The REST API base URL for this Marketing Cloud account. Use this as the base URL for all subsequent REST API requests.
-
-            '
-        soap_instance_url:
-          type: string
-          format: uri
-          description: The SOAP API base URL for this Marketing Cloud account.
+          description: URL to documentation about this error.
     TokenRequest:
       type: object
       description: 'OAuth 2.0 token request parameters for obtaining a Marketing Cloud access token.
@@ -297,19 +300,65 @@ components:
           description: 'Space-separated list of permission scopes requested. If not specified, all scopes configured for the installed package are granted.
 
             '
-    Error:
+    TokenResponse:
       type: object
-      description: An error response from the Marketing Cloud REST API.
+      description: OAuth 2.0 access token response from the Marketing Cloud token endpoint.
       properties:
-        message:
+        access_token:
           type: string
-          description: Human-readable description of the error.
-        errorcode:
+          description: 'The OAuth 2.0 access token for authenticating API requests. Include in the Authorization header as "Bearer {access_token}".
+
+            '
+        token_type:
+          type: string
+          description: The token type. Always "Bearer" for Marketing Cloud.
+        expires_in:
           type: integer
-          description: Marketing Cloud numeric error code.
-        documentation:
+          description: The number of seconds until the access token expires.
+        scope:
           type: string
-          description: URL to documentation about this error.
+          description: Space-separated list of permission scopes granted.
+        refresh_token:
+          type: string
+          description: 'A refresh token for obtaining a new access token without re-authentication. Only present for authorization_code grant type.
+
+            '
+        rest_instance_url:
+          type: string
+          format: uri
+          description: 'The REST API base URL for this Marketing Cloud account. Use this as the base URL for all subsequent REST API requests.
+
+            '
+        soap_instance_url:
+          type: string
+          format: uri
+          description: The SOAP API base URL for this Marketing Cloud account.
+    MobileSDK:
+      title: MobileSDK
+      required:
+      - UseiOSNativeBrowserForAuthentication
+      - UseAndroidNativeBrowserForAuthentication
+      - shareBrowserSessionIOS
+      - shareBrowserSessionAndroid
+      type: object
+      properties:
+        UseiOSNativeBrowserForAuthentication:
+          type: boolean
+          example: true
+        UseAndroidNativeBrowserForAuthentication:
+          type: boolean
+          example: true
+        shareBrowserSessionIOS:
+          type: boolean
+          example: true
+        shareBrowserSessionAndroid:
+          type: boolean
+          example: '500123'
+      examples:
+      - UseiOSNativeBrowserForAuthentication: false
+        UseAndroidNativeBrowserForAuthentication: false
+        shareBrowserSessionIOS: false
+        shareBrowserSessionAndroid: false
     SuccessfulAuthenticationConfigurationEndpoint:
       title: SuccessfulAuthenticationConfigurationEndpoint
       required:
@@ -374,36 +423,20 @@ components:
         CertificateLogin: null
         LoginPageType: standard
         LoginPageTypeConfigs: {}
-    MobileSDK:
-      title: MobileSDK
-      required:
-      - UseiOSNativeBrowserForAuthentication
-      - UseAndroidNativeBrowserForAuthentication
-      - shareBrowserSessionIOS
-      - shareBrowserSessionAndroid
-      type: object
-      properties:
-        UseiOSNativeBrowserForAuthentication:
-          type: boolean
-          example: true
-        UseAndroidNativeBrowserForAuthentication:
-          type: boolean
-          example: true
-        shareBrowserSessionIOS:
-          type: boolean
-          example: true
-        shareBrowserSessionAndroid:
-          type: boolean
-          example: '500123'
-      examples:
-      - UseiOSNativeBrowserForAuthentication: false
-        UseAndroidNativeBrowserForAuthentication: false
-        shareBrowserSessionIOS: false
-        shareBrowserSessionAndroid: false
   securitySchemes:
     BearerAuth:
       type: http
       scheme: bearer
-      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+      description: 'OAuth 2.0 Bearer token obtained from the /v2/token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
 
         '
+    oauth2:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: '{DefaultParameterValue}{DefaultParameterValue}/services/oauth2/authorize'
+          scopes:
+            api: ''
+x-refined-from:
+- salesforce-marketing-cloud-rest-openapi.yml
+- salesforce-openapi.yml

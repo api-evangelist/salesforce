@@ -1,0 +1,176 @@
+openapi: 3.2.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Link API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Link
+paths:
+  /data/v64.0/connect/files/{FILE_ID}/file-shares/link:
+    parameters: []
+    put:
+      tags:
+      - Link
+      summary: Salesforce Files Shares Link
+      description: 'A description of a file shared as a link. Create, access, and delete a file’s share link.
+
+
+        https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_files_shares_link.htm'
+      operationId: FilesSharesLink
+      parameters:
+      - name: FILE_ID
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Mon, 20 Nov 2023 16:38:31 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-XSS-Protection:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: 1; mode=block
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessfulFilesSharesLink'
+                - examples:
+                  - expirationDate: null
+                    fileViewUrl: https://<my_domain>/sfc/p/2o000000i6mB/a/2o00000022S3/y2zsu9pHtEVIa49w6ElaXdjXz_GxBSzRVwe645_Z.dw
+                    isPasswordRequired: false
+                    password: null
+                    sharingType: V
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                expirationDate: null
+                fileViewUrl: https://<my_domain>/sfc/p/2o000000i6mB/a/2o00000022S3/y2zsu9pHtEVIa49w6ElaXdjXz_GxBSzRVwe645_Z.dw
+                isPasswordRequired: false
+                password: null
+                sharingType: V
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    SuccessfulFilesSharesLink:
+      title: SuccessfulFilesSharesLink
+      required:
+      - expirationDate
+      - fileViewUrl
+      - isPasswordRequired
+      - password
+      - sharingType
+      type: object
+      properties:
+        expirationDate:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        fileViewUrl:
+          type: string
+          example: https://www.example.com
+        isPasswordRequired:
+          type: boolean
+          example: true
+        password:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        sharingType:
+          type: string
+          example: example_value
+      examples:
+      - expirationDate: null
+        fileViewUrl: https://<my_domain>/sfc/p/2o000000i6mB/a/2o00000022S3/y2zsu9pHtEVIa49w6ElaXdjXz_GxBSzRVwe645_Z.dw
+        isPasswordRequired: false
+        password: null
+        sharingType: V
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

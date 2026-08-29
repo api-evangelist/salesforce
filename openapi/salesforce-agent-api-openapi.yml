@@ -1,32 +1,25 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Salesforce Bulk API 2.0 Abort Agent API
-  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
-
-    '
-  version: v63.0
-  contact:
-    name: Salesforce Developers
-    url: https://developer.salesforce.com/
-  license:
-    name: Salesforce Developer Terms
-    url: https://www.salesforce.com/company/legal/agreements/
+  title: Salesforce Agent API
+  description: 'Find the resources you need to start building. '
+  contact: {}
+  version: '1.0'
 servers:
-- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
-  description: Salesforce Bulk API 2.0 jobs endpoint
+- url: https://login.salesforce.com
+  variables: {}
+- url: https://id
+  variables: {}
+- url: https://services
+  variables: {}
+- url: '{{url}}{{site}}/services/oauth2'
   variables:
-    instance:
-      default: yourInstance
-      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
-
-        '
-    version:
-      default: '63.0'
-      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
-
-        '
+    url:
+      default: DefaultParameterValue
+    site:
+      default: DefaultParameterValue
 security:
-- BearerAuth: []
+- oauth2:
+  - api
 tags:
 - name: Agent
 paths:
@@ -355,9 +348,10 @@ components:
       - runId: 4KBAU0000002oK54AI
         status: NEW
   securitySchemes:
-    BearerAuth:
-      type: http
-      scheme: bearer
-      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
-
-        '
+    oauth2:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: '{DefaultParameterValue}{DefaultParameterValue}/services/oauth2/authorize'
+          scopes:
+            api: ''

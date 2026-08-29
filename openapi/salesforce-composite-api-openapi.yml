@@ -1,32 +1,25 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Salesforce Bulk API 2.0 Abort Composite API
-  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
-
-    '
-  version: v63.0
-  contact:
-    name: Salesforce Developers
-    url: https://developer.salesforce.com/
-  license:
-    name: Salesforce Developer Terms
-    url: https://www.salesforce.com/company/legal/agreements/
+  title: Salesforce Composite API
+  description: 'Find the resources you need to start building. '
+  contact: {}
+  version: '1.0'
 servers:
-- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
-  description: Salesforce Bulk API 2.0 jobs endpoint
+- url: https://login.salesforce.com
+  variables: {}
+- url: https://id
+  variables: {}
+- url: https://services
+  variables: {}
+- url: '{{url}}{{site}}/services/oauth2'
   variables:
-    instance:
-      default: yourInstance
-      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
-
-        '
-    version:
-      default: '63.0'
-      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
-
-        '
+    url:
+      default: DefaultParameterValue
+    site:
+      default: DefaultParameterValue
 security:
-- BearerAuth: []
+- oauth2:
+  - api
 tags:
 - name: Composite
   description: 'The Composite API executes a series of REST API requests in a single POST request, or retrieves a list of other composite resources with a GET request.
@@ -359,746 +352,104 @@ paths:
       x-microcks-operation:
         delay: 0
         dispatcher: FALLBACK
-  /data/v64.0/composite/batch:
-    parameters: []
-    post:
-      tags:
-      - Composite
-      summary: Salesforce Composite Batch
-      description: 'Executes up to 25 subrequests in a single request. The response bodies and HTTP statuses of the subrequests in the batch are returned in a single response body. Each subrequest counts against rate limits.
-
-        The requests in a batch are called subrequests. All subrequests are executed in the context of the same user. Subrequests are independent, and you can’t pass information between them. Subrequests execute serially in their order in the request body. When a subrequest executes successfully, it commits its data. Commits are reflected in the output of later subrequests. If a subrequest fails, commits made by previous subrequests are not rolled back. If a batch request doesn’t complete within 10 minutes, the batch times out and the remaining subrequests aren’t executed.
-
-
-        https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_batch.htm'
-      operationId: CompositeBatch
-      parameters: []
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              allOf:
-              - $ref: '#/components/schemas/CompositeBatchRequest'
-              - examples:
-                - haltOnError: true
-                  batchRequests:
-                  - method: GET
-                    url: v64.0/query/?q=SELECT+Id,+Name+FROM+Account LIMIT 2
-                  - method: GET
-                    url: v64.0/query/?q=SELECT+Id,+Name+FROM+Opportunity LIMIT 2
-              contentMediaType: application/json
-            example:
-              haltOnError: true
-              batchRequests:
-              - method: GET
-                url: v64.0/query/?q=SELECT+Id,+Name+FROM+Account LIMIT 2
-              - method: GET
-                url: v64.0/query/?q=SELECT+Id,+Name+FROM+Opportunity LIMIT 2
-        required: true
-      responses:
-        '200':
-          description: OK
-          headers:
-            Date:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: Mon, 20 Nov 2023 15:19:46 GMT
-            Strict-Transport-Security:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: max-age=63072000; includeSubDomains
-            X-Content-Type-Options:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: nosniff
-            X-XSS-Protection:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: 1; mode=block
-            X-Robots-Tag:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: none
-            Cache-Control:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: no-cache,must-revalidate,max-age=0,no-store,private
-            Sforce-Limit-Info:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: api-usage=34/15000
-            Vary:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: Accept-Encoding
-            Content-Encoding:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: gzip
-            Transfer-Encoding:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: chunked
-          content:
-            application/json;charset=UTF-8:
-              schema:
-                type: string
-                examples:
-                - "{\n    \"hasErrors\": false,\n    \"results\": [\n        {\n            \"statusCode\": 200,\n            \"result\": {\n                \"totalSize\": 2,\n                \"done\": true,\n                \"records\": [\n                    {\n                        \"attributes\": {\n                            \"type\": \"Account\",\n                            \"url\": \"/services/data/v58.0/sobjects/Account/001...\"\n                        },\n                        \"Id\": \"001...\",\n                        \"Name\": \"Sample Account\"\n                    },\n                    ...\n                ]\n            }\n        },\n        {\n            \"statusCode\": 200,\n            \"result\": {\n                \"totalSize\": 2,\n                \"done\": true,\n                \"records\": [\n                    {\n                        \"attributes\": {\n                            \"type\": \"Opportunity\",\n                            \"url\": \"/services/data/v58.0/sobjects/Opportunity/006...\"\n                        },\n                        \"Id\": \"006...\",\n                        \"Name\": \"Edge Emergency Generator\"\n                    },\n                    ...\n                ]\n            }\n        }\n    ]\n}"
-                contentMediaType: application/json;charset=UTF-8
-              example: "{\n    \"hasErrors\": false,\n    \"results\": [\n        {\n            \"statusCode\": 200,\n            \"result\": {\n                \"totalSize\": 2,\n                \"done\": true,\n                \"records\": [\n                    {\n                        \"attributes\": {\n                            \"type\": \"Account\",\n                            \"url\": \"/services/data/v58.0/sobjects/Account/001...\"\n                        },\n                        \"Id\": \"001...\",\n                        \"Name\": \"Sample Account\"\n                    },\n                    ...\n                ]\n            }\n        },\n        {\n            \"statusCode\": 200,\n            \"result\": {\n                \"totalSize\": 2,\n                \"done\": true,\n                \"records\": [\n                    {\n                        \"attributes\": {\n                            \"type\": \"Opportunity\",\n                            \"url\": \"/services/data/v58.0/sobjects/Opportunity/006...\"\n                        },\n                        \"Id\": \"006...\",\n                        \"Name\": \"Edge Emergency Generator\"\n                    },\n                    ...\n                ]\n            }\n        }\n    ]\n}"
-      deprecated: false
-      servers:
-      - url: https://services
-        variables: {}
-      x-api-evangelist-processing:
-        PascalCaseOperationSummaries: true
-        ChooseTags: true
-      x-microcks-operation:
-        delay: 0
-        dispatcher: FALLBACK
-  /composite/batch:
-    post:
-      operationId: executeBatchRequest
-      summary: Salesforce Execute a Batch of Requests
-      description: 'Executes up to 25 independent REST API subrequests in a single HTTP call. All requests are processed independently; failure of one does not affect others. Returns an array of results in the same order as the subrequests. Use this to reduce the number of round trips when making multiple unrelated requests.
-
-        '
-      tags:
-      - Composite
-      requestBody:
-        required: true
-        description: 'An array of up to 25 independent subrequests to execute as a batch.
-
-          '
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-              - batchRequests
-              properties:
-                batchRequests:
-                  type: array
-                  description: 'Array of subrequests to execute. Each subrequest is independent of the others.
-
-                    '
-                  maxItems: 25
-                  items:
-                    type: object
-                    required:
-                    - method
-                    - url
-                    properties:
-                      method:
-                        type: string
-                        enum:
-                        - GET
-                        - POST
-                        - PATCH
-                        - DELETE
-                        description: HTTP method for the subrequest.
-                      url:
-                        type: string
-                        description: 'Relative URL for the subrequest (e.g., /services/data/v63.0/sobjects/Account/001...).
-
-                          '
-                      richInput:
-                        type: object
-                        description: 'Request body for POST and PATCH subrequests.
-
-                          '
-                haltOnError:
-                  type: boolean
-                  default: false
-                  description: 'If true, stop processing subsequent subrequests after the first error occurs.
-
-                    '
-            examples:
-              ExecutebatchrequestRequestExample:
-                summary: Default executeBatchRequest request
-                x-microcks-default: true
-                value:
-                  batchRequests:
-                  - method: GET
-                    url: https://www.example.com
-                    richInput: example_value
-                  haltOnError: true
-      responses:
-        '200':
-          description: Results for each subrequest in the batch, in the same order.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  hasErrors:
-                    type: boolean
-                    description: Whether any subrequest returned an error response.
-                  results:
-                    type: array
-                    description: 'Array of subrequest results in the same order as the input batchRequests.
-
-                      '
-                    items:
-                      type: object
-                      properties:
-                        statusCode:
-                          type: integer
-                          description: HTTP status code of the subrequest.
-                        result:
-                          description: Response body of the subrequest.
-              examples:
-                Executebatchrequest200Example:
-                  summary: Default executeBatchRequest 200 response
-                  x-microcks-default: true
-                  value:
-                    hasErrors: true
-                    results:
-                    - statusCode: 10
-                      result: example_value
-        '401':
-          description: Unauthorized. Invalid or expired OAuth token.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Executebatchrequest401Example:
-                  summary: Default executeBatchRequest 401 response
-                  x-microcks-default: true
-                  value:
-                    message: example_value
-                    errorCode: example_value
-                    fields:
-                    - example_value
-      x-microcks-operation:
-        delay: 0
-        dispatcher: FALLBACK
-  /composite:
-    post:
-      operationId: executeCompositeRequest
-      summary: Salesforce Execute a Composite Request With Dependent Subrequests
-      description: 'Executes a series of REST API requests where later requests can reference the results of earlier requests using reference IDs. Supports up to 25 subrequests. If any subrequest fails and allOrNone is true, all changes are rolled back. Use this for complex multi-step operations where later steps depend on earlier results.
-
-        '
-      tags:
-      - Composite
-      requestBody:
-        required: true
-        description: 'A composite request containing ordered subrequests that may reference each other''s results.
-
-          '
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CompositeRequest_2'
-            examples:
-              ExecutecompositerequestRequestExample:
-                summary: Default executeCompositeRequest request
-                x-microcks-default: true
-                value:
-                  allOrNone: true
-                  collateSubrequests: true
-                  compositeRequest:
-                  - method: GET
-                    url: https://www.example.com
-                    referenceId: '500123'
-                    body: example_value
-      responses:
-        '200':
-          description: 'Results for each subrequest, including reference IDs, status codes, and response bodies.
-
-            '
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CompositeResponse_2'
-              examples:
-                Executecompositerequest200Example:
-                  summary: Default executeCompositeRequest 200 response
-                  x-microcks-default: true
-                  value:
-                    compositeResponse:
-                    - body: example_value
-                      httpHeaders: example_value
-                      httpStatusCode: 10
-                      referenceId: '500123'
-        '400':
-          description: 'Bad request. Invalid subrequest structure or circular reference detected.
-
-            '
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Executecompositerequest400Example:
-                  summary: Default executeCompositeRequest 400 response
-                  x-microcks-default: true
-                  value:
-                    message: example_value
-                    errorCode: example_value
-                    fields:
-                    - example_value
-        '401':
-          description: Unauthorized. Invalid or expired OAuth token.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Executecompositerequest401Example:
-                  summary: Default executeCompositeRequest 401 response
-                  x-microcks-default: true
-                  value:
-                    message: example_value
-                    errorCode: example_value
-                    fields:
-                    - example_value
-      x-microcks-operation:
-        delay: 0
-        dispatcher: FALLBACK
-  /composite/sobjects:
-    post:
-      operationId: collectionsCreate
-      summary: Salesforce Sobject Collections Create
-      description: 'Creates up to 200 records in a single API call using SObject Collections. All records must be of the same or different SObject types. If allOrNone is true, all records must succeed or none are committed. Returns an array of save results with IDs or errors for each record.
-
-        '
-      tags:
-      - Composite
-      requestBody:
-        required: true
-        description: Array of up to 200 SObject records to create.
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-              - allOrNone
-              - records
-              properties:
-                allOrNone:
-                  type: boolean
-                  description: 'If true, all records must be created successfully or none are committed. If false, partial success is allowed.
-
-                    '
-                records:
-                  type: array
-                  description: Array of SObject records to create. Maximum 200 records.
-                  maxItems: 200
-                  items:
-                    $ref: '#/components/schemas/SObjectRecord'
-            examples:
-              CollectionscreateRequestExample:
-                summary: Default collectionsCreate request
-                x-microcks-default: true
-                value:
-                  allOrNone: true
-                  records:
-                  - attributes:
-                      type: example_value
-                      url: https://www.example.com
-                    Id: abc123
-      responses:
-        '200':
-          description: Array of save results with IDs or errors for each record.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: string
-                      description: The ID of the newly created record on success.
-                    success:
-                      type: boolean
-                      description: Whether this record was created successfully.
-                    errors:
-                      type: array
-                      description: List of errors if the record creation failed.
-                      items:
-                        $ref: '#/components/schemas/Error'
-              examples:
-                Collectionscreate200Example:
-                  summary: Default collectionsCreate 200 response
-                  x-microcks-default: true
-                  value:
-                  - id: abc123
-                    success: true
-                    errors:
-                    - message: example_value
-                      errorCode: example_value
-                      fields: {}
-        '401':
-          description: Unauthorized. Invalid or expired OAuth token.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Collectionscreate401Example:
-                  summary: Default collectionsCreate 401 response
-                  x-microcks-default: true
-                  value:
-                    message: example_value
-                    errorCode: example_value
-                    fields:
-                    - example_value
-      x-microcks-operation:
-        delay: 0
-        dispatcher: FALLBACK
-    patch:
-      operationId: collectionsUpdate
-      summary: Salesforce Sobject Collections Update
-      description: 'Updates up to 200 records in a single API call using SObject Collections. Each record must include its ID and the fields to update. If allOrNone is true, all updates must succeed or none are committed. Returns an array of save results for each record.
-
-        '
-      tags:
-      - Composite
-      requestBody:
-        required: true
-        description: Array of up to 200 SObject records to update, each including Id.
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-              - allOrNone
-              - records
-              properties:
-                allOrNone:
-                  type: boolean
-                  description: 'If true, all records must be updated successfully or none are committed. If false, partial success is allowed.
-
-                    '
-                records:
-                  type: array
-                  description: 'Array of SObject records to update. Each record must include the Id field. Maximum 200 records.
-
-                    '
-                  maxItems: 200
-                  items:
-                    $ref: '#/components/schemas/SObjectRecord'
-            examples:
-              CollectionsupdateRequestExample:
-                summary: Default collectionsUpdate request
-                x-microcks-default: true
-                value:
-                  allOrNone: true
-                  records:
-                  - attributes:
-                      type: example_value
-                      url: https://www.example.com
-                    Id: abc123
-      responses:
-        '200':
-          description: Array of save results with success flag or errors for each record.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: string
-                      description: The ID of the updated record.
-                    success:
-                      type: boolean
-                      description: Whether this record was updated successfully.
-                    errors:
-                      type: array
-                      description: List of errors if the record update failed.
-                      items:
-                        $ref: '#/components/schemas/Error'
-              examples:
-                Collectionsupdate200Example:
-                  summary: Default collectionsUpdate 200 response
-                  x-microcks-default: true
-                  value:
-                  - id: abc123
-                    success: true
-                    errors:
-                    - message: example_value
-                      errorCode: example_value
-                      fields: {}
-        '401':
-          description: Unauthorized. Invalid or expired OAuth token.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Collectionsupdate401Example:
-                  summary: Default collectionsUpdate 401 response
-                  x-microcks-default: true
-                  value:
-                    message: example_value
-                    errorCode: example_value
-                    fields:
-                    - example_value
-      x-microcks-operation:
-        delay: 0
-        dispatcher: FALLBACK
-    delete:
-      operationId: collectionsDelete
-      summary: Salesforce Sobject Collections Delete
-      description: 'Deletes up to 200 records in a single API call using SObject Collections. Record IDs are passed as a comma-separated query parameter. If allOrNone is true, all deletions must succeed or none are committed.
-
-        '
-      tags:
-      - Composite
-      parameters:
-      - name: ids
-        in: query
-        required: true
-        description: 'Comma-separated list of up to 200 record IDs to delete.
-
-          '
-        schema:
-          type: string
-        example: 001Dn00000pFakE001,001Dn00000pFakE002
-      - name: allOrNone
-        in: query
-        required: false
-        description: 'If true, all records must be deleted successfully or none are committed. Defaults to false.
-
-          '
-        schema:
-          type: boolean
-          default: false
-        example: true
-      responses:
-        '200':
-          description: Array of delete results with success flag or errors for each record.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: string
-                      description: The ID of the record that was deleted.
-                    success:
-                      type: boolean
-                      description: Whether this record was deleted successfully.
-                    errors:
-                      type: array
-                      description: List of errors if the record deletion failed.
-                      items:
-                        $ref: '#/components/schemas/Error'
-              examples:
-                Collectionsdelete200Example:
-                  summary: Default collectionsDelete 200 response
-                  x-microcks-default: true
-                  value:
-                  - id: abc123
-                    success: true
-                    errors:
-                    - message: example_value
-                      errorCode: example_value
-                      fields: {}
-        '401':
-          description: Unauthorized. Invalid or expired OAuth token.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Collectionsdelete401Example:
-                  summary: Default collectionsDelete 401 response
-                  x-microcks-default: true
-                  value:
-                    message: example_value
-                    errorCode: example_value
-                    fields:
-                    - example_value
-      x-microcks-operation:
-        delay: 0
-        dispatcher: FALLBACK
-  /composite/sobjects/{sobjectType}:
-    get:
-      operationId: collectionsRetrieve
-      summary: Salesforce Sobject Collections Retrieve
-      description: 'Retrieves up to 2000 records of the specified SObject type in a single API call. Record IDs are passed as a comma-separated query parameter. All records must be of the same SObject type. Returns all accessible fields for each record.
-
-        '
-      tags:
-      - Composite
-      parameters:
-      - $ref: '#/components/parameters/sobjectType'
-      - name: ids
-        in: query
-        required: true
-        description: 'Comma-separated list of up to 2000 record IDs to retrieve.
-
-          '
-        schema:
-          type: string
-        example: example_value
-      - name: fields
-        in: query
-        required: false
-        description: 'Comma-separated list of field names to return for each record. Returns all accessible fields if not specified.
-
-          '
-        schema:
-          type: string
-        example: example_value
-      responses:
-        '200':
-          description: Array of SObject records for the specified IDs.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/SObjectRecord'
-              examples:
-                Collectionsretrieve200Example:
-                  summary: Default collectionsRetrieve 200 response
-                  x-microcks-default: true
-                  value:
-                  - attributes:
-                      type: example_value
-                      url: https://www.example.com
-                    Id: abc123
-        '401':
-          description: Unauthorized. Invalid or expired OAuth token.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                Collectionsretrieve401Example:
-                  summary: Default collectionsRetrieve 401 response
-                  x-microcks-default: true
-                  value:
-                    message: example_value
-                    errorCode: example_value
-                    fields:
-                    - example_value
-      x-microcks-operation:
-        delay: 0
-        dispatcher: FALLBACK
 components:
   schemas:
-    CompositeResponse:
-      title: CompositeResponse
+    CompositeRequest:
+      title: CompositeRequest
       required:
-      - body
-      - httpHeaders
-      - httpStatusCode
-      - referenceId
+      - compositeRequest
       type: object
       properties:
-        body:
-          $ref: '#/components/schemas/Body1'
-        httpHeaders:
-          $ref: '#/components/schemas/HttpHeaders'
-        httpStatusCode:
-          type: integer
-          contentEncoding: int32
-          example: 10
-        referenceId:
-          type: string
-          example: '500123'
-      examples:
-      - body:
-          id: 001...
-          success: true
-          errors: []
-        httpHeaders:
-          Location: /services/data/v53.0/sobjects/Account/001...
-        httpStatusCode: 201
-        referenceId: refAccount
-    SuccessfulCompositeGraph:
-      title: SuccessfulCompositeGraph
-      required:
-      - graphs
-      type: object
-      properties:
-        graphs:
+        compositeRequest:
           type: array
           items:
-            $ref: '#/components/schemas/Graph1'
+            $ref: '#/components/schemas/CompositeRequest1'
           description: ''
           example: []
       examples:
-      - graphs:
-        - graphId: graph1
-          graphResponse:
-            compositeResponse:
-            - body:
-                id: 0014H00002x6HUhQAM
-                success: true
-                errors: []
-              httpHeaders:
-                Location: /services/data/v50.0/sobjects/Account/0014H00002x6HUhQAM
-              httpStatusCode: 201
-              referenceId: newAccount
-            - body:
-                id: 0034H00002JsInQQAV
-                success: true
-                errors: []
-              httpHeaders:
-                Location: /services/data/v50.0/sobjects/Contact/0034H00002JsInQQAV
-              httpStatusCode: 201
-              referenceId: newContact
-          isSuccessful: true
-    Body2:
-      title: Body2
+      - compositeRequest:
+        - method: POST
+          url: /services/data/v64.0/sobjects/Account
+          referenceId: refAccount
+          body:
+            Name: Sample Account
+        - method: POST
+          url: /services/data/v64.0/sobjects/Contact
+          referenceId: refContact
+          body:
+            LastName: Sample Contact
+            AccountId: '@{refAccount.id}'
+    SuccessfulComposite:
+      title: SuccessfulComposite
       required:
-      - Name
-      - Custom__c
+      - compositeResponse
+      type: object
+      properties:
+        compositeResponse:
+          type: array
+          items:
+            $ref: '#/components/schemas/CompositeResponse'
+          description: ''
+          example: []
+      examples:
+      - compositeResponse:
+        - body:
+            id: 001...
+            success: true
+            errors: []
+          httpHeaders:
+            Location: /services/data/v53.0/sobjects/Account/001...
+          httpStatusCode: 201
+          referenceId: refAccount
+        - body:
+            id: 0032o00003WauzJAAR
+            success: true
+            errors: []
+          httpHeaders:
+            Location: /services/data/v53.0/sobjects/Contact/003...
+          httpStatusCode: 201
+          referenceId: refContact
+    CompositeRequest1:
+      title: CompositeRequest1
+      required:
+      - method
+      - url
+      - referenceId
+      - body
+      type: object
+      properties:
+        method:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+        referenceId:
+          type: string
+          example: '500123'
+        body:
+          $ref: '#/components/schemas/Body'
+      examples:
+      - method: POST
+        url: /services/data/v64.0/sobjects/Account
+        referenceId: refAccount
+        body:
+          Name: Sample Account
+    Body:
+      title: Body
       type: object
       properties:
         Name:
           type: string
           example: Example Title
-        Custom__c:
+        LastName:
           type: string
           example: example_value
+        AccountId:
+          type: string
+          example: '500123'
       examples:
-      - Name: ACME Inc.
-        Custom__c: Hello world
+      - Name: Sample Account
     GraphResponse:
       title: GraphResponse
       required:
@@ -1129,81 +480,34 @@ components:
             Location: /services/data/v50.0/sobjects/Contact/0034H00002JsInQQAV
           httpStatusCode: 201
           referenceId: newContact
-    Body1:
-      title: Body1
+    Graph:
+      title: Graph
       required:
-      - id
-      - success
-      - errors
-      type: object
-      properties:
-        id:
-          type: string
-          example: abc123
-        success:
-          type: boolean
-          example: true
-        errors:
-          type: array
-          items:
-            type: string
-          description: ''
-          example: []
-      examples:
-      - id: 001...
-        success: true
-        errors: []
-    CompositeRequest:
-      title: CompositeRequest
-      required:
+      - graphId
       - compositeRequest
       type: object
       properties:
+        graphId:
+          type: string
+          example: '500123'
         compositeRequest:
           type: array
           items:
-            $ref: '#/components/schemas/CompositeRequest1'
+            $ref: '#/components/schemas/CompositeRequest2'
           description: ''
           example: []
       examples:
-      - compositeRequest:
+      - graphId: graph1
+        compositeRequest:
         - method: POST
-          url: /services/data/v64.0/sobjects/Account
-          referenceId: refAccount
+          url: /services/data/v64.0/sobjects/Account/
+          referenceId: newAccount
           body:
-            Name: Sample Account
-        - method: POST
-          url: /services/data/v64.0/sobjects/Contact
-          referenceId: refContact
-          body:
-            LastName: Sample Contact
-            AccountId: '@{refAccount.id}'
-    CompositeRequest1:
-      title: CompositeRequest1
-      required:
-      - method
-      - url
-      - referenceId
-      - body
-      type: object
-      properties:
-        method:
-          type: string
-          example: example_value
-        url:
-          type: string
-          example: https://www.example.com
-        referenceId:
-          type: string
-          example: '500123'
-        body:
-          $ref: '#/components/schemas/Body'
-      examples:
-      - method: POST
-        url: /services/data/v64.0/sobjects/Account
-        referenceId: refAccount
-        body:
-          Name: Sample Account
+            Name: ACME Inc.
+            Custom__c: Hello world
+        - method: GET
+          url: /services/data/v64.0/sobjects/Account/@{newAccount.id}
+          referenceId: newAccountInfo
     CompositeRequest2:
       title: CompositeRequest2
       required:
@@ -1230,48 +534,6 @@ components:
         body:
           Name: ACME Inc.
           Custom__c: Hello world
-    HttpHeaders:
-      title: HttpHeaders
-      required:
-      - Location
-      type: object
-      properties:
-        Location:
-          type: string
-          example: example_value
-      examples:
-      - Location: /services/data/v53.0/sobjects/Account/001...
-    SObjectRecord:
-      type: object
-      description: 'A Salesforce SObject record. Contains an attributes object describing the record type and URL, plus any number of field name/value pairs depending on the object type.
-
-        '
-      required:
-      - attributes
-      properties:
-        attributes:
-          type: object
-          description: 'Metadata attributes for this SObject record, including its type and REST API URL.
-
-            '
-          required:
-          - type
-          properties:
-            type:
-              type: string
-              description: The API name of the SObject type (e.g., Account, Contact).
-            url:
-              type: string
-              format: uri
-              description: The REST API URL for this specific record.
-          example: example_value
-        Id:
-          type: string
-          description: The 18-character globally unique Salesforce record ID.
-          minLength: 15
-          maxLength: 18
-          example: abc123
-      additionalProperties: true
     Graph1:
       title: Graph1
       required:
@@ -1309,105 +571,109 @@ components:
             httpStatusCode: 201
             referenceId: newContact
         isSuccessful: true
-    SuccessfulComposite:
-      title: SuccessfulComposite
+    Body2:
+      title: Body2
       required:
-      - compositeResponse
-      type: object
-      properties:
-        compositeResponse:
-          type: array
-          items:
-            $ref: '#/components/schemas/CompositeResponse'
-          description: ''
-          example: []
-      examples:
-      - compositeResponse:
-        - body:
-            id: 001...
-            success: true
-            errors: []
-          httpHeaders:
-            Location: /services/data/v53.0/sobjects/Account/001...
-          httpStatusCode: 201
-          referenceId: refAccount
-        - body:
-            id: 0032o00003WauzJAAR
-            success: true
-            errors: []
-          httpHeaders:
-            Location: /services/data/v53.0/sobjects/Contact/003...
-          httpStatusCode: 201
-          referenceId: refContact
-    CompositeResponse_2:
-      type: object
-      description: 'The result of a composite request, containing results for each subrequest in order.
-
-        '
-      properties:
-        compositeResponse:
-          type: array
-          description: 'Array of results corresponding to each subrequest, in the same order as the input compositeRequest array.
-
-            '
-          items:
-            type: object
-            properties:
-              body:
-                description: Response body of the subrequest.
-              httpHeaders:
-                type: object
-                description: Response HTTP headers for the subrequest.
-              httpStatusCode:
-                type: integer
-                description: HTTP status code of the subrequest.
-              referenceId:
-                type: string
-                description: The reference ID of the corresponding subrequest.
-          example: []
-    Body:
-      title: Body
+      - Name
+      - Custom__c
       type: object
       properties:
         Name:
           type: string
           example: Example Title
-        LastName:
+        Custom__c:
           type: string
           example: example_value
-        AccountId:
-          type: string
-          example: '500123'
       examples:
-      - Name: Sample Account
-    Graph:
-      title: Graph
+      - Name: ACME Inc.
+        Custom__c: Hello world
+    Body1:
+      title: Body1
       required:
-      - graphId
-      - compositeRequest
+      - id
+      - success
+      - errors
       type: object
       properties:
-        graphId:
+        id:
           type: string
-          example: '500123'
-        compositeRequest:
+          example: abc123
+        success:
+          type: boolean
+          example: true
+        errors:
           type: array
           items:
-            $ref: '#/components/schemas/CompositeRequest2'
+            type: string
           description: ''
           example: []
       examples:
-      - graphId: graph1
-        compositeRequest:
-        - method: POST
-          url: /services/data/v64.0/sobjects/Account/
-          referenceId: newAccount
-          body:
-            Name: ACME Inc.
-            Custom__c: Hello world
-        - method: GET
-          url: /services/data/v64.0/sobjects/Account/@{newAccount.id}
-          referenceId: newAccountInfo
+      - id: 001...
+        success: true
+        errors: []
+    SuccessfulCompositeGraph:
+      title: SuccessfulCompositeGraph
+      required:
+      - graphs
+      type: object
+      properties:
+        graphs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Graph1'
+          description: ''
+          example: []
+      examples:
+      - graphs:
+        - graphId: graph1
+          graphResponse:
+            compositeResponse:
+            - body:
+                id: 0014H00002x6HUhQAM
+                success: true
+                errors: []
+              httpHeaders:
+                Location: /services/data/v50.0/sobjects/Account/0014H00002x6HUhQAM
+              httpStatusCode: 201
+              referenceId: newAccount
+            - body:
+                id: 0034H00002JsInQQAV
+                success: true
+                errors: []
+              httpHeaders:
+                Location: /services/data/v50.0/sobjects/Contact/0034H00002JsInQQAV
+              httpStatusCode: 201
+              referenceId: newContact
+          isSuccessful: true
+    CompositeResponse:
+      title: CompositeResponse
+      required:
+      - body
+      - httpHeaders
+      - httpStatusCode
+      - referenceId
+      type: object
+      properties:
+        body:
+          $ref: '#/components/schemas/Body1'
+        httpHeaders:
+          $ref: '#/components/schemas/HttpHeaders'
+        httpStatusCode:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        referenceId:
+          type: string
+          example: '500123'
+      examples:
+      - body:
+          id: 001...
+          success: true
+          errors: []
+        httpHeaders:
+          Location: /services/data/v53.0/sobjects/Account/001...
+        httpStatusCode: 201
+        referenceId: refAccount
     CompositeGraphRequest:
       title: CompositeGraphRequest
       required:
@@ -1433,138 +699,22 @@ components:
           - method: GET
             url: /services/data/v64.0/sobjects/Account/@{newAccount.id}
             referenceId: newAccountInfo
-    BatchRequest:
-      title: BatchRequest
+    HttpHeaders:
+      title: HttpHeaders
       required:
-      - method
-      - url
+      - Location
       type: object
       properties:
-        method:
+        Location:
           type: string
           example: example_value
-        url:
-          type: string
-          example: https://www.example.com
       examples:
-      - method: GET
-        url: v64.0/query/?q=SELECT+Id,+Name+FROM+Account LIMIT 2
-    Error:
-      type: object
-      description: 'An error response from the Salesforce REST API, describing the problem with the request.
-
-        '
-      properties:
-        message:
-          type: string
-          description: Human-readable description of the error.
-          example: example_value
-        errorCode:
-          type: string
-          description: 'Salesforce error code (e.g., MALFORMED_QUERY, INVALID_FIELD, REQUIRED_FIELD_MISSING).
-
-            '
-          example: example_value
-        fields:
-          type: array
-          description: 'List of field names related to the error, if applicable (e.g., for field validation errors).
-
-            '
-          items:
-            type: string
-          example: []
-    CompositeBatchRequest:
-      title: CompositeBatchRequest
-      required:
-      - haltOnError
-      - batchRequests
-      type: object
-      properties:
-        haltOnError:
-          type: boolean
-          example: true
-        batchRequests:
-          type: array
-          items:
-            $ref: '#/components/schemas/BatchRequest'
-          description: ''
-          example: []
-      examples:
-      - haltOnError: true
-        batchRequests:
-        - method: GET
-          url: v64.0/query/?q=SELECT+Id,+Name+FROM+Account LIMIT 2
-        - method: GET
-          url: v64.0/query/?q=SELECT+Id,+Name+FROM+Opportunity LIMIT 2
-    CompositeRequest_2:
-      type: object
-      description: 'A composite request containing an ordered series of subrequests where later requests can reference the results of earlier ones using reference IDs.
-
-        '
-      required:
-      - compositeRequest
-      properties:
-        allOrNone:
-          type: boolean
-          default: false
-          description: 'If true, all subrequests must succeed or all changes are rolled back. If false, subrequests are processed independently.
-
-            '
-          example: true
-        collateSubrequests:
-          type: boolean
-          default: false
-          description: 'If true, similar subrequests are grouped for more efficient processing.
-
-            '
-          example: true
-        compositeRequest:
-          type: array
-          description: 'Ordered array of subrequests. Later subrequests can reference results from earlier ones using @{referenceId.field} syntax.
-
-            '
-          maxItems: 25
-          items:
-            type: object
-            required:
-            - method
-            - url
-            - referenceId
-            properties:
-              method:
-                type: string
-                enum:
-                - GET
-                - POST
-                - PATCH
-                - DELETE
-                description: HTTP method for this subrequest.
-              url:
-                type: string
-                description: Relative URL for this subrequest.
-              referenceId:
-                type: string
-                description: 'Unique identifier for this subrequest. Used to reference this subrequest''s results in subsequent subrequests.
-
-                  '
-              body:
-                type: object
-                description: Request body for POST and PATCH subrequests.
-          example: []
-  parameters:
-    sobjectType:
-      name: sobjectType
-      in: path
-      required: true
-      description: 'The API name of the Salesforce SObject type (e.g., Account, Contact, Opportunity, MyCustomObject__c).
-
-        '
-      schema:
-        type: string
+      - Location: /services/data/v53.0/sobjects/Account/001...
   securitySchemes:
-    BearerAuth:
-      type: http
-      scheme: bearer
-      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
-
-        '
+    oauth2:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: '{DefaultParameterValue}{DefaultParameterValue}/services/oauth2/authorize'
+          scopes:
+            api: ''

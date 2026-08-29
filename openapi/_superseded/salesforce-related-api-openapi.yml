@@ -1,0 +1,918 @@
+openapi: 3.2.0
+info:
+  title: Salesforce Bulk API 2.0 Abort Related API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: Related
+paths:
+  /data/v64.0/ui-api/actions/record/{RECORD_ID}/related-list/{RELATED_LIST_IDS}:
+    parameters: []
+    get:
+      tags:
+      - Related
+      summary: Salesforce Get Related List Actions
+      description: Get the actions on record detail pages.
+      operationId: GetRelatedListActions
+      parameters:
+      - name: RECORD_ID
+        in: path
+        description: Record ID
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      - name: RELATED_LIST_IDS
+        in: path
+        description: Optional. A related list name, or a comma-delimited list of related list names.
+        required: true
+        schema:
+          type: string
+        example: example_value
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Fri, 06 Oct 2023 11:27:08 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            ETag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: '"a20a5831cc59f674f527261d7469d62d--gzip"'
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/GetRelatedListActions'
+                - examples:
+                  - actions:
+                      00158000006QBOhAAO:
+                        actions:
+                        - actionListContext: RelatedList
+                          actionTarget: null
+                          actionTargetType: Invoke
+                          apiName: NewContact
+                          externalId: 00D58000000arpq:00158000006QBOhAAO::RelatedList:Desktop:StandardButton:NewContact
+                          iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/action/new_contact_120.png
+                          id: 0JV4H0000119415WAA
+                          isMassAction: 'false'
+                          label: New
+                          lwcComponent: null
+                          primaryColor: 5867E8
+                          relatedListRecordId: null
+                          relatedSourceObject: Contacts
+                          section: Page
+                          sourceObject: 00158000006QBOhAAO
+                          subtype: null
+                          targetObject: Contact
+                          targetUrl: null
+                          type: StandardButton
+                        links: []
+                        url: /services/data/v58.0/ui-api/actions/record/00158000006QBOhAAO/related-list/Contacts
+                    eTag: a20a5831cc59f674f527261d7469d62d
+                    url: /services/data/v58.0/ui-api/actions/record/00158000006QBOhAAO/related-list/Contacts
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                actions:
+                  00158000006QBOhAAO:
+                    actions:
+                    - actionListContext: RelatedList
+                      actionTarget: null
+                      actionTargetType: Invoke
+                      apiName: NewContact
+                      externalId: 00D58000000arpq:00158000006QBOhAAO::RelatedList:Desktop:StandardButton:NewContact
+                      iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/action/new_contact_120.png
+                      id: 0JV4H0000119415WAA
+                      isMassAction: 'false'
+                      label: New
+                      lwcComponent: null
+                      primaryColor: 5867E8
+                      relatedListRecordId: null
+                      relatedSourceObject: Contacts
+                      section: Page
+                      sourceObject: 00158000006QBOhAAO
+                      subtype: null
+                      targetObject: Contact
+                      targetUrl: null
+                      type: StandardButton
+                    links: []
+                    url: /services/data/v58.0/ui-api/actions/record/00158000006QBOhAAO/related-list/Contacts
+                eTag: a20a5831cc59f674f527261d7469d62d
+                url: /services/data/v58.0/ui-api/actions/record/00158000006QBOhAAO/related-list/Contacts
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data/v64.0/ui-api/actions/record/{RECORD_ID}/related-list-record/{RELATED_LIST_RECORD_IDS}:
+    parameters: []
+    get:
+      tags:
+      - Related
+      summary: Salesforce Get Related List Record Actions
+      description: Get the actions on records in related lists.
+      operationId: GetRelatedListRecordActions
+      parameters:
+      - name: RECORD_ID
+        in: path
+        description: Record ID
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      - name: RELATED_LIST_RECORD_IDS
+        in: path
+        description: A related list record ID, or a comma-delimited list of related list record IDs.
+        required: true
+        schema:
+          type: string
+        example: example_value
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Fri, 06 Oct 2023 11:37:18 GMT
+            Strict-Transport-Security:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: max-age=63072000; includeSubDomains
+            X-Content-Type-Options:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: nosniff
+            X-Robots-Tag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: none
+            Cache-Control:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: no-cache,must-revalidate,max-age=0,no-store,private
+            ETag:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: '"f29ba79a7eda15543fca804e0e88bea6--gzip"'
+            Vary:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: Accept-Encoding
+            Content-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: gzip
+            Transfer-Encoding:
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                    contentMediaType: text/plain
+                  example: chunked
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/GetRelatedListRecordActions'
+                - examples:
+                  - actions:
+                      00158000006QBOhAAO:
+                        actions:
+                        - actionListContext: RelatedListRecord
+                          actionTarget: null
+                          actionTargetType: Invoke
+                          apiName: Edit
+                          externalId: 00D58000000arpq:00158000006QBOhAAO::RelatedListRecord:Desktop:StandardButton:Edit
+                          iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/action/edit_120.png
+                          id: 0JV4H0000122896WAA
+                          isMassAction: 'false'
+                          label: Edit
+                          lwcComponent: null
+                          primaryColor: 06A59A
+                          relatedListRecordId: 00358000006woxwAAA
+                          relatedSourceObject: Contacts
+                          section: Page
+                          sourceObject: 00158000006QBOhAAO
+                          subtype: null
+                          targetObject: Contact
+                          targetUrl: null
+                          type: StandardButton
+                        - actionListContext: RelatedListRecord
+                          actionTarget: null
+                          actionTargetType: Invoke
+                          apiName: Delete
+                          externalId: 00D58000000arpq:00158000006QBOhAAO::RelatedListRecord:Desktop:StandardButton:Delete
+                          iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/action/delete_120.png
+                          id: 0JV4H0000122897WAA
+                          isMassAction: 'false'
+                          label: Delete
+                          lwcComponent: null
+                          primaryColor: FF538A
+                          relatedListRecordId: 00358000006woxwAAA
+                          relatedSourceObject: Contacts
+                          section: Page
+                          sourceObject: 00158000006QBOhAAO
+                          subtype: null
+                          targetObject: Contact
+                          targetUrl: null
+                          type: StandardButton
+                        links: []
+                        url: /services/data/v58.0/ui-api/actions/record/00158000006QBOhAAO/related-list-record/00358000006woxwAAA
+                    eTag: f29ba79a7eda15543fca804e0e88bea6
+                    url: /services/data/v58.0/ui-api/actions/record/00158000006QBOhAAO/related-list-record/00358000006woxwAAA
+                contentMediaType: application/json;charset=UTF-8
+              example:
+                actions:
+                  00158000006QBOhAAO:
+                    actions:
+                    - actionListContext: RelatedListRecord
+                      actionTarget: null
+                      actionTargetType: Invoke
+                      apiName: Edit
+                      externalId: 00D58000000arpq:00158000006QBOhAAO::RelatedListRecord:Desktop:StandardButton:Edit
+                      iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/action/edit_120.png
+                      id: 0JV4H0000122896WAA
+                      isMassAction: 'false'
+                      label: Edit
+                      lwcComponent: null
+                      primaryColor: 06A59A
+                      relatedListRecordId: 00358000006woxwAAA
+                      relatedSourceObject: Contacts
+                      section: Page
+                      sourceObject: 00158000006QBOhAAO
+                      subtype: null
+                      targetObject: Contact
+                      targetUrl: null
+                      type: StandardButton
+                    - actionListContext: RelatedListRecord
+                      actionTarget: null
+                      actionTargetType: Invoke
+                      apiName: Delete
+                      externalId: 00D58000000arpq:00158000006QBOhAAO::RelatedListRecord:Desktop:StandardButton:Delete
+                      iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/action/delete_120.png
+                      id: 0JV4H0000122897WAA
+                      isMassAction: 'false'
+                      label: Delete
+                      lwcComponent: null
+                      primaryColor: FF538A
+                      relatedListRecordId: 00358000006woxwAAA
+                      relatedSourceObject: Contacts
+                      section: Page
+                      sourceObject: 00158000006QBOhAAO
+                      subtype: null
+                      targetObject: Contact
+                      targetUrl: null
+                      type: StandardButton
+                    links: []
+                    url: /services/data/v58.0/ui-api/actions/record/00158000006QBOhAAO/related-list-record/00358000006woxwAAA
+                eTag: f29ba79a7eda15543fca804e0e88bea6
+                url: /services/data/v58.0/ui-api/actions/record/00158000006QBOhAAO/related-list-record/00358000006woxwAAA
+      deprecated: false
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Actions9:
+      title: Actions9
+      required:
+      - 00158000006QBOhAAO
+      type: object
+      properties:
+        00158000006QBOhAAO:
+          $ref: '#/components/schemas/00158000006QBOhAAO2'
+      examples:
+      - 00158000006QBOhAAO:
+          actions:
+          - actionListContext: RelatedListRecord
+            actionTarget: null
+            actionTargetType: Invoke
+            apiName: Edit
+            externalId: 00D58000000arpq:00158000006QBOhAAO::RelatedListRecord:Desktop:StandardButton:Edit
+            iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/action/edit_120.png
+            id: 0JV4H0000122896WAA
+            isMassAction: 'false'
+            label: Edit
+            lwcComponent: null
+            primaryColor: 06A59A
+            relatedListRecordId: 00358000006woxwAAA
+            relatedSourceObject: Contacts
+            section: Page
+            sourceObject: 00158000006QBOhAAO
+            subtype: null
+            targetObject: Contact
+            targetUrl: null
+            type: StandardButton
+          - actionListContext: RelatedListRecord
+            actionTarget: null
+            actionTargetType: Invoke
+            apiName: Delete
+            externalId: 00D58000000arpq:00158000006QBOhAAO::RelatedListRecord:Desktop:StandardButton:Delete
+            iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/action/delete_120.png
+            id: 0JV4H0000122897WAA
+            isMassAction: 'false'
+            label: Delete
+            lwcComponent: null
+            primaryColor: FF538A
+            relatedListRecordId: 00358000006woxwAAA
+            relatedSourceObject: Contacts
+            section: Page
+            sourceObject: 00158000006QBOhAAO
+            subtype: null
+            targetObject: Contact
+            targetUrl: null
+            type: StandardButton
+          links: []
+          url: /services/data/v58.0/ui-api/actions/record/00158000006QBOhAAO/related-list-record/00358000006woxwAAA
+    00158000006QBOhAAO2:
+      title: 00158000006QBOhAAO2
+      required:
+      - actions
+      - links
+      - url
+      type: object
+      properties:
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Actions10'
+          description: ''
+          example: []
+        links:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - actions:
+        - actionListContext: RelatedListRecord
+          actionTarget: null
+          actionTargetType: Invoke
+          apiName: Edit
+          externalId: 00D58000000arpq:00158000006QBOhAAO::RelatedListRecord:Desktop:StandardButton:Edit
+          iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/action/edit_120.png
+          id: 0JV4H0000122896WAA
+          isMassAction: 'false'
+          label: Edit
+          lwcComponent: null
+          primaryColor: 06A59A
+          relatedListRecordId: 00358000006woxwAAA
+          relatedSourceObject: Contacts
+          section: Page
+          sourceObject: 00158000006QBOhAAO
+          subtype: null
+          targetObject: Contact
+          targetUrl: null
+          type: StandardButton
+        - actionListContext: RelatedListRecord
+          actionTarget: null
+          actionTargetType: Invoke
+          apiName: Delete
+          externalId: 00D58000000arpq:00158000006QBOhAAO::RelatedListRecord:Desktop:StandardButton:Delete
+          iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/action/delete_120.png
+          id: 0JV4H0000122897WAA
+          isMassAction: 'false'
+          label: Delete
+          lwcComponent: null
+          primaryColor: FF538A
+          relatedListRecordId: 00358000006woxwAAA
+          relatedSourceObject: Contacts
+          section: Page
+          sourceObject: 00158000006QBOhAAO
+          subtype: null
+          targetObject: Contact
+          targetUrl: null
+          type: StandardButton
+        links: []
+        url: /services/data/v58.0/ui-api/actions/record/00158000006QBOhAAO/related-list-record/00358000006woxwAAA
+    GetRelatedListRecordActions:
+      title: GetRelatedListRecordActions
+      required:
+      - actions
+      - eTag
+      - url
+      type: object
+      properties:
+        actions:
+          $ref: '#/components/schemas/Actions9'
+        eTag:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - actions:
+          00158000006QBOhAAO:
+            actions:
+            - actionListContext: RelatedListRecord
+              actionTarget: null
+              actionTargetType: Invoke
+              apiName: Edit
+              externalId: 00D58000000arpq:00158000006QBOhAAO::RelatedListRecord:Desktop:StandardButton:Edit
+              iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/action/edit_120.png
+              id: 0JV4H0000122896WAA
+              isMassAction: 'false'
+              label: Edit
+              lwcComponent: null
+              primaryColor: 06A59A
+              relatedListRecordId: 00358000006woxwAAA
+              relatedSourceObject: Contacts
+              section: Page
+              sourceObject: 00158000006QBOhAAO
+              subtype: null
+              targetObject: Contact
+              targetUrl: null
+              type: StandardButton
+            - actionListContext: RelatedListRecord
+              actionTarget: null
+              actionTargetType: Invoke
+              apiName: Delete
+              externalId: 00D58000000arpq:00158000006QBOhAAO::RelatedListRecord:Desktop:StandardButton:Delete
+              iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/action/delete_120.png
+              id: 0JV4H0000122897WAA
+              isMassAction: 'false'
+              label: Delete
+              lwcComponent: null
+              primaryColor: FF538A
+              relatedListRecordId: 00358000006woxwAAA
+              relatedSourceObject: Contacts
+              section: Page
+              sourceObject: 00158000006QBOhAAO
+              subtype: null
+              targetObject: Contact
+              targetUrl: null
+              type: StandardButton
+            links: []
+            url: /services/data/v58.0/ui-api/actions/record/00158000006QBOhAAO/related-list-record/00358000006woxwAAA
+        eTag: f29ba79a7eda15543fca804e0e88bea6
+        url: /services/data/v58.0/ui-api/actions/record/00158000006QBOhAAO/related-list-record/00358000006woxwAAA
+    Actions10:
+      title: Actions10
+      required:
+      - actionListContext
+      - actionTarget
+      - actionTargetType
+      - apiName
+      - externalId
+      - iconUrl
+      - id
+      - isMassAction
+      - label
+      - lwcComponent
+      - primaryColor
+      - relatedListRecordId
+      - relatedSourceObject
+      - section
+      - sourceObject
+      - subtype
+      - targetObject
+      - targetUrl
+      - type
+      type: object
+      properties:
+        actionListContext:
+          type: string
+          example: example_value
+        actionTarget:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        actionTargetType:
+          type: string
+          example: example_value
+        apiName:
+          type: string
+          example: example_value
+        externalId:
+          type: string
+          example: '500123'
+        iconUrl:
+          type: string
+          example: https://www.example.com
+        id:
+          type: string
+          example: abc123
+        isMassAction:
+          type: string
+          example: example_value
+        label:
+          type: string
+          example: Example Title
+        lwcComponent:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        primaryColor:
+          type: string
+          example: example_value
+        relatedListRecordId:
+          type: string
+          example: '500123'
+        relatedSourceObject:
+          type: string
+          example: example_value
+        section:
+          type: string
+          example: example_value
+        sourceObject:
+          type: string
+          example: example_value
+        subtype:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        targetObject:
+          type: string
+          example: example_value
+        targetUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        type:
+          type: string
+          example: example_value
+      examples:
+      - actionListContext: RelatedListRecord
+        actionTarget: null
+        actionTargetType: Invoke
+        apiName: Edit
+        externalId: 00D58000000arpq:00158000006QBOhAAO::RelatedListRecord:Desktop:StandardButton:Edit
+        iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/action/edit_120.png
+        id: 0JV4H0000122896WAA
+        isMassAction: 'false'
+        label: Edit
+        lwcComponent: null
+        primaryColor: 06A59A
+        relatedListRecordId: 00358000006woxwAAA
+        relatedSourceObject: Contacts
+        section: Page
+        sourceObject: 00158000006QBOhAAO
+        subtype: null
+        targetObject: Contact
+        targetUrl: null
+        type: StandardButton
+    GetRelatedListActions:
+      title: GetRelatedListActions
+      required:
+      - actions
+      - eTag
+      - url
+      type: object
+      properties:
+        actions:
+          $ref: '#/components/schemas/Actions7'
+        eTag:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - actions:
+          00158000006QBOhAAO:
+            actions:
+            - actionListContext: RelatedList
+              actionTarget: null
+              actionTargetType: Invoke
+              apiName: NewContact
+              externalId: 00D58000000arpq:00158000006QBOhAAO::RelatedList:Desktop:StandardButton:NewContact
+              iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/action/new_contact_120.png
+              id: 0JV4H0000119415WAA
+              isMassAction: 'false'
+              label: New
+              lwcComponent: null
+              primaryColor: 5867E8
+              relatedListRecordId: null
+              relatedSourceObject: Contacts
+              section: Page
+              sourceObject: 00158000006QBOhAAO
+              subtype: null
+              targetObject: Contact
+              targetUrl: null
+              type: StandardButton
+            links: []
+            url: /services/data/v58.0/ui-api/actions/record/00158000006QBOhAAO/related-list/Contacts
+        eTag: a20a5831cc59f674f527261d7469d62d
+        url: /services/data/v58.0/ui-api/actions/record/00158000006QBOhAAO/related-list/Contacts
+    Actions7:
+      title: Actions7
+      required:
+      - 00158000006QBOhAAO
+      type: object
+      properties:
+        00158000006QBOhAAO:
+          $ref: '#/components/schemas/00158000006QBOhAAO1'
+      examples:
+      - 00158000006QBOhAAO:
+          actions:
+          - actionListContext: RelatedList
+            actionTarget: null
+            actionTargetType: Invoke
+            apiName: NewContact
+            externalId: 00D58000000arpq:00158000006QBOhAAO::RelatedList:Desktop:StandardButton:NewContact
+            iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/action/new_contact_120.png
+            id: 0JV4H0000119415WAA
+            isMassAction: 'false'
+            label: New
+            lwcComponent: null
+            primaryColor: 5867E8
+            relatedListRecordId: null
+            relatedSourceObject: Contacts
+            section: Page
+            sourceObject: 00158000006QBOhAAO
+            subtype: null
+            targetObject: Contact
+            targetUrl: null
+            type: StandardButton
+          links: []
+          url: /services/data/v58.0/ui-api/actions/record/00158000006QBOhAAO/related-list/Contacts
+    00158000006QBOhAAO1:
+      title: 00158000006QBOhAAO1
+      required:
+      - actions
+      - links
+      - url
+      type: object
+      properties:
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Actions8'
+          description: ''
+          example: []
+        links:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - actions:
+        - actionListContext: RelatedList
+          actionTarget: null
+          actionTargetType: Invoke
+          apiName: NewContact
+          externalId: 00D58000000arpq:00158000006QBOhAAO::RelatedList:Desktop:StandardButton:NewContact
+          iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/action/new_contact_120.png
+          id: 0JV4H0000119415WAA
+          isMassAction: 'false'
+          label: New
+          lwcComponent: null
+          primaryColor: 5867E8
+          relatedListRecordId: null
+          relatedSourceObject: Contacts
+          section: Page
+          sourceObject: 00158000006QBOhAAO
+          subtype: null
+          targetObject: Contact
+          targetUrl: null
+          type: StandardButton
+        links: []
+        url: /services/data/v58.0/ui-api/actions/record/00158000006QBOhAAO/related-list/Contacts
+    Actions8:
+      title: Actions8
+      required:
+      - actionListContext
+      - actionTarget
+      - actionTargetType
+      - apiName
+      - externalId
+      - iconUrl
+      - id
+      - isMassAction
+      - label
+      - lwcComponent
+      - primaryColor
+      - relatedListRecordId
+      - relatedSourceObject
+      - section
+      - sourceObject
+      - subtype
+      - targetObject
+      - targetUrl
+      - type
+      type: object
+      properties:
+        actionListContext:
+          type: string
+          example: example_value
+        actionTarget:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        actionTargetType:
+          type: string
+          example: example_value
+        apiName:
+          type: string
+          example: example_value
+        externalId:
+          type: string
+          example: '500123'
+        iconUrl:
+          type: string
+          example: https://www.example.com
+        id:
+          type: string
+          example: abc123
+        isMassAction:
+          type: string
+          example: example_value
+        label:
+          type: string
+          example: Example Title
+        lwcComponent:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        primaryColor:
+          type: string
+          example: example_value
+        relatedListRecordId:
+          type:
+          - string
+          - 'null'
+          example: '500123'
+        relatedSourceObject:
+          type: string
+          example: example_value
+        section:
+          type: string
+          example: example_value
+        sourceObject:
+          type: string
+          example: example_value
+        subtype:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        targetObject:
+          type: string
+          example: example_value
+        targetUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        type:
+          type: string
+          example: example_value
+      examples:
+      - actionListContext: RelatedList
+        actionTarget: null
+        actionTargetType: Invoke
+        apiName: NewContact
+        externalId: 00D58000000arpq:00158000006QBOhAAO::RelatedList:Desktop:StandardButton:NewContact
+        iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/action/new_contact_120.png
+        id: 0JV4H0000119415WAA
+        isMassAction: 'false'
+        label: New
+        lwcComponent: null
+        primaryColor: 5867E8
+        relatedListRecordId: null
+        relatedSourceObject: Contacts
+        section: Page
+        sourceObject: 00158000006QBOhAAO
+        subtype: null
+        targetObject: Contact
+        targetUrl: null
+        type: StandardButton
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

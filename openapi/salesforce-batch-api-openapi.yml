@@ -1,32 +1,25 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Salesforce Bulk API 2.0 Abort Batch API
-  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
-
-    '
-  version: v63.0
-  contact:
-    name: Salesforce Developers
-    url: https://developer.salesforce.com/
-  license:
-    name: Salesforce Developer Terms
-    url: https://www.salesforce.com/company/legal/agreements/
+  title: Salesforce Batch API
+  description: 'Find the resources you need to start building. '
+  contact: {}
+  version: '1.0'
 servers:
-- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
-  description: Salesforce Bulk API 2.0 jobs endpoint
+- url: https://login.salesforce.com
+  variables: {}
+- url: https://id
+  variables: {}
+- url: https://services
+  variables: {}
+- url: '{{url}}{{site}}/services/oauth2'
   variables:
-    instance:
-      default: yourInstance
-      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
-
-        '
-    version:
-      default: '63.0'
-      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
-
-        '
+    url:
+      default: DefaultParameterValue
+    site:
+      default: DefaultParameterValue
 security:
-- BearerAuth: []
+- oauth2:
+  - api
 tags:
 - name: Batch
 paths:
@@ -2046,6 +2039,42 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    Id8:
+      title: Id8
+      required:
+      - displayValue
+      - value
+      type: object
+      properties:
+        displayValue:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        value:
+          type: string
+          example: example_value
+      examples:
+      - displayValue: null
+        value: 005B0000003TOI6IAO
+    BillingStreet2:
+      title: BillingStreet2
+      required:
+      - displayValue
+      - value
+      type: object
+      properties:
+        displayValue:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        value:
+          type: string
+          example: example_value
+      examples:
+      - displayValue: null
+        value: 525 S. Lexington Ave
     Result6:
       title: Result6
       required:
@@ -2177,285 +2206,21 @@ components:
         recordTypeInfo: null
         systemModstamp: '2017-08-18T14:46:22.000Z'
         weakEtag: 1503067582000
-    PhotoUrl4:
-      title: PhotoUrl4
+    Files:
+      title: Files
       required:
-      - displayValue
-      - value
+      - items
       type: object
       properties:
-        displayValue:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        value:
-          type: string
-          example: example_value
-      examples:
-      - displayValue: null
-        value: /services/images/photo/001B000000UnQ2wIAF
-    Edit:
-      title: Edit
-      required:
-      - isEditRestricted
-      - isEditableByMeUrl
-      - lastEditedBy
-      - lastEditedDate
-      - latestRevision
-      - relativeLastEditedDate
-      type: object
-      properties:
-        isEditRestricted:
-          type: boolean
-          example: true
-        isEditableByMeUrl:
-          type: string
-          example: https://www.example.com
-        lastEditedBy:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        lastEditedDate:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        latestRevision:
-          type: integer
-          contentEncoding: int32
-          example: 10
-        relativeLastEditedDate:
-          type:
-          - string
-          - 'null'
-          example: example_value
-      examples:
-      - isEditRestricted: false
-        isEditableByMeUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/edit/is-editable-by-me
-        lastEditedBy: null
-        lastEditedDate: null
-        latestRevision: 1
-        relativeLastEditedDate: null
-    Header:
-      title: Header
-      required:
-      - isRichText
-      - messageSegments
-      - text
-      type: object
-      properties:
-        isRichText:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        messageSegments:
+        items:
           type: array
           items:
-            $ref: '#/components/schemas/MessageSegment1'
-          description: ''
-          example: []
-        text:
-          type: string
-          example: example_value
-      examples:
-      - isRichText: null
-        messageSegments:
-        - motif:
-            color: 1B96FF
-            largeIconUrl: /img/icon/profile64.png
-            mediumIconUrl: /img/icon/profile32.png
-            smallIconUrl: /img/icon/profile16.png
-            svgIconUrl: null
-          reference:
-            id: 005...
-            url: /services/data/v58.0/chatter/users/005...
-          text: Name
-          type: EntityLink
-        text: Name
-    GetaBatchofRecords:
-      title: GetaBatchofRecords
-      required:
-      - hasErrors
-      - results
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          example: true
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Results4'
+            $ref: '#/components/schemas/Item'
           description: ''
           example: []
       examples:
-      - hasErrors: false
-        results:
-        - result:
-            apiName: Account
-            childRelationships: {}
-            eTag: 8aae3f4fbe3055e68df1d4c8a989a671
-            fields:
-              AnnualRevenue:
-                displayValue: $350,000,000
-                value: 350000000
-              BillingCity:
-                displayValue: null
-                value: Burlington
-              BillingCountry:
-                displayValue: null
-                value: USA
-              BillingPostalCode:
-                displayValue: null
-                value: '27215'
-              BillingState:
-                displayValue: null
-                value: NC
-              BillingStreet:
-                displayValue: null
-                value: 525 S. Lexington Ave
-              Industry:
-                displayValue: Apparel
-                value: Apparel
-              Name:
-                displayValue: null
-                value: Burlington Textiles Corp of America
-              Owner:
-                displayValue: Philippe Ozil
-                value:
-                  apiName: User
-                  childRelationships: {}
-                  eTag: cc07f7ef1b08ddbd75074c69512dd388
-                  fields:
-                    Id:
-                      displayValue: null
-                      value: 005B0000003TOI6IAO
-                    Name:
-                      displayValue: null
-                      value: Philippe Ozil
-                  id: 005B0000003TOI6IAO
-                  lastModifiedById: 005B0000003TOI6IAO
-                  lastModifiedDate: '2023-02-02T10:32:12.000Z'
-                  recordTypeId: null
-                  recordTypeInfo: null
-                  systemModstamp: '2023-09-27T15:47:51.000Z'
-                  weakEtag: 1695829671000
-              OwnerId:
-                displayValue: null
-                value: 005B0000003TOI6IAO
-              Parent:
-                displayValue: null
-                value: null
-              ParentId:
-                displayValue: null
-                value: null
-              Phone:
-                displayValue: null
-                value: (336) 222-7000
-              PhotoUrl:
-                displayValue: null
-                value: /services/images/photo/001B000000UnQ2wIAF
-              Site:
-                displayValue: null
-                value: null
-              Type:
-                displayValue: Customer - Direct
-                value: Customer - Direct
-              Website:
-                displayValue: null
-                value: www.burlington.com
-            id: 001B000000UnQ2wIAF
-            lastModifiedById: 005B0000003TOI6IAO
-            lastModifiedDate: '2017-08-18T14:46:22.000Z'
-            recordTypeId: 012000000000000AAA
-            recordTypeInfo: null
-            systemModstamp: '2017-08-18T14:46:22.000Z'
-            weakEtag: 1503067582000
-          statusCode: 200
-        - result:
-            apiName: Account
-            childRelationships: {}
-            eTag: a825a67a87fa16446d82b4948e5643c7
-            fields:
-              AnnualRevenue:
-                displayValue: $50,000,000
-                value: 50000000
-              BillingCity:
-                displayValue: null
-                value: Lawrence
-              BillingCountry:
-                displayValue: null
-                value: USA
-              BillingPostalCode:
-                displayValue: null
-                value: '66045'
-              BillingState:
-                displayValue: null
-                value: KS
-              BillingStreet:
-                displayValue: null
-                value: 1301 Hoch Drive
-              Industry:
-                displayValue: Consulting
-                value: Consulting
-              Name:
-                displayValue: null
-                value: Dickenson plc
-              Owner:
-                displayValue: Philippe Ozil
-                value:
-                  apiName: User
-                  childRelationships: {}
-                  eTag: cc07f7ef1b08ddbd75074c69512dd388
-                  fields:
-                    Id:
-                      displayValue: null
-                      value: 005B0000003TOI6IAO
-                    Name:
-                      displayValue: null
-                      value: Philippe Ozil
-                  id: 005B0000003TOI6IAO
-                  lastModifiedById: 005B0000003TOI6IAO
-                  lastModifiedDate: '2023-02-02T10:32:12.000Z'
-                  recordTypeId: null
-                  recordTypeInfo: null
-                  systemModstamp: '2023-09-27T15:47:51.000Z'
-                  weakEtag: 1695829671000
-              OwnerId:
-                displayValue: null
-                value: 005B0000003TOI6IAO
-              Parent:
-                displayValue: null
-                value: null
-              ParentId:
-                displayValue: null
-                value: null
-              Phone:
-                displayValue: null
-                value: (785) 241-6200
-              PhotoUrl:
-                displayValue: null
-                value: /services/images/photo/001B000000UnQ2yIAF
-              Site:
-                displayValue: null
-                value: null
-              Type:
-                displayValue: Customer - Channel
-                value: Customer - Channel
-              Website:
-                displayValue: null
-                value: dickenson-consulting.com
-            id: 001B000000UnQ2yIAF
-            lastModifiedById: 005B0000003TOI6IAO
-            lastModifiedDate: '2017-08-18T14:46:22.000Z'
-            recordTypeId: 012000000000000AAA
-            recordTypeInfo: null
-            systemModstamp: '2017-08-18T14:46:22.000Z'
-            weakEtag: 1503067582000
-          statusCode: 200
+      - items:
+        - id: <FILE_ID>
     Value:
       title: Value
       required:
@@ -2527,102 +2292,24 @@ components:
         recordTypeInfo: null
         systemModstamp: '2023-09-27T15:47:51.000Z'
         weakEtag: 1695829671000
-    Page1:
-      title: Page1
-      required:
-      - currentPageToken
-      - currentPageUrl
-      - items
-      - nextPageToken
-      - nextPageUrl
-      - previousPageToken
-      - previousPageUrl
-      - total
-      type: object
-      properties:
-        currentPageToken:
-          type:
-          - string
-          - 'null'
-          example: CAUQAA
-        currentPageUrl:
-          type: string
-          example: https://www.example.com
-        items:
-          type: array
-          items:
-            type: string
-          description: ''
-          example: []
-        nextPageToken:
-          type:
-          - string
-          - 'null'
-          example: CAUQAA
-        nextPageUrl:
-          type:
-          - string
-          - 'null'
-          example: https://www.example.com
-        previousPageToken:
-          type:
-          - string
-          - 'null'
-          example: CAUQAA
-        previousPageUrl:
-          type:
-          - string
-          - 'null'
-          example: https://www.example.com
-        total:
-          type: integer
-          contentEncoding: int32
-          example: 42
-      examples:
-      - currentPageToken: null
-        currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/comments/items
-        items: []
-        nextPageToken: null
-        nextPageUrl: null
-        previousPageToken: null
-        previousPageUrl: null
-        total: 0
-    Input:
-      title: Input
-      required:
-      - richInput
-      type: object
-      properties:
-        richInput:
-          $ref: '#/components/schemas/RichInput'
-      examples:
-      - richInput:
-          subjectId: <USER_GROUP_RECORD_ID>
-          body:
-            messageSegments:
-            - type: Text
-              text: Post Number 1
-          capabilities:
-            files:
-              items:
-              - id: <FILE_ID>
-          feedElementType: FeedItem
-    Type10:
-      title: Type10
+    Name21:
+      title: Name21
       required:
       - displayValue
       - value
       type: object
       properties:
         displayValue:
-          type: string
+          type:
+          - string
+          - 'null'
           example: example_value
         value:
           type: string
           example: example_value
       examples:
-      - displayValue: Customer - Direct
-        value: Customer - Direct
+      - displayValue: null
+        value: Philippe Ozil
     Industry2:
       title: Industry2
       required:
@@ -2639,6 +2326,603 @@ components:
       examples:
       - displayValue: Agriculture
         value: Agriculture
+    CompositeBatchRequest:
+      title: CompositeBatchRequest
+      required:
+      - haltOnError
+      - batchRequests
+      type: object
+      properties:
+        haltOnError:
+          type: boolean
+          example: true
+        batchRequests:
+          type: array
+          items:
+            $ref: '#/components/schemas/BatchRequest'
+          description: ''
+          example: []
+      examples:
+      - haltOnError: true
+        batchRequests:
+        - method: GET
+          url: v64.0/query/?q=SELECT+Id,+Name+FROM+Account LIMIT 2
+        - method: GET
+          url: v64.0/query/?q=SELECT+Id,+Name+FROM+Opportunity LIMIT 2
+    Photo:
+      title: Photo
+      required:
+      - fullEmailPhotoUrl
+      - largePhotoUrl
+      - mediumPhotoUrl
+      - photoVersionId
+      - smallPhotoUrl
+      - standardEmailPhotoUrl
+      - url
+      type: object
+      properties:
+        fullEmailPhotoUrl:
+          type: string
+          example: user@example.com
+        largePhotoUrl:
+          type: string
+          example: https://www.example.com
+        mediumPhotoUrl:
+          type: string
+          example: https://www.example.com
+        photoVersionId:
+          type: string
+          example: '500123'
+        smallPhotoUrl:
+          type: string
+          example: https://www.example.com
+        standardEmailPhotoUrl:
+          type: string
+          example: user@example.com
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+        largePhotoUrl: https://<my_domain>/profilephoto/729.../F
+        mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
+        photoVersionId: 729...
+        smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
+        standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+        url: /services/data/v58.0/connect/user-profiles/005.../photo
+    ChatterLikes:
+      title: ChatterLikes
+      required:
+      - isLikedByCurrentUser
+      - likesMessage
+      - myLike
+      - page
+      type: object
+      properties:
+        isLikedByCurrentUser:
+          type: boolean
+          example: true
+        likesMessage:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        myLike:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        page:
+          $ref: '#/components/schemas/Page'
+      examples:
+      - isLikedByCurrentUser: false
+        likesMessage: null
+        myLike: null
+        page:
+          currentPageToken: 0
+          currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/chatter-likes/items
+          items: []
+          nextPageToken: null
+          nextPageUrl: null
+          previousPageToken: null
+          previousPageUrl: null
+          total: 0
+    Parent2:
+      title: Parent2
+      required:
+      - id
+      - motif
+      - mySubscription
+      - name
+      - type
+      - url
+      type: object
+      properties:
+        entityLabel:
+          $ref: '#/components/schemas/EntityLabel'
+        id:
+          type: string
+          example: abc123
+        motif:
+          $ref: '#/components/schemas/Motif'
+        mySubscription:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        name:
+          type: string
+          example: Example Title
+        type:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+        additionalLabel:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        communityNickname:
+          type: string
+          example: example_value
+        companyName:
+          type: string
+          example: example_value
+        displayName:
+          type: string
+          example: example_value
+        firstName:
+          type: string
+          example: example_value
+        isActive:
+          type: boolean
+          example: true
+        isInThisCommunity:
+          type: boolean
+          example: true
+        lastName:
+          type: string
+          example: example_value
+        outOfOffice:
+          $ref: '#/components/schemas/OutOfOffice'
+        photo:
+          $ref: '#/components/schemas/Photo'
+        reputation:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        title:
+          type:
+          - string
+          - 'null'
+          example: Example Title
+        userType:
+          type: string
+          example: example_value
+      examples:
+      - entityLabel:
+          label: Account
+          labelPlural: Accounts
+        id: 001...
+        motif:
+          color: 5867E8
+          largeIconUrl: /img/icon/accounts64.png
+          mediumIconUrl: /img/icon/accounts32.png
+          smallIconUrl: /img/icon/accounts16.png
+          svgIconUrl: null
+        mySubscription: null
+        name: Burlington Textiles Corp of America
+        type: Account
+        url: /services/data/v58.0/chatter/records/001...
+    ParentId2:
+      title: ParentId2
+      required:
+      - displayValue
+      - value
+      type: object
+      properties:
+        displayValue:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        value:
+          type:
+          - string
+          - 'null'
+          example: example_value
+      examples:
+      - displayValue: null
+        value: null
+    RichInput:
+      title: RichInput
+      required:
+      - subjectId
+      - body
+      - feedElementType
+      type: object
+      properties:
+        subjectId:
+          type: string
+          example: '500123'
+        body:
+          $ref: '#/components/schemas/Body7'
+        capabilities:
+          $ref: '#/components/schemas/Capabilities1'
+        feedElementType:
+          type: string
+          example: example_value
+      examples:
+      - subjectId: <USER_GROUP_RECORD_ID>
+        body:
+          messageSegments:
+          - type: Text
+            text: Post Number 1
+        capabilities:
+          files:
+            items:
+            - id: <FILE_ID>
+        feedElementType: FeedItem
+    UpdateaBatchofFavorites:
+      title: UpdateaBatchofFavorites
+      required:
+      - favorites
+      type: object
+      properties:
+        favorites:
+          type: array
+          items:
+            $ref: '#/components/schemas/Favorite'
+          description: ''
+          example: []
+      examples:
+      - favorites:
+        - accessCount: 1
+          iconColor: 5867E8
+          iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/account_120.png
+          id: 0MV4H0000004qIeWAI
+          lastAccessDate: '2023-10-06T10:03:32.000Z'
+          name: RenamedAllAcountsListView
+          objectType: Account
+          sortOrder: 1
+          subtitle: Accounts
+          target: 00B58000002ssinEAA
+          targetType: ListView
+    MessageSegment1:
+      title: MessageSegment1
+      required:
+      - motif
+      - reference
+      - text
+      - type
+      type: object
+      properties:
+        motif:
+          $ref: '#/components/schemas/Motif'
+        reference:
+          $ref: '#/components/schemas/Reference'
+        text:
+          type: string
+          example: example_value
+        type:
+          type: string
+          example: example_value
+      examples:
+      - motif:
+          color: 1B96FF
+          largeIconUrl: /img/icon/profile64.png
+          mediumIconUrl: /img/icon/profile32.png
+          smallIconUrl: /img/icon/profile16.png
+          svgIconUrl: null
+        reference:
+          id: 005...
+          url: /services/data/v58.0/chatter/users/005...
+        text: Name
+        type: EntityLink
+    Reference:
+      title: Reference
+      required:
+      - id
+      - url
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - id: 005...
+        url: /services/data/v58.0/chatter/users/005...
+    batchInfo:
+      title: batchInfo
+      required:
+      - id
+      - jobId
+      - state
+      - createdDate
+      - systemModstamp
+      - numberRecordsProcessed
+      - numberRecordsFailed
+      - totalProcessingTime
+      - apiActiveProcessingTime
+      - apexProcessingTime
+      type: object
+      properties:
+        id:
+          type: string
+          xml:
+            name: id
+            namespace: http://www.force.com/2009/06/asyncapi/dataload
+            attribute: false
+            wrapped: false
+          example: abc123
+        jobId:
+          type: string
+          xml:
+            name: jobId
+            namespace: http://www.force.com/2009/06/asyncapi/dataload
+            attribute: false
+            wrapped: false
+          example: '500123'
+        state:
+          type: string
+          xml:
+            name: state
+            namespace: http://www.force.com/2009/06/asyncapi/dataload
+            attribute: false
+            wrapped: false
+          example: example_value
+        createdDate:
+          type: string
+          xml:
+            name: createdDate
+            namespace: http://www.force.com/2009/06/asyncapi/dataload
+            attribute: false
+            wrapped: false
+          example: example_value
+        systemModstamp:
+          type: string
+          xml:
+            name: systemModstamp
+            namespace: http://www.force.com/2009/06/asyncapi/dataload
+            attribute: false
+            wrapped: false
+          example: example_value
+        numberRecordsProcessed:
+          type: integer
+          contentEncoding: int32
+          xml:
+            name: numberRecordsProcessed
+            namespace: http://www.force.com/2009/06/asyncapi/dataload
+            attribute: false
+            wrapped: false
+          example: 10
+        numberRecordsFailed:
+          type: integer
+          contentEncoding: int32
+          xml:
+            name: numberRecordsFailed
+            namespace: http://www.force.com/2009/06/asyncapi/dataload
+            attribute: false
+            wrapped: false
+          example: 10
+        totalProcessingTime:
+          type: integer
+          contentEncoding: int32
+          xml:
+            name: totalProcessingTime
+            namespace: http://www.force.com/2009/06/asyncapi/dataload
+            attribute: false
+            wrapped: false
+          example: 1700000000000
+        apiActiveProcessingTime:
+          type: integer
+          contentEncoding: int32
+          xml:
+            name: apiActiveProcessingTime
+            namespace: http://www.force.com/2009/06/asyncapi/dataload
+            attribute: false
+            wrapped: false
+          example: 1700000000000
+        apexProcessingTime:
+          type: integer
+          contentEncoding: int32
+          xml:
+            name: apexProcessingTime
+            namespace: http://www.force.com/2009/06/asyncapi/dataload
+            attribute: false
+            wrapped: false
+          example: 1700000000000
+      xml:
+        name: batchInfo
+        namespace: http://www.force.com/2009/06/asyncapi/dataload
+        attribute: false
+        wrapped: false
+    Owner6:
+      title: Owner6
+      required:
+      - displayValue
+      - value
+      type: object
+      properties:
+        displayValue:
+          type: string
+          example: example_value
+        value:
+          $ref: '#/components/schemas/Value'
+      examples:
+      - displayValue: Philippe Ozil
+        value:
+          apiName: User
+          childRelationships: {}
+          eTag: cc07f7ef1b08ddbd75074c69512dd388
+          fields:
+            Id:
+              displayValue: null
+              value: 005B0000003TOI6IAO
+            Name:
+              displayValue: null
+              value: Philippe Ozil
+          id: 005B0000003TOI6IAO
+          lastModifiedById: 005B0000003TOI6IAO
+          lastModifiedDate: '2023-02-02T10:32:12.000Z'
+          recordTypeId: null
+          recordTypeInfo: null
+          systemModstamp: '2023-09-27T15:47:51.000Z'
+          weakEtag: 1695829671000
+    Results4:
+      title: Results4
+      required:
+      - result
+      - statusCode
+      type: object
+      properties:
+        result:
+          $ref: '#/components/schemas/Result6'
+        statusCode:
+          type: integer
+          contentEncoding: int32
+          example: 10
+      examples:
+      - result:
+          apiName: Account
+          childRelationships: {}
+          eTag: 8aae3f4fbe3055e68df1d4c8a989a671
+          fields:
+            AnnualRevenue:
+              displayValue: $350,000,000
+              value: 350000000
+            BillingCity:
+              displayValue: null
+              value: Burlington
+            BillingCountry:
+              displayValue: null
+              value: USA
+            BillingPostalCode:
+              displayValue: null
+              value: '27215'
+            BillingState:
+              displayValue: null
+              value: NC
+            BillingStreet:
+              displayValue: null
+              value: 525 S. Lexington Ave
+            Industry:
+              displayValue: Apparel
+              value: Apparel
+            Name:
+              displayValue: null
+              value: Burlington Textiles Corp of America
+            Owner:
+              displayValue: Philippe Ozil
+              value:
+                apiName: User
+                childRelationships: {}
+                eTag: cc07f7ef1b08ddbd75074c69512dd388
+                fields:
+                  Id:
+                    displayValue: null
+                    value: 005B0000003TOI6IAO
+                  Name:
+                    displayValue: null
+                    value: Philippe Ozil
+                id: 005B0000003TOI6IAO
+                lastModifiedById: 005B0000003TOI6IAO
+                lastModifiedDate: '2023-02-02T10:32:12.000Z'
+                recordTypeId: null
+                recordTypeInfo: null
+                systemModstamp: '2023-09-27T15:47:51.000Z'
+                weakEtag: 1695829671000
+            OwnerId:
+              displayValue: null
+              value: 005B0000003TOI6IAO
+            Parent:
+              displayValue: null
+              value: null
+            ParentId:
+              displayValue: null
+              value: null
+            Phone:
+              displayValue: null
+              value: (336) 222-7000
+            PhotoUrl:
+              displayValue: null
+              value: /services/images/photo/001B000000UnQ2wIAF
+            Site:
+              displayValue: null
+              value: null
+            Type:
+              displayValue: Customer - Direct
+              value: Customer - Direct
+            Website:
+              displayValue: null
+              value: www.burlington.com
+          id: 001B000000UnQ2wIAF
+          lastModifiedById: 005B0000003TOI6IAO
+          lastModifiedDate: '2017-08-18T14:46:22.000Z'
+          recordTypeId: 012000000000000AAA
+          recordTypeInfo: null
+          systemModstamp: '2017-08-18T14:46:22.000Z'
+          weakEtag: 1503067582000
+        statusCode: 200
+    Site2:
+      title: Site2
+      required:
+      - displayValue
+      - value
+      type: object
+      properties:
+        displayValue:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        value:
+          type:
+          - string
+          - 'null'
+          example: example_value
+      examples:
+      - displayValue: null
+        value: null
+    AnnualRevenue2:
+      title: AnnualRevenue2
+      required:
+      - displayValue
+      - value
+      type: object
+      properties:
+        displayValue:
+          type: string
+          example: example_value
+        value:
+          type: integer
+          contentEncoding: int32
+          example: 10
+      examples:
+      - displayValue: $900,750,000
+        value: 900750000
+    Body7:
+      title: Body7
+      required:
+      - messageSegments
+      type: object
+      properties:
+        messageSegments:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageSegment5'
+          description: ''
+          example: []
+      examples:
+      - messageSegments:
+        - type: Text
+          text: Post Number 1
     Result2:
       title: Result2
       type: object
@@ -2856,22 +3140,40 @@ components:
         type: TextPost
         url: /services/data/v58.0/chatter/feed-elements/0D5...
         visibility: InternalUsers
-    Favorite1:
-      title: Favorite1
+    UpdateaBatchofFavoritesRequest:
+      title: UpdateaBatchofFavoritesRequest
       required:
-      - id
-      - name
+      - favorites
       type: object
       properties:
-        id:
-          type: string
-          example: abc123
-        name:
-          type: string
-          example: Example Title
+        favorites:
+          type: array
+          items:
+            $ref: '#/components/schemas/Favorite1'
+          description: ''
+          example: []
       examples:
-      - id: 0MVR00000004DhnOAE
-        name: Q4 Perf
+      - favorites:
+        - id: 0MVR00000004DhnOAE
+          name: Q4 Perf
+    BillingPostalCode2:
+      title: BillingPostalCode2
+      required:
+      - displayValue
+      - value
+      type: object
+      properties:
+        displayValue:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        value:
+          type: string
+          example: example_value
+      examples:
+      - displayValue: null
+        value: '27215'
     BillingState2:
       title: BillingState2
       required:
@@ -2890,113 +3192,130 @@ components:
       examples:
       - displayValue: null
         value: NC
-    batchInfo:
-      title: batchInfo
+    Status1:
+      title: Status1
       required:
-      - id
-      - jobId
-      - state
-      - createdDate
-      - systemModstamp
-      - numberRecordsProcessed
-      - numberRecordsFailed
-      - totalProcessingTime
-      - apiActiveProcessingTime
-      - apexProcessingTime
+      - feedEntityStatus
+      - isApprovableByMe
       type: object
       properties:
+        feedEntityStatus:
+          type: string
+          example: example_value
+        isApprovableByMe:
+          type: boolean
+          example: true
+      examples:
+      - feedEntityStatus: Published
+        isApprovableByMe: true
+    Result21:
+      title: Result21
+      required:
+      - errorCode
+      - message
+      type: object
+      properties:
+        errorCode:
+          type: string
+          example: example_value
+        message:
+          type: string
+          example: example_value
+      examples:
+      - errorCode: INVALID_MARKUP
+        message: 'Error while parsing Rich Text Content: The value of attribute &quot;src&quot; associated with an element type &quot;img&quot; must not contain the &#39;&lt;&#39; character.'
+    Favorite:
+      title: Favorite
+      required:
+      - accessCount
+      - iconColor
+      - iconUrl
+      - id
+      - lastAccessDate
+      - name
+      - objectType
+      - sortOrder
+      - subtitle
+      - target
+      - targetType
+      type: object
+      properties:
+        accessCount:
+          type: integer
+          contentEncoding: int32
+          example: 42
+        iconColor:
+          type: string
+          example: example_value
+        iconUrl:
+          type: string
+          example: https://www.example.com
         id:
           type: string
-          xml:
-            name: id
-            namespace: http://www.force.com/2009/06/asyncapi/dataload
-            attribute: false
-            wrapped: false
           example: abc123
-        jobId:
+        lastAccessDate:
           type: string
-          xml:
-            name: jobId
-            namespace: http://www.force.com/2009/06/asyncapi/dataload
-            attribute: false
-            wrapped: false
-          example: '500123'
-        state:
-          type: string
-          xml:
-            name: state
-            namespace: http://www.force.com/2009/06/asyncapi/dataload
-            attribute: false
-            wrapped: false
           example: example_value
-        createdDate:
+        name:
           type: string
-          xml:
-            name: createdDate
-            namespace: http://www.force.com/2009/06/asyncapi/dataload
-            attribute: false
-            wrapped: false
-          example: example_value
-        systemModstamp:
+          example: Example Title
+        objectType:
           type: string
-          xml:
-            name: systemModstamp
-            namespace: http://www.force.com/2009/06/asyncapi/dataload
-            attribute: false
-            wrapped: false
           example: example_value
-        numberRecordsProcessed:
+        sortOrder:
           type: integer
           contentEncoding: int32
-          xml:
-            name: numberRecordsProcessed
-            namespace: http://www.force.com/2009/06/asyncapi/dataload
-            attribute: false
-            wrapped: false
           example: 10
-        numberRecordsFailed:
-          type: integer
-          contentEncoding: int32
-          xml:
-            name: numberRecordsFailed
-            namespace: http://www.force.com/2009/06/asyncapi/dataload
-            attribute: false
-            wrapped: false
-          example: 10
-        totalProcessingTime:
-          type: integer
-          contentEncoding: int32
-          xml:
-            name: totalProcessingTime
-            namespace: http://www.force.com/2009/06/asyncapi/dataload
-            attribute: false
-            wrapped: false
-          example: 1700000000000
-        apiActiveProcessingTime:
-          type: integer
-          contentEncoding: int32
-          xml:
-            name: apiActiveProcessingTime
-            namespace: http://www.force.com/2009/06/asyncapi/dataload
-            attribute: false
-            wrapped: false
-          example: 1700000000000
-        apexProcessingTime:
-          type: integer
-          contentEncoding: int32
-          xml:
-            name: apexProcessingTime
-            namespace: http://www.force.com/2009/06/asyncapi/dataload
-            attribute: false
-            wrapped: false
-          example: 1700000000000
-      xml:
-        name: batchInfo
-        namespace: http://www.force.com/2009/06/asyncapi/dataload
-        attribute: false
-        wrapped: false
-    BillingCountry2:
-      title: BillingCountry2
+        subtitle:
+          type: string
+          example: example_value
+        target:
+          type: string
+          example: example_value
+        targetType:
+          type: string
+          example: example_value
+      examples:
+      - accessCount: 1
+        iconColor: 5867E8
+        iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/account_120.png
+        id: 0MV4H0000004qIeWAI
+        lastAccessDate: '2023-10-06T10:03:32.000Z'
+        name: AllAccountsListView
+        objectType: Account
+        sortOrder: 1
+        subtitle: Accounts
+        target: 00B58000002ssinEAA
+        targetType: ListView
+    OutOfOffice:
+      title: OutOfOffice
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+          example: example_value
+      examples:
+      - message: ''
+    BatchRequest:
+      title: BatchRequest
+      required:
+      - method
+      - url
+      type: object
+      properties:
+        method:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - method: GET
+        url: v64.0/query/?q=SELECT+Id,+Name+FROM+Account LIMIT 2
+    Website5:
+      title: Website5
       required:
       - displayValue
       - value
@@ -3012,7 +3331,173 @@ components:
           example: example_value
       examples:
       - displayValue: null
-        value: USA
+        value: www.burlington.com
+    Parent7:
+      title: Parent7
+      required:
+      - displayValue
+      - value
+      type: object
+      properties:
+        displayValue:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        value:
+          type:
+          - string
+          - 'null'
+          example: example_value
+      examples:
+      - displayValue: null
+        value: null
+    Capabilities:
+      title: Capabilities
+      required:
+      - associatedActions
+      - bookmarks
+      - chatterLikes
+      - close
+      - comments
+      - edit
+      - interactions
+      - mute
+      - readBy
+      - status
+      - topics
+      - upDownVote
+      type: object
+      properties:
+        associatedActions:
+          $ref: '#/components/schemas/AssociatedActions'
+        bookmarks:
+          $ref: '#/components/schemas/Bookmarks'
+        chatterLikes:
+          $ref: '#/components/schemas/ChatterLikes'
+        close:
+          $ref: '#/components/schemas/Close'
+        comments:
+          $ref: '#/components/schemas/Comments'
+        edit:
+          $ref: '#/components/schemas/Edit'
+        interactions:
+          $ref: '#/components/schemas/Interactions'
+        mute:
+          $ref: '#/components/schemas/Mute'
+        readBy:
+          $ref: '#/components/schemas/ReadBy'
+        status:
+          $ref: '#/components/schemas/Status1'
+        topics:
+          $ref: '#/components/schemas/Topics2'
+        upDownVote:
+          $ref: '#/components/schemas/UpDownVote'
+      examples:
+      - associatedActions:
+          platformActionGroups: []
+        bookmarks:
+          isBookmarkedByCurrentUser: false
+        chatterLikes:
+          isLikedByCurrentUser: false
+          likesMessage: null
+          myLike: null
+          page:
+            currentPageToken: 0
+            currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/chatter-likes/items
+            items: []
+            nextPageToken: null
+            nextPageUrl: null
+            previousPageToken: null
+            previousPageUrl: null
+            total: 0
+        close:
+          canContextUserUpdateIsClosed: true
+          isClosed: false
+        comments:
+          page:
+            currentPageToken: null
+            currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/comments/items
+            items: []
+            nextPageToken: null
+            nextPageUrl: null
+            previousPageToken: null
+            previousPageUrl: null
+            total: 0
+        edit:
+          isEditRestricted: false
+          isEditableByMeUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/edit/is-editable-by-me
+          lastEditedBy: null
+          lastEditedDate: null
+          latestRevision: 1
+          relativeLastEditedDate: null
+        interactions:
+          count: 0
+        mute:
+          isMutedByMe: false
+        readBy:
+          isReadByMe: true
+          lastReadDateByMe: '2023-11-22T11:06:07.000Z'
+          page:
+            currentPageToken: null
+            currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/read-by/items?pageSize=3
+            items: []
+            nextPageToken: null
+            nextPageUrl: null
+            previousPageToken: null
+            previousPageUrl: null
+            total: 0
+        status:
+          feedEntityStatus: Published
+          isApprovableByMe: true
+        topics:
+          canAssignTopics: true
+          items: []
+        upDownVote:
+          downVoteCount: 0
+          myVote: None
+          upVoteCount: 0
+    Item:
+      title: Item
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+      examples:
+      - id: <FILE_ID>
+    FeedElementsBatchPostRequest:
+      title: FeedElementsBatchPostRequest
+      required:
+      - inputs
+      type: object
+      properties:
+        inputs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Input'
+          description: ''
+          example: []
+    Phone5:
+      title: Phone5
+      required:
+      - displayValue
+      - value
+      type: object
+      properties:
+        displayValue:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        value:
+          type: string
+          example: example_value
+      examples:
+      - displayValue: null
+        value: (850) 644-4200
     Actor:
       title: Actor
       required:
@@ -3132,1014 +3617,17 @@ components:
         type: User
         url: /services/data/v58.0/chatter/users/005...
         userType: Internal
-    Name21:
-      title: Name21
+    Mute:
+      title: Mute
       required:
-      - displayValue
-      - value
+      - isMutedByMe
       type: object
       properties:
-        displayValue:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        value:
-          type: string
-          example: example_value
-      examples:
-      - displayValue: null
-        value: Philippe Ozil
-    Result1:
-      title: Result1
-      required:
-      - result
-      - statusCode
-      type: object
-      properties:
-        result:
-          oneOf:
-          - allOf:
-            - $ref: '#/components/schemas/Result2'
-            - examples:
-              - actor:
-                  additionalLabel: null
-                  communityNickname: User1696423780773910041
-                  companyName: Salesforce
-                  displayName: Name
-                  firstName: Firstname
-                  id: 005...
-                  isActive: true
-                  isInThisCommunity: true
-                  lastName: Name
-                  motif:
-                    color: 1B96FF
-                    largeIconUrl: /img/icon/profile64.png
-                    mediumIconUrl: /img/icon/profile32.png
-                    smallIconUrl: /img/icon/profile16.png
-                    svgIconUrl: null
-                  mySubscription: null
-                  name: Name
-                  outOfOffice:
-                    message: ''
-                  photo:
-                    fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
-                    largePhotoUrl: https://<my_domain>/profilephoto/729.../F
-                    mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
-                    photoVersionId: 729...
-                    smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
-                    standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
-                    url: /services/data/v58.0/connect/user-profiles/005.../photo
-                  reputation: null
-                  title: null
-                  type: User
-                  url: /services/data/v58.0/chatter/users/005...
-                  userType: Internal
-                body:
-                  isRichText: false
-                  messageSegments:
-                  - text: Post Number 1
-                    type: Text
-                  text: Post Number 1
-                capabilities:
-                  associatedActions:
-                    platformActionGroups: []
-                  bookmarks:
-                    isBookmarkedByCurrentUser: false
-                  chatterLikes:
-                    isLikedByCurrentUser: false
-                    likesMessage: null
-                    myLike: null
-                    page:
-                      currentPageToken: 0
-                      currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/chatter-likes/items
-                      items: []
-                      nextPageToken: null
-                      nextPageUrl: null
-                      previousPageToken: null
-                      previousPageUrl: null
-                      total: 0
-                  close:
-                    canContextUserUpdateIsClosed: true
-                    isClosed: false
-                  comments:
-                    page:
-                      currentPageToken: null
-                      currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/comments/items
-                      items: []
-                      nextPageToken: null
-                      nextPageUrl: null
-                      previousPageToken: null
-                      previousPageUrl: null
-                      total: 0
-                  edit:
-                    isEditRestricted: false
-                    isEditableByMeUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/edit/is-editable-by-me
-                    lastEditedBy: null
-                    lastEditedDate: null
-                    latestRevision: 1
-                    relativeLastEditedDate: null
-                  interactions:
-                    count: 0
-                  mute:
-                    isMutedByMe: false
-                  readBy:
-                    isReadByMe: true
-                    lastReadDateByMe: '2023-11-22T11:11:25.000Z'
-                    page:
-                      currentPageToken: null
-                      currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/read-by/items?pageSize=3
-                      items: []
-                      nextPageToken: null
-                      nextPageUrl: null
-                      previousPageToken: null
-                      previousPageUrl: null
-                      total: 0
-                  status:
-                    feedEntityStatus: Published
-                    isApprovableByMe: true
-                  topics:
-                    canAssignTopics: true
-                    items: []
-                  upDownVote:
-                    downVoteCount: 0
-                    myVote: None
-                    upVoteCount: 0
-                clientInfo:
-                  applicationName: Postman Playground
-                  applicationUrl: null
-                createdDate: '2023-11-22T11:11:25.000Z'
-                event: false
-                feedElementType: FeedItem
-                hasVerifiedComment: false
-                header:
-                  isRichText: null
-                  messageSegments:
-                  - motif:
-                      color: 1B96FF
-                      largeIconUrl: /img/icon/profile64.png
-                      mediumIconUrl: /img/icon/profile32.png
-                      smallIconUrl: /img/icon/profile16.png
-                      svgIconUrl: null
-                    reference:
-                      id: 005...
-                      url: /services/data/v58.0/chatter/users/005...
-                    text: Name
-                    type: EntityLink
-                  text: Name
-                id: 0D5...
-                isDeleteRestricted: false
-                isSharable: false
-                modifiedDate: '2023-11-22T11:11:25.000Z'
-                originalFeedItem: null
-                originalFeedItemActor: null
-                parent:
-                  entityLabel:
-                    label: Account
-                    labelPlural: Accounts
-                  id: 001...
-                  motif:
-                    color: 5867E8
-                    largeIconUrl: /img/icon/accounts64.png
-                    mediumIconUrl: /img/icon/accounts32.png
-                    smallIconUrl: /img/icon/accounts16.png
-                    svgIconUrl: null
-                  mySubscription: null
-                  name: Burlington Textiles Corp of America
-                  type: Account
-                  url: /services/data/v58.0/chatter/records/001...
-                photoUrl: https://<my_domain>/profilephoto/729.../T
-                relativeCreatedDate: Just now
-                type: TextPost
-                url: /services/data/v58.0/chatter/feed-elements/0D5...
-                visibility: InternalUsers
-          - type: array
-            items:
-              $ref: '#/components/schemas/Result21'
-          example: example_value
-        statusCode:
-          type: integer
-          contentEncoding: int32
-          example: 10
-      examples:
-      - result:
-          actor:
-            additionalLabel: null
-            communityNickname: User1696423780773910041
-            companyName: Salesforce
-            displayName: Name
-            firstName: Firstname
-            id: 005...
-            isActive: true
-            isInThisCommunity: true
-            lastName: Name
-            motif:
-              color: 1B96FF
-              largeIconUrl: /img/icon/profile64.png
-              mediumIconUrl: /img/icon/profile32.png
-              smallIconUrl: /img/icon/profile16.png
-              svgIconUrl: null
-            mySubscription: null
-            name: Name
-            outOfOffice:
-              message: ''
-            photo:
-              fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
-              largePhotoUrl: https://<my_domain>/profilephoto/729.../F
-              mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
-              photoVersionId: 729...
-              smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
-              standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
-              url: /services/data/v58.0/connect/user-profiles/005.../photo
-            reputation: null
-            title: null
-            type: User
-            url: /services/data/v58.0/chatter/users/005...
-            userType: Internal
-          body:
-            isRichText: false
-            messageSegments:
-            - text: Post Number 1
-              type: Text
-            text: Post Number 1
-          capabilities:
-            associatedActions:
-              platformActionGroups: []
-            bookmarks:
-              isBookmarkedByCurrentUser: false
-            chatterLikes:
-              isLikedByCurrentUser: false
-              likesMessage: null
-              myLike: null
-              page:
-                currentPageToken: 0
-                currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/chatter-likes/items
-                items: []
-                nextPageToken: null
-                nextPageUrl: null
-                previousPageToken: null
-                previousPageUrl: null
-                total: 0
-            close:
-              canContextUserUpdateIsClosed: true
-              isClosed: false
-            comments:
-              page:
-                currentPageToken: null
-                currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/comments/items
-                items: []
-                nextPageToken: null
-                nextPageUrl: null
-                previousPageToken: null
-                previousPageUrl: null
-                total: 0
-            edit:
-              isEditRestricted: false
-              isEditableByMeUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/edit/is-editable-by-me
-              lastEditedBy: null
-              lastEditedDate: null
-              latestRevision: 1
-              relativeLastEditedDate: null
-            interactions:
-              count: 0
-            mute:
-              isMutedByMe: false
-            readBy:
-              isReadByMe: true
-              lastReadDateByMe: '2023-11-22T11:11:25.000Z'
-              page:
-                currentPageToken: null
-                currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/read-by/items?pageSize=3
-                items: []
-                nextPageToken: null
-                nextPageUrl: null
-                previousPageToken: null
-                previousPageUrl: null
-                total: 0
-            status:
-              feedEntityStatus: Published
-              isApprovableByMe: true
-            topics:
-              canAssignTopics: true
-              items: []
-            upDownVote:
-              downVoteCount: 0
-              myVote: None
-              upVoteCount: 0
-          clientInfo:
-            applicationName: Postman Playground
-            applicationUrl: null
-          createdDate: '2023-11-22T11:11:25.000Z'
-          event: false
-          feedElementType: FeedItem
-          hasVerifiedComment: false
-          header:
-            isRichText: null
-            messageSegments:
-            - motif:
-                color: 1B96FF
-                largeIconUrl: /img/icon/profile64.png
-                mediumIconUrl: /img/icon/profile32.png
-                smallIconUrl: /img/icon/profile16.png
-                svgIconUrl: null
-              reference:
-                id: 005...
-                url: /services/data/v58.0/chatter/users/005...
-              text: Name
-              type: EntityLink
-            text: Name
-          id: 0D5...
-          isDeleteRestricted: false
-          isSharable: false
-          modifiedDate: '2023-11-22T11:11:25.000Z'
-          originalFeedItem: null
-          originalFeedItemActor: null
-          parent:
-            entityLabel:
-              label: Account
-              labelPlural: Accounts
-            id: 001...
-            motif:
-              color: 5867E8
-              largeIconUrl: /img/icon/accounts64.png
-              mediumIconUrl: /img/icon/accounts32.png
-              smallIconUrl: /img/icon/accounts16.png
-              svgIconUrl: null
-            mySubscription: null
-            name: Burlington Textiles Corp of America
-            type: Account
-            url: /services/data/v58.0/chatter/records/001...
-          photoUrl: https://<my_domain>/profilephoto/729.../T
-          relativeCreatedDate: Just now
-          type: TextPost
-          url: /services/data/v58.0/chatter/feed-elements/0D5...
-          visibility: InternalUsers
-        statusCode: 201
-    ReadBy:
-      title: ReadBy
-      required:
-      - isReadByMe
-      - lastReadDateByMe
-      - page
-      type: object
-      properties:
-        isReadByMe:
-          type: boolean
-          example: true
-        lastReadDateByMe:
-          type: string
-          example: example_value
-        page:
-          $ref: '#/components/schemas/Page1'
-      examples:
-      - isReadByMe: true
-        lastReadDateByMe: '2023-11-22T11:06:07.000Z'
-        page:
-          currentPageToken: null
-          currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/read-by/items?pageSize=3
-          items: []
-          nextPageToken: null
-          nextPageUrl: null
-          previousPageToken: null
-          previousPageUrl: null
-          total: 0
-    UpDownVote:
-      title: UpDownVote
-      required:
-      - downVoteCount
-      - myVote
-      - upVoteCount
-      type: object
-      properties:
-        downVoteCount:
-          type: integer
-          contentEncoding: int32
-          example: 42
-        myVote:
-          type: string
-          example: example_value
-        upVoteCount:
-          type: integer
-          contentEncoding: int32
-          example: 42
-      examples:
-      - downVoteCount: 0
-        myVote: None
-        upVoteCount: 0
-    Results4:
-      title: Results4
-      required:
-      - result
-      - statusCode
-      type: object
-      properties:
-        result:
-          $ref: '#/components/schemas/Result6'
-        statusCode:
-          type: integer
-          contentEncoding: int32
-          example: 10
-      examples:
-      - result:
-          apiName: Account
-          childRelationships: {}
-          eTag: 8aae3f4fbe3055e68df1d4c8a989a671
-          fields:
-            AnnualRevenue:
-              displayValue: $350,000,000
-              value: 350000000
-            BillingCity:
-              displayValue: null
-              value: Burlington
-            BillingCountry:
-              displayValue: null
-              value: USA
-            BillingPostalCode:
-              displayValue: null
-              value: '27215'
-            BillingState:
-              displayValue: null
-              value: NC
-            BillingStreet:
-              displayValue: null
-              value: 525 S. Lexington Ave
-            Industry:
-              displayValue: Apparel
-              value: Apparel
-            Name:
-              displayValue: null
-              value: Burlington Textiles Corp of America
-            Owner:
-              displayValue: Philippe Ozil
-              value:
-                apiName: User
-                childRelationships: {}
-                eTag: cc07f7ef1b08ddbd75074c69512dd388
-                fields:
-                  Id:
-                    displayValue: null
-                    value: 005B0000003TOI6IAO
-                  Name:
-                    displayValue: null
-                    value: Philippe Ozil
-                id: 005B0000003TOI6IAO
-                lastModifiedById: 005B0000003TOI6IAO
-                lastModifiedDate: '2023-02-02T10:32:12.000Z'
-                recordTypeId: null
-                recordTypeInfo: null
-                systemModstamp: '2023-09-27T15:47:51.000Z'
-                weakEtag: 1695829671000
-            OwnerId:
-              displayValue: null
-              value: 005B0000003TOI6IAO
-            Parent:
-              displayValue: null
-              value: null
-            ParentId:
-              displayValue: null
-              value: null
-            Phone:
-              displayValue: null
-              value: (336) 222-7000
-            PhotoUrl:
-              displayValue: null
-              value: /services/images/photo/001B000000UnQ2wIAF
-            Site:
-              displayValue: null
-              value: null
-            Type:
-              displayValue: Customer - Direct
-              value: Customer - Direct
-            Website:
-              displayValue: null
-              value: www.burlington.com
-          id: 001B000000UnQ2wIAF
-          lastModifiedById: 005B0000003TOI6IAO
-          lastModifiedDate: '2017-08-18T14:46:22.000Z'
-          recordTypeId: 012000000000000AAA
-          recordTypeInfo: null
-          systemModstamp: '2017-08-18T14:46:22.000Z'
-          weakEtag: 1503067582000
-        statusCode: 200
-    Capabilities:
-      title: Capabilities
-      required:
-      - associatedActions
-      - bookmarks
-      - chatterLikes
-      - close
-      - comments
-      - edit
-      - interactions
-      - mute
-      - readBy
-      - status
-      - topics
-      - upDownVote
-      type: object
-      properties:
-        associatedActions:
-          $ref: '#/components/schemas/AssociatedActions'
-        bookmarks:
-          $ref: '#/components/schemas/Bookmarks'
-        chatterLikes:
-          $ref: '#/components/schemas/ChatterLikes'
-        close:
-          $ref: '#/components/schemas/Close'
-        comments:
-          $ref: '#/components/schemas/Comments'
-        edit:
-          $ref: '#/components/schemas/Edit'
-        interactions:
-          $ref: '#/components/schemas/Interactions'
-        mute:
-          $ref: '#/components/schemas/Mute'
-        readBy:
-          $ref: '#/components/schemas/ReadBy'
-        status:
-          $ref: '#/components/schemas/Status1'
-        topics:
-          $ref: '#/components/schemas/Topics2'
-        upDownVote:
-          $ref: '#/components/schemas/UpDownVote'
-      examples:
-      - associatedActions:
-          platformActionGroups: []
-        bookmarks:
-          isBookmarkedByCurrentUser: false
-        chatterLikes:
-          isLikedByCurrentUser: false
-          likesMessage: null
-          myLike: null
-          page:
-            currentPageToken: 0
-            currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/chatter-likes/items
-            items: []
-            nextPageToken: null
-            nextPageUrl: null
-            previousPageToken: null
-            previousPageUrl: null
-            total: 0
-        close:
-          canContextUserUpdateIsClosed: true
-          isClosed: false
-        comments:
-          page:
-            currentPageToken: null
-            currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/comments/items
-            items: []
-            nextPageToken: null
-            nextPageUrl: null
-            previousPageToken: null
-            previousPageUrl: null
-            total: 0
-        edit:
-          isEditRestricted: false
-          isEditableByMeUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/edit/is-editable-by-me
-          lastEditedBy: null
-          lastEditedDate: null
-          latestRevision: 1
-          relativeLastEditedDate: null
-        interactions:
-          count: 0
-        mute:
-          isMutedByMe: false
-        readBy:
-          isReadByMe: true
-          lastReadDateByMe: '2023-11-22T11:06:07.000Z'
-          page:
-            currentPageToken: null
-            currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/read-by/items?pageSize=3
-            items: []
-            nextPageToken: null
-            nextPageUrl: null
-            previousPageToken: null
-            previousPageUrl: null
-            total: 0
-        status:
-          feedEntityStatus: Published
-          isApprovableByMe: true
-        topics:
-          canAssignTopics: true
-          items: []
-        upDownVote:
-          downVoteCount: 0
-          myVote: None
-          upVoteCount: 0
-    MessageSegment5:
-      title: MessageSegment5
-      required:
-      - type
-      - text
-      type: object
-      properties:
-        type:
-          type: string
-          example: example_value
-        text:
-          type: string
-          example: example_value
-        fileId:
-          type: string
-          example: '500123'
-        altText:
-          type: string
-          example: example_value
-      examples:
-      - type: Text
-        text: Post Number 1
-    Photo:
-      title: Photo
-      required:
-      - fullEmailPhotoUrl
-      - largePhotoUrl
-      - mediumPhotoUrl
-      - photoVersionId
-      - smallPhotoUrl
-      - standardEmailPhotoUrl
-      - url
-      type: object
-      properties:
-        fullEmailPhotoUrl:
-          type: string
-          example: user@example.com
-        largePhotoUrl:
-          type: string
-          example: https://www.example.com
-        mediumPhotoUrl:
-          type: string
-          example: https://www.example.com
-        photoVersionId:
-          type: string
-          example: '500123'
-        smallPhotoUrl:
-          type: string
-          example: https://www.example.com
-        standardEmailPhotoUrl:
-          type: string
-          example: user@example.com
-        url:
-          type: string
-          example: https://www.example.com
-      examples:
-      - fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
-        largePhotoUrl: https://<my_domain>/profilephoto/729.../F
-        mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
-        photoVersionId: 729...
-        smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
-        standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
-        url: /services/data/v58.0/connect/user-profiles/005.../photo
-    Bookmarks:
-      title: Bookmarks
-      required:
-      - isBookmarkedByCurrentUser
-      type: object
-      properties:
-        isBookmarkedByCurrentUser:
+        isMutedByMe:
           type: boolean
           example: true
       examples:
-      - isBookmarkedByCurrentUser: false
-    Fields18:
-      title: Fields18
-      required:
-      - AnnualRevenue
-      - BillingCity
-      - BillingCountry
-      - BillingPostalCode
-      - BillingState
-      - BillingStreet
-      - Industry
-      - Name
-      - Owner
-      - OwnerId
-      - Parent
-      - ParentId
-      - Phone
-      - PhotoUrl
-      - Site
-      - Type
-      - Website
-      type: object
-      properties:
-        AnnualRevenue:
-          $ref: '#/components/schemas/AnnualRevenue2'
-        BillingCity:
-          $ref: '#/components/schemas/BillingCity2'
-        BillingCountry:
-          $ref: '#/components/schemas/BillingCountry2'
-        BillingPostalCode:
-          $ref: '#/components/schemas/BillingPostalCode2'
-        BillingState:
-          $ref: '#/components/schemas/BillingState2'
-        BillingStreet:
-          $ref: '#/components/schemas/BillingStreet2'
-        Industry:
-          $ref: '#/components/schemas/Industry2'
-        Name:
-          $ref: '#/components/schemas/Name21'
-        Owner:
-          $ref: '#/components/schemas/Owner6'
-        OwnerId:
-          $ref: '#/components/schemas/OwnerId4'
-        Parent:
-          $ref: '#/components/schemas/Parent7'
-        ParentId:
-          $ref: '#/components/schemas/ParentId2'
-        Phone:
-          $ref: '#/components/schemas/Phone5'
-        PhotoUrl:
-          $ref: '#/components/schemas/PhotoUrl4'
-        Site:
-          $ref: '#/components/schemas/Site2'
-        Type:
-          $ref: '#/components/schemas/Type10'
-        Website:
-          $ref: '#/components/schemas/Website5'
-      examples:
-      - AnnualRevenue:
-          displayValue: $350,000,000
-          value: 350000000
-        BillingCity:
-          displayValue: null
-          value: Burlington
-        BillingCountry:
-          displayValue: null
-          value: USA
-        BillingPostalCode:
-          displayValue: null
-          value: '27215'
-        BillingState:
-          displayValue: null
-          value: NC
-        BillingStreet:
-          displayValue: null
-          value: 525 S. Lexington Ave
-        Industry:
-          displayValue: Apparel
-          value: Apparel
-        Name:
-          displayValue: null
-          value: Burlington Textiles Corp of America
-        Owner:
-          displayValue: Philippe Ozil
-          value:
-            apiName: User
-            childRelationships: {}
-            eTag: cc07f7ef1b08ddbd75074c69512dd388
-            fields:
-              Id:
-                displayValue: null
-                value: 005B0000003TOI6IAO
-              Name:
-                displayValue: null
-                value: Philippe Ozil
-            id: 005B0000003TOI6IAO
-            lastModifiedById: 005B0000003TOI6IAO
-            lastModifiedDate: '2023-02-02T10:32:12.000Z'
-            recordTypeId: null
-            recordTypeInfo: null
-            systemModstamp: '2023-09-27T15:47:51.000Z'
-            weakEtag: 1695829671000
-        OwnerId:
-          displayValue: null
-          value: 005B0000003TOI6IAO
-        Parent:
-          displayValue: null
-          value: null
-        ParentId:
-          displayValue: null
-          value: null
-        Phone:
-          displayValue: null
-          value: (336) 222-7000
-        PhotoUrl:
-          displayValue: null
-          value: /services/images/photo/001B000000UnQ2wIAF
-        Site:
-          displayValue: null
-          value: null
-        Type:
-          displayValue: Customer - Direct
-          value: Customer - Direct
-        Website:
-          displayValue: null
-          value: www.burlington.com
-    Phone5:
-      title: Phone5
-      required:
-      - displayValue
-      - value
-      type: object
-      properties:
-        displayValue:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        value:
-          type: string
-          example: example_value
-      examples:
-      - displayValue: null
-        value: (850) 644-4200
-    Parent7:
-      title: Parent7
-      required:
-      - displayValue
-      - value
-      type: object
-      properties:
-        displayValue:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        value:
-          type:
-          - string
-          - 'null'
-          example: example_value
-      examples:
-      - displayValue: null
-        value: null
-    RichInput:
-      title: RichInput
-      required:
-      - subjectId
-      - body
-      - feedElementType
-      type: object
-      properties:
-        subjectId:
-          type: string
-          example: '500123'
-        body:
-          $ref: '#/components/schemas/Body7'
-        capabilities:
-          $ref: '#/components/schemas/Capabilities1'
-        feedElementType:
-          type: string
-          example: example_value
-      examples:
-      - subjectId: <USER_GROUP_RECORD_ID>
-        body:
-          messageSegments:
-          - type: Text
-            text: Post Number 1
-        capabilities:
-          files:
-            items:
-            - id: <FILE_ID>
-        feedElementType: FeedItem
-    Item:
-      title: Item
-      required:
-      - id
-      type: object
-      properties:
-        id:
-          type: string
-          example: abc123
-      examples:
-      - id: <FILE_ID>
-    Owner6:
-      title: Owner6
-      required:
-      - displayValue
-      - value
-      type: object
-      properties:
-        displayValue:
-          type: string
-          example: example_value
-        value:
-          $ref: '#/components/schemas/Value'
-      examples:
-      - displayValue: Philippe Ozil
-        value:
-          apiName: User
-          childRelationships: {}
-          eTag: cc07f7ef1b08ddbd75074c69512dd388
-          fields:
-            Id:
-              displayValue: null
-              value: 005B0000003TOI6IAO
-            Name:
-              displayValue: null
-              value: Philippe Ozil
-          id: 005B0000003TOI6IAO
-          lastModifiedById: 005B0000003TOI6IAO
-          lastModifiedDate: '2023-02-02T10:32:12.000Z'
-          recordTypeId: null
-          recordTypeInfo: null
-          systemModstamp: '2023-09-27T15:47:51.000Z'
-          weakEtag: 1695829671000
-    batchInfoList:
-      title: batchInfoList
-      required:
-      - batchInfo
-      type: object
-      properties:
-        batchInfo:
-          allOf:
-          - $ref: '#/components/schemas/batchInfo'
-          - xml:
-              name: batchInfo
-              namespace: http://www.force.com/2009/06/asyncapi/dataload
-              attribute: false
-              wrapped: false
-          example: example_value
-      xml:
-        name: batchInfoList
-        namespace: http://www.force.com/2009/06/asyncapi/dataload
-        attribute: false
-        wrapped: false
-    Id8:
-      title: Id8
-      required:
-      - displayValue
-      - value
-      type: object
-      properties:
-        displayValue:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        value:
-          type: string
-          example: example_value
-      examples:
-      - displayValue: null
-        value: 005B0000003TOI6IAO
-    FeedElementsBatchPostRequest:
-      title: FeedElementsBatchPostRequest
-      required:
-      - inputs
-      type: object
-      properties:
-        inputs:
-          type: array
-          items:
-            $ref: '#/components/schemas/Input'
-          description: ''
-          example: []
-    ClientInfo:
-      title: ClientInfo
-      required:
-      - applicationName
-      - applicationUrl
-      type: object
-      properties:
-        applicationName:
-          type: string
-          example: example_value
-        applicationUrl:
-          type:
-          - string
-          - 'null'
-          example: https://www.example.com
-      examples:
-      - applicationName: Postman Playground
-        applicationUrl: null
-    ChatterLikes:
-      title: ChatterLikes
-      required:
-      - isLikedByCurrentUser
-      - likesMessage
-      - myLike
-      - page
-      type: object
-      properties:
-        isLikedByCurrentUser:
-          type: boolean
-          example: true
-        likesMessage:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        myLike:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        page:
-          $ref: '#/components/schemas/Page'
-      examples:
-      - isLikedByCurrentUser: false
-        likesMessage: null
-        myLike: null
-        page:
-          currentPageToken: 0
-          currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/chatter-likes/items
-          items: []
-          nextPageToken: null
-          nextPageUrl: null
-          previousPageToken: null
-          previousPageUrl: null
-          total: 0
+      - isMutedByMe: false
     Topics2:
       title: Topics2
       required:
@@ -4159,366 +3647,51 @@ components:
       examples:
       - canAssignTopics: true
         items: []
-    Parent2:
-      title: Parent2
+    Edit:
+      title: Edit
       required:
-      - id
-      - motif
-      - mySubscription
-      - name
-      - type
-      - url
+      - isEditRestricted
+      - isEditableByMeUrl
+      - lastEditedBy
+      - lastEditedDate
+      - latestRevision
+      - relativeLastEditedDate
       type: object
       properties:
-        entityLabel:
-          $ref: '#/components/schemas/EntityLabel'
-        id:
-          type: string
-          example: abc123
-        motif:
-          $ref: '#/components/schemas/Motif'
-        mySubscription:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        name:
-          type: string
-          example: Example Title
-        type:
-          type: string
-          example: example_value
-        url:
-          type: string
-          example: https://www.example.com
-        additionalLabel:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        communityNickname:
-          type: string
-          example: example_value
-        companyName:
-          type: string
-          example: example_value
-        displayName:
-          type: string
-          example: example_value
-        firstName:
-          type: string
-          example: example_value
-        isActive:
+        isEditRestricted:
           type: boolean
           example: true
-        isInThisCommunity:
-          type: boolean
-          example: true
-        lastName:
-          type: string
-          example: example_value
-        outOfOffice:
-          $ref: '#/components/schemas/OutOfOffice'
-        photo:
-          $ref: '#/components/schemas/Photo'
-        reputation:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        title:
-          type:
-          - string
-          - 'null'
-          example: Example Title
-        userType:
-          type: string
-          example: example_value
-      examples:
-      - entityLabel:
-          label: Account
-          labelPlural: Accounts
-        id: 001...
-        motif:
-          color: 5867E8
-          largeIconUrl: /img/icon/accounts64.png
-          mediumIconUrl: /img/icon/accounts32.png
-          smallIconUrl: /img/icon/accounts16.png
-          svgIconUrl: null
-        mySubscription: null
-        name: Burlington Textiles Corp of America
-        type: Account
-        url: /services/data/v58.0/chatter/records/001...
-    BillingStreet2:
-      title: BillingStreet2
-      required:
-      - displayValue
-      - value
-      type: object
-      properties:
-        displayValue:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        value:
-          type: string
-          example: example_value
-      examples:
-      - displayValue: null
-        value: 525 S. Lexington Ave
-    Favorite:
-      title: Favorite
-      required:
-      - accessCount
-      - iconColor
-      - iconUrl
-      - id
-      - lastAccessDate
-      - name
-      - objectType
-      - sortOrder
-      - subtitle
-      - target
-      - targetType
-      type: object
-      properties:
-        accessCount:
-          type: integer
-          contentEncoding: int32
-          example: 42
-        iconColor:
-          type: string
-          example: example_value
-        iconUrl:
+        isEditableByMeUrl:
           type: string
           example: https://www.example.com
-        id:
-          type: string
-          example: abc123
-        lastAccessDate:
-          type: string
+        lastEditedBy:
+          type:
+          - string
+          - 'null'
           example: example_value
-        name:
-          type: string
-          example: Example Title
-        objectType:
-          type: string
+        lastEditedDate:
+          type:
+          - string
+          - 'null'
           example: example_value
-        sortOrder:
+        latestRevision:
           type: integer
           contentEncoding: int32
           example: 10
-        subtitle:
-          type: string
-          example: example_value
-        target:
-          type: string
-          example: example_value
-        targetType:
-          type: string
-          example: example_value
-      examples:
-      - accessCount: 1
-        iconColor: 5867E8
-        iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/account_120.png
-        id: 0MV4H0000004qIeWAI
-        lastAccessDate: '2023-10-06T10:03:32.000Z'
-        name: AllAccountsListView
-        objectType: Account
-        sortOrder: 1
-        subtitle: Accounts
-        target: 00B58000002ssinEAA
-        targetType: ListView
-    AssociatedActions:
-      title: AssociatedActions
-      required:
-      - platformActionGroups
-      type: object
-      properties:
-        platformActionGroups:
-          type: array
-          items:
-            type: string
-          description: ''
-          example: []
-      examples:
-      - platformActionGroups: []
-    UpdateaBatchofFavoritesRequest:
-      title: UpdateaBatchofFavoritesRequest
-      required:
-      - favorites
-      type: object
-      properties:
-        favorites:
-          type: array
-          items:
-            $ref: '#/components/schemas/Favorite1'
-          description: ''
-          example: []
-      examples:
-      - favorites:
-        - id: 0MVR00000004DhnOAE
-          name: Q4 Perf
-    Close:
-      title: Close
-      required:
-      - canContextUserUpdateIsClosed
-      - isClosed
-      type: object
-      properties:
-        canContextUserUpdateIsClosed:
-          type: boolean
-          example: true
-        isClosed:
-          type: boolean
-          example: true
-      examples:
-      - canContextUserUpdateIsClosed: true
-        isClosed: false
-    Body4:
-      title: Body4
-      required:
-      - isRichText
-      - messageSegments
-      - text
-      type: object
-      properties:
-        isRichText:
-          type: boolean
-          example: true
-        messageSegments:
-          type: array
-          items:
-            $ref: '#/components/schemas/MessageSegment'
-          description: ''
-          example: []
-        text:
-          type: string
-          example: example_value
-      examples:
-      - isRichText: false
-        messageSegments:
-        - text: New Feed Item
-          type: Text
-        text: New Feed Item
-    Page:
-      title: Page
-      required:
-      - currentPageToken
-      - currentPageUrl
-      - items
-      - nextPageToken
-      - nextPageUrl
-      - previousPageToken
-      - previousPageUrl
-      - total
-      type: object
-      properties:
-        currentPageToken:
-          type: integer
-          contentEncoding: int32
-          example: CAUQAA
-        currentPageUrl:
-          type: string
-          example: https://www.example.com
-        items:
-          type: array
-          items:
-            type: string
-          description: ''
-          example: []
-        nextPageToken:
+        relativeLastEditedDate:
           type:
           - string
           - 'null'
-          example: CAUQAA
-        nextPageUrl:
-          type:
-          - string
-          - 'null'
-          example: https://www.example.com
-        previousPageToken:
-          type:
-          - string
-          - 'null'
-          example: CAUQAA
-        previousPageUrl:
-          type:
-          - string
-          - 'null'
-          example: https://www.example.com
-        total:
-          type: integer
-          contentEncoding: int32
-          example: 42
-      examples:
-      - currentPageToken: 0
-        currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/chatter-likes/items
-        items: []
-        nextPageToken: null
-        nextPageUrl: null
-        previousPageToken: null
-        previousPageUrl: null
-        total: 0
-    Mute:
-      title: Mute
-      required:
-      - isMutedByMe
-      type: object
-      properties:
-        isMutedByMe:
-          type: boolean
-          example: true
-      examples:
-      - isMutedByMe: false
-    Fields8:
-      title: Fields8
-      required:
-      - Id
-      - Name
-      type: object
-      properties:
-        Id:
-          $ref: '#/components/schemas/Id8'
-        Name:
-          $ref: '#/components/schemas/Name21'
-      examples:
-      - Id:
-          displayValue: null
-          value: 005B0000003TOI6IAO
-        Name:
-          displayValue: null
-          value: Philippe Ozil
-    OutOfOffice:
-      title: OutOfOffice
-      required:
-      - message
-      type: object
-      properties:
-        message:
-          type: string
           example: example_value
       examples:
-      - message: ''
-    Reference:
-      title: Reference
-      required:
-      - id
-      - url
-      type: object
-      properties:
-        id:
-          type: string
-          example: abc123
-        url:
-          type: string
-          example: https://www.example.com
-      examples:
-      - id: 005...
-        url: /services/data/v58.0/chatter/users/005...
-    BillingPostalCode2:
-      title: BillingPostalCode2
+      - isEditRestricted: false
+        isEditableByMeUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/edit/is-editable-by-me
+        lastEditedBy: null
+        lastEditedDate: null
+        latestRevision: 1
+        relativeLastEditedDate: null
+    PhotoUrl4:
+      title: PhotoUrl4
       required:
       - displayValue
       - value
@@ -4534,133 +3707,25 @@ components:
           example: example_value
       examples:
       - displayValue: null
-        value: '27215'
-    Files:
-      title: Files
+        value: /services/images/photo/001B000000UnQ2wIAF
+    ClientInfo:
+      title: ClientInfo
       required:
-      - items
+      - applicationName
+      - applicationUrl
       type: object
       properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Item'
-          description: ''
-          example: []
-      examples:
-      - items:
-        - id: <FILE_ID>
-    OwnerId4:
-      title: OwnerId4
-      required:
-      - displayValue
-      - value
-      type: object
-      properties:
-        displayValue:
+        applicationName:
+          type: string
+          example: example_value
+        applicationUrl:
           type:
           - string
           - 'null'
-          example: example_value
-        value:
-          type: string
-          example: example_value
-      examples:
-      - displayValue: null
-        value: 005B0000003TOI6IAO
-    Site2:
-      title: Site2
-      required:
-      - displayValue
-      - value
-      type: object
-      properties:
-        displayValue:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        value:
-          type:
-          - string
-          - 'null'
-          example: example_value
-      examples:
-      - displayValue: null
-        value: null
-    BatchRequest:
-      title: BatchRequest
-      required:
-      - method
-      - url
-      type: object
-      properties:
-        method:
-          type: string
-          example: example_value
-        url:
-          type: string
           example: https://www.example.com
       examples:
-      - method: GET
-        url: v64.0/query/?q=SELECT+Id,+Name+FROM+Account LIMIT 2
-    AnnualRevenue2:
-      title: AnnualRevenue2
-      required:
-      - displayValue
-      - value
-      type: object
-      properties:
-        displayValue:
-          type: string
-          example: example_value
-        value:
-          type: integer
-          contentEncoding: int32
-          example: 10
-      examples:
-      - displayValue: $900,750,000
-        value: 900750000
-    Interactions:
-      title: Interactions
-      required:
-      - count
-      type: object
-      properties:
-        count:
-          type: integer
-          contentEncoding: int32
-          example: 42
-      examples:
-      - count: 0
-    Capabilities1:
-      title: Capabilities1
-      required:
-      - files
-      type: object
-      properties:
-        files:
-          $ref: '#/components/schemas/Files'
-      examples:
-      - files:
-          items:
-          - id: <FILE_ID>
-    MessageSegment:
-      title: MessageSegment
-      required:
-      - text
-      - type
-      type: object
-      properties:
-        text:
-          type: string
-          example: example_value
-        type:
-          type: string
-          example: example_value
-      examples:
-      - text: New Feed Item
-        type: Text
+      - applicationName: Postman Playground
+        applicationUrl: null
     EntityLabel:
       title: EntityLabel
       required:
@@ -4677,39 +3742,85 @@ components:
       examples:
       - label: Account
         labelPlural: Accounts
-    MessageSegment1:
-      title: MessageSegment1
+    Header:
+      title: Header
       required:
-      - motif
-      - reference
+      - isRichText
+      - messageSegments
       - text
-      - type
       type: object
       properties:
-        motif:
-          $ref: '#/components/schemas/Motif'
-        reference:
-          $ref: '#/components/schemas/Reference'
+        isRichText:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        messageSegments:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageSegment1'
+          description: ''
+          example: []
         text:
           type: string
           example: example_value
-        type:
-          type: string
-          example: example_value
       examples:
-      - motif:
-          color: 1B96FF
-          largeIconUrl: /img/icon/profile64.png
-          mediumIconUrl: /img/icon/profile32.png
-          smallIconUrl: /img/icon/profile16.png
-          svgIconUrl: null
-        reference:
-          id: 005...
-          url: /services/data/v58.0/chatter/users/005...
+      - isRichText: null
+        messageSegments:
+        - motif:
+            color: 1B96FF
+            largeIconUrl: /img/icon/profile64.png
+            mediumIconUrl: /img/icon/profile32.png
+            smallIconUrl: /img/icon/profile16.png
+            svgIconUrl: null
+          reference:
+            id: 005...
+            url: /services/data/v58.0/chatter/users/005...
+          text: Name
+          type: EntityLink
         text: Name
-        type: EntityLink
-    ParentId2:
-      title: ParentId2
+    Favorite1:
+      title: Favorite1
+      required:
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+        name:
+          type: string
+          example: Example Title
+      examples:
+      - id: 0MVR00000004DhnOAE
+        name: Q4 Perf
+    Capabilities1:
+      title: Capabilities1
+      required:
+      - files
+      type: object
+      properties:
+        files:
+          $ref: '#/components/schemas/Files'
+      examples:
+      - files:
+          items:
+          - id: <FILE_ID>
+    Interactions:
+      title: Interactions
+      required:
+      - count
+      type: object
+      properties:
+        count:
+          type: integer
+          contentEncoding: int32
+          example: 42
+      examples:
+      - count: 0
+    BillingCity2:
+      title: BillingCity2
       required:
       - displayValue
       - value
@@ -4721,56 +3832,44 @@ components:
           - 'null'
           example: example_value
         value:
-          type:
-          - string
-          - 'null'
+          type: string
           example: example_value
       examples:
       - displayValue: null
-        value: null
-    UpdateaBatchofFavorites:
-      title: UpdateaBatchofFavorites
+        value: Burlington
+    Motif:
+      title: Motif
       required:
-      - favorites
+      - color
+      - largeIconUrl
+      - mediumIconUrl
+      - smallIconUrl
+      - svgIconUrl
       type: object
       properties:
-        favorites:
-          type: array
-          items:
-            $ref: '#/components/schemas/Favorite'
-          description: ''
-          example: []
+        color:
+          type: string
+          example: example_value
+        largeIconUrl:
+          type: string
+          example: https://www.example.com
+        mediumIconUrl:
+          type: string
+          example: https://www.example.com
+        smallIconUrl:
+          type: string
+          example: https://www.example.com
+        svgIconUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
       examples:
-      - favorites:
-        - accessCount: 1
-          iconColor: 5867E8
-          iconUrl: https://pozil-dev-ed.my.salesforce.com/img/icon/t4v35/standard/account_120.png
-          id: 0MV4H0000004qIeWAI
-          lastAccessDate: '2023-10-06T10:03:32.000Z'
-          name: RenamedAllAcountsListView
-          objectType: Account
-          sortOrder: 1
-          subtitle: Accounts
-          target: 00B58000002ssinEAA
-          targetType: ListView
-    Comments:
-      title: Comments
-      required:
-      - page
-      type: object
-      properties:
-        page:
-          $ref: '#/components/schemas/Page1'
-      examples:
-      - page:
-          currentPageToken: null
-          currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/comments/items
-          items: []
-          nextPageToken: null
-          nextPageUrl: null
-          previousPageToken: null
-          previousPageUrl: null
-          total: 0
+      - color: '939393'
+        largeIconUrl: /img/content/content64.png
+        mediumIconUrl: /img/content/content32.png
+        smallIconUrl: /img/icon/files16.png
+        svgIconUrl: null
     SuccessfulFeedElementsBatchPost:
       title: SuccessfulFeedElementsBatchPost
       required:
@@ -5118,8 +4217,8 @@ components:
           - errorCode: INVALID_MARKUP
             message: 'Error while parsing Rich Text Content: The value of attribute &quot;src&quot; associated with an element type &quot;img&quot; must not contain the &#39;&lt;&#39; character.'
           statusCode: 400
-    Website5:
-      title: Website5
+    BillingCountry2:
+      title: BillingCountry2
       required:
       - displayValue
       - value
@@ -5135,133 +4234,1028 @@ components:
           example: example_value
       examples:
       - displayValue: null
-        value: www.burlington.com
-    CompositeBatchRequest:
-      title: CompositeBatchRequest
+        value: USA
+    batchInfoList:
+      title: batchInfoList
       required:
-      - haltOnError
-      - batchRequests
+      - batchInfo
       type: object
       properties:
-        haltOnError:
+        batchInfo:
+          allOf:
+          - $ref: '#/components/schemas/batchInfo'
+          - xml:
+              name: batchInfo
+              namespace: http://www.force.com/2009/06/asyncapi/dataload
+              attribute: false
+              wrapped: false
+          example: example_value
+      xml:
+        name: batchInfoList
+        namespace: http://www.force.com/2009/06/asyncapi/dataload
+        attribute: false
+        wrapped: false
+    Result1:
+      title: Result1
+      required:
+      - result
+      - statusCode
+      type: object
+      properties:
+        result:
+          oneOf:
+          - allOf:
+            - $ref: '#/components/schemas/Result2'
+            - examples:
+              - actor:
+                  additionalLabel: null
+                  communityNickname: User1696423780773910041
+                  companyName: Salesforce
+                  displayName: Name
+                  firstName: Firstname
+                  id: 005...
+                  isActive: true
+                  isInThisCommunity: true
+                  lastName: Name
+                  motif:
+                    color: 1B96FF
+                    largeIconUrl: /img/icon/profile64.png
+                    mediumIconUrl: /img/icon/profile32.png
+                    smallIconUrl: /img/icon/profile16.png
+                    svgIconUrl: null
+                  mySubscription: null
+                  name: Name
+                  outOfOffice:
+                    message: ''
+                  photo:
+                    fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+                    largePhotoUrl: https://<my_domain>/profilephoto/729.../F
+                    mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
+                    photoVersionId: 729...
+                    smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
+                    standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+                    url: /services/data/v58.0/connect/user-profiles/005.../photo
+                  reputation: null
+                  title: null
+                  type: User
+                  url: /services/data/v58.0/chatter/users/005...
+                  userType: Internal
+                body:
+                  isRichText: false
+                  messageSegments:
+                  - text: Post Number 1
+                    type: Text
+                  text: Post Number 1
+                capabilities:
+                  associatedActions:
+                    platformActionGroups: []
+                  bookmarks:
+                    isBookmarkedByCurrentUser: false
+                  chatterLikes:
+                    isLikedByCurrentUser: false
+                    likesMessage: null
+                    myLike: null
+                    page:
+                      currentPageToken: 0
+                      currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/chatter-likes/items
+                      items: []
+                      nextPageToken: null
+                      nextPageUrl: null
+                      previousPageToken: null
+                      previousPageUrl: null
+                      total: 0
+                  close:
+                    canContextUserUpdateIsClosed: true
+                    isClosed: false
+                  comments:
+                    page:
+                      currentPageToken: null
+                      currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/comments/items
+                      items: []
+                      nextPageToken: null
+                      nextPageUrl: null
+                      previousPageToken: null
+                      previousPageUrl: null
+                      total: 0
+                  edit:
+                    isEditRestricted: false
+                    isEditableByMeUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/edit/is-editable-by-me
+                    lastEditedBy: null
+                    lastEditedDate: null
+                    latestRevision: 1
+                    relativeLastEditedDate: null
+                  interactions:
+                    count: 0
+                  mute:
+                    isMutedByMe: false
+                  readBy:
+                    isReadByMe: true
+                    lastReadDateByMe: '2023-11-22T11:11:25.000Z'
+                    page:
+                      currentPageToken: null
+                      currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/read-by/items?pageSize=3
+                      items: []
+                      nextPageToken: null
+                      nextPageUrl: null
+                      previousPageToken: null
+                      previousPageUrl: null
+                      total: 0
+                  status:
+                    feedEntityStatus: Published
+                    isApprovableByMe: true
+                  topics:
+                    canAssignTopics: true
+                    items: []
+                  upDownVote:
+                    downVoteCount: 0
+                    myVote: None
+                    upVoteCount: 0
+                clientInfo:
+                  applicationName: Postman Playground
+                  applicationUrl: null
+                createdDate: '2023-11-22T11:11:25.000Z'
+                event: false
+                feedElementType: FeedItem
+                hasVerifiedComment: false
+                header:
+                  isRichText: null
+                  messageSegments:
+                  - motif:
+                      color: 1B96FF
+                      largeIconUrl: /img/icon/profile64.png
+                      mediumIconUrl: /img/icon/profile32.png
+                      smallIconUrl: /img/icon/profile16.png
+                      svgIconUrl: null
+                    reference:
+                      id: 005...
+                      url: /services/data/v58.0/chatter/users/005...
+                    text: Name
+                    type: EntityLink
+                  text: Name
+                id: 0D5...
+                isDeleteRestricted: false
+                isSharable: false
+                modifiedDate: '2023-11-22T11:11:25.000Z'
+                originalFeedItem: null
+                originalFeedItemActor: null
+                parent:
+                  entityLabel:
+                    label: Account
+                    labelPlural: Accounts
+                  id: 001...
+                  motif:
+                    color: 5867E8
+                    largeIconUrl: /img/icon/accounts64.png
+                    mediumIconUrl: /img/icon/accounts32.png
+                    smallIconUrl: /img/icon/accounts16.png
+                    svgIconUrl: null
+                  mySubscription: null
+                  name: Burlington Textiles Corp of America
+                  type: Account
+                  url: /services/data/v58.0/chatter/records/001...
+                photoUrl: https://<my_domain>/profilephoto/729.../T
+                relativeCreatedDate: Just now
+                type: TextPost
+                url: /services/data/v58.0/chatter/feed-elements/0D5...
+                visibility: InternalUsers
+          - type: array
+            items:
+              $ref: '#/components/schemas/Result21'
+          example: example_value
+        statusCode:
+          type: integer
+          contentEncoding: int32
+          example: 10
+      examples:
+      - result:
+          actor:
+            additionalLabel: null
+            communityNickname: User1696423780773910041
+            companyName: Salesforce
+            displayName: Name
+            firstName: Firstname
+            id: 005...
+            isActive: true
+            isInThisCommunity: true
+            lastName: Name
+            motif:
+              color: 1B96FF
+              largeIconUrl: /img/icon/profile64.png
+              mediumIconUrl: /img/icon/profile32.png
+              smallIconUrl: /img/icon/profile16.png
+              svgIconUrl: null
+            mySubscription: null
+            name: Name
+            outOfOffice:
+              message: ''
+            photo:
+              fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+              largePhotoUrl: https://<my_domain>/profilephoto/729.../F
+              mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
+              photoVersionId: 729...
+              smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
+              standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+              url: /services/data/v58.0/connect/user-profiles/005.../photo
+            reputation: null
+            title: null
+            type: User
+            url: /services/data/v58.0/chatter/users/005...
+            userType: Internal
+          body:
+            isRichText: false
+            messageSegments:
+            - text: Post Number 1
+              type: Text
+            text: Post Number 1
+          capabilities:
+            associatedActions:
+              platformActionGroups: []
+            bookmarks:
+              isBookmarkedByCurrentUser: false
+            chatterLikes:
+              isLikedByCurrentUser: false
+              likesMessage: null
+              myLike: null
+              page:
+                currentPageToken: 0
+                currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/chatter-likes/items
+                items: []
+                nextPageToken: null
+                nextPageUrl: null
+                previousPageToken: null
+                previousPageUrl: null
+                total: 0
+            close:
+              canContextUserUpdateIsClosed: true
+              isClosed: false
+            comments:
+              page:
+                currentPageToken: null
+                currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/comments/items
+                items: []
+                nextPageToken: null
+                nextPageUrl: null
+                previousPageToken: null
+                previousPageUrl: null
+                total: 0
+            edit:
+              isEditRestricted: false
+              isEditableByMeUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/edit/is-editable-by-me
+              lastEditedBy: null
+              lastEditedDate: null
+              latestRevision: 1
+              relativeLastEditedDate: null
+            interactions:
+              count: 0
+            mute:
+              isMutedByMe: false
+            readBy:
+              isReadByMe: true
+              lastReadDateByMe: '2023-11-22T11:11:25.000Z'
+              page:
+                currentPageToken: null
+                currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/read-by/items?pageSize=3
+                items: []
+                nextPageToken: null
+                nextPageUrl: null
+                previousPageToken: null
+                previousPageUrl: null
+                total: 0
+            status:
+              feedEntityStatus: Published
+              isApprovableByMe: true
+            topics:
+              canAssignTopics: true
+              items: []
+            upDownVote:
+              downVoteCount: 0
+              myVote: None
+              upVoteCount: 0
+          clientInfo:
+            applicationName: Postman Playground
+            applicationUrl: null
+          createdDate: '2023-11-22T11:11:25.000Z'
+          event: false
+          feedElementType: FeedItem
+          hasVerifiedComment: false
+          header:
+            isRichText: null
+            messageSegments:
+            - motif:
+                color: 1B96FF
+                largeIconUrl: /img/icon/profile64.png
+                mediumIconUrl: /img/icon/profile32.png
+                smallIconUrl: /img/icon/profile16.png
+                svgIconUrl: null
+              reference:
+                id: 005...
+                url: /services/data/v58.0/chatter/users/005...
+              text: Name
+              type: EntityLink
+            text: Name
+          id: 0D5...
+          isDeleteRestricted: false
+          isSharable: false
+          modifiedDate: '2023-11-22T11:11:25.000Z'
+          originalFeedItem: null
+          originalFeedItemActor: null
+          parent:
+            entityLabel:
+              label: Account
+              labelPlural: Accounts
+            id: 001...
+            motif:
+              color: 5867E8
+              largeIconUrl: /img/icon/accounts64.png
+              mediumIconUrl: /img/icon/accounts32.png
+              smallIconUrl: /img/icon/accounts16.png
+              svgIconUrl: null
+            mySubscription: null
+            name: Burlington Textiles Corp of America
+            type: Account
+            url: /services/data/v58.0/chatter/records/001...
+          photoUrl: https://<my_domain>/profilephoto/729.../T
+          relativeCreatedDate: Just now
+          type: TextPost
+          url: /services/data/v58.0/chatter/feed-elements/0D5...
+          visibility: InternalUsers
+        statusCode: 201
+    Comments:
+      title: Comments
+      required:
+      - page
+      type: object
+      properties:
+        page:
+          $ref: '#/components/schemas/Page1'
+      examples:
+      - page:
+          currentPageToken: null
+          currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/comments/items
+          items: []
+          nextPageToken: null
+          nextPageUrl: null
+          previousPageToken: null
+          previousPageUrl: null
+          total: 0
+    GetaBatchofRecords:
+      title: GetaBatchofRecords
+      required:
+      - hasErrors
+      - results
+      type: object
+      properties:
+        hasErrors:
           type: boolean
           example: true
-        batchRequests:
+        results:
           type: array
           items:
-            $ref: '#/components/schemas/BatchRequest'
+            $ref: '#/components/schemas/Results4'
           description: ''
           example: []
       examples:
-      - haltOnError: true
-        batchRequests:
-        - method: GET
-          url: v64.0/query/?q=SELECT+Id,+Name+FROM+Account LIMIT 2
-        - method: GET
-          url: v64.0/query/?q=SELECT+Id,+Name+FROM+Opportunity LIMIT 2
-    Body7:
-      title: Body7
+      - hasErrors: false
+        results:
+        - result:
+            apiName: Account
+            childRelationships: {}
+            eTag: 8aae3f4fbe3055e68df1d4c8a989a671
+            fields:
+              AnnualRevenue:
+                displayValue: $350,000,000
+                value: 350000000
+              BillingCity:
+                displayValue: null
+                value: Burlington
+              BillingCountry:
+                displayValue: null
+                value: USA
+              BillingPostalCode:
+                displayValue: null
+                value: '27215'
+              BillingState:
+                displayValue: null
+                value: NC
+              BillingStreet:
+                displayValue: null
+                value: 525 S. Lexington Ave
+              Industry:
+                displayValue: Apparel
+                value: Apparel
+              Name:
+                displayValue: null
+                value: Burlington Textiles Corp of America
+              Owner:
+                displayValue: Philippe Ozil
+                value:
+                  apiName: User
+                  childRelationships: {}
+                  eTag: cc07f7ef1b08ddbd75074c69512dd388
+                  fields:
+                    Id:
+                      displayValue: null
+                      value: 005B0000003TOI6IAO
+                    Name:
+                      displayValue: null
+                      value: Philippe Ozil
+                  id: 005B0000003TOI6IAO
+                  lastModifiedById: 005B0000003TOI6IAO
+                  lastModifiedDate: '2023-02-02T10:32:12.000Z'
+                  recordTypeId: null
+                  recordTypeInfo: null
+                  systemModstamp: '2023-09-27T15:47:51.000Z'
+                  weakEtag: 1695829671000
+              OwnerId:
+                displayValue: null
+                value: 005B0000003TOI6IAO
+              Parent:
+                displayValue: null
+                value: null
+              ParentId:
+                displayValue: null
+                value: null
+              Phone:
+                displayValue: null
+                value: (336) 222-7000
+              PhotoUrl:
+                displayValue: null
+                value: /services/images/photo/001B000000UnQ2wIAF
+              Site:
+                displayValue: null
+                value: null
+              Type:
+                displayValue: Customer - Direct
+                value: Customer - Direct
+              Website:
+                displayValue: null
+                value: www.burlington.com
+            id: 001B000000UnQ2wIAF
+            lastModifiedById: 005B0000003TOI6IAO
+            lastModifiedDate: '2017-08-18T14:46:22.000Z'
+            recordTypeId: 012000000000000AAA
+            recordTypeInfo: null
+            systemModstamp: '2017-08-18T14:46:22.000Z'
+            weakEtag: 1503067582000
+          statusCode: 200
+        - result:
+            apiName: Account
+            childRelationships: {}
+            eTag: a825a67a87fa16446d82b4948e5643c7
+            fields:
+              AnnualRevenue:
+                displayValue: $50,000,000
+                value: 50000000
+              BillingCity:
+                displayValue: null
+                value: Lawrence
+              BillingCountry:
+                displayValue: null
+                value: USA
+              BillingPostalCode:
+                displayValue: null
+                value: '66045'
+              BillingState:
+                displayValue: null
+                value: KS
+              BillingStreet:
+                displayValue: null
+                value: 1301 Hoch Drive
+              Industry:
+                displayValue: Consulting
+                value: Consulting
+              Name:
+                displayValue: null
+                value: Dickenson plc
+              Owner:
+                displayValue: Philippe Ozil
+                value:
+                  apiName: User
+                  childRelationships: {}
+                  eTag: cc07f7ef1b08ddbd75074c69512dd388
+                  fields:
+                    Id:
+                      displayValue: null
+                      value: 005B0000003TOI6IAO
+                    Name:
+                      displayValue: null
+                      value: Philippe Ozil
+                  id: 005B0000003TOI6IAO
+                  lastModifiedById: 005B0000003TOI6IAO
+                  lastModifiedDate: '2023-02-02T10:32:12.000Z'
+                  recordTypeId: null
+                  recordTypeInfo: null
+                  systemModstamp: '2023-09-27T15:47:51.000Z'
+                  weakEtag: 1695829671000
+              OwnerId:
+                displayValue: null
+                value: 005B0000003TOI6IAO
+              Parent:
+                displayValue: null
+                value: null
+              ParentId:
+                displayValue: null
+                value: null
+              Phone:
+                displayValue: null
+                value: (785) 241-6200
+              PhotoUrl:
+                displayValue: null
+                value: /services/images/photo/001B000000UnQ2yIAF
+              Site:
+                displayValue: null
+                value: null
+              Type:
+                displayValue: Customer - Channel
+                value: Customer - Channel
+              Website:
+                displayValue: null
+                value: dickenson-consulting.com
+            id: 001B000000UnQ2yIAF
+            lastModifiedById: 005B0000003TOI6IAO
+            lastModifiedDate: '2017-08-18T14:46:22.000Z'
+            recordTypeId: 012000000000000AAA
+            recordTypeInfo: null
+            systemModstamp: '2017-08-18T14:46:22.000Z'
+            weakEtag: 1503067582000
+          statusCode: 200
+    AssociatedActions:
+      title: AssociatedActions
       required:
-      - messageSegments
+      - platformActionGroups
       type: object
       properties:
+        platformActionGroups:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+      examples:
+      - platformActionGroups: []
+    UpDownVote:
+      title: UpDownVote
+      required:
+      - downVoteCount
+      - myVote
+      - upVoteCount
+      type: object
+      properties:
+        downVoteCount:
+          type: integer
+          contentEncoding: int32
+          example: 42
+        myVote:
+          type: string
+          example: example_value
+        upVoteCount:
+          type: integer
+          contentEncoding: int32
+          example: 42
+      examples:
+      - downVoteCount: 0
+        myVote: None
+        upVoteCount: 0
+    Page:
+      title: Page
+      required:
+      - currentPageToken
+      - currentPageUrl
+      - items
+      - nextPageToken
+      - nextPageUrl
+      - previousPageToken
+      - previousPageUrl
+      - total
+      type: object
+      properties:
+        currentPageToken:
+          type: integer
+          contentEncoding: int32
+          example: CAUQAA
+        currentPageUrl:
+          type: string
+          example: https://www.example.com
+        items:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        nextPageToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        nextPageUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        previousPageToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        previousPageUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        total:
+          type: integer
+          contentEncoding: int32
+          example: 42
+      examples:
+      - currentPageToken: 0
+        currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/chatter-likes/items
+        items: []
+        nextPageToken: null
+        nextPageUrl: null
+        previousPageToken: null
+        previousPageUrl: null
+        total: 0
+    ReadBy:
+      title: ReadBy
+      required:
+      - isReadByMe
+      - lastReadDateByMe
+      - page
+      type: object
+      properties:
+        isReadByMe:
+          type: boolean
+          example: true
+        lastReadDateByMe:
+          type: string
+          example: example_value
+        page:
+          $ref: '#/components/schemas/Page1'
+      examples:
+      - isReadByMe: true
+        lastReadDateByMe: '2023-11-22T11:06:07.000Z'
+        page:
+          currentPageToken: null
+          currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/read-by/items?pageSize=3
+          items: []
+          nextPageToken: null
+          nextPageUrl: null
+          previousPageToken: null
+          previousPageUrl: null
+          total: 0
+    Input:
+      title: Input
+      required:
+      - richInput
+      type: object
+      properties:
+        richInput:
+          $ref: '#/components/schemas/RichInput'
+      examples:
+      - richInput:
+          subjectId: <USER_GROUP_RECORD_ID>
+          body:
+            messageSegments:
+            - type: Text
+              text: Post Number 1
+          capabilities:
+            files:
+              items:
+              - id: <FILE_ID>
+          feedElementType: FeedItem
+    MessageSegment5:
+      title: MessageSegment5
+      required:
+      - type
+      - text
+      type: object
+      properties:
+        type:
+          type: string
+          example: example_value
+        text:
+          type: string
+          example: example_value
+        fileId:
+          type: string
+          example: '500123'
+        altText:
+          type: string
+          example: example_value
+      examples:
+      - type: Text
+        text: Post Number 1
+    Type10:
+      title: Type10
+      required:
+      - displayValue
+      - value
+      type: object
+      properties:
+        displayValue:
+          type: string
+          example: example_value
+        value:
+          type: string
+          example: example_value
+      examples:
+      - displayValue: Customer - Direct
+        value: Customer - Direct
+    Page1:
+      title: Page1
+      required:
+      - currentPageToken
+      - currentPageUrl
+      - items
+      - nextPageToken
+      - nextPageUrl
+      - previousPageToken
+      - previousPageUrl
+      - total
+      type: object
+      properties:
+        currentPageToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        currentPageUrl:
+          type: string
+          example: https://www.example.com
+        items:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        nextPageToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        nextPageUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        previousPageToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        previousPageUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        total:
+          type: integer
+          contentEncoding: int32
+          example: 42
+      examples:
+      - currentPageToken: null
+        currentPageUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/comments/items
+        items: []
+        nextPageToken: null
+        nextPageUrl: null
+        previousPageToken: null
+        previousPageUrl: null
+        total: 0
+    Close:
+      title: Close
+      required:
+      - canContextUserUpdateIsClosed
+      - isClosed
+      type: object
+      properties:
+        canContextUserUpdateIsClosed:
+          type: boolean
+          example: true
+        isClosed:
+          type: boolean
+          example: true
+      examples:
+      - canContextUserUpdateIsClosed: true
+        isClosed: false
+    OwnerId4:
+      title: OwnerId4
+      required:
+      - displayValue
+      - value
+      type: object
+      properties:
+        displayValue:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        value:
+          type: string
+          example: example_value
+      examples:
+      - displayValue: null
+        value: 005B0000003TOI6IAO
+    Body4:
+      title: Body4
+      required:
+      - isRichText
+      - messageSegments
+      - text
+      type: object
+      properties:
+        isRichText:
+          type: boolean
+          example: true
         messageSegments:
           type: array
           items:
-            $ref: '#/components/schemas/MessageSegment5'
+            $ref: '#/components/schemas/MessageSegment'
           description: ''
           example: []
-      examples:
-      - messageSegments:
-        - type: Text
-          text: Post Number 1
-    Motif:
-      title: Motif
-      required:
-      - color
-      - largeIconUrl
-      - mediumIconUrl
-      - smallIconUrl
-      - svgIconUrl
-      type: object
-      properties:
-        color:
-          type: string
-          example: example_value
-        largeIconUrl:
-          type: string
-          example: https://www.example.com
-        mediumIconUrl:
-          type: string
-          example: https://www.example.com
-        smallIconUrl:
-          type: string
-          example: https://www.example.com
-        svgIconUrl:
-          type:
-          - string
-          - 'null'
-          example: https://www.example.com
-      examples:
-      - color: '939393'
-        largeIconUrl: /img/content/content64.png
-        mediumIconUrl: /img/content/content32.png
-        smallIconUrl: /img/icon/files16.png
-        svgIconUrl: null
-    Result21:
-      title: Result21
-      required:
-      - errorCode
-      - message
-      type: object
-      properties:
-        errorCode:
-          type: string
-          example: example_value
-        message:
+        text:
           type: string
           example: example_value
       examples:
-      - errorCode: INVALID_MARKUP
-        message: 'Error while parsing Rich Text Content: The value of attribute &quot;src&quot; associated with an element type &quot;img&quot; must not contain the &#39;&lt;&#39; character.'
-    BillingCity2:
-      title: BillingCity2
+      - isRichText: false
+        messageSegments:
+        - text: New Feed Item
+          type: Text
+        text: New Feed Item
+    MessageSegment:
+      title: MessageSegment
       required:
-      - displayValue
-      - value
+      - text
+      - type
       type: object
       properties:
-        displayValue:
-          type:
-          - string
-          - 'null'
+        text:
+          type: string
           example: example_value
-        value:
+        type:
           type: string
           example: example_value
       examples:
-      - displayValue: null
-        value: Burlington
-    Status1:
-      title: Status1
+      - text: New Feed Item
+        type: Text
+    Fields8:
+      title: Fields8
       required:
-      - feedEntityStatus
-      - isApprovableByMe
+      - Id
+      - Name
       type: object
       properties:
-        feedEntityStatus:
-          type: string
-          example: example_value
-        isApprovableByMe:
+        Id:
+          $ref: '#/components/schemas/Id8'
+        Name:
+          $ref: '#/components/schemas/Name21'
+      examples:
+      - Id:
+          displayValue: null
+          value: 005B0000003TOI6IAO
+        Name:
+          displayValue: null
+          value: Philippe Ozil
+    Fields18:
+      title: Fields18
+      required:
+      - AnnualRevenue
+      - BillingCity
+      - BillingCountry
+      - BillingPostalCode
+      - BillingState
+      - BillingStreet
+      - Industry
+      - Name
+      - Owner
+      - OwnerId
+      - Parent
+      - ParentId
+      - Phone
+      - PhotoUrl
+      - Site
+      - Type
+      - Website
+      type: object
+      properties:
+        AnnualRevenue:
+          $ref: '#/components/schemas/AnnualRevenue2'
+        BillingCity:
+          $ref: '#/components/schemas/BillingCity2'
+        BillingCountry:
+          $ref: '#/components/schemas/BillingCountry2'
+        BillingPostalCode:
+          $ref: '#/components/schemas/BillingPostalCode2'
+        BillingState:
+          $ref: '#/components/schemas/BillingState2'
+        BillingStreet:
+          $ref: '#/components/schemas/BillingStreet2'
+        Industry:
+          $ref: '#/components/schemas/Industry2'
+        Name:
+          $ref: '#/components/schemas/Name21'
+        Owner:
+          $ref: '#/components/schemas/Owner6'
+        OwnerId:
+          $ref: '#/components/schemas/OwnerId4'
+        Parent:
+          $ref: '#/components/schemas/Parent7'
+        ParentId:
+          $ref: '#/components/schemas/ParentId2'
+        Phone:
+          $ref: '#/components/schemas/Phone5'
+        PhotoUrl:
+          $ref: '#/components/schemas/PhotoUrl4'
+        Site:
+          $ref: '#/components/schemas/Site2'
+        Type:
+          $ref: '#/components/schemas/Type10'
+        Website:
+          $ref: '#/components/schemas/Website5'
+      examples:
+      - AnnualRevenue:
+          displayValue: $350,000,000
+          value: 350000000
+        BillingCity:
+          displayValue: null
+          value: Burlington
+        BillingCountry:
+          displayValue: null
+          value: USA
+        BillingPostalCode:
+          displayValue: null
+          value: '27215'
+        BillingState:
+          displayValue: null
+          value: NC
+        BillingStreet:
+          displayValue: null
+          value: 525 S. Lexington Ave
+        Industry:
+          displayValue: Apparel
+          value: Apparel
+        Name:
+          displayValue: null
+          value: Burlington Textiles Corp of America
+        Owner:
+          displayValue: Philippe Ozil
+          value:
+            apiName: User
+            childRelationships: {}
+            eTag: cc07f7ef1b08ddbd75074c69512dd388
+            fields:
+              Id:
+                displayValue: null
+                value: 005B0000003TOI6IAO
+              Name:
+                displayValue: null
+                value: Philippe Ozil
+            id: 005B0000003TOI6IAO
+            lastModifiedById: 005B0000003TOI6IAO
+            lastModifiedDate: '2023-02-02T10:32:12.000Z'
+            recordTypeId: null
+            recordTypeInfo: null
+            systemModstamp: '2023-09-27T15:47:51.000Z'
+            weakEtag: 1695829671000
+        OwnerId:
+          displayValue: null
+          value: 005B0000003TOI6IAO
+        Parent:
+          displayValue: null
+          value: null
+        ParentId:
+          displayValue: null
+          value: null
+        Phone:
+          displayValue: null
+          value: (336) 222-7000
+        PhotoUrl:
+          displayValue: null
+          value: /services/images/photo/001B000000UnQ2wIAF
+        Site:
+          displayValue: null
+          value: null
+        Type:
+          displayValue: Customer - Direct
+          value: Customer - Direct
+        Website:
+          displayValue: null
+          value: www.burlington.com
+    Bookmarks:
+      title: Bookmarks
+      required:
+      - isBookmarkedByCurrentUser
+      type: object
+      properties:
+        isBookmarkedByCurrentUser:
           type: boolean
           example: true
       examples:
-      - feedEntityStatus: Published
-        isApprovableByMe: true
+      - isBookmarkedByCurrentUser: false
   securitySchemes:
-    BearerAuth:
-      type: http
-      scheme: bearer
-      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
-
-        '
+    oauth2:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: '{DefaultParameterValue}{DefaultParameterValue}/services/oauth2/authorize'
+          scopes:
+            api: ''

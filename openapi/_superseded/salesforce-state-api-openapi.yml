@@ -1,0 +1,126 @@
+openapi: 3.2.0
+info:
+  title: Salesforce Bulk API 2.0 Abort State API
+  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+
+    '
+  version: v63.0
+  contact:
+    name: Salesforce Developers
+    url: https://developer.salesforce.com/
+  license:
+    name: Salesforce Developer Terms
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
+  description: Salesforce Bulk API 2.0 jobs endpoint
+  variables:
+    instance:
+      default: yourInstance
+      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+
+        '
+    version:
+      default: '63.0'
+      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+
+        '
+security:
+- BearerAuth: []
+tags:
+- name: State
+paths:
+  /data/v64.0/tooling/sobjects/EventRelayConfig/{EVENT_RELAY_CONFIG_ID}:
+    parameters: []
+    patch:
+      tags:
+      - State
+      summary: Salesforce Change Event Relay State
+      operationId: Changeeventrelaystate
+      parameters:
+      - name: EVENT_RELAY_CONFIG_ID
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      - name: SOAPAction
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - '""'
+        example: example_value
+      - name: Authorization
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          examples:
+          - 'Bearer '
+        example: example_value
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/ChangeeventrelaystateRequest'
+              - examples:
+                - Metadata:
+                    state: RUN
+              contentMediaType: application/json
+            example:
+              Metadata:
+                state: RUN
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+      servers:
+      - url: https://services
+        variables: {}
+      x-api-evangelist-processing:
+        PascalCaseOperationSummaries: true
+        ChooseTags: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Metadata13:
+      title: Metadata13
+      required:
+      - state
+      type: object
+      properties:
+        state:
+          type: string
+          example: example_value
+      examples:
+      - state: RUN
+    ChangeeventrelaystateRequest:
+      title: ChangeeventrelaystateRequest
+      required:
+      - Metadata
+      type: object
+      properties:
+        Metadata:
+          $ref: '#/components/schemas/Metadata13'
+      examples:
+      - Metadata:
+          state: RUN
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+
+        '

@@ -1,771 +1,28 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Salesforce Bulk API 2.0 Abort Member API
-  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
-
-    '
-  version: v63.0
-  contact:
-    name: Salesforce Developers
-    url: https://developer.salesforce.com/
-  license:
-    name: Salesforce Developer Terms
-    url: https://www.salesforce.com/company/legal/agreements/
+  title: Salesforce Member API
+  description: 'Find the resources you need to start building. '
+  contact: {}
+  version: '1.0'
 servers:
-- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
-  description: Salesforce Bulk API 2.0 jobs endpoint
+- url: https://login.salesforce.com
+  variables: {}
+- url: https://id
+  variables: {}
+- url: https://services
+  variables: {}
+- url: '{{url}}{{site}}/services/oauth2'
   variables:
-    instance:
-      default: yourInstance
-      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
-
-        '
-    version:
-      default: '63.0'
-      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
-
-        '
+    url:
+      default: DefaultParameterValue
+    site:
+      default: DefaultParameterValue
 security:
-- BearerAuth: []
+- oauth2:
+  - api
 tags:
 - name: Member
 paths:
-  /data/v64.0/tooling/sobjects/PlatformEventChannelMember/{PLATFORM_EVENT_CHANNEL_MEMBER_ID}:
-    parameters: []
-    patch:
-      tags:
-      - Member
-      summary: Salesforce Add Enriched Fields to Channel Member
-      operationId: Addenrichedfieldstochannelmember
-      parameters:
-      - name: PLATFORM_EVENT_CHANNEL_MEMBER_ID
-        in: path
-        description: ''
-        required: true
-        schema:
-          type: string
-        example: '500123'
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              allOf:
-              - $ref: '#/components/schemas/AddenrichedfieldstochannelmemberRequest'
-              - examples:
-                - FullName: Account_Channel_chn_AccountChangeEvent
-                  Metadata:
-                    enrichedFields:
-                    - name: External_Account_ID__c
-                    eventChannel: Account_Channel__chn
-                    selectedEntity: AccountChangeEvent
-              contentMediaType: application/json
-            example:
-              FullName: Account_Channel_chn_AccountChangeEvent
-              Metadata:
-                enrichedFields:
-                - name: External_Account_ID__c
-                eventChannel: Account_Channel__chn
-                selectedEntity: AccountChangeEvent
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      servers:
-      - url: https://services
-        variables: {}
-      x-api-evangelist-processing:
-        PascalCaseOperationSummaries: true
-        ChooseTags: true
-      x-microcks-operation:
-        delay: 0
-        dispatcher: FALLBACK
-    get:
-      tags:
-      - Member
-      summary: Salesforce Get Channel Member
-      operationId: Getchannelmember
-      parameters:
-      - name: PLATFORM_EVENT_CHANNEL_MEMBER_ID
-        in: path
-        description: ''
-        required: true
-        schema:
-          type: string
-        example: '500123'
-      responses:
-        '200':
-          description: OK
-          headers:
-            Date:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: Mon, 03 Jul 2023 13:17:20 GMT
-            Strict-Transport-Security:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: max-age=63072000; includeSubDomains
-            X-Content-Type-Options:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: nosniff
-            X-Robots-Tag:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: none
-            Cache-Control:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: no-cache,must-revalidate,max-age=0,no-store,private
-            Sforce-Limit-Info:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: api-usage=9/15000
-            Last-Modified:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: Fri, 30 Dec 2022 15:10:39 GMT
-            Vary:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: Accept-Encoding
-            Content-Encoding:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: gzip
-            Transfer-Encoding:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: chunked
-          content:
-            application/json;charset=UTF-8:
-              schema:
-                allOf:
-                - $ref: '#/components/schemas/Getchannelmember'
-                - examples:
-                  - attributes:
-                      type: PlatformEventChannelMember
-                      url: /services/data/v58.0/tooling/sobjects/PlatformEventChannelMember/0v84H000000PAvIQAW
-                    Id: 0v84H000000PAvIQAW
-                    IsDeleted: false
-                    DeveloperName: ChangeEvents_ContactChangeEvent
-                    Language: en_US
-                    MasterLabel: ContactChangeEvent
-                    NamespacePrefix: null
-                    ManageableState: unmanaged
-                    CreatedDate: 2022-12-30T15:10:39.000+0000
-                    CreatedById: 00558000000yFyDAAU
-                    LastModifiedDate: 2022-12-30T15:10:39.000+0000
-                    LastModifiedById: 00558000000yFyDAAU
-                    SystemModstamp: 2022-12-30T15:10:39.000+0000
-                    FullName: ChangeEvents_ContactChangeEvent
-                    Metadata:
-                      enrichedFields: []
-                      eventChannel: ChangeEvents
-                      filterExpression: null
-                      selectedEntity: ContactChangeEvent
-                      urls: null
-                    EventChannel: ChangeEvents
-                    SelectedEntity: ContactChangeEvent
-                    FilterExpression: null
-                contentMediaType: application/json;charset=UTF-8
-              example:
-                attributes:
-                  type: PlatformEventChannelMember
-                  url: /services/data/v58.0/tooling/sobjects/PlatformEventChannelMember/0v84H000000PAvIQAW
-                Id: 0v84H000000PAvIQAW
-                IsDeleted: false
-                DeveloperName: ChangeEvents_ContactChangeEvent
-                Language: en_US
-                MasterLabel: ContactChangeEvent
-                NamespacePrefix: null
-                ManageableState: unmanaged
-                CreatedDate: 2022-12-30T15:10:39.000+0000
-                CreatedById: 00558000000yFyDAAU
-                LastModifiedDate: 2022-12-30T15:10:39.000+0000
-                LastModifiedById: 00558000000yFyDAAU
-                SystemModstamp: 2022-12-30T15:10:39.000+0000
-                FullName: ChangeEvents_ContactChangeEvent
-                Metadata:
-                  enrichedFields: []
-                  eventChannel: ChangeEvents
-                  filterExpression: null
-                  selectedEntity: ContactChangeEvent
-                  urls: null
-                EventChannel: ChangeEvents
-                SelectedEntity: ContactChangeEvent
-                FilterExpression: null
-      deprecated: false
-      servers:
-      - url: https://services
-        variables: {}
-      x-api-evangelist-processing:
-        PascalCaseOperationSummaries: true
-        ChooseTags: true
-      x-microcks-operation:
-        delay: 0
-        dispatcher: FALLBACK
-    delete:
-      tags:
-      - Member
-      summary: Salesforce Delete Channel Member
-      operationId: Deletechannelmember
-      parameters:
-      - name: PLATFORM_EVENT_CHANNEL_MEMBER_ID
-        in: path
-        description: ''
-        required: true
-        schema:
-          type: string
-          examples:
-          - 'null'
-        example: '500123'
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      servers:
-      - url: https://services
-        variables: {}
-      x-api-evangelist-processing:
-        PascalCaseOperationSummaries: true
-        ChooseTags: true
-      x-microcks-operation:
-        delay: 0
-        dispatcher: FALLBACK
-  /data/v64.0/tooling/sobjects/PlatformEventChannelMember:
-    parameters: []
-    post:
-      tags:
-      - Member
-      summary: Salesforce Create Channel Member
-      operationId: Createchannelmember
-      parameters: []
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              allOf:
-              - $ref: '#/components/schemas/CreatechannelmemberRequest'
-              - examples:
-                - FullName: Account_Channel_chn_AccountChangeEvent
-                  Metadata:
-                    eventChannel: Account_Channel__chn
-                    selectedEntity: AccountChangeEvent
-              contentMediaType: application/json
-            example:
-              FullName: Account_Channel_chn_AccountChangeEvent
-              Metadata:
-                eventChannel: Account_Channel__chn
-                selectedEntity: AccountChangeEvent
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      servers:
-      - url: https://services
-        variables: {}
-      x-api-evangelist-processing:
-        PascalCaseOperationSummaries: true
-        ChooseTags: true
-      x-microcks-operation:
-        delay: 0
-        dispatcher: FALLBACK
-  /data/v64.0/loyalty-programs/{loyaltyProgramName}/corporate-member-enrollments:
-    parameters: []
-    post:
-      tags:
-      - Member
-      summary: Salesforce Corporate Member Enrollments
-      description: 'Standard Documentation:
-
-
-        [https://developer.salesforce.com/docs/atlas.en-us.loyalty.meta/loyalty/connect_resources_enroll_corporate_member.htm](https://developer.salesforce.com/docs/atlas.en-us.loyalty.meta/loyalty/connect_resources_enroll_corporate_member.htm)'
-      operationId: CorporateMemberEnrollments
-      parameters:
-      - name: loyaltyProgramName
-        in: path
-        description: ''
-        required: true
-        schema:
-          type: string
-        example: example_value
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              allOf:
-              - $ref: '#/components/schemas/CorporateMemberEnrollmentsRequest'
-              - examples:
-                - enrollmentDate: '2021-01-01T05:05:05.000Z'
-                  membershipNumber: Member123
-                  associatedAccountDetails:
-                    name: Name1
-                    phone: '908989898'
-                    website: www.ab.com
-                    allowDuplicateRecords: 'false'
-                  memberStatus: Active
-                  createTransactionJournals: 'true'
-              contentMediaType: application/json
-            example:
-              enrollmentDate: '2021-01-01T05:05:05.000Z'
-              membershipNumber: Member123
-              associatedAccountDetails:
-                name: Name1
-                phone: '908989898'
-                website: www.ab.com
-                allowDuplicateRecords: 'false'
-              memberStatus: Active
-              createTransactionJournals: 'true'
-        required: true
-      responses:
-        '201':
-          description: Created
-          headers:
-            Date:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: Wed, 22 May 2024 15:35:25 GMT
-            Strict-Transport-Security:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: max-age=63072000; includeSubDomains
-            X-Content-Type-Options:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: nosniff
-            X-Robots-Tag:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: none
-            Cache-Control:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: no-cache,must-revalidate,max-age=0,no-store,private
-            Vary:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: Accept-Encoding
-            Content-Encoding:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: gzip
-            Transfer-Encoding:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: chunked
-          content:
-            application/json;charset=UTF-8:
-              schema:
-                allOf:
-                - $ref: '#/components/schemas/CorporateMemberEnrollments'
-                - examples:
-                  - accountId: 001J8000003MaJL
-                    loyaltyProgramMemberId: 0lMJ8000000CaRH
-                    loyaltyProgramName: NTO Insider
-                    membershipNumber: Member123
-                    transactionJournals:
-                    - activityDate: '2021-01-01T04:05:05.000Z'
-                      journalSubType: Member Enrollment
-                      journalType: Accrual
-                      loyaltyProgram: NTO Insider
-                      loyaltyProgramMember: Member123
-                      referredMember: null
-                      status: Processed
-                      transactionJournalId: 0lVJ8000000GmaE
-                contentMediaType: application/json;charset=UTF-8
-              example:
-                accountId: 001J8000003MaJL
-                loyaltyProgramMemberId: 0lMJ8000000CaRH
-                loyaltyProgramName: NTO Insider
-                membershipNumber: Member123
-                transactionJournals:
-                - activityDate: '2021-01-01T04:05:05.000Z'
-                  journalSubType: Member Enrollment
-                  journalType: Accrual
-                  loyaltyProgram: NTO Insider
-                  loyaltyProgramMember: Member123
-                  referredMember: null
-                  status: Processed
-                  transactionJournalId: 0lVJ8000000GmaE
-      deprecated: false
-      servers:
-      - url: https://services
-        variables: {}
-      x-api-evangelist-processing:
-        PascalCaseOperationSummaries: true
-        ChooseTags: true
-      x-microcks-operation:
-        delay: 0
-        dispatcher: FALLBACK
-  /data/v64.0/loyalty-programs/{loyaltyProgramName}/individual-member-enrollments:
-    parameters: []
-    post:
-      tags:
-      - Member
-      summary: Salesforce Individual Member Enrollments
-      description: 'Standard Documentation:
-
-
-        [https://developer.salesforce.com/docs/atlas.en-us.loyalty.meta/loyalty/connect_resources_enroll_individual_member.htm](https://developer.salesforce.com/docs/atlas.en-us.loyalty.meta/loyalty/connect_resources_enroll_individual_member.htm)'
-      operationId: IndividualMemberEnrollments
-      parameters:
-      - name: loyaltyProgramName
-        in: path
-        description: ''
-        required: true
-        schema:
-          type: string
-        example: example_value
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              allOf:
-              - $ref: '#/components/schemas/IndividualMemberEnrollmentsRequest'
-              - examples:
-                - enrollmentDate: '2021-01-01T00:00:00.000Z'
-                  membershipNumber: Member1
-                  associatedContactDetails:
-                    firstName: Name1
-                    lastName: Name2
-                    email: ab@email.com
-                    allowDuplicateRecords: 'false'
-                  memberStatus: Active
-                  createTransactionJournals: 'true'
-                  transactionJournalStatementFrequency: Monthly
-                  transactionJournalStatementMethod: Mail
-                  enrollmentChannel: Email
-                  canReceivePromotions: 'true'
-                  canReceivePartnerPromotions: 'true'
-                  membershipEndDate: '2022-01-01T00:00:00.000Z'
-              contentMediaType: application/json
-            example:
-              enrollmentDate: '2021-01-01T00:00:00.000Z'
-              membershipNumber: Member1
-              associatedContactDetails:
-                firstName: Name1
-                lastName: Name2
-                email: ab@email.com
-                allowDuplicateRecords: 'false'
-              memberStatus: Active
-              createTransactionJournals: 'true'
-              transactionJournalStatementFrequency: Monthly
-              transactionJournalStatementMethod: Mail
-              enrollmentChannel: Email
-              canReceivePromotions: 'true'
-              canReceivePartnerPromotions: 'true'
-              membershipEndDate: '2022-01-01T00:00:00.000Z'
-        required: true
-      responses:
-        '201':
-          description: Created
-          headers:
-            Date:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: Wed, 22 May 2024 15:39:01 GMT
-            Strict-Transport-Security:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: max-age=63072000; includeSubDomains
-            X-Content-Type-Options:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: nosniff
-            X-Robots-Tag:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: none
-            Cache-Control:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: no-cache,must-revalidate,max-age=0,no-store,private
-            Vary:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: Accept-Encoding
-            Content-Encoding:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: gzip
-            Transfer-Encoding:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: chunked
-          content:
-            application/json;charset=UTF-8:
-              schema:
-                allOf:
-                - $ref: '#/components/schemas/IndividualMemberEnrollments'
-                - examples:
-                  - contactId: 003J8000002Yu0Z
-                    loyaltyProgramMemberId: 0lMJ8000000CaRM
-                    loyaltyProgramName: NTO Insider
-                    membershipNumber: Member1
-                    transactionJournals:
-                    - activityDate: '2020-12-31T23:00:00.000Z'
-                      journalSubType: Member Enrollment
-                      journalType: Accrual
-                      loyaltyProgram: NTO Insider
-                      loyaltyProgramMember: Member1
-                      referredMember: null
-                      status: Processed
-                      transactionJournalId: 0lVJ8000000GmaJ
-                contentMediaType: application/json;charset=UTF-8
-              example:
-                contactId: 003J8000002Yu0Z
-                loyaltyProgramMemberId: 0lMJ8000000CaRM
-                loyaltyProgramName: NTO Insider
-                membershipNumber: Member1
-                transactionJournals:
-                - activityDate: '2020-12-31T23:00:00.000Z'
-                  journalSubType: Member Enrollment
-                  journalType: Accrual
-                  loyaltyProgram: NTO Insider
-                  loyaltyProgramMember: Member1
-                  referredMember: null
-                  status: Processed
-                  transactionJournalId: 0lVJ8000000GmaJ
-      deprecated: false
-      servers:
-      - url: https://services
-        variables: {}
-      x-api-evangelist-processing:
-        PascalCaseOperationSummaries: true
-        ChooseTags: true
-      x-microcks-operation:
-        delay: 0
-        dispatcher: FALLBACK
-  /data/v64.0/connect/loyalty/member/{memberId}/memberbenefits:
-    parameters: []
-    get:
-      tags:
-      - Member
-      summary: Salesforce Member Benefits
-      description: 'Standard Documentation:
-
-
-        [https://developer.salesforce.com/docs/atlas.en-us.loyalty.meta/loyalty/connect_resources_member_benefits.htm](https://developer.salesforce.com/docs/atlas.en-us.loyalty.meta/loyalty/connect_resources_member_benefits.htm)'
-      operationId: MemberBenefits
-      parameters:
-      - name: memberId
-        in: path
-        description: ''
-        required: true
-        schema:
-          type: string
-        example: '500123'
-      responses:
-        '200':
-          description: OK
-          headers:
-            Date:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: Wed, 22 May 2024 16:11:06 GMT
-            Strict-Transport-Security:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: max-age=63072000; includeSubDomains
-            X-Content-Type-Options:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: nosniff
-            X-Robots-Tag:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: none
-            Cache-Control:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: no-cache,must-revalidate,max-age=0,no-store,private
-            Vary:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: Accept-Encoding
-            Content-Encoding:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: gzip
-            Transfer-Encoding:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: chunked
-          content:
-            application/json;charset=UTF-8:
-              schema:
-                allOf:
-                - $ref: '#/components/schemas/MemberBenefits'
-                - examples:
-                  - memberBenefits:
-                    - benefitId: 0jiJ80000008OIFIA2
-                      benefitName: Free Shipping
-                      benefitTypeId: 0jhJ80000008OI5IAM
-                      benefitTypeName: Shipping
-                      createdRecordId: null
-                      createdRecordName: null
-                      description: null
-                      endDate: null
-                      isActive: true
-                      memberBenefitStatus: null
-                      startDate: null
-                    - benefitId: 0jiJ80000008OI5IAM
-                      benefitName: 5% of Discount
-                      benefitTypeId: 0jhJ80000008OIAIA2
-                      benefitTypeName: Discount Percentage
-                      createdRecordId: null
-                      createdRecordName: null
-                      description: null
-                      endDate: null
-                      isActive: true
-                      memberBenefitStatus: null
-                      startDate: null
-                contentMediaType: application/json;charset=UTF-8
-              example:
-                memberBenefits:
-                - benefitId: 0jiJ80000008OIFIA2
-                  benefitName: Free Shipping
-                  benefitTypeId: 0jhJ80000008OI5IAM
-                  benefitTypeName: Shipping
-                  createdRecordId: null
-                  createdRecordName: null
-                  description: null
-                  endDate: null
-                  isActive: true
-                  memberBenefitStatus: null
-                  startDate: null
-                - benefitId: 0jiJ80000008OI5IAM
-                  benefitName: 5% of Discount
-                  benefitTypeId: 0jhJ80000008OIAIA2
-                  benefitTypeName: Discount Percentage
-                  createdRecordId: null
-                  createdRecordName: null
-                  description: null
-                  endDate: null
-                  isActive: true
-                  memberBenefitStatus: null
-                  startDate: null
-      deprecated: false
-      servers:
-      - url: https://services
-        variables: {}
-      x-api-evangelist-processing:
-        PascalCaseOperationSummaries: true
-        ChooseTags: true
-      x-microcks-operation:
-        delay: 0
-        dispatcher: FALLBACK
   /data/v64.0/loyalty-programs/{loyaltyProgramName}/members:
     parameters: []
     get:
@@ -1127,485 +384,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    MemberTier:
-      title: MemberTier
-      required:
-      - additionalLoyaltyMemberTierFields
-      - areTierBenefitsAssigned
-      - loyaltyMemberTierId
-      - loyaltyMemberTierName
-      - tierChangeReason
-      - tierChangeReasonType
-      - tierEffectiveDate
-      - tierExpirationDate
-      - tierGroupId
-      - tierGroupName
-      - tierId
-      - tierSequenceNumber
-      type: object
-      properties:
-        additionalLoyaltyMemberTierFields:
-          type: object
-          example: example_value
-        areTierBenefitsAssigned:
-          type: boolean
-          example: true
-        loyaltyMemberTierId:
-          type: string
-          example: '500123'
-        loyaltyMemberTierName:
-          type: string
-          example: example_value
-        tierChangeReason:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        tierChangeReasonType:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        tierEffectiveDate:
-          type: string
-          example: example_value
-        tierExpirationDate:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        tierGroupId:
-          type: string
-          example: '500123'
-        tierGroupName:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        tierId:
-          type: string
-          example: '500123'
-        tierSequenceNumber:
-          type: integer
-          contentEncoding: int32
-          example: 10
-      examples:
-      - additionalLoyaltyMemberTierFields: {}
-        areTierBenefitsAssigned: false
-        loyaltyMemberTierId: 0lyJ8000000CaRMIA0
-        loyaltyMemberTierName: Bronze
-        tierChangeReason: null
-        tierChangeReasonType: null
-        tierEffectiveDate: '2021-01-01T00:00:00.000Z'
-        tierExpirationDate: null
-        tierGroupId: 0ltJ8000000CaR8IAK
-        tierGroupName: null
-        tierId: 0lgJ80000008OI5IAM
-        tierSequenceNumber: 10
-    CorporateMemberEnrollmentsRequest:
-      title: CorporateMemberEnrollmentsRequest
-      required:
-      - enrollmentDate
-      - membershipNumber
-      - associatedAccountDetails
-      - memberStatus
-      - createTransactionJournals
-      type: object
-      properties:
-        enrollmentDate:
-          type: string
-          example: example_value
-        membershipNumber:
-          type: string
-          example: example_value
-        associatedAccountDetails:
-          $ref: '#/components/schemas/AssociatedAccountDetails'
-        memberStatus:
-          type: string
-          example: example_value
-        createTransactionJournals:
-          type: string
-          example: example_value
-      examples:
-      - enrollmentDate: '2021-01-01T05:05:05.000Z'
-        membershipNumber: Member123
-        associatedAccountDetails:
-          name: Name1
-          phone: '908989898'
-          website: www.ab.com
-          allowDuplicateRecords: 'false'
-        memberStatus: Active
-        createTransactionJournals: 'true'
-    AdditionalLoyaltyMemberCurrencyFields:
-      title: AdditionalLoyaltyMemberCurrencyFields
-      required:
-      - Level_Before_Reset__c
-      type: object
-      properties:
-        Level_Before_Reset__c:
-          type:
-          - string
-          - 'null'
-          example: example_value
-      examples:
-      - Level_Before_Reset__c: null
-    AssociatedContactDetails:
-      title: AssociatedContactDetails
-      required:
-      - firstName
-      - lastName
-      - email
-      - allowDuplicateRecords
-      type: object
-      properties:
-        firstName:
-          type: string
-          example: example_value
-        lastName:
-          type: string
-          example: example_value
-        email:
-          type: string
-          example: user@example.com
-        allowDuplicateRecords:
-          type: string
-          example: example_value
-      examples:
-      - firstName: Name1
-        lastName: Name2
-        email: ab@email.com
-        allowDuplicateRecords: 'false'
-    TransactionJournal:
-      title: TransactionJournal
-      required:
-      - activityDate
-      - journalSubType
-      - journalType
-      - loyaltyProgram
-      - loyaltyProgramMember
-      - referredMember
-      - status
-      - transactionJournalId
-      type: object
-      properties:
-        activityDate:
-          type: string
-          example: example_value
-        journalSubType:
-          type: string
-          example: example_value
-        journalType:
-          type: string
-          example: example_value
-        loyaltyProgram:
-          type: string
-          example: example_value
-        loyaltyProgramMember:
-          type: string
-          example: example_value
-        referredMember:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        status:
-          type: string
-          example: example_value
-        transactionJournalId:
-          type: string
-          example: '500123'
-      examples:
-      - activityDate: '2021-01-01T04:05:05.000Z'
-        journalSubType: Member Enrollment
-        journalType: Accrual
-        loyaltyProgram: NTO Insider
-        loyaltyProgramMember: Member123
-        referredMember: null
-        status: Processed
-        transactionJournalId: 0lVJ8000000GmaE
-    EnrichedField:
-      title: EnrichedField
-      required:
-      - name
-      type: object
-      properties:
-        name:
-          type: string
-          example: Example Title
-      examples:
-      - name: External_Account_ID__c
-    MemberCurrency:
-      title: MemberCurrency
-      required:
-      - additionalLoyaltyMemberCurrencyFields
-      - escrowPointsBalance
-      - expirablePoints
-      - lastAccrualProcessedDate
-      - lastEscrowProcessedDate
-      - lastExpirationProcessRunDate
-      - lastPointsAggregationDate
-      - lastPointsResetDate
-      - loyaltyMemberCurrencyName
-      - loyaltyProgramCurrencyId
-      - loyaltyProgramCurrencyName
-      - memberCurrencyId
-      - nextQualifyingPointsResetDate
-      - pointsBalance
-      - qualifyingPointsBalanceBeforeReset
-      - totalEscrowPointsAccrued
-      - totalEscrowRolloverPoints
-      - totalPointsAccrued
-      - totalPointsExpired
-      - totalPointsRedeemed
-      type: object
-      properties:
-        additionalLoyaltyMemberCurrencyFields:
-          $ref: '#/components/schemas/AdditionalLoyaltyMemberCurrencyFields'
-        escrowPointsBalance:
-          type: integer
-          contentEncoding: int32
-          example: 10
-        expirablePoints:
-          type: integer
-          contentEncoding: int32
-          example: 10
-        lastAccrualProcessedDate:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        lastEscrowProcessedDate:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        lastExpirationProcessRunDate:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        lastPointsAggregationDate:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        lastPointsResetDate:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        loyaltyMemberCurrencyName:
-          type: string
-          example: example_value
-        loyaltyProgramCurrencyId:
-          type: string
-          example: '500123'
-        loyaltyProgramCurrencyName:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        memberCurrencyId:
-          type: string
-          example: '500123'
-        nextQualifyingPointsResetDate:
-          type: string
-          example: example_value
-        pointsBalance:
-          type: integer
-          contentEncoding: int32
-          example: 10
-        qualifyingPointsBalanceBeforeReset:
-          type: integer
-          contentEncoding: int32
-          example: 10
-        totalEscrowPointsAccrued:
-          type: integer
-          contentEncoding: int32
-          example: 42
-        totalEscrowRolloverPoints:
-          type: integer
-          contentEncoding: int32
-          example: 42
-        totalPointsAccrued:
-          type: integer
-          contentEncoding: int32
-          example: 42
-        totalPointsExpired:
-          type: integer
-          contentEncoding: int32
-          example: 42
-        totalPointsRedeemed:
-          type: integer
-          contentEncoding: int32
-          example: 42
-      examples:
-      - additionalLoyaltyMemberCurrencyFields:
-          Level_Before_Reset__c: null
-        escrowPointsBalance: 0
-        expirablePoints: 0
-        lastAccrualProcessedDate: null
-        lastEscrowProcessedDate: null
-        lastExpirationProcessRunDate: null
-        lastPointsAggregationDate: null
-        lastPointsResetDate: null
-        loyaltyMemberCurrencyName: NTO Qualifying Points
-        loyaltyProgramCurrencyId: 0lcJ8000000CaR7IAK
-        loyaltyProgramCurrencyName: null
-        memberCurrencyId: 0lzJ8000000CaRMIA0
-        nextQualifyingPointsResetDate: '2024-12-31T00:00:00.000Z'
-        pointsBalance: 0
-        qualifyingPointsBalanceBeforeReset: 0
-        totalEscrowPointsAccrued: 0
-        totalEscrowRolloverPoints: 0
-        totalPointsAccrued: 0
-        totalPointsExpired: 0
-        totalPointsRedeemed: 0
-    CreatechannelmemberRequest:
-      title: CreatechannelmemberRequest
-      required:
-      - FullName
-      - Metadata
-      type: object
-      properties:
-        FullName:
-          type: string
-          example: example_value
-        Metadata:
-          $ref: '#/components/schemas/Metadata3'
-      examples:
-      - FullName: Account_Channel_chn_AccountChangeEvent
-        Metadata:
-          eventChannel: Account_Channel__chn
-          selectedEntity: AccountChangeEvent
-    AssociatedAccountDetails:
-      title: AssociatedAccountDetails
-      required:
-      - name
-      - phone
-      - website
-      - allowDuplicateRecords
-      type: object
-      properties:
-        name:
-          type: string
-          example: Example Title
-        phone:
-          type: string
-          example: example_value
-        website:
-          type: string
-          example: example_value
-        allowDuplicateRecords:
-          type: string
-          example: example_value
-      examples:
-      - name: Name1
-        phone: '908989898'
-        website: www.ab.com
-        allowDuplicateRecords: 'false'
-    Metadata3:
-      title: Metadata3
-      required:
-      - eventChannel
-      - selectedEntity
-      type: object
-      properties:
-        eventChannel:
-          type: string
-          example: example_value
-        selectedEntity:
-          type: string
-          example: example_value
-      examples:
-      - eventChannel: Account_Channel__chn
-        selectedEntity: AccountChangeEvent
-    Metadata2:
-      title: Metadata2
-      required:
-      - enrichedFields
-      - eventChannel
-      - selectedEntity
-      type: object
-      properties:
-        enrichedFields:
-          type: array
-          items:
-            $ref: '#/components/schemas/EnrichedField'
-          description: ''
-          example: []
-        eventChannel:
-          type: string
-          example: example_value
-        selectedEntity:
-          type: string
-          example: example_value
-      examples:
-      - enrichedFields:
-        - name: External_Account_ID__c
-        eventChannel: Account_Channel__chn
-        selectedEntity: AccountChangeEvent
-    IndividualMemberEnrollments:
-      title: IndividualMemberEnrollments
-      required:
-      - contactId
-      - loyaltyProgramMemberId
-      - loyaltyProgramName
-      - membershipNumber
-      - transactionJournals
-      type: object
-      properties:
-        contactId:
-          type: string
-          example: '500123'
-        loyaltyProgramMemberId:
-          type: string
-          example: '500123'
-        loyaltyProgramName:
-          type: string
-          example: example_value
-        membershipNumber:
-          type: string
-          example: example_value
-        transactionJournals:
-          type: array
-          items:
-            $ref: '#/components/schemas/TransactionJournal'
-          description: ''
-          example: []
-      examples:
-      - contactId: 003J8000002Yu0Z
-        loyaltyProgramMemberId: 0lMJ8000000CaRM
-        loyaltyProgramName: NTO Insider
-        membershipNumber: Member1
-        transactionJournals:
-        - activityDate: '2020-12-31T23:00:00.000Z'
-          journalSubType: Member Enrollment
-          journalType: Accrual
-          loyaltyProgram: NTO Insider
-          loyaltyProgramMember: Member1
-          referredMember: null
-          status: Processed
-          transactionJournalId: 0lVJ8000000GmaJ
-    AddenrichedfieldstochannelmemberRequest:
-      title: AddenrichedfieldstochannelmemberRequest
-      required:
-      - FullName
-      - Metadata
-      type: object
-      properties:
-        FullName:
-          type: string
-          example: example_value
-        Metadata:
-          $ref: '#/components/schemas/Metadata2'
-      examples:
-      - FullName: Account_Channel_chn_AccountChangeEvent
-        Metadata:
-          enrichedFields:
-          - name: External_Account_ID__c
-          eventChannel: Account_Channel__chn
-          selectedEntity: AccountChangeEvent
     MemberVouchers:
       title: MemberVouchers
       required:
@@ -1626,326 +404,6 @@ components:
       examples:
       - voucherCount: 0
         vouchers: []
-    Metadata9:
-      title: Metadata9
-      required:
-      - enrichedFields
-      - eventChannel
-      - filterExpression
-      - selectedEntity
-      - urls
-      type: object
-      properties:
-        enrichedFields:
-          type: array
-          items:
-            type: string
-          description: ''
-          example: []
-        eventChannel:
-          type: string
-          example: example_value
-        filterExpression:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        selectedEntity:
-          type: string
-          example: example_value
-        urls:
-          type:
-          - string
-          - 'null'
-          example: https://www.example.com
-      examples:
-      - enrichedFields: []
-        eventChannel: ChangeEvents
-        filterExpression: null
-        selectedEntity: ContactChangeEvent
-        urls: null
-    CorporateMemberEnrollments:
-      title: CorporateMemberEnrollments
-      required:
-      - accountId
-      - loyaltyProgramMemberId
-      - loyaltyProgramName
-      - membershipNumber
-      - transactionJournals
-      type: object
-      properties:
-        accountId:
-          type: string
-          example: '500123'
-        loyaltyProgramMemberId:
-          type: string
-          example: '500123'
-        loyaltyProgramName:
-          type: string
-          example: example_value
-        membershipNumber:
-          type: string
-          example: example_value
-        transactionJournals:
-          type: array
-          items:
-            $ref: '#/components/schemas/TransactionJournal'
-          description: ''
-          example: []
-      examples:
-      - accountId: 001J8000003MaJL
-        loyaltyProgramMemberId: 0lMJ8000000CaRH
-        loyaltyProgramName: NTO Insider
-        membershipNumber: Member123
-        transactionJournals:
-        - activityDate: '2021-01-01T04:05:05.000Z'
-          journalSubType: Member Enrollment
-          journalType: Accrual
-          loyaltyProgram: NTO Insider
-          loyaltyProgramMember: Member123
-          referredMember: null
-          status: Processed
-          transactionJournalId: 0lVJ8000000GmaE
-    AssociatedContact:
-      title: AssociatedContact
-      required:
-      - contactId
-      - email
-      - firstName
-      - lastName
-      type: object
-      properties:
-        contactId:
-          type: string
-          example: '500123'
-        email:
-          type: string
-          example: user@example.com
-        firstName:
-          type: string
-          example: example_value
-        lastName:
-          type: string
-          example: example_value
-      examples:
-      - contactId: 003J8000002Yu0ZIAS
-        email: ab@email.com
-        firstName: Name1
-        lastName: Name2
-    Getchannelmember:
-      title: Getchannelmember
-      required:
-      - attributes
-      - Id
-      - IsDeleted
-      - DeveloperName
-      - Language
-      - MasterLabel
-      - NamespacePrefix
-      - ManageableState
-      - CreatedDate
-      - CreatedById
-      - LastModifiedDate
-      - LastModifiedById
-      - SystemModstamp
-      - FullName
-      - Metadata
-      - EventChannel
-      - SelectedEntity
-      - FilterExpression
-      type: object
-      properties:
-        attributes:
-          $ref: '#/components/schemas/Attributes4'
-        Id:
-          type: string
-          example: abc123
-        IsDeleted:
-          type: boolean
-          example: true
-        DeveloperName:
-          type: string
-          example: example_value
-        Language:
-          type: string
-          example: example_value
-        MasterLabel:
-          type: string
-          example: example_value
-        NamespacePrefix:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        ManageableState:
-          type: string
-          example: example_value
-        CreatedDate:
-          type: string
-          example: example_value
-        CreatedById:
-          type: string
-          example: '500123'
-        LastModifiedDate:
-          type: string
-          example: example_value
-        LastModifiedById:
-          type: string
-          example: '500123'
-        SystemModstamp:
-          type: string
-          example: example_value
-        FullName:
-          type: string
-          example: example_value
-        Metadata:
-          $ref: '#/components/schemas/Metadata9'
-        EventChannel:
-          type: string
-          example: example_value
-        SelectedEntity:
-          type: string
-          example: example_value
-        FilterExpression:
-          type:
-          - string
-          - 'null'
-          example: example_value
-      examples:
-      - attributes:
-          type: PlatformEventChannelMember
-          url: /services/data/v58.0/tooling/sobjects/PlatformEventChannelMember/0v84H000000PAvIQAW
-        Id: 0v84H000000PAvIQAW
-        IsDeleted: false
-        DeveloperName: ChangeEvents_ContactChangeEvent
-        Language: en_US
-        MasterLabel: ContactChangeEvent
-        NamespacePrefix: null
-        ManageableState: unmanaged
-        CreatedDate: 2022-12-30T15:10:39.000+0000
-        CreatedById: 00558000000yFyDAAU
-        LastModifiedDate: 2022-12-30T15:10:39.000+0000
-        LastModifiedById: 00558000000yFyDAAU
-        SystemModstamp: 2022-12-30T15:10:39.000+0000
-        FullName: ChangeEvents_ContactChangeEvent
-        Metadata:
-          enrichedFields: []
-          eventChannel: ChangeEvents
-          filterExpression: null
-          selectedEntity: ContactChangeEvent
-          urls: null
-        EventChannel: ChangeEvents
-        SelectedEntity: ContactChangeEvent
-        FilterExpression: null
-    MemberBenefits1:
-      title: MemberBenefits1
-      required:
-      - benefitId
-      - benefitName
-      - benefitTypeId
-      - benefitTypeName
-      - createdRecordId
-      - createdRecordName
-      - description
-      - endDate
-      - isActive
-      - memberBenefitStatus
-      - startDate
-      type: object
-      properties:
-        benefitId:
-          type: string
-          example: '500123'
-        benefitName:
-          type: string
-          example: example_value
-        benefitTypeId:
-          type: string
-          example: '500123'
-        benefitTypeName:
-          type: string
-          example: example_value
-        createdRecordId:
-          type:
-          - string
-          - 'null'
-          example: '500123'
-        createdRecordName:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        description:
-          type:
-          - string
-          - 'null'
-          example: A sample description.
-        endDate:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        isActive:
-          type: boolean
-          example: true
-        memberBenefitStatus:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        startDate:
-          type:
-          - string
-          - 'null'
-          example: example_value
-      examples:
-      - benefitId: 0jiJ80000008OIFIA2
-        benefitName: Free Shipping
-        benefitTypeId: 0jhJ80000008OI5IAM
-        benefitTypeName: Shipping
-        createdRecordId: null
-        createdRecordName: null
-        description: null
-        endDate: null
-        isActive: true
-        memberBenefitStatus: null
-        startDate: null
-    MemberBenefits:
-      title: MemberBenefits
-      required:
-      - memberBenefits
-      type: object
-      properties:
-        memberBenefits:
-          type: array
-          items:
-            $ref: '#/components/schemas/MemberBenefits1'
-          description: ''
-          example: []
-      examples:
-      - memberBenefits:
-        - benefitId: 0jiJ80000008OIFIA2
-          benefitName: Free Shipping
-          benefitTypeId: 0jhJ80000008OI5IAM
-          benefitTypeName: Shipping
-          createdRecordId: null
-          createdRecordName: null
-          description: null
-          endDate: null
-          isActive: true
-          memberBenefitStatus: null
-          startDate: null
-        - benefitId: 0jiJ80000008OI5IAM
-          benefitName: 5% of Discount
-          benefitTypeId: 0jhJ80000008OIAIA2
-          benefitTypeName: Discount Percentage
-          createdRecordId: null
-          createdRecordName: null
-          description: null
-          endDate: null
-          isActive: true
-          memberBenefitStatus: null
-          startDate: null
     MemberProfile:
       title: MemberProfile
       required:
@@ -2130,90 +588,252 @@ components:
         transactionJournalStatementFrequency: Monthly
         transactionJournalStatementLastGeneratedDate: null
         transactionJournalStatementMethod: Mail
-    IndividualMemberEnrollmentsRequest:
-      title: IndividualMemberEnrollmentsRequest
+    MemberCurrency:
+      title: MemberCurrency
       required:
-      - enrollmentDate
-      - membershipNumber
-      - associatedContactDetails
-      - memberStatus
-      - createTransactionJournals
-      - transactionJournalStatementFrequency
-      - transactionJournalStatementMethod
-      - enrollmentChannel
-      - canReceivePromotions
-      - canReceivePartnerPromotions
-      - membershipEndDate
+      - additionalLoyaltyMemberCurrencyFields
+      - escrowPointsBalance
+      - expirablePoints
+      - lastAccrualProcessedDate
+      - lastEscrowProcessedDate
+      - lastExpirationProcessRunDate
+      - lastPointsAggregationDate
+      - lastPointsResetDate
+      - loyaltyMemberCurrencyName
+      - loyaltyProgramCurrencyId
+      - loyaltyProgramCurrencyName
+      - memberCurrencyId
+      - nextQualifyingPointsResetDate
+      - pointsBalance
+      - qualifyingPointsBalanceBeforeReset
+      - totalEscrowPointsAccrued
+      - totalEscrowRolloverPoints
+      - totalPointsAccrued
+      - totalPointsExpired
+      - totalPointsRedeemed
       type: object
       properties:
-        enrollmentDate:
+        additionalLoyaltyMemberCurrencyFields:
+          $ref: '#/components/schemas/AdditionalLoyaltyMemberCurrencyFields'
+        escrowPointsBalance:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        expirablePoints:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        lastAccrualProcessedDate:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        lastEscrowProcessedDate:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        lastExpirationProcessRunDate:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        lastPointsAggregationDate:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        lastPointsResetDate:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        loyaltyMemberCurrencyName:
           type: string
           example: example_value
-        membershipNumber:
+        loyaltyProgramCurrencyId:
+          type: string
+          example: '500123'
+        loyaltyProgramCurrencyName:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        memberCurrencyId:
+          type: string
+          example: '500123'
+        nextQualifyingPointsResetDate:
           type: string
           example: example_value
-        associatedContactDetails:
-          $ref: '#/components/schemas/AssociatedContactDetails'
-        memberStatus:
+        pointsBalance:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        qualifyingPointsBalanceBeforeReset:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        totalEscrowPointsAccrued:
+          type: integer
+          contentEncoding: int32
+          example: 42
+        totalEscrowRolloverPoints:
+          type: integer
+          contentEncoding: int32
+          example: 42
+        totalPointsAccrued:
+          type: integer
+          contentEncoding: int32
+          example: 42
+        totalPointsExpired:
+          type: integer
+          contentEncoding: int32
+          example: 42
+        totalPointsRedeemed:
+          type: integer
+          contentEncoding: int32
+          example: 42
+      examples:
+      - additionalLoyaltyMemberCurrencyFields:
+          Level_Before_Reset__c: null
+        escrowPointsBalance: 0
+        expirablePoints: 0
+        lastAccrualProcessedDate: null
+        lastEscrowProcessedDate: null
+        lastExpirationProcessRunDate: null
+        lastPointsAggregationDate: null
+        lastPointsResetDate: null
+        loyaltyMemberCurrencyName: NTO Qualifying Points
+        loyaltyProgramCurrencyId: 0lcJ8000000CaR7IAK
+        loyaltyProgramCurrencyName: null
+        memberCurrencyId: 0lzJ8000000CaRMIA0
+        nextQualifyingPointsResetDate: '2024-12-31T00:00:00.000Z'
+        pointsBalance: 0
+        qualifyingPointsBalanceBeforeReset: 0
+        totalEscrowPointsAccrued: 0
+        totalEscrowRolloverPoints: 0
+        totalPointsAccrued: 0
+        totalPointsExpired: 0
+        totalPointsRedeemed: 0
+    MemberTier:
+      title: MemberTier
+      required:
+      - additionalLoyaltyMemberTierFields
+      - areTierBenefitsAssigned
+      - loyaltyMemberTierId
+      - loyaltyMemberTierName
+      - tierChangeReason
+      - tierChangeReasonType
+      - tierEffectiveDate
+      - tierExpirationDate
+      - tierGroupId
+      - tierGroupName
+      - tierId
+      - tierSequenceNumber
+      type: object
+      properties:
+        additionalLoyaltyMemberTierFields:
+          type: object
+          example: example_value
+        areTierBenefitsAssigned:
+          type: boolean
+          example: true
+        loyaltyMemberTierId:
+          type: string
+          example: '500123'
+        loyaltyMemberTierName:
           type: string
           example: example_value
-        createTransactionJournals:
+        tierChangeReason:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        tierChangeReasonType:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        tierEffectiveDate:
           type: string
           example: example_value
-        transactionJournalStatementFrequency:
+        tierExpirationDate:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        tierGroupId:
+          type: string
+          example: '500123'
+        tierGroupName:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        tierId:
+          type: string
+          example: '500123'
+        tierSequenceNumber:
+          type: integer
+          contentEncoding: int32
+          example: 10
+      examples:
+      - additionalLoyaltyMemberTierFields: {}
+        areTierBenefitsAssigned: false
+        loyaltyMemberTierId: 0lyJ8000000CaRMIA0
+        loyaltyMemberTierName: Bronze
+        tierChangeReason: null
+        tierChangeReasonType: null
+        tierEffectiveDate: '2021-01-01T00:00:00.000Z'
+        tierExpirationDate: null
+        tierGroupId: 0ltJ8000000CaR8IAK
+        tierGroupName: null
+        tierId: 0lgJ80000008OI5IAM
+        tierSequenceNumber: 10
+    AssociatedContact:
+      title: AssociatedContact
+      required:
+      - contactId
+      - email
+      - firstName
+      - lastName
+      type: object
+      properties:
+        contactId:
+          type: string
+          example: '500123'
+        email:
+          type: string
+          example: user@example.com
+        firstName:
           type: string
           example: example_value
-        transactionJournalStatementMethod:
-          type: string
-          example: example_value
-        enrollmentChannel:
-          type: string
-          example: example_value
-        canReceivePromotions:
-          type: string
-          example: example_value
-        canReceivePartnerPromotions:
-          type: string
-          example: example_value
-        membershipEndDate:
+        lastName:
           type: string
           example: example_value
       examples:
-      - enrollmentDate: '2021-01-01T00:00:00.000Z'
-        membershipNumber: Member1
-        associatedContactDetails:
-          firstName: Name1
-          lastName: Name2
-          email: ab@email.com
-          allowDuplicateRecords: 'false'
-        memberStatus: Active
-        createTransactionJournals: 'true'
-        transactionJournalStatementFrequency: Monthly
-        transactionJournalStatementMethod: Mail
-        enrollmentChannel: Email
-        canReceivePromotions: 'true'
-        canReceivePartnerPromotions: 'true'
-        membershipEndDate: '2022-01-01T00:00:00.000Z'
-    Attributes4:
-      title: Attributes4
+      - contactId: 003J8000002Yu0ZIAS
+        email: ab@email.com
+        firstName: Name1
+        lastName: Name2
+    AdditionalLoyaltyMemberCurrencyFields:
+      title: AdditionalLoyaltyMemberCurrencyFields
       required:
-      - type
-      - url
+      - Level_Before_Reset__c
       type: object
       properties:
-        type:
-          type: string
+        Level_Before_Reset__c:
+          type:
+          - string
+          - 'null'
           example: example_value
-        url:
-          type: string
-          example: https://www.example.com
       examples:
-      - type: Account
-        url: /services/data/v58.0/sobjects/Account/001...
+      - Level_Before_Reset__c: null
   securitySchemes:
-    BearerAuth:
-      type: http
-      scheme: bearer
-      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
-
-        '
+    oauth2:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: '{DefaultParameterValue}{DefaultParameterValue}/services/oauth2/authorize'
+          scopes:
+            api: ''

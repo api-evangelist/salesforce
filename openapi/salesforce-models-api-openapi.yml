@@ -1,228 +1,28 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Salesforce Bulk API 2.0 Abort Models API
-  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
-
-    '
-  version: v63.0
-  contact:
-    name: Salesforce Developers
-    url: https://developer.salesforce.com/
-  license:
-    name: Salesforce Developer Terms
-    url: https://www.salesforce.com/company/legal/agreements/
+  title: Salesforce Models API
+  description: 'Find the resources you need to start building. '
+  contact: {}
+  version: '1.0'
 servers:
-- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
-  description: Salesforce Bulk API 2.0 jobs endpoint
+- url: https://login.salesforce.com
+  variables: {}
+- url: https://id
+  variables: {}
+- url: https://services
+  variables: {}
+- url: '{{url}}{{site}}/services/oauth2'
   variables:
-    instance:
-      default: yourInstance
-      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
-
-        '
-    version:
-      default: '63.0'
-      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
-
-        '
+    url:
+      default: DefaultParameterValue
+    site:
+      default: DefaultParameterValue
 security:
-- BearerAuth: []
+- oauth2:
+  - api
 tags:
 - name: Models
 paths:
-  /data/v64.0/connect/business-rules/decision-models/export:
-    parameters: []
-    post:
-      tags:
-      - Models
-      summary: Salesforce Decision Model Notation Export
-      description: "# Decision Model Notation Export (POST)\n\nExport decision matrix data to a file in the [DMN (Decision Model Notation)](https://www.omg.org/dmn/#:~:text=DMN%20is%20a%20modeling%20language,monitor%20their%20application;%20business%20analysts.) format, an easily readable format for business rules designed by Object Management Group.Resource\n\n```\n/connect/business-rules/decision-models/export\n\n ```\n\nResource Example\n\n```\nhttps://yourInstance.salesforce.com/services/data/v59.0/connect/business-rules/decision-models/export\n\n ```\n\nAvailable version\n\n58.0\n\nRequires Chatter\n\nNo\n\nHTTP methods\n\nPOST\n\nRequest body for POST\n\nJSON example\n\n```\n{\n   \"decisionModelEntityIds\":[\n      “0lNRO00000004f72AA”,\n      “0lNRO000000rfn27AA”\n   ]\n}\n\n ```\n\nProperties\n\n| Name | Type | Description | Required or Optional | Available Version |\n| --- | --- | --- | --- | --- |\n| decisionModelEntityIds | String\\[\\] | A list of decision matrix version IDs to export data from. | Required | 58.0 |\n\nResponse body for POST\n\n[Decision Model Export Output](https://developer.salesforce.com/docs/atlas.en-us.industries_reference.meta/industries_reference/connect_responses_decision_model_export_output.htm)\n\n# Decision Model Export Output\n\nOutput representation of a completed DMN (Decision Model Notation) export request.JSON example\n\n```\n{\n   \"message\":\"OK\",\n   \"success\":true,\n   \"errors\":[\n      {\n         \"errorCode\":\"BAD_REQUEST\",\n         \"errorMessage\":\"We couldn’t find this record. Specify a valid ID for decisionModelEntityIds parameter.\",\n         \"recordId\":\"0lNRO00000004fsdfAA\"\n      }\n   ]\n}\n\n ```\n\n| Property Name | Type | Description | Filter Group and Version | Available Version |\n| --- | --- | --- | --- | --- |\n| errors | [Decision Model Export Error](https://developer.salesforce.com/docs/atlas.en-us.industries_reference.meta/industries_reference/connect_responses_decision_model_export_error.htm)\\[\\] | List of errors corresponding to a failed export request. | Small, 58.0 | 58.0 |\n| message | String | Response message from the completed export request. | Small, 58.0 | 58.0 |\n| success | Boolean | Indicates whether the export request was successful (true) or not (false). | Small, 58.0 | 58.0 |"
-      operationId: DecisionModelNotationExport
-      parameters: []
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              allOf:
-              - $ref: '#/components/schemas/DecisionModelNotationExportRequest'
-              - examples:
-                - decisionModelEntityIds:
-                  - 0lNHo000000LEvfMAG
-              contentMediaType: application/json
-            example:
-              decisionModelEntityIds:
-              - 0lNHo000000LEvfMAG
-        required: true
-      responses:
-        '201':
-          description: Created
-          headers:
-            Date:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: Tue, 19 Sep 2023 12:01:33 GMT
-            Strict-Transport-Security:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: max-age=63072000; includeSubDomains
-            X-Content-Type-Options:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: nosniff
-            X-XSS-Protection:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: 1; mode=block
-            X-Robots-Tag:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: none
-            Cache-Control:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: no-cache,must-revalidate,max-age=0,no-store,private
-            Vary:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: Accept-Encoding
-            Content-Encoding:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: gzip
-            Transfer-Encoding:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: chunked
-          content:
-            application/json;charset=UTF-8:
-              schema:
-                allOf:
-                - $ref: '#/components/schemas/Status201-BadRequest'
-                - examples:
-                  - errors:
-                    - errorCode: BAD_REQUEST
-                      errorMessage: We couldn’t find this record. Specify a valid ID for decisionModelEntityIds parameter.
-                      recordId: 0lNRO00000004f72AA
-                    - errorCode: BAD_REQUEST
-                      errorMessage: We couldn’t find this record. Specify a valid ID for decisionModelEntityIds parameter.
-                      recordId: 0lNRO000000rfn27AA
-                    message: OK
-                    success: true
-                contentMediaType: application/json;charset=UTF-8
-              example:
-                errors:
-                - errorCode: BAD_REQUEST
-                  errorMessage: We couldn’t find this record. Specify a valid ID for decisionModelEntityIds parameter.
-                  recordId: 0lNRO00000004f72AA
-                - errorCode: BAD_REQUEST
-                  errorMessage: We couldn’t find this record. Specify a valid ID for decisionModelEntityIds parameter.
-                  recordId: 0lNRO000000rfn27AA
-                message: OK
-                success: true
-        '500':
-          description: Server Error
-          headers:
-            Date:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: Tue, 19 Sep 2023 12:02:44 GMT
-            Strict-Transport-Security:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: max-age=63072000; includeSubDomains
-            X-Content-Type-Options:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: nosniff
-            X-XSS-Protection:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: 1; mode=block
-            X-Robots-Tag:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: none
-            Cache-Control:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: no-cache,must-revalidate,max-age=0,no-store,private
-            Transfer-Encoding:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                    contentMediaType: text/plain
-                  example: chunked
-          content:
-            application/json;charset=UTF-8:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Status500-EmptyBody1'
-                description: ''
-                examples:
-                - - message: 'An unexpected error occurred. Please include this ErrorId if you contact support: 1291449758-100210 (-239130079)'
-                    errorCode: UNKNOWN_EXCEPTION
-                contentMediaType: application/json;charset=UTF-8
-              example:
-              - message: 'An unexpected error occurred. Please include this ErrorId if you contact support: 1291449758-100210 (-239130079)'
-                errorCode: UNKNOWN_EXCEPTION
-      deprecated: false
-      servers:
-      - url: https://services
-        variables: {}
-      x-api-evangelist-processing:
-        PascalCaseOperationSummaries: true
-        ChooseTags: true
-      x-microcks-operation:
-        delay: 0
-        dispatcher: FALLBACK
   /data/v64.0/smartdatadiscovery/predictionDefinitions/{PREDICTION_DEFINITION_ID}/models:
     parameters: []
     get:
@@ -439,6 +239,114 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    FieldMappingList:
+      title: FieldMappingList
+      required:
+      - modelField
+      type: object
+      properties:
+        modelField:
+          $ref: '#/components/schemas/ModelField'
+      examples:
+      - modelField:
+          label: Category
+          name: Category
+          type: Text
+    Model:
+      title: Model
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+      examples:
+      - id: 1Ot5Y0000010wzNSAQ
+    PrescribableField:
+      title: PrescribableField
+      required:
+      - customDefinitions
+      - field
+      type: object
+      properties:
+        customDefinitions:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        field:
+          $ref: '#/components/schemas/Field'
+      examples:
+      - customDefinitions: []
+        field:
+          label: Quantity
+          name: Quantity
+          type: Number
+    ModelField:
+      title: ModelField
+      required:
+      - label
+      - name
+      - type
+      type: object
+      properties:
+        label:
+          type: string
+          example: Example Title
+        name:
+          type: string
+          example: Example Title
+        type:
+          type: string
+          example: example_value
+      examples:
+      - label: Category
+        name: Category
+        type: Text
+    CreatedBy:
+      title: CreatedBy
+      required:
+      - id
+      - name
+      - profilePhotoUrl
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+        name:
+          type: string
+          example: Example Title
+        profilePhotoUrl:
+          type: string
+          example: https://www.example.com
+      examples:
+      - id: 0055Y00000DWwAIQA1
+        name: Philippe Ozil
+        profilePhotoUrl: https://crm-analytics-deorg-dev-ed--c.documentforce.com/profilephoto/005/T
+    Field:
+      title: Field
+      required:
+      - label
+      - name
+      - type
+      type: object
+      properties:
+        label:
+          type: string
+          example: Example Title
+        name:
+          type: string
+          example: Example Title
+        type:
+          type: string
+          example: example_value
+      examples:
+      - label: Quantity
+        name: Quantity
+        type: Number
     Predictionmodels:
       title: Predictionmodels
       required:
@@ -514,190 +422,6 @@ components:
           url: /services/data/v51.0/smartdatadiscovery/predictiondefinitions/1OR5Y0000010ws8WAA/models/1Ot5Y0000010wzNSAQ
         totalSize: 1
         url: /services/data/v51.0/smartdatadiscovery/predictiondefinitions/1OR5Y0000010ws8WAA/models
-    FieldMappingList:
-      title: FieldMappingList
-      required:
-      - modelField
-      type: object
-      properties:
-        modelField:
-          $ref: '#/components/schemas/ModelField'
-      examples:
-      - modelField:
-          label: Category
-          name: Category
-          type: Text
-    Status201-BadRequest:
-      title: Status201-BadRequest
-      required:
-      - errors
-      - message
-      - success
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-          description: ''
-          example: []
-        message:
-          type: string
-          example: example_value
-        success:
-          type: boolean
-          example: true
-      examples:
-      - errors:
-        - errorCode: BAD_REQUEST
-          errorMessage: We couldn’t find this record. Specify a valid ID for decisionModelEntityIds parameter.
-          recordId: 0lNRO00000004f72AA
-        - errorCode: BAD_REQUEST
-          errorMessage: We couldn’t find this record. Specify a valid ID for decisionModelEntityIds parameter.
-          recordId: 0lNRO000000rfn27AA
-        message: OK
-        success: true
-    DecisionModelNotationExportRequest:
-      title: DecisionModelNotationExportRequest
-      required:
-      - decisionModelEntityIds
-      type: object
-      properties:
-        decisionModelEntityIds:
-          type: array
-          items:
-            type: string
-          description: ''
-          example: []
-      examples:
-      - decisionModelEntityIds:
-        - 0lNHo000000LEvfMAG
-    PrescribableField:
-      title: PrescribableField
-      required:
-      - customDefinitions
-      - field
-      type: object
-      properties:
-        customDefinitions:
-          type: array
-          items:
-            type: string
-          description: ''
-          example: []
-        field:
-          $ref: '#/components/schemas/Field'
-      examples:
-      - customDefinitions: []
-        field:
-          label: Quantity
-          name: Quantity
-          type: Number
-    CreatedBy:
-      title: CreatedBy
-      required:
-      - id
-      - name
-      - profilePhotoUrl
-      type: object
-      properties:
-        id:
-          type: string
-          example: abc123
-        name:
-          type: string
-          example: Example Title
-        profilePhotoUrl:
-          type: string
-          example: https://www.example.com
-      examples:
-      - id: 0055Y00000DWwAIQA1
-        name: Philippe Ozil
-        profilePhotoUrl: https://crm-analytics-deorg-dev-ed--c.documentforce.com/profilephoto/005/T
-    Error:
-      title: Error
-      required:
-      - errorCode
-      - errorMessage
-      - recordId
-      type: object
-      properties:
-        errorCode:
-          type: string
-          example: example_value
-        errorMessage:
-          type: string
-          example: example_value
-        recordId:
-          type: string
-          example: '500123'
-      examples:
-      - errorCode: BAD_REQUEST
-        errorMessage: We couldn’t find this record. Specify a valid ID for decisionModelEntityIds parameter.
-        recordId: 0lNRO00000004f72AA
-    LastModifiedBy:
-      title: LastModifiedBy
-      required:
-      - id
-      - name
-      - profilePhotoUrl
-      type: object
-      properties:
-        id:
-          type: string
-          example: abc123
-        name:
-          type: string
-          example: Example Title
-        profilePhotoUrl:
-          type: string
-          example: https://www.example.com
-      examples:
-      - id: 0055Y00000DWwAIQA1
-        name: Philippe Ozil
-        profilePhotoUrl: https://crm-analytics-deorg-dev-ed--c.documentforce.com/profilephoto/005/T
-    Field:
-      title: Field
-      required:
-      - label
-      - name
-      - type
-      type: object
-      properties:
-        label:
-          type: string
-          example: Example Title
-        name:
-          type: string
-          example: Example Title
-        type:
-          type: string
-          example: example_value
-      examples:
-      - label: Quantity
-        name: Quantity
-        type: Number
-    ModelField:
-      title: ModelField
-      required:
-      - label
-      - name
-      - type
-      type: object
-      properties:
-        label:
-          type: string
-          example: Example Title
-        name:
-          type: string
-          example: Example Title
-        type:
-          type: string
-          example: example_value
-      examples:
-      - label: Category
-        name: Category
-        type: Text
     Model1:
       title: Model1
       required:
@@ -833,37 +557,32 @@ components:
         sortOrder: 0
         status: Enabled
         url: /services/data/v51.0/smartdatadiscovery/predictiondefinitions/1OR5Y0000010ws8WAA/models/1Ot5Y0000010wzNSAQ
-    Status500-EmptyBody1:
-      title: Status500-EmptyBody1
-      required:
-      - message
-      - errorCode
-      type: object
-      properties:
-        message:
-          type: string
-          example: example_value
-        errorCode:
-          type: string
-          example: example_value
-      examples:
-      - message: 'An unexpected error occurred. Please include this ErrorId if you contact support: 1291449758-100210 (-239130079)'
-        errorCode: UNKNOWN_EXCEPTION
-    Model:
-      title: Model
+    LastModifiedBy:
+      title: LastModifiedBy
       required:
       - id
+      - name
+      - profilePhotoUrl
       type: object
       properties:
         id:
           type: string
           example: abc123
+        name:
+          type: string
+          example: Example Title
+        profilePhotoUrl:
+          type: string
+          example: https://www.example.com
       examples:
-      - id: 1Ot5Y0000010wzNSAQ
+      - id: 0055Y00000DWwAIQA1
+        name: Philippe Ozil
+        profilePhotoUrl: https://crm-analytics-deorg-dev-ed--c.documentforce.com/profilephoto/005/T
   securitySchemes:
-    BearerAuth:
-      type: http
-      scheme: bearer
-      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
-
-        '
+    oauth2:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: '{DefaultParameterValue}{DefaultParameterValue}/services/oauth2/authorize'
+          scopes:
+            api: ''

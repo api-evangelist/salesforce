@@ -1,28 +1,25 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Salesforce Bulk API 2.0 Abort Assets API
-  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
+  title: Salesforce Marketing Cloud REST Assets API
+  description: 'The Salesforce Marketing Cloud REST API provides access to Marketing Cloud resources including contacts, journeys, data extensions, triggered sends, and transactional messaging. It uses OAuth 2.0 for authentication and is the primary interface for programmatic Marketing Cloud integrations.
 
     '
-  version: v63.0
+  version: v1
   contact:
-    name: Salesforce Developers
-    url: https://developer.salesforce.com/
+    name: Salesforce Marketing Cloud Developers
+    url: https://developer.salesforce.com/docs/marketing/marketing-cloud/guide/rest-api.html
   license:
     name: Salesforce Developer Terms
     url: https://www.salesforce.com/company/legal/agreements/
 servers:
-- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
-  description: Salesforce Bulk API 2.0 jobs endpoint
-  variables:
-    instance:
-      default: yourInstance
-      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
+- url: https://{subdomain}.rest.marketingcloudapis.com
+  description: 'Marketing Cloud REST API endpoint. The subdomain is the tenant-specific subdomain for the Marketing Cloud account.
 
-        '
-    version:
-      default: '63.0'
-      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
+    '
+  variables:
+    subdomain:
+      default: YOUR_SUBDOMAIN
+      description: 'The Marketing Cloud tenant subdomain (also known as the MID-specific subdomain). Obtain this from the Marketing Cloud Setup > Company Settings > Account Info.
 
         '
 security:
@@ -226,6 +223,19 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
+    Error:
+      type: object
+      description: An error response from the Marketing Cloud REST API.
+      properties:
+        message:
+          type: string
+          description: Human-readable description of the error.
+        errorcode:
+          type: integer
+          description: Marketing Cloud numeric error code.
+        documentation:
+          type: string
+          description: URL to documentation about this error.
     ContentAsset:
       type: object
       description: 'A Marketing Cloud Content Builder asset such as an email, template, image, block, or document.
@@ -285,19 +295,6 @@ components:
         customerKey:
           type: string
           description: The external key for this asset, used to reference it in API calls.
-    Error:
-      type: object
-      description: An error response from the Marketing Cloud REST API.
-      properties:
-        message:
-          type: string
-          description: Human-readable description of the error.
-        errorcode:
-          type: integer
-          description: Marketing Cloud numeric error code.
-        documentation:
-          type: string
-          description: URL to documentation about this error.
   parameters:
     assetId:
       name: id
@@ -310,6 +307,6 @@ components:
     BearerAuth:
       type: http
       scheme: bearer
-      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
+      description: 'OAuth 2.0 Bearer token obtained from the /v2/token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
 
         '

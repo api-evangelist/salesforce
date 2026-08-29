@@ -1,32 +1,25 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Salesforce Bulk API 2.0 Abort Following API
-  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
-
-    '
-  version: v63.0
-  contact:
-    name: Salesforce Developers
-    url: https://developer.salesforce.com/
-  license:
-    name: Salesforce Developer Terms
-    url: https://www.salesforce.com/company/legal/agreements/
+  title: Salesforce Following API
+  description: 'Find the resources you need to start building. '
+  contact: {}
+  version: '1.0'
 servers:
-- url: https://{instance}.salesforce.com/services/data/v{version}/jobs
-  description: Salesforce Bulk API 2.0 jobs endpoint
+- url: https://login.salesforce.com
+  variables: {}
+- url: https://id
+  variables: {}
+- url: https://services
+  variables: {}
+- url: '{{url}}{{site}}/services/oauth2'
   variables:
-    instance:
-      default: yourInstance
-      description: 'The Salesforce instance identifier (e.g., na1, eu3, or a My Domain subdomain like mycompany).
-
-        '
-    version:
-      default: '63.0'
-      description: 'The Salesforce API version number (e.g., 63.0). Use the latest supported version for new integrations.
-
-        '
+    url:
+      default: DefaultParameterValue
+    site:
+      default: DefaultParameterValue
 security:
-- BearerAuth: []
+- oauth2:
+  - api
 tags:
 - name: Following
 paths:
@@ -361,6 +354,124 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    Photo15:
+      title: Photo15
+      required:
+      - fullEmailPhotoUrl
+      - largePhotoUrl
+      - mediumPhotoUrl
+      - photoVersionId
+      - smallPhotoUrl
+      - standardEmailPhotoUrl
+      - url
+      type: object
+      properties:
+        fullEmailPhotoUrl:
+          type: string
+          example: user@example.com
+        largePhotoUrl:
+          type: string
+          example: https://www.example.com
+        mediumPhotoUrl:
+          type: string
+          example: https://www.example.com
+        photoVersionId:
+          type:
+          - string
+          - 'null'
+          example: '500123'
+        smallPhotoUrl:
+          type: string
+          example: https://www.example.com
+        standardEmailPhotoUrl:
+          type: string
+          example: user@example.com
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - fullEmailPhotoUrl: https://<my_domain>/img/userprofile/default_group_profile_200_v2.png?fromEmail=1
+        largePhotoUrl: https://<my_domain>/profilephoto/0F9/F
+        mediumPhotoUrl: https://<my_domain>/profilephoto/0F9/M
+        photoVersionId: null
+        smallPhotoUrl: https://<my_domain>/profilephoto/0F9/T
+        standardEmailPhotoUrl: https://<my_domain>/img/userprofile/default_group_profile_45_v2.png?fromEmail=1
+        url: /services/data/v58.0/chatter/groups/0F9.../photo
+    Subject:
+      title: Subject
+      required:
+      - entityLabel
+      - id
+      - motif
+      - mySubscription
+      - name
+      - type
+      - url
+      type: object
+      properties:
+        entityLabel:
+          $ref: '#/components/schemas/EntityLabel'
+        id:
+          type: string
+          example: abc123
+        motif:
+          $ref: '#/components/schemas/Motif'
+        mySubscription:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        name:
+          type: string
+          example: Example Title
+        type:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - entityLabel:
+          label: Account
+          labelPlural: Accounts
+        id: 001...
+        motif:
+          color: 5867E8
+          largeIconUrl: /img/icon/accounts64.png
+          mediumIconUrl: /img/icon/accounts32.png
+          smallIconUrl: /img/icon/accounts16.png
+          svgIconUrl: null
+        mySubscription: null
+        name: Exemple de comptes pour les autorisations
+        type: Account
+        url: /services/data/v58.0/chatter/records/001...
+    OutOfOffice:
+      title: OutOfOffice
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+          example: example_value
+      examples:
+      - message: ''
+    EntityLabel:
+      title: EntityLabel
+      required:
+      - label
+      - labelPlural
+      type: object
+      properties:
+        label:
+          type: string
+          example: Example Title
+        labelPlural:
+          type: string
+          example: example_value
+      examples:
+      - label: Account
+        labelPlural: Accounts
     Subscriber:
       title: Subscriber
       required:
@@ -480,61 +591,6 @@ components:
         type: User
         url: /services/data/v58.0/chatter/users/005...
         userType: Internal
-    SuccessfulFollowing:
-      title: SuccessfulFollowing
-      required:
-      - currentPageUrl
-      - following
-      - nextPageUrl
-      - previousPageUrl
-      - total
-      type: object
-      properties:
-        currentPageUrl:
-          type: string
-          example: https://www.example.com
-        following:
-          type: array
-          items:
-            type: string
-          description: ''
-          example: []
-        nextPageUrl:
-          type:
-          - string
-          - 'null'
-          example: https://www.example.com
-        previousPageUrl:
-          type:
-          - string
-          - 'null'
-          example: https://www.example.com
-        total:
-          type: integer
-          contentEncoding: int32
-          example: 42
-      examples:
-      - currentPageUrl: /services/data/v58.0/chatter/users/0052o00000DKQasAAH/following
-        following: []
-        nextPageUrl: null
-        previousPageUrl: null
-        total: 0
-    EntityLabel:
-      title: EntityLabel
-      required:
-      - label
-      - labelPlural
-      type: object
-      properties:
-        label:
-          type: string
-          example: Example Title
-        labelPlural:
-          type: string
-          example: example_value
-      examples:
-      - label: Account
-        labelPlural: Accounts
     SuccessfulFollowing-POST:
       title: SuccessfulFollowing-POST
       required:
@@ -612,97 +668,6 @@ components:
           url: /services/data/v58.0/chatter/users/005...
           userType: Internal
         url: /services/data/v58.0/chatter/subscriptions/0E8...
-    Subject:
-      title: Subject
-      required:
-      - entityLabel
-      - id
-      - motif
-      - mySubscription
-      - name
-      - type
-      - url
-      type: object
-      properties:
-        entityLabel:
-          $ref: '#/components/schemas/EntityLabel'
-        id:
-          type: string
-          example: abc123
-        motif:
-          $ref: '#/components/schemas/Motif'
-        mySubscription:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        name:
-          type: string
-          example: Example Title
-        type:
-          type: string
-          example: example_value
-        url:
-          type: string
-          example: https://www.example.com
-      examples:
-      - entityLabel:
-          label: Account
-          labelPlural: Accounts
-        id: 001...
-        motif:
-          color: 5867E8
-          largeIconUrl: /img/icon/accounts64.png
-          mediumIconUrl: /img/icon/accounts32.png
-          smallIconUrl: /img/icon/accounts16.png
-          svgIconUrl: null
-        mySubscription: null
-        name: Exemple de comptes pour les autorisations
-        type: Account
-        url: /services/data/v58.0/chatter/records/001...
-    Photo15:
-      title: Photo15
-      required:
-      - fullEmailPhotoUrl
-      - largePhotoUrl
-      - mediumPhotoUrl
-      - photoVersionId
-      - smallPhotoUrl
-      - standardEmailPhotoUrl
-      - url
-      type: object
-      properties:
-        fullEmailPhotoUrl:
-          type: string
-          example: user@example.com
-        largePhotoUrl:
-          type: string
-          example: https://www.example.com
-        mediumPhotoUrl:
-          type: string
-          example: https://www.example.com
-        photoVersionId:
-          type:
-          - string
-          - 'null'
-          example: '500123'
-        smallPhotoUrl:
-          type: string
-          example: https://www.example.com
-        standardEmailPhotoUrl:
-          type: string
-          example: user@example.com
-        url:
-          type: string
-          example: https://www.example.com
-      examples:
-      - fullEmailPhotoUrl: https://<my_domain>/img/userprofile/default_group_profile_200_v2.png?fromEmail=1
-        largePhotoUrl: https://<my_domain>/profilephoto/0F9/F
-        mediumPhotoUrl: https://<my_domain>/profilephoto/0F9/M
-        photoVersionId: null
-        smallPhotoUrl: https://<my_domain>/profilephoto/0F9/T
-        standardEmailPhotoUrl: https://<my_domain>/img/userprofile/default_group_profile_45_v2.png?fromEmail=1
-        url: /services/data/v58.0/chatter/groups/0F9.../photo
     Motif:
       title: Motif
       required:
@@ -736,21 +701,50 @@ components:
         mediumIconUrl: /img/content/content32.png
         smallIconUrl: /img/icon/files16.png
         svgIconUrl: null
-    OutOfOffice:
-      title: OutOfOffice
+    SuccessfulFollowing:
+      title: SuccessfulFollowing
       required:
-      - message
+      - currentPageUrl
+      - following
+      - nextPageUrl
+      - previousPageUrl
+      - total
       type: object
       properties:
-        message:
+        currentPageUrl:
           type: string
-          example: example_value
+          example: https://www.example.com
+        following:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        nextPageUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        previousPageUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        total:
+          type: integer
+          contentEncoding: int32
+          example: 42
       examples:
-      - message: ''
+      - currentPageUrl: /services/data/v58.0/chatter/users/0052o00000DKQasAAH/following
+        following: []
+        nextPageUrl: null
+        previousPageUrl: null
+        total: 0
   securitySchemes:
-    BearerAuth:
-      type: http
-      scheme: bearer
-      description: 'OAuth 2.0 Bearer token obtained from the Salesforce OAuth 2.0 token endpoint. Include this token in the Authorization header as "Bearer {access_token}".
-
-        '
+    oauth2:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: '{DefaultParameterValue}{DefaultParameterValue}/services/oauth2/authorize'
+          scopes:
+            api: ''
