@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Salesforce Keys API
-  description: 'Find the resources you need to start building. '
+  description: Find the resources you need to start building.
   contact: {}
   version: '1.0'
 servers:
@@ -189,6 +189,42 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    Key:
+      title: Key
+      required:
+      - kty
+      - n
+      - e
+      - alg
+      - use
+      - kid
+      type: object
+      properties:
+        kty:
+          type: string
+          example: example_value
+        n:
+          type: string
+          example: example_value
+        e:
+          type: string
+          example: example_value
+        alg:
+          type: string
+          example: example_value
+        use:
+          type: string
+          example: example_value
+        kid:
+          type: string
+          example: '500123'
+      examples:
+      - kty: RSA
+        n: <token>
+        e: AQAB
+        alg: RS256
+        use: sig
+        kid: '248'
     SuccessfulSalesforceKeys:
       title: SuccessfulSalesforceKeys
       required:
@@ -227,42 +263,6 @@ components:
           alg: RS256
           use: sig
           kid: asset
-    Key:
-      title: Key
-      required:
-      - kty
-      - n
-      - e
-      - alg
-      - use
-      - kid
-      type: object
-      properties:
-        kty:
-          type: string
-          example: example_value
-        n:
-          type: string
-          example: example_value
-        e:
-          type: string
-          example: example_value
-        alg:
-          type: string
-          example: example_value
-        use:
-          type: string
-          example: example_value
-        kid:
-          type: string
-          example: '500123'
-      examples:
-      - kty: RSA
-        n: <token>
-        e: AQAB
-        alg: RS256
-        use: sig
-        kid: '248'
   securitySchemes:
     oauth2:
       type: oauth2

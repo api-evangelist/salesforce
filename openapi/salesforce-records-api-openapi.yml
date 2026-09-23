@@ -234,6 +234,18 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    ErrorResponse:
+      type: object
+      description: API error response
+      properties:
+        errorCode:
+          type: string
+          description: Machine-readable error code
+          example: example_value
+        message:
+          type: string
+          description: Human-readable error message
+          example: example_value
     RecordRepresentation:
       type: object
       description: A Salesforce record with field values and UI metadata
@@ -298,18 +310,6 @@ components:
           type: string
           format: date-time
           example: '2026-01-15T10:30:00Z'
-    ErrorResponse:
-      type: object
-      description: API error response
-      properties:
-        errorCode:
-          type: string
-          description: Machine-readable error code
-          example: example_value
-        message:
-          type: string
-          description: Human-readable error message
-          example: example_value
     FieldValueRepresentation:
       type: object
       description: A field value with display metadata
@@ -342,6 +342,15 @@ components:
           additionalProperties:
             description: Field value (string, number, boolean, or null to clear)
           example: example_value
+  parameters:
+    RecordId:
+      name: recordId
+      in: path
+      required: true
+      description: The 18-character Salesforce record ID
+      schema:
+        type: string
+        pattern: ^[a-zA-Z0-9]{18}$
   responses:
     NotFound:
       description: Not found. The requested resource does not exist.
@@ -367,15 +376,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-  parameters:
-    RecordId:
-      name: recordId
-      in: path
-      required: true
-      description: The 18-character Salesforce record ID
-      schema:
-        type: string
-        pattern: ^[a-zA-Z0-9]{18}$
   securitySchemes:
     oauthBearerToken:
       type: http

@@ -2,7 +2,9 @@
 title: Laboratoires Pierre Fabre Selects Agentforce Life Sciences for Customer Engagement to
   Transform Medical and Dermo-Cosmetic Care
 url: https://www.salesforce.com/news/press-releases/2026/05/21/pierre-fabre-agentforce-life-sciences-customer-engagement/
-date: '2026-05-21'
+published: ''
+date_basis: harvested
+harvested: '2026-05-21'
 author: Salesforce Newsroom
 feed_url: http://www.salesforce.com/news/feed
 ---

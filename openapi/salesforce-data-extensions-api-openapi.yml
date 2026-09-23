@@ -1,9 +1,7 @@
 openapi: 3.2.0
 info:
   title: Salesforce Marketing Cloud REST Data Extensions API
-  description: 'The Salesforce Marketing Cloud REST API provides access to Marketing Cloud resources including contacts, journeys, data extensions, triggered sends, and transactional messaging. It uses OAuth 2.0 for authentication and is the primary interface for programmatic Marketing Cloud integrations.
-
-    '
+  description: The Salesforce Marketing Cloud REST API provides access to Marketing Cloud resources including contacts, journeys, data extensions, triggered sends, and transactional messaging. It uses OAuth 2.0 for authentication and is the primary interface for programmatic Marketing Cloud integrations.
   version: v1
   contact:
     name: Salesforce Marketing Cloud Developers
@@ -26,17 +24,13 @@ security:
 - BearerAuth: []
 tags:
 - name: Data Extensions
-  description: 'Operations for reading and writing rows in Marketing Cloud Data Extensions, which are custom tables for storing subscriber data and campaign data.
-
-    '
+  description: Operations for reading and writing rows in Marketing Cloud Data Extensions, which are custom tables for storing subscriber data and campaign data.
 paths:
   /data/v1/async/dataextensions/key:{key}/rows:
     get:
       operationId: getDataExtensionRows
       summary: Get Data Extension rows
-      description: 'Retrieves rows from a Marketing Cloud Data Extension identified by its external key. Data Extensions are custom tables for storing subscriber data, lookup tables, or any structured data used in campaigns and journeys. Use the $pageSize and $page parameters to paginate through large data sets.
-
-        '
+      description: Retrieves rows from a Marketing Cloud Data Extension identified by its external key. Data Extensions are custom tables for storing subscriber data, lookup tables, or any structured data used in campaigns and journeys. Use the $pageSize and $page parameters to paginate through large data sets.
       tags:
       - Data Extensions
       parameters:
@@ -107,9 +101,7 @@ paths:
     post:
       operationId: insertDataExtensionRows
       summary: Insert rows into a Data Extension
-      description: 'Inserts one or more rows into a Marketing Cloud Data Extension. If a row with the same primary key already exists, the operation upserts the row (updates existing values). Returns the number of rows inserted or updated.
-
-        '
+      description: Inserts one or more rows into a Marketing Cloud Data Extension. If a row with the same primary key already exists, the operation upserts the row (updates existing values). Returns the number of rows inserted or updated.
       tags:
       - Data Extensions
       parameters:
@@ -169,6 +161,12 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
+    DataExtensionRow:
+      type: object
+      description: 'A row in a Marketing Cloud Data Extension. Field names and values are dynamic based on the Data Extension schema.
+
+        '
+      additionalProperties: true
     Error:
       type: object
       description: An error response from the Marketing Cloud REST API.
@@ -182,12 +180,6 @@ components:
         documentation:
           type: string
           description: URL to documentation about this error.
-    DataExtensionRow:
-      type: object
-      description: 'A row in a Marketing Cloud Data Extension. Field names and values are dynamic based on the Data Extension schema.
-
-        '
-      additionalProperties: true
   securitySchemes:
     BearerAuth:
       type: http

@@ -1,7 +1,9 @@
 ---
 title: How Salesforce Is Scaling Accessibility in the Age of AI
 url: https://www.salesforce.com/news/stories/salesforce-scaling-accessibility-age-of-ai/
-date: '2026-05-21'
+published: ''
+date_basis: harvested
+harvested: '2026-05-21'
 author: Bonnie Parisi
 feed_url: http://www.salesforce.com/news/feed
 ---

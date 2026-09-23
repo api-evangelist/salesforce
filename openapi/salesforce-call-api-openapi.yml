@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Salesforce Call API
-  description: 'Find the resources you need to start building. '
+  description: Find the resources you need to start building.
   contact: {}
   version: '1.0'
 servers:
@@ -122,26 +122,27 @@ components:
         prefix: SOAP-ENV
         attribute: false
         wrapped: false
-    Body16:
-      title: Body16
+    create:
+      title: create
       required:
-      - create
+      - sObjects
       type: object
       properties:
-        create:
-          allOf:
-          - $ref: '#/components/schemas/create'
-          - xml:
-              name: create
-              namespace: urn:partner.soap.sforce.com
-              prefix: ns2
-              attribute: false
-              wrapped: false
-          example: example_value
+        sObjects:
+          type: array
+          items:
+            $ref: '#/components/schemas/sObjects'
+          description: ''
+          xml:
+            namespace: urn:partner.soap.sforce.com
+            prefix: ns2
+            attribute: false
+            wrapped: false
+          example: []
       xml:
-        name: Body
-        namespace: http://schemas.xmlsoap.org/soap/envelope/
-        prefix: SOAP-ENV
+        name: create
+        namespace: urn:partner.soap.sforce.com
+        prefix: ns2
         attribute: false
         wrapped: false
     sObjects:
@@ -190,29 +191,6 @@ components:
           example: 10
       xml:
         name: sObjects
-        namespace: urn:partner.soap.sforce.com
-        prefix: ns2
-        attribute: false
-        wrapped: false
-    create:
-      title: create
-      required:
-      - sObjects
-      type: object
-      properties:
-        sObjects:
-          type: array
-          items:
-            $ref: '#/components/schemas/sObjects'
-          description: ''
-          xml:
-            namespace: urn:partner.soap.sforce.com
-            prefix: ns2
-            attribute: false
-            wrapped: false
-          example: []
-      xml:
-        name: create
         namespace: urn:partner.soap.sforce.com
         prefix: ns2
         attribute: false
@@ -267,6 +245,28 @@ components:
           example: example_value
       xml:
         name: Envelope
+        namespace: http://schemas.xmlsoap.org/soap/envelope/
+        prefix: SOAP-ENV
+        attribute: false
+        wrapped: false
+    Body16:
+      title: Body16
+      required:
+      - create
+      type: object
+      properties:
+        create:
+          allOf:
+          - $ref: '#/components/schemas/create'
+          - xml:
+              name: create
+              namespace: urn:partner.soap.sforce.com
+              prefix: ns2
+              attribute: false
+              wrapped: false
+          example: example_value
+      xml:
+        name: Body
         namespace: http://schemas.xmlsoap.org/soap/envelope/
         prefix: SOAP-ENV
         attribute: false

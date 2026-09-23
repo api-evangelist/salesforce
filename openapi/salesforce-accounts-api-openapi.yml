@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Salesforce Accounts API
-  description: 'Find the resources you need to start building. '
+  description: Find the resources you need to start building.
   contact: {}
   version: '1.0'
 servers:
@@ -188,17 +188,46 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    Name:
-      title: Name
+    Uiapi:
+      title: Uiapi
       required:
-      - value
+      - query
       type: object
       properties:
-        value:
-          type: string
-          example: example_value
+        query:
+          $ref: '#/components/schemas/Query'
       examples:
-      - value: ACME Inc.
+      - query:
+          Account:
+            edges:
+            - node:
+                Id: 0014H00002x6HUhQAM
+                Name:
+                  value: ACME Inc.
+            - node:
+                Id: 0014H00002LbR7QQAV
+                Name:
+                  value: ABC Computing
+            - node:
+                Id: 00158000006QBOqAAO
+                Name:
+                  value: GenePoint
+            - node:
+                Id: 00158000006QBOoAAO
+                Name:
+                  value: United Oil & Gas, Belgium
+            - node:
+                Id: 00158000006QBOpAAO
+                Name:
+                  value: United Oil & Gas, Singapore
+            - node:
+                Id: 00158000006QBOgAAO
+                Name:
+                  value: Edge Communications
+            - node:
+                Id: 00158000006QBOhAAO
+                Name:
+                  value: Burlington Textiles Corp of America
     Accounts:
       title: Accounts
       required:
@@ -249,6 +278,60 @@ components:
                     Name:
                       value: Burlington Textiles Corp of America
         errors: []
+    Edge:
+      title: Edge
+      required:
+      - node
+      type: object
+      properties:
+        node:
+          $ref: '#/components/schemas/Node'
+      examples:
+      - node:
+          Id: 0014H00002x6HUhQAM
+          Name:
+            value: ACME Inc.
+    Data:
+      title: Data
+      required:
+      - uiapi
+      type: object
+      properties:
+        uiapi:
+          $ref: '#/components/schemas/Uiapi'
+      examples:
+      - uiapi:
+          query:
+            Account:
+              edges:
+              - node:
+                  Id: 0014H00002x6HUhQAM
+                  Name:
+                    value: ACME Inc.
+              - node:
+                  Id: 0014H00002LbR7QQAV
+                  Name:
+                    value: ABC Computing
+              - node:
+                  Id: 00158000006QBOqAAO
+                  Name:
+                    value: GenePoint
+              - node:
+                  Id: 00158000006QBOoAAO
+                  Name:
+                    value: United Oil & Gas, Belgium
+              - node:
+                  Id: 00158000006QBOpAAO
+                  Name:
+                    value: United Oil & Gas, Singapore
+              - node:
+                  Id: 00158000006QBOgAAO
+                  Name:
+                    value: Edge Communications
+              - node:
+                  Id: 00158000006QBOhAAO
+                  Name:
+                    value: Burlington Textiles Corp of America
     Account7:
       title: Account7
       required:
@@ -291,116 +374,6 @@ components:
             Id: 00158000006QBOhAAO
             Name:
               value: Burlington Textiles Corp of America
-    Data:
-      title: Data
-      required:
-      - uiapi
-      type: object
-      properties:
-        uiapi:
-          $ref: '#/components/schemas/Uiapi'
-      examples:
-      - uiapi:
-          query:
-            Account:
-              edges:
-              - node:
-                  Id: 0014H00002x6HUhQAM
-                  Name:
-                    value: ACME Inc.
-              - node:
-                  Id: 0014H00002LbR7QQAV
-                  Name:
-                    value: ABC Computing
-              - node:
-                  Id: 00158000006QBOqAAO
-                  Name:
-                    value: GenePoint
-              - node:
-                  Id: 00158000006QBOoAAO
-                  Name:
-                    value: United Oil & Gas, Belgium
-              - node:
-                  Id: 00158000006QBOpAAO
-                  Name:
-                    value: United Oil & Gas, Singapore
-              - node:
-                  Id: 00158000006QBOgAAO
-                  Name:
-                    value: Edge Communications
-              - node:
-                  Id: 00158000006QBOhAAO
-                  Name:
-                    value: Burlington Textiles Corp of America
-    Uiapi:
-      title: Uiapi
-      required:
-      - query
-      type: object
-      properties:
-        query:
-          $ref: '#/components/schemas/Query'
-      examples:
-      - query:
-          Account:
-            edges:
-            - node:
-                Id: 0014H00002x6HUhQAM
-                Name:
-                  value: ACME Inc.
-            - node:
-                Id: 0014H00002LbR7QQAV
-                Name:
-                  value: ABC Computing
-            - node:
-                Id: 00158000006QBOqAAO
-                Name:
-                  value: GenePoint
-            - node:
-                Id: 00158000006QBOoAAO
-                Name:
-                  value: United Oil & Gas, Belgium
-            - node:
-                Id: 00158000006QBOpAAO
-                Name:
-                  value: United Oil & Gas, Singapore
-            - node:
-                Id: 00158000006QBOgAAO
-                Name:
-                  value: Edge Communications
-            - node:
-                Id: 00158000006QBOhAAO
-                Name:
-                  value: Burlington Textiles Corp of America
-    Edge:
-      title: Edge
-      required:
-      - node
-      type: object
-      properties:
-        node:
-          $ref: '#/components/schemas/Node'
-      examples:
-      - node:
-          Id: 0014H00002x6HUhQAM
-          Name:
-            value: ACME Inc.
-    Node:
-      title: Node
-      required:
-      - Id
-      - Name
-      type: object
-      properties:
-        Id:
-          type: string
-          example: abc123
-        Name:
-          $ref: '#/components/schemas/Name'
-      examples:
-      - Id: 0014H00002x6HUhQAM
-        Name:
-          value: ACME Inc.
     Query:
       title: Query
       required:
@@ -440,6 +413,33 @@ components:
               Id: 00158000006QBOhAAO
               Name:
                 value: Burlington Textiles Corp of America
+    Name:
+      title: Name
+      required:
+      - value
+      type: object
+      properties:
+        value:
+          type: string
+          example: example_value
+      examples:
+      - value: ACME Inc.
+    Node:
+      title: Node
+      required:
+      - Id
+      - Name
+      type: object
+      properties:
+        Id:
+          type: string
+          example: abc123
+        Name:
+          $ref: '#/components/schemas/Name'
+      examples:
+      - Id: 0014H00002x6HUhQAM
+        Name:
+          value: ACME Inc.
   securitySchemes:
     oauth2:
       type: oauth2

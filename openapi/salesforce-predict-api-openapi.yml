@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Salesforce Predict API
-  description: 'Find the resources you need to start building. '
+  description: Find the resources you need to start building.
   contact: {}
   version: '1.0'
 servers:
@@ -191,60 +191,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    Model:
-      title: Model
-      required:
-      - id
-      type: object
-      properties:
-        id:
-          type: string
-          example: abc123
-      examples:
-      - id: 1Ot5Y0000010wzNSAQ
-    Settings:
-      title: Settings
-      required:
-      - maxMiddleValues
-      - maxPrescriptions
-      - prescriptionImpactPercentage
-      type: object
-      properties:
-        maxMiddleValues:
-          type: integer
-          contentEncoding: int32
-          example: 10
-        maxPrescriptions:
-          type: integer
-          contentEncoding: int32
-          example: 10
-        prescriptionImpactPercentage:
-          type: integer
-          contentEncoding: int32
-          example: 10
-      examples:
-      - maxMiddleValues: 0
-        maxPrescriptions: 0
-        prescriptionImpactPercentage: 0
-    Prediction1:
-      title: Prediction1
-      required:
-      - middleValues
-      - total
-      type: object
-      properties:
-        middleValues:
-          type: array
-          items:
-            type: string
-          description: ''
-          example: []
-        total:
-          type: number
-          example: 42
-      examples:
-      - middleValues: []
-        total: 88.5249425554759
     PredictRequest:
       title: PredictRequest
       required:
@@ -288,36 +234,6 @@ components:
           - Chairs
           - '300'
           - '10'
-    Prediction:
-      title: Prediction
-      required:
-      - model
-      - prediction
-      - prescriptions
-      - status
-      type: object
-      properties:
-        model:
-          $ref: '#/components/schemas/Model'
-        prediction:
-          $ref: '#/components/schemas/Prediction1'
-        prescriptions:
-          type: array
-          items:
-            type: string
-          description: ''
-          example: []
-        status:
-          type: string
-          example: example_value
-      examples:
-      - model:
-          id: 1Ot5Y0000010wzNSAQ
-        prediction:
-          middleValues: []
-          total: 88.5249425554759
-        prescriptions: []
-        status: Success
     Predict:
       title: Predict
       required:
@@ -351,6 +267,90 @@ components:
           maxMiddleValues: 0
           maxPrescriptions: 0
           prescriptionImpactPercentage: 0
+    Model:
+      title: Model
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+      examples:
+      - id: 1Ot5Y0000010wzNSAQ
+    Prediction1:
+      title: Prediction1
+      required:
+      - middleValues
+      - total
+      type: object
+      properties:
+        middleValues:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        total:
+          type: number
+          example: 42
+      examples:
+      - middleValues: []
+        total: 88.5249425554759
+    Prediction:
+      title: Prediction
+      required:
+      - model
+      - prediction
+      - prescriptions
+      - status
+      type: object
+      properties:
+        model:
+          $ref: '#/components/schemas/Model'
+        prediction:
+          $ref: '#/components/schemas/Prediction1'
+        prescriptions:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        status:
+          type: string
+          example: example_value
+      examples:
+      - model:
+          id: 1Ot5Y0000010wzNSAQ
+        prediction:
+          middleValues: []
+          total: 88.5249425554759
+        prescriptions: []
+        status: Success
+    Settings:
+      title: Settings
+      required:
+      - maxMiddleValues
+      - maxPrescriptions
+      - prescriptionImpactPercentage
+      type: object
+      properties:
+        maxMiddleValues:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        maxPrescriptions:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        prescriptionImpactPercentage:
+          type: integer
+          contentEncoding: int32
+          example: 10
+      examples:
+      - maxMiddleValues: 0
+        maxPrescriptions: 0
+        prescriptionImpactPercentage: 0
   securitySchemes:
     oauth2:
       type: oauth2

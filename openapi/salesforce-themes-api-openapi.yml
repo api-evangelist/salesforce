@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Salesforce Themes API
-  description: 'Find the resources you need to start building. '
+  description: Find the resources you need to start building.
   contact: {}
   version: '1.0'
 servers:
@@ -294,6 +294,97 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    ThemeItem:
+      title: ThemeItem
+      required:
+      - colors
+      - icons
+      - name
+      type: object
+      properties:
+        colors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Color'
+          description: ''
+          example: []
+        icons:
+          type: array
+          items:
+            $ref: '#/components/schemas/Icon'
+          description: ''
+          example: []
+        name:
+          type: string
+          example: Example Title
+      examples:
+      - colors:
+        - color: 5867E8
+          context: primary
+          theme: theme4
+        - color: 236FBD
+          context: primary
+          theme: theme3
+        icons:
+        - contentType: image/png
+          height: 32
+          theme: theme3
+          url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/accounts32.png
+          width: 32
+        - contentType: image/png
+          height: 16
+          theme: theme3
+          url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/accounts16.png
+          width: 16
+        - contentType: image/svg+xml
+          height: 0
+          theme: theme4
+          url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/t4v35/standard/account.svg
+          width: 0
+        - contentType: image/png
+          height: 60
+          theme: theme4
+          url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/t4v35/standard/account_60.png
+          width: 60
+        - contentType: image/png
+          height: 120
+          theme: theme4
+          url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/t4v35/standard/account_120.png
+          width: 120
+        name: Account
+    Icon:
+      title: Icon
+      required:
+      - contentType
+      - height
+      - theme
+      - url
+      - width
+      type: object
+      properties:
+        contentType:
+          type: string
+          example: example_value
+        height:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        theme:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+        width:
+          type: integer
+          contentEncoding: int32
+          example: 10
+      examples:
+      - contentType: image/png
+        height: 32
+        theme: theme3
+        url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/accounts32.png
+        width: 32
     Color:
       title: Color
       required:
@@ -397,97 +488,6 @@ components:
             url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/t4v35/standard/brand_120.png
             width: 120
           name: AccountBrand
-    Icon:
-      title: Icon
-      required:
-      - contentType
-      - height
-      - theme
-      - url
-      - width
-      type: object
-      properties:
-        contentType:
-          type: string
-          example: example_value
-        height:
-          type: integer
-          contentEncoding: int32
-          example: 10
-        theme:
-          type: string
-          example: example_value
-        url:
-          type: string
-          example: https://www.example.com
-        width:
-          type: integer
-          contentEncoding: int32
-          example: 10
-      examples:
-      - contentType: image/png
-        height: 32
-        theme: theme3
-        url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/accounts32.png
-        width: 32
-    ThemeItem:
-      title: ThemeItem
-      required:
-      - colors
-      - icons
-      - name
-      type: object
-      properties:
-        colors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Color'
-          description: ''
-          example: []
-        icons:
-          type: array
-          items:
-            $ref: '#/components/schemas/Icon'
-          description: ''
-          example: []
-        name:
-          type: string
-          example: Example Title
-      examples:
-      - colors:
-        - color: 5867E8
-          context: primary
-          theme: theme4
-        - color: 236FBD
-          context: primary
-          theme: theme3
-        icons:
-        - contentType: image/png
-          height: 32
-          theme: theme3
-          url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/accounts32.png
-          width: 32
-        - contentType: image/png
-          height: 16
-          theme: theme3
-          url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/accounts16.png
-          width: 16
-        - contentType: image/svg+xml
-          height: 0
-          theme: theme4
-          url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/t4v35/standard/account.svg
-          width: 0
-        - contentType: image/png
-          height: 60
-          theme: theme4
-          url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/t4v35/standard/account_60.png
-          width: 60
-        - contentType: image/png
-          height: 120
-          theme: theme4
-          url: https://nto-df17-demo-dev-ed.my.salesforce.com/img/icon/t4v35/standard/account_120.png
-          width: 120
-        name: Account
   securitySchemes:
     oauth2:
       type: oauth2

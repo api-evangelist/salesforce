@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Salesforce Eligible API
-  description: 'Find the resources you need to start building. '
+  description: Find the resources you need to start building.
   contact: {}
   version: '1.0'
 servers:
@@ -29,7 +29,7 @@ paths:
       tags:
       - Eligible
       summary: Salesforce Eligible Promotions
-      description: '[Eligible Promotions](https://developer.salesforce.com/docs/atlas.en-us.loyalty.meta/loyalty/connect_resources_eligible_promotions.htm)
+      description: 'Eligible Promotions
 
 
         NOTE:
@@ -88,6 +88,49 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    Cart:
+      title: Cart
+      required:
+      - cartDetails
+      type: object
+      properties:
+        cartDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartDetail'
+          description: ''
+          example: []
+      examples:
+      - cartDetails:
+        - activityStartDate: '2023-06-14T12:45:19.000Z'
+          contactId: 003xx000004WjzAAAS
+          transactionAmount: 499
+          currencyISOCode: INR
+          cartLineDetails:
+          - cartLineProductId: 01txx0000006iTsAAI
+            cartLineItemQuantity: 3
+            cartLineItemAmount: 499
+            cartLineProductCatalogId: 0ZSSB0000002d8X4AQ
+    EligiblePromotionsRequest:
+      title: EligiblePromotionsRequest
+      required:
+      - cart
+      type: object
+      properties:
+        cart:
+          $ref: '#/components/schemas/Cart'
+      examples:
+      - cart:
+          cartDetails:
+          - activityStartDate: '2023-06-14T12:45:19.000Z'
+            contactId: 003xx000004WjzAAAS
+            transactionAmount: 499
+            currencyISOCode: INR
+            cartLineDetails:
+            - cartLineProductId: 01txx0000006iTsAAI
+              cartLineItemQuantity: 3
+              cartLineItemAmount: 499
+              cartLineProductCatalogId: 0ZSSB0000002d8X4AQ
     CartDetail:
       title: CartDetail
       required:
@@ -155,49 +198,6 @@ components:
         cartLineItemQuantity: 3
         cartLineItemAmount: 499
         cartLineProductCatalogId: 0ZSSB0000002d8X4AQ
-    EligiblePromotionsRequest:
-      title: EligiblePromotionsRequest
-      required:
-      - cart
-      type: object
-      properties:
-        cart:
-          $ref: '#/components/schemas/Cart'
-      examples:
-      - cart:
-          cartDetails:
-          - activityStartDate: '2023-06-14T12:45:19.000Z'
-            contactId: 003xx000004WjzAAAS
-            transactionAmount: 499
-            currencyISOCode: INR
-            cartLineDetails:
-            - cartLineProductId: 01txx0000006iTsAAI
-              cartLineItemQuantity: 3
-              cartLineItemAmount: 499
-              cartLineProductCatalogId: 0ZSSB0000002d8X4AQ
-    Cart:
-      title: Cart
-      required:
-      - cartDetails
-      type: object
-      properties:
-        cartDetails:
-          type: array
-          items:
-            $ref: '#/components/schemas/CartDetail'
-          description: ''
-          example: []
-      examples:
-      - cartDetails:
-        - activityStartDate: '2023-06-14T12:45:19.000Z'
-          contactId: 003xx000004WjzAAAS
-          transactionAmount: 499
-          currencyISOCode: INR
-          cartLineDetails:
-          - cartLineProductId: 01txx0000006iTsAAI
-            cartLineItemQuantity: 3
-            cartLineItemAmount: 499
-            cartLineProductCatalogId: 0ZSSB0000002d8X4AQ
   securitySchemes:
     oauth2:
       type: oauth2

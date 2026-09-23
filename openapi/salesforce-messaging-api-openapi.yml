@@ -1,9 +1,7 @@
 openapi: 3.2.0
 info:
   title: Salesforce Marketing Cloud REST Messaging API
-  description: 'The Salesforce Marketing Cloud REST API provides access to Marketing Cloud resources including contacts, journeys, data extensions, triggered sends, and transactional messaging. It uses OAuth 2.0 for authentication and is the primary interface for programmatic Marketing Cloud integrations.
-
-    '
+  description: The Salesforce Marketing Cloud REST API provides access to Marketing Cloud resources including contacts, journeys, data extensions, triggered sends, and transactional messaging. It uses OAuth 2.0 for authentication and is the primary interface for programmatic Marketing Cloud integrations.
   version: v1
   contact:
     name: Salesforce Marketing Cloud Developers
@@ -26,17 +24,13 @@ security:
 - BearerAuth: []
 tags:
 - name: Messaging
-  description: 'Operations for creating and tracking email and SMS message sends, including triggered sends and transactional messages.
-
-    '
+  description: Operations for creating and tracking email and SMS message sends, including triggered sends and transactional messages.
 paths:
   /messaging/v1/email/messages:
     post:
       operationId: createEmailSend
       summary: Create an email send (triggered send)
-      description: 'Creates and initiates a triggered email send to one or more recipients. Each send requires a message definition key referencing a triggered send definition configured in Marketing Cloud Email Studio. Supports personalization attributes and subscriber data overrides.
-
-        '
+      description: Creates and initiates a triggered email send to one or more recipients. Each send requires a message definition key referencing a triggered send definition configured in Marketing Cloud Email Studio. Supports personalization attributes and subscriber data overrides.
       tags:
       - Messaging
       requestBody:
@@ -98,9 +92,7 @@ paths:
     post:
       operationId: createSmsSend
       summary: Create an SMS send
-      description: 'Creates and initiates an SMS message send to one or more recipients. Requires a message definition key referencing an SMS definition configured in Marketing Cloud MobileConnect. Supports personalization attributes for dynamic message content.
-
-        '
+      description: Creates and initiates an SMS message send to one or more recipients. Requires a message definition key referencing an SMS definition configured in Marketing Cloud MobileConnect. Supports personalization attributes for dynamic message content.
       tags:
       - Messaging
       requestBody:
@@ -149,9 +141,7 @@ paths:
     get:
       operationId: getMessageStatus
       summary: Get email message send status
-      description: 'Retrieves the status of a triggered email send for a specific recipient using the messageKey (recipientSendId) returned when the send was created. Returns the current delivery status and any error details.
-
-        '
+      description: Retrieves the status of a triggered email send for a specific recipient using the messageKey (recipientSendId) returned when the send was created. Returns the current delivery status and any error details.
       tags:
       - Messaging
       parameters:
@@ -200,6 +190,51 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
+    SMSMessage:
+      type: object
+      description: 'Configuration for a triggered SMS send to one or more recipients using a Marketing Cloud MobileConnect message definition.
+
+        '
+      required:
+      - definitionKey
+      - recipients
+      properties:
+        definitionKey:
+          type: string
+          description: 'The external key of the SMS message definition configured in Marketing Cloud MobileConnect.
+
+            '
+        recipients:
+          type: array
+          description: 'Array of recipients for this triggered SMS send.
+
+            '
+          items:
+            type: object
+            required:
+            - contactKey
+            - to
+            properties:
+              contactKey:
+                type: string
+                description: The subscriber key of the SMS recipient.
+              to:
+                type: string
+                description: 'The recipient phone number in E.164 format (e.g., +15551234567).
+
+                  '
+              attributes:
+                type: object
+                description: 'Key-value pairs of personalization attributes for this recipient.
+
+                  '
+                additionalProperties: true
+        attributes:
+          type: object
+          description: 'Default personalization attributes applied to all recipients unless overridden at the recipient level.
+
+            '
+          additionalProperties: true
     Error:
       type: object
       description: An error response from the Marketing Cloud REST API.
@@ -257,51 +292,6 @@ components:
                 description: 'A unique identifier for this specific recipient''s send. If not provided, one is generated automatically.
 
                   '
-        attributes:
-          type: object
-          description: 'Default personalization attributes applied to all recipients unless overridden at the recipient level.
-
-            '
-          additionalProperties: true
-    SMSMessage:
-      type: object
-      description: 'Configuration for a triggered SMS send to one or more recipients using a Marketing Cloud MobileConnect message definition.
-
-        '
-      required:
-      - definitionKey
-      - recipients
-      properties:
-        definitionKey:
-          type: string
-          description: 'The external key of the SMS message definition configured in Marketing Cloud MobileConnect.
-
-            '
-        recipients:
-          type: array
-          description: 'Array of recipients for this triggered SMS send.
-
-            '
-          items:
-            type: object
-            required:
-            - contactKey
-            - to
-            properties:
-              contactKey:
-                type: string
-                description: The subscriber key of the SMS recipient.
-              to:
-                type: string
-                description: 'The recipient phone number in E.164 format (e.g., +15551234567).
-
-                  '
-              attributes:
-                type: object
-                description: 'Key-value pairs of personalization attributes for this recipient.
-
-                  '
-                additionalProperties: true
         attributes:
           type: object
           description: 'Default personalization attributes applied to all recipients unless overridden at the recipient level.

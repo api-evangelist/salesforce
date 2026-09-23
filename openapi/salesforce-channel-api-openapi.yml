@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Salesforce Channel API
-  description: 'Find the resources you need to start building. '
+  description: Find the resources you need to start building.
   contact: {}
   version: '1.0'
 servers:
@@ -790,8 +790,8 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    UpdatechannelRequest:
-      title: UpdatechannelRequest
+    CreatechannelRequest:
+      title: CreatechannelRequest
       required:
       - FullName
       - Metadata
@@ -801,13 +801,66 @@ components:
           type: string
           example: example_value
         Metadata:
-          $ref: '#/components/schemas/Metadata1'
+          $ref: '#/components/schemas/Metadata'
       examples:
       - FullName: Account_Channel__chn
         Metadata:
           channelType: data
-          label: Account Channel 2
-          urls: null
+          label: Account Channel
+    Attributes4:
+      title: Attributes4
+      required:
+      - type
+      - url
+      type: object
+      properties:
+        type:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - type: Account
+        url: /services/data/v58.0/sobjects/Account/001...
+    Metadata9:
+      title: Metadata9
+      required:
+      - enrichedFields
+      - eventChannel
+      - filterExpression
+      - selectedEntity
+      - urls
+      type: object
+      properties:
+        enrichedFields:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        eventChannel:
+          type: string
+          example: example_value
+        filterExpression:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        selectedEntity:
+          type: string
+          example: example_value
+        urls:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+      examples:
+      - enrichedFields: []
+        eventChannel: ChangeEvents
+        filterExpression: null
+        selectedEntity: ContactChangeEvent
+        urls: null
     Field1:
       title: Field1
       required:
@@ -1090,41 +1143,6 @@ components:
         writeRequiresMasterRead:
           type: boolean
           example: true
-    PicklistValue1:
-      title: PicklistValue1
-      required:
-      - active
-      - defaultValue
-      - label
-      - validFor
-      - value
-      type: object
-      properties:
-        active:
-          type: boolean
-          example: true
-        defaultValue:
-          type: boolean
-          example: true
-        label:
-          type:
-          - string
-          - 'null'
-          example: Example Title
-        validFor:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        value:
-          type: string
-          example: example_value
-      examples:
-      - active: true
-        defaultValue: false
-        label: English
-        validFor: null
-        value: en_US
     Describeeventchannel:
       title: Describeeventchannel
       required:
@@ -1347,6 +1365,22 @@ components:
           example: true
         urls:
           $ref: '#/components/schemas/Urls2'
+    Metadata3:
+      title: Metadata3
+      required:
+      - eventChannel
+      - selectedEntity
+      type: object
+      properties:
+        eventChannel:
+          type: string
+          example: example_value
+        selectedEntity:
+          type: string
+          example: example_value
+      examples:
+      - eventChannel: Account_Channel__chn
+        selectedEntity: AccountChangeEvent
     PicklistValue:
       title: PicklistValue
       type: object
@@ -1368,61 +1402,64 @@ components:
         value:
           type: string
           example: example_value
-    Urls2:
-      title: Urls2
+    PicklistValue1:
+      title: PicklistValue1
       required:
-      - rowTemplate
-      - describe
-      - sobject
+      - active
+      - defaultValue
+      - label
+      - validFor
+      - value
       type: object
       properties:
-        rowTemplate:
-          type: string
+        active:
+          type: boolean
+          example: true
+        defaultValue:
+          type: boolean
+          example: true
+        label:
+          type:
+          - string
+          - 'null'
+          example: Example Title
+        validFor:
+          type:
+          - string
+          - 'null'
           example: example_value
-        describe:
-          type: string
-          example: example_value
-        sobject:
+        value:
           type: string
           example: example_value
       examples:
-      - rowTemplate: /services/data/v58.0/tooling/sobjects/PlatformEventChannel/{ID}
-        describe: /services/data/v58.0/tooling/sobjects/PlatformEventChannel/describe
-        sobject: /services/data/v58.0/tooling/sobjects/PlatformEventChannel
-    CreatechannelmemberRequest:
-      title: CreatechannelmemberRequest
+      - active: true
+        defaultValue: false
+        label: English
+        validFor: null
+        value: en_US
+    Metadata1:
+      title: Metadata1
       required:
-      - FullName
-      - Metadata
+      - channelType
+      - label
+      - urls
       type: object
       properties:
-        FullName:
+        channelType:
           type: string
           example: example_value
-        Metadata:
-          $ref: '#/components/schemas/Metadata3'
-      examples:
-      - FullName: Account_Channel_chn_AccountChangeEvent
-        Metadata:
-          eventChannel: Account_Channel__chn
-          selectedEntity: AccountChangeEvent
-    CreatechannelRequest:
-      title: CreatechannelRequest
-      required:
-      - FullName
-      - Metadata
-      type: object
-      properties:
-        FullName:
+        label:
           type: string
-          example: example_value
-        Metadata:
-          $ref: '#/components/schemas/Metadata'
+          example: Example Title
+        urls:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
       examples:
-      - FullName: Account_Channel__chn
-        Metadata:
-          channelType: data
-          label: Account Channel
+      - channelType: data
+        label: Account Channel 2
+        urls: null
     Geteventchannel:
       title: Geteventchannel
       required:
@@ -1514,44 +1551,94 @@ components:
           channelType: data
           label: Custom Channel for the HR App
           urls: null
-    Metadata9:
-      title: Metadata9
+    CreatechannelmemberRequest:
+      title: CreatechannelmemberRequest
       required:
-      - enrichedFields
-      - eventChannel
-      - filterExpression
-      - selectedEntity
-      - urls
+      - FullName
+      - Metadata
       type: object
       properties:
-        enrichedFields:
-          type: array
-          items:
-            type: string
-          description: ''
-          example: []
-        eventChannel:
+        FullName:
           type: string
           example: example_value
-        filterExpression:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        selectedEntity:
-          type: string
-          example: example_value
-        urls:
-          type:
-          - string
-          - 'null'
-          example: https://www.example.com
+        Metadata:
+          $ref: '#/components/schemas/Metadata3'
       examples:
-      - enrichedFields: []
-        eventChannel: ChangeEvents
-        filterExpression: null
-        selectedEntity: ContactChangeEvent
-        urls: null
+      - FullName: Account_Channel_chn_AccountChangeEvent
+        Metadata:
+          eventChannel: Account_Channel__chn
+          selectedEntity: AccountChangeEvent
+    UpdatechannelRequest:
+      title: UpdatechannelRequest
+      required:
+      - FullName
+      - Metadata
+      type: object
+      properties:
+        FullName:
+          type: string
+          example: example_value
+        Metadata:
+          $ref: '#/components/schemas/Metadata1'
+      examples:
+      - FullName: Account_Channel__chn
+        Metadata:
+          channelType: data
+          label: Account Channel 2
+          urls: null
+    SupportedScope:
+      title: SupportedScope
+      required:
+      - label
+      - name
+      type: object
+      properties:
+        label:
+          type: string
+          example: Example Title
+        name:
+          type: string
+          example: Example Title
+      examples:
+      - label: All platform event channels
+        name: everything
+    Urls2:
+      title: Urls2
+      required:
+      - rowTemplate
+      - describe
+      - sobject
+      type: object
+      properties:
+        rowTemplate:
+          type: string
+          example: example_value
+        describe:
+          type: string
+          example: example_value
+        sobject:
+          type: string
+          example: example_value
+      examples:
+      - rowTemplate: /services/data/v58.0/tooling/sobjects/PlatformEventChannel/{ID}
+        describe: /services/data/v58.0/tooling/sobjects/PlatformEventChannel/describe
+        sobject: /services/data/v58.0/tooling/sobjects/PlatformEventChannel
+    Metadata:
+      title: Metadata
+      required:
+      - channelType
+      - label
+      type: object
+      properties:
+        channelType:
+          type: string
+          example: example_value
+        label:
+          type: string
+          example: Example Title
+      examples:
+      - channelType: data
+        label: Account Channel
     Getchannelmember:
       title: Getchannelmember
       required:
@@ -1657,93 +1744,6 @@ components:
         EventChannel: ChangeEvents
         SelectedEntity: ContactChangeEvent
         FilterExpression: null
-    Metadata3:
-      title: Metadata3
-      required:
-      - eventChannel
-      - selectedEntity
-      type: object
-      properties:
-        eventChannel:
-          type: string
-          example: example_value
-        selectedEntity:
-          type: string
-          example: example_value
-      examples:
-      - eventChannel: Account_Channel__chn
-        selectedEntity: AccountChangeEvent
-    Attributes4:
-      title: Attributes4
-      required:
-      - type
-      - url
-      type: object
-      properties:
-        type:
-          type: string
-          example: example_value
-        url:
-          type: string
-          example: https://www.example.com
-      examples:
-      - type: Account
-        url: /services/data/v58.0/sobjects/Account/001...
-    SupportedScope:
-      title: SupportedScope
-      required:
-      - label
-      - name
-      type: object
-      properties:
-        label:
-          type: string
-          example: Example Title
-        name:
-          type: string
-          example: Example Title
-      examples:
-      - label: All platform event channels
-        name: everything
-    Metadata1:
-      title: Metadata1
-      required:
-      - channelType
-      - label
-      - urls
-      type: object
-      properties:
-        channelType:
-          type: string
-          example: example_value
-        label:
-          type: string
-          example: Example Title
-        urls:
-          type:
-          - string
-          - 'null'
-          example: https://www.example.com
-      examples:
-      - channelType: data
-        label: Account Channel 2
-        urls: null
-    Metadata:
-      title: Metadata
-      required:
-      - channelType
-      - label
-      type: object
-      properties:
-        channelType:
-          type: string
-          example: example_value
-        label:
-          type: string
-          example: Example Title
-      examples:
-      - channelType: data
-        label: Account Channel
   securitySchemes:
     oauth2:
       type: oauth2

@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Salesforce Initiate API
-  description: 'Find the resources you need to start building. '
+  description: Find the resources you need to start building.
   contact: {}
   version: '1.0'
 servers:
@@ -107,6 +107,18 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    InitiateRenewalRequest:
+      title: InitiateRenewalRequest
+      required:
+      - assetIds
+      type: object
+      properties:
+        assetIds:
+          $ref: '#/components/schemas/AssetIds'
+      examples:
+      - assetIds:
+          assetIdArray:
+          - '{{assetID}}'
     AssetIds:
       title: AssetIds
       required:
@@ -144,18 +156,6 @@ components:
           - '{{assetID}}'
         cancellationDate: '2023-08-21T00:00:00.000Z'
         cancellationOutputType: order
-    InitiateRenewalRequest:
-      title: InitiateRenewalRequest
-      required:
-      - assetIds
-      type: object
-      properties:
-        assetIds:
-          $ref: '#/components/schemas/AssetIds'
-      examples:
-      - assetIds:
-          assetIdArray:
-          - '{{assetID}}'
   securitySchemes:
     oauth2:
       type: oauth2

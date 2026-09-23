@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Salesforce Groups API
-  description: 'Find the resources you need to start building. '
+  description: Find the resources you need to start building.
   contact: {}
   version: '1.0'
 servers:
@@ -1512,6 +1512,703 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    RequestedGroup:
+      title: RequestedGroup
+      required:
+      - id
+      - url
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - id: 0F9...
+        url: /services/data/v58.0/chatter/groups/0F9...
+    Request:
+      title: Request
+      required:
+      - createdDate
+      - id
+      - lastUpdateDate
+      - requestedGroup
+      - responseMessage
+      - status
+      - url
+      - user
+      type: object
+      properties:
+        createdDate:
+          type: string
+          example: example_value
+        id:
+          type: string
+          example: abc123
+        lastUpdateDate:
+          type: string
+          example: example_value
+        requestedGroup:
+          $ref: '#/components/schemas/RequestedGroup'
+        responseMessage:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        status:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+        user:
+          $ref: '#/components/schemas/User3'
+      examples:
+      - createdDate: '2023-11-22T11:46:32.000Z'
+        id: 0I5...
+        lastUpdateDate: '2023-11-22T11:46:32.000Z'
+        requestedGroup:
+          id: 0F9...
+          url: /services/data/v58.0/chatter/groups/0F9...
+        responseMessage: null
+        status: Pending
+        url: /services/data/v58.0/chatter/group-membership-requests/0I5...
+        user:
+          additionalLabel: null
+          communityNickname: User1700653511864742682
+          companyName: null
+          displayName: User Sample
+          firstName: User
+          id: 005...
+          isActive: true
+          isInThisCommunity: true
+          lastName: Sample
+          motif:
+            color: 1B96FF
+            largeIconUrl: /img/icon/profile64.png
+            mediumIconUrl: /img/icon/profile32.png
+            smallIconUrl: /img/icon/profile16.png
+            svgIconUrl: null
+          mySubscription: null
+          name: User Sample
+          outOfOffice:
+            message: ''
+          photo:
+            fullEmailPhotoUrl: https://<my_domain>/img/userprofile/default_profile_200_v2.png?fromEmail=1
+            largePhotoUrl: https://<my_domain>/profilephoto/005/F
+            mediumPhotoUrl: https://<my_domain>/profilephoto/005/M
+            photoVersionId: null
+            smallPhotoUrl: https://<my_domain>/profilephoto/005/T
+            standardEmailPhotoUrl: https://<my_domain>/img/userprofile/default_profile_45_v2.png?fromEmail=1
+            url: /services/data/v58.0/connect/user-profiles/005.../photo
+          reputation: null
+          title: null
+          type: User
+          url: /services/data/v58.0/chatter/users/005...
+          userType: Internal
+    SuccessfulGroupMembershipRequestsPrivate:
+      title: SuccessfulGroupMembershipRequestsPrivate
+      required:
+      - createdDate
+      - id
+      - lastUpdateDate
+      - requestedGroup
+      - responseMessage
+      - status
+      - url
+      - user
+      type: object
+      properties:
+        createdDate:
+          type: string
+          example: example_value
+        id:
+          type: string
+          example: abc123
+        lastUpdateDate:
+          type: string
+          example: example_value
+        requestedGroup:
+          $ref: '#/components/schemas/RequestedGroup'
+        responseMessage:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        status:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+        user:
+          $ref: '#/components/schemas/User3'
+      examples:
+      - createdDate: '2023-11-22T11:46:32.000Z'
+        id: 0I5...
+        lastUpdateDate: '2023-11-22T11:50:19.000Z'
+        requestedGroup:
+          id: 0F9...
+          url: /services/data/v58.0/chatter/groups/0F9...
+        responseMessage: null
+        status: Accepted
+        url: /services/data/v58.0/chatter/group-membership-requests/0I5...
+        user:
+          additionalLabel: null
+          communityNickname: User1700653511864742682
+          companyName: null
+          displayName: User Sample
+          firstName: User
+          id: 005...
+          isActive: true
+          isInThisCommunity: true
+          lastName: Sample
+          motif:
+            color: 1B96FF
+            largeIconUrl: /img/icon/profile64.png
+            mediumIconUrl: /img/icon/profile32.png
+            smallIconUrl: /img/icon/profile16.png
+            svgIconUrl: null
+          mySubscription: null
+          name: User Sample
+          outOfOffice:
+            message: ''
+          photo:
+            fullEmailPhotoUrl: https://<my_domain>/img/userprofile/default_profile_200_v2.png?fromEmail=1
+            largePhotoUrl: https://<my_domain>/profilephoto/005/F
+            mediumPhotoUrl: https://<my_domain>/profilephoto/005/M
+            photoVersionId: null
+            smallPhotoUrl: https://<my_domain>/profilephoto/005/T
+            standardEmailPhotoUrl: https://<my_domain>/img/userprofile/default_profile_45_v2.png?fromEmail=1
+            url: /services/data/v58.0/connect/user-profiles/005.../photo
+          reputation: null
+          title: null
+          type: User
+          url: /services/data/v58.0/chatter/users/005...
+          userType: Internal
+    GroupInvitesRequest:
+      title: GroupInvitesRequest
+      required:
+      - invitees
+      - message
+      type: object
+      properties:
+        invitees:
+          $ref: '#/components/schemas/Invitees'
+        message:
+          type: string
+          example: example_value
+      examples:
+      - invitees:
+          emails:
+          - testemail1@sfdcpostman.com
+          - testemail2@sfdcpostman.com
+        message: Join this group to participate in the discussion about your favorite feature.
+    BannerPhoto:
+      title: BannerPhoto
+      required:
+      - bannerPhotoUrl
+      - bannerPhotoVersionId
+      - url
+      type: object
+      properties:
+        bannerPhotoUrl:
+          type: string
+          example: https://www.example.com
+        bannerPhotoVersionId:
+          type:
+          - string
+          - 'null'
+          example: '500123'
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - bannerPhotoUrl: https://<my_domain>/profilephoto/0F9/B
+        bannerPhotoVersionId: null
+        url: /services/data/v58.0/chatter/groups/0F9.../banner-photo
+    SuccessfulGroupMembers:
+      title: SuccessfulGroupMembers
+      required:
+      - id
+      - lastFeedAccessDate
+      - role
+      - url
+      - user
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+        lastFeedAccessDate:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        role:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+        user:
+          $ref: '#/components/schemas/User4'
+      examples:
+      - id: 0FB...
+        lastFeedAccessDate: null
+        role: StandardMember
+        url: /services/data/v58.0/chatter/group-memberships/0FB...
+        user:
+          additionalLabel: null
+          communityNickname: integration1.4407085834085586E12
+          companyName: Salesforce
+          displayName: Integration User
+          firstName: Integration
+          id: 005...
+          isActive: true
+          isInThisCommunity: true
+          lastName: User
+          motif:
+            color: 1B96FF
+            largeIconUrl: /img/icon/profile64.png
+            mediumIconUrl: /img/icon/profile32.png
+            smallIconUrl: /img/icon/profile16.png
+            svgIconUrl: null
+          mySubscription: null
+          name: Integration User
+          outOfOffice:
+            message: ''
+          photo:
+            fullEmailPhotoUrl: https://<my_domain>/img/userprofile/default_profile_200_v2.png?fromEmail=1
+            largePhotoUrl: https://<my_domain>/profilephoto/005/F
+            mediumPhotoUrl: https://<my_domain>/profilephoto/005/M
+            photoVersionId: null
+            smallPhotoUrl: https://<my_domain>/profilephoto/005/T
+            standardEmailPhotoUrl: https://<my_domain>/img/userprofile/default_profile_45_v2.png?fromEmail=1
+            url: /services/data/v58.0/connect/user-profiles/005.../photo
+          reputation: null
+          title: null
+          type: User
+          url: /services/data/v58.0/chatter/users/005...
+          userType: Internal
+    OutOfOffice:
+      title: OutOfOffice
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+          example: example_value
+      examples:
+      - message: ''
+    Information:
+      title: Information
+      required:
+      - text
+      - title
+      type: object
+      properties:
+        text:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        title:
+          type:
+          - string
+          - 'null'
+          example: Example Title
+      examples:
+      - text: null
+        title: null
+    Photo:
+      title: Photo
+      required:
+      - fullEmailPhotoUrl
+      - largePhotoUrl
+      - mediumPhotoUrl
+      - photoVersionId
+      - smallPhotoUrl
+      - standardEmailPhotoUrl
+      - url
+      type: object
+      properties:
+        fullEmailPhotoUrl:
+          type: string
+          example: user@example.com
+        largePhotoUrl:
+          type: string
+          example: https://www.example.com
+        mediumPhotoUrl:
+          type: string
+          example: https://www.example.com
+        photoVersionId:
+          type: string
+          example: '500123'
+        smallPhotoUrl:
+          type: string
+          example: https://www.example.com
+        standardEmailPhotoUrl:
+          type: string
+          example: user@example.com
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+        largePhotoUrl: https://<my_domain>/profilephoto/729.../F
+        mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
+        photoVersionId: 729...
+        smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
+        standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+        url: /services/data/v58.0/connect/user-profiles/005.../photo
+    Photo15:
+      title: Photo15
+      required:
+      - fullEmailPhotoUrl
+      - largePhotoUrl
+      - mediumPhotoUrl
+      - photoVersionId
+      - smallPhotoUrl
+      - standardEmailPhotoUrl
+      - url
+      type: object
+      properties:
+        fullEmailPhotoUrl:
+          type: string
+          example: user@example.com
+        largePhotoUrl:
+          type: string
+          example: https://www.example.com
+        mediumPhotoUrl:
+          type: string
+          example: https://www.example.com
+        photoVersionId:
+          type:
+          - string
+          - 'null'
+          example: '500123'
+        smallPhotoUrl:
+          type: string
+          example: https://www.example.com
+        standardEmailPhotoUrl:
+          type: string
+          example: user@example.com
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - fullEmailPhotoUrl: https://<my_domain>/img/userprofile/default_group_profile_200_v2.png?fromEmail=1
+        largePhotoUrl: https://<my_domain>/profilephoto/0F9/F
+        mediumPhotoUrl: https://<my_domain>/profilephoto/0F9/M
+        photoVersionId: null
+        smallPhotoUrl: https://<my_domain>/profilephoto/0F9/T
+        standardEmailPhotoUrl: https://<my_domain>/img/userprofile/default_group_profile_45_v2.png?fromEmail=1
+        url: /services/data/v58.0/chatter/groups/0F9.../photo
+    Motif:
+      title: Motif
+      required:
+      - color
+      - largeIconUrl
+      - mediumIconUrl
+      - smallIconUrl
+      - svgIconUrl
+      type: object
+      properties:
+        color:
+          type: string
+          example: example_value
+        largeIconUrl:
+          type: string
+          example: https://www.example.com
+        mediumIconUrl:
+          type: string
+          example: https://www.example.com
+        smallIconUrl:
+          type: string
+          example: https://www.example.com
+        svgIconUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+      examples:
+      - color: '939393'
+        largeIconUrl: /img/content/content64.png
+        mediumIconUrl: /img/content/content32.png
+        smallIconUrl: /img/icon/files16.png
+        svgIconUrl: null
+    SuccessfulGroupMembersPrivate:
+      title: SuccessfulGroupMembersPrivate
+      required:
+      - requests
+      - total
+      type: object
+      properties:
+        requests:
+          type: array
+          items:
+            $ref: '#/components/schemas/Request'
+          description: ''
+          example: []
+        total:
+          type:
+          - string
+          - 'null'
+          example: 42
+      examples:
+      - requests:
+        - createdDate: '2023-11-22T11:46:32.000Z'
+          id: 0I5...
+          lastUpdateDate: '2023-11-22T11:46:32.000Z'
+          requestedGroup:
+            id: 0F9...
+            url: /services/data/v58.0/chatter/groups/0F9...
+          responseMessage: null
+          status: Pending
+          url: /services/data/v58.0/chatter/group-membership-requests/0I5...
+          user:
+            additionalLabel: null
+            communityNickname: User1700653511864742682
+            companyName: null
+            displayName: User Sample
+            firstName: User
+            id: 005...
+            isActive: true
+            isInThisCommunity: true
+            lastName: Sample
+            motif:
+              color: 1B96FF
+              largeIconUrl: /img/icon/profile64.png
+              mediumIconUrl: /img/icon/profile32.png
+              smallIconUrl: /img/icon/profile16.png
+              svgIconUrl: null
+            mySubscription: null
+            name: User Sample
+            outOfOffice:
+              message: ''
+            photo:
+              fullEmailPhotoUrl: https://<my_domain>/img/userprofile/default_profile_200_v2.png?fromEmail=1
+              largePhotoUrl: https://<my_domain>/profilephoto/005/F
+              mediumPhotoUrl: https://<my_domain>/profilephoto/005/M
+              photoVersionId: null
+              smallPhotoUrl: https://<my_domain>/profilephoto/005/T
+              standardEmailPhotoUrl: https://<my_domain>/img/userprofile/default_profile_45_v2.png?fromEmail=1
+              url: /services/data/v58.0/connect/user-profiles/005.../photo
+            reputation: null
+            title: null
+            type: User
+            url: /services/data/v58.0/chatter/users/005...
+            userType: Internal
+        total: null
+    SuccessfulListofGroups:
+      title: SuccessfulListofGroups
+      required:
+      - currentPageUrl
+      - groups
+      - nextPageUrl
+      - previousPageUrl
+      type: object
+      properties:
+        currentPageUrl:
+          type: string
+          example: https://www.example.com
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/Group'
+          description: ''
+          example: []
+        nextPageUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        previousPageUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+      examples:
+      - currentPageUrl: /services/data/v58.0/chatter/groups
+        groups:
+        - additionalLabel: null
+          announcement: null
+          bannerPhoto:
+            bannerPhotoUrl: https://<my_domain>/profilephoto/0F9/B
+            bannerPhotoVersionId: null
+            url: /services/data/v58.0/chatter/groups/0F9.../banner-photo
+          canHaveChatterGuests: false
+          community: null
+          description: Test group
+          emailToChatterAddress: 0F9...@post.2o-i6mbeaq.eu25.chatter.salesforce.com
+          fileCount: 0
+          id: 0F9...
+          information:
+            text: null
+            title: null
+          isArchived: false
+          isAutoArchiveDisabled: false
+          isBroadcast: false
+          lastFeedElementPostDate: '2023-11-22T11:25:37.000Z'
+          memberCount: 1
+          motif:
+            color: 1B96FF
+            largeIconUrl: /img/icon/groups64.png
+            mediumIconUrl: /img/icon/groups32.png
+            smallIconUrl: /img/icon/groups16.png
+            svgIconUrl: null
+          myRole: GroupOwner
+          mySubscription:
+            id: 0FB...
+            url: /services/data/v58.0/chatter/group-memberships/0FB...
+          name: Test
+          owner:
+            additionalLabel: null
+            communityNickname: User1696423780773910041
+            companyName: Salesforce
+            displayName: Firstname
+            firstName: Firstname
+            id: 005...
+            isActive: true
+            isInThisCommunity: true
+            lastName: Name
+            motif:
+              color: 1B96FF
+              largeIconUrl: /img/icon/profile64.png
+              mediumIconUrl: /img/icon/profile32.png
+              smallIconUrl: /img/icon/profile16.png
+              svgIconUrl: null
+            mySubscription: null
+            name: Firstname
+            outOfOffice:
+              message: ''
+            photo:
+              fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+              largePhotoUrl: https://<my_domain>/profilephoto/7292o000000oAgZ/F
+              mediumPhotoUrl: https://<my_domain>/profilephoto/7292o000000oAgZ/M
+              photoVersionId: 729...
+              smallPhotoUrl: https://<my_domain>/profilephoto/7292o000000oAgZ/T
+              standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+              url: /services/data/v58.0/connect/user-profiles/005.../photo
+            reputation: null
+            title: null
+            type: User
+            url: /services/data/v58.0/chatter/users/005...
+            userType: Internal
+          pendingRequests: null
+          photo:
+            fullEmailPhotoUrl: https://<my_domain>/img/userprofile/default_group_profile_200_v2.png?fromEmail=1
+            largePhotoUrl: https://<my_domain>/profilephoto/0F9/F
+            mediumPhotoUrl: https://<my_domain>/profilephoto/0F9/M
+            photoVersionId: null
+            smallPhotoUrl: https://<my_domain>/profilephoto/0F9/T
+            standardEmailPhotoUrl: https://<my_domain>/img/userprofile/default_group_profile_45_v2.png?fromEmail=1
+            url: /services/data/v58.0/chatter/groups/0F9.../photo
+          type: CollaborationGroup
+          url: /services/data/v58.0/chatter/groups/0F9...
+          visibility: PublicAccess
+        nextPageUrl: null
+        previousPageUrl: null
+    Invitees:
+      title: Invitees
+      required:
+      - emails
+      type: object
+      properties:
+        emails:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: user@example.com
+      examples:
+      - emails:
+        - testemail1@sfdcpostman.com
+        - testemail2@sfdcpostman.com
+    GroupMembersPrivate-POST:
+      title: GroupMembersPrivate-POST
+      required:
+      - createdDate
+      - id
+      - lastUpdateDate
+      - requestedGroup
+      - responseMessage
+      - status
+      - url
+      - user
+      type: object
+      properties:
+        createdDate:
+          type: string
+          example: example_value
+        id:
+          type: string
+          example: abc123
+        lastUpdateDate:
+          type: string
+          example: example_value
+        requestedGroup:
+          $ref: '#/components/schemas/RequestedGroup'
+        responseMessage:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        status:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+        user:
+          $ref: '#/components/schemas/User3'
+      examples:
+      - createdDate: '2023-11-22T11:52:41.000Z'
+        id: 0I5...
+        lastUpdateDate: '2023-11-22T11:52:41.000Z'
+        requestedGroup:
+          id: 0F9...
+          url: /services/data/v58.0/chatter/groups/0F9...
+        responseMessage: null
+        status: Pending
+        url: /services/data/v58.0/chatter/group-membership-requests/0I5...
+        user:
+          additionalLabel: null
+          communityNickname: User1700653511864742682
+          companyName: null
+          displayName: User Sample
+          firstName: User
+          id: 005...
+          isActive: true
+          isInThisCommunity: true
+          lastName: Sample
+          motif:
+            color: 1B96FF
+            largeIconUrl: /img/icon/profile64.png
+            mediumIconUrl: /img/icon/profile32.png
+            smallIconUrl: /img/icon/profile16.png
+            svgIconUrl: null
+          mySubscription: null
+          name: User Sample
+          outOfOffice:
+            message: ''
+          photo:
+            fullEmailPhotoUrl: https://<my_domain>/img/userprofile/default_profile_200_v2.png?fromEmail=1
+            largePhotoUrl: https://<my_domain>/profilephoto/005/F
+            mediumPhotoUrl: https://<my_domain>/profilephoto/005/M
+            photoVersionId: null
+            smallPhotoUrl: https://<my_domain>/profilephoto/005/T
+            standardEmailPhotoUrl: https://<my_domain>/img/userprofile/default_profile_45_v2.png?fromEmail=1
+            url: /services/data/v58.0/connect/user-profiles/005.../photo
+          reputation: null
+          title: null
+          type: User
+          url: /services/data/v58.0/chatter/users/005...
+          userType: Internal
     SuccessfulListofGroups-POST:
       title: SuccessfulListofGroups-POST
       required:
@@ -1695,204 +2392,6 @@ components:
         type: CollaborationGroup
         url: /services/data/v58.0/chatter/groups/0F9...
         visibility: PrivateAccess
-    Information:
-      title: Information
-      required:
-      - text
-      - title
-      type: object
-      properties:
-        text:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        title:
-          type:
-          - string
-          - 'null'
-          example: Example Title
-      examples:
-      - text: null
-        title: null
-    Photo:
-      title: Photo
-      required:
-      - fullEmailPhotoUrl
-      - largePhotoUrl
-      - mediumPhotoUrl
-      - photoVersionId
-      - smallPhotoUrl
-      - standardEmailPhotoUrl
-      - url
-      type: object
-      properties:
-        fullEmailPhotoUrl:
-          type: string
-          example: user@example.com
-        largePhotoUrl:
-          type: string
-          example: https://www.example.com
-        mediumPhotoUrl:
-          type: string
-          example: https://www.example.com
-        photoVersionId:
-          type: string
-          example: '500123'
-        smallPhotoUrl:
-          type: string
-          example: https://www.example.com
-        standardEmailPhotoUrl:
-          type: string
-          example: user@example.com
-        url:
-          type: string
-          example: https://www.example.com
-      examples:
-      - fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
-        largePhotoUrl: https://<my_domain>/profilephoto/729.../F
-        mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
-        photoVersionId: 729...
-        smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
-        standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
-        url: /services/data/v58.0/connect/user-profiles/005.../photo
-    User4:
-      title: User4
-      required:
-      - additionalLabel
-      - communityNickname
-      - companyName
-      - displayName
-      - firstName
-      - id
-      - isActive
-      - isInThisCommunity
-      - lastName
-      - motif
-      - mySubscription
-      - name
-      - outOfOffice
-      - photo
-      - reputation
-      - title
-      - type
-      - url
-      - userType
-      type: object
-      properties:
-        additionalLabel:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        communityNickname:
-          type: string
-          example: example_value
-        companyName:
-          type: string
-          example: example_value
-        displayName:
-          type: string
-          example: example_value
-        firstName:
-          type: string
-          example: example_value
-        id:
-          type: string
-          example: abc123
-        isActive:
-          type: boolean
-          example: true
-        isInThisCommunity:
-          type: boolean
-          example: true
-        lastName:
-          type: string
-          example: example_value
-        motif:
-          $ref: '#/components/schemas/Motif'
-        mySubscription:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        name:
-          type: string
-          example: Example Title
-        outOfOffice:
-          $ref: '#/components/schemas/OutOfOffice'
-        photo:
-          $ref: '#/components/schemas/Photo15'
-        reputation:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        title:
-          type:
-          - string
-          - 'null'
-          example: Example Title
-        type:
-          type: string
-          example: example_value
-        url:
-          type: string
-          example: https://www.example.com
-        userType:
-          type: string
-          example: example_value
-      examples:
-      - additionalLabel: null
-        communityNickname: integration1.4407085834085586E12
-        companyName: Salesforce
-        displayName: Integration User
-        firstName: Integration
-        id: 005...
-        isActive: true
-        isInThisCommunity: true
-        lastName: User
-        motif:
-          color: 1B96FF
-          largeIconUrl: /img/icon/profile64.png
-          mediumIconUrl: /img/icon/profile32.png
-          smallIconUrl: /img/icon/profile16.png
-          svgIconUrl: null
-        mySubscription: null
-        name: Integration User
-        outOfOffice:
-          message: ''
-        photo:
-          fullEmailPhotoUrl: https://<my_domain>/img/userprofile/default_profile_200_v2.png?fromEmail=1
-          largePhotoUrl: https://<my_domain>/profilephoto/005/F
-          mediumPhotoUrl: https://<my_domain>/profilephoto/005/M
-          photoVersionId: null
-          smallPhotoUrl: https://<my_domain>/profilephoto/005/T
-          standardEmailPhotoUrl: https://<my_domain>/img/userprofile/default_profile_45_v2.png?fromEmail=1
-          url: /services/data/v58.0/connect/user-profiles/005.../photo
-        reputation: null
-        title: null
-        type: User
-        url: /services/data/v58.0/chatter/users/005...
-        userType: Internal
-    GroupInvitesRequest:
-      title: GroupInvitesRequest
-      required:
-      - invitees
-      - message
-      type: object
-      properties:
-        invitees:
-          $ref: '#/components/schemas/Invitees'
-        message:
-          type: string
-          example: example_value
-      examples:
-      - invitees:
-          emails:
-          - testemail1@sfdcpostman.com
-          - testemail2@sfdcpostman.com
-        message: Join this group to participate in the discussion about your favorite feature.
     User3:
       title: User3
       required:
@@ -2014,6 +2513,125 @@ components:
         type: User
         url: /services/data/v58.0/chatter/users/005...
         userType: Internal
+    User4:
+      title: User4
+      required:
+      - additionalLabel
+      - communityNickname
+      - companyName
+      - displayName
+      - firstName
+      - id
+      - isActive
+      - isInThisCommunity
+      - lastName
+      - motif
+      - mySubscription
+      - name
+      - outOfOffice
+      - photo
+      - reputation
+      - title
+      - type
+      - url
+      - userType
+      type: object
+      properties:
+        additionalLabel:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        communityNickname:
+          type: string
+          example: example_value
+        companyName:
+          type: string
+          example: example_value
+        displayName:
+          type: string
+          example: example_value
+        firstName:
+          type: string
+          example: example_value
+        id:
+          type: string
+          example: abc123
+        isActive:
+          type: boolean
+          example: true
+        isInThisCommunity:
+          type: boolean
+          example: true
+        lastName:
+          type: string
+          example: example_value
+        motif:
+          $ref: '#/components/schemas/Motif'
+        mySubscription:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        name:
+          type: string
+          example: Example Title
+        outOfOffice:
+          $ref: '#/components/schemas/OutOfOffice'
+        photo:
+          $ref: '#/components/schemas/Photo15'
+        reputation:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        title:
+          type:
+          - string
+          - 'null'
+          example: Example Title
+        type:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+        userType:
+          type: string
+          example: example_value
+      examples:
+      - additionalLabel: null
+        communityNickname: integration1.4407085834085586E12
+        companyName: Salesforce
+        displayName: Integration User
+        firstName: Integration
+        id: 005...
+        isActive: true
+        isInThisCommunity: true
+        lastName: User
+        motif:
+          color: 1B96FF
+          largeIconUrl: /img/icon/profile64.png
+          mediumIconUrl: /img/icon/profile32.png
+          smallIconUrl: /img/icon/profile16.png
+          svgIconUrl: null
+        mySubscription: null
+        name: Integration User
+        outOfOffice:
+          message: ''
+        photo:
+          fullEmailPhotoUrl: https://<my_domain>/img/userprofile/default_profile_200_v2.png?fromEmail=1
+          largePhotoUrl: https://<my_domain>/profilephoto/005/F
+          mediumPhotoUrl: https://<my_domain>/profilephoto/005/M
+          photoVersionId: null
+          smallPhotoUrl: https://<my_domain>/profilephoto/005/T
+          standardEmailPhotoUrl: https://<my_domain>/img/userprofile/default_profile_45_v2.png?fromEmail=1
+          url: /services/data/v58.0/connect/user-profiles/005.../photo
+        reputation: null
+        title: null
+        type: User
+        url: /services/data/v58.0/chatter/users/005...
+        userType: Internal
     MySubscription:
       title: MySubscription
       required:
@@ -2030,97 +2648,6 @@ components:
       examples:
       - id: 0FB...
         url: /services/data/v58.0/chatter/group-memberships/0FB...
-    SuccessfulGroupMembershipRequestsPrivate:
-      title: SuccessfulGroupMembershipRequestsPrivate
-      required:
-      - createdDate
-      - id
-      - lastUpdateDate
-      - requestedGroup
-      - responseMessage
-      - status
-      - url
-      - user
-      type: object
-      properties:
-        createdDate:
-          type: string
-          example: example_value
-        id:
-          type: string
-          example: abc123
-        lastUpdateDate:
-          type: string
-          example: example_value
-        requestedGroup:
-          $ref: '#/components/schemas/RequestedGroup'
-        responseMessage:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        status:
-          type: string
-          example: example_value
-        url:
-          type: string
-          example: https://www.example.com
-        user:
-          $ref: '#/components/schemas/User3'
-      examples:
-      - createdDate: '2023-11-22T11:46:32.000Z'
-        id: 0I5...
-        lastUpdateDate: '2023-11-22T11:50:19.000Z'
-        requestedGroup:
-          id: 0F9...
-          url: /services/data/v58.0/chatter/groups/0F9...
-        responseMessage: null
-        status: Accepted
-        url: /services/data/v58.0/chatter/group-membership-requests/0I5...
-        user:
-          additionalLabel: null
-          communityNickname: User1700653511864742682
-          companyName: null
-          displayName: User Sample
-          firstName: User
-          id: 005...
-          isActive: true
-          isInThisCommunity: true
-          lastName: Sample
-          motif:
-            color: 1B96FF
-            largeIconUrl: /img/icon/profile64.png
-            mediumIconUrl: /img/icon/profile32.png
-            smallIconUrl: /img/icon/profile16.png
-            svgIconUrl: null
-          mySubscription: null
-          name: User Sample
-          outOfOffice:
-            message: ''
-          photo:
-            fullEmailPhotoUrl: https://<my_domain>/img/userprofile/default_profile_200_v2.png?fromEmail=1
-            largePhotoUrl: https://<my_domain>/profilephoto/005/F
-            mediumPhotoUrl: https://<my_domain>/profilephoto/005/M
-            photoVersionId: null
-            smallPhotoUrl: https://<my_domain>/profilephoto/005/T
-            standardEmailPhotoUrl: https://<my_domain>/img/userprofile/default_profile_45_v2.png?fromEmail=1
-            url: /services/data/v58.0/connect/user-profiles/005.../photo
-          reputation: null
-          title: null
-          type: User
-          url: /services/data/v58.0/chatter/users/005...
-          userType: Internal
-    OutOfOffice:
-      title: OutOfOffice
-      required:
-      - message
-      type: object
-      properties:
-        message:
-          type: string
-          example: example_value
-      examples:
-      - message: ''
     Owner:
       title: Owner
       required:
@@ -2240,69 +2767,6 @@ components:
         type: User
         url: /services/data/v58.0/chatter/users/005...
         userType: Internal
-    SuccessfulGroupMembersPrivate:
-      title: SuccessfulGroupMembersPrivate
-      required:
-      - requests
-      - total
-      type: object
-      properties:
-        requests:
-          type: array
-          items:
-            $ref: '#/components/schemas/Request'
-          description: ''
-          example: []
-        total:
-          type:
-          - string
-          - 'null'
-          example: 42
-      examples:
-      - requests:
-        - createdDate: '2023-11-22T11:46:32.000Z'
-          id: 0I5...
-          lastUpdateDate: '2023-11-22T11:46:32.000Z'
-          requestedGroup:
-            id: 0F9...
-            url: /services/data/v58.0/chatter/groups/0F9...
-          responseMessage: null
-          status: Pending
-          url: /services/data/v58.0/chatter/group-membership-requests/0I5...
-          user:
-            additionalLabel: null
-            communityNickname: User1700653511864742682
-            companyName: null
-            displayName: User Sample
-            firstName: User
-            id: 005...
-            isActive: true
-            isInThisCommunity: true
-            lastName: Sample
-            motif:
-              color: 1B96FF
-              largeIconUrl: /img/icon/profile64.png
-              mediumIconUrl: /img/icon/profile32.png
-              smallIconUrl: /img/icon/profile16.png
-              svgIconUrl: null
-            mySubscription: null
-            name: User Sample
-            outOfOffice:
-              message: ''
-            photo:
-              fullEmailPhotoUrl: https://<my_domain>/img/userprofile/default_profile_200_v2.png?fromEmail=1
-              largePhotoUrl: https://<my_domain>/profilephoto/005/F
-              mediumPhotoUrl: https://<my_domain>/profilephoto/005/M
-              photoVersionId: null
-              smallPhotoUrl: https://<my_domain>/profilephoto/005/T
-              standardEmailPhotoUrl: https://<my_domain>/img/userprofile/default_profile_45_v2.png?fromEmail=1
-              url: /services/data/v58.0/connect/user-profiles/005.../photo
-            reputation: null
-            title: null
-            type: User
-            url: /services/data/v58.0/chatter/users/005...
-            userType: Internal
-        total: null
     Group:
       title: Group
       required:
@@ -2489,470 +2953,6 @@ components:
         type: CollaborationGroup
         url: /services/data/v58.0/chatter/groups/0F9...
         visibility: PublicAccess
-    BannerPhoto:
-      title: BannerPhoto
-      required:
-      - bannerPhotoUrl
-      - bannerPhotoVersionId
-      - url
-      type: object
-      properties:
-        bannerPhotoUrl:
-          type: string
-          example: https://www.example.com
-        bannerPhotoVersionId:
-          type:
-          - string
-          - 'null'
-          example: '500123'
-        url:
-          type: string
-          example: https://www.example.com
-      examples:
-      - bannerPhotoUrl: https://<my_domain>/profilephoto/0F9/B
-        bannerPhotoVersionId: null
-        url: /services/data/v58.0/chatter/groups/0F9.../banner-photo
-    SuccessfulGroupMembers:
-      title: SuccessfulGroupMembers
-      required:
-      - id
-      - lastFeedAccessDate
-      - role
-      - url
-      - user
-      type: object
-      properties:
-        id:
-          type: string
-          example: abc123
-        lastFeedAccessDate:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        role:
-          type: string
-          example: example_value
-        url:
-          type: string
-          example: https://www.example.com
-        user:
-          $ref: '#/components/schemas/User4'
-      examples:
-      - id: 0FB...
-        lastFeedAccessDate: null
-        role: StandardMember
-        url: /services/data/v58.0/chatter/group-memberships/0FB...
-        user:
-          additionalLabel: null
-          communityNickname: integration1.4407085834085586E12
-          companyName: Salesforce
-          displayName: Integration User
-          firstName: Integration
-          id: 005...
-          isActive: true
-          isInThisCommunity: true
-          lastName: User
-          motif:
-            color: 1B96FF
-            largeIconUrl: /img/icon/profile64.png
-            mediumIconUrl: /img/icon/profile32.png
-            smallIconUrl: /img/icon/profile16.png
-            svgIconUrl: null
-          mySubscription: null
-          name: Integration User
-          outOfOffice:
-            message: ''
-          photo:
-            fullEmailPhotoUrl: https://<my_domain>/img/userprofile/default_profile_200_v2.png?fromEmail=1
-            largePhotoUrl: https://<my_domain>/profilephoto/005/F
-            mediumPhotoUrl: https://<my_domain>/profilephoto/005/M
-            photoVersionId: null
-            smallPhotoUrl: https://<my_domain>/profilephoto/005/T
-            standardEmailPhotoUrl: https://<my_domain>/img/userprofile/default_profile_45_v2.png?fromEmail=1
-            url: /services/data/v58.0/connect/user-profiles/005.../photo
-          reputation: null
-          title: null
-          type: User
-          url: /services/data/v58.0/chatter/users/005...
-          userType: Internal
-    RequestedGroup:
-      title: RequestedGroup
-      required:
-      - id
-      - url
-      type: object
-      properties:
-        id:
-          type: string
-          example: abc123
-        url:
-          type: string
-          example: https://www.example.com
-      examples:
-      - id: 0F9...
-        url: /services/data/v58.0/chatter/groups/0F9...
-    Motif:
-      title: Motif
-      required:
-      - color
-      - largeIconUrl
-      - mediumIconUrl
-      - smallIconUrl
-      - svgIconUrl
-      type: object
-      properties:
-        color:
-          type: string
-          example: example_value
-        largeIconUrl:
-          type: string
-          example: https://www.example.com
-        mediumIconUrl:
-          type: string
-          example: https://www.example.com
-        smallIconUrl:
-          type: string
-          example: https://www.example.com
-        svgIconUrl:
-          type:
-          - string
-          - 'null'
-          example: https://www.example.com
-      examples:
-      - color: '939393'
-        largeIconUrl: /img/content/content64.png
-        mediumIconUrl: /img/content/content32.png
-        smallIconUrl: /img/icon/files16.png
-        svgIconUrl: null
-    GroupMembersPrivate-POST:
-      title: GroupMembersPrivate-POST
-      required:
-      - createdDate
-      - id
-      - lastUpdateDate
-      - requestedGroup
-      - responseMessage
-      - status
-      - url
-      - user
-      type: object
-      properties:
-        createdDate:
-          type: string
-          example: example_value
-        id:
-          type: string
-          example: abc123
-        lastUpdateDate:
-          type: string
-          example: example_value
-        requestedGroup:
-          $ref: '#/components/schemas/RequestedGroup'
-        responseMessage:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        status:
-          type: string
-          example: example_value
-        url:
-          type: string
-          example: https://www.example.com
-        user:
-          $ref: '#/components/schemas/User3'
-      examples:
-      - createdDate: '2023-11-22T11:52:41.000Z'
-        id: 0I5...
-        lastUpdateDate: '2023-11-22T11:52:41.000Z'
-        requestedGroup:
-          id: 0F9...
-          url: /services/data/v58.0/chatter/groups/0F9...
-        responseMessage: null
-        status: Pending
-        url: /services/data/v58.0/chatter/group-membership-requests/0I5...
-        user:
-          additionalLabel: null
-          communityNickname: User1700653511864742682
-          companyName: null
-          displayName: User Sample
-          firstName: User
-          id: 005...
-          isActive: true
-          isInThisCommunity: true
-          lastName: Sample
-          motif:
-            color: 1B96FF
-            largeIconUrl: /img/icon/profile64.png
-            mediumIconUrl: /img/icon/profile32.png
-            smallIconUrl: /img/icon/profile16.png
-            svgIconUrl: null
-          mySubscription: null
-          name: User Sample
-          outOfOffice:
-            message: ''
-          photo:
-            fullEmailPhotoUrl: https://<my_domain>/img/userprofile/default_profile_200_v2.png?fromEmail=1
-            largePhotoUrl: https://<my_domain>/profilephoto/005/F
-            mediumPhotoUrl: https://<my_domain>/profilephoto/005/M
-            photoVersionId: null
-            smallPhotoUrl: https://<my_domain>/profilephoto/005/T
-            standardEmailPhotoUrl: https://<my_domain>/img/userprofile/default_profile_45_v2.png?fromEmail=1
-            url: /services/data/v58.0/connect/user-profiles/005.../photo
-          reputation: null
-          title: null
-          type: User
-          url: /services/data/v58.0/chatter/users/005...
-          userType: Internal
-    Photo15:
-      title: Photo15
-      required:
-      - fullEmailPhotoUrl
-      - largePhotoUrl
-      - mediumPhotoUrl
-      - photoVersionId
-      - smallPhotoUrl
-      - standardEmailPhotoUrl
-      - url
-      type: object
-      properties:
-        fullEmailPhotoUrl:
-          type: string
-          example: user@example.com
-        largePhotoUrl:
-          type: string
-          example: https://www.example.com
-        mediumPhotoUrl:
-          type: string
-          example: https://www.example.com
-        photoVersionId:
-          type:
-          - string
-          - 'null'
-          example: '500123'
-        smallPhotoUrl:
-          type: string
-          example: https://www.example.com
-        standardEmailPhotoUrl:
-          type: string
-          example: user@example.com
-        url:
-          type: string
-          example: https://www.example.com
-      examples:
-      - fullEmailPhotoUrl: https://<my_domain>/img/userprofile/default_group_profile_200_v2.png?fromEmail=1
-        largePhotoUrl: https://<my_domain>/profilephoto/0F9/F
-        mediumPhotoUrl: https://<my_domain>/profilephoto/0F9/M
-        photoVersionId: null
-        smallPhotoUrl: https://<my_domain>/profilephoto/0F9/T
-        standardEmailPhotoUrl: https://<my_domain>/img/userprofile/default_group_profile_45_v2.png?fromEmail=1
-        url: /services/data/v58.0/chatter/groups/0F9.../photo
-    Invitees:
-      title: Invitees
-      required:
-      - emails
-      type: object
-      properties:
-        emails:
-          type: array
-          items:
-            type: string
-          description: ''
-          example: user@example.com
-      examples:
-      - emails:
-        - testemail1@sfdcpostman.com
-        - testemail2@sfdcpostman.com
-    SuccessfulListofGroups:
-      title: SuccessfulListofGroups
-      required:
-      - currentPageUrl
-      - groups
-      - nextPageUrl
-      - previousPageUrl
-      type: object
-      properties:
-        currentPageUrl:
-          type: string
-          example: https://www.example.com
-        groups:
-          type: array
-          items:
-            $ref: '#/components/schemas/Group'
-          description: ''
-          example: []
-        nextPageUrl:
-          type:
-          - string
-          - 'null'
-          example: https://www.example.com
-        previousPageUrl:
-          type:
-          - string
-          - 'null'
-          example: https://www.example.com
-      examples:
-      - currentPageUrl: /services/data/v58.0/chatter/groups
-        groups:
-        - additionalLabel: null
-          announcement: null
-          bannerPhoto:
-            bannerPhotoUrl: https://<my_domain>/profilephoto/0F9/B
-            bannerPhotoVersionId: null
-            url: /services/data/v58.0/chatter/groups/0F9.../banner-photo
-          canHaveChatterGuests: false
-          community: null
-          description: Test group
-          emailToChatterAddress: 0F9...@post.2o-i6mbeaq.eu25.chatter.salesforce.com
-          fileCount: 0
-          id: 0F9...
-          information:
-            text: null
-            title: null
-          isArchived: false
-          isAutoArchiveDisabled: false
-          isBroadcast: false
-          lastFeedElementPostDate: '2023-11-22T11:25:37.000Z'
-          memberCount: 1
-          motif:
-            color: 1B96FF
-            largeIconUrl: /img/icon/groups64.png
-            mediumIconUrl: /img/icon/groups32.png
-            smallIconUrl: /img/icon/groups16.png
-            svgIconUrl: null
-          myRole: GroupOwner
-          mySubscription:
-            id: 0FB...
-            url: /services/data/v58.0/chatter/group-memberships/0FB...
-          name: Test
-          owner:
-            additionalLabel: null
-            communityNickname: User1696423780773910041
-            companyName: Salesforce
-            displayName: Firstname
-            firstName: Firstname
-            id: 005...
-            isActive: true
-            isInThisCommunity: true
-            lastName: Name
-            motif:
-              color: 1B96FF
-              largeIconUrl: /img/icon/profile64.png
-              mediumIconUrl: /img/icon/profile32.png
-              smallIconUrl: /img/icon/profile16.png
-              svgIconUrl: null
-            mySubscription: null
-            name: Firstname
-            outOfOffice:
-              message: ''
-            photo:
-              fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
-              largePhotoUrl: https://<my_domain>/profilephoto/7292o000000oAgZ/F
-              mediumPhotoUrl: https://<my_domain>/profilephoto/7292o000000oAgZ/M
-              photoVersionId: 729...
-              smallPhotoUrl: https://<my_domain>/profilephoto/7292o000000oAgZ/T
-              standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
-              url: /services/data/v58.0/connect/user-profiles/005.../photo
-            reputation: null
-            title: null
-            type: User
-            url: /services/data/v58.0/chatter/users/005...
-            userType: Internal
-          pendingRequests: null
-          photo:
-            fullEmailPhotoUrl: https://<my_domain>/img/userprofile/default_group_profile_200_v2.png?fromEmail=1
-            largePhotoUrl: https://<my_domain>/profilephoto/0F9/F
-            mediumPhotoUrl: https://<my_domain>/profilephoto/0F9/M
-            photoVersionId: null
-            smallPhotoUrl: https://<my_domain>/profilephoto/0F9/T
-            standardEmailPhotoUrl: https://<my_domain>/img/userprofile/default_group_profile_45_v2.png?fromEmail=1
-            url: /services/data/v58.0/chatter/groups/0F9.../photo
-          type: CollaborationGroup
-          url: /services/data/v58.0/chatter/groups/0F9...
-          visibility: PublicAccess
-        nextPageUrl: null
-        previousPageUrl: null
-    Request:
-      title: Request
-      required:
-      - createdDate
-      - id
-      - lastUpdateDate
-      - requestedGroup
-      - responseMessage
-      - status
-      - url
-      - user
-      type: object
-      properties:
-        createdDate:
-          type: string
-          example: example_value
-        id:
-          type: string
-          example: abc123
-        lastUpdateDate:
-          type: string
-          example: example_value
-        requestedGroup:
-          $ref: '#/components/schemas/RequestedGroup'
-        responseMessage:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        status:
-          type: string
-          example: example_value
-        url:
-          type: string
-          example: https://www.example.com
-        user:
-          $ref: '#/components/schemas/User3'
-      examples:
-      - createdDate: '2023-11-22T11:46:32.000Z'
-        id: 0I5...
-        lastUpdateDate: '2023-11-22T11:46:32.000Z'
-        requestedGroup:
-          id: 0F9...
-          url: /services/data/v58.0/chatter/groups/0F9...
-        responseMessage: null
-        status: Pending
-        url: /services/data/v58.0/chatter/group-membership-requests/0I5...
-        user:
-          additionalLabel: null
-          communityNickname: User1700653511864742682
-          companyName: null
-          displayName: User Sample
-          firstName: User
-          id: 005...
-          isActive: true
-          isInThisCommunity: true
-          lastName: Sample
-          motif:
-            color: 1B96FF
-            largeIconUrl: /img/icon/profile64.png
-            mediumIconUrl: /img/icon/profile32.png
-            smallIconUrl: /img/icon/profile16.png
-            svgIconUrl: null
-          mySubscription: null
-          name: User Sample
-          outOfOffice:
-            message: ''
-          photo:
-            fullEmailPhotoUrl: https://<my_domain>/img/userprofile/default_profile_200_v2.png?fromEmail=1
-            largePhotoUrl: https://<my_domain>/profilephoto/005/F
-            mediumPhotoUrl: https://<my_domain>/profilephoto/005/M
-            photoVersionId: null
-            smallPhotoUrl: https://<my_domain>/profilephoto/005/T
-            standardEmailPhotoUrl: https://<my_domain>/img/userprofile/default_profile_45_v2.png?fromEmail=1
-            url: /services/data/v58.0/connect/user-profiles/005.../photo
-          reputation: null
-          title: null
-          type: User
-          url: /services/data/v58.0/chatter/users/005...
-          userType: Internal
   securitySchemes:
     oauth2:
       type: oauth2

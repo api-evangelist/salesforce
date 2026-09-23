@@ -1,9 +1,7 @@
 openapi: 3.2.0
 info:
   title: Salesforce Bulk API 2.0 Ingest Jobs API
-  description: 'Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
-
-    '
+  description: Salesforce Bulk API 2.0 is a simplified, REST-based interface for bulk data operations that improves on the original Bulk API. It uses a straightforward job model and supports CSV format for ingest and query jobs, enabling processing of millions of records asynchronously.
   version: v63.0
   contact:
     name: Salesforce Developers
@@ -29,17 +27,13 @@ security:
 - BearerAuth: []
 tags:
 - name: Ingest Jobs
-  description: 'Operations for creating and managing ingest jobs that insert, update, upsert, delete, or hard delete records in bulk using CSV data.
-
-    '
+  description: Operations for creating and managing ingest jobs that insert, update, upsert, delete, or hard delete records in bulk using CSV data.
 paths:
   /ingest:
     post:
       operationId: createIngestJob
       summary: Salesforce Create an Ingest Job
-      description: 'Creates a new ingest job for bulk data operations (insert, update, upsert, delete, or hardDelete). After creating the job, upload data using the PUT /ingest/{jobId}/batches endpoint, then close the job to begin processing. Monitor the job state until it reaches JobComplete or Failed.
-
-        '
+      description: Creates a new ingest job for bulk data operations (insert, update, upsert, delete, or hardDelete). After creating the job, upload data using the PUT /ingest/{jobId}/batches endpoint, then close the job to begin processing. Monitor the job state until it reaches JobComplete or Failed.
       tags:
       - Ingest Jobs
       requestBody:
@@ -128,9 +122,7 @@ paths:
     get:
       operationId: listIngestJobs
       summary: Salesforce List Ingest Jobs
-      description: 'Returns a list of ingest jobs in the org. By default returns all jobs created by all users. Use query parameters to filter by state or other criteria. Results are ordered by creation date descending.
-
-        '
+      description: Returns a list of ingest jobs in the org. By default returns all jobs created by all users. Use query parameters to filter by state or other criteria. Results are ordered by creation date descending.
       tags:
       - Ingest Jobs
       parameters:
@@ -223,9 +215,7 @@ paths:
     get:
       operationId: getIngestJobInfo
       summary: Salesforce Get Ingest Job Info
-      description: 'Returns detailed information about a specific ingest job, including its current state, number of records processed, number of failures, and any error messages. Use this to monitor job progress and determine when processing is complete.
-
-        '
+      description: Returns detailed information about a specific ingest job, including its current state, number of records processed, number of failures, and any error messages. Use this to monitor job progress and determine when processing is complete.
       tags:
       - Ingest Jobs
       parameters:
@@ -295,9 +285,7 @@ paths:
     patch:
       operationId: updateIngestJob
       summary: Salesforce Update or Close an Ingest Job
-      description: 'Updates the state of an ingest job. Use this to close the job after uploading all data (set state to UploadComplete), which triggers processing. Can also abort a job that is Open or UploadComplete by setting state to Aborted.
-
-        '
+      description: Updates the state of an ingest job. Use this to close the job after uploading all data (set state to UploadComplete), which triggers processing. Can also abort a job that is Open or UploadComplete by setting state to Aborted.
       tags:
       - Ingest Jobs
       parameters:
@@ -406,9 +394,7 @@ paths:
     delete:
       operationId: deleteIngestJob
       summary: Salesforce Delete an Ingest Job
-      description: 'Deletes an ingest job and all associated data. Only jobs in the Aborted state can be deleted. First abort the job if it is in a different state, then delete it.
-
-        '
+      description: Deletes an ingest job and all associated data. Only jobs in the Aborted state can be deleted. First abort the job if it is in a different state, then delete it.
       tags:
       - Ingest Jobs
       parameters:
@@ -467,97 +453,15 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  parameters:
+    jobId:
+      name: jobId
+      in: path
+      required: true
+      description: The unique identifier of the Bulk API 2.0 job.
+      schema:
+        type: string
   schemas:
-    Error:
-      type: object
-      description: An error response from the Salesforce Bulk API 2.0.
-      properties:
-        message:
-          type: string
-          description: Human-readable description of the error.
-          example: example_value
-        errorCode:
-          type: string
-          description: Salesforce error code identifying the type of error.
-          example: example_value
-        fields:
-          type: array
-          description: List of field names related to the error, if applicable.
-          items:
-            type: string
-          example: []
-    IngestJobRequest:
-      type: object
-      description: 'Configuration parameters for creating a new Bulk API 2.0 ingest job.
-
-        '
-      required:
-      - operation
-      - object
-      properties:
-        operation:
-          type: string
-          enum:
-          - insert
-          - update
-          - upsert
-          - delete
-          - hardDelete
-          description: 'The DML operation to perform on the records. Use insert to create new records, update to modify existing records, upsert to create or update based on an external ID, delete to soft-delete records, or hardDelete to permanently delete records.
-
-            '
-          example: insert
-        object:
-          type: string
-          description: 'The API name of the Salesforce SObject type for this job (e.g., Account, Contact, MyCustomObject__c).
-
-            '
-          example: example_value
-        externalIdFieldName:
-          type: string
-          description: 'Required for upsert operations. The API name of the external ID field used to match records for upsert.
-
-            '
-          example: example_value
-        contentType:
-          type: string
-          enum:
-          - CSV
-          default: CSV
-          description: 'The format of the data to be uploaded. Currently only CSV is supported.
-
-            '
-          example: CSV
-        lineEnding:
-          type: string
-          enum:
-          - LF
-          - CRLF
-          default: LF
-          description: 'The line ending character used in the uploaded CSV data. Use LF for Unix-style line endings or CRLF for Windows-style.
-
-            '
-          example: LF
-        columnDelimiter:
-          type: string
-          enum:
-          - COMMA
-          - TAB
-          - PIPE
-          - SEMICOLON
-          - CARET
-          - BACKQUOTE
-          default: COMMA
-          description: 'The delimiter character used between fields in the CSV data. Defaults to COMMA.
-
-            '
-          example: COMMA
-        assignmentRuleId:
-          type: string
-          description: 'The ID of an assignment rule to apply when inserting or updating Case or Lead records.
-
-            '
-          example: '500123'
     IngestJobInfo:
       type: object
       description: 'Detailed information about a Bulk API 2.0 ingest job, including its current state and processing statistics.
@@ -658,6 +562,78 @@ components:
           type: number
           description: The API version used to create the job.
           example: 42.5
+    IngestJobRequest:
+      type: object
+      description: 'Configuration parameters for creating a new Bulk API 2.0 ingest job.
+
+        '
+      required:
+      - operation
+      - object
+      properties:
+        operation:
+          type: string
+          enum:
+          - insert
+          - update
+          - upsert
+          - delete
+          - hardDelete
+          description: 'The DML operation to perform on the records. Use insert to create new records, update to modify existing records, upsert to create or update based on an external ID, delete to soft-delete records, or hardDelete to permanently delete records.
+
+            '
+          example: insert
+        object:
+          type: string
+          description: 'The API name of the Salesforce SObject type for this job (e.g., Account, Contact, MyCustomObject__c).
+
+            '
+          example: example_value
+        externalIdFieldName:
+          type: string
+          description: 'Required for upsert operations. The API name of the external ID field used to match records for upsert.
+
+            '
+          example: example_value
+        contentType:
+          type: string
+          enum:
+          - CSV
+          default: CSV
+          description: 'The format of the data to be uploaded. Currently only CSV is supported.
+
+            '
+          example: CSV
+        lineEnding:
+          type: string
+          enum:
+          - LF
+          - CRLF
+          default: LF
+          description: 'The line ending character used in the uploaded CSV data. Use LF for Unix-style line endings or CRLF for Windows-style.
+
+            '
+          example: LF
+        columnDelimiter:
+          type: string
+          enum:
+          - COMMA
+          - TAB
+          - PIPE
+          - SEMICOLON
+          - CARET
+          - BACKQUOTE
+          default: COMMA
+          description: 'The delimiter character used between fields in the CSV data. Defaults to COMMA.
+
+            '
+          example: COMMA
+        assignmentRuleId:
+          type: string
+          description: 'The ID of an assignment rule to apply when inserting or updating Case or Lead records.
+
+            '
+          example: '500123'
     JobState:
       type: string
       description: 'The current state of a Bulk API 2.0 job, indicating where it is in its lifecycle.
@@ -670,14 +646,24 @@ components:
       - JobComplete
       - Failed
       - Aborted
-  parameters:
-    jobId:
-      name: jobId
-      in: path
-      required: true
-      description: The unique identifier of the Bulk API 2.0 job.
-      schema:
-        type: string
+    Error:
+      type: object
+      description: An error response from the Salesforce Bulk API 2.0.
+      properties:
+        message:
+          type: string
+          description: Human-readable description of the error.
+          example: example_value
+        errorCode:
+          type: string
+          description: Salesforce error code identifying the type of error.
+          example: example_value
+        fields:
+          type: array
+          description: List of field names related to the error, if applicable.
+          items:
+            type: string
+          example: []
   securitySchemes:
     BearerAuth:
       type: http

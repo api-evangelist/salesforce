@@ -28,17 +28,13 @@ servers:
       default: DefaultParameterValue
 tags:
 - name: Authentication
-  description: 'OAuth 2.0 token operations for obtaining access tokens using client credentials or authorization code flows.
-
-    '
+  description: OAuth 2.0 token operations for obtaining access tokens using client credentials or authorization code flows.
 paths:
   /v2/token:
     post:
       operationId: getAccessToken
       summary: Get an access token
-      description: 'Obtains an OAuth 2.0 access token for authenticating subsequent API requests. Supports both client credentials (server-to-server) and authorization code grant types. The access token should be included in the Authorization header as "Bearer {access_token}" for all API calls. Tokens expire after a defined period; request a new token when needed.
-
-        '
+      description: Obtains an OAuth 2.0 access token for authenticating subsequent API requests. Supports both client credentials (server-to-server) and authorization code grant types. The access token should be included in the Authorization header as "Bearer {access_token}" for all API calls. Tokens expire after a defined period; request a new token when needed.
       tags:
       - Authentication
       security: []
@@ -237,19 +233,39 @@ paths:
           default: DefaultParameterValue
 components:
   schemas:
-    Error:
+    TokenResponse:
       type: object
-      description: An error response from the Marketing Cloud REST API.
+      description: OAuth 2.0 access token response from the Marketing Cloud token endpoint.
       properties:
-        message:
+        access_token:
           type: string
-          description: Human-readable description of the error.
-        errorcode:
+          description: 'The OAuth 2.0 access token for authenticating API requests. Include in the Authorization header as "Bearer {access_token}".
+
+            '
+        token_type:
+          type: string
+          description: The token type. Always "Bearer" for Marketing Cloud.
+        expires_in:
           type: integer
-          description: Marketing Cloud numeric error code.
-        documentation:
+          description: The number of seconds until the access token expires.
+        scope:
           type: string
-          description: URL to documentation about this error.
+          description: Space-separated list of permission scopes granted.
+        refresh_token:
+          type: string
+          description: 'A refresh token for obtaining a new access token without re-authentication. Only present for authorization_code grant type.
+
+            '
+        rest_instance_url:
+          type: string
+          format: uri
+          description: 'The REST API base URL for this Marketing Cloud account. Use this as the base URL for all subsequent REST API requests.
+
+            '
+        soap_instance_url:
+          type: string
+          format: uri
+          description: The SOAP API base URL for this Marketing Cloud account.
     TokenRequest:
       type: object
       description: 'OAuth 2.0 token request parameters for obtaining a Marketing Cloud access token.
@@ -300,39 +316,19 @@ components:
           description: 'Space-separated list of permission scopes requested. If not specified, all scopes configured for the installed package are granted.
 
             '
-    TokenResponse:
+    Error:
       type: object
-      description: OAuth 2.0 access token response from the Marketing Cloud token endpoint.
+      description: An error response from the Marketing Cloud REST API.
       properties:
-        access_token:
+        message:
           type: string
-          description: 'The OAuth 2.0 access token for authenticating API requests. Include in the Authorization header as "Bearer {access_token}".
-
-            '
-        token_type:
-          type: string
-          description: The token type. Always "Bearer" for Marketing Cloud.
-        expires_in:
+          description: Human-readable description of the error.
+        errorcode:
           type: integer
-          description: The number of seconds until the access token expires.
-        scope:
+          description: Marketing Cloud numeric error code.
+        documentation:
           type: string
-          description: Space-separated list of permission scopes granted.
-        refresh_token:
-          type: string
-          description: 'A refresh token for obtaining a new access token without re-authentication. Only present for authorization_code grant type.
-
-            '
-        rest_instance_url:
-          type: string
-          format: uri
-          description: 'The REST API base URL for this Marketing Cloud account. Use this as the base URL for all subsequent REST API requests.
-
-            '
-        soap_instance_url:
-          type: string
-          format: uri
-          description: The SOAP API base URL for this Marketing Cloud account.
+          description: URL to documentation about this error.
     MobileSDK:
       title: MobileSDK
       required:

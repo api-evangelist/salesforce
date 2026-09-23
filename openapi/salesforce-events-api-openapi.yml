@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Salesforce Events API
-  description: 'Find the resources you need to start building. '
+  description: Find the resources you need to start building.
   contact: {}
   version: '1.0'
 servers:
@@ -520,29 +520,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    PublishsingleeventRequest:
-      title: PublishsingleeventRequest
-      required:
-      - Annual_Mileage__c
-      - Current_Vehicle__c
-      - Model_Year__c
-      type: object
-      properties:
-        Annual_Mileage__c:
-          type: integer
-          contentEncoding: int32
-          example: 10
-        Current_Vehicle__c:
-          type: string
-          example: example_value
-        Model_Year__c:
-          type: integer
-          contentEncoding: int32
-          example: 10
-      examples:
-      - Annual_Mileage__c: 12000
-        Current_Vehicle__c: Fast car
-        Model_Year__c: 2019
     UpdatemanagedeventsubscriptionRequest:
       title: UpdatemanagedeventsubscriptionRequest
       required:
@@ -559,44 +536,49 @@ components:
       - FullName: Managed_Sub_OpportunityChangeEvent
         Metadata:
           state: STOP
-    Field5:
-      title: Field5
+    Errors7:
+      title: Errors7
       required:
-      - name
-      - type
+      - statusCode
+      - message
+      - fields
       type: object
       properties:
+        statusCode:
+          type: string
+          example: example_value
+        message:
+          type: string
+          example: example_value
+        fields:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+      examples:
+      - statusCode: OPERATION_ENQUEUED
+        message: 234995b6-53b6-4887-93fc-ecd0fac8b36c
+        fields: []
+    Type:
+      title: Type
+      type: object
+      properties:
+        type:
+          type: string
+          example: example_value
         name:
           type: string
           example: Example Title
-        type:
-          oneOf:
-          - type: array
-            items:
-              type: string
-          - type: array
-            items:
-              type: string
-          example: example_value
-        doc:
+        namespace:
           type: string
           example: example_value
-        default:
-          type:
-          - string
-          - 'null'
-          example: example_value
-    Metadata13:
-      title: Metadata13
-      required:
-      - state
-      type: object
-      properties:
-        state:
-          type: string
-          example: example_value
-      examples:
-      - state: RUN
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/Field3'
+          description: ''
+          example: []
     Field4:
       title: Field4
       required:
@@ -625,146 +607,6 @@ components:
           - string
           - 'null'
           example: example_value
-    Field2:
-      title: Field2
-      required:
-      - name
-      - type
-      type: object
-      properties:
-        name:
-          type: string
-          example: Example Title
-        type:
-          oneOf:
-          - $ref: '#/components/schemas/Type'
-          - type: string
-          example: example_value
-    Type1:
-      title: Type1
-      type: object
-      properties:
-        type:
-          type: string
-          example: example_value
-        name:
-          type: string
-          example: Example Title
-        doc:
-          type: string
-          example: example_value
-        fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/Field4'
-          description: ''
-          example: []
-    Errors7:
-      title: Errors7
-      required:
-      - statusCode
-      - message
-      - fields
-      type: object
-      properties:
-        statusCode:
-          type: string
-          example: example_value
-        message:
-          type: string
-          example: example_value
-        fields:
-          type: array
-          items:
-            type: string
-          description: ''
-          example: []
-      examples:
-      - statusCode: OPERATION_ENQUEUED
-        message: 234995b6-53b6-4887-93fc-ecd0fac8b36c
-        fields: []
-    PlatformEventSchemabyEventName:
-      title: PlatformEventSchemabyEventName
-      required:
-      - name
-      - namespace
-      - type
-      - fields
-      type: object
-      properties:
-        name:
-          type: string
-          example: Example Title
-        namespace:
-          type: string
-          example: example_value
-        type:
-          type: string
-          example: example_value
-        fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/Field2'
-          description: ''
-          example: []
-    Type11:
-      title: Type11
-      required:
-      - type
-      - name
-      - doc
-      - fields
-      type: object
-      properties:
-        type:
-          type: string
-          example: example_value
-        name:
-          type: string
-          example: Example Title
-        doc:
-          type: string
-          example: example_value
-        fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/Field5'
-          description: ''
-          example: []
-    Type:
-      title: Type
-      type: object
-      properties:
-        type:
-          type: string
-          example: example_value
-        name:
-          type: string
-          example: Example Title
-        namespace:
-          type: string
-          example: example_value
-        fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/Field3'
-          description: ''
-          example: []
-    Field3:
-      title: Field3
-      required:
-      - name
-      - type
-      type: object
-      properties:
-        name:
-          type: string
-          example: Example Title
-        type:
-          oneOf:
-          - $ref: '#/components/schemas/Type1'
-          - $ref: '#/components/schemas/Type11'
-          example: example_value
     Publishsingleevent:
       title: Publishsingleevent
       required:
@@ -792,6 +634,164 @@ components:
         - statusCode: OPERATION_ENQUEUED
           message: 234995b6-53b6-4887-93fc-ecd0fac8b36c
           fields: []
+    Type1:
+      title: Type1
+      type: object
+      properties:
+        type:
+          type: string
+          example: example_value
+        name:
+          type: string
+          example: Example Title
+        doc:
+          type: string
+          example: example_value
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/Field4'
+          description: ''
+          example: []
+    Metadata13:
+      title: Metadata13
+      required:
+      - state
+      type: object
+      properties:
+        state:
+          type: string
+          example: example_value
+      examples:
+      - state: RUN
+    Type11:
+      title: Type11
+      required:
+      - type
+      - name
+      - doc
+      - fields
+      type: object
+      properties:
+        type:
+          type: string
+          example: example_value
+        name:
+          type: string
+          example: Example Title
+        doc:
+          type: string
+          example: example_value
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/Field5'
+          description: ''
+          example: []
+    Field3:
+      title: Field3
+      required:
+      - name
+      - type
+      type: object
+      properties:
+        name:
+          type: string
+          example: Example Title
+        type:
+          oneOf:
+          - $ref: '#/components/schemas/Type1'
+          - $ref: '#/components/schemas/Type11'
+          example: example_value
+    Field2:
+      title: Field2
+      required:
+      - name
+      - type
+      type: object
+      properties:
+        name:
+          type: string
+          example: Example Title
+        type:
+          oneOf:
+          - $ref: '#/components/schemas/Type'
+          - type: string
+          example: example_value
+    PublishsingleeventRequest:
+      title: PublishsingleeventRequest
+      required:
+      - Annual_Mileage__c
+      - Current_Vehicle__c
+      - Model_Year__c
+      type: object
+      properties:
+        Annual_Mileage__c:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        Current_Vehicle__c:
+          type: string
+          example: example_value
+        Model_Year__c:
+          type: integer
+          contentEncoding: int32
+          example: 10
+      examples:
+      - Annual_Mileage__c: 12000
+        Current_Vehicle__c: Fast car
+        Model_Year__c: 2019
+    PlatformEventSchemabyEventName:
+      title: PlatformEventSchemabyEventName
+      required:
+      - name
+      - namespace
+      - type
+      - fields
+      type: object
+      properties:
+        name:
+          type: string
+          example: Example Title
+        namespace:
+          type: string
+          example: example_value
+        type:
+          type: string
+          example: example_value
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/Field2'
+          description: ''
+          example: []
+    Field5:
+      title: Field5
+      required:
+      - name
+      - type
+      type: object
+      properties:
+        name:
+          type: string
+          example: Example Title
+        type:
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: array
+            items:
+              type: string
+          example: example_value
+        doc:
+          type: string
+          example: example_value
+        default:
+          type:
+          - string
+          - 'null'
+          example: example_value
   securitySchemes:
     oauth2:
       type: oauth2

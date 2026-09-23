@@ -1,7 +1,9 @@
 ---
 title: 'More than 50,000 Hours Back: What a Year of Manager Agent Taught Us'
 url: https://www.salesforce.com/news/stories/lessons-from-one-year-of-manager-agent/
-date: '2026-05-21'
+published: ''
+date_basis: harvested
+harvested: '2026-05-21'
 author: ''
 feed_url: http://www.salesforce.com/news/feed
 ---

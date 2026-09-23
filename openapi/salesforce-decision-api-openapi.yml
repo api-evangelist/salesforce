@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Salesforce Decision API
-  description: 'Find the resources you need to start building. '
+  description: Find the resources you need to start building.
   contact: {}
   version: '1.0'
 servers:
@@ -29,7 +29,132 @@ paths:
       tags:
       - Decision
       summary: Salesforce Decision Model Notation Export
-      description: "# Decision Model Notation Export (POST)\n\nExport decision matrix data to a file in the [DMN (Decision Model Notation)](https://www.omg.org/dmn/#:~:text=DMN%20is%20a%20modeling%20language,monitor%20their%20application;%20business%20analysts.) format, an easily readable format for business rules designed by Object Management Group.Resource\n\n```\n/connect/business-rules/decision-models/export\n\n ```\n\nResource Example\n\n```\nhttps://yourInstance.salesforce.com/services/data/v59.0/connect/business-rules/decision-models/export\n\n ```\n\nAvailable version\n\n58.0\n\nRequires Chatter\n\nNo\n\nHTTP methods\n\nPOST\n\nRequest body for POST\n\nJSON example\n\n```\n{\n   \"decisionModelEntityIds\":[\n      “0lNRO00000004f72AA”,\n      “0lNRO000000rfn27AA”\n   ]\n}\n\n ```\n\nProperties\n\n| Name | Type | Description | Required or Optional | Available Version |\n| --- | --- | --- | --- | --- |\n| decisionModelEntityIds | String\\[\\] | A list of decision matrix version IDs to export data from. | Required | 58.0 |\n\nResponse body for POST\n\n[Decision Model Export Output](https://developer.salesforce.com/docs/atlas.en-us.industries_reference.meta/industries_reference/connect_responses_decision_model_export_output.htm)\n\n# Decision Model Export Output\n\nOutput representation of a completed DMN (Decision Model Notation) export request.JSON example\n\n```\n{\n   \"message\":\"OK\",\n   \"success\":true,\n   \"errors\":[\n      {\n         \"errorCode\":\"BAD_REQUEST\",\n         \"errorMessage\":\"We couldn’t find this record. Specify a valid ID for decisionModelEntityIds parameter.\",\n         \"recordId\":\"0lNRO00000004fsdfAA\"\n      }\n   ]\n}\n\n ```\n\n| Property Name | Type | Description | Filter Group and Version | Available Version |\n| --- | --- | --- | --- | --- |\n| errors | [Decision Model Export Error](https://developer.salesforce.com/docs/atlas.en-us.industries_reference.meta/industries_reference/connect_responses_decision_model_export_error.htm)\\[\\] | List of errors corresponding to a failed export request. | Small, 58.0 | 58.0 |\n| message | String | Response message from the completed export request. | Small, 58.0 | 58.0 |\n| success | Boolean | Indicates whether the export request was successful (true) or not (false). | Small, 58.0 | 58.0 |"
+      description: '# Decision Model Notation Export (POST)
+
+
+        Export decision matrix data to a file in the DMN (Decision Model Notation) format, an easily readable format for business rules designed by Object Management Group.Resource
+
+
+        ```
+
+        /connect/business-rules/decision-models/export
+
+
+        ```
+
+
+        Resource Example
+
+
+        ```
+
+        https://yourInstance.salesforce.com/services/data/v59.0/connect/business-rules/decision-models/export
+
+
+        ```
+
+
+        Available version
+
+
+        58.0
+
+
+        Requires Chatter
+
+
+        No
+
+
+        HTTP methods
+
+
+        POST
+
+
+        Request body for POST
+
+
+        JSON example
+
+
+        ```
+
+        {
+
+        "decisionModelEntityIds":[
+
+        “0lNRO00000004f72AA”,
+
+        “0lNRO000000rfn27AA”
+
+        ]
+
+        }
+
+
+        ```
+
+
+        Properties
+
+
+        | Name | Type | Description | Required or Optional | Available Version |
+
+        | --- | --- | --- | --- | --- |
+
+        | decisionModelEntityIds | String\[\] | A list of decision matrix version IDs to export data from. | Required | 58.0 |
+
+
+        Response body for POST
+
+
+        Decision Model Export Output
+
+
+        # Decision Model Export Output
+
+
+        Output representation of a completed DMN (Decision Model Notation) export request.JSON example
+
+
+        ```
+
+        {
+
+        "message":"OK",
+
+        "success":true,
+
+        "errors":[
+
+        {
+
+        "errorCode":"BAD_REQUEST",
+
+        "errorMessage":"We couldn’t find this record. Specify a valid ID for decisionModelEntityIds parameter.",
+
+        "recordId":"0lNRO00000004fsdfAA"
+
+        }
+
+        ]
+
+        }
+
+
+        ```
+
+
+        | Property Name | Type | Description | Filter Group and Version | Available Version |
+
+        | --- | --- | --- | --- | --- |
+
+        | errors | Decision Model Export Error\[\] | List of errors corresponding to a failed export request. | Small, 58.0 | 58.0 |
+
+        | message | String | Response message from the completed export request. | Small, 58.0 | 58.0 |
+
+        | success | Boolean | Indicates whether the export request was successful (true) or not (false). | Small, 58.0 | 58.0 |'
       operationId: DecisionModelNotationExport
       parameters: []
       requestBody:
@@ -218,6 +343,37 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    Status500-EmptyBody1:
+      title: Status500-EmptyBody1
+      required:
+      - message
+      - errorCode
+      type: object
+      properties:
+        message:
+          type: string
+          example: example_value
+        errorCode:
+          type: string
+          example: example_value
+      examples:
+      - message: 'An unexpected error occurred. Please include this ErrorId if you contact support: 1291449758-100210 (-239130079)'
+        errorCode: UNKNOWN_EXCEPTION
+    DecisionModelNotationExportRequest:
+      title: DecisionModelNotationExportRequest
+      required:
+      - decisionModelEntityIds
+      type: object
+      properties:
+        decisionModelEntityIds:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+      examples:
+      - decisionModelEntityIds:
+        - 0lNHo000000LEvfMAG
     Error:
       title: Error
       required:
@@ -269,37 +425,6 @@ components:
           recordId: 0lNRO000000rfn27AA
         message: OK
         success: true
-    Status500-EmptyBody1:
-      title: Status500-EmptyBody1
-      required:
-      - message
-      - errorCode
-      type: object
-      properties:
-        message:
-          type: string
-          example: example_value
-        errorCode:
-          type: string
-          example: example_value
-      examples:
-      - message: 'An unexpected error occurred. Please include this ErrorId if you contact support: 1291449758-100210 (-239130079)'
-        errorCode: UNKNOWN_EXCEPTION
-    DecisionModelNotationExportRequest:
-      title: DecisionModelNotationExportRequest
-      required:
-      - decisionModelEntityIds
-      type: object
-      properties:
-        decisionModelEntityIds:
-          type: array
-          items:
-            type: string
-          description: ''
-          example: []
-      examples:
-      - decisionModelEntityIds:
-        - 0lNHo000000LEvfMAG
   securitySchemes:
     oauth2:
       type: oauth2

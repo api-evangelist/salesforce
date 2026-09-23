@@ -2,7 +2,9 @@
 title: Informatica Announces Headless Data Management for AWS to Power Trusted, Enterprise-Ready
   Agentic Workflows
 url: https://www.salesforce.com/news/press-releases/2026/05/20/informatica-announces-headless-data-management-aws/
-date: '2026-05-20'
+published: ''
+date_basis: harvested
+harvested: '2026-05-20'
 author: Salesforce Newsroom
 feed_url: http://www.salesforce.com/news/feed
 ---

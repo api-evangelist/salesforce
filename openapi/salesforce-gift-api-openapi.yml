@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Salesforce Gift API
-  description: 'Find the resources you need to start building. '
+  description: Find the resources you need to start building.
   contact: {}
   version: '1.0'
 servers:
@@ -29,7 +29,16 @@ paths:
       tags:
       - Gift
       summary: Salesforce Update Gift Transaction Payments
-      description: "Update the gateway and processor metadata for gift transactions.\n\n## Required Attributes:\n\n- giftTransactionId\n    \n- transactionStatus"
+      description: 'Update the gateway and processor metadata for gift transactions.
+
+
+        ## Required Attributes:
+
+
+        - giftTransactionId
+
+
+        - transactionStatus'
       operationId: UpdateGiftTransactionPayments
       parameters: []
       requestBody:
@@ -208,43 +217,24 @@ components:
             gifttransaction:
               href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
               id: <SFDC_GIFT_TRANSACTION_ID>
-    Status201-UpdateTransactionPaymentWithExternalIds1:
-      title: Status201-UpdateTransactionPaymentWithExternalIds1
+    Detail3:
+      title: Detail3
       required:
-      - successes
-      - failures
-      - notProcessed
-      - details
+      - success
+      - links
       type: object
       properties:
-        successes:
-          type: integer
-          contentEncoding: int32
-          example: 10
-        failures:
-          type: integer
-          contentEncoding: int32
-          example: 10
-        notProcessed:
-          type: integer
-          contentEncoding: int32
-          example: 10
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/Detail3'
-          description: ''
-          example: []
+        success:
+          type: boolean
+          example: true
+        links:
+          $ref: '#/components/schemas/Links3'
       examples:
-      - successes: 1
-        failures: 0
-        notProcessed: 0
-        details:
-        - success: true
-          links:
-            gifttransaction:
-              href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
-              id: <SFDC_GIFT_TRANSACTION_ID>
+      - success: true
+        links:
+          gifttransaction:
+            href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
+            id: <SFDC_GIFT_TRANSACTION_ID>
     UpdateGiftTransactionPaymentsRequest:
       title: UpdateGiftTransactionPaymentsRequest
       required:
@@ -279,52 +269,6 @@ components:
           processorTransactionFee: 1
           gatewayTransactionFee: 0.45
           donorCoverAmount: 20
-    Gifttransaction:
-      title: Gifttransaction
-      required:
-      - href
-      - id
-      type: object
-      properties:
-        href:
-          type: string
-          example: example_value
-        id:
-          type: string
-          example: abc123
-      examples:
-      - href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
-        id: <SFDC_GIFT_TRANSACTION_ID>
-    Detail3:
-      title: Detail3
-      required:
-      - success
-      - links
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: true
-        links:
-          $ref: '#/components/schemas/Links3'
-      examples:
-      - success: true
-        links:
-          gifttransaction:
-            href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
-            id: <SFDC_GIFT_TRANSACTION_ID>
-    Links3:
-      title: Links3
-      required:
-      - gifttransaction
-      type: object
-      properties:
-        gifttransaction:
-          $ref: '#/components/schemas/Gifttransaction'
-      examples:
-      - gifttransaction:
-          href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
-          id: <SFDC_GIFT_TRANSACTION_ID>
     Update:
       title: Update
       required:
@@ -381,6 +325,71 @@ components:
         processorTransactionFee: 0.5
         gatewayTransactionFee: 0.25
         donorCoverAmount: 10.5
+    Links3:
+      title: Links3
+      required:
+      - gifttransaction
+      type: object
+      properties:
+        gifttransaction:
+          $ref: '#/components/schemas/Gifttransaction'
+      examples:
+      - gifttransaction:
+          href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
+          id: <SFDC_GIFT_TRANSACTION_ID>
+    Gifttransaction:
+      title: Gifttransaction
+      required:
+      - href
+      - id
+      type: object
+      properties:
+        href:
+          type: string
+          example: example_value
+        id:
+          type: string
+          example: abc123
+      examples:
+      - href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
+        id: <SFDC_GIFT_TRANSACTION_ID>
+    Status201-UpdateTransactionPaymentWithExternalIds1:
+      title: Status201-UpdateTransactionPaymentWithExternalIds1
+      required:
+      - successes
+      - failures
+      - notProcessed
+      - details
+      type: object
+      properties:
+        successes:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        failures:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        notProcessed:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/Detail3'
+          description: ''
+          example: []
+      examples:
+      - successes: 1
+        failures: 0
+        notProcessed: 0
+        details:
+        - success: true
+          links:
+            gifttransaction:
+              href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
+              id: <SFDC_GIFT_TRANSACTION_ID>
   securitySchemes:
     oauth2:
       type: oauth2

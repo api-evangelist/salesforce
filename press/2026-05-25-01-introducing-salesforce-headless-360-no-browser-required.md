@@ -1,7 +1,9 @@
 ---
 title: Introducing Salesforce Headless 360. No Browser Required.
 url: https://www.salesforce.com/news/stories/salesforce-headless-360-announcement/
-date: '2026-05-25'
+published: ''
+date_basis: harvested
+harvested: '2026-05-25'
 query: '"salesforce.com" press release artificial intelligence'
 position: 1
 source: serpapi-google

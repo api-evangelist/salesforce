@@ -101,13 +101,6 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  responses:
-    NotFound:
-      description: Not found. The requested resource does not exist.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   schemas:
     ErrorResponse:
       type: object
@@ -121,22 +114,6 @@ components:
           type: string
           description: Human-readable error message
           example: example_value
-    ListViewSummary:
-      type: object
-      description: Summary information about a list view
-      properties:
-        id:
-          type: string
-          example: abc123
-        apiName:
-          type: string
-          example: example_value
-        label:
-          type: string
-          example: Example Title
-        url:
-          type: string
-          example: https://www.example.com
     ListViewResult:
       type: object
       description: Data and metadata for a list view
@@ -178,7 +155,37 @@ components:
           items:
             $ref: '#/components/schemas/ListViewSummary'
           example: []
+    ListViewSummary:
+      type: object
+      description: Summary information about a list view
+      properties:
+        id:
+          type: string
+          example: abc123
+        apiName:
+          type: string
+          example: example_value
+        label:
+          type: string
+          example: Example Title
+        url:
+          type: string
+          example: https://www.example.com
+  responses:
+    NotFound:
+      description: Not found. The requested resource does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   parameters:
+    ObjectApiName:
+      name: objectApiName
+      in: path
+      required: true
+      description: The API name of the Salesforce object (e.g., Account, Contact, MyObject__c)
+      schema:
+        type: string
     PageSize:
       name: pageSize
       in: query
@@ -188,13 +195,6 @@ components:
         minimum: 1
         maximum: 2000
         default: 50
-    ObjectApiName:
-      name: objectApiName
-      in: path
-      required: true
-      description: The API name of the Salesforce object (e.g., Account, Contact, MyObject__c)
-      schema:
-        type: string
     PageToken:
       name: pageToken
       in: query

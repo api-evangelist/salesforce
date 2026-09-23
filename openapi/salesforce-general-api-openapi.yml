@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Salesforce General API
-  description: 'Find the resources you need to start building. '
+  description: Find the resources you need to start building.
   contact: {}
   version: '1.0'
 servers:
@@ -515,6 +515,47 @@ components:
         sendingCommunity: null
         sentDate: <datetime>
         url: /services/data/v58.0/chatter/users/me/messages/03J...
+    Photo:
+      title: Photo
+      required:
+      - fullEmailPhotoUrl
+      - largePhotoUrl
+      - mediumPhotoUrl
+      - photoVersionId
+      - smallPhotoUrl
+      - standardEmailPhotoUrl
+      - url
+      type: object
+      properties:
+        fullEmailPhotoUrl:
+          type: string
+          example: user@example.com
+        largePhotoUrl:
+          type: string
+          example: https://www.example.com
+        mediumPhotoUrl:
+          type: string
+          example: https://www.example.com
+        photoVersionId:
+          type: string
+          example: '500123'
+        smallPhotoUrl:
+          type: string
+          example: https://www.example.com
+        standardEmailPhotoUrl:
+          type: string
+          example: user@example.com
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+        largePhotoUrl: https://<my_domain>/profilephoto/729.../F
+        mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
+        photoVersionId: 729...
+        smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
+        standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+        url: /services/data/v58.0/connect/user-profiles/005.../photo
     Photo15:
       title: Photo15
       required:
@@ -595,47 +636,125 @@ components:
       - isRichText: null
         messageSegments: []
         text: This is a private message
-    Photo:
-      title: Photo
+    Sender:
+      title: Sender
       required:
-      - fullEmailPhotoUrl
-      - largePhotoUrl
-      - mediumPhotoUrl
-      - photoVersionId
-      - smallPhotoUrl
-      - standardEmailPhotoUrl
+      - additionalLabel
+      - communityNickname
+      - companyName
+      - displayName
+      - firstName
+      - id
+      - isActive
+      - isInThisCommunity
+      - lastName
+      - motif
+      - mySubscription
+      - name
+      - outOfOffice
+      - photo
+      - reputation
+      - title
+      - type
       - url
+      - userType
       type: object
       properties:
-        fullEmailPhotoUrl:
+        additionalLabel:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        communityNickname:
           type: string
-          example: user@example.com
-        largePhotoUrl:
+          example: example_value
+        companyName:
           type: string
-          example: https://www.example.com
-        mediumPhotoUrl:
+          example: example_value
+        displayName:
           type: string
-          example: https://www.example.com
-        photoVersionId:
+          example: example_value
+        firstName:
           type: string
-          example: '500123'
-        smallPhotoUrl:
+          example: example_value
+        id:
           type: string
-          example: https://www.example.com
-        standardEmailPhotoUrl:
+          example: abc123
+        isActive:
+          type: boolean
+          example: true
+        isInThisCommunity:
+          type: boolean
+          example: true
+        lastName:
           type: string
-          example: user@example.com
+          example: example_value
+        motif:
+          $ref: '#/components/schemas/Motif'
+        mySubscription:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        name:
+          type: string
+          example: Example Title
+        outOfOffice:
+          $ref: '#/components/schemas/OutOfOffice'
+        photo:
+          $ref: '#/components/schemas/Photo'
+        reputation:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        title:
+          type:
+          - string
+          - 'null'
+          example: Example Title
+        type:
+          type: string
+          example: example_value
         url:
           type: string
           example: https://www.example.com
+        userType:
+          type: string
+          example: example_value
       examples:
-      - fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
-        largePhotoUrl: https://<my_domain>/profilephoto/729.../F
-        mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
-        photoVersionId: 729...
-        smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
-        standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
-        url: /services/data/v58.0/connect/user-profiles/005.../photo
+      - additionalLabel: null
+        communityNickname: User1696423780773910041
+        companyName: Salesforce
+        displayName: Name
+        firstName: Firstname
+        id: 005...
+        isActive: true
+        isInThisCommunity: true
+        lastName: Name
+        motif:
+          color: 1B96FF
+          largeIconUrl: /img/icon/profile64.png
+          mediumIconUrl: /img/icon/profile32.png
+          smallIconUrl: /img/icon/profile16.png
+          svgIconUrl: null
+        mySubscription: null
+        name: Name
+        outOfOffice:
+          message: ''
+        photo:
+          fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+          largePhotoUrl: https://<my_domain>/profilephoto/729.../F
+          mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
+          photoVersionId: 729...
+          smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
+          standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+          url: /services/data/v58.0/connect/user-profiles/005.../photo
+        reputation: null
+        title: null
+        type: User
+        url: /services/data/v58.0/chatter/users/005...
+        userType: Internal
     Recipient:
       title: Recipient
       required:
@@ -788,125 +907,6 @@ components:
         mediumIconUrl: /img/content/content32.png
         smallIconUrl: /img/icon/files16.png
         svgIconUrl: null
-    Sender:
-      title: Sender
-      required:
-      - additionalLabel
-      - communityNickname
-      - companyName
-      - displayName
-      - firstName
-      - id
-      - isActive
-      - isInThisCommunity
-      - lastName
-      - motif
-      - mySubscription
-      - name
-      - outOfOffice
-      - photo
-      - reputation
-      - title
-      - type
-      - url
-      - userType
-      type: object
-      properties:
-        additionalLabel:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        communityNickname:
-          type: string
-          example: example_value
-        companyName:
-          type: string
-          example: example_value
-        displayName:
-          type: string
-          example: example_value
-        firstName:
-          type: string
-          example: example_value
-        id:
-          type: string
-          example: abc123
-        isActive:
-          type: boolean
-          example: true
-        isInThisCommunity:
-          type: boolean
-          example: true
-        lastName:
-          type: string
-          example: example_value
-        motif:
-          $ref: '#/components/schemas/Motif'
-        mySubscription:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        name:
-          type: string
-          example: Example Title
-        outOfOffice:
-          $ref: '#/components/schemas/OutOfOffice'
-        photo:
-          $ref: '#/components/schemas/Photo'
-        reputation:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        title:
-          type:
-          - string
-          - 'null'
-          example: Example Title
-        type:
-          type: string
-          example: example_value
-        url:
-          type: string
-          example: https://www.example.com
-        userType:
-          type: string
-          example: example_value
-      examples:
-      - additionalLabel: null
-        communityNickname: User1696423780773910041
-        companyName: Salesforce
-        displayName: Name
-        firstName: Firstname
-        id: 005...
-        isActive: true
-        isInThisCommunity: true
-        lastName: Name
-        motif:
-          color: 1B96FF
-          largeIconUrl: /img/icon/profile64.png
-          mediumIconUrl: /img/icon/profile32.png
-          smallIconUrl: /img/icon/profile16.png
-          svgIconUrl: null
-        mySubscription: null
-        name: Name
-        outOfOffice:
-          message: ''
-        photo:
-          fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
-          largePhotoUrl: https://<my_domain>/profilephoto/729.../F
-          mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
-          photoVersionId: 729...
-          smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
-          standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
-          url: /services/data/v58.0/connect/user-profiles/005.../photo
-        reputation: null
-        title: null
-        type: User
-        url: /services/data/v58.0/chatter/users/005...
-        userType: Internal
   securitySchemes:
     oauth2:
       type: oauth2

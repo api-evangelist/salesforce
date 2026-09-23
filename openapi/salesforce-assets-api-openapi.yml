@@ -1,9 +1,7 @@
 openapi: 3.2.0
 info:
   title: Salesforce Marketing Cloud REST Assets API
-  description: 'The Salesforce Marketing Cloud REST API provides access to Marketing Cloud resources including contacts, journeys, data extensions, triggered sends, and transactional messaging. It uses OAuth 2.0 for authentication and is the primary interface for programmatic Marketing Cloud integrations.
-
-    '
+  description: The Salesforce Marketing Cloud REST API provides access to Marketing Cloud resources including contacts, journeys, data extensions, triggered sends, and transactional messaging. It uses OAuth 2.0 for authentication and is the primary interface for programmatic Marketing Cloud integrations.
   version: v1
   contact:
     name: Salesforce Marketing Cloud Developers
@@ -26,17 +24,13 @@ security:
 - BearerAuth: []
 tags:
 - name: Assets
-  description: 'Operations for managing Marketing Cloud Content Builder assets including emails, images, and other content items.
-
-    '
+  description: Operations for managing Marketing Cloud Content Builder assets including emails, images, and other content items.
 paths:
   /asset/v1/content/assets:
     get:
       operationId: listAssets
       summary: List content assets
-      description: 'Returns a paginated list of Marketing Cloud Content Builder assets including emails, images, documents, and other content items. Supports filtering by asset type and searching by name.
-
-        '
+      description: Returns a paginated list of Marketing Cloud Content Builder assets including emails, images, documents, and other content items. Supports filtering by asset type and searching by name.
       tags:
       - Assets
       parameters:
@@ -93,9 +87,7 @@ paths:
     post:
       operationId: createAsset
       summary: Create a content asset
-      description: 'Creates a new content asset in Marketing Cloud Content Builder. Assets can be emails, templates, images, blocks, or other content types. The asset type is specified using the assetType object. File content can be provided inline as a base64 string or referenced by URL.
-
-        '
+      description: Creates a new content asset in Marketing Cloud Content Builder. Assets can be emails, templates, images, blocks, or other content types. The asset type is specified using the assetType object. File content can be provided inline as a base64 string or referenced by URL.
       tags:
       - Assets
       requestBody:
@@ -128,9 +120,7 @@ paths:
     get:
       operationId: getAsset
       summary: Get a content asset by ID
-      description: 'Retrieves a single Marketing Cloud Content Builder asset by its numeric ID. Returns the asset metadata and content.
-
-        '
+      description: Retrieves a single Marketing Cloud Content Builder asset by its numeric ID. Returns the asset metadata and content.
       tags:
       - Assets
       parameters:
@@ -157,9 +147,7 @@ paths:
     put:
       operationId: updateAsset
       summary: Update a content asset
-      description: 'Replaces the content and metadata of an existing Marketing Cloud Content Builder asset. The entire asset definition must be provided; partial updates are not supported. Returns the updated asset.
-
-        '
+      description: Replaces the content and metadata of an existing Marketing Cloud Content Builder asset. The entire asset definition must be provided; partial updates are not supported. Returns the updated asset.
       tags:
       - Assets
       parameters:
@@ -199,9 +187,7 @@ paths:
     delete:
       operationId: deleteAsset
       summary: Delete a content asset
-      description: 'Deletes a Marketing Cloud Content Builder asset by its numeric ID. Deletion is permanent and cannot be undone. Ensure the asset is not in use by active journeys or sends before deleting.
-
-        '
+      description: Deletes a Marketing Cloud Content Builder asset by its numeric ID. Deletion is permanent and cannot be undone. Ensure the asset is not in use by active journeys or sends before deleting.
       tags:
       - Assets
       parameters:
@@ -222,20 +208,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 components:
+  parameters:
+    assetId:
+      name: id
+      in: path
+      required: true
+      description: The numeric ID of the Marketing Cloud content asset.
+      schema:
+        type: integer
   schemas:
-    Error:
-      type: object
-      description: An error response from the Marketing Cloud REST API.
-      properties:
-        message:
-          type: string
-          description: Human-readable description of the error.
-        errorcode:
-          type: integer
-          description: Marketing Cloud numeric error code.
-        documentation:
-          type: string
-          description: URL to documentation about this error.
     ContentAsset:
       type: object
       description: 'A Marketing Cloud Content Builder asset such as an email, template, image, block, or document.
@@ -295,14 +276,19 @@ components:
         customerKey:
           type: string
           description: The external key for this asset, used to reference it in API calls.
-  parameters:
-    assetId:
-      name: id
-      in: path
-      required: true
-      description: The numeric ID of the Marketing Cloud content asset.
-      schema:
-        type: integer
+    Error:
+      type: object
+      description: An error response from the Marketing Cloud REST API.
+      properties:
+        message:
+          type: string
+          description: Human-readable description of the error.
+        errorcode:
+          type: integer
+          description: Marketing Cloud numeric error code.
+        documentation:
+          type: string
+          description: URL to documentation about this error.
   securitySchemes:
     BearerAuth:
       type: http

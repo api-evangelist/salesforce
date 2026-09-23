@@ -1,7 +1,9 @@
 ---
 title: 'Salesforce Investor Relations: Salesforce.com, Inc.'
 url: https://investor.salesforce.com/overview/default.aspx
-date: '2026-05-25'
+published: ''
+date_basis: harvested
+harvested: '2026-05-25'
 query: '"salesforce.com" press release artificial intelligence'
 position: 4
 source: serpapi-google

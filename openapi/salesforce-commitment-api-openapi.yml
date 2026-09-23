@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Salesforce Commitment API
-  description: 'Find the resources you need to start building. '
+  description: Find the resources you need to start building.
   contact: {}
   version: '1.0'
 servers:
@@ -29,7 +29,16 @@ paths:
       tags:
       - Commitment
       summary: Salesforce Update Commitment Payments
-      description: "Update the future payment instrument metadata for active gift commitments.\n\n## Required Attributes:\n\n- giftCommitmentId\n    \n- paymentInstrument.type"
+      description: 'Update the future payment instrument metadata for active gift commitments.
+
+
+        ## Required Attributes:
+
+
+        - giftCommitmentId
+
+
+        - paymentInstrument.type'
       operationId: UpdateCommitmentPayments
       parameters: []
       requestBody:
@@ -266,6 +275,103 @@ components:
           processorName: classy
           processorPaymentReference: string
           gatewayReference: string
+    Detail13:
+      title: Detail13
+      required:
+      - success
+      - links
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        links:
+          $ref: '#/components/schemas/Links13'
+      examples:
+      - success: true
+        links:
+          giftcommitment:
+            href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
+            id: <SFDC_GIFT_COMMITMENT_ID>
+          paymentinstrument:
+            href: /services/data/vXX.X/sobjects/sObject/<SFDC_PAYMENT_INSTRUMENT_ID>
+            id: <SFDC_PAYMENT_INSTRUMENT_ID>
+    Errors:
+      title: Errors
+      required:
+      - field
+      - message
+      type: object
+      properties:
+        field:
+          type: string
+          example: example_value
+        message:
+          type: string
+          example: example_value
+      examples:
+      - field: id
+        message: <invalid id message>
+    Status200-UpdateCommitmentRequestValidationFailure1:
+      title: Status200-UpdateCommitmentRequestValidationFailure1
+      required:
+      - successes
+      - failures
+      - notProcessed
+      - details
+      type: object
+      properties:
+        successes:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        failures:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        notProcessed:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/Detail14'
+          description: ''
+          example: []
+      examples:
+      - successes: 1
+        failures: 1
+        notProcessed: 0
+        details:
+        - success: false
+          errors:
+            field: id
+            message: <invalid id message>
+        - success: true
+          links:
+            giftcommitment:
+              href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
+              id: <SFDC_GIFT_COMMITMENT_ID>
+            paymentinstrument:
+              href: /services/data/vXX.X/sobjects/sObject/<SFDC_PAYMENT_INSTRUMENT_ID>
+              id: <SFDC_PAYMENT_INSTRUMENT_ID>
+    Paymentinstrument1:
+      title: Paymentinstrument1
+      required:
+      - href
+      - id
+      type: object
+      properties:
+        href:
+          type: string
+          example: example_value
+        id:
+          type: string
+          example: abc123
+      examples:
+      - href: /services/data/vXX.X/sobjects/sObject/<SFDC_PAYMENT_INSTRUMENT_ID>
+        id: <SFDC_PAYMENT_INSTRUMENT_ID>
     Status201-UpdateCommitmentSuccess:
       title: Status201-UpdateCommitmentSuccess
       required:
@@ -314,22 +420,58 @@ components:
             paymentinstrument:
               href: /services/data/vXX.X/sobjects/sObject/<SFDC_PAYMENT_INSTRUMENT_ID>
               id: <SFDC_PAYMENT_INSTRUMENT_ID>
-    Errors:
-      title: Errors
+    Links13:
+      title: Links13
       required:
-      - field
-      - message
+      - giftcommitment
+      - paymentinstrument
       type: object
       properties:
-        field:
-          type: string
-          example: example_value
-        message:
-          type: string
-          example: example_value
+        giftcommitment:
+          $ref: '#/components/schemas/Giftcommitment'
+        paymentinstrument:
+          $ref: '#/components/schemas/Paymentinstrument1'
       examples:
-      - field: id
-        message: <invalid id message>
+      - giftcommitment:
+          href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
+          id: <SFDC_GIFT_COMMITMENT_ID>
+        paymentinstrument:
+          href: /services/data/vXX.X/sobjects/sObject/<SFDC_PAYMENT_INSTRUMENT_ID>
+          id: <SFDC_PAYMENT_INSTRUMENT_ID>
+    Detail14:
+      title: Detail14
+      required:
+      - success
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        errors:
+          $ref: '#/components/schemas/Errors'
+        links:
+          $ref: '#/components/schemas/Links13'
+      examples:
+      - success: false
+        errors:
+          field: id
+          message: <invalid id message>
+    Giftcommitment:
+      title: Giftcommitment
+      required:
+      - href
+      - id
+      type: object
+      properties:
+        href:
+          type: string
+          example: example_value
+        id:
+          type: string
+          example: abc123
+      examples:
+      - href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
+        id: <SFDC_GIFT_COMMITMENT_ID>
     PaymentInstrument:
       title: PaymentInstrument
       required:
@@ -416,22 +558,6 @@ components:
         processorName: test processor
         processorPaymentReference: string
         gatewayReference: string
-    Paymentinstrument1:
-      title: Paymentinstrument1
-      required:
-      - href
-      - id
-      type: object
-      properties:
-        href:
-          type: string
-          example: example_value
-        id:
-          type: string
-          example: abc123
-      examples:
-      - href: /services/data/vXX.X/sobjects/sObject/<SFDC_PAYMENT_INSTRUMENT_ID>
-        id: <SFDC_PAYMENT_INSTRUMENT_ID>
     UpdateCommitmentPaymentsRequest:
       title: UpdateCommitmentPaymentsRequest
       required:
@@ -482,123 +608,6 @@ components:
             processorName: test processor
             processorPaymentReference: string
             gatewayReference: string
-    Detail14:
-      title: Detail14
-      required:
-      - success
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: true
-        errors:
-          $ref: '#/components/schemas/Errors'
-        links:
-          $ref: '#/components/schemas/Links13'
-      examples:
-      - success: false
-        errors:
-          field: id
-          message: <invalid id message>
-    Giftcommitment:
-      title: Giftcommitment
-      required:
-      - href
-      - id
-      type: object
-      properties:
-        href:
-          type: string
-          example: example_value
-        id:
-          type: string
-          example: abc123
-      examples:
-      - href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
-        id: <SFDC_GIFT_COMMITMENT_ID>
-    Links13:
-      title: Links13
-      required:
-      - giftcommitment
-      - paymentinstrument
-      type: object
-      properties:
-        giftcommitment:
-          $ref: '#/components/schemas/Giftcommitment'
-        paymentinstrument:
-          $ref: '#/components/schemas/Paymentinstrument1'
-      examples:
-      - giftcommitment:
-          href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
-          id: <SFDC_GIFT_COMMITMENT_ID>
-        paymentinstrument:
-          href: /services/data/vXX.X/sobjects/sObject/<SFDC_PAYMENT_INSTRUMENT_ID>
-          id: <SFDC_PAYMENT_INSTRUMENT_ID>
-    Detail13:
-      title: Detail13
-      required:
-      - success
-      - links
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: true
-        links:
-          $ref: '#/components/schemas/Links13'
-      examples:
-      - success: true
-        links:
-          giftcommitment:
-            href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
-            id: <SFDC_GIFT_COMMITMENT_ID>
-          paymentinstrument:
-            href: /services/data/vXX.X/sobjects/sObject/<SFDC_PAYMENT_INSTRUMENT_ID>
-            id: <SFDC_PAYMENT_INSTRUMENT_ID>
-    Status200-UpdateCommitmentRequestValidationFailure1:
-      title: Status200-UpdateCommitmentRequestValidationFailure1
-      required:
-      - successes
-      - failures
-      - notProcessed
-      - details
-      type: object
-      properties:
-        successes:
-          type: integer
-          contentEncoding: int32
-          example: 10
-        failures:
-          type: integer
-          contentEncoding: int32
-          example: 10
-        notProcessed:
-          type: integer
-          contentEncoding: int32
-          example: 10
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/Detail14'
-          description: ''
-          example: []
-      examples:
-      - successes: 1
-        failures: 1
-        notProcessed: 0
-        details:
-        - success: false
-          errors:
-            field: id
-            message: <invalid id message>
-        - success: true
-          links:
-            giftcommitment:
-              href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
-              id: <SFDC_GIFT_COMMITMENT_ID>
-            paymentinstrument:
-              href: /services/data/vXX.X/sobjects/sObject/<SFDC_PAYMENT_INSTRUMENT_ID>
-              id: <SFDC_PAYMENT_INSTRUMENT_ID>
   securitySchemes:
     oauth2:
       type: oauth2

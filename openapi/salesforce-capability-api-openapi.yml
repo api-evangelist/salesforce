@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Salesforce Capability API
-  description: 'Find the resources you need to start building. '
+  description: Find the resources you need to start building.
   contact: {}
   version: '1.0'
 servers:
@@ -320,185 +320,60 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    User:
-      title: User
+    Status1:
+      title: Status1
       required:
-      - additionalLabel
-      - communityNickname
-      - companyName
-      - displayName
-      - firstName
-      - id
-      - isActive
-      - isInThisCommunity
-      - lastName
-      - motif
-      - mySubscription
-      - name
-      - outOfOffice
-      - photo
-      - reputation
-      - title
-      - type
-      - url
-      - userType
+      - feedEntityStatus
+      - isApprovableByMe
       type: object
       properties:
-        additionalLabel:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        communityNickname:
+        feedEntityStatus:
           type: string
           example: example_value
-        companyName:
-          type: string
-          example: example_value
-        displayName:
-          type: string
-          example: example_value
-        firstName:
-          type: string
-          example: example_value
-        id:
-          type: string
-          example: abc123
-        isActive:
+        isApprovableByMe:
           type: boolean
           example: true
-        isInThisCommunity:
-          type: boolean
-          example: true
-        lastName:
-          type: string
-          example: example_value
-        motif:
-          $ref: '#/components/schemas/Motif'
-        mySubscription:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        name:
-          type: string
-          example: Example Title
-        outOfOffice:
-          $ref: '#/components/schemas/OutOfOffice'
-        photo:
-          $ref: '#/components/schemas/Photo'
-        reputation:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        title:
-          type:
-          - string
-          - 'null'
-          example: Example Title
-        type:
-          type: string
-          example: example_value
-        url:
-          type: string
-          example: https://www.example.com
-        userType:
-          type: string
-          example: example_value
       examples:
-      - additionalLabel: null
-        communityNickname: User1696423780773910041
-        companyName: Salesforce
-        displayName: Name
-        firstName: Firstname
-        id: 005...
-        isActive: true
-        isInThisCommunity: true
-        lastName: Name
-        motif:
-          color: 1B96FF
-          largeIconUrl: /img/icon/profile64.png
-          mediumIconUrl: /img/icon/profile32.png
-          smallIconUrl: /img/icon/profile16.png
-          svgIconUrl: null
-        mySubscription: null
-        name: Name
-        outOfOffice:
-          message: ''
-        photo:
-          fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
-          largePhotoUrl: https://<my_domain>/profilephoto/729.../F
-          mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
-          photoVersionId: 729...
-          smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
-          standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
-          url: /services/data/v58.0/connect/user-profiles/005.../photo
-        reputation: null
-        title: null
-        type: User
-        url: /services/data/v58.0/chatter/users/005...
-        userType: Internal
-    Likes:
-      title: Likes
+      - feedEntityStatus: Published
+        isApprovableByMe: true
+    Capabilities6:
+      title: Capabilities6
       required:
-      - currentPageToken
-      - currentPageUrl
-      - items
-      - nextPageToken
-      - nextPageUrl
-      - previousPageToken
-      - previousPageUrl
-      - total
+      - edit
+      - status
+      - upDownVote
+      - verified
       type: object
       properties:
-        currentPageToken:
-          type:
-          - string
-          - 'null'
-          example: CAUQAA
-        currentPageUrl:
-          type: string
-          example: https://www.example.com
-        items:
-          type: array
-          items:
-            type: string
-          description: ''
-          example: []
-        nextPageToken:
-          type:
-          - string
-          - 'null'
-          example: CAUQAA
-        nextPageUrl:
-          type:
-          - string
-          - 'null'
-          example: https://www.example.com
-        previousPageToken:
-          type:
-          - string
-          - 'null'
-          example: CAUQAA
-        previousPageUrl:
-          type:
-          - string
-          - 'null'
-          example: https://www.example.com
-        total:
-          type: integer
-          contentEncoding: int32
-          example: 42
+        edit:
+          $ref: '#/components/schemas/Edit'
+        status:
+          $ref: '#/components/schemas/Status1'
+        upDownVote:
+          $ref: '#/components/schemas/UpDownVote'
+        verified:
+          $ref: '#/components/schemas/Verified'
       examples:
-      - currentPageToken: null
-        currentPageUrl: /services/data/v58.0/chatter/comments/0D7.../likes
-        items: []
-        nextPageToken: null
-        nextPageUrl: null
-        previousPageToken: null
-        previousPageUrl: null
-        total: 0
+      - edit:
+          isEditRestricted: false
+          isEditableByMeUrl: /services/data/v58.0/chatter/comments/0D7.../capabilities/edit/is-editable-by-me
+          lastEditedBy: null
+          lastEditedDate: null
+          latestRevision: 1
+          relativeLastEditedDate: null
+        status:
+          feedEntityStatus: Published
+          isApprovableByMe: true
+        upDownVote:
+          downVoteCount: 0
+          myVote: None
+          upVoteCount: 0
+        verified:
+          isVerifiableByMe: false
+          isVerified: false
+          isVerifiedByAnonymized: null
+          lastVerifiedByUser: null
+          lastVerifiedDate: null
     Verified:
       title: Verified
       required:
@@ -536,51 +411,8 @@ components:
         isVerifiedByAnonymized: null
         lastVerifiedByUser: null
         lastVerifiedDate: null
-    Edit:
-      title: Edit
-      required:
-      - isEditRestricted
-      - isEditableByMeUrl
-      - lastEditedBy
-      - lastEditedDate
-      - latestRevision
-      - relativeLastEditedDate
-      type: object
-      properties:
-        isEditRestricted:
-          type: boolean
-          example: true
-        isEditableByMeUrl:
-          type: string
-          example: https://www.example.com
-        lastEditedBy:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        lastEditedDate:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        latestRevision:
-          type: integer
-          contentEncoding: int32
-          example: 10
-        relativeLastEditedDate:
-          type:
-          - string
-          - 'null'
-          example: example_value
-      examples:
-      - isEditRestricted: false
-        isEditableByMeUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/edit/is-editable-by-me
-        lastEditedBy: null
-        lastEditedDate: null
-        latestRevision: 1
-        relativeLastEditedDate: null
-    FeedElement:
-      title: FeedElement
+    Parent4:
+      title: Parent4
       required:
       - id
       - url
@@ -593,19 +425,8 @@ components:
           type: string
           example: https://www.example.com
       examples:
-      - id: 0D5...
-        url: /services/data/v58.0/chatter/feed-elements/0D5...
-    OutOfOffice:
-      title: OutOfOffice
-      required:
-      - message
-      type: object
-      properties:
-        message:
-          type: string
-          example: example_value
-      examples:
-      - message: ''
+      - id: 001...
+        url: /services/data/v58.0/chatter/records/001...
     FeedElementsCapabilityCommentsItems:
       title: FeedElementsCapabilityCommentsItems
       required:
@@ -775,29 +596,66 @@ components:
           type: User
           url: /services/data/v58.0/chatter/users/005...
           userType: Internal
-    UpDownVote:
-      title: UpDownVote
+    Likes:
+      title: Likes
       required:
-      - downVoteCount
-      - myVote
-      - upVoteCount
+      - currentPageToken
+      - currentPageUrl
+      - items
+      - nextPageToken
+      - nextPageUrl
+      - previousPageToken
+      - previousPageUrl
+      - total
       type: object
       properties:
-        downVoteCount:
-          type: integer
-          contentEncoding: int32
-          example: 42
-        myVote:
+        currentPageToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        currentPageUrl:
           type: string
-          example: example_value
-        upVoteCount:
+          example: https://www.example.com
+        items:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        nextPageToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        nextPageUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        previousPageToken:
+          type:
+          - string
+          - 'null'
+          example: CAUQAA
+        previousPageUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        total:
           type: integer
           contentEncoding: int32
           example: 42
       examples:
-      - downVoteCount: 0
-        myVote: None
-        upVoteCount: 0
+      - currentPageToken: null
+        currentPageUrl: /services/data/v58.0/chatter/comments/0D7.../likes
+        items: []
+        nextPageToken: null
+        nextPageUrl: null
+        previousPageToken: null
+        previousPageUrl: null
+        total: 0
     Photo:
       title: Photo
       required:
@@ -839,6 +697,17 @@ components:
         smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
         standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
         url: /services/data/v58.0/connect/user-profiles/005.../photo
+    OutOfOffice:
+      title: OutOfOffice
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+          example: example_value
+      examples:
+      - message: ''
     ClientInfo:
       title: ClientInfo
       required:
@@ -857,6 +726,224 @@ components:
       examples:
       - applicationName: Postman Playground
         applicationUrl: null
+    UpDownVote:
+      title: UpDownVote
+      required:
+      - downVoteCount
+      - myVote
+      - upVoteCount
+      type: object
+      properties:
+        downVoteCount:
+          type: integer
+          contentEncoding: int32
+          example: 42
+        myVote:
+          type: string
+          example: example_value
+        upVoteCount:
+          type: integer
+          contentEncoding: int32
+          example: 42
+      examples:
+      - downVoteCount: 0
+        myVote: None
+        upVoteCount: 0
+    Edit:
+      title: Edit
+      required:
+      - isEditRestricted
+      - isEditableByMeUrl
+      - lastEditedBy
+      - lastEditedDate
+      - latestRevision
+      - relativeLastEditedDate
+      type: object
+      properties:
+        isEditRestricted:
+          type: boolean
+          example: true
+        isEditableByMeUrl:
+          type: string
+          example: https://www.example.com
+        lastEditedBy:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        lastEditedDate:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        latestRevision:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        relativeLastEditedDate:
+          type:
+          - string
+          - 'null'
+          example: example_value
+      examples:
+      - isEditRestricted: false
+        isEditableByMeUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/edit/is-editable-by-me
+        lastEditedBy: null
+        lastEditedDate: null
+        latestRevision: 1
+        relativeLastEditedDate: null
+    User:
+      title: User
+      required:
+      - additionalLabel
+      - communityNickname
+      - companyName
+      - displayName
+      - firstName
+      - id
+      - isActive
+      - isInThisCommunity
+      - lastName
+      - motif
+      - mySubscription
+      - name
+      - outOfOffice
+      - photo
+      - reputation
+      - title
+      - type
+      - url
+      - userType
+      type: object
+      properties:
+        additionalLabel:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        communityNickname:
+          type: string
+          example: example_value
+        companyName:
+          type: string
+          example: example_value
+        displayName:
+          type: string
+          example: example_value
+        firstName:
+          type: string
+          example: example_value
+        id:
+          type: string
+          example: abc123
+        isActive:
+          type: boolean
+          example: true
+        isInThisCommunity:
+          type: boolean
+          example: true
+        lastName:
+          type: string
+          example: example_value
+        motif:
+          $ref: '#/components/schemas/Motif'
+        mySubscription:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        name:
+          type: string
+          example: Example Title
+        outOfOffice:
+          $ref: '#/components/schemas/OutOfOffice'
+        photo:
+          $ref: '#/components/schemas/Photo'
+        reputation:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        title:
+          type:
+          - string
+          - 'null'
+          example: Example Title
+        type:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+        userType:
+          type: string
+          example: example_value
+      examples:
+      - additionalLabel: null
+        communityNickname: User1696423780773910041
+        companyName: Salesforce
+        displayName: Name
+        firstName: Firstname
+        id: 005...
+        isActive: true
+        isInThisCommunity: true
+        lastName: Name
+        motif:
+          color: 1B96FF
+          largeIconUrl: /img/icon/profile64.png
+          mediumIconUrl: /img/icon/profile32.png
+          smallIconUrl: /img/icon/profile16.png
+          svgIconUrl: null
+        mySubscription: null
+        name: Name
+        outOfOffice:
+          message: ''
+        photo:
+          fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+          largePhotoUrl: https://<my_domain>/profilephoto/729.../F
+          mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
+          photoVersionId: 729...
+          smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
+          standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+          url: /services/data/v58.0/connect/user-profiles/005.../photo
+        reputation: null
+        title: null
+        type: User
+        url: /services/data/v58.0/chatter/users/005...
+        userType: Internal
+    Motif:
+      title: Motif
+      required:
+      - color
+      - largeIconUrl
+      - mediumIconUrl
+      - smallIconUrl
+      - svgIconUrl
+      type: object
+      properties:
+        color:
+          type: string
+          example: example_value
+        largeIconUrl:
+          type: string
+          example: https://www.example.com
+        mediumIconUrl:
+          type: string
+          example: https://www.example.com
+        smallIconUrl:
+          type: string
+          example: https://www.example.com
+        svgIconUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+      examples:
+      - color: '939393'
+        largeIconUrl: /img/content/content64.png
+        mediumIconUrl: /img/content/content32.png
+        smallIconUrl: /img/icon/files16.png
+        svgIconUrl: null
     Body4:
       title: Body4
       required:
@@ -899,8 +986,8 @@ components:
       examples:
       - text: New Feed Item
         type: Text
-    Parent4:
-      title: Parent4
+    FeedElement:
+      title: FeedElement
       required:
       - id
       - url
@@ -913,95 +1000,8 @@ components:
           type: string
           example: https://www.example.com
       examples:
-      - id: 001...
-        url: /services/data/v58.0/chatter/records/001...
-    Motif:
-      title: Motif
-      required:
-      - color
-      - largeIconUrl
-      - mediumIconUrl
-      - smallIconUrl
-      - svgIconUrl
-      type: object
-      properties:
-        color:
-          type: string
-          example: example_value
-        largeIconUrl:
-          type: string
-          example: https://www.example.com
-        mediumIconUrl:
-          type: string
-          example: https://www.example.com
-        smallIconUrl:
-          type: string
-          example: https://www.example.com
-        svgIconUrl:
-          type:
-          - string
-          - 'null'
-          example: https://www.example.com
-      examples:
-      - color: '939393'
-        largeIconUrl: /img/content/content64.png
-        mediumIconUrl: /img/content/content32.png
-        smallIconUrl: /img/icon/files16.png
-        svgIconUrl: null
-    Capabilities6:
-      title: Capabilities6
-      required:
-      - edit
-      - status
-      - upDownVote
-      - verified
-      type: object
-      properties:
-        edit:
-          $ref: '#/components/schemas/Edit'
-        status:
-          $ref: '#/components/schemas/Status1'
-        upDownVote:
-          $ref: '#/components/schemas/UpDownVote'
-        verified:
-          $ref: '#/components/schemas/Verified'
-      examples:
-      - edit:
-          isEditRestricted: false
-          isEditableByMeUrl: /services/data/v58.0/chatter/comments/0D7.../capabilities/edit/is-editable-by-me
-          lastEditedBy: null
-          lastEditedDate: null
-          latestRevision: 1
-          relativeLastEditedDate: null
-        status:
-          feedEntityStatus: Published
-          isApprovableByMe: true
-        upDownVote:
-          downVoteCount: 0
-          myVote: None
-          upVoteCount: 0
-        verified:
-          isVerifiableByMe: false
-          isVerified: false
-          isVerifiedByAnonymized: null
-          lastVerifiedByUser: null
-          lastVerifiedDate: null
-    Status1:
-      title: Status1
-      required:
-      - feedEntityStatus
-      - isApprovableByMe
-      type: object
-      properties:
-        feedEntityStatus:
-          type: string
-          example: example_value
-        isApprovableByMe:
-          type: boolean
-          example: true
-      examples:
-      - feedEntityStatus: Published
-        isApprovableByMe: true
+      - id: 0D5...
+        url: /services/data/v58.0/chatter/feed-elements/0D5...
   securitySchemes:
     oauth2:
       type: oauth2

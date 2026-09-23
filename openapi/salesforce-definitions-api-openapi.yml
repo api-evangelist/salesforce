@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Salesforce Definitions API
-  description: 'Find the resources you need to start building. '
+  description: Find the resources you need to start building.
   contact: {}
   version: '1.0'
 servers:
@@ -180,27 +180,61 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    Outcome:
-      title: Outcome
+    Predictiondefinitions:
+      title: Predictiondefinitions
       required:
-      - goal
-      - label
-      - name
+      - nextPageUrl
+      - predictionDefinitions
+      - totalSize
+      - url
       type: object
       properties:
-        goal:
+        nextPageUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        predictionDefinitions:
+          type: array
+          items:
+            $ref: '#/components/schemas/PredictionDefinitions1'
+          description: ''
+          example: []
+        totalSize:
+          type: integer
+          contentEncoding: int32
+          example: 42
+        url:
           type: string
-          example: example_value
-        label:
-          type: string
-          example: Example Title
-        name:
-          type: string
-          example: Example Title
+          example: https://www.example.com
       examples:
-      - goal: Maximize
-        label: Sales per Customer
-        name: Sales_per_Customer
+      - nextPageUrl: null
+        predictionDefinitions:
+        - countOfActiveModels: 1
+          countOfModels: 1
+          createdBy:
+            id: 0055Y00000DWwAIQA1
+            name: Philippe Ozil
+            profilePhotoUrl: https://crm-analytics-deorg-dev-ed--c.documentforce.com/profilephoto/005/T
+          createdDate: '2021-03-04T13:37:02.000Z'
+          id: 1OR5Y0000010ws8WAA
+          label: Sales_per_Customer
+          lastModifiedBy:
+            id: 0055Y00000DWwAIQA1
+            name: Philippe Ozil
+            profilePhotoUrl: https://crm-analytics-deorg-dev-ed--c.documentforce.com/profilephoto/005/T
+          lastModifiedDate: '2021-03-04T13:37:02.000Z'
+          modelsUrl: /services/data/v51.0/smartdatadiscovery/predictiondefinitions/1OR5Y0000010ws8WAA/models
+          name: Sales_per_Customer
+          outcome:
+            goal: Maximize
+            label: Sales per Customer
+            name: Sales_per_Customer
+          predictionType: Regression
+          status: Enabled
+          url: /services/data/v51.0/smartdatadiscovery/predictiondefinitions/1OR5Y0000010ws8WAA
+        totalSize: 1
+        url: /services/data/v51.0/smartdatadiscovery/predictiondefinitions?pageSize=25
     PredictionDefinitions1:
       title: PredictionDefinitions1
       required:
@@ -285,61 +319,27 @@ components:
         predictionType: Regression
         status: Enabled
         url: /services/data/v51.0/smartdatadiscovery/predictiondefinitions/1OR5Y0000010ws8WAA
-    Predictiondefinitions:
-      title: Predictiondefinitions
+    Outcome:
+      title: Outcome
       required:
-      - nextPageUrl
-      - predictionDefinitions
-      - totalSize
-      - url
+      - goal
+      - label
+      - name
       type: object
       properties:
-        nextPageUrl:
-          type:
-          - string
-          - 'null'
-          example: https://www.example.com
-        predictionDefinitions:
-          type: array
-          items:
-            $ref: '#/components/schemas/PredictionDefinitions1'
-          description: ''
-          example: []
-        totalSize:
-          type: integer
-          contentEncoding: int32
-          example: 42
-        url:
+        goal:
           type: string
-          example: https://www.example.com
+          example: example_value
+        label:
+          type: string
+          example: Example Title
+        name:
+          type: string
+          example: Example Title
       examples:
-      - nextPageUrl: null
-        predictionDefinitions:
-        - countOfActiveModels: 1
-          countOfModels: 1
-          createdBy:
-            id: 0055Y00000DWwAIQA1
-            name: Philippe Ozil
-            profilePhotoUrl: https://crm-analytics-deorg-dev-ed--c.documentforce.com/profilephoto/005/T
-          createdDate: '2021-03-04T13:37:02.000Z'
-          id: 1OR5Y0000010ws8WAA
-          label: Sales_per_Customer
-          lastModifiedBy:
-            id: 0055Y00000DWwAIQA1
-            name: Philippe Ozil
-            profilePhotoUrl: https://crm-analytics-deorg-dev-ed--c.documentforce.com/profilephoto/005/T
-          lastModifiedDate: '2021-03-04T13:37:02.000Z'
-          modelsUrl: /services/data/v51.0/smartdatadiscovery/predictiondefinitions/1OR5Y0000010ws8WAA/models
-          name: Sales_per_Customer
-          outcome:
-            goal: Maximize
-            label: Sales per Customer
-            name: Sales_per_Customer
-          predictionType: Regression
-          status: Enabled
-          url: /services/data/v51.0/smartdatadiscovery/predictiondefinitions/1OR5Y0000010ws8WAA
-        totalSize: 1
-        url: /services/data/v51.0/smartdatadiscovery/predictiondefinitions?pageSize=25
+      - goal: Maximize
+        label: Sales per Customer
+        name: Sales_per_Customer
     CreatedBy:
       title: CreatedBy
       required:

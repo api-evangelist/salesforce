@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Salesforce Describe API
-  description: 'Find the resources you need to start building. '
+  description: Find the resources you need to start building.
   contact: {}
   version: '1.0'
 servers:
@@ -1466,67 +1466,318 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    Urls4:
-      title: Urls4
+    RecordTypeInfo:
+      title: RecordTypeInfo
       required:
-      - compactLayouts
-      - rowTemplate
-      - approvalLayouts
-      - uiDetailTemplate
-      - uiEditTemplate
-      - listviews
-      - describe
-      - uiNewRecord
-      - quickActions
-      - layouts
-      - sobject
+      - active
+      - available
+      - defaultRecordTypeMapping
+      - developerName
+      - master
+      - name
+      - recordTypeId
+      - urls
       type: object
       properties:
-        compactLayouts:
+        active:
+          type: boolean
+          example: true
+        available:
+          type: boolean
+          example: true
+        defaultRecordTypeMapping:
+          type: boolean
+          example: true
+        developerName:
           type: string
           example: example_value
-        rowTemplate:
+        master:
+          type: boolean
+          example: true
+        name:
           type: string
-          example: example_value
-        approvalLayouts:
+          example: Example Title
+        recordTypeId:
           type: string
-          example: example_value
-        uiDetailTemplate:
-          type: string
-          example: example_value
-        uiEditTemplate:
-          type: string
-          example: example_value
-        listviews:
-          type: string
-          example: example_value
-        describe:
-          type: string
-          example: example_value
-        uiNewRecord:
-          type: string
-          example: example_value
-        quickActions:
-          type: string
-          example: example_value
-        layouts:
-          type: string
-          example: example_value
-        sobject:
+          example: '500123'
+        urls:
+          $ref: '#/components/schemas/Urls3'
+      examples:
+      - active: true
+        available: true
+        defaultRecordTypeMapping: true
+        developerName: Master
+        master: true
+        name: Master
+        recordTypeId: 012000000000000AAA
+        urls:
+          layout: /services/data/v58.0/sobjects/Lead/describe/layouts/012000000000000AAA
+    Urls3:
+      title: Urls3
+      required:
+      - layout
+      type: object
+      properties:
+        layout:
           type: string
           example: example_value
       examples:
-      - compactLayouts: /services/data/v58.0/sobjects/Lead/describe/compactLayouts
-        rowTemplate: /services/data/v58.0/sobjects/Lead/{ID}
-        approvalLayouts: /services/data/v58.0/sobjects/Lead/describe/approvalLayouts
-        uiDetailTemplate: https://pozil-dev-ed.my.salesforce.com/{ID}
-        uiEditTemplate: https://pozil-dev-ed.my.salesforce.com/{ID}/e
-        listviews: /services/data/v58.0/sobjects/Lead/listviews
-        describe: /services/data/v58.0/sobjects/Lead/describe
-        uiNewRecord: https://pozil-dev-ed.my.salesforce.com/00Q/e
-        quickActions: /services/data/v58.0/sobjects/Lead/quickActions
-        layouts: /services/data/v58.0/sobjects/Lead/describe/layouts
-        sobject: /services/data/v58.0/sobjects/Lead
+      - layout: /services/data/v58.0/sobjects/Lead/describe/layouts/012000000000000AAA
+    GetToolingDescribeSObject:
+      title: GetToolingDescribeSObject
+      required:
+      - actionOverrides
+      - activateable
+      - associateEntityType
+      - associateParentEntity
+      - childRelationships
+      - compactLayoutable
+      - createable
+      - custom
+      - customSetting
+      - deepCloneable
+      - defaultImplementation
+      - deletable
+      - deprecatedAndHidden
+      - extendedBy
+      - extendsInterfaces
+      - feedEnabled
+      - fields
+      - hasSubtypes
+      - implementedBy
+      - implementsInterfaces
+      - isInterface
+      - isSubtype
+      - keyPrefix
+      - label
+      - labelPlural
+      - layoutable
+      - listviewable
+      - lookupLayoutable
+      - mergeable
+      - mruEnabled
+      - name
+      - namedLayoutInfos
+      - networkScopeFieldName
+      - queryable
+      - recordTypeInfos
+      - replicateable
+      - retrieveable
+      - searchLayoutable
+      - searchable
+      - sobjectDescribeOption
+      - supportedScopes
+      - triggerable
+      - undeletable
+      - updateable
+      - urls
+      type: object
+      properties:
+        actionOverrides:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        activateable:
+          type: boolean
+          example: true
+        associateEntityType:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        associateParentEntity:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        childRelationships:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChildRelationship'
+          description: ''
+          example: []
+        compactLayoutable:
+          type: boolean
+          example: true
+        createable:
+          type: boolean
+          example: true
+        custom:
+          type: boolean
+          example: true
+        customSetting:
+          type: boolean
+          example: true
+        deepCloneable:
+          type: boolean
+          example: true
+        defaultImplementation:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        deletable:
+          type: boolean
+          example: true
+        deprecatedAndHidden:
+          type: boolean
+          example: true
+        extendedBy:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        extendsInterfaces:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        feedEnabled:
+          type: boolean
+          example: true
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/Fields2'
+          description: ''
+          example: []
+        hasSubtypes:
+          type: boolean
+          example: true
+        implementedBy:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        implementsInterfaces:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        isInterface:
+          type: boolean
+          example: true
+        isSubtype:
+          type: boolean
+          example: true
+        keyPrefix:
+          type: string
+          example: example_value
+        label:
+          type: string
+          example: Example Title
+        labelPlural:
+          type: string
+          example: example_value
+        layoutable:
+          type: boolean
+          example: true
+        listviewable:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        lookupLayoutable:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        mergeable:
+          type: boolean
+          example: true
+        mruEnabled:
+          type: boolean
+          example: true
+        name:
+          type: string
+          example: Example Title
+        namedLayoutInfos:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        networkScopeFieldName:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        queryable:
+          type: boolean
+          example: true
+        recordTypeInfos:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        replicateable:
+          type: boolean
+          example: true
+        retrieveable:
+          type: boolean
+          example: true
+        searchLayoutable:
+          type: boolean
+          example: true
+        searchable:
+          type: boolean
+          example: true
+        sobjectDescribeOption:
+          type: string
+          example: example_value
+        supportedScopes:
+          type: array
+          items:
+            $ref: '#/components/schemas/SupportedScope'
+          description: ''
+          example: []
+        triggerable:
+          type: boolean
+          example: true
+        undeletable:
+          type: boolean
+          example: true
+        updateable:
+          type: boolean
+          example: true
+        urls:
+          $ref: '#/components/schemas/Urls8'
+    PicklistValue31:
+      title: PicklistValue31
+      required:
+      - active
+      - defaultValue
+      - label
+      - validFor
+      - value
+      type: object
+      properties:
+        active:
+          type: boolean
+          example: true
+        defaultValue:
+          type: boolean
+          example: true
+        label:
+          type: string
+          example: Example Title
+        validFor:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        value:
+          type: string
+          example: example_value
+      examples:
+      - active: true
+        defaultValue: false
+        label: Mr.
+        validFor: null
+        value: Mr.
     SObjectDescribe:
       title: SObjectDescribe
       required:
@@ -1749,6 +2000,121 @@ components:
           example: true
         urls:
           $ref: '#/components/schemas/Urls4'
+    PicklistValue:
+      title: PicklistValue
+      type: object
+      properties:
+        active:
+          type: boolean
+          example: true
+        defaultValue:
+          type: boolean
+          example: true
+        label:
+          type: string
+          example: Example Title
+        validFor:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        value:
+          type: string
+          example: example_value
+    ActionOverride:
+      title: ActionOverride
+      required:
+      - formFactor
+      - isAvailableInTouch
+      - name
+      - pageId
+      - url
+      type: object
+      properties:
+        formFactor:
+          type: string
+          example: example_value
+        isAvailableInTouch:
+          type: boolean
+          example: true
+        name:
+          type: string
+          example: Example Title
+        pageId:
+          type: string
+          example: '500123'
+        url:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+      examples:
+      - formFactor: LARGE
+        isAvailableInTouch: false
+        name: View
+        pageId: 0M0580000008YfXCAU
+        url: null
+    Urls4:
+      title: Urls4
+      required:
+      - compactLayouts
+      - rowTemplate
+      - approvalLayouts
+      - uiDetailTemplate
+      - uiEditTemplate
+      - listviews
+      - describe
+      - uiNewRecord
+      - quickActions
+      - layouts
+      - sobject
+      type: object
+      properties:
+        compactLayouts:
+          type: string
+          example: example_value
+        rowTemplate:
+          type: string
+          example: example_value
+        approvalLayouts:
+          type: string
+          example: example_value
+        uiDetailTemplate:
+          type: string
+          example: example_value
+        uiEditTemplate:
+          type: string
+          example: example_value
+        listviews:
+          type: string
+          example: example_value
+        describe:
+          type: string
+          example: example_value
+        uiNewRecord:
+          type: string
+          example: example_value
+        quickActions:
+          type: string
+          example: example_value
+        layouts:
+          type: string
+          example: example_value
+        sobject:
+          type: string
+          example: example_value
+      examples:
+      - compactLayouts: /services/data/v58.0/sobjects/Lead/describe/compactLayouts
+        rowTemplate: /services/data/v58.0/sobjects/Lead/{ID}
+        approvalLayouts: /services/data/v58.0/sobjects/Lead/describe/approvalLayouts
+        uiDetailTemplate: https://pozil-dev-ed.my.salesforce.com/{ID}
+        uiEditTemplate: https://pozil-dev-ed.my.salesforce.com/{ID}/e
+        listviews: /services/data/v58.0/sobjects/Lead/listviews
+        describe: /services/data/v58.0/sobjects/Lead/describe
+        uiNewRecord: https://pozil-dev-ed.my.salesforce.com/00Q/e
+        quickActions: /services/data/v58.0/sobjects/Lead/quickActions
+        layouts: /services/data/v58.0/sobjects/Lead/describe/layouts
+        sobject: /services/data/v58.0/sobjects/Lead
     Urls8:
       title: Urls8
       required:
@@ -1795,6 +2161,592 @@ components:
         uiNewRecord: https://pozil-dev-ed.my.salesforce.com/01p/e
         layouts: /services/data/v59.0/tooling/sobjects/ApexClass/describe/layouts
         sobject: /services/data/v59.0/tooling/sobjects/ApexClass
+    GetToolingDescribe:
+      title: GetToolingDescribe
+      required:
+      - encoding
+      - maxBatchSize
+      - sobjects
+      type: object
+      properties:
+        encoding:
+          type: string
+          example: example_value
+        maxBatchSize:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        sobjects:
+          type: array
+          items:
+            $ref: '#/components/schemas/Sobjects2'
+          description: ''
+          example: []
+      examples:
+      - encoding: UTF-8
+        maxBatchSize: 200
+        sobjects:
+        - activateable: false
+          associateEntityType: null
+          associateParentEntity: null
+          createable: true
+          custom: false
+          customSetting: false
+          deepCloneable: false
+          deletable: true
+          deprecatedAndHidden: false
+          feedEnabled: false
+          hasSubtypes: false
+          isInterface: false
+          isSubtype: false
+          keyPrefix: 0Pp
+          label: AI Application
+          labelPlural: AI Applications
+          layoutable: false
+          mergeable: false
+          mruEnabled: false
+          name: AIApplication
+          queryable: true
+          replicateable: false
+          retrieveable: true
+          searchable: false
+          triggerable: false
+          undeletable: false
+          updateable: true
+          urls:
+            rowTemplate: /services/data/v59.0/tooling/sobjects/AIApplication/{ID}
+            describe: /services/data/v59.0/tooling/sobjects/AIApplication/describe
+            sobject: /services/data/v59.0/tooling/sobjects/AIApplication
+        - activateable: false
+          associateEntityType: null
+          associateParentEntity: null
+          createable: true
+          custom: false
+          customSetting: false
+          deepCloneable: false
+          deletable: true
+          deprecatedAndHidden: false
+          feedEnabled: false
+          hasSubtypes: false
+          isInterface: false
+          isSubtype: false
+          keyPrefix: 6S9
+          label: AI Application config
+          labelPlural: AI Application configs
+          layoutable: false
+          mergeable: false
+          mruEnabled: false
+          name: AIApplicationConfig
+          queryable: true
+          replicateable: false
+          retrieveable: true
+          searchable: false
+          triggerable: false
+          undeletable: false
+          updateable: true
+          urls:
+            rowTemplate: /services/data/v59.0/tooling/sobjects/AIApplicationConfig/{ID}
+            describe: /services/data/v59.0/tooling/sobjects/AIApplicationConfig/describe
+            sobject: /services/data/v59.0/tooling/sobjects/AIApplicationConfig
+        - activateable: false
+          associateEntityType: null
+          associateParentEntity: null
+          createable: true
+          custom: false
+          customSetting: false
+          deepCloneable: false
+          deletable: true
+          deprecatedAndHidden: false
+          feedEnabled: false
+          hasSubtypes: false
+          isInterface: false
+          isSubtype: false
+          keyPrefix: 0HE
+          label: Entity
+          labelPlural: Entity
+          layoutable: false
+          mergeable: false
+          mruEnabled: false
+          name: AIReplyRecommendationsSettings
+          queryable: true
+          replicateable: false
+          retrieveable: true
+          searchable: false
+          triggerable: false
+          undeletable: false
+          updateable: true
+          urls:
+            rowTemplate: /services/data/v59.0/tooling/sobjects/AIReplyRecommendationsSettings/{ID}
+            describe: /services/data/v59.0/tooling/sobjects/AIReplyRecommendationsSettings/describe
+            sobject: /services/data/v59.0/tooling/sobjects/AIReplyRecommendationsSettings
+        - activateable: false
+          associateEntityType: null
+          associateParentEntity: null
+          createable: false
+          custom: false
+          customSetting: false
+          deepCloneable: false
+          deletable: false
+          deprecatedAndHidden: false
+          feedEnabled: false
+          hasSubtypes: false
+          isInterface: false
+          isSubtype: false
+          keyPrefix: 0Dx
+          label: Access Control Policy
+          labelPlural: Access Control Policies
+          layoutable: false
+          mergeable: false
+          mruEnabled: false
+          name: AccessControlPolicy
+          queryable: true
+          replicateable: false
+          retrieveable: true
+          searchable: false
+          triggerable: true
+          undeletable: false
+          updateable: false
+          urls:
+            rowTemplate: /services/data/v59.0/tooling/sobjects/AccessControlPolicy/{ID}
+            describe: /services/data/v59.0/tooling/sobjects/AccessControlPolicy/describe
+            sobject: /services/data/v59.0/tooling/sobjects/AccessControlPolicy
+        - activateable: false
+          associateEntityType: null
+          associateParentEntity: null
+          createable: true
+          custom: false
+          customSetting: false
+          deepCloneable: false
+          deletable: true
+          deprecatedAndHidden: false
+          feedEnabled: false
+          hasSubtypes: false
+          isInterface: false
+          isSubtype: false
+          keyPrefix: 0HE
+          label: Entity
+          labelPlural: Entity
+          layoutable: false
+          mergeable: false
+          mruEnabled: false
+          name: AccountIntelligenceSettings
+          queryable: true
+          replicateable: false
+          retrieveable: true
+          searchable: false
+          triggerable: false
+          undeletable: false
+          updateable: true
+          urls:
+            rowTemplate: /services/data/v59.0/tooling/sobjects/AccountIntelligenceSettings/{ID}
+            describe: /services/data/v59.0/tooling/sobjects/AccountIntelligenceSettings/describe
+            sobject: /services/data/v59.0/tooling/sobjects/AccountIntelligenceSettings
+        - activateable: false
+          associateEntityType: null
+          associateParentEntity: null
+          createable: true
+          custom: false
+          customSetting: false
+          deepCloneable: false
+          deletable: true
+          deprecatedAndHidden: false
+          feedEnabled: false
+          hasSubtypes: false
+          isInterface: false
+          isSubtype: false
+          keyPrefix: 0HE
+          label: Entity
+          labelPlural: Entity
+          layoutable: false
+          mergeable: false
+          mruEnabled: false
+          name: AccountSettings
+          queryable: true
+          replicateable: false
+          retrieveable: true
+          searchable: false
+          triggerable: false
+          undeletable: false
+          updateable: true
+          urls:
+            rowTemplate: /services/data/v59.0/tooling/sobjects/AccountSettings/{ID}
+            describe: /services/data/v59.0/tooling/sobjects/AccountSettings/describe
+            sobject: /services/data/v59.0/tooling/sobjects/AccountSettings
+        - activateable: false
+          associateEntityType: null
+          associateParentEntity: null
+          createable: true
+          custom: false
+          customSetting: false
+          deepCloneable: false
+          deletable: true
+          deprecatedAndHidden: false
+          feedEnabled: false
+          hasSubtypes: false
+          isInterface: false
+          isSubtype: false
+          keyPrefix: 11i
+          label: ActionLauncherItemDef
+          labelPlural: ActionLauncherItemDefs
+          layoutable: false
+          mergeable: false
+          mruEnabled: false
+          name: ActionLauncherItemDef
+          queryable: true
+          replicateable: false
+          retrieveable: true
+          searchable: false
+          triggerable: false
+          undeletable: false
+          updateable: true
+          urls:
+            rowTemplate: /services/data/v59.0/tooling/sobjects/ActionLauncherItemDef/{ID}
+            describe: /services/data/v59.0/tooling/sobjects/ActionLauncherItemDef/describe
+            sobject: /services/data/v59.0/tooling/sobjects/ActionLauncherItemDef
+        - activateable: false
+          associateEntityType: null
+          associateParentEntity: null
+          createable: true
+          custom: false
+          customSetting: false
+          deepCloneable: false
+          deletable: true
+          deprecatedAndHidden: false
+          feedEnabled: false
+          hasSubtypes: false
+          isInterface: false
+          isSubtype: false
+          keyPrefix: 0HE
+          label: Entity
+          labelPlural: Entity
+          layoutable: false
+          mergeable: false
+          mruEnabled: false
+          name: ActionsSettings
+          queryable: true
+          replicateable: false
+          retrieveable: true
+          searchable: false
+          triggerable: false
+          undeletable: false
+          updateable: true
+          urls:
+            rowTemplate: /services/data/v59.0/tooling/sobjects/ActionsSettings/{ID}
+            describe: /services/data/v59.0/tooling/sobjects/ActionsSettings/describe
+            sobject: /services/data/v59.0/tooling/sobjects/ActionsSettings
+        - activateable: false
+          associateEntityType: null
+          associateParentEntity: null
+          createable: true
+          custom: false
+          customSetting: false
+          deepCloneable: false
+          deletable: true
+          deprecatedAndHidden: false
+          feedEnabled: false
+          hasSubtypes: false
+          isInterface: false
+          isSubtype: false
+          keyPrefix: 0HE
+          label: Entity
+          labelPlural: Entity
+          layoutable: false
+          mergeable: false
+          mruEnabled: false
+          name: ActivitiesSettings
+          queryable: true
+          replicateable: false
+          retrieveable: true
+          searchable: false
+          triggerable: false
+          undeletable: false
+          updateable: true
+          urls:
+            rowTemplate: /services/data/v59.0/tooling/sobjects/ActivitiesSettings/{ID}
+            describe: /services/data/v59.0/tooling/sobjects/ActivitiesSettings/describe
+            sobject: /services/data/v59.0/tooling/sobjects/ActivitiesSettings
+    Field9:
+      title: Field9
+      required:
+      - aggregatable
+      - aiPredictionField
+      - autoNumber
+      - byteLength
+      - calculated
+      - calculatedFormula
+      - cascadeDelete
+      - caseSensitive
+      - compoundFieldName
+      - controllerName
+      - createable
+      - custom
+      - defaultValue
+      - defaultValueFormula
+      - defaultedOnCreate
+      - dependentPicklist
+      - deprecatedAndHidden
+      - digits
+      - displayLocationInDecimal
+      - encrypted
+      - externalId
+      - extraTypeInfo
+      - filterable
+      - filteredLookupInfo
+      - formulaTreatNullNumberAsZero
+      - groupable
+      - highScaleNumber
+      - htmlFormatted
+      - idLookup
+      - inlineHelpText
+      - label
+      - length
+      - mask
+      - maskType
+      - name
+      - nameField
+      - namePointing
+      - nillable
+      - permissionable
+      - picklistValues
+      - polymorphicForeignKey
+      - precision
+      - queryByDistance
+      - referenceTargetField
+      - referenceTo
+      - relationshipName
+      - relationshipOrder
+      - restrictedDelete
+      - restrictedPicklist
+      - scale
+      - searchPrefilterable
+      - soapType
+      - sortable
+      - type
+      - unique
+      - updateable
+      - writeRequiresMasterRead
+      type: object
+      properties:
+        aggregatable:
+          type: boolean
+          example: true
+        aiPredictionField:
+          type: boolean
+          example: true
+        autoNumber:
+          type: boolean
+          example: true
+        byteLength:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        calculated:
+          type: boolean
+          example: true
+        calculatedFormula:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        cascadeDelete:
+          type: boolean
+          example: true
+        caseSensitive:
+          type: boolean
+          example: true
+        compoundFieldName:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        controllerName:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        createable:
+          type: boolean
+          example: true
+        custom:
+          type: boolean
+          example: true
+        defaultValue:
+          oneOf:
+          - type:
+            - string
+            - 'null'
+          - type: boolean
+          - {}
+          example: example_value
+        defaultValueFormula:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        defaultedOnCreate:
+          type: boolean
+          example: true
+        dependentPicklist:
+          type: boolean
+          example: true
+        deprecatedAndHidden:
+          type: boolean
+          example: true
+        digits:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        displayLocationInDecimal:
+          type: boolean
+          example: true
+        encrypted:
+          type: boolean
+          example: true
+        externalId:
+          type: boolean
+          example: '500123'
+        extraTypeInfo:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        filterable:
+          type: boolean
+          example: true
+        filteredLookupInfo:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        formulaTreatNullNumberAsZero:
+          type: boolean
+          example: true
+        groupable:
+          type: boolean
+          example: true
+        highScaleNumber:
+          type: boolean
+          example: true
+        htmlFormatted:
+          type: boolean
+          example: true
+        idLookup:
+          type: boolean
+          example: true
+        inlineHelpText:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        label:
+          type: string
+          example: Example Title
+        length:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        mask:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        maskType:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        name:
+          type: string
+          example: Example Title
+        nameField:
+          type: boolean
+          example: true
+        namePointing:
+          type: boolean
+          example: true
+        nillable:
+          type: boolean
+          example: true
+        permissionable:
+          type: boolean
+          example: true
+        picklistValues:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/PicklistValue'
+            - allOf:
+              - $ref: '#/components/schemas/PicklistValue31'
+              - examples:
+                - active: true
+                  defaultValue: false
+                  label: Mr.
+                  validFor: null
+                  value: Mr.
+          description: ''
+          example: []
+        polymorphicForeignKey:
+          type: boolean
+          example: true
+        precision:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        queryByDistance:
+          type: boolean
+          example: true
+        referenceTargetField:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        referenceTo:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        relationshipName:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        relationshipOrder:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        restrictedDelete:
+          type: boolean
+          example: true
+        restrictedPicklist:
+          type: boolean
+          example: true
+        scale:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        searchPrefilterable:
+          type: boolean
+          example: true
+        soapType:
+          type: string
+          example: example_value
+        sortable:
+          type: boolean
+          example: true
+        type:
+          type: string
+          example: example_value
+        unique:
+          type: boolean
+          example: true
+        updateable:
+          type: boolean
+          example: true
+        writeRequiresMasterRead:
+          type: boolean
+          example: true
     Fields2:
       title: Fields2
       required:
@@ -2229,6 +3181,22 @@ components:
           rowTemplate: /services/data/v59.0/tooling/sobjects/AIApplication/{ID}
           describe: /services/data/v59.0/tooling/sobjects/AIApplication/describe
           sobject: /services/data/v59.0/tooling/sobjects/AIApplication
+    SupportedScope:
+      title: SupportedScope
+      required:
+      - label
+      - name
+      type: object
+      properties:
+        label:
+          type: string
+          example: Example Title
+        name:
+          type: string
+          example: Example Title
+      examples:
+      - label: All platform event channels
+        name: everything
     Urls2:
       title: Urls2
       required:
@@ -2250,421 +3218,6 @@ components:
       - rowTemplate: /services/data/v58.0/tooling/sobjects/PlatformEventChannel/{ID}
         describe: /services/data/v58.0/tooling/sobjects/PlatformEventChannel/describe
         sobject: /services/data/v58.0/tooling/sobjects/PlatformEventChannel
-    PicklistValue:
-      title: PicklistValue
-      type: object
-      properties:
-        active:
-          type: boolean
-          example: true
-        defaultValue:
-          type: boolean
-          example: true
-        label:
-          type: string
-          example: Example Title
-        validFor:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        value:
-          type: string
-          example: example_value
-    RecordTypeInfo:
-      title: RecordTypeInfo
-      required:
-      - active
-      - available
-      - defaultRecordTypeMapping
-      - developerName
-      - master
-      - name
-      - recordTypeId
-      - urls
-      type: object
-      properties:
-        active:
-          type: boolean
-          example: true
-        available:
-          type: boolean
-          example: true
-        defaultRecordTypeMapping:
-          type: boolean
-          example: true
-        developerName:
-          type: string
-          example: example_value
-        master:
-          type: boolean
-          example: true
-        name:
-          type: string
-          example: Example Title
-        recordTypeId:
-          type: string
-          example: '500123'
-        urls:
-          $ref: '#/components/schemas/Urls3'
-      examples:
-      - active: true
-        available: true
-        defaultRecordTypeMapping: true
-        developerName: Master
-        master: true
-        name: Master
-        recordTypeId: 012000000000000AAA
-        urls:
-          layout: /services/data/v58.0/sobjects/Lead/describe/layouts/012000000000000AAA
-    Urls3:
-      title: Urls3
-      required:
-      - layout
-      type: object
-      properties:
-        layout:
-          type: string
-          example: example_value
-      examples:
-      - layout: /services/data/v58.0/sobjects/Lead/describe/layouts/012000000000000AAA
-    ActionOverride:
-      title: ActionOverride
-      required:
-      - formFactor
-      - isAvailableInTouch
-      - name
-      - pageId
-      - url
-      type: object
-      properties:
-        formFactor:
-          type: string
-          example: example_value
-        isAvailableInTouch:
-          type: boolean
-          example: true
-        name:
-          type: string
-          example: Example Title
-        pageId:
-          type: string
-          example: '500123'
-        url:
-          type:
-          - string
-          - 'null'
-          example: https://www.example.com
-      examples:
-      - formFactor: LARGE
-        isAvailableInTouch: false
-        name: View
-        pageId: 0M0580000008YfXCAU
-        url: null
-    GetToolingDescribe:
-      title: GetToolingDescribe
-      required:
-      - encoding
-      - maxBatchSize
-      - sobjects
-      type: object
-      properties:
-        encoding:
-          type: string
-          example: example_value
-        maxBatchSize:
-          type: integer
-          contentEncoding: int32
-          example: 10
-        sobjects:
-          type: array
-          items:
-            $ref: '#/components/schemas/Sobjects2'
-          description: ''
-          example: []
-      examples:
-      - encoding: UTF-8
-        maxBatchSize: 200
-        sobjects:
-        - activateable: false
-          associateEntityType: null
-          associateParentEntity: null
-          createable: true
-          custom: false
-          customSetting: false
-          deepCloneable: false
-          deletable: true
-          deprecatedAndHidden: false
-          feedEnabled: false
-          hasSubtypes: false
-          isInterface: false
-          isSubtype: false
-          keyPrefix: 0Pp
-          label: AI Application
-          labelPlural: AI Applications
-          layoutable: false
-          mergeable: false
-          mruEnabled: false
-          name: AIApplication
-          queryable: true
-          replicateable: false
-          retrieveable: true
-          searchable: false
-          triggerable: false
-          undeletable: false
-          updateable: true
-          urls:
-            rowTemplate: /services/data/v59.0/tooling/sobjects/AIApplication/{ID}
-            describe: /services/data/v59.0/tooling/sobjects/AIApplication/describe
-            sobject: /services/data/v59.0/tooling/sobjects/AIApplication
-        - activateable: false
-          associateEntityType: null
-          associateParentEntity: null
-          createable: true
-          custom: false
-          customSetting: false
-          deepCloneable: false
-          deletable: true
-          deprecatedAndHidden: false
-          feedEnabled: false
-          hasSubtypes: false
-          isInterface: false
-          isSubtype: false
-          keyPrefix: 6S9
-          label: AI Application config
-          labelPlural: AI Application configs
-          layoutable: false
-          mergeable: false
-          mruEnabled: false
-          name: AIApplicationConfig
-          queryable: true
-          replicateable: false
-          retrieveable: true
-          searchable: false
-          triggerable: false
-          undeletable: false
-          updateable: true
-          urls:
-            rowTemplate: /services/data/v59.0/tooling/sobjects/AIApplicationConfig/{ID}
-            describe: /services/data/v59.0/tooling/sobjects/AIApplicationConfig/describe
-            sobject: /services/data/v59.0/tooling/sobjects/AIApplicationConfig
-        - activateable: false
-          associateEntityType: null
-          associateParentEntity: null
-          createable: true
-          custom: false
-          customSetting: false
-          deepCloneable: false
-          deletable: true
-          deprecatedAndHidden: false
-          feedEnabled: false
-          hasSubtypes: false
-          isInterface: false
-          isSubtype: false
-          keyPrefix: 0HE
-          label: Entity
-          labelPlural: Entity
-          layoutable: false
-          mergeable: false
-          mruEnabled: false
-          name: AIReplyRecommendationsSettings
-          queryable: true
-          replicateable: false
-          retrieveable: true
-          searchable: false
-          triggerable: false
-          undeletable: false
-          updateable: true
-          urls:
-            rowTemplate: /services/data/v59.0/tooling/sobjects/AIReplyRecommendationsSettings/{ID}
-            describe: /services/data/v59.0/tooling/sobjects/AIReplyRecommendationsSettings/describe
-            sobject: /services/data/v59.0/tooling/sobjects/AIReplyRecommendationsSettings
-        - activateable: false
-          associateEntityType: null
-          associateParentEntity: null
-          createable: false
-          custom: false
-          customSetting: false
-          deepCloneable: false
-          deletable: false
-          deprecatedAndHidden: false
-          feedEnabled: false
-          hasSubtypes: false
-          isInterface: false
-          isSubtype: false
-          keyPrefix: 0Dx
-          label: Access Control Policy
-          labelPlural: Access Control Policies
-          layoutable: false
-          mergeable: false
-          mruEnabled: false
-          name: AccessControlPolicy
-          queryable: true
-          replicateable: false
-          retrieveable: true
-          searchable: false
-          triggerable: true
-          undeletable: false
-          updateable: false
-          urls:
-            rowTemplate: /services/data/v59.0/tooling/sobjects/AccessControlPolicy/{ID}
-            describe: /services/data/v59.0/tooling/sobjects/AccessControlPolicy/describe
-            sobject: /services/data/v59.0/tooling/sobjects/AccessControlPolicy
-        - activateable: false
-          associateEntityType: null
-          associateParentEntity: null
-          createable: true
-          custom: false
-          customSetting: false
-          deepCloneable: false
-          deletable: true
-          deprecatedAndHidden: false
-          feedEnabled: false
-          hasSubtypes: false
-          isInterface: false
-          isSubtype: false
-          keyPrefix: 0HE
-          label: Entity
-          labelPlural: Entity
-          layoutable: false
-          mergeable: false
-          mruEnabled: false
-          name: AccountIntelligenceSettings
-          queryable: true
-          replicateable: false
-          retrieveable: true
-          searchable: false
-          triggerable: false
-          undeletable: false
-          updateable: true
-          urls:
-            rowTemplate: /services/data/v59.0/tooling/sobjects/AccountIntelligenceSettings/{ID}
-            describe: /services/data/v59.0/tooling/sobjects/AccountIntelligenceSettings/describe
-            sobject: /services/data/v59.0/tooling/sobjects/AccountIntelligenceSettings
-        - activateable: false
-          associateEntityType: null
-          associateParentEntity: null
-          createable: true
-          custom: false
-          customSetting: false
-          deepCloneable: false
-          deletable: true
-          deprecatedAndHidden: false
-          feedEnabled: false
-          hasSubtypes: false
-          isInterface: false
-          isSubtype: false
-          keyPrefix: 0HE
-          label: Entity
-          labelPlural: Entity
-          layoutable: false
-          mergeable: false
-          mruEnabled: false
-          name: AccountSettings
-          queryable: true
-          replicateable: false
-          retrieveable: true
-          searchable: false
-          triggerable: false
-          undeletable: false
-          updateable: true
-          urls:
-            rowTemplate: /services/data/v59.0/tooling/sobjects/AccountSettings/{ID}
-            describe: /services/data/v59.0/tooling/sobjects/AccountSettings/describe
-            sobject: /services/data/v59.0/tooling/sobjects/AccountSettings
-        - activateable: false
-          associateEntityType: null
-          associateParentEntity: null
-          createable: true
-          custom: false
-          customSetting: false
-          deepCloneable: false
-          deletable: true
-          deprecatedAndHidden: false
-          feedEnabled: false
-          hasSubtypes: false
-          isInterface: false
-          isSubtype: false
-          keyPrefix: 11i
-          label: ActionLauncherItemDef
-          labelPlural: ActionLauncherItemDefs
-          layoutable: false
-          mergeable: false
-          mruEnabled: false
-          name: ActionLauncherItemDef
-          queryable: true
-          replicateable: false
-          retrieveable: true
-          searchable: false
-          triggerable: false
-          undeletable: false
-          updateable: true
-          urls:
-            rowTemplate: /services/data/v59.0/tooling/sobjects/ActionLauncherItemDef/{ID}
-            describe: /services/data/v59.0/tooling/sobjects/ActionLauncherItemDef/describe
-            sobject: /services/data/v59.0/tooling/sobjects/ActionLauncherItemDef
-        - activateable: false
-          associateEntityType: null
-          associateParentEntity: null
-          createable: true
-          custom: false
-          customSetting: false
-          deepCloneable: false
-          deletable: true
-          deprecatedAndHidden: false
-          feedEnabled: false
-          hasSubtypes: false
-          isInterface: false
-          isSubtype: false
-          keyPrefix: 0HE
-          label: Entity
-          labelPlural: Entity
-          layoutable: false
-          mergeable: false
-          mruEnabled: false
-          name: ActionsSettings
-          queryable: true
-          replicateable: false
-          retrieveable: true
-          searchable: false
-          triggerable: false
-          undeletable: false
-          updateable: true
-          urls:
-            rowTemplate: /services/data/v59.0/tooling/sobjects/ActionsSettings/{ID}
-            describe: /services/data/v59.0/tooling/sobjects/ActionsSettings/describe
-            sobject: /services/data/v59.0/tooling/sobjects/ActionsSettings
-        - activateable: false
-          associateEntityType: null
-          associateParentEntity: null
-          createable: true
-          custom: false
-          customSetting: false
-          deepCloneable: false
-          deletable: true
-          deprecatedAndHidden: false
-          feedEnabled: false
-          hasSubtypes: false
-          isInterface: false
-          isSubtype: false
-          keyPrefix: 0HE
-          label: Entity
-          labelPlural: Entity
-          layoutable: false
-          mergeable: false
-          mruEnabled: false
-          name: ActivitiesSettings
-          queryable: true
-          replicateable: false
-          retrieveable: true
-          searchable: false
-          triggerable: false
-          undeletable: false
-          updateable: true
-          urls:
-            rowTemplate: /services/data/v59.0/tooling/sobjects/ActivitiesSettings/{ID}
-            describe: /services/data/v59.0/tooling/sobjects/ActivitiesSettings/describe
-            sobject: /services/data/v59.0/tooling/sobjects/ActivitiesSettings
     ChildRelationship:
       title: ChildRelationship
       required:
@@ -2719,559 +3272,6 @@ components:
         junctionReferenceTo: []
         relationshipName: null
         restrictedDelete: false
-    GetToolingDescribeSObject:
-      title: GetToolingDescribeSObject
-      required:
-      - actionOverrides
-      - activateable
-      - associateEntityType
-      - associateParentEntity
-      - childRelationships
-      - compactLayoutable
-      - createable
-      - custom
-      - customSetting
-      - deepCloneable
-      - defaultImplementation
-      - deletable
-      - deprecatedAndHidden
-      - extendedBy
-      - extendsInterfaces
-      - feedEnabled
-      - fields
-      - hasSubtypes
-      - implementedBy
-      - implementsInterfaces
-      - isInterface
-      - isSubtype
-      - keyPrefix
-      - label
-      - labelPlural
-      - layoutable
-      - listviewable
-      - lookupLayoutable
-      - mergeable
-      - mruEnabled
-      - name
-      - namedLayoutInfos
-      - networkScopeFieldName
-      - queryable
-      - recordTypeInfos
-      - replicateable
-      - retrieveable
-      - searchLayoutable
-      - searchable
-      - sobjectDescribeOption
-      - supportedScopes
-      - triggerable
-      - undeletable
-      - updateable
-      - urls
-      type: object
-      properties:
-        actionOverrides:
-          type: array
-          items:
-            type: string
-          description: ''
-          example: []
-        activateable:
-          type: boolean
-          example: true
-        associateEntityType:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        associateParentEntity:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        childRelationships:
-          type: array
-          items:
-            $ref: '#/components/schemas/ChildRelationship'
-          description: ''
-          example: []
-        compactLayoutable:
-          type: boolean
-          example: true
-        createable:
-          type: boolean
-          example: true
-        custom:
-          type: boolean
-          example: true
-        customSetting:
-          type: boolean
-          example: true
-        deepCloneable:
-          type: boolean
-          example: true
-        defaultImplementation:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        deletable:
-          type: boolean
-          example: true
-        deprecatedAndHidden:
-          type: boolean
-          example: true
-        extendedBy:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        extendsInterfaces:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        feedEnabled:
-          type: boolean
-          example: true
-        fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/Fields2'
-          description: ''
-          example: []
-        hasSubtypes:
-          type: boolean
-          example: true
-        implementedBy:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        implementsInterfaces:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        isInterface:
-          type: boolean
-          example: true
-        isSubtype:
-          type: boolean
-          example: true
-        keyPrefix:
-          type: string
-          example: example_value
-        label:
-          type: string
-          example: Example Title
-        labelPlural:
-          type: string
-          example: example_value
-        layoutable:
-          type: boolean
-          example: true
-        listviewable:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        lookupLayoutable:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        mergeable:
-          type: boolean
-          example: true
-        mruEnabled:
-          type: boolean
-          example: true
-        name:
-          type: string
-          example: Example Title
-        namedLayoutInfos:
-          type: array
-          items:
-            type: string
-          description: ''
-          example: []
-        networkScopeFieldName:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        queryable:
-          type: boolean
-          example: true
-        recordTypeInfos:
-          type: array
-          items:
-            type: string
-          description: ''
-          example: []
-        replicateable:
-          type: boolean
-          example: true
-        retrieveable:
-          type: boolean
-          example: true
-        searchLayoutable:
-          type: boolean
-          example: true
-        searchable:
-          type: boolean
-          example: true
-        sobjectDescribeOption:
-          type: string
-          example: example_value
-        supportedScopes:
-          type: array
-          items:
-            $ref: '#/components/schemas/SupportedScope'
-          description: ''
-          example: []
-        triggerable:
-          type: boolean
-          example: true
-        undeletable:
-          type: boolean
-          example: true
-        updateable:
-          type: boolean
-          example: true
-        urls:
-          $ref: '#/components/schemas/Urls8'
-    PicklistValue31:
-      title: PicklistValue31
-      required:
-      - active
-      - defaultValue
-      - label
-      - validFor
-      - value
-      type: object
-      properties:
-        active:
-          type: boolean
-          example: true
-        defaultValue:
-          type: boolean
-          example: true
-        label:
-          type: string
-          example: Example Title
-        validFor:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        value:
-          type: string
-          example: example_value
-      examples:
-      - active: true
-        defaultValue: false
-        label: Mr.
-        validFor: null
-        value: Mr.
-    SupportedScope:
-      title: SupportedScope
-      required:
-      - label
-      - name
-      type: object
-      properties:
-        label:
-          type: string
-          example: Example Title
-        name:
-          type: string
-          example: Example Title
-      examples:
-      - label: All platform event channels
-        name: everything
-    Field9:
-      title: Field9
-      required:
-      - aggregatable
-      - aiPredictionField
-      - autoNumber
-      - byteLength
-      - calculated
-      - calculatedFormula
-      - cascadeDelete
-      - caseSensitive
-      - compoundFieldName
-      - controllerName
-      - createable
-      - custom
-      - defaultValue
-      - defaultValueFormula
-      - defaultedOnCreate
-      - dependentPicklist
-      - deprecatedAndHidden
-      - digits
-      - displayLocationInDecimal
-      - encrypted
-      - externalId
-      - extraTypeInfo
-      - filterable
-      - filteredLookupInfo
-      - formulaTreatNullNumberAsZero
-      - groupable
-      - highScaleNumber
-      - htmlFormatted
-      - idLookup
-      - inlineHelpText
-      - label
-      - length
-      - mask
-      - maskType
-      - name
-      - nameField
-      - namePointing
-      - nillable
-      - permissionable
-      - picklistValues
-      - polymorphicForeignKey
-      - precision
-      - queryByDistance
-      - referenceTargetField
-      - referenceTo
-      - relationshipName
-      - relationshipOrder
-      - restrictedDelete
-      - restrictedPicklist
-      - scale
-      - searchPrefilterable
-      - soapType
-      - sortable
-      - type
-      - unique
-      - updateable
-      - writeRequiresMasterRead
-      type: object
-      properties:
-        aggregatable:
-          type: boolean
-          example: true
-        aiPredictionField:
-          type: boolean
-          example: true
-        autoNumber:
-          type: boolean
-          example: true
-        byteLength:
-          type: integer
-          contentEncoding: int32
-          example: 10
-        calculated:
-          type: boolean
-          example: true
-        calculatedFormula:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        cascadeDelete:
-          type: boolean
-          example: true
-        caseSensitive:
-          type: boolean
-          example: true
-        compoundFieldName:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        controllerName:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        createable:
-          type: boolean
-          example: true
-        custom:
-          type: boolean
-          example: true
-        defaultValue:
-          oneOf:
-          - type:
-            - string
-            - 'null'
-          - type: boolean
-          - {}
-          example: example_value
-        defaultValueFormula:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        defaultedOnCreate:
-          type: boolean
-          example: true
-        dependentPicklist:
-          type: boolean
-          example: true
-        deprecatedAndHidden:
-          type: boolean
-          example: true
-        digits:
-          type: integer
-          contentEncoding: int32
-          example: 10
-        displayLocationInDecimal:
-          type: boolean
-          example: true
-        encrypted:
-          type: boolean
-          example: true
-        externalId:
-          type: boolean
-          example: '500123'
-        extraTypeInfo:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        filterable:
-          type: boolean
-          example: true
-        filteredLookupInfo:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        formulaTreatNullNumberAsZero:
-          type: boolean
-          example: true
-        groupable:
-          type: boolean
-          example: true
-        highScaleNumber:
-          type: boolean
-          example: true
-        htmlFormatted:
-          type: boolean
-          example: true
-        idLookup:
-          type: boolean
-          example: true
-        inlineHelpText:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        label:
-          type: string
-          example: Example Title
-        length:
-          type: integer
-          contentEncoding: int32
-          example: 10
-        mask:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        maskType:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        name:
-          type: string
-          example: Example Title
-        nameField:
-          type: boolean
-          example: true
-        namePointing:
-          type: boolean
-          example: true
-        nillable:
-          type: boolean
-          example: true
-        permissionable:
-          type: boolean
-          example: true
-        picklistValues:
-          type: array
-          items:
-            oneOf:
-            - $ref: '#/components/schemas/PicklistValue'
-            - allOf:
-              - $ref: '#/components/schemas/PicklistValue31'
-              - examples:
-                - active: true
-                  defaultValue: false
-                  label: Mr.
-                  validFor: null
-                  value: Mr.
-          description: ''
-          example: []
-        polymorphicForeignKey:
-          type: boolean
-          example: true
-        precision:
-          type: integer
-          contentEncoding: int32
-          example: 10
-        queryByDistance:
-          type: boolean
-          example: true
-        referenceTargetField:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        referenceTo:
-          type: array
-          items:
-            type: string
-          description: ''
-          example: []
-        relationshipName:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        relationshipOrder:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        restrictedDelete:
-          type: boolean
-          example: true
-        restrictedPicklist:
-          type: boolean
-          example: true
-        scale:
-          type: integer
-          contentEncoding: int32
-          example: 10
-        searchPrefilterable:
-          type: boolean
-          example: true
-        soapType:
-          type: string
-          example: example_value
-        sortable:
-          type: boolean
-          example: true
-        type:
-          type: string
-          example: example_value
-        unique:
-          type: boolean
-          example: true
-        updateable:
-          type: boolean
-          example: true
-        writeRequiresMasterRead:
-          type: boolean
-          example: true
   securitySchemes:
     oauth2:
       type: oauth2

@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Salesforce Update API
-  description: 'Find the resources you need to start building. '
+  description: Find the resources you need to start building.
   contact: {}
   version: '1.0'
 servers:
@@ -29,7 +29,61 @@ paths:
       tags:
       - Update
       summary: Salesforce Update Commitments
-      description: "Modify the schedule or payment instrument metadata on an existing active gift commitment.\n\n## Required Attributes:\n\n- {commitmentId}\n    \n- amount\n    \n- transactionPeriod (Monthly, Weekly, Yearly, etc.)\n    \n- startDate\n    \n- paymentInstrument.type\n    \n\nAll other attributes are optional can be left as an empty string or just removed from the request body entirely. The only exceptions to this are:\n\n- CustomFields collections - These cannot be left in the request body as an empty collection or with an empty string for the FieldName.\n    \n\n## Validated Property Formats (an empty string is considered valid)\n\n- DateTime - YYYY-MM-DDTHH:MM:SSZ\n    \n- Date - YYYY-MM-DD\n    \n- Email - a valid formatted email address\n    \n\n### Other Attributes\n\n- OutreachSource -- This is optional. Be sure to create the OutreachSourceCode record in the system if passing a value\n    \n- Will accept either an OutreachSourceCode.id (SalesforceId) or an OutreachSourceCode.Code.\n    \n\n### Custom Fields\n\n- The field_value can be a text string (inc. for a date data-type) or a numeric value (without quotes)\n    \n- Do not include an empty collection or an empty fieldName in the request body"
+      description: 'Modify the schedule or payment instrument metadata on an existing active gift commitment.
+
+
+        ## Required Attributes:
+
+
+        - {commitmentId}
+
+
+        - amount
+
+
+        - transactionPeriod (Monthly, Weekly, Yearly, etc.)
+
+
+        - startDate
+
+
+        - paymentInstrument.type
+
+
+        All other attributes are optional can be left as an empty string or just removed from the request body entirely. The only exceptions to this are:
+
+
+        - CustomFields collections - These cannot be left in the request body as an empty collection or with an empty string for the FieldName.
+
+
+        ## Validated Property Formats (an empty string is considered valid)
+
+
+        - DateTime - YYYY-MM-DDTHH:MM:SSZ
+
+
+        - Date - YYYY-MM-DD
+
+
+        - Email - a valid formatted email address
+
+
+        ### Other Attributes
+
+
+        - OutreachSource -- This is optional. Be sure to create the OutreachSourceCode record in the system if passing a value
+
+
+        - Will accept either an OutreachSourceCode.id (SalesforceId) or an OutreachSourceCode.Code.
+
+
+        ### Custom Fields
+
+
+        - The field_value can be a text string (inc. for a date data-type) or a numeric value (without quotes)
+
+
+        - Do not include an empty collection or an empty fieldName in the request body'
       operationId: UpdateCommitments
       parameters:
       - name: commitmentId
@@ -203,40 +257,38 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    Links11:
-      title: Links11
+    AccountCustomField:
+      title: AccountCustomField
       required:
-      - giftcommitment
-      - giftcommitmentschedule
+      - fieldName
+      - fieldValue
       type: object
       properties:
-        giftcommitment:
-          $ref: '#/components/schemas/Giftcommitment'
-        giftcommitmentschedule:
-          $ref: '#/components/schemas/Giftcommitmentschedule'
-      examples:
-      - giftcommitment:
-          href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
-          id: <SFDC_GIFT_COMMITMENT_ID>
-        giftcommitmentschedule:
-          href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_SCHEDULE_ID>
-          id: <SFDC_GIFT_COMMITMENT_SCHEDULE_ID>
-    OutreachSourceCode:
-      title: OutreachSourceCode
-      required:
-      - id
-      - sourceCode
-      type: object
-      properties:
-        id:
+        fieldName:
           type: string
-          example: abc123
-        sourceCode:
+          example: example_value
+        fieldValue:
           type: string
           example: example_value
       examples:
-      - id: <SFDC_OUTREACH_SOURCE_CODE_ID>
-        sourceCode: AnimalEmailCampaign2023
+      - fieldName: string
+        fieldValue: string
+    GiftCommitmentScheduleCustomField:
+      title: GiftCommitmentScheduleCustomField
+      required:
+      - fieldName
+      - fieldValue
+      type: object
+      properties:
+        fieldName:
+          type: string
+          example: example_value
+        fieldValue:
+          type: string
+          example: example_value
+      examples:
+      - fieldName: <VALID_CUSTOM_FIELD_API_NAME>
+        fieldValue: string
     UpdateCommitmentsRequest:
       title: UpdateCommitmentsRequest
       required:
@@ -345,6 +397,216 @@ components:
         giftCommitmentScheduleCustomFields:
         - fieldName: string
           fieldValue: string
+    GiftCommitmentCustomField:
+      title: GiftCommitmentCustomField
+      required:
+      - fieldName
+      - fieldValue
+      type: object
+      properties:
+        fieldName:
+          type: string
+          example: example_value
+        fieldValue:
+          type: string
+          example: example_value
+      examples:
+      - fieldName: <VALID_CUSTOM_FIELD_API_NAME>
+        fieldValue: string
+    Donor3:
+      title: Donor3
+      required:
+      - donorType
+      - organizationName
+      - firstName
+      - lastName
+      - phone
+      - email
+      - address
+      - accountCustomFields
+      type: object
+      properties:
+        donorType:
+          type: string
+          example: example_value
+        organizationName:
+          type: string
+          example: example_value
+        firstName:
+          type: string
+          example: example_value
+        lastName:
+          type: string
+          example: example_value
+        phone:
+          type: string
+          example: example_value
+        email:
+          type: string
+          example: user@example.com
+        address:
+          type: array
+          items:
+            $ref: '#/components/schemas/Address1'
+          description: ''
+          example: []
+        accountCustomFields:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountCustomField'
+          description: ''
+          example: 42
+      examples:
+      - donorType: individual
+        organizationName: mini cat town
+        firstName: David
+        lastName: Taylor
+        phone: 510-434-8920
+        email: davidtaylor@salesforce.com
+        address:
+        - addressType: mailing
+          street: 123 Main Street
+          city: Oakland
+          state: CA
+          postalCode: '94610'
+          country: US
+        accountCustomFields:
+        - fieldName: string
+          fieldValue: string
+    OutreachSourceCode:
+      title: OutreachSourceCode
+      required:
+      - id
+      - sourceCode
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+        sourceCode:
+          type: string
+          example: example_value
+      examples:
+      - id: <SFDC_OUTREACH_SOURCE_CODE_ID>
+        sourceCode: AnimalEmailCampaign2023
+    Giftcommitmentschedule:
+      title: Giftcommitmentschedule
+      required:
+      - href
+      - id
+      type: object
+      properties:
+        href:
+          type: string
+          example: example_value
+        id:
+          type: string
+          example: abc123
+      examples:
+      - href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_SCHEDULE_ID>
+        id: <SFDC_GIFT_COMMITMENT_SCHEDULE_ID>
+    Links11:
+      title: Links11
+      required:
+      - giftcommitment
+      - giftcommitmentschedule
+      type: object
+      properties:
+        giftcommitment:
+          $ref: '#/components/schemas/Giftcommitment'
+        giftcommitmentschedule:
+          $ref: '#/components/schemas/Giftcommitmentschedule'
+      examples:
+      - giftcommitment:
+          href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
+          id: <SFDC_GIFT_COMMITMENT_ID>
+        giftcommitmentschedule:
+          href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_SCHEDULE_ID>
+          id: <SFDC_GIFT_COMMITMENT_SCHEDULE_ID>
+    Address1:
+      title: Address1
+      required:
+      - addressType
+      - street
+      - city
+      - state
+      - postalCode
+      - country
+      type: object
+      properties:
+        addressType:
+          type: string
+          example: example_value
+        street:
+          type: string
+          example: example_value
+        city:
+          type: string
+          example: example_value
+        state:
+          type: string
+          example: example_value
+        postalCode:
+          type: string
+          example: example_value
+        country:
+          type: string
+          example: 42
+      examples:
+      - addressType: mailing
+        street: 123 Main Street
+        city: Oakland
+        state: CA
+        postalCode: '94610'
+        country: US
+    Status200-UpdateCommitmentSuccess:
+      title: Status200-UpdateCommitmentSuccess
+      required:
+      - success
+      - links
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        links:
+          $ref: '#/components/schemas/Links11'
+      examples:
+      - success: true
+        links:
+          giftcommitment:
+            href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
+            id: <SFDC_GIFT_COMMITMENT_ID>
+          giftcommitmentschedule:
+            href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_SCHEDULE_ID>
+            id: <SFDC_GIFT_COMMITMENT_SCHEDULE_ID>
+    Giftcommitment:
+      title: Giftcommitment
+      required:
+      - href
+      - id
+      type: object
+      properties:
+        href:
+          type: string
+          example: example_value
+        id:
+          type: string
+          example: abc123
+      examples:
+      - href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
+        id: <SFDC_GIFT_COMMITMENT_ID>
+    Campaign:
+      title: Campaign
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+      examples:
+      - id: <SFDC_CAMPAIGN_ID>
     PaymentInstrument:
       title: PaymentInstrument
       required:
@@ -431,214 +693,6 @@ components:
         processorName: test processor
         processorPaymentReference: string
         gatewayReference: string
-    Address1:
-      title: Address1
-      required:
-      - addressType
-      - street
-      - city
-      - state
-      - postalCode
-      - country
-      type: object
-      properties:
-        addressType:
-          type: string
-          example: example_value
-        street:
-          type: string
-          example: example_value
-        city:
-          type: string
-          example: example_value
-        state:
-          type: string
-          example: example_value
-        postalCode:
-          type: string
-          example: example_value
-        country:
-          type: string
-          example: 42
-      examples:
-      - addressType: mailing
-        street: 123 Main Street
-        city: Oakland
-        state: CA
-        postalCode: '94610'
-        country: US
-    Campaign:
-      title: Campaign
-      required:
-      - id
-      type: object
-      properties:
-        id:
-          type: string
-          example: abc123
-      examples:
-      - id: <SFDC_CAMPAIGN_ID>
-    AccountCustomField:
-      title: AccountCustomField
-      required:
-      - fieldName
-      - fieldValue
-      type: object
-      properties:
-        fieldName:
-          type: string
-          example: example_value
-        fieldValue:
-          type: string
-          example: example_value
-      examples:
-      - fieldName: string
-        fieldValue: string
-    GiftCommitmentCustomField:
-      title: GiftCommitmentCustomField
-      required:
-      - fieldName
-      - fieldValue
-      type: object
-      properties:
-        fieldName:
-          type: string
-          example: example_value
-        fieldValue:
-          type: string
-          example: example_value
-      examples:
-      - fieldName: <VALID_CUSTOM_FIELD_API_NAME>
-        fieldValue: string
-    Giftcommitment:
-      title: Giftcommitment
-      required:
-      - href
-      - id
-      type: object
-      properties:
-        href:
-          type: string
-          example: example_value
-        id:
-          type: string
-          example: abc123
-      examples:
-      - href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
-        id: <SFDC_GIFT_COMMITMENT_ID>
-    Status200-UpdateCommitmentSuccess:
-      title: Status200-UpdateCommitmentSuccess
-      required:
-      - success
-      - links
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: true
-        links:
-          $ref: '#/components/schemas/Links11'
-      examples:
-      - success: true
-        links:
-          giftcommitment:
-            href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
-            id: <SFDC_GIFT_COMMITMENT_ID>
-          giftcommitmentschedule:
-            href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_SCHEDULE_ID>
-            id: <SFDC_GIFT_COMMITMENT_SCHEDULE_ID>
-    Giftcommitmentschedule:
-      title: Giftcommitmentschedule
-      required:
-      - href
-      - id
-      type: object
-      properties:
-        href:
-          type: string
-          example: example_value
-        id:
-          type: string
-          example: abc123
-      examples:
-      - href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_SCHEDULE_ID>
-        id: <SFDC_GIFT_COMMITMENT_SCHEDULE_ID>
-    Donor3:
-      title: Donor3
-      required:
-      - donorType
-      - organizationName
-      - firstName
-      - lastName
-      - phone
-      - email
-      - address
-      - accountCustomFields
-      type: object
-      properties:
-        donorType:
-          type: string
-          example: example_value
-        organizationName:
-          type: string
-          example: example_value
-        firstName:
-          type: string
-          example: example_value
-        lastName:
-          type: string
-          example: example_value
-        phone:
-          type: string
-          example: example_value
-        email:
-          type: string
-          example: user@example.com
-        address:
-          type: array
-          items:
-            $ref: '#/components/schemas/Address1'
-          description: ''
-          example: []
-        accountCustomFields:
-          type: array
-          items:
-            $ref: '#/components/schemas/AccountCustomField'
-          description: ''
-          example: 42
-      examples:
-      - donorType: individual
-        organizationName: mini cat town
-        firstName: David
-        lastName: Taylor
-        phone: 510-434-8920
-        email: davidtaylor@salesforce.com
-        address:
-        - addressType: mailing
-          street: 123 Main Street
-          city: Oakland
-          state: CA
-          postalCode: '94610'
-          country: US
-        accountCustomFields:
-        - fieldName: string
-          fieldValue: string
-    GiftCommitmentScheduleCustomField:
-      title: GiftCommitmentScheduleCustomField
-      required:
-      - fieldName
-      - fieldValue
-      type: object
-      properties:
-        fieldName:
-          type: string
-          example: example_value
-        fieldValue:
-          type: string
-          example: example_value
-      examples:
-      - fieldName: <VALID_CUSTOM_FIELD_API_NAME>
-        fieldValue: string
   securitySchemes:
     oauth2:
       type: oauth2
