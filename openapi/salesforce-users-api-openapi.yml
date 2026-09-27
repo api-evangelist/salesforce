@@ -1,0 +1,120 @@
+openapi: 3.2.0
+info:
+  title: Salesforce Connect REST API (Chatter) Users API
+  description: REST API for integrating mobile apps, intranet sites, and third-party web applications with Salesforce social features. Provides access to Chatter feeds, groups, users, topics, and recommendations. Also provides access to Communities (Experience Cloud), CMS content, and collaboration features.
+  version: '63.0'
+  contact:
+    name: Salesforce Developer Support
+    url: https://developer.salesforce.com/support
+    email: developer@salesforce.com
+  license:
+    name: Salesforce API Terms of Use
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v63.0/connect
+  description: Salesforce production or developer instance
+  variables:
+    instance:
+      default: yourInstance
+      description: Your Salesforce instance identifier
+security:
+- oauth2: []
+- bearerAuth: []
+tags:
+- name: Users
+  description: Chatter user profiles
+paths:
+  /chatter/users/me:
+    get:
+      operationId: getCurrentUser
+      summary: Get the current user's Chatter profile
+      description: Returns the Chatter profile of the currently authenticated user, including their name, photo, title, and follower/following counts.
+      tags:
+      - Users
+      responses:
+        '200':
+          description: Current user profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatterUser'
+  /chatter/users/{userId}:
+    get:
+      operationId: getUser
+      summary: Get a user's Chatter profile
+      description: Returns the Chatter profile of the specified user.
+      tags:
+      - Users
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: User profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatterUser'
+components:
+  schemas:
+    ChatterUser:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        title:
+          type:
+          - string
+          - 'null'
+        companyName:
+          type:
+          - string
+          - 'null'
+        photo:
+          type: object
+          properties:
+            smallPhotoUrl:
+              type: string
+            largePhotoUrl:
+              type: string
+        followersCount:
+          type: integer
+        followingCounts:
+          type: object
+          properties:
+            people:
+              type: integer
+            records:
+              type: integer
+            total:
+              type: integer
+        groupCount:
+          type: integer
+        isActive:
+          type: boolean
+        url:
+          type: string
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://login.salesforce.com/services/oauth2/authorize
+          tokenUrl: https://login.salesforce.com/services/oauth2/token
+          scopes:
+            api: Access and manage your Salesforce data
+            chatter_api: Access Chatter REST API resources
+    bearerAuth:
+      type: http
+      scheme: bearer

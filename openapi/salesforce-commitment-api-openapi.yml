@@ -244,6 +244,22 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    Paymentinstrument1:
+      title: Paymentinstrument1
+      required:
+      - href
+      - id
+      type: object
+      properties:
+        href:
+          type: string
+          example: example_value
+        id:
+          type: string
+          example: abc123
+      examples:
+      - href: /services/data/vXX.X/sobjects/sObject/<SFDC_PAYMENT_INSTRUMENT_ID>
+        id: <SFDC_PAYMENT_INSTRUMENT_ID>
     Update1:
       title: Update1
       required:
@@ -275,6 +291,74 @@ components:
           processorName: classy
           processorPaymentReference: string
           gatewayReference: string
+    UpdateCommitmentPaymentsRequest:
+      title: UpdateCommitmentPaymentsRequest
+      required:
+      - updates
+      type: object
+      properties:
+        updates:
+          type: array
+          items:
+            $ref: '#/components/schemas/Update1'
+          description: ''
+          example: []
+      examples:
+      - updates:
+        - giftCommitmentId: <SFDC_GIFT_COMMITMENT_ID>
+          paymentInstrument:
+            type: credit card
+            accountHolderName: test donor 1
+            expiryMonth: '10'
+            expiryYear: '2026'
+            last4: '4585'
+            cardBrand: visa
+            bankName: chase
+            digitalWalletProvider: apple pay
+            bankAccountHolderType: primary
+            bankAccountType: checking
+            bankAccountNumber: '123456'
+            bankCode: HBUK
+            gatewayName: stripe
+            processorName: classy
+            processorPaymentReference: string
+            gatewayReference: string
+        - giftCommitmentId: <SFDC_GIFT_COMMITMENT_ID>
+          paymentInstrument:
+            type: credit card
+            accountHolderName: test donor 2
+            expiryMonth: '10'
+            expiryYear: '2026'
+            last4: '4585'
+            cardBrand: visa
+            bankName: chase
+            digitalWalletProvider: apple pay
+            bankAccountHolderType: primary
+            bankAccountType: checking
+            bankAccountNumber: '123456'
+            bankCode: HBUK
+            gatewayName: stripe
+            processorName: test processor
+            processorPaymentReference: string
+            gatewayReference: string
+    Links13:
+      title: Links13
+      required:
+      - giftcommitment
+      - paymentinstrument
+      type: object
+      properties:
+        giftcommitment:
+          $ref: '#/components/schemas/Giftcommitment'
+        paymentinstrument:
+          $ref: '#/components/schemas/Paymentinstrument1'
+      examples:
+      - giftcommitment:
+          href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
+          id: <SFDC_GIFT_COMMITMENT_ID>
+        paymentinstrument:
+          href: /services/data/vXX.X/sobjects/sObject/<SFDC_PAYMENT_INSTRUMENT_ID>
+          id: <SFDC_PAYMENT_INSTRUMENT_ID>
     Detail13:
       title: Detail13
       required:
@@ -296,82 +380,6 @@ components:
           paymentinstrument:
             href: /services/data/vXX.X/sobjects/sObject/<SFDC_PAYMENT_INSTRUMENT_ID>
             id: <SFDC_PAYMENT_INSTRUMENT_ID>
-    Errors:
-      title: Errors
-      required:
-      - field
-      - message
-      type: object
-      properties:
-        field:
-          type: string
-          example: example_value
-        message:
-          type: string
-          example: example_value
-      examples:
-      - field: id
-        message: <invalid id message>
-    Status200-UpdateCommitmentRequestValidationFailure1:
-      title: Status200-UpdateCommitmentRequestValidationFailure1
-      required:
-      - successes
-      - failures
-      - notProcessed
-      - details
-      type: object
-      properties:
-        successes:
-          type: integer
-          contentEncoding: int32
-          example: 10
-        failures:
-          type: integer
-          contentEncoding: int32
-          example: 10
-        notProcessed:
-          type: integer
-          contentEncoding: int32
-          example: 10
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/Detail14'
-          description: ''
-          example: []
-      examples:
-      - successes: 1
-        failures: 1
-        notProcessed: 0
-        details:
-        - success: false
-          errors:
-            field: id
-            message: <invalid id message>
-        - success: true
-          links:
-            giftcommitment:
-              href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
-              id: <SFDC_GIFT_COMMITMENT_ID>
-            paymentinstrument:
-              href: /services/data/vXX.X/sobjects/sObject/<SFDC_PAYMENT_INSTRUMENT_ID>
-              id: <SFDC_PAYMENT_INSTRUMENT_ID>
-    Paymentinstrument1:
-      title: Paymentinstrument1
-      required:
-      - href
-      - id
-      type: object
-      properties:
-        href:
-          type: string
-          example: example_value
-        id:
-          type: string
-          example: abc123
-      examples:
-      - href: /services/data/vXX.X/sobjects/sObject/<SFDC_PAYMENT_INSTRUMENT_ID>
-        id: <SFDC_PAYMENT_INSTRUMENT_ID>
     Status201-UpdateCommitmentSuccess:
       title: Status201-UpdateCommitmentSuccess
       required:
@@ -420,42 +428,22 @@ components:
             paymentinstrument:
               href: /services/data/vXX.X/sobjects/sObject/<SFDC_PAYMENT_INSTRUMENT_ID>
               id: <SFDC_PAYMENT_INSTRUMENT_ID>
-    Links13:
-      title: Links13
+    Errors:
+      title: Errors
       required:
-      - giftcommitment
-      - paymentinstrument
+      - field
+      - message
       type: object
       properties:
-        giftcommitment:
-          $ref: '#/components/schemas/Giftcommitment'
-        paymentinstrument:
-          $ref: '#/components/schemas/Paymentinstrument1'
+        field:
+          type: string
+          example: example_value
+        message:
+          type: string
+          example: example_value
       examples:
-      - giftcommitment:
-          href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
-          id: <SFDC_GIFT_COMMITMENT_ID>
-        paymentinstrument:
-          href: /services/data/vXX.X/sobjects/sObject/<SFDC_PAYMENT_INSTRUMENT_ID>
-          id: <SFDC_PAYMENT_INSTRUMENT_ID>
-    Detail14:
-      title: Detail14
-      required:
-      - success
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: true
-        errors:
-          $ref: '#/components/schemas/Errors'
-        links:
-          $ref: '#/components/schemas/Links13'
-      examples:
-      - success: false
-        errors:
-          field: id
-          message: <invalid id message>
+      - field: id
+        message: <invalid id message>
     Giftcommitment:
       title: Giftcommitment
       required:
@@ -472,6 +460,50 @@ components:
       examples:
       - href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
         id: <SFDC_GIFT_COMMITMENT_ID>
+    Status200-UpdateCommitmentRequestValidationFailure1:
+      title: Status200-UpdateCommitmentRequestValidationFailure1
+      required:
+      - successes
+      - failures
+      - notProcessed
+      - details
+      type: object
+      properties:
+        successes:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        failures:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        notProcessed:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/Detail14'
+          description: ''
+          example: []
+      examples:
+      - successes: 1
+        failures: 1
+        notProcessed: 0
+        details:
+        - success: false
+          errors:
+            field: id
+            message: <invalid id message>
+        - success: true
+          links:
+            giftcommitment:
+              href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
+              id: <SFDC_GIFT_COMMITMENT_ID>
+            paymentinstrument:
+              href: /services/data/vXX.X/sobjects/sObject/<SFDC_PAYMENT_INSTRUMENT_ID>
+              id: <SFDC_PAYMENT_INSTRUMENT_ID>
     PaymentInstrument:
       title: PaymentInstrument
       required:
@@ -558,56 +590,24 @@ components:
         processorName: test processor
         processorPaymentReference: string
         gatewayReference: string
-    UpdateCommitmentPaymentsRequest:
-      title: UpdateCommitmentPaymentsRequest
+    Detail14:
+      title: Detail14
       required:
-      - updates
+      - success
       type: object
       properties:
-        updates:
-          type: array
-          items:
-            $ref: '#/components/schemas/Update1'
-          description: ''
-          example: []
+        success:
+          type: boolean
+          example: true
+        errors:
+          $ref: '#/components/schemas/Errors'
+        links:
+          $ref: '#/components/schemas/Links13'
       examples:
-      - updates:
-        - giftCommitmentId: <SFDC_GIFT_COMMITMENT_ID>
-          paymentInstrument:
-            type: credit card
-            accountHolderName: test donor 1
-            expiryMonth: '10'
-            expiryYear: '2026'
-            last4: '4585'
-            cardBrand: visa
-            bankName: chase
-            digitalWalletProvider: apple pay
-            bankAccountHolderType: primary
-            bankAccountType: checking
-            bankAccountNumber: '123456'
-            bankCode: HBUK
-            gatewayName: stripe
-            processorName: classy
-            processorPaymentReference: string
-            gatewayReference: string
-        - giftCommitmentId: <SFDC_GIFT_COMMITMENT_ID>
-          paymentInstrument:
-            type: credit card
-            accountHolderName: test donor 2
-            expiryMonth: '10'
-            expiryYear: '2026'
-            last4: '4585'
-            cardBrand: visa
-            bankName: chase
-            digitalWalletProvider: apple pay
-            bankAccountHolderType: primary
-            bankAccountType: checking
-            bankAccountNumber: '123456'
-            bankCode: HBUK
-            gatewayName: stripe
-            processorName: test processor
-            processorPaymentReference: string
-            gatewayReference: string
+      - success: false
+        errors:
+          field: id
+          message: <invalid id message>
   securitySchemes:
     oauth2:
       type: oauth2

@@ -88,29 +88,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    Cart:
-      title: Cart
-      required:
-      - cartDetails
-      type: object
-      properties:
-        cartDetails:
-          type: array
-          items:
-            $ref: '#/components/schemas/CartDetail'
-          description: ''
-          example: []
-      examples:
-      - cartDetails:
-        - activityStartDate: '2023-06-14T12:45:19.000Z'
-          contactId: 003xx000004WjzAAAS
-          transactionAmount: 499
-          currencyISOCode: INR
-          cartLineDetails:
-          - cartLineProductId: 01txx0000006iTsAAI
-            cartLineItemQuantity: 3
-            cartLineItemAmount: 499
-            cartLineProductCatalogId: 0ZSSB0000002d8X4AQ
     EligiblePromotionsRequest:
       title: EligiblePromotionsRequest
       required:
@@ -131,6 +108,34 @@ components:
               cartLineItemQuantity: 3
               cartLineItemAmount: 499
               cartLineProductCatalogId: 0ZSSB0000002d8X4AQ
+    CartLineDetail:
+      title: CartLineDetail
+      required:
+      - cartLineProductId
+      - cartLineItemQuantity
+      - cartLineItemAmount
+      - cartLineProductCatalogId
+      type: object
+      properties:
+        cartLineProductId:
+          type: string
+          example: '500123'
+        cartLineItemQuantity:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        cartLineItemAmount:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        cartLineProductCatalogId:
+          type: string
+          example: '500123'
+      examples:
+      - cartLineProductId: 01txx0000006iTsAAI
+        cartLineItemQuantity: 3
+        cartLineItemAmount: 499
+        cartLineProductCatalogId: 0ZSSB0000002d8X4AQ
     CartDetail:
       title: CartDetail
       required:
@@ -170,34 +175,29 @@ components:
           cartLineItemQuantity: 3
           cartLineItemAmount: 499
           cartLineProductCatalogId: 0ZSSB0000002d8X4AQ
-    CartLineDetail:
-      title: CartLineDetail
+    Cart:
+      title: Cart
       required:
-      - cartLineProductId
-      - cartLineItemQuantity
-      - cartLineItemAmount
-      - cartLineProductCatalogId
+      - cartDetails
       type: object
       properties:
-        cartLineProductId:
-          type: string
-          example: '500123'
-        cartLineItemQuantity:
-          type: integer
-          contentEncoding: int32
-          example: 10
-        cartLineItemAmount:
-          type: integer
-          contentEncoding: int32
-          example: 10
-        cartLineProductCatalogId:
-          type: string
-          example: '500123'
+        cartDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartDetail'
+          description: ''
+          example: []
       examples:
-      - cartLineProductId: 01txx0000006iTsAAI
-        cartLineItemQuantity: 3
-        cartLineItemAmount: 499
-        cartLineProductCatalogId: 0ZSSB0000002d8X4AQ
+      - cartDetails:
+        - activityStartDate: '2023-06-14T12:45:19.000Z'
+          contactId: 003xx000004WjzAAAS
+          transactionAmount: 499
+          currencyISOCode: INR
+          cartLineDetails:
+          - cartLineProductId: 01txx0000006iTsAAI
+            cartLineItemQuantity: 3
+            cartLineItemAmount: 499
+            cartLineProductCatalogId: 0ZSSB0000002d8X4AQ
   securitySchemes:
     oauth2:
       type: oauth2

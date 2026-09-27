@@ -125,6 +125,44 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    AppliedPromotion:
+      title: AppliedPromotion
+      required:
+      - promotionId
+      - rewards
+      type: object
+      properties:
+        promotionId:
+          type: string
+          example: '500123'
+        rewards:
+          type: array
+          items:
+            $ref: '#/components/schemas/Reward'
+          description: ''
+          example: []
+      examples:
+      - promotionId: 0c8RM0000004FiXYAU
+        rewards:
+        - rewardType: Discount
+          discountAmount: 15
+        - rewardType: Points
+          loyaltyProgramCurrencyName: Coins
+          points: 100
+          relatedInformation: Test
+          notes: Test
+        - rewardType: Voucher
+          voucherDefinitionName: 10% Discount Voucher
+          voucherExpirationDate: '2023-12-15T00:00:00.000Z'
+          voucherEffectiveDate: '2023-11-29T00:00:00.000Z'
+          notes: Test
+        - rewardType: Badge
+          loyaltyProgramBadgeName: Gen AI Badge
+          memberBadgeStatus: Active
+          badgeValidityEndDate: '2023-12-15T00:00:00.000Z'
+          reason: Test
+        - rewardType: Game
+          gameDefinitionName: TestGame
     Reward:
       title: Reward
       required:
@@ -238,44 +276,6 @@ components:
             reason: Test
           - rewardType: Game
             gameDefinitionName: TestGame
-    AppliedPromotion:
-      title: AppliedPromotion
-      required:
-      - promotionId
-      - rewards
-      type: object
-      properties:
-        promotionId:
-          type: string
-          example: '500123'
-        rewards:
-          type: array
-          items:
-            $ref: '#/components/schemas/Reward'
-          description: ''
-          example: []
-      examples:
-      - promotionId: 0c8RM0000004FiXYAU
-        rewards:
-        - rewardType: Discount
-          discountAmount: 15
-        - rewardType: Points
-          loyaltyProgramCurrencyName: Coins
-          points: 100
-          relatedInformation: Test
-          notes: Test
-        - rewardType: Voucher
-          voucherDefinitionName: 10% Discount Voucher
-          voucherExpirationDate: '2023-12-15T00:00:00.000Z'
-          voucherEffectiveDate: '2023-11-29T00:00:00.000Z'
-          notes: Test
-        - rewardType: Badge
-          loyaltyProgramBadgeName: Gen AI Badge
-          memberBadgeStatus: Active
-          badgeValidityEndDate: '2023-12-15T00:00:00.000Z'
-          reason: Test
-        - rewardType: Game
-          gameDefinitionName: TestGame
     TransactionJournalsExecutionRequest:
       title: TransactionJournalsExecutionRequest
       required:

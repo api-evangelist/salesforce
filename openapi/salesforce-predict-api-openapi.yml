@@ -191,6 +191,39 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    Predict:
+      title: Predict
+      required:
+      - predictionDefinition
+      - predictions
+      - settings
+      type: object
+      properties:
+        predictionDefinition:
+          type: string
+          example: example_value
+        predictions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Prediction'
+          description: ''
+          example: []
+        settings:
+          $ref: '#/components/schemas/Settings'
+      examples:
+      - predictionDefinition: 1OR5Y0000010ws8
+        predictions:
+        - model:
+            id: 1Ot5Y0000010wzNSAQ
+          prediction:
+            middleValues: []
+            total: 88.5249425554759
+          prescriptions: []
+          status: Success
+        settings:
+          maxMiddleValues: 0
+          maxPrescriptions: 0
+          prescriptionImpactPercentage: 0
     PredictRequest:
       title: PredictRequest
       required:
@@ -234,69 +267,6 @@ components:
           - Chairs
           - '300'
           - '10'
-    Predict:
-      title: Predict
-      required:
-      - predictionDefinition
-      - predictions
-      - settings
-      type: object
-      properties:
-        predictionDefinition:
-          type: string
-          example: example_value
-        predictions:
-          type: array
-          items:
-            $ref: '#/components/schemas/Prediction'
-          description: ''
-          example: []
-        settings:
-          $ref: '#/components/schemas/Settings'
-      examples:
-      - predictionDefinition: 1OR5Y0000010ws8
-        predictions:
-        - model:
-            id: 1Ot5Y0000010wzNSAQ
-          prediction:
-            middleValues: []
-            total: 88.5249425554759
-          prescriptions: []
-          status: Success
-        settings:
-          maxMiddleValues: 0
-          maxPrescriptions: 0
-          prescriptionImpactPercentage: 0
-    Model:
-      title: Model
-      required:
-      - id
-      type: object
-      properties:
-        id:
-          type: string
-          example: abc123
-      examples:
-      - id: 1Ot5Y0000010wzNSAQ
-    Prediction1:
-      title: Prediction1
-      required:
-      - middleValues
-      - total
-      type: object
-      properties:
-        middleValues:
-          type: array
-          items:
-            type: string
-          description: ''
-          example: []
-        total:
-          type: number
-          example: 42
-      examples:
-      - middleValues: []
-        total: 88.5249425554759
     Prediction:
       title: Prediction
       required:
@@ -327,6 +297,17 @@ components:
           total: 88.5249425554759
         prescriptions: []
         status: Success
+    Model:
+      title: Model
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+      examples:
+      - id: 1Ot5Y0000010wzNSAQ
     Settings:
       title: Settings
       required:
@@ -351,6 +332,25 @@ components:
       - maxMiddleValues: 0
         maxPrescriptions: 0
         prescriptionImpactPercentage: 0
+    Prediction1:
+      title: Prediction1
+      required:
+      - middleValues
+      - total
+      type: object
+      properties:
+        middleValues:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        total:
+          type: number
+          example: 42
+      examples:
+      - middleValues: []
+        total: 88.5249425554759
   securitySchemes:
     oauth2:
       type: oauth2

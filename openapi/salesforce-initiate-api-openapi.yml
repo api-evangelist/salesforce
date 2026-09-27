@@ -107,6 +107,28 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    InitiateCancellationRequest:
+      title: InitiateCancellationRequest
+      required:
+      - assetIds
+      - cancellationDate
+      - cancellationOutputType
+      type: object
+      properties:
+        assetIds:
+          $ref: '#/components/schemas/AssetIds'
+        cancellationDate:
+          type: string
+          example: example_value
+        cancellationOutputType:
+          type: string
+          example: example_value
+      examples:
+      - assetIds:
+          assetIdArray:
+          - '{{assetID}}'
+        cancellationDate: '2023-08-21T00:00:00.000Z'
+        cancellationOutputType: order
     InitiateRenewalRequest:
       title: InitiateRenewalRequest
       required:
@@ -134,28 +156,6 @@ components:
       examples:
       - assetIdArray:
         - '{{assetID}}'
-    InitiateCancellationRequest:
-      title: InitiateCancellationRequest
-      required:
-      - assetIds
-      - cancellationDate
-      - cancellationOutputType
-      type: object
-      properties:
-        assetIds:
-          $ref: '#/components/schemas/AssetIds'
-        cancellationDate:
-          type: string
-          example: example_value
-        cancellationOutputType:
-          type: string
-          example: example_value
-      examples:
-      - assetIds:
-          assetIdArray:
-          - '{{assetID}}'
-        cancellationDate: '2023-08-21T00:00:00.000Z'
-        cancellationOutputType: order
   securitySchemes:
     oauth2:
       type: oauth2

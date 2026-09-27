@@ -429,6 +429,18 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    JobState:
+      type: string
+      description: 'The current state of a Bulk API 2.0 job, indicating where it is in its lifecycle.
+
+        '
+      enum:
+      - Open
+      - UploadComplete
+      - InProgress
+      - JobComplete
+      - Failed
+      - Aborted
     QueryJobInfo:
       type: object
       description: 'Detailed information about a Bulk API 2.0 query job, including its current state and processing statistics.
@@ -514,18 +526,6 @@ components:
           type: number
           description: The API version used to create the job.
           example: 42.5
-    JobState:
-      type: string
-      description: 'The current state of a Bulk API 2.0 job, indicating where it is in its lifecycle.
-
-        '
-      enum:
-      - Open
-      - UploadComplete
-      - InProgress
-      - JobComplete
-      - Failed
-      - Aborted
     QueryJobRequest:
       type: object
       description: Configuration parameters for creating a new Bulk API 2.0 query job.

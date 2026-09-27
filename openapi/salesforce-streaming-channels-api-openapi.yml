@@ -1,0 +1,225 @@
+openapi: 3.2.0
+info:
+  title: Salesforce Streaming Streaming Channels API
+  description: REST endpoints for managing PushTopic and Streaming Channel resources used with the Salesforce Streaming API. The Streaming API uses the Bayeux protocol (CometD) over long polling or WebSocket connections to deliver real-time notifications. PushTopics define SOQL queries that trigger events when matching records change. Streaming Channels provide generic event delivery. Subscriptions are established via CometD handshake at /cometd/{apiVersion}.
+  version: '63.0'
+  contact:
+    name: Salesforce Developer Support
+    url: https://developer.salesforce.com/support
+    email: developer@salesforce.com
+  license:
+    name: Salesforce API Terms of Use
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v63.0
+  description: Salesforce production or developer instance
+  variables:
+    instance:
+      default: yourInstance
+      description: Your Salesforce instance identifier
+security:
+- oauth2: []
+- bearerAuth: []
+tags:
+- name: Streaming Channels
+  description: Generic streaming channels for custom event delivery
+paths:
+  /sobjects/StreamingChannel:
+    get:
+      operationId: listStreamingChannels
+      summary: List Streaming Channels
+      description: Returns all generic Streaming Channel records in the org. Streaming Channels allow publishing custom JSON events to subscribers.
+      tags:
+      - Streaming Channels
+      responses:
+        '200':
+          description: List of Streaming Channels
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalSize:
+                    type: integer
+                  done:
+                    type: boolean
+                  records:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/StreamingChannel'
+    post:
+      operationId: createStreamingChannel
+      summary: Create a Streaming Channel
+      description: Creates a new generic Streaming Channel for publishing custom events. Events are delivered to subscribers on the /u/{channelName} CometD channel.
+      tags:
+      - Streaming Channels
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StreamingChannelInput'
+      responses:
+        '201':
+          description: Streaming Channel created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  success:
+                    type: boolean
+                  errors:
+                    type: array
+                    items:
+                      type: object
+  /sobjects/StreamingChannel/{channelId}:
+    get:
+      operationId: getStreamingChannel
+      summary: Get a Streaming Channel
+      description: Retrieves a specific Streaming Channel record by ID.
+      tags:
+      - Streaming Channels
+      parameters:
+      - name: channelId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Streaming Channel record
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StreamingChannel'
+    patch:
+      operationId: updateStreamingChannel
+      summary: Update a Streaming Channel
+      description: Updates the properties of an existing Streaming Channel.
+      tags:
+      - Streaming Channels
+      parameters:
+      - name: channelId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StreamingChannelInput'
+      responses:
+        '204':
+          description: Streaming Channel updated
+    delete:
+      operationId: deleteStreamingChannel
+      summary: Delete a Streaming Channel
+      description: Deletes a Streaming Channel. Active subscribers will be disconnected.
+      tags:
+      - Streaming Channels
+      parameters:
+      - name: channelId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Streaming Channel deleted
+  /sobjects/StreamingChannel/{channelId}/push:
+    post:
+      operationId: pushEvent
+      summary: Push an event to a Streaming Channel
+      description: Publishes a custom event to all subscribers of the specified Streaming Channel. The event payload is a JSON string up to 8 KB.
+      tags:
+      - Streaming Channels
+      parameters:
+      - name: channelId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - pushEvents
+              properties:
+                pushEvents:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                    - payload
+                    properties:
+                      payload:
+                        type: string
+                        description: The JSON event payload (up to 8 KB)
+                        maxLength: 8192
+                      userIds:
+                        type: array
+                        items:
+                          type: string
+                        description: Optional list of user IDs to deliver the event to. If omitted, all subscribers receive the event.
+      responses:
+        '200':
+          description: Push result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  fanoutCount:
+                    type: integer
+                    description: Number of subscribers who received the event
+components:
+  schemas:
+    StreamingChannelInput:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: Must start with /u/ (e.g., /u/MyChannel)
+        Description:
+          type: string
+    StreamingChannel:
+      type: object
+      properties:
+        Id:
+          type: string
+        Name:
+          type: string
+          description: The channel name, which must start with /u/ (e.g., /u/MyChannel)
+        Description:
+          type:
+          - string
+          - 'null'
+        IsDynamic:
+          type: boolean
+          description: Whether the channel was created dynamically via CometD subscription
+        CreatedDate:
+          type: string
+          format: date-time
+        LastModifiedDate:
+          type: string
+          format: date-time
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://login.salesforce.com/services/oauth2/authorize
+          tokenUrl: https://login.salesforce.com/services/oauth2/token
+          scopes:
+            api: Access and manage your Salesforce data
+    bearerAuth:
+      type: http
+      scheme: bearer

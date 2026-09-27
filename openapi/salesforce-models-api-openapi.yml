@@ -239,27 +239,27 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    ModelField:
-      title: ModelField
+    CreatedBy:
+      title: CreatedBy
       required:
-      - label
+      - id
       - name
-      - type
+      - profilePhotoUrl
       type: object
       properties:
-        label:
+        id:
           type: string
-          example: Example Title
+          example: abc123
         name:
           type: string
           example: Example Title
-        type:
+        profilePhotoUrl:
           type: string
-          example: example_value
+          example: https://www.example.com
       examples:
-      - label: Category
-        name: Category
-        type: Text
+      - id: 0055Y00000DWwAIQA1
+        name: Philippe Ozil
+        profilePhotoUrl: https://crm-analytics-deorg-dev-ed--c.documentforce.com/profilephoto/005/T
     PrescribableField:
       title: PrescribableField
       required:
@@ -294,19 +294,8 @@ components:
           label: Category
           name: Category
           type: Text
-    Model:
-      title: Model
-      required:
-      - id
-      type: object
-      properties:
-        id:
-          type: string
-          example: abc123
-      examples:
-      - id: 1Ot5Y0000010wzNSAQ
-    CreatedBy:
-      title: CreatedBy
+    LastModifiedBy:
+      title: LastModifiedBy
       required:
       - id
       - name
@@ -326,6 +315,134 @@ components:
       - id: 0055Y00000DWwAIQA1
         name: Philippe Ozil
         profilePhotoUrl: https://crm-analytics-deorg-dev-ed--c.documentforce.com/profilephoto/005/T
+    Field:
+      title: Field
+      required:
+      - label
+      - name
+      - type
+      type: object
+      properties:
+        label:
+          type: string
+          example: Example Title
+        name:
+          type: string
+          example: Example Title
+        type:
+          type: string
+          example: example_value
+      examples:
+      - label: Quantity
+        name: Quantity
+        type: Number
+    Model:
+      title: Model
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+      examples:
+      - id: 1Ot5Y0000010wzNSAQ
+    ModelField:
+      title: ModelField
+      required:
+      - label
+      - name
+      - type
+      type: object
+      properties:
+        label:
+          type: string
+          example: Example Title
+        name:
+          type: string
+          example: Example Title
+        type:
+          type: string
+          example: example_value
+      examples:
+      - label: Category
+        name: Category
+        type: Text
+    Predictionmodels:
+      title: Predictionmodels
+      required:
+      - models
+      - totalSize
+      - url
+      type: object
+      properties:
+        models:
+          type: array
+          items:
+            $ref: '#/components/schemas/Model1'
+          description: ''
+          example: []
+        totalSize:
+          type: integer
+          contentEncoding: int32
+          example: 42
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - models:
+        - createdBy:
+            id: 0055Y00000DWwAIQA1
+            name: Philippe Ozil
+            profilePhotoUrl: https://crm-analytics-deorg-dev-ed--c.documentforce.com/profilephoto/005/T
+          createdDate: '2021-03-04T13:37:03.000Z'
+          fieldMappingList:
+          - modelField:
+              label: Category
+              name: Category
+              type: Text
+          - modelField:
+              label: Sales
+              name: Sales
+              type: Number
+          - modelField:
+              label: Profit per Order
+              name: Profit_per_Order
+              type: Number
+          - modelField:
+              label: Sub-Category
+              name: Sub_Category
+              type: Text
+          - modelField:
+              label: Quantity
+              name: Quantity
+              type: Number
+          filters: []
+          historyUrl: /services/data/v51.0/smartdatadiscovery/predictiondefinitions/1OR5Y0000010ws8WAA/models/1Ot5Y0000010wzNSAQ/histories
+          id: 1Ot5Y0000010wzNSAQ
+          isRefreshEnabled: false
+          label: superstore-orders
+          lastModifiedBy:
+            id: 0055Y00000DWwAIQA1
+            name: Philippe Ozil
+            profilePhotoUrl: https://crm-analytics-deorg-dev-ed--c.documentforce.com/profilephoto/005/T
+          lastModifiedDate: '2021-03-04T13:37:03.000Z'
+          model:
+            id: 1OT5Y0000010zlzWAA
+          modelType: Regression
+          name: superstore_orders
+          predictionDefinitionUrl: /services/data/v51.0/smartdatadiscovery/predictiondefinitions/1OR5Y0000010ws8WAA
+          prescribableFields:
+          - customDefinitions: []
+            field:
+              label: Quantity
+              name: Quantity
+              type: Number
+          sortOrder: 0
+          status: Enabled
+          url: /services/data/v51.0/smartdatadiscovery/predictiondefinitions/1OR5Y0000010ws8WAA/models/1Ot5Y0000010wzNSAQ
+        totalSize: 1
+        url: /services/data/v51.0/smartdatadiscovery/predictiondefinitions/1OR5Y0000010ws8WAA/models
     Model1:
       title: Model1
       required:
@@ -461,123 +578,6 @@ components:
         sortOrder: 0
         status: Enabled
         url: /services/data/v51.0/smartdatadiscovery/predictiondefinitions/1OR5Y0000010ws8WAA/models/1Ot5Y0000010wzNSAQ
-    Predictionmodels:
-      title: Predictionmodels
-      required:
-      - models
-      - totalSize
-      - url
-      type: object
-      properties:
-        models:
-          type: array
-          items:
-            $ref: '#/components/schemas/Model1'
-          description: ''
-          example: []
-        totalSize:
-          type: integer
-          contentEncoding: int32
-          example: 42
-        url:
-          type: string
-          example: https://www.example.com
-      examples:
-      - models:
-        - createdBy:
-            id: 0055Y00000DWwAIQA1
-            name: Philippe Ozil
-            profilePhotoUrl: https://crm-analytics-deorg-dev-ed--c.documentforce.com/profilephoto/005/T
-          createdDate: '2021-03-04T13:37:03.000Z'
-          fieldMappingList:
-          - modelField:
-              label: Category
-              name: Category
-              type: Text
-          - modelField:
-              label: Sales
-              name: Sales
-              type: Number
-          - modelField:
-              label: Profit per Order
-              name: Profit_per_Order
-              type: Number
-          - modelField:
-              label: Sub-Category
-              name: Sub_Category
-              type: Text
-          - modelField:
-              label: Quantity
-              name: Quantity
-              type: Number
-          filters: []
-          historyUrl: /services/data/v51.0/smartdatadiscovery/predictiondefinitions/1OR5Y0000010ws8WAA/models/1Ot5Y0000010wzNSAQ/histories
-          id: 1Ot5Y0000010wzNSAQ
-          isRefreshEnabled: false
-          label: superstore-orders
-          lastModifiedBy:
-            id: 0055Y00000DWwAIQA1
-            name: Philippe Ozil
-            profilePhotoUrl: https://crm-analytics-deorg-dev-ed--c.documentforce.com/profilephoto/005/T
-          lastModifiedDate: '2021-03-04T13:37:03.000Z'
-          model:
-            id: 1OT5Y0000010zlzWAA
-          modelType: Regression
-          name: superstore_orders
-          predictionDefinitionUrl: /services/data/v51.0/smartdatadiscovery/predictiondefinitions/1OR5Y0000010ws8WAA
-          prescribableFields:
-          - customDefinitions: []
-            field:
-              label: Quantity
-              name: Quantity
-              type: Number
-          sortOrder: 0
-          status: Enabled
-          url: /services/data/v51.0/smartdatadiscovery/predictiondefinitions/1OR5Y0000010ws8WAA/models/1Ot5Y0000010wzNSAQ
-        totalSize: 1
-        url: /services/data/v51.0/smartdatadiscovery/predictiondefinitions/1OR5Y0000010ws8WAA/models
-    LastModifiedBy:
-      title: LastModifiedBy
-      required:
-      - id
-      - name
-      - profilePhotoUrl
-      type: object
-      properties:
-        id:
-          type: string
-          example: abc123
-        name:
-          type: string
-          example: Example Title
-        profilePhotoUrl:
-          type: string
-          example: https://www.example.com
-      examples:
-      - id: 0055Y00000DWwAIQA1
-        name: Philippe Ozil
-        profilePhotoUrl: https://crm-analytics-deorg-dev-ed--c.documentforce.com/profilephoto/005/T
-    Field:
-      title: Field
-      required:
-      - label
-      - name
-      - type
-      type: object
-      properties:
-        label:
-          type: string
-          example: Example Title
-        name:
-          type: string
-          example: Example Title
-        type:
-          type: string
-          example: example_value
-      examples:
-      - label: Quantity
-        name: Quantity
-        type: Number
   securitySchemes:
     oauth2:
       type: oauth2

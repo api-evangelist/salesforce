@@ -58,6 +58,13 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  responses:
+    NotFound:
+      description: Not found. The requested resource does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   schemas:
     ErrorResponse:
       type: object
@@ -70,24 +77,6 @@ components:
         message:
           type: string
           description: Human-readable error message
-          example: example_value
-    PicklistValue:
-      type: object
-      description: A single picklist option
-      properties:
-        attributes:
-          nullable: true
-          example: example_value
-        label:
-          type: string
-          example: Example Title
-        validFor:
-          type: array
-          items:
-            type: integer
-          example: []
-        value:
-          type: string
           example: example_value
     PicklistValuesCollection:
       type: object
@@ -111,13 +100,24 @@ components:
                 items:
                   $ref: '#/components/schemas/PicklistValue'
           example: example_value
-  responses:
-    NotFound:
-      description: Not found. The requested resource does not exist.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
+    PicklistValue:
+      type: object
+      description: A single picklist option
+      properties:
+        attributes:
+          nullable: true
+          example: example_value
+        label:
+          type: string
+          example: Example Title
+        validFor:
+          type: array
+          items:
+            type: integer
+          example: []
+        value:
+          type: string
+          example: example_value
   parameters:
     ObjectApiName:
       name: objectApiName

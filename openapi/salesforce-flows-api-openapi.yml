@@ -1,0 +1,227 @@
+openapi: 3.2.0
+info:
+  title: Salesforce Tooling Flows API
+  description: REST API for building custom development tools for Salesforce applications. Provides access to metadata about Apex classes, triggers, Visualforce pages, flows, and other platform components. Supports CRUD operations and SOQL queries against Tooling API objects like ApexClass, ApexTrigger, Flow, FlowDefinition, and CustomField.
+  version: '63.0'
+  contact:
+    name: Salesforce Developer Support
+    url: https://developer.salesforce.com/support
+    email: developer@salesforce.com
+  license:
+    name: Salesforce API Terms of Use
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v63.0/tooling
+  description: Salesforce production or developer instance
+  variables:
+    instance:
+      default: yourInstance
+      description: Your Salesforce instance identifier
+security:
+- oauth2: []
+- bearerAuth: []
+tags:
+- name: Flows
+  description: Flow and FlowDefinition management
+paths:
+  /sobjects/Flow/{flowId}:
+    get:
+      operationId: getFlow
+      summary: Get a Flow definition
+      description: Retrieves metadata for a specific Salesforce Flow, including its version, status, process type, and associated metadata. Flows are the primary automation mechanism in Salesforce.
+      tags:
+      - Flows
+      parameters:
+      - name: flowId
+        in: path
+        required: true
+        description: The 18-character ID of the Flow version record
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Flow record data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Flow'
+  /sobjects/FlowDefinition/{flowDefinitionId}:
+    get:
+      operationId: getFlowDefinition
+      summary: Get a Flow definition metadata
+      description: Retrieves the FlowDefinition record, which represents the overall Flow independent of version. Contains the active version number and the developer name.
+      tags:
+      - Flows
+      parameters:
+      - name: flowDefinitionId
+        in: path
+        required: true
+        description: The 18-character ID of the FlowDefinition record
+        schema:
+          type: string
+      responses:
+        '200':
+          description: FlowDefinition record data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlowDefinition'
+    patch:
+      operationId: updateFlowDefinition
+      summary: Activate or deactivate a Flow version
+      description: Updates the FlowDefinition to activate a specific flow version by setting the ActiveVersionNumber, or deactivates by setting it to null.
+      tags:
+      - Flows
+      parameters:
+      - name: flowDefinitionId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Metadata:
+                  type: object
+                  properties:
+                    activeVersionNumber:
+                      type:
+                      - integer
+                      - 'null'
+                      description: Set to a version number to activate that version, or null to deactivate
+      responses:
+        '204':
+          description: FlowDefinition updated
+components:
+  schemas:
+    Flow:
+      type: object
+      description: A specific version of a Salesforce Flow automation. The Flow object in the Tooling API represents individual flow versions with their metadata, process type, and status.
+      properties:
+        Id:
+          type: string
+        DefinitionId:
+          type: string
+          description: The ID of the parent FlowDefinition
+        MasterLabel:
+          type: string
+          description: The display label for this flow
+        Description:
+          type:
+          - string
+          - 'null'
+        ProcessType:
+          type: string
+          enum:
+          - AutoLaunchedFlow
+          - Flow
+          - Workflow
+          - CustomEvent
+          - InvocableProcess
+          - LoginFlow
+          - ActionPlan
+          - JourneyBuilderIntegration
+          - UserProvisioningFlow
+          - Survey
+          - SurveyEnrich
+          - Appointments
+          - FSCLending
+          - DigitalForm
+          - FieldServiceMobile
+          - OrchestrationFlow
+          - RoutingFlow
+          - ServiceProcess
+          - TransactionSecurityFlow
+          - ContactRequestFlow
+          - ActionCadenceFlow
+          - CheckoutFlow
+          - CartAsyncFlow
+          - DecisionTable
+          - EvaluationFlow
+          - IndividualObjectLinkingFlow
+          - PromptFlow
+          - RecordAlertTemplateFlow
+          - ScreenFlow
+          - Orchestrator
+          description: The type of flow. AutoLaunchedFlow runs without user interaction. Flow (Screen Flow) presents UI screens. Workflow represents Process Builder processes.
+        Status:
+          type: string
+          enum:
+          - Active
+          - Draft
+          - Obsolete
+          - InvalidDraft
+          description: The status of this flow version
+        VersionNumber:
+          type: integer
+          description: The version number within the FlowDefinition
+        ApiVersion:
+          type: string
+          description: The Salesforce API version of this flow
+        FullName:
+          type: string
+          description: The developer name of the flow (unique within the org)
+        Metadata:
+          type: object
+          description: The full flow metadata including elements, connectors, variables, and configuration
+          additionalProperties: true
+        CreatedDate:
+          type: string
+          format: date-time
+        LastModifiedDate:
+          type: string
+          format: date-time
+        CreatedById:
+          type: string
+        LastModifiedById:
+          type: string
+    FlowDefinition:
+      type: object
+      description: Represents the overall Flow definition independent of version. Contains the active version number and developer name.
+      properties:
+        Id:
+          type: string
+        DeveloperName:
+          type: string
+          description: The unique developer name for this flow
+        MasterLabel:
+          type: string
+        Description:
+          type:
+          - string
+          - 'null'
+        ActiveVersionId:
+          type:
+          - string
+          - 'null'
+          description: The ID of the currently active Flow version
+        LatestVersionId:
+          type: string
+          description: The ID of the most recent Flow version
+        Metadata:
+          type: object
+          properties:
+            activeVersionNumber:
+              type:
+              - integer
+              - 'null'
+        NamespacePrefix:
+          type:
+          - string
+          - 'null'
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://login.salesforce.com/services/oauth2/authorize
+          tokenUrl: https://login.salesforce.com/services/oauth2/token
+          scopes:
+            api: Access and manage your Salesforce data
+    bearerAuth:
+      type: http
+      scheme: bearer

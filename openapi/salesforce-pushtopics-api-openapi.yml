@@ -1,0 +1,223 @@
+openapi: 3.2.0
+info:
+  title: Salesforce Streaming Push Topics API
+  description: REST endpoints for managing PushTopic and Streaming Channel resources used with the Salesforce Streaming API. The Streaming API uses the Bayeux protocol (CometD) over long polling or WebSocket connections to deliver real-time notifications. PushTopics define SOQL queries that trigger events when matching records change. Streaming Channels provide generic event delivery. Subscriptions are established via CometD handshake at /cometd/{apiVersion}.
+  version: '63.0'
+  contact:
+    name: Salesforce Developer Support
+    url: https://developer.salesforce.com/support
+    email: developer@salesforce.com
+  license:
+    name: Salesforce API Terms of Use
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v63.0
+  description: Salesforce production or developer instance
+  variables:
+    instance:
+      default: yourInstance
+      description: Your Salesforce instance identifier
+security:
+- oauth2: []
+- bearerAuth: []
+tags:
+- name: PushTopics
+  description: SOQL-based streaming event topics (deprecated; use Platform Events or CDC)
+paths:
+  /sobjects/PushTopic:
+    get:
+      operationId: listPushTopics
+      summary: List PushTopics
+      description: 'Returns all PushTopic records in the org. PushTopics define SOQL queries that determine which record changes generate streaming events. Note: PushTopics are deprecated in favor of Platform Events and Change Data Capture.'
+      tags:
+      - PushTopics
+      responses:
+        '200':
+          description: List of PushTopics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalSize:
+                    type: integer
+                  done:
+                    type: boolean
+                  records:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PushTopic'
+    post:
+      operationId: createPushTopic
+      summary: Create a PushTopic
+      description: Creates a new PushTopic that defines a SOQL query to monitor for record changes. When records matching the query change, events are delivered to subscribers on the /topic/{pushTopicName} CometD channel.
+      tags:
+      - PushTopics
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PushTopicInput'
+      responses:
+        '201':
+          description: PushTopic created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  success:
+                    type: boolean
+                  errors:
+                    type: array
+                    items:
+                      type: object
+  /sobjects/PushTopic/{pushTopicId}:
+    get:
+      operationId: getPushTopic
+      summary: Get a PushTopic
+      description: Retrieves a specific PushTopic record by ID.
+      tags:
+      - PushTopics
+      parameters:
+      - name: pushTopicId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: PushTopic record
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PushTopic'
+    patch:
+      operationId: updatePushTopic
+      summary: Update a PushTopic
+      description: Updates the SOQL query, notification settings, or other properties of an existing PushTopic.
+      tags:
+      - PushTopics
+      parameters:
+      - name: pushTopicId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PushTopicInput'
+      responses:
+        '204':
+          description: PushTopic updated
+    delete:
+      operationId: deletePushTopic
+      summary: Delete a PushTopic
+      description: Deletes a PushTopic. Active subscribers will be disconnected.
+      tags:
+      - PushTopics
+      parameters:
+      - name: pushTopicId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: PushTopic deleted
+components:
+  schemas:
+    PushTopicInput:
+      type: object
+      properties:
+        Name:
+          type: string
+          maxLength: 25
+        Query:
+          type: string
+        ApiVersion:
+          type: number
+        IsActive:
+          type: boolean
+        NotifyForFields:
+          type: string
+          enum:
+          - Select
+          - Where
+          - Referenced
+          - All
+        NotifyForOperationCreate:
+          type: boolean
+        NotifyForOperationUpdate:
+          type: boolean
+        NotifyForOperationDelete:
+          type: boolean
+        NotifyForOperationUndelete:
+          type: boolean
+        Description:
+          type: string
+    PushTopic:
+      type: object
+      properties:
+        Id:
+          type: string
+        Name:
+          type: string
+          description: The name of the PushTopic, used as the CometD channel name (/topic/{Name})
+        Query:
+          type: string
+          description: The SOQL query that defines which records to monitor. Must be a SELECT query on a single SObject.
+        ApiVersion:
+          type: number
+          description: The API version for this PushTopic
+        IsActive:
+          type: boolean
+          description: Whether this PushTopic is actively generating events
+        NotifyForFields:
+          type: string
+          enum:
+          - Select
+          - Where
+          - Referenced
+          - All
+          description: 'Which field changes trigger notifications: Select (fields in SELECT), Where (fields in WHERE), Referenced (both), All (any field)'
+        NotifyForOperationCreate:
+          type: boolean
+          description: Whether to generate events when matching records are created
+        NotifyForOperationUpdate:
+          type: boolean
+          description: Whether to generate events when matching records are updated
+        NotifyForOperationDelete:
+          type: boolean
+          description: Whether to generate events when matching records are deleted
+        NotifyForOperationUndelete:
+          type: boolean
+          description: Whether to generate events when matching records are undeleted
+        Description:
+          type:
+          - string
+          - 'null'
+        CreatedDate:
+          type: string
+          format: date-time
+        LastModifiedDate:
+          type: string
+          format: date-time
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://login.salesforce.com/services/oauth2/authorize
+          tokenUrl: https://login.salesforce.com/services/oauth2/token
+          scopes:
+            api: Access and manage your Salesforce data
+    bearerAuth:
+      type: http
+      scheme: bearer

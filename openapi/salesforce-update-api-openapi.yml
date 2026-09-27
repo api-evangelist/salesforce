@@ -257,22 +257,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    AccountCustomField:
-      title: AccountCustomField
-      required:
-      - fieldName
-      - fieldValue
-      type: object
-      properties:
-        fieldName:
-          type: string
-          example: example_value
-        fieldValue:
-          type: string
-          example: example_value
-      examples:
-      - fieldName: string
-        fieldValue: string
     GiftCommitmentScheduleCustomField:
       title: GiftCommitmentScheduleCustomField
       required:
@@ -397,22 +381,22 @@ components:
         giftCommitmentScheduleCustomFields:
         - fieldName: string
           fieldValue: string
-    GiftCommitmentCustomField:
-      title: GiftCommitmentCustomField
+    OutreachSourceCode:
+      title: OutreachSourceCode
       required:
-      - fieldName
-      - fieldValue
+      - id
+      - sourceCode
       type: object
       properties:
-        fieldName:
+        id:
           type: string
-          example: example_value
-        fieldValue:
+          example: abc123
+        sourceCode:
           type: string
           example: example_value
       examples:
-      - fieldName: <VALID_CUSTOM_FIELD_API_NAME>
-        fieldValue: string
+      - id: <SFDC_OUTREACH_SOURCE_CODE_ID>
+        sourceCode: AnimalEmailCampaign2023
     Donor3:
       title: Donor3
       required:
@@ -473,24 +457,45 @@ components:
         accountCustomFields:
         - fieldName: string
           fieldValue: string
-    OutreachSourceCode:
-      title: OutreachSourceCode
+    Status200-UpdateCommitmentSuccess:
+      title: Status200-UpdateCommitmentSuccess
       required:
-      - id
-      - sourceCode
+      - success
+      - links
       type: object
       properties:
-        id:
+        success:
+          type: boolean
+          example: true
+        links:
+          $ref: '#/components/schemas/Links11'
+      examples:
+      - success: true
+        links:
+          giftcommitment:
+            href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
+            id: <SFDC_GIFT_COMMITMENT_ID>
+          giftcommitmentschedule:
+            href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_SCHEDULE_ID>
+            id: <SFDC_GIFT_COMMITMENT_SCHEDULE_ID>
+    AccountCustomField:
+      title: AccountCustomField
+      required:
+      - fieldName
+      - fieldValue
+      type: object
+      properties:
+        fieldName:
           type: string
-          example: abc123
-        sourceCode:
+          example: example_value
+        fieldValue:
           type: string
           example: example_value
       examples:
-      - id: <SFDC_OUTREACH_SOURCE_CODE_ID>
-        sourceCode: AnimalEmailCampaign2023
-    Giftcommitmentschedule:
-      title: Giftcommitmentschedule
+      - fieldName: string
+        fieldValue: string
+    Giftcommitment:
+      title: Giftcommitment
       required:
       - href
       - id
@@ -503,26 +508,8 @@ components:
           type: string
           example: abc123
       examples:
-      - href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_SCHEDULE_ID>
-        id: <SFDC_GIFT_COMMITMENT_SCHEDULE_ID>
-    Links11:
-      title: Links11
-      required:
-      - giftcommitment
-      - giftcommitmentschedule
-      type: object
-      properties:
-        giftcommitment:
-          $ref: '#/components/schemas/Giftcommitment'
-        giftcommitmentschedule:
-          $ref: '#/components/schemas/Giftcommitmentschedule'
-      examples:
-      - giftcommitment:
-          href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
-          id: <SFDC_GIFT_COMMITMENT_ID>
-        giftcommitmentschedule:
-          href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_SCHEDULE_ID>
-          id: <SFDC_GIFT_COMMITMENT_SCHEDULE_ID>
+      - href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
+        id: <SFDC_GIFT_COMMITMENT_ID>
     Address1:
       title: Address1
       required:
@@ -559,29 +546,19 @@ components:
         state: CA
         postalCode: '94610'
         country: US
-    Status200-UpdateCommitmentSuccess:
-      title: Status200-UpdateCommitmentSuccess
+    Campaign:
+      title: Campaign
       required:
-      - success
-      - links
+      - id
       type: object
       properties:
-        success:
-          type: boolean
-          example: true
-        links:
-          $ref: '#/components/schemas/Links11'
+        id:
+          type: string
+          example: abc123
       examples:
-      - success: true
-        links:
-          giftcommitment:
-            href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
-            id: <SFDC_GIFT_COMMITMENT_ID>
-          giftcommitmentschedule:
-            href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_SCHEDULE_ID>
-            id: <SFDC_GIFT_COMMITMENT_SCHEDULE_ID>
-    Giftcommitment:
-      title: Giftcommitment
+      - id: <SFDC_CAMPAIGN_ID>
+    Giftcommitmentschedule:
+      title: Giftcommitmentschedule
       required:
       - href
       - id
@@ -594,19 +571,8 @@ components:
           type: string
           example: abc123
       examples:
-      - href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
-        id: <SFDC_GIFT_COMMITMENT_ID>
-    Campaign:
-      title: Campaign
-      required:
-      - id
-      type: object
-      properties:
-        id:
-          type: string
-          example: abc123
-      examples:
-      - id: <SFDC_CAMPAIGN_ID>
+      - href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_SCHEDULE_ID>
+        id: <SFDC_GIFT_COMMITMENT_SCHEDULE_ID>
     PaymentInstrument:
       title: PaymentInstrument
       required:
@@ -693,6 +659,40 @@ components:
         processorName: test processor
         processorPaymentReference: string
         gatewayReference: string
+    Links11:
+      title: Links11
+      required:
+      - giftcommitment
+      - giftcommitmentschedule
+      type: object
+      properties:
+        giftcommitment:
+          $ref: '#/components/schemas/Giftcommitment'
+        giftcommitmentschedule:
+          $ref: '#/components/schemas/Giftcommitmentschedule'
+      examples:
+      - giftcommitment:
+          href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
+          id: <SFDC_GIFT_COMMITMENT_ID>
+        giftcommitmentschedule:
+          href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_SCHEDULE_ID>
+          id: <SFDC_GIFT_COMMITMENT_SCHEDULE_ID>
+    GiftCommitmentCustomField:
+      title: GiftCommitmentCustomField
+      required:
+      - fieldName
+      - fieldValue
+      type: object
+      properties:
+        fieldName:
+          type: string
+          example: example_value
+        fieldValue:
+          type: string
+          example: example_value
+      examples:
+      - fieldName: <VALID_CUSTOM_FIELD_API_NAME>
+        fieldValue: string
   securitySchemes:
     oauth2:
       type: oauth2

@@ -100,6 +100,28 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    Body16:
+      title: Body16
+      required:
+      - create
+      type: object
+      properties:
+        create:
+          allOf:
+          - $ref: '#/components/schemas/create'
+          - xml:
+              name: create
+              namespace: urn:partner.soap.sforce.com
+              prefix: ns2
+              attribute: false
+              wrapped: false
+          example: example_value
+      xml:
+        name: Body
+        namespace: http://schemas.xmlsoap.org/soap/envelope/
+        prefix: SOAP-ENV
+        attribute: false
+        wrapped: false
     Header4:
       title: Header4
       required:
@@ -122,25 +144,23 @@ components:
         prefix: SOAP-ENV
         attribute: false
         wrapped: false
-    create:
-      title: create
+    SessionHeader:
+      title: SessionHeader
       required:
-      - sObjects
+      - sessionId
       type: object
       properties:
-        sObjects:
-          type: array
-          items:
-            $ref: '#/components/schemas/sObjects'
-          description: ''
+        sessionId:
+          type: string
           xml:
+            name: sessionId
             namespace: urn:partner.soap.sforce.com
             prefix: ns2
             attribute: false
             wrapped: false
-          example: []
+          example: '500123'
       xml:
-        name: create
+        name: SessionHeader
         namespace: urn:partner.soap.sforce.com
         prefix: ns2
         attribute: false
@@ -195,23 +215,25 @@ components:
         prefix: ns2
         attribute: false
         wrapped: false
-    SessionHeader:
-      title: SessionHeader
+    create:
+      title: create
       required:
-      - sessionId
+      - sObjects
       type: object
       properties:
-        sessionId:
-          type: string
+        sObjects:
+          type: array
+          items:
+            $ref: '#/components/schemas/sObjects'
+          description: ''
           xml:
-            name: sessionId
             namespace: urn:partner.soap.sforce.com
             prefix: ns2
             attribute: false
             wrapped: false
-          example: '500123'
+          example: []
       xml:
-        name: SessionHeader
+        name: create
         namespace: urn:partner.soap.sforce.com
         prefix: ns2
         attribute: false
@@ -245,28 +267,6 @@ components:
           example: example_value
       xml:
         name: Envelope
-        namespace: http://schemas.xmlsoap.org/soap/envelope/
-        prefix: SOAP-ENV
-        attribute: false
-        wrapped: false
-    Body16:
-      title: Body16
-      required:
-      - create
-      type: object
-      properties:
-        create:
-          allOf:
-          - $ref: '#/components/schemas/create'
-          - xml:
-              name: create
-              namespace: urn:partner.soap.sforce.com
-              prefix: ns2
-              attribute: false
-              wrapped: false
-          example: example_value
-      xml:
-        name: Body
         namespace: http://schemas.xmlsoap.org/soap/envelope/
         prefix: SOAP-ENV
         attribute: false

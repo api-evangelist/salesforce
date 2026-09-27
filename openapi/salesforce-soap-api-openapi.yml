@@ -216,52 +216,77 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    result3:
-      title: result3
+    describeMetadataResponse:
+      title: describeMetadataResponse
       required:
-      - metadataObjects
-      - organizationNamespace
-      - partialSaveAllowed
-      - testRequired
+      - result
       type: object
       properties:
-        metadataObjects:
-          type: array
-          items:
-            $ref: '#/components/schemas/metadataObjects'
-          description: ''
-          xml:
-            namespace: http://soap.sforce.com/2006/04/metadata
-            attribute: false
-            wrapped: false
-          example: []
-        organizationNamespace:
-          type: string
-          xml:
-            name: organizationNamespace
-            namespace: http://soap.sforce.com/2006/04/metadata
-            attribute: false
-            wrapped: false
+        result:
+          allOf:
+          - $ref: '#/components/schemas/result3'
+          - xml:
+              name: result
+              namespace: http://soap.sforce.com/2006/04/metadata
+              attribute: false
+              wrapped: false
           example: example_value
-        partialSaveAllowed:
-          type: boolean
-          xml:
-            name: partialSaveAllowed
-            namespace: http://soap.sforce.com/2006/04/metadata
-            attribute: false
-            wrapped: false
-          example: true
-        testRequired:
-          type: boolean
-          xml:
-            name: testRequired
-            namespace: http://soap.sforce.com/2006/04/metadata
-            attribute: false
-            wrapped: false
-          example: true
       xml:
-        name: result
+        name: describeMetadataResponse
         namespace: http://soap.sforce.com/2006/04/metadata
+        attribute: false
+        wrapped: false
+    Envelope1:
+      title: Envelope1
+      required:
+      - Header
+      - Body
+      type: object
+      properties:
+        Header:
+          allOf:
+          - $ref: '#/components/schemas/Header5'
+          - xml:
+              name: Header
+              namespace: http://schemas.xmlsoap.org/soap/envelope/
+              prefix: soapenv
+              attribute: false
+              wrapped: false
+          example: example_value
+        Body:
+          allOf:
+          - $ref: '#/components/schemas/Body17'
+          - xml:
+              name: Body
+              namespace: http://schemas.xmlsoap.org/soap/envelope/
+              prefix: soapenv
+              attribute: false
+              wrapped: false
+          example: example_value
+      xml:
+        name: Envelope
+        namespace: http://schemas.xmlsoap.org/soap/envelope/
+        prefix: soapenv
+        attribute: false
+        wrapped: false
+    describeMetadata:
+      title: describeMetadata
+      required:
+      - asOfVersion
+      type: object
+      properties:
+        asOfVersion:
+          type: number
+          xml:
+            name: asOfVersion
+            namespace: ''
+            attribute: false
+            wrapped: false
+          example: 42.5
+      xml:
+        name: describeMetadata
+        namespace: http://soap.sforce.com/2006/04/metadata
+        prefix: tns
         attribute: false
         wrapped: false
     Header5:
@@ -282,6 +307,91 @@ components:
           example: example_value
       xml:
         name: Header
+        namespace: http://schemas.xmlsoap.org/soap/envelope/
+        prefix: soapenv
+        attribute: false
+        wrapped: false
+    SessionHeader4:
+      title: SessionHeader4
+      required:
+      - sessionId
+      type: object
+      properties:
+        sessionId:
+          type: string
+          xml:
+            name: sessionId
+            namespace: urn:enterprise.soap.sforce.com
+            prefix: urn
+            attribute: false
+            wrapped: false
+          example: '500123'
+      xml:
+        name: SessionHeader
+        namespace: urn:enterprise.soap.sforce.com
+        prefix: urn
+        attribute: false
+        wrapped: false
+    Header8:
+      title: Header8
+      required:
+      - SessionHeader
+      type: object
+      properties:
+        SessionHeader:
+          allOf:
+          - $ref: '#/components/schemas/SessionHeader4'
+          - xml:
+              name: SessionHeader
+              namespace: urn:enterprise.soap.sforce.com
+              prefix: urn
+              attribute: false
+              wrapped: false
+          example: example_value
+      xml:
+        name: Header
+        namespace: http://schemas.xmlsoap.org/soap/envelope/
+        prefix: soapenv
+        attribute: false
+        wrapped: false
+    undelete:
+      title: undelete
+      required:
+      - ids
+      type: object
+      properties:
+        ids:
+          type: string
+          xml:
+            name: ids
+            namespace: urn:enterprise.soap.sforce.com
+            prefix: urn
+            attribute: false
+            wrapped: false
+          example: example_value
+      xml:
+        name: undelete
+        namespace: urn:enterprise.soap.sforce.com
+        prefix: urn
+        attribute: false
+        wrapped: false
+    Body18:
+      title: Body18
+      required:
+      - describeMetadataResponse
+      type: object
+      properties:
+        describeMetadataResponse:
+          allOf:
+          - $ref: '#/components/schemas/describeMetadataResponse'
+          - xml:
+              name: describeMetadataResponse
+              namespace: http://soap.sforce.com/2006/04/metadata
+              attribute: false
+              wrapped: false
+          example: example_value
+      xml:
+        name: Body
         namespace: http://schemas.xmlsoap.org/soap/envelope/
         prefix: soapenv
         attribute: false
@@ -348,80 +458,6 @@ components:
         namespace: http://soap.sforce.com/2006/04/metadata
         attribute: false
         wrapped: false
-    Envelope1:
-      title: Envelope1
-      required:
-      - Header
-      - Body
-      type: object
-      properties:
-        Header:
-          allOf:
-          - $ref: '#/components/schemas/Header5'
-          - xml:
-              name: Header
-              namespace: http://schemas.xmlsoap.org/soap/envelope/
-              prefix: soapenv
-              attribute: false
-              wrapped: false
-          example: example_value
-        Body:
-          allOf:
-          - $ref: '#/components/schemas/Body17'
-          - xml:
-              name: Body
-              namespace: http://schemas.xmlsoap.org/soap/envelope/
-              prefix: soapenv
-              attribute: false
-              wrapped: false
-          example: example_value
-      xml:
-        name: Envelope
-        namespace: http://schemas.xmlsoap.org/soap/envelope/
-        prefix: soapenv
-        attribute: false
-        wrapped: false
-    SessionHeader4:
-      title: SessionHeader4
-      required:
-      - sessionId
-      type: object
-      properties:
-        sessionId:
-          type: string
-          xml:
-            name: sessionId
-            namespace: urn:enterprise.soap.sforce.com
-            prefix: urn
-            attribute: false
-            wrapped: false
-          example: '500123'
-      xml:
-        name: SessionHeader
-        namespace: urn:enterprise.soap.sforce.com
-        prefix: urn
-        attribute: false
-        wrapped: false
-    describeMetadataResponse:
-      title: describeMetadataResponse
-      required:
-      - result
-      type: object
-      properties:
-        result:
-          allOf:
-          - $ref: '#/components/schemas/result3'
-          - xml:
-              name: result
-              namespace: http://soap.sforce.com/2006/04/metadata
-              attribute: false
-              wrapped: false
-          example: example_value
-      xml:
-        name: describeMetadataResponse
-        namespace: http://soap.sforce.com/2006/04/metadata
-        attribute: false
-        wrapped: false
     Envelope2:
       title: Envelope2
       required:
@@ -444,82 +480,19 @@ components:
         prefix: soapenv
         attribute: false
         wrapped: false
-    undelete:
-      title: undelete
+    Body17:
+      title: Body17
       required:
-      - ids
+      - describeMetadata
       type: object
       properties:
-        ids:
-          type: string
-          xml:
-            name: ids
-            namespace: urn:enterprise.soap.sforce.com
-            prefix: urn
-            attribute: false
-            wrapped: false
-          example: example_value
-      xml:
-        name: undelete
-        namespace: urn:enterprise.soap.sforce.com
-        prefix: urn
-        attribute: false
-        wrapped: false
-    Body23:
-      title: Body23
-      required:
-      - undelete
-      type: object
-      properties:
-        undelete:
+        describeMetadata:
           allOf:
-          - $ref: '#/components/schemas/undelete'
+          - $ref: '#/components/schemas/describeMetadata'
           - xml:
-              name: undelete
-              namespace: urn:enterprise.soap.sforce.com
-              prefix: urn
-              attribute: false
-              wrapped: false
-          example: example_value
-      xml:
-        name: Body
-        namespace: http://schemas.xmlsoap.org/soap/envelope/
-        prefix: soapenv
-        attribute: false
-        wrapped: false
-    SessionHeader1:
-      title: SessionHeader1
-      required:
-      - sessionId
-      type: object
-      properties:
-        sessionId:
-          type: string
-          xml:
-            name: sessionId
-            namespace: http://soap.sforce.com/2006/04/metadata
-            prefix: tns
-            attribute: false
-            wrapped: false
-          example: '500123'
-      xml:
-        name: SessionHeader
-        namespace: http://soap.sforce.com/2006/04/metadata
-        prefix: tns
-        attribute: false
-        wrapped: false
-    Body18:
-      title: Body18
-      required:
-      - describeMetadataResponse
-      type: object
-      properties:
-        describeMetadataResponse:
-          allOf:
-          - $ref: '#/components/schemas/describeMetadataResponse'
-          - xml:
-              name: describeMetadataResponse
+              name: describeMetadata
               namespace: http://soap.sforce.com/2006/04/metadata
+              prefix: tns
               attribute: false
               wrapped: false
           example: example_value
@@ -562,66 +535,93 @@ components:
         prefix: soapenv
         attribute: false
         wrapped: false
-    Body17:
-      title: Body17
+    result3:
+      title: result3
       required:
-      - describeMetadata
+      - metadataObjects
+      - organizationNamespace
+      - partialSaveAllowed
+      - testRequired
       type: object
       properties:
-        describeMetadata:
-          allOf:
-          - $ref: '#/components/schemas/describeMetadata'
-          - xml:
-              name: describeMetadata
-              namespace: http://soap.sforce.com/2006/04/metadata
-              prefix: tns
-              attribute: false
-              wrapped: false
-          example: example_value
-      xml:
-        name: Body
-        namespace: http://schemas.xmlsoap.org/soap/envelope/
-        prefix: soapenv
-        attribute: false
-        wrapped: false
-    describeMetadata:
-      title: describeMetadata
-      required:
-      - asOfVersion
-      type: object
-      properties:
-        asOfVersion:
-          type: number
+        metadataObjects:
+          type: array
+          items:
+            $ref: '#/components/schemas/metadataObjects'
+          description: ''
           xml:
-            name: asOfVersion
-            namespace: ''
+            namespace: http://soap.sforce.com/2006/04/metadata
             attribute: false
             wrapped: false
-          example: 42.5
+          example: []
+        organizationNamespace:
+          type: string
+          xml:
+            name: organizationNamespace
+            namespace: http://soap.sforce.com/2006/04/metadata
+            attribute: false
+            wrapped: false
+          example: example_value
+        partialSaveAllowed:
+          type: boolean
+          xml:
+            name: partialSaveAllowed
+            namespace: http://soap.sforce.com/2006/04/metadata
+            attribute: false
+            wrapped: false
+          example: true
+        testRequired:
+          type: boolean
+          xml:
+            name: testRequired
+            namespace: http://soap.sforce.com/2006/04/metadata
+            attribute: false
+            wrapped: false
+          example: true
       xml:
-        name: describeMetadata
+        name: result
+        namespace: http://soap.sforce.com/2006/04/metadata
+        attribute: false
+        wrapped: false
+    SessionHeader1:
+      title: SessionHeader1
+      required:
+      - sessionId
+      type: object
+      properties:
+        sessionId:
+          type: string
+          xml:
+            name: sessionId
+            namespace: http://soap.sforce.com/2006/04/metadata
+            prefix: tns
+            attribute: false
+            wrapped: false
+          example: '500123'
+      xml:
+        name: SessionHeader
         namespace: http://soap.sforce.com/2006/04/metadata
         prefix: tns
         attribute: false
         wrapped: false
-    Header8:
-      title: Header8
+    Body23:
+      title: Body23
       required:
-      - SessionHeader
+      - undelete
       type: object
       properties:
-        SessionHeader:
+        undelete:
           allOf:
-          - $ref: '#/components/schemas/SessionHeader4'
+          - $ref: '#/components/schemas/undelete'
           - xml:
-              name: SessionHeader
+              name: undelete
               namespace: urn:enterprise.soap.sforce.com
               prefix: urn
               attribute: false
               wrapped: false
           example: example_value
       xml:
-        name: Header
+        name: Body
         namespace: http://schemas.xmlsoap.org/soap/envelope/
         prefix: soapenv
         attribute: false

@@ -233,6 +233,40 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  responses:
+    NotFound:
+      description: Not found. The requested resource does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Unauthorized. Session has expired or is invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Forbidden:
+      description: Forbidden. Insufficient permissions for this operation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request. Invalid parameters or request body.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  parameters:
+    RecordId:
+      name: recordId
+      in: path
+      required: true
+      description: The 18-character Salesforce record ID
+      schema:
+        type: string
+        pattern: ^[a-zA-Z0-9]{18}$
   schemas:
     ErrorResponse:
       type: object
@@ -342,40 +376,6 @@ components:
           additionalProperties:
             description: Field value (string, number, boolean, or null to clear)
           example: example_value
-  parameters:
-    RecordId:
-      name: recordId
-      in: path
-      required: true
-      description: The 18-character Salesforce record ID
-      schema:
-        type: string
-        pattern: ^[a-zA-Z0-9]{18}$
-  responses:
-    NotFound:
-      description: Not found. The requested resource does not exist.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad request. Invalid parameters or request body.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Forbidden:
-      description: Forbidden. Insufficient permissions for this operation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Unauthorized. Session has expired or is invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     oauthBearerToken:
       type: http

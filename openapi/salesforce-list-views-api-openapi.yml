@@ -102,6 +102,22 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    ListViewSummary:
+      type: object
+      description: Summary information about a list view
+      properties:
+        id:
+          type: string
+          example: abc123
+        apiName:
+          type: string
+          example: example_value
+        label:
+          type: string
+          example: Example Title
+        url:
+          type: string
+          example: https://www.example.com
     ErrorResponse:
       type: object
       description: API error response
@@ -113,24 +129,6 @@ components:
         message:
           type: string
           description: Human-readable error message
-          example: example_value
-    ListViewResult:
-      type: object
-      description: Data and metadata for a list view
-      properties:
-        id:
-          type: string
-          example: abc123
-        label:
-          type: string
-          example: Example Title
-        records:
-          type: array
-          items:
-            type: object
-          example: []
-        sortBy:
-          type: string
           example: example_value
     ListViewCollection:
       type: object
@@ -155,22 +153,24 @@ components:
           items:
             $ref: '#/components/schemas/ListViewSummary'
           example: []
-    ListViewSummary:
+    ListViewResult:
       type: object
-      description: Summary information about a list view
+      description: Data and metadata for a list view
       properties:
         id:
           type: string
           example: abc123
-        apiName:
-          type: string
-          example: example_value
         label:
           type: string
           example: Example Title
-        url:
+        records:
+          type: array
+          items:
+            type: object
+          example: []
+        sortBy:
           type: string
-          example: https://www.example.com
+          example: example_value
   responses:
     NotFound:
       description: Not found. The requested resource does not exist.
@@ -179,11 +179,10 @@ components:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
   parameters:
-    ObjectApiName:
-      name: objectApiName
-      in: path
-      required: true
-      description: The API name of the Salesforce object (e.g., Account, Contact, MyObject__c)
+    PageToken:
+      name: pageToken
+      in: query
+      description: Token for retrieving the next page of results
       schema:
         type: string
     PageSize:
@@ -195,10 +194,11 @@ components:
         minimum: 1
         maximum: 2000
         default: 50
-    PageToken:
-      name: pageToken
-      in: query
-      description: Token for retrieving the next page of results
+    ObjectApiName:
+      name: objectApiName
+      in: path
+      required: true
+      description: The API name of the Salesforce object (e.g., Account, Contact, MyObject__c)
       schema:
         type: string
   securitySchemes:

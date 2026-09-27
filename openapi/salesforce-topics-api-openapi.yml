@@ -1,0 +1,79 @@
+openapi: 3.2.0
+info:
+  title: Salesforce Connect REST API (Chatter) Topics API
+  description: REST API for integrating mobile apps, intranet sites, and third-party web applications with Salesforce social features. Provides access to Chatter feeds, groups, users, topics, and recommendations. Also provides access to Communities (Experience Cloud), CMS content, and collaboration features.
+  version: '63.0'
+  contact:
+    name: Salesforce Developer Support
+    url: https://developer.salesforce.com/support
+    email: developer@salesforce.com
+  license:
+    name: Salesforce API Terms of Use
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v63.0/connect
+  description: Salesforce production or developer instance
+  variables:
+    instance:
+      default: yourInstance
+      description: Your Salesforce instance identifier
+security:
+- oauth2: []
+- bearerAuth: []
+tags:
+- name: Topics
+  description: Chatter topics
+paths:
+  /topics:
+    get:
+      operationId: getTopics
+      summary: List topics
+      description: Returns a list of Chatter topics used to categorize and discover feed posts.
+      tags:
+      - Topics
+      parameters:
+      - name: q
+        in: query
+        description: Search term to filter topics
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of topics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  topics:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                        description:
+                          type:
+                          - string
+                          - 'null'
+                        talkingAbout:
+                          type: integer
+                        createdDate:
+                          type: string
+                          format: date-time
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://login.salesforce.com/services/oauth2/authorize
+          tokenUrl: https://login.salesforce.com/services/oauth2/token
+          scopes:
+            api: Access and manage your Salesforce data
+            chatter_api: Access Chatter REST API resources
+    bearerAuth:
+      type: http
+      scheme: bearer

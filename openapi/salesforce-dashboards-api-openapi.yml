@@ -1,0 +1,144 @@
+openapi: 3.2.0
+info:
+  title: Salesforce Analytics (CRM Analytics) REST Dashboards API
+  description: REST API for accessing and managing CRM Analytics (formerly Tableau CRM / Einstein Analytics) resources including datasets, lenses, dashboards, and dataflows. Enables programmatic access to analytics metadata, query execution, and dashboard management. Uses the Wave API resource at /services/data/vXX.0/wave.
+  version: '63.0'
+  contact:
+    name: Salesforce Developer Support
+    url: https://developer.salesforce.com/support
+    email: developer@salesforce.com
+  license:
+    name: Salesforce API Terms of Use
+    url: https://www.salesforce.com/company/legal/agreements/
+servers:
+- url: https://{instance}.salesforce.com/services/data/v63.0/wave
+  description: Salesforce production or developer instance
+  variables:
+    instance:
+      default: yourInstance
+      description: Your Salesforce instance identifier
+security:
+- oauth2: []
+- bearerAuth: []
+tags:
+- name: Dashboards
+  description: CRM Analytics dashboards
+paths:
+  /dashboards:
+    get:
+      operationId: getDashboards
+      summary: List dashboards
+      description: Returns a paginated list of CRM Analytics dashboards accessible to the current user.
+      tags:
+      - Dashboards
+      parameters:
+      - name: q
+        in: query
+        description: Search term to filter dashboards
+        schema:
+          type: string
+      - name: folderId
+        in: query
+        schema:
+          type: string
+      - name: page
+        in: query
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: List of dashboards
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardList'
+  /dashboards/{dashboardId}:
+    get:
+      operationId: getDashboard
+      summary: Get a dashboard
+      description: Returns metadata and configuration for a specific CRM Analytics dashboard, including its widgets, steps, and layout.
+      tags:
+      - Dashboards
+      parameters:
+      - name: dashboardId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Dashboard metadata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dashboard'
+components:
+  schemas:
+    Dashboard:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        label:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        createdDate:
+          type: string
+          format: date-time
+        lastModifiedDate:
+          type: string
+          format: date-time
+        folder:
+          $ref: '#/components/schemas/FolderRef'
+        state:
+          type: object
+          additionalProperties: true
+          description: The dashboard JSON state definition
+        url:
+          type: string
+    FolderRef:
+      type: object
+      properties:
+        id:
+          type: string
+        label:
+          type: string
+        name:
+          type: string
+        url:
+          type: string
+    DashboardList:
+      type: object
+      properties:
+        dashboards:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dashboard'
+        nextPageUrl:
+          type:
+          - string
+          - 'null'
+        totalSize:
+          type: integer
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://login.salesforce.com/services/oauth2/authorize
+          tokenUrl: https://login.salesforce.com/services/oauth2/token
+          scopes:
+            api: Access and manage your Salesforce data
+            wave_api: Access CRM Analytics REST API resources
+    bearerAuth:
+      type: http
+      scheme: bearer
