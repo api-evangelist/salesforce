@@ -354,35 +354,184 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    CompositeResponse:
-      title: CompositeResponse
+    CompositeRequest2:
+      title: CompositeRequest2
       required:
-      - body
-      - httpHeaders
-      - httpStatusCode
+      - method
+      - url
       - referenceId
       type: object
       properties:
-        body:
-          $ref: '#/components/schemas/Body1'
-        httpHeaders:
-          $ref: '#/components/schemas/HttpHeaders'
-        httpStatusCode:
-          type: integer
-          contentEncoding: int32
-          example: 10
+        method:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
         referenceId:
           type: string
           example: '500123'
+        body:
+          $ref: '#/components/schemas/Body2'
       examples:
-      - body:
-          id: 001...
-          success: true
-          errors: []
-        httpHeaders:
-          Location: /services/data/v53.0/sobjects/Account/001...
-        httpStatusCode: 201
-        referenceId: refAccount
+      - method: POST
+        url: /services/data/v64.0/sobjects/Account/
+        referenceId: newAccount
+        body:
+          Name: ACME Inc.
+          Custom__c: Hello world
+    CompositeRequest:
+      title: CompositeRequest
+      required:
+      - compositeRequest
+      type: object
+      properties:
+        compositeRequest:
+          type: array
+          items:
+            $ref: '#/components/schemas/CompositeRequest1'
+          description: ''
+          example: []
+      examples:
+      - compositeRequest:
+        - method: POST
+          url: /services/data/v64.0/sobjects/Account
+          referenceId: refAccount
+          body:
+            Name: Sample Account
+        - method: POST
+          url: /services/data/v64.0/sobjects/Contact
+          referenceId: refContact
+          body:
+            LastName: Sample Contact
+            AccountId: '@{refAccount.id}'
+    CompositeGraphRequest:
+      title: CompositeGraphRequest
+      required:
+      - graphs
+      type: object
+      properties:
+        graphs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Graph'
+          description: ''
+          example: []
+      examples:
+      - graphs:
+        - graphId: graph1
+          compositeRequest:
+          - method: POST
+            url: /services/data/v64.0/sobjects/Account/
+            referenceId: newAccount
+            body:
+              Name: ACME Inc.
+              Custom__c: Hello world
+          - method: GET
+            url: /services/data/v64.0/sobjects/Account/@{newAccount.id}
+            referenceId: newAccountInfo
+    Graph:
+      title: Graph
+      required:
+      - graphId
+      - compositeRequest
+      type: object
+      properties:
+        graphId:
+          type: string
+          example: '500123'
+        compositeRequest:
+          type: array
+          items:
+            $ref: '#/components/schemas/CompositeRequest2'
+          description: ''
+          example: []
+      examples:
+      - graphId: graph1
+        compositeRequest:
+        - method: POST
+          url: /services/data/v64.0/sobjects/Account/
+          referenceId: newAccount
+          body:
+            Name: ACME Inc.
+            Custom__c: Hello world
+        - method: GET
+          url: /services/data/v64.0/sobjects/Account/@{newAccount.id}
+          referenceId: newAccountInfo
+    Body1:
+      title: Body1
+      required:
+      - id
+      - success
+      - errors
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+        success:
+          type: boolean
+          example: true
+        errors:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+      examples:
+      - id: 001...
+        success: true
+        errors: []
+    Body2:
+      title: Body2
+      required:
+      - Name
+      - Custom__c
+      type: object
+      properties:
+        Name:
+          type: string
+          example: Example Title
+        Custom__c:
+          type: string
+          example: example_value
+      examples:
+      - Name: ACME Inc.
+        Custom__c: Hello world
+    SuccessfulCompositeGraph:
+      title: SuccessfulCompositeGraph
+      required:
+      - graphs
+      type: object
+      properties:
+        graphs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Graph1'
+          description: ''
+          example: []
+      examples:
+      - graphs:
+        - graphId: graph1
+          graphResponse:
+            compositeResponse:
+            - body:
+                id: 0014H00002x6HUhQAM
+                success: true
+                errors: []
+              httpHeaders:
+                Location: /services/data/v50.0/sobjects/Account/0014H00002x6HUhQAM
+              httpStatusCode: 201
+              referenceId: newAccount
+            - body:
+                id: 0034H00002JsInQQAV
+                success: true
+                errors: []
+              httpHeaders:
+                Location: /services/data/v50.0/sobjects/Contact/0034H00002JsInQQAV
+              httpStatusCode: 201
+              referenceId: newContact
+          isSuccessful: true
     Graph1:
       title: Graph1
       required:
@@ -420,163 +569,6 @@ components:
             httpStatusCode: 201
             referenceId: newContact
         isSuccessful: true
-    Body2:
-      title: Body2
-      required:
-      - Name
-      - Custom__c
-      type: object
-      properties:
-        Name:
-          type: string
-          example: Example Title
-        Custom__c:
-          type: string
-          example: example_value
-      examples:
-      - Name: ACME Inc.
-        Custom__c: Hello world
-    SuccessfulComposite:
-      title: SuccessfulComposite
-      required:
-      - compositeResponse
-      type: object
-      properties:
-        compositeResponse:
-          type: array
-          items:
-            $ref: '#/components/schemas/CompositeResponse'
-          description: ''
-          example: []
-      examples:
-      - compositeResponse:
-        - body:
-            id: 001...
-            success: true
-            errors: []
-          httpHeaders:
-            Location: /services/data/v53.0/sobjects/Account/001...
-          httpStatusCode: 201
-          referenceId: refAccount
-        - body:
-            id: 0032o00003WauzJAAR
-            success: true
-            errors: []
-          httpHeaders:
-            Location: /services/data/v53.0/sobjects/Contact/003...
-          httpStatusCode: 201
-          referenceId: refContact
-    CompositeRequest:
-      title: CompositeRequest
-      required:
-      - compositeRequest
-      type: object
-      properties:
-        compositeRequest:
-          type: array
-          items:
-            $ref: '#/components/schemas/CompositeRequest1'
-          description: ''
-          example: []
-      examples:
-      - compositeRequest:
-        - method: POST
-          url: /services/data/v64.0/sobjects/Account
-          referenceId: refAccount
-          body:
-            Name: Sample Account
-        - method: POST
-          url: /services/data/v64.0/sobjects/Contact
-          referenceId: refContact
-          body:
-            LastName: Sample Contact
-            AccountId: '@{refAccount.id}'
-    CompositeRequest1:
-      title: CompositeRequest1
-      required:
-      - method
-      - url
-      - referenceId
-      - body
-      type: object
-      properties:
-        method:
-          type: string
-          example: example_value
-        url:
-          type: string
-          example: https://www.example.com
-        referenceId:
-          type: string
-          example: '500123'
-        body:
-          $ref: '#/components/schemas/Body'
-      examples:
-      - method: POST
-        url: /services/data/v64.0/sobjects/Account
-        referenceId: refAccount
-        body:
-          Name: Sample Account
-    SuccessfulCompositeGraph:
-      title: SuccessfulCompositeGraph
-      required:
-      - graphs
-      type: object
-      properties:
-        graphs:
-          type: array
-          items:
-            $ref: '#/components/schemas/Graph1'
-          description: ''
-          example: []
-      examples:
-      - graphs:
-        - graphId: graph1
-          graphResponse:
-            compositeResponse:
-            - body:
-                id: 0014H00002x6HUhQAM
-                success: true
-                errors: []
-              httpHeaders:
-                Location: /services/data/v50.0/sobjects/Account/0014H00002x6HUhQAM
-              httpStatusCode: 201
-              referenceId: newAccount
-            - body:
-                id: 0034H00002JsInQQAV
-                success: true
-                errors: []
-              httpHeaders:
-                Location: /services/data/v50.0/sobjects/Contact/0034H00002JsInQQAV
-              httpStatusCode: 201
-              referenceId: newContact
-          isSuccessful: true
-    CompositeRequest2:
-      title: CompositeRequest2
-      required:
-      - method
-      - url
-      - referenceId
-      type: object
-      properties:
-        method:
-          type: string
-          example: example_value
-        url:
-          type: string
-          example: https://www.example.com
-        referenceId:
-          type: string
-          example: '500123'
-        body:
-          $ref: '#/components/schemas/Body2'
-      examples:
-      - method: POST
-        url: /services/data/v64.0/sobjects/Account/
-        referenceId: newAccount
-        body:
-          Name: ACME Inc.
-          Custom__c: Hello world
     GraphResponse:
       title: GraphResponse
       required:
@@ -607,34 +599,32 @@ components:
             Location: /services/data/v50.0/sobjects/Contact/0034H00002JsInQQAV
           httpStatusCode: 201
           referenceId: newContact
-    Graph:
-      title: Graph
+    CompositeRequest1:
+      title: CompositeRequest1
       required:
-      - graphId
-      - compositeRequest
+      - method
+      - url
+      - referenceId
+      - body
       type: object
       properties:
-        graphId:
+        method:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+        referenceId:
           type: string
           example: '500123'
-        compositeRequest:
-          type: array
-          items:
-            $ref: '#/components/schemas/CompositeRequest2'
-          description: ''
-          example: []
+        body:
+          $ref: '#/components/schemas/Body'
       examples:
-      - graphId: graph1
-        compositeRequest:
-        - method: POST
-          url: /services/data/v64.0/sobjects/Account/
-          referenceId: newAccount
-          body:
-            Name: ACME Inc.
-            Custom__c: Hello world
-        - method: GET
-          url: /services/data/v64.0/sobjects/Account/@{newAccount.id}
-          referenceId: newAccountInfo
+      - method: POST
+        url: /services/data/v64.0/sobjects/Account
+        referenceId: refAccount
+        body:
+          Name: Sample Account
     Body:
       title: Body
       type: object
@@ -650,30 +640,6 @@ components:
           example: '500123'
       examples:
       - Name: Sample Account
-    Body1:
-      title: Body1
-      required:
-      - id
-      - success
-      - errors
-      type: object
-      properties:
-        id:
-          type: string
-          example: abc123
-        success:
-          type: boolean
-          example: true
-        errors:
-          type: array
-          items:
-            type: string
-          description: ''
-          example: []
-      examples:
-      - id: 001...
-        success: true
-        errors: []
     HttpHeaders:
       title: HttpHeaders
       required:
@@ -685,31 +651,65 @@ components:
           example: example_value
       examples:
       - Location: /services/data/v53.0/sobjects/Account/001...
-    CompositeGraphRequest:
-      title: CompositeGraphRequest
+    CompositeResponse:
+      title: CompositeResponse
       required:
-      - graphs
+      - body
+      - httpHeaders
+      - httpStatusCode
+      - referenceId
       type: object
       properties:
-        graphs:
+        body:
+          $ref: '#/components/schemas/Body1'
+        httpHeaders:
+          $ref: '#/components/schemas/HttpHeaders'
+        httpStatusCode:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        referenceId:
+          type: string
+          example: '500123'
+      examples:
+      - body:
+          id: 001...
+          success: true
+          errors: []
+        httpHeaders:
+          Location: /services/data/v53.0/sobjects/Account/001...
+        httpStatusCode: 201
+        referenceId: refAccount
+    SuccessfulComposite:
+      title: SuccessfulComposite
+      required:
+      - compositeResponse
+      type: object
+      properties:
+        compositeResponse:
           type: array
           items:
-            $ref: '#/components/schemas/Graph'
+            $ref: '#/components/schemas/CompositeResponse'
           description: ''
           example: []
       examples:
-      - graphs:
-        - graphId: graph1
-          compositeRequest:
-          - method: POST
-            url: /services/data/v64.0/sobjects/Account/
-            referenceId: newAccount
-            body:
-              Name: ACME Inc.
-              Custom__c: Hello world
-          - method: GET
-            url: /services/data/v64.0/sobjects/Account/@{newAccount.id}
-            referenceId: newAccountInfo
+      - compositeResponse:
+        - body:
+            id: 001...
+            success: true
+            errors: []
+          httpHeaders:
+            Location: /services/data/v53.0/sobjects/Account/001...
+          httpStatusCode: 201
+          referenceId: refAccount
+        - body:
+            id: 0032o00003WauzJAAR
+            success: true
+            errors: []
+          httpHeaders:
+            Location: /services/data/v53.0/sobjects/Contact/003...
+          httpStatusCode: 201
+          referenceId: refContact
   securitySchemes:
     oauth2:
       type: oauth2

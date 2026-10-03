@@ -189,54 +189,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    TransactionJournal:
-      title: TransactionJournal
-      required:
-      - activityDate
-      - journalSubType
-      - journalType
-      - loyaltyProgram
-      - loyaltyProgramMember
-      - referredMember
-      - status
-      - transactionJournalId
-      type: object
-      properties:
-        activityDate:
-          type: string
-          example: example_value
-        journalSubType:
-          type: string
-          example: example_value
-        journalType:
-          type: string
-          example: example_value
-        loyaltyProgram:
-          type: string
-          example: example_value
-        loyaltyProgramMember:
-          type: string
-          example: example_value
-        referredMember:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        status:
-          type: string
-          example: example_value
-        transactionJournalId:
-          type: string
-          example: '500123'
-      examples:
-      - activityDate: '2021-01-01T04:05:05.000Z'
-        journalSubType: Member Enrollment
-        journalType: Accrual
-        loyaltyProgram: NTO Insider
-        loyaltyProgramMember: Member123
-        referredMember: null
-        status: Processed
-        transactionJournalId: 0lVJ8000000GmaE
     AssociatedContactDetails:
       title: AssociatedContactDetails
       required:
@@ -263,6 +215,48 @@ components:
         lastName: Name2
         email: ab@email.com
         allowDuplicateRecords: 'false'
+    IndividualMemberEnrollments:
+      title: IndividualMemberEnrollments
+      required:
+      - contactId
+      - loyaltyProgramMemberId
+      - loyaltyProgramName
+      - membershipNumber
+      - transactionJournals
+      type: object
+      properties:
+        contactId:
+          type: string
+          example: '500123'
+        loyaltyProgramMemberId:
+          type: string
+          example: '500123'
+        loyaltyProgramName:
+          type: string
+          example: example_value
+        membershipNumber:
+          type: string
+          example: example_value
+        transactionJournals:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransactionJournal'
+          description: ''
+          example: []
+      examples:
+      - contactId: 003J8000002Yu0Z
+        loyaltyProgramMemberId: 0lMJ8000000CaRM
+        loyaltyProgramName: NTO Insider
+        membershipNumber: Member1
+        transactionJournals:
+        - activityDate: '2020-12-31T23:00:00.000Z'
+          journalSubType: Member Enrollment
+          journalType: Accrual
+          loyaltyProgram: NTO Insider
+          loyaltyProgramMember: Member1
+          referredMember: null
+          status: Processed
+          transactionJournalId: 0lVJ8000000GmaJ
     IndividualMemberEnrollmentsRequest:
       title: IndividualMemberEnrollmentsRequest
       required:
@@ -327,48 +321,54 @@ components:
         canReceivePromotions: 'true'
         canReceivePartnerPromotions: 'true'
         membershipEndDate: '2022-01-01T00:00:00.000Z'
-    IndividualMemberEnrollments:
-      title: IndividualMemberEnrollments
+    TransactionJournal:
+      title: TransactionJournal
       required:
-      - contactId
-      - loyaltyProgramMemberId
-      - loyaltyProgramName
-      - membershipNumber
-      - transactionJournals
+      - activityDate
+      - journalSubType
+      - journalType
+      - loyaltyProgram
+      - loyaltyProgramMember
+      - referredMember
+      - status
+      - transactionJournalId
       type: object
       properties:
-        contactId:
-          type: string
-          example: '500123'
-        loyaltyProgramMemberId:
-          type: string
-          example: '500123'
-        loyaltyProgramName:
+        activityDate:
           type: string
           example: example_value
-        membershipNumber:
+        journalSubType:
           type: string
           example: example_value
-        transactionJournals:
-          type: array
-          items:
-            $ref: '#/components/schemas/TransactionJournal'
-          description: ''
-          example: []
+        journalType:
+          type: string
+          example: example_value
+        loyaltyProgram:
+          type: string
+          example: example_value
+        loyaltyProgramMember:
+          type: string
+          example: example_value
+        referredMember:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        status:
+          type: string
+          example: example_value
+        transactionJournalId:
+          type: string
+          example: '500123'
       examples:
-      - contactId: 003J8000002Yu0Z
-        loyaltyProgramMemberId: 0lMJ8000000CaRM
-        loyaltyProgramName: NTO Insider
-        membershipNumber: Member1
-        transactionJournals:
-        - activityDate: '2020-12-31T23:00:00.000Z'
-          journalSubType: Member Enrollment
-          journalType: Accrual
-          loyaltyProgram: NTO Insider
-          loyaltyProgramMember: Member1
-          referredMember: null
-          status: Processed
-          transactionJournalId: 0lVJ8000000GmaJ
+      - activityDate: '2021-01-01T04:05:05.000Z'
+        journalSubType: Member Enrollment
+        journalType: Accrual
+        loyaltyProgram: NTO Insider
+        loyaltyProgramMember: Member123
+        referredMember: null
+        status: Processed
+        transactionJournalId: 0lVJ8000000GmaE
   securitySchemes:
     oauth2:
       type: oauth2

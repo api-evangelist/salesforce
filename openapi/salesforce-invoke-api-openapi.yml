@@ -470,6 +470,115 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    InvokeRequest:
+      title: InvokeRequest
+      required:
+      - datasetLinkName
+      - conditions
+      type: object
+      properties:
+        datasetLinkName:
+          type: string
+          example: example_value
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Condition'
+          description: ''
+          example: []
+      examples:
+      - datasetLinkName: transactionMapping
+        conditions:
+        - conditionsList:
+          - fieldName: Product__c
+            value: Nike
+            operator: Matches
+          - fieldName: Price__c
+            value: 1000
+            operator: GreaterThan
+        - conditionsList:
+          - fieldName: Product__c
+            value: Adidas
+            operator: Matches
+          - fieldName: Price__c
+            value: 1500
+            operator: GreaterThan
+    Status404-NotFound1:
+      title: Status404-NotFound1
+      required:
+      - errorCode
+      - message
+      type: object
+      properties:
+        errorCode:
+          type: string
+          example: example_value
+        message:
+          type: string
+          example: example_value
+      examples:
+      - errorCode: NOT_FOUND
+        message: The requested resource does not exist
+    Condition:
+      title: Condition
+      required:
+      - conditionsList
+      type: object
+      properties:
+        conditionsList:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConditionsList'
+          description: ''
+          example: []
+      examples:
+      - conditionsList:
+        - fieldName: Product__c
+          value: Nike
+          operator: Matches
+        - fieldName: Price__c
+          value: 1000
+          operator: GreaterThan
+    ConditionsList:
+      title: ConditionsList
+      required:
+      - fieldName
+      - value
+      - operator
+      type: object
+      properties:
+        fieldName:
+          type: string
+          example: example_value
+        value:
+          oneOf:
+          - type: string
+          - type: integer
+            contentEncoding: int32
+          example: example_value
+        operator:
+          type: string
+          example: example_value
+      examples:
+      - fieldName: Product__c
+        value: Nike
+        operator: Matches
+    Status400-InvalidOperation1:
+      title: Status400-InvalidOperation1
+      required:
+      - errorCode
+      - message
+      type: object
+      properties:
+        errorCode:
+          type: string
+          example: example_value
+        message:
+          type: string
+          example: example_value
+      examples:
+      - errorCode: INVALID_OPERATION
+        message: Can't execute decision table which is not in Active state.
     Status201-Error:
       title: Status201-Error
       required:
@@ -531,115 +640,6 @@ components:
         outcomeList: []
         outcomeType: null
         successStatus: false
-    Status400-InvalidOperation1:
-      title: Status400-InvalidOperation1
-      required:
-      - errorCode
-      - message
-      type: object
-      properties:
-        errorCode:
-          type: string
-          example: example_value
-        message:
-          type: string
-          example: example_value
-      examples:
-      - errorCode: INVALID_OPERATION
-        message: Can't execute decision table which is not in Active state.
-    ConditionsList:
-      title: ConditionsList
-      required:
-      - fieldName
-      - value
-      - operator
-      type: object
-      properties:
-        fieldName:
-          type: string
-          example: example_value
-        value:
-          oneOf:
-          - type: string
-          - type: integer
-            contentEncoding: int32
-          example: example_value
-        operator:
-          type: string
-          example: example_value
-      examples:
-      - fieldName: Product__c
-        value: Nike
-        operator: Matches
-    InvokeRequest:
-      title: InvokeRequest
-      required:
-      - datasetLinkName
-      - conditions
-      type: object
-      properties:
-        datasetLinkName:
-          type: string
-          example: example_value
-        conditions:
-          type: array
-          items:
-            $ref: '#/components/schemas/Condition'
-          description: ''
-          example: []
-      examples:
-      - datasetLinkName: transactionMapping
-        conditions:
-        - conditionsList:
-          - fieldName: Product__c
-            value: Nike
-            operator: Matches
-          - fieldName: Price__c
-            value: 1000
-            operator: GreaterThan
-        - conditionsList:
-          - fieldName: Product__c
-            value: Adidas
-            operator: Matches
-          - fieldName: Price__c
-            value: 1500
-            operator: GreaterThan
-    Condition:
-      title: Condition
-      required:
-      - conditionsList
-      type: object
-      properties:
-        conditionsList:
-          type: array
-          items:
-            $ref: '#/components/schemas/ConditionsList'
-          description: ''
-          example: []
-      examples:
-      - conditionsList:
-        - fieldName: Product__c
-          value: Nike
-          operator: Matches
-        - fieldName: Price__c
-          value: 1000
-          operator: GreaterThan
-    Status404-NotFound1:
-      title: Status404-NotFound1
-      required:
-      - errorCode
-      - message
-      type: object
-      properties:
-        errorCode:
-          type: string
-          example: example_value
-        message:
-          type: string
-          example: example_value
-      examples:
-      - errorCode: NOT_FOUND
-        message: The requested resource does not exist
   securitySchemes:
     oauth2:
       type: oauth2

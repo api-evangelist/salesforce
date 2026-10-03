@@ -429,6 +429,24 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    Error:
+      type: object
+      description: An error response from the Salesforce Bulk API 2.0.
+      properties:
+        message:
+          type: string
+          description: Human-readable description of the error.
+          example: example_value
+        errorCode:
+          type: string
+          description: Salesforce error code identifying the type of error.
+          example: example_value
+        fields:
+          type: array
+          description: List of field names related to the error, if applicable.
+          items:
+            type: string
+          example: []
     JobState:
       type: string
       description: 'The current state of a Bulk API 2.0 job, indicating where it is in its lifecycle.
@@ -441,6 +459,55 @@ components:
       - JobComplete
       - Failed
       - Aborted
+    QueryJobRequest:
+      type: object
+      description: Configuration parameters for creating a new Bulk API 2.0 query job.
+      required:
+      - operation
+      - query
+      properties:
+        operation:
+          type: string
+          enum:
+          - query
+          - queryAll
+          description: 'The query operation to perform. Use query to retrieve active records only, or queryAll to include soft-deleted and archived records.
+
+            '
+          example: query
+        query:
+          type: string
+          description: 'The SOQL query to execute. The query result will be available as CSV data after the job completes.
+
+            '
+          example: SELECT Id, Name, Email, Phone FROM Contact WHERE CreatedDate = LAST_YEAR
+        contentType:
+          type: string
+          enum:
+          - CSV
+          default: CSV
+          description: The format of the results. Currently only CSV is supported.
+          example: CSV
+        columnDelimiter:
+          type: string
+          enum:
+          - COMMA
+          - TAB
+          - PIPE
+          - SEMICOLON
+          - CARET
+          - BACKQUOTE
+          default: COMMA
+          description: The delimiter character used between fields in the CSV output.
+          example: COMMA
+        lineEnding:
+          type: string
+          enum:
+          - LF
+          - CRLF
+          default: LF
+          description: The line ending character used in the CSV output.
+          example: LF
     QueryJobInfo:
       type: object
       description: 'Detailed information about a Bulk API 2.0 query job, including its current state and processing statistics.
@@ -526,73 +593,6 @@ components:
           type: number
           description: The API version used to create the job.
           example: 42.5
-    QueryJobRequest:
-      type: object
-      description: Configuration parameters for creating a new Bulk API 2.0 query job.
-      required:
-      - operation
-      - query
-      properties:
-        operation:
-          type: string
-          enum:
-          - query
-          - queryAll
-          description: 'The query operation to perform. Use query to retrieve active records only, or queryAll to include soft-deleted and archived records.
-
-            '
-          example: query
-        query:
-          type: string
-          description: 'The SOQL query to execute. The query result will be available as CSV data after the job completes.
-
-            '
-          example: SELECT Id, Name, Email, Phone FROM Contact WHERE CreatedDate = LAST_YEAR
-        contentType:
-          type: string
-          enum:
-          - CSV
-          default: CSV
-          description: The format of the results. Currently only CSV is supported.
-          example: CSV
-        columnDelimiter:
-          type: string
-          enum:
-          - COMMA
-          - TAB
-          - PIPE
-          - SEMICOLON
-          - CARET
-          - BACKQUOTE
-          default: COMMA
-          description: The delimiter character used between fields in the CSV output.
-          example: COMMA
-        lineEnding:
-          type: string
-          enum:
-          - LF
-          - CRLF
-          default: LF
-          description: The line ending character used in the CSV output.
-          example: LF
-    Error:
-      type: object
-      description: An error response from the Salesforce Bulk API 2.0.
-      properties:
-        message:
-          type: string
-          description: Human-readable description of the error.
-          example: example_value
-        errorCode:
-          type: string
-          description: Salesforce error code identifying the type of error.
-          example: example_value
-        fields:
-          type: array
-          description: List of field names related to the error, if applicable.
-          items:
-            type: string
-          example: []
   parameters:
     jobId:
       name: jobId

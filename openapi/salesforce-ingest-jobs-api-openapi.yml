@@ -454,6 +454,24 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    Error:
+      type: object
+      description: An error response from the Salesforce Bulk API 2.0.
+      properties:
+        message:
+          type: string
+          description: Human-readable description of the error.
+          example: example_value
+        errorCode:
+          type: string
+          description: Salesforce error code identifying the type of error.
+          example: example_value
+        fields:
+          type: array
+          description: List of field names related to the error, if applicable.
+          items:
+            type: string
+          example: []
     IngestJobInfo:
       type: object
       description: 'Detailed information about a Bulk API 2.0 ingest job, including its current state and processing statistics.
@@ -554,6 +572,18 @@ components:
           type: number
           description: The API version used to create the job.
           example: 42.5
+    JobState:
+      type: string
+      description: 'The current state of a Bulk API 2.0 job, indicating where it is in its lifecycle.
+
+        '
+      enum:
+      - Open
+      - UploadComplete
+      - InProgress
+      - JobComplete
+      - Failed
+      - Aborted
     IngestJobRequest:
       type: object
       description: 'Configuration parameters for creating a new Bulk API 2.0 ingest job.
@@ -626,36 +656,6 @@ components:
 
             '
           example: '500123'
-    JobState:
-      type: string
-      description: 'The current state of a Bulk API 2.0 job, indicating where it is in its lifecycle.
-
-        '
-      enum:
-      - Open
-      - UploadComplete
-      - InProgress
-      - JobComplete
-      - Failed
-      - Aborted
-    Error:
-      type: object
-      description: An error response from the Salesforce Bulk API 2.0.
-      properties:
-        message:
-          type: string
-          description: Human-readable description of the error.
-          example: example_value
-        errorCode:
-          type: string
-          description: Salesforce error code identifying the type of error.
-          example: example_value
-        fields:
-          type: array
-          description: List of field names related to the error, if applicable.
-          items:
-            type: string
-          example: []
   parameters:
     jobId:
       name: jobId

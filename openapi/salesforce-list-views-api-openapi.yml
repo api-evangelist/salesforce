@@ -130,6 +130,24 @@ components:
           type: string
           description: Human-readable error message
           example: example_value
+    ListViewResult:
+      type: object
+      description: Data and metadata for a list view
+      properties:
+        id:
+          type: string
+          example: abc123
+        label:
+          type: string
+          example: Example Title
+        records:
+          type: array
+          items:
+            type: object
+          example: []
+        sortBy:
+          type: string
+          example: example_value
     ListViewCollection:
       type: object
       description: Collection of list views for an object
@@ -153,36 +171,18 @@ components:
           items:
             $ref: '#/components/schemas/ListViewSummary'
           example: []
-    ListViewResult:
-      type: object
-      description: Data and metadata for a list view
-      properties:
-        id:
-          type: string
-          example: abc123
-        label:
-          type: string
-          example: Example Title
-        records:
-          type: array
-          items:
-            type: object
-          example: []
-        sortBy:
-          type: string
-          example: example_value
-  responses:
-    NotFound:
-      description: Not found. The requested resource does not exist.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   parameters:
     PageToken:
       name: pageToken
       in: query
       description: Token for retrieving the next page of results
+      schema:
+        type: string
+    ObjectApiName:
+      name: objectApiName
+      in: path
+      required: true
+      description: The API name of the Salesforce object (e.g., Account, Contact, MyObject__c)
       schema:
         type: string
     PageSize:
@@ -194,13 +194,13 @@ components:
         minimum: 1
         maximum: 2000
         default: 50
-    ObjectApiName:
-      name: objectApiName
-      in: path
-      required: true
-      description: The API name of the Salesforce object (e.g., Account, Contact, MyObject__c)
-      schema:
-        type: string
+  responses:
+    NotFound:
+      description: Not found. The requested resource does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     oauthBearerToken:
       type: http

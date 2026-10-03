@@ -320,61 +320,130 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    UpDownVote:
-      title: UpDownVote
+    Motif:
+      title: Motif
       required:
-      - downVoteCount
-      - myVote
-      - upVoteCount
+      - color
+      - largeIconUrl
+      - mediumIconUrl
+      - smallIconUrl
+      - svgIconUrl
       type: object
       properties:
-        downVoteCount:
-          type: integer
-          contentEncoding: int32
-          example: 42
-        myVote:
+        color:
           type: string
           example: example_value
-        upVoteCount:
-          type: integer
-          contentEncoding: int32
-          example: 42
-      examples:
-      - downVoteCount: 0
-        myVote: None
-        upVoteCount: 0
-    Status1:
-      title: Status1
-      required:
-      - feedEntityStatus
-      - isApprovableByMe
-      type: object
-      properties:
-        feedEntityStatus:
-          type: string
-          example: example_value
-        isApprovableByMe:
-          type: boolean
-          example: true
-      examples:
-      - feedEntityStatus: Published
-        isApprovableByMe: true
-    FeedElement:
-      title: FeedElement
-      required:
-      - id
-      - url
-      type: object
-      properties:
-        id:
-          type: string
-          example: abc123
-        url:
+        largeIconUrl:
           type: string
           example: https://www.example.com
+        mediumIconUrl:
+          type: string
+          example: https://www.example.com
+        smallIconUrl:
+          type: string
+          example: https://www.example.com
+        svgIconUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
       examples:
-      - id: 0D5...
-        url: /services/data/v58.0/chatter/feed-elements/0D5...
+      - color: '939393'
+        largeIconUrl: /img/content/content64.png
+        mediumIconUrl: /img/content/content32.png
+        smallIconUrl: /img/icon/files16.png
+        svgIconUrl: null
+    Verified:
+      title: Verified
+      required:
+      - isVerifiableByMe
+      - isVerified
+      - isVerifiedByAnonymized
+      - lastVerifiedByUser
+      - lastVerifiedDate
+      type: object
+      properties:
+        isVerifiableByMe:
+          type: boolean
+          example: true
+        isVerified:
+          type: boolean
+          example: true
+        isVerifiedByAnonymized:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        lastVerifiedByUser:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        lastVerifiedDate:
+          type:
+          - string
+          - 'null'
+          example: example_value
+      examples:
+      - isVerifiableByMe: false
+        isVerified: false
+        isVerifiedByAnonymized: null
+        lastVerifiedByUser: null
+        lastVerifiedDate: null
+    Edit:
+      title: Edit
+      required:
+      - isEditRestricted
+      - isEditableByMeUrl
+      - lastEditedBy
+      - lastEditedDate
+      - latestRevision
+      - relativeLastEditedDate
+      type: object
+      properties:
+        isEditRestricted:
+          type: boolean
+          example: true
+        isEditableByMeUrl:
+          type: string
+          example: https://www.example.com
+        lastEditedBy:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        lastEditedDate:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        latestRevision:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        relativeLastEditedDate:
+          type:
+          - string
+          - 'null'
+          example: example_value
+      examples:
+      - isEditRestricted: false
+        isEditableByMeUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/edit/is-editable-by-me
+        lastEditedBy: null
+        lastEditedDate: null
+        latestRevision: 1
+        relativeLastEditedDate: null
+    OutOfOffice:
+      title: OutOfOffice
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+          example: example_value
+      examples:
+      - message: ''
     Body4:
       title: Body4
       required:
@@ -502,57 +571,6 @@ components:
         smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
         standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
         url: /services/data/v58.0/connect/user-profiles/005.../photo
-    ClientInfo:
-      title: ClientInfo
-      required:
-      - applicationName
-      - applicationUrl
-      type: object
-      properties:
-        applicationName:
-          type: string
-          example: example_value
-        applicationUrl:
-          type:
-          - string
-          - 'null'
-          example: https://www.example.com
-      examples:
-      - applicationName: Postman Playground
-        applicationUrl: null
-    Motif:
-      title: Motif
-      required:
-      - color
-      - largeIconUrl
-      - mediumIconUrl
-      - smallIconUrl
-      - svgIconUrl
-      type: object
-      properties:
-        color:
-          type: string
-          example: example_value
-        largeIconUrl:
-          type: string
-          example: https://www.example.com
-        mediumIconUrl:
-          type: string
-          example: https://www.example.com
-        smallIconUrl:
-          type: string
-          example: https://www.example.com
-        svgIconUrl:
-          type:
-          - string
-          - 'null'
-          example: https://www.example.com
-      examples:
-      - color: '939393'
-        largeIconUrl: /img/content/content64.png
-        mediumIconUrl: /img/content/content32.png
-        smallIconUrl: /img/icon/files16.png
-        svgIconUrl: null
     FeedElementsCapabilityCommentsItems:
       title: FeedElementsCapabilityCommentsItems
       required:
@@ -722,6 +740,45 @@ components:
           type: User
           url: /services/data/v58.0/chatter/users/005...
           userType: Internal
+    UpDownVote:
+      title: UpDownVote
+      required:
+      - downVoteCount
+      - myVote
+      - upVoteCount
+      type: object
+      properties:
+        downVoteCount:
+          type: integer
+          contentEncoding: int32
+          example: 42
+        myVote:
+          type: string
+          example: example_value
+        upVoteCount:
+          type: integer
+          contentEncoding: int32
+          example: 42
+      examples:
+      - downVoteCount: 0
+        myVote: None
+        upVoteCount: 0
+    Parent4:
+      title: Parent4
+      required:
+      - id
+      - url
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - id: 001...
+        url: /services/data/v58.0/chatter/records/001...
     Capabilities6:
       title: Capabilities6
       required:
@@ -760,129 +817,22 @@ components:
           isVerifiedByAnonymized: null
           lastVerifiedByUser: null
           lastVerifiedDate: null
-    OutOfOffice:
-      title: OutOfOffice
+    Status1:
+      title: Status1
       required:
-      - message
+      - feedEntityStatus
+      - isApprovableByMe
       type: object
       properties:
-        message:
+        feedEntityStatus:
           type: string
           example: example_value
-      examples:
-      - message: ''
-    Parent4:
-      title: Parent4
-      required:
-      - id
-      - url
-      type: object
-      properties:
-        id:
-          type: string
-          example: abc123
-        url:
-          type: string
-          example: https://www.example.com
-      examples:
-      - id: 001...
-        url: /services/data/v58.0/chatter/records/001...
-    MessageSegment:
-      title: MessageSegment
-      required:
-      - text
-      - type
-      type: object
-      properties:
-        text:
-          type: string
-          example: example_value
-        type:
-          type: string
-          example: example_value
-      examples:
-      - text: New Feed Item
-        type: Text
-    Edit:
-      title: Edit
-      required:
-      - isEditRestricted
-      - isEditableByMeUrl
-      - lastEditedBy
-      - lastEditedDate
-      - latestRevision
-      - relativeLastEditedDate
-      type: object
-      properties:
-        isEditRestricted:
+        isApprovableByMe:
           type: boolean
           example: true
-        isEditableByMeUrl:
-          type: string
-          example: https://www.example.com
-        lastEditedBy:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        lastEditedDate:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        latestRevision:
-          type: integer
-          contentEncoding: int32
-          example: 10
-        relativeLastEditedDate:
-          type:
-          - string
-          - 'null'
-          example: example_value
       examples:
-      - isEditRestricted: false
-        isEditableByMeUrl: /services/data/v58.0/chatter/feed-elements/0D5.../capabilities/edit/is-editable-by-me
-        lastEditedBy: null
-        lastEditedDate: null
-        latestRevision: 1
-        relativeLastEditedDate: null
-    Verified:
-      title: Verified
-      required:
-      - isVerifiableByMe
-      - isVerified
-      - isVerifiedByAnonymized
-      - lastVerifiedByUser
-      - lastVerifiedDate
-      type: object
-      properties:
-        isVerifiableByMe:
-          type: boolean
-          example: true
-        isVerified:
-          type: boolean
-          example: true
-        isVerifiedByAnonymized:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        lastVerifiedByUser:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        lastVerifiedDate:
-          type:
-          - string
-          - 'null'
-          example: example_value
-      examples:
-      - isVerifiableByMe: false
-        isVerified: false
-        isVerifiedByAnonymized: null
-        lastVerifiedByUser: null
-        lastVerifiedDate: null
+      - feedEntityStatus: Published
+        isApprovableByMe: true
     User:
       title: User
       required:
@@ -1002,6 +952,56 @@ components:
         type: User
         url: /services/data/v58.0/chatter/users/005...
         userType: Internal
+    FeedElement:
+      title: FeedElement
+      required:
+      - id
+      - url
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - id: 0D5...
+        url: /services/data/v58.0/chatter/feed-elements/0D5...
+    MessageSegment:
+      title: MessageSegment
+      required:
+      - text
+      - type
+      type: object
+      properties:
+        text:
+          type: string
+          example: example_value
+        type:
+          type: string
+          example: example_value
+      examples:
+      - text: New Feed Item
+        type: Text
+    ClientInfo:
+      title: ClientInfo
+      required:
+      - applicationName
+      - applicationUrl
+      type: object
+      properties:
+        applicationName:
+          type: string
+          example: example_value
+        applicationUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+      examples:
+      - applicationName: Postman Playground
+        applicationUrl: null
   securitySchemes:
     oauth2:
       type: oauth2
