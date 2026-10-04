@@ -233,7 +233,49 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  responses:
+    Forbidden:
+      description: Forbidden. Insufficient permissions for this operation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Not found. The requested resource does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request. Invalid parameters or request body.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Unauthorized. Session has expired or is invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   schemas:
+    RecordInput:
+      type: object
+      description: Input for creating or updating a record
+      required:
+      - apiName
+      - fields
+      properties:
+        apiName:
+          type: string
+          description: The API name of the object type
+          example: example_value
+        fields:
+          type: object
+          description: Field values to set, indexed by field API name
+          additionalProperties:
+            description: Field value (string, number, boolean, or null to clear)
+          example: example_value
     ErrorResponse:
       type: object
       description: API error response
@@ -245,21 +287,6 @@ components:
         message:
           type: string
           description: Human-readable error message
-          example: example_value
-    FieldValueRepresentation:
-      type: object
-      description: A field value with display metadata
-      properties:
-        displayValue:
-          description: Human-readable formatted display value (for dates, picklists, lookups)
-          nullable: true
-          oneOf:
-          - type: string
-          - type: 'null'
-          example: example_value
-        value:
-          description: Raw field value
-          nullable: true
           example: example_value
     RecordRepresentation:
       type: object
@@ -325,48 +352,21 @@ components:
           type: string
           format: date-time
           example: '2026-01-15T10:30:00Z'
-    RecordInput:
+    FieldValueRepresentation:
       type: object
-      description: Input for creating or updating a record
-      required:
-      - apiName
-      - fields
+      description: A field value with display metadata
       properties:
-        apiName:
-          type: string
-          description: The API name of the object type
+        displayValue:
+          description: Human-readable formatted display value (for dates, picklists, lookups)
+          nullable: true
+          oneOf:
+          - type: string
+          - type: 'null'
           example: example_value
-        fields:
-          type: object
-          description: Field values to set, indexed by field API name
-          additionalProperties:
-            description: Field value (string, number, boolean, or null to clear)
+        value:
+          description: Raw field value
+          nullable: true
           example: example_value
-  responses:
-    Forbidden:
-      description: Forbidden. Insufficient permissions for this operation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad request. Invalid parameters or request body.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Unauthorized. Session has expired or is invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: Not found. The requested resource does not exist.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   parameters:
     RecordId:
       name: recordId

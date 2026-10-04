@@ -191,30 +191,66 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    Settings:
-      title: Settings
+    Prediction:
+      title: Prediction
       required:
-      - maxMiddleValues
-      - maxPrescriptions
-      - prescriptionImpactPercentage
+      - model
+      - prediction
+      - prescriptions
+      - status
       type: object
       properties:
-        maxMiddleValues:
-          type: integer
-          contentEncoding: int32
-          example: 10
-        maxPrescriptions:
-          type: integer
-          contentEncoding: int32
-          example: 10
-        prescriptionImpactPercentage:
-          type: integer
-          contentEncoding: int32
-          example: 10
+        model:
+          $ref: '#/components/schemas/Model'
+        prediction:
+          $ref: '#/components/schemas/Prediction1'
+        prescriptions:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        status:
+          type: string
+          example: example_value
       examples:
-      - maxMiddleValues: 0
-        maxPrescriptions: 0
-        prescriptionImpactPercentage: 0
+      - model:
+          id: 1Ot5Y0000010wzNSAQ
+        prediction:
+          middleValues: []
+          total: 88.5249425554759
+        prescriptions: []
+        status: Success
+    Model:
+      title: Model
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+      examples:
+      - id: 1Ot5Y0000010wzNSAQ
+    Prediction1:
+      title: Prediction1
+      required:
+      - middleValues
+      - total
+      type: object
+      properties:
+        middleValues:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        total:
+          type: number
+          example: 42
+      examples:
+      - middleValues: []
+        total: 88.5249425554759
     Predict:
       title: Predict
       required:
@@ -248,25 +284,30 @@ components:
           maxMiddleValues: 0
           maxPrescriptions: 0
           prescriptionImpactPercentage: 0
-    Prediction1:
-      title: Prediction1
+    Settings:
+      title: Settings
       required:
-      - middleValues
-      - total
+      - maxMiddleValues
+      - maxPrescriptions
+      - prescriptionImpactPercentage
       type: object
       properties:
-        middleValues:
-          type: array
-          items:
-            type: string
-          description: ''
-          example: []
-        total:
-          type: number
-          example: 42
+        maxMiddleValues:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        maxPrescriptions:
+          type: integer
+          contentEncoding: int32
+          example: 10
+        prescriptionImpactPercentage:
+          type: integer
+          contentEncoding: int32
+          example: 10
       examples:
-      - middleValues: []
-        total: 88.5249425554759
+      - maxMiddleValues: 0
+        maxPrescriptions: 0
+        prescriptionImpactPercentage: 0
     PredictRequest:
       title: PredictRequest
       required:
@@ -310,47 +351,6 @@ components:
           - Chairs
           - '300'
           - '10'
-    Model:
-      title: Model
-      required:
-      - id
-      type: object
-      properties:
-        id:
-          type: string
-          example: abc123
-      examples:
-      - id: 1Ot5Y0000010wzNSAQ
-    Prediction:
-      title: Prediction
-      required:
-      - model
-      - prediction
-      - prescriptions
-      - status
-      type: object
-      properties:
-        model:
-          $ref: '#/components/schemas/Model'
-        prediction:
-          $ref: '#/components/schemas/Prediction1'
-        prescriptions:
-          type: array
-          items:
-            type: string
-          description: ''
-          example: []
-        status:
-          type: string
-          example: example_value
-      examples:
-      - model:
-          id: 1Ot5Y0000010wzNSAQ
-        prediction:
-          middleValues: []
-          total: 88.5249425554759
-        prescriptions: []
-        status: Success
   securitySchemes:
     oauth2:
       type: oauth2

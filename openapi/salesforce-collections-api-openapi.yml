@@ -746,131 +746,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    SuccessfulSObjectCollectionsDelete:
-      title: SuccessfulSObjectCollectionsDelete
-      required:
-      - id
-      - success
-      - errors
-      type: object
-      properties:
-        id:
-          type: string
-          example: abc123
-        success:
-          type: boolean
-          example: true
-        errors:
-          type: array
-          items:
-            type: string
-          description: ''
-          example: []
-      examples:
-      - id: 001...
-        success: true
-        errors: []
-    SuccessfulSObjectCollectionsRetrieve:
-      title: SuccessfulSObjectCollectionsRetrieve
-      required:
-      - attributes
-      - Name
-      - Id
-      type: object
-      properties:
-        attributes:
-          $ref: '#/components/schemas/Attributes4'
-        Name:
-          type: string
-          example: Example Title
-        Id:
-          type: string
-          example: abc123
-      examples:
-      - attributes:
-          type: Account
-          url: /services/data/v58.0/sobjects/Account/001...
-        Name: Sample Account
-        Id: 001...
-    Attributes3:
-      title: Attributes3
-      required:
-      - type
-      type: object
-      properties:
-        type:
-          type: string
-          example: example_value
-      examples:
-      - type: Account
-    Record7:
-      title: Record7
-      required:
-      - attributes
-      - Name
-      - Id
-      type: object
-      properties:
-        attributes:
-          $ref: '#/components/schemas/Attributes3'
-        Name:
-          type: string
-          example: Example Title
-        Id:
-          type: string
-          example: abc123
-      examples:
-      - attributes:
-          type: Account
-        Name: Test Upsert
-        Id: 0012o00003OBzVSAA1
-    Record6:
-      title: Record6
-      required:
-      - attributes
-      - id
-      - NumberOfEmployees
-      type: object
-      properties:
-        attributes:
-          $ref: '#/components/schemas/Attributes3'
-        id:
-          type: string
-          example: abc123
-        NumberOfEmployees:
-          type: integer
-          contentEncoding: int32
-          example: 10
-      examples:
-      - attributes:
-          type: Account
-        id: <account-id>
-        NumberOfEmployees: 27000
-    Record5:
-      title: Record5
-      required:
-      - attributes
-      type: object
-      properties:
-        attributes:
-          $ref: '#/components/schemas/Attributes3'
-        Name:
-          type: string
-          example: Example Title
-        BillingCity:
-          type: string
-          example: example_value
-        LastName:
-          type: string
-          example: example_value
-        FirstName:
-          type: string
-          example: example_value
-      examples:
-      - attributes:
-          type: Account
-        Name: example.com
-        BillingCity: San Francisco
     SuccessfulSObjectCollectionsUpsert:
       title: SuccessfulSObjectCollectionsUpsert
       required:
@@ -900,22 +775,6 @@ components:
         success: true
         errors: []
         created: false
-    Attributes4:
-      title: Attributes4
-      required:
-      - type
-      - url
-      type: object
-      properties:
-        type:
-          type: string
-          example: example_value
-        url:
-          type: string
-          example: https://www.example.com
-      examples:
-      - type: Account
-        url: /services/data/v58.0/sobjects/Account/001...
     SObjectCollectionsUpdate:
       title: SObjectCollectionsUpdate
       required:
@@ -940,29 +799,42 @@ components:
       - id: 001...
         success: true
         errors: []
-    SObjectCollectionsUpdateRequest:
-      title: SObjectCollectionsUpdateRequest
+    Record5:
+      title: Record5
       required:
-      - allOrNone
-      - records
+      - attributes
       type: object
       properties:
-        allOrNone:
-          type: boolean
-          example: true
-        records:
-          type: array
-          items:
-            $ref: '#/components/schemas/Record6'
-          description: ''
-          example: []
+        attributes:
+          $ref: '#/components/schemas/Attributes3'
+        Name:
+          type: string
+          example: Example Title
+        BillingCity:
+          type: string
+          example: example_value
+        LastName:
+          type: string
+          example: example_value
+        FirstName:
+          type: string
+          example: example_value
       examples:
-      - allOrNone: false
-        records:
-        - attributes:
-            type: Account
-          id: <account-id>
-          NumberOfEmployees: 27000
+      - attributes:
+          type: Account
+        Name: example.com
+        BillingCity: San Francisco
+    Attributes3:
+      title: Attributes3
+      required:
+      - type
+      type: object
+      properties:
+        type:
+          type: string
+          example: example_value
+      examples:
+      - type: Account
     SuccessfulSObjectCollectionsCreate:
       title: SuccessfulSObjectCollectionsCreate
       required:
@@ -987,29 +859,6 @@ components:
       - id: 001...
         success: true
         errors: []
-    SObjectCollectionsUpsertRequest:
-      title: SObjectCollectionsUpsertRequest
-      required:
-      - allOrNone
-      - records
-      type: object
-      properties:
-        allOrNone:
-          type: boolean
-          example: true
-        records:
-          type: array
-          items:
-            $ref: '#/components/schemas/Record7'
-          description: ''
-          example: []
-      examples:
-      - allOrNone: false
-        records:
-        - attributes:
-            type: Account
-          Name: Test Upsert
-          Id: 0012o00003OBzVSAA1
     SObjectCollectionsCreateRequest:
       title: SObjectCollectionsCreateRequest
       required:
@@ -1037,6 +886,157 @@ components:
             type: Contact
           LastName: Johnson
           FirstName: Erica
+    SuccessfulSObjectCollectionsRetrieve:
+      title: SuccessfulSObjectCollectionsRetrieve
+      required:
+      - attributes
+      - Name
+      - Id
+      type: object
+      properties:
+        attributes:
+          $ref: '#/components/schemas/Attributes4'
+        Name:
+          type: string
+          example: Example Title
+        Id:
+          type: string
+          example: abc123
+      examples:
+      - attributes:
+          type: Account
+          url: /services/data/v58.0/sobjects/Account/001...
+        Name: Sample Account
+        Id: 001...
+    SObjectCollectionsUpdateRequest:
+      title: SObjectCollectionsUpdateRequest
+      required:
+      - allOrNone
+      - records
+      type: object
+      properties:
+        allOrNone:
+          type: boolean
+          example: true
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/Record6'
+          description: ''
+          example: []
+      examples:
+      - allOrNone: false
+        records:
+        - attributes:
+            type: Account
+          id: <account-id>
+          NumberOfEmployees: 27000
+    Record6:
+      title: Record6
+      required:
+      - attributes
+      - id
+      - NumberOfEmployees
+      type: object
+      properties:
+        attributes:
+          $ref: '#/components/schemas/Attributes3'
+        id:
+          type: string
+          example: abc123
+        NumberOfEmployees:
+          type: integer
+          contentEncoding: int32
+          example: 10
+      examples:
+      - attributes:
+          type: Account
+        id: <account-id>
+        NumberOfEmployees: 27000
+    SuccessfulSObjectCollectionsDelete:
+      title: SuccessfulSObjectCollectionsDelete
+      required:
+      - id
+      - success
+      - errors
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+        success:
+          type: boolean
+          example: true
+        errors:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+      examples:
+      - id: 001...
+        success: true
+        errors: []
+    Record7:
+      title: Record7
+      required:
+      - attributes
+      - Name
+      - Id
+      type: object
+      properties:
+        attributes:
+          $ref: '#/components/schemas/Attributes3'
+        Name:
+          type: string
+          example: Example Title
+        Id:
+          type: string
+          example: abc123
+      examples:
+      - attributes:
+          type: Account
+        Name: Test Upsert
+        Id: 0012o00003OBzVSAA1
+    Attributes4:
+      title: Attributes4
+      required:
+      - type
+      - url
+      type: object
+      properties:
+        type:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - type: Account
+        url: /services/data/v58.0/sobjects/Account/001...
+    SObjectCollectionsUpsertRequest:
+      title: SObjectCollectionsUpsertRequest
+      required:
+      - allOrNone
+      - records
+      type: object
+      properties:
+        allOrNone:
+          type: boolean
+          example: true
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/Record7'
+          description: ''
+          example: []
+      examples:
+      - allOrNone: false
+        records:
+        - attributes:
+            type: Account
+          Name: Test Upsert
+          Id: 0012o00003OBzVSAA1
   securitySchemes:
     oauth2:
       type: oauth2

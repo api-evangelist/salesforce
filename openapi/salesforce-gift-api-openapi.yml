@@ -175,6 +175,40 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    UpdateGiftTransactionPaymentsRequest:
+      title: UpdateGiftTransactionPaymentsRequest
+      required:
+      - updates
+      type: object
+      properties:
+        updates:
+          type: array
+          items:
+            $ref: '#/components/schemas/Update'
+          description: ''
+          example: []
+      examples:
+      - updates:
+        - giftTransactionId: <SFDC_GIFT_TRANSACTION_ID>
+          transactionStatus: Paid
+          processorReference: string
+          gatewayReference: string
+          lastGatewayResponseCode: invalid_cvc
+          lastGatewayErrorMessage: The card’s security code is invalid. Check the card’s security code or use a different card.
+          lastGatewayProcessedDateTime: '2023-07-06T21:57:51.000Z'
+          processorTransactionFee: 0.5
+          gatewayTransactionFee: 0.25
+          donorCoverAmount: 10.5
+        - giftTransactionId: <SFDC_GIFT_TRANSACTION_ID>
+          transactionStatus: Paid
+          processorReference: string
+          gatewayReference: string
+          lastGatewayResponseCode: invalid_cvc
+          lastGatewayErrorMessage: The card’s security code is invalid. Check the card’s security code or use a different card.
+          lastGatewayProcessedDateTime: '2023-07-06T21:57:51.000Z'
+          processorTransactionFee: 1
+          gatewayTransactionFee: 0.45
+          donorCoverAmount: 20
     Update:
       title: Update
       required:
@@ -231,6 +265,22 @@ components:
         processorTransactionFee: 0.5
         gatewayTransactionFee: 0.25
         donorCoverAmount: 10.5
+    Gifttransaction:
+      title: Gifttransaction
+      required:
+      - href
+      - id
+      type: object
+      properties:
+        href:
+          type: string
+          example: example_value
+        id:
+          type: string
+          example: abc123
+      examples:
+      - href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
+        id: <SFDC_GIFT_TRANSACTION_ID>
     Links3:
       title: Links3
       required:
@@ -285,40 +335,24 @@ components:
             gifttransaction:
               href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
               id: <SFDC_GIFT_TRANSACTION_ID>
-    UpdateGiftTransactionPaymentsRequest:
-      title: UpdateGiftTransactionPaymentsRequest
+    Detail3:
+      title: Detail3
       required:
-      - updates
+      - success
+      - links
       type: object
       properties:
-        updates:
-          type: array
-          items:
-            $ref: '#/components/schemas/Update'
-          description: ''
-          example: []
+        success:
+          type: boolean
+          example: true
+        links:
+          $ref: '#/components/schemas/Links3'
       examples:
-      - updates:
-        - giftTransactionId: <SFDC_GIFT_TRANSACTION_ID>
-          transactionStatus: Paid
-          processorReference: string
-          gatewayReference: string
-          lastGatewayResponseCode: invalid_cvc
-          lastGatewayErrorMessage: The card’s security code is invalid. Check the card’s security code or use a different card.
-          lastGatewayProcessedDateTime: '2023-07-06T21:57:51.000Z'
-          processorTransactionFee: 0.5
-          gatewayTransactionFee: 0.25
-          donorCoverAmount: 10.5
-        - giftTransactionId: <SFDC_GIFT_TRANSACTION_ID>
-          transactionStatus: Paid
-          processorReference: string
-          gatewayReference: string
-          lastGatewayResponseCode: invalid_cvc
-          lastGatewayErrorMessage: The card’s security code is invalid. Check the card’s security code or use a different card.
-          lastGatewayProcessedDateTime: '2023-07-06T21:57:51.000Z'
-          processorTransactionFee: 1
-          gatewayTransactionFee: 0.45
-          donorCoverAmount: 20
+      - success: true
+        links:
+          gifttransaction:
+            href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
+            id: <SFDC_GIFT_TRANSACTION_ID>
     Status201-UpdateTransactionPaymentWithExternalIds1:
       title: Status201-UpdateTransactionPaymentWithExternalIds1
       required:
@@ -356,40 +390,6 @@ components:
             gifttransaction:
               href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
               id: <SFDC_GIFT_TRANSACTION_ID>
-    Gifttransaction:
-      title: Gifttransaction
-      required:
-      - href
-      - id
-      type: object
-      properties:
-        href:
-          type: string
-          example: example_value
-        id:
-          type: string
-          example: abc123
-      examples:
-      - href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
-        id: <SFDC_GIFT_TRANSACTION_ID>
-    Detail3:
-      title: Detail3
-      required:
-      - success
-      - links
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: true
-        links:
-          $ref: '#/components/schemas/Links3'
-      examples:
-      - success: true
-        links:
-          gifttransaction:
-            href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_TRANSACTION_ID>
-            id: <SFDC_GIFT_TRANSACTION_ID>
   securitySchemes:
     oauth2:
       type: oauth2

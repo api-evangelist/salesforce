@@ -790,39 +790,64 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    SupportedScope:
-      title: SupportedScope
+    Metadata1:
+      title: Metadata1
       required:
+      - channelType
       - label
-      - name
+      - urls
       type: object
       properties:
+        channelType:
+          type: string
+          example: example_value
         label:
           type: string
           example: Example Title
-        name:
-          type: string
-          example: Example Title
+        urls:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
       examples:
-      - label: All platform event channels
-        name: everything
-    CreatechannelRequest:
-      title: CreatechannelRequest
+      - channelType: data
+        label: Account Channel 2
+        urls: null
+    PicklistValue1:
+      title: PicklistValue1
       required:
-      - FullName
-      - Metadata
+      - active
+      - defaultValue
+      - label
+      - validFor
+      - value
       type: object
       properties:
-        FullName:
+        active:
+          type: boolean
+          example: true
+        defaultValue:
+          type: boolean
+          example: true
+        label:
+          type:
+          - string
+          - 'null'
+          example: Example Title
+        validFor:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        value:
           type: string
           example: example_value
-        Metadata:
-          $ref: '#/components/schemas/Metadata'
       examples:
-      - FullName: Account_Channel__chn
-        Metadata:
-          channelType: data
-          label: Account Channel
+      - active: true
+        defaultValue: false
+        label: English
+        validFor: null
+        value: en_US
     Geteventchannel:
       title: Geteventchannel
       required:
@@ -914,23 +939,44 @@ components:
           channelType: data
           label: Custom Channel for the HR App
           urls: null
-    CreatechannelmemberRequest:
-      title: CreatechannelmemberRequest
+    Metadata9:
+      title: Metadata9
       required:
-      - FullName
-      - Metadata
+      - enrichedFields
+      - eventChannel
+      - filterExpression
+      - selectedEntity
+      - urls
       type: object
       properties:
-        FullName:
+        enrichedFields:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+        eventChannel:
           type: string
           example: example_value
-        Metadata:
-          $ref: '#/components/schemas/Metadata3'
+        filterExpression:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        selectedEntity:
+          type: string
+          example: example_value
+        urls:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
       examples:
-      - FullName: Account_Channel_chn_AccountChangeEvent
-        Metadata:
-          eventChannel: Account_Channel__chn
-          selectedEntity: AccountChangeEvent
+      - enrichedFields: []
+        eventChannel: ChangeEvents
+        filterExpression: null
+        selectedEntity: ContactChangeEvent
+        urls: null
     UpdatechannelRequest:
       title: UpdatechannelRequest
       required:
@@ -949,159 +995,6 @@ components:
           channelType: data
           label: Account Channel 2
           urls: null
-    Metadata:
-      title: Metadata
-      required:
-      - channelType
-      - label
-      type: object
-      properties:
-        channelType:
-          type: string
-          example: example_value
-        label:
-          type: string
-          example: Example Title
-      examples:
-      - channelType: data
-        label: Account Channel
-    Getchannelmember:
-      title: Getchannelmember
-      required:
-      - attributes
-      - Id
-      - IsDeleted
-      - DeveloperName
-      - Language
-      - MasterLabel
-      - NamespacePrefix
-      - ManageableState
-      - CreatedDate
-      - CreatedById
-      - LastModifiedDate
-      - LastModifiedById
-      - SystemModstamp
-      - FullName
-      - Metadata
-      - EventChannel
-      - SelectedEntity
-      - FilterExpression
-      type: object
-      properties:
-        attributes:
-          $ref: '#/components/schemas/Attributes4'
-        Id:
-          type: string
-          example: abc123
-        IsDeleted:
-          type: boolean
-          example: true
-        DeveloperName:
-          type: string
-          example: example_value
-        Language:
-          type: string
-          example: example_value
-        MasterLabel:
-          type: string
-          example: example_value
-        NamespacePrefix:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        ManageableState:
-          type: string
-          example: example_value
-        CreatedDate:
-          type: string
-          example: example_value
-        CreatedById:
-          type: string
-          example: '500123'
-        LastModifiedDate:
-          type: string
-          example: example_value
-        LastModifiedById:
-          type: string
-          example: '500123'
-        SystemModstamp:
-          type: string
-          example: example_value
-        FullName:
-          type: string
-          example: example_value
-        Metadata:
-          $ref: '#/components/schemas/Metadata9'
-        EventChannel:
-          type: string
-          example: example_value
-        SelectedEntity:
-          type: string
-          example: example_value
-        FilterExpression:
-          type:
-          - string
-          - 'null'
-          example: example_value
-      examples:
-      - attributes:
-          type: PlatformEventChannelMember
-          url: /services/data/v58.0/tooling/sobjects/PlatformEventChannelMember/0v84H000000PAvIQAW
-        Id: 0v84H000000PAvIQAW
-        IsDeleted: false
-        DeveloperName: ChangeEvents_ContactChangeEvent
-        Language: en_US
-        MasterLabel: ContactChangeEvent
-        NamespacePrefix: null
-        ManageableState: unmanaged
-        CreatedDate: 2022-12-30T15:10:39.000+0000
-        CreatedById: 00558000000yFyDAAU
-        LastModifiedDate: 2022-12-30T15:10:39.000+0000
-        LastModifiedById: 00558000000yFyDAAU
-        SystemModstamp: 2022-12-30T15:10:39.000+0000
-        FullName: ChangeEvents_ContactChangeEvent
-        Metadata:
-          enrichedFields: []
-          eventChannel: ChangeEvents
-          filterExpression: null
-          selectedEntity: ContactChangeEvent
-          urls: null
-        EventChannel: ChangeEvents
-        SelectedEntity: ContactChangeEvent
-        FilterExpression: null
-    Attributes4:
-      title: Attributes4
-      required:
-      - type
-      - url
-      type: object
-      properties:
-        type:
-          type: string
-          example: example_value
-        url:
-          type: string
-          example: https://www.example.com
-      examples:
-      - type: Account
-        url: /services/data/v58.0/sobjects/Account/001...
-    Metadata3:
-      title: Metadata3
-      required:
-      - eventChannel
-      - selectedEntity
-      type: object
-      properties:
-        eventChannel:
-          type: string
-          example: example_value
-        selectedEntity:
-          type: string
-          example: example_value
-      examples:
-      - eventChannel: Account_Channel__chn
-        selectedEntity: AccountChangeEvent
     Field1:
       title: Field1
       required:
@@ -1384,102 +1277,132 @@ components:
         writeRequiresMasterRead:
           type: boolean
           example: true
-    PicklistValue1:
-      title: PicklistValue1
+    Urls2:
+      title: Urls2
       required:
-      - active
-      - defaultValue
-      - label
-      - validFor
-      - value
+      - rowTemplate
+      - describe
+      - sobject
       type: object
       properties:
-        active:
+        rowTemplate:
+          type: string
+          example: example_value
+        describe:
+          type: string
+          example: example_value
+        sobject:
+          type: string
+          example: example_value
+      examples:
+      - rowTemplate: /services/data/v58.0/tooling/sobjects/PlatformEventChannel/{ID}
+        describe: /services/data/v58.0/tooling/sobjects/PlatformEventChannel/describe
+        sobject: /services/data/v58.0/tooling/sobjects/PlatformEventChannel
+    Getchannelmember:
+      title: Getchannelmember
+      required:
+      - attributes
+      - Id
+      - IsDeleted
+      - DeveloperName
+      - Language
+      - MasterLabel
+      - NamespacePrefix
+      - ManageableState
+      - CreatedDate
+      - CreatedById
+      - LastModifiedDate
+      - LastModifiedById
+      - SystemModstamp
+      - FullName
+      - Metadata
+      - EventChannel
+      - SelectedEntity
+      - FilterExpression
+      type: object
+      properties:
+        attributes:
+          $ref: '#/components/schemas/Attributes4'
+        Id:
+          type: string
+          example: abc123
+        IsDeleted:
           type: boolean
           example: true
-        defaultValue:
-          type: boolean
-          example: true
-        label:
-          type:
-          - string
-          - 'null'
-          example: Example Title
-        validFor:
+        DeveloperName:
+          type: string
+          example: example_value
+        Language:
+          type: string
+          example: example_value
+        MasterLabel:
+          type: string
+          example: example_value
+        NamespacePrefix:
           type:
           - string
           - 'null'
           example: example_value
-        value:
+        ManageableState:
           type: string
+          example: example_value
+        CreatedDate:
+          type: string
+          example: example_value
+        CreatedById:
+          type: string
+          example: '500123'
+        LastModifiedDate:
+          type: string
+          example: example_value
+        LastModifiedById:
+          type: string
+          example: '500123'
+        SystemModstamp:
+          type: string
+          example: example_value
+        FullName:
+          type: string
+          example: example_value
+        Metadata:
+          $ref: '#/components/schemas/Metadata9'
+        EventChannel:
+          type: string
+          example: example_value
+        SelectedEntity:
+          type: string
+          example: example_value
+        FilterExpression:
+          type:
+          - string
+          - 'null'
           example: example_value
       examples:
-      - active: true
-        defaultValue: false
-        label: English
-        validFor: null
-        value: en_US
-    Metadata1:
-      title: Metadata1
-      required:
-      - channelType
-      - label
-      - urls
-      type: object
-      properties:
-        channelType:
-          type: string
-          example: example_value
-        label:
-          type: string
-          example: Example Title
-        urls:
-          type:
-          - string
-          - 'null'
-          example: https://www.example.com
-      examples:
-      - channelType: data
-        label: Account Channel 2
-        urls: null
-    Metadata9:
-      title: Metadata9
-      required:
-      - enrichedFields
-      - eventChannel
-      - filterExpression
-      - selectedEntity
-      - urls
-      type: object
-      properties:
-        enrichedFields:
-          type: array
-          items:
-            type: string
-          description: ''
-          example: []
-        eventChannel:
-          type: string
-          example: example_value
-        filterExpression:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        selectedEntity:
-          type: string
-          example: example_value
-        urls:
-          type:
-          - string
-          - 'null'
-          example: https://www.example.com
-      examples:
-      - enrichedFields: []
-        eventChannel: ChangeEvents
-        filterExpression: null
-        selectedEntity: ContactChangeEvent
-        urls: null
+      - attributes:
+          type: PlatformEventChannelMember
+          url: /services/data/v58.0/tooling/sobjects/PlatformEventChannelMember/0v84H000000PAvIQAW
+        Id: 0v84H000000PAvIQAW
+        IsDeleted: false
+        DeveloperName: ChangeEvents_ContactChangeEvent
+        Language: en_US
+        MasterLabel: ContactChangeEvent
+        NamespacePrefix: null
+        ManageableState: unmanaged
+        CreatedDate: 2022-12-30T15:10:39.000+0000
+        CreatedById: 00558000000yFyDAAU
+        LastModifiedDate: 2022-12-30T15:10:39.000+0000
+        LastModifiedById: 00558000000yFyDAAU
+        SystemModstamp: 2022-12-30T15:10:39.000+0000
+        FullName: ChangeEvents_ContactChangeEvent
+        Metadata:
+          enrichedFields: []
+          eventChannel: ChangeEvents
+          filterExpression: null
+          selectedEntity: ContactChangeEvent
+          urls: null
+        EventChannel: ChangeEvents
+        SelectedEntity: ContactChangeEvent
+        FilterExpression: null
     PicklistValue:
       title: PicklistValue
       type: object
@@ -1501,6 +1424,40 @@ components:
         value:
           type: string
           example: example_value
+    CreatechannelRequest:
+      title: CreatechannelRequest
+      required:
+      - FullName
+      - Metadata
+      type: object
+      properties:
+        FullName:
+          type: string
+          example: example_value
+        Metadata:
+          $ref: '#/components/schemas/Metadata'
+      examples:
+      - FullName: Account_Channel__chn
+        Metadata:
+          channelType: data
+          label: Account Channel
+    CreatechannelmemberRequest:
+      title: CreatechannelmemberRequest
+      required:
+      - FullName
+      - Metadata
+      type: object
+      properties:
+        FullName:
+          type: string
+          example: example_value
+        Metadata:
+          $ref: '#/components/schemas/Metadata3'
+      examples:
+      - FullName: Account_Channel_chn_AccountChangeEvent
+        Metadata:
+          eventChannel: Account_Channel__chn
+          selectedEntity: AccountChangeEvent
     Describeeventchannel:
       title: Describeeventchannel
       required:
@@ -1723,27 +1680,70 @@ components:
           example: true
         urls:
           $ref: '#/components/schemas/Urls2'
-    Urls2:
-      title: Urls2
+    Metadata:
+      title: Metadata
       required:
-      - rowTemplate
-      - describe
-      - sobject
+      - channelType
+      - label
       type: object
       properties:
-        rowTemplate:
+        channelType:
           type: string
           example: example_value
-        describe:
+        label:
+          type: string
+          example: Example Title
+      examples:
+      - channelType: data
+        label: Account Channel
+    Attributes4:
+      title: Attributes4
+      required:
+      - type
+      - url
+      type: object
+      properties:
+        type:
           type: string
           example: example_value
-        sobject:
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - type: Account
+        url: /services/data/v58.0/sobjects/Account/001...
+    Metadata3:
+      title: Metadata3
+      required:
+      - eventChannel
+      - selectedEntity
+      type: object
+      properties:
+        eventChannel:
+          type: string
+          example: example_value
+        selectedEntity:
           type: string
           example: example_value
       examples:
-      - rowTemplate: /services/data/v58.0/tooling/sobjects/PlatformEventChannel/{ID}
-        describe: /services/data/v58.0/tooling/sobjects/PlatformEventChannel/describe
-        sobject: /services/data/v58.0/tooling/sobjects/PlatformEventChannel
+      - eventChannel: Account_Channel__chn
+        selectedEntity: AccountChangeEvent
+    SupportedScope:
+      title: SupportedScope
+      required:
+      - label
+      - name
+      type: object
+      properties:
+        label:
+          type: string
+          example: Example Title
+        name:
+          type: string
+          example: Example Title
+      examples:
+      - label: All platform event channels
+        name: everything
   securitySchemes:
     oauth2:
       type: oauth2

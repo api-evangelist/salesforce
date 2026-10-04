@@ -257,38 +257,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    GiftCommitmentScheduleCustomField:
-      title: GiftCommitmentScheduleCustomField
-      required:
-      - fieldName
-      - fieldValue
-      type: object
-      properties:
-        fieldName:
-          type: string
-          example: example_value
-        fieldValue:
-          type: string
-          example: example_value
-      examples:
-      - fieldName: <VALID_CUSTOM_FIELD_API_NAME>
-        fieldValue: string
-    GiftCommitmentCustomField:
-      title: GiftCommitmentCustomField
-      required:
-      - fieldName
-      - fieldValue
-      type: object
-      properties:
-        fieldName:
-          type: string
-          example: example_value
-        fieldValue:
-          type: string
-          example: example_value
-      examples:
-      - fieldName: <VALID_CUSTOM_FIELD_API_NAME>
-        fieldValue: string
     Giftcommitmentschedule:
       title: Giftcommitmentschedule
       required:
@@ -305,33 +273,6 @@ components:
       examples:
       - href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_SCHEDULE_ID>
         id: <SFDC_GIFT_COMMITMENT_SCHEDULE_ID>
-    OutreachSourceCode:
-      title: OutreachSourceCode
-      required:
-      - id
-      - sourceCode
-      type: object
-      properties:
-        id:
-          type: string
-          example: abc123
-        sourceCode:
-          type: string
-          example: example_value
-      examples:
-      - id: <SFDC_OUTREACH_SOURCE_CODE_ID>
-        sourceCode: AnimalEmailCampaign2023
-    Campaign:
-      title: Campaign
-      required:
-      - id
-      type: object
-      properties:
-        id:
-          type: string
-          example: abc123
-      examples:
-      - id: <SFDC_CAMPAIGN_ID>
     Giftcommitment:
       title: Giftcommitment
       required:
@@ -348,6 +289,58 @@ components:
       examples:
       - href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
         id: <SFDC_GIFT_COMMITMENT_ID>
+    Address1:
+      title: Address1
+      required:
+      - addressType
+      - street
+      - city
+      - state
+      - postalCode
+      - country
+      type: object
+      properties:
+        addressType:
+          type: string
+          example: example_value
+        street:
+          type: string
+          example: example_value
+        city:
+          type: string
+          example: example_value
+        state:
+          type: string
+          example: example_value
+        postalCode:
+          type: string
+          example: example_value
+        country:
+          type: string
+          example: 42
+      examples:
+      - addressType: mailing
+        street: 123 Main Street
+        city: Oakland
+        state: CA
+        postalCode: '94610'
+        country: US
+    AccountCustomField:
+      title: AccountCustomField
+      required:
+      - fieldName
+      - fieldValue
+      type: object
+      properties:
+        fieldName:
+          type: string
+          example: example_value
+        fieldValue:
+          type: string
+          example: example_value
+      examples:
+      - fieldName: string
+        fieldValue: string
     Donor3:
       title: Donor3
       required:
@@ -408,6 +401,153 @@ components:
         accountCustomFields:
         - fieldName: string
           fieldValue: string
+    Campaign:
+      title: Campaign
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+      examples:
+      - id: <SFDC_CAMPAIGN_ID>
+    Links11:
+      title: Links11
+      required:
+      - giftcommitment
+      - giftcommitmentschedule
+      type: object
+      properties:
+        giftcommitment:
+          $ref: '#/components/schemas/Giftcommitment'
+        giftcommitmentschedule:
+          $ref: '#/components/schemas/Giftcommitmentschedule'
+      examples:
+      - giftcommitment:
+          href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
+          id: <SFDC_GIFT_COMMITMENT_ID>
+        giftcommitmentschedule:
+          href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_SCHEDULE_ID>
+          id: <SFDC_GIFT_COMMITMENT_SCHEDULE_ID>
+    PaymentInstrument:
+      title: PaymentInstrument
+      required:
+      - type
+      - accountHolderName
+      - expiryMonth
+      - expiryYear
+      - last4
+      - cardBrand
+      - bankName
+      - digitalWalletProvider
+      - bankAccountHolderType
+      - bankAccountType
+      - bankAccountNumber
+      - bankCode
+      - gatewayName
+      - processorName
+      - processorPaymentReference
+      - gatewayReference
+      type: object
+      properties:
+        type:
+          type: string
+          example: example_value
+        accountHolderName:
+          type: string
+          example: 42
+        expiryMonth:
+          type: string
+          example: example_value
+        expiryYear:
+          type: string
+          example: example_value
+        last4:
+          type: string
+          example: example_value
+        cardBrand:
+          type: string
+          example: example_value
+        bankName:
+          type: string
+          example: example_value
+        digitalWalletProvider:
+          type: string
+          example: example_value
+        bankAccountHolderType:
+          type: string
+          example: 42
+        bankAccountType:
+          type: string
+          example: 42
+        bankAccountNumber:
+          type: string
+          example: 42
+        bankCode:
+          type: string
+          example: example_value
+        gatewayName:
+          type: string
+          example: example_value
+        processorName:
+          type: string
+          example: example_value
+        processorPaymentReference:
+          type: string
+          example: example_value
+        gatewayReference:
+          type: string
+          example: example_value
+      examples:
+      - type: credit card
+        accountHolderName: test donor
+        expiryMonth: '10'
+        expiryYear: '2027'
+        last4: '4585'
+        cardBrand: visa
+        bankName: chase
+        digitalWalletProvider: apple pay
+        bankAccountHolderType: primary
+        bankAccountType: checking
+        bankAccountNumber: '123456'
+        bankCode: HBUK
+        gatewayName: stripe
+        processorName: test processor
+        processorPaymentReference: string
+        gatewayReference: string
+    GiftCommitmentCustomField:
+      title: GiftCommitmentCustomField
+      required:
+      - fieldName
+      - fieldValue
+      type: object
+      properties:
+        fieldName:
+          type: string
+          example: example_value
+        fieldValue:
+          type: string
+          example: example_value
+      examples:
+      - fieldName: <VALID_CUSTOM_FIELD_API_NAME>
+        fieldValue: string
+    GiftCommitmentScheduleCustomField:
+      title: GiftCommitmentScheduleCustomField
+      required:
+      - fieldName
+      - fieldValue
+      type: object
+      properties:
+        fieldName:
+          type: string
+          example: example_value
+        fieldValue:
+          type: string
+          example: example_value
+      examples:
+      - fieldName: <VALID_CUSTOM_FIELD_API_NAME>
+        fieldValue: string
     UpdateCommitmentsRequest:
       title: UpdateCommitmentsRequest
       required:
@@ -516,162 +656,6 @@ components:
         giftCommitmentScheduleCustomFields:
         - fieldName: string
           fieldValue: string
-    Address1:
-      title: Address1
-      required:
-      - addressType
-      - street
-      - city
-      - state
-      - postalCode
-      - country
-      type: object
-      properties:
-        addressType:
-          type: string
-          example: example_value
-        street:
-          type: string
-          example: example_value
-        city:
-          type: string
-          example: example_value
-        state:
-          type: string
-          example: example_value
-        postalCode:
-          type: string
-          example: example_value
-        country:
-          type: string
-          example: 42
-      examples:
-      - addressType: mailing
-        street: 123 Main Street
-        city: Oakland
-        state: CA
-        postalCode: '94610'
-        country: US
-    PaymentInstrument:
-      title: PaymentInstrument
-      required:
-      - type
-      - accountHolderName
-      - expiryMonth
-      - expiryYear
-      - last4
-      - cardBrand
-      - bankName
-      - digitalWalletProvider
-      - bankAccountHolderType
-      - bankAccountType
-      - bankAccountNumber
-      - bankCode
-      - gatewayName
-      - processorName
-      - processorPaymentReference
-      - gatewayReference
-      type: object
-      properties:
-        type:
-          type: string
-          example: example_value
-        accountHolderName:
-          type: string
-          example: 42
-        expiryMonth:
-          type: string
-          example: example_value
-        expiryYear:
-          type: string
-          example: example_value
-        last4:
-          type: string
-          example: example_value
-        cardBrand:
-          type: string
-          example: example_value
-        bankName:
-          type: string
-          example: example_value
-        digitalWalletProvider:
-          type: string
-          example: example_value
-        bankAccountHolderType:
-          type: string
-          example: 42
-        bankAccountType:
-          type: string
-          example: 42
-        bankAccountNumber:
-          type: string
-          example: 42
-        bankCode:
-          type: string
-          example: example_value
-        gatewayName:
-          type: string
-          example: example_value
-        processorName:
-          type: string
-          example: example_value
-        processorPaymentReference:
-          type: string
-          example: example_value
-        gatewayReference:
-          type: string
-          example: example_value
-      examples:
-      - type: credit card
-        accountHolderName: test donor
-        expiryMonth: '10'
-        expiryYear: '2027'
-        last4: '4585'
-        cardBrand: visa
-        bankName: chase
-        digitalWalletProvider: apple pay
-        bankAccountHolderType: primary
-        bankAccountType: checking
-        bankAccountNumber: '123456'
-        bankCode: HBUK
-        gatewayName: stripe
-        processorName: test processor
-        processorPaymentReference: string
-        gatewayReference: string
-    Links11:
-      title: Links11
-      required:
-      - giftcommitment
-      - giftcommitmentschedule
-      type: object
-      properties:
-        giftcommitment:
-          $ref: '#/components/schemas/Giftcommitment'
-        giftcommitmentschedule:
-          $ref: '#/components/schemas/Giftcommitmentschedule'
-      examples:
-      - giftcommitment:
-          href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_ID>
-          id: <SFDC_GIFT_COMMITMENT_ID>
-        giftcommitmentschedule:
-          href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_SCHEDULE_ID>
-          id: <SFDC_GIFT_COMMITMENT_SCHEDULE_ID>
-    AccountCustomField:
-      title: AccountCustomField
-      required:
-      - fieldName
-      - fieldValue
-      type: object
-      properties:
-        fieldName:
-          type: string
-          example: example_value
-        fieldValue:
-          type: string
-          example: example_value
-      examples:
-      - fieldName: string
-        fieldValue: string
     Status200-UpdateCommitmentSuccess:
       title: Status200-UpdateCommitmentSuccess
       required:
@@ -693,6 +677,22 @@ components:
           giftcommitmentschedule:
             href: /services/data/vXX.X/sobjects/sObject/<SFDC_GIFT_COMMITMENT_SCHEDULE_ID>
             id: <SFDC_GIFT_COMMITMENT_SCHEDULE_ID>
+    OutreachSourceCode:
+      title: OutreachSourceCode
+      required:
+      - id
+      - sourceCode
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+        sourceCode:
+          type: string
+          example: example_value
+      examples:
+      - id: <SFDC_OUTREACH_SOURCE_CODE_ID>
+        sourceCode: AnimalEmailCampaign2023
   securitySchemes:
     oauth2:
       type: oauth2

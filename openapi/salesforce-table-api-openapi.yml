@@ -1217,30 +1217,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    Parameter:
-      title: Parameter
-      required:
-      - fieldName
-      - usage
-      type: object
-      properties:
-        fieldName:
-          type: string
-          example: example_value
-        usage:
-          type: string
-          example: example_value
-        operator:
-          type: string
-          example: example_value
-        sequence:
-          type: string
-          example: example_value
-      examples:
-      - fieldName: IsDeleted
-        usage: INPUT
-        operator: Equals
-        sequence: '1'
     Conditions:
       title: Conditions
       required:
@@ -1257,54 +1233,6 @@ components:
       - conditionsList:
         - fieldName: IsDeleted
           value: true
-    ConditionsList1:
-      title: ConditionsList1
-      required:
-      - fieldName
-      - value
-      type: object
-      properties:
-        fieldName:
-          type: string
-          example: example_value
-        value:
-          type: boolean
-          example: true
-      examples:
-      - fieldName: IsDeleted
-        value: true
-    Status400-BadRequest1:
-      title: Status400-BadRequest1
-      required:
-      - errorCode
-      - message
-      type: object
-      properties:
-        errorCode:
-          type: string
-          example: example_value
-        message:
-          type: string
-          example: example_value
-      examples:
-      - errorCode: INVALID_ID_FIELD
-        message: 'Invalid identifier: 9QLHo000000LBjJOAW'
-    Status500-UnknownException1:
-      title: Status500-UnknownException1
-      required:
-      - message
-      - errorCode
-      type: object
-      properties:
-        message:
-          type: string
-          example: example_value
-        errorCode:
-          type: string
-          example: example_value
-      examples:
-      - message: 'An unexpected error occurred. Please include this ErrorId if you contact support: 1716762391-743375 (1633993601)'
-        errorCode: UNKNOWN_EXCEPTION
     Status201-AcceptedButWarning:
       title: Status201-AcceptedButWarning
       required:
@@ -1321,59 +1249,22 @@ components:
       - outputs:
         - error: Looks like there isn’t any output for the specified input parameters in the lookup table.
           results: []
-    Input2:
-      title: Input2
+    Status401-Unauthorized1:
+      title: Status401-Unauthorized1
       required:
-      - name
-      - value
-      type: object
-      properties:
-        name:
-          type: string
-          example: Example Title
-        value:
-          type: string
-          example: example_value
-      examples:
-      - name: myColumnInput
-        value: One
-    Status200-Success2:
-      title: Status200-Success2
-      required:
-      - code
-      - isSuccess
       - message
+      - errorCode
       type: object
       properties:
-        code:
-          type: string
-          example: example_value
-        isSuccess:
-          type: boolean
-          example: true
         message:
           type: string
           example: example_value
-      examples:
-      - code: '200'
-        isSuccess: true
-        message: ''
-    Status400-MatrixNotFound1:
-      title: Status400-MatrixNotFound1
-      required:
-      - errorCode
-      - message
-      type: object
-      properties:
         errorCode:
           type: string
           example: example_value
-        message:
-          type: string
-          example: example_value
       examples:
-      - errorCode: INVALID_INPUT
-        message: Specify a valid matrixName and try again.
+      - message: Session expired or invalid
+        errorCode: INVALID_SESSION_ID
     Status201-Success5:
       title: Status201-Success5
       required:
@@ -1412,25 +1303,22 @@ components:
         outcomeList: []
         outcomeType: No Match
         successStatus: true
-    Output1:
-      title: Output1
+    Status400-BadRequest1:
+      title: Status400-BadRequest1
       required:
-      - error
-      - results
+      - errorCode
+      - message
       type: object
       properties:
-        error:
+        errorCode:
           type: string
           example: example_value
-        results:
-          type: array
-          items:
-            type: string
-          description: ''
-          example: []
+        message:
+          type: string
+          example: example_value
       examples:
-      - error: Looks like there isn’t any output for the specified input parameters in the lookup table.
-        results: []
+      - errorCode: INVALID_ID_FIELD
+        message: 'Invalid identifier: 9QLHo000000LBjJOAW'
     LookupTableRequest1:
       title: LookupTableRequest1
       required:
@@ -1444,44 +1332,59 @@ components:
           conditionsList:
           - fieldName: IsDeleted
             value: true
-    Status401-Unauthorized1:
-      title: Status401-Unauthorized1
+    Input2:
+      title: Input2
       required:
-      - message
-      - errorCode
+      - name
+      - value
       type: object
       properties:
-        message:
+        name:
+          type: string
+          example: Example Title
+        value:
           type: string
           example: example_value
+      examples:
+      - name: myColumnInput
+        value: One
+    Status400-MatrixNotFound1:
+      title: Status400-MatrixNotFound1
+      required:
+      - errorCode
+      - message
+      type: object
+      properties:
         errorCode:
           type: string
           example: example_value
-      examples:
-      - message: Session expired or invalid
-        errorCode: INVALID_SESSION_ID
-    LookupTableRequest:
-      title: LookupTableRequest
-      required:
-      - inputs
-      - options
-      type: object
-      properties:
-        inputs:
-          type: array
-          items:
-            $ref: '#/components/schemas/Input1'
-          description: ''
-          example: []
-        options:
-          type: object
+        message:
+          type: string
           example: example_value
       examples:
-      - inputs:
-        - input:
-          - name: myColumnInput
-            value: One
-        options: {}
+      - errorCode: INVALID_INPUT
+        message: Specify a valid matrixName and try again.
+    Status200-Success2:
+      title: Status200-Success2
+      required:
+      - code
+      - isSuccess
+      - message
+      type: object
+      properties:
+        code:
+          type: string
+          example: example_value
+        isSuccess:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: example_value
+      examples:
+      - code: '200'
+        isSuccess: true
+        message: ''
     UpdateTableRequest:
       title: UpdateTableRequest
       required:
@@ -1565,6 +1468,81 @@ components:
           sequence: '3'
         - fieldName: CreatedById
           usage: OUTPUT
+    Parameter:
+      title: Parameter
+      required:
+      - fieldName
+      - usage
+      type: object
+      properties:
+        fieldName:
+          type: string
+          example: example_value
+        usage:
+          type: string
+          example: example_value
+        operator:
+          type: string
+          example: example_value
+        sequence:
+          type: string
+          example: example_value
+      examples:
+      - fieldName: IsDeleted
+        usage: INPUT
+        operator: Equals
+        sequence: '1'
+    ConditionsList1:
+      title: ConditionsList1
+      required:
+      - fieldName
+      - value
+      type: object
+      properties:
+        fieldName:
+          type: string
+          example: example_value
+        value:
+          type: boolean
+          example: true
+      examples:
+      - fieldName: IsDeleted
+        value: true
+    Status500-UnknownException1:
+      title: Status500-UnknownException1
+      required:
+      - message
+      - errorCode
+      type: object
+      properties:
+        message:
+          type: string
+          example: example_value
+        errorCode:
+          type: string
+          example: example_value
+      examples:
+      - message: 'An unexpected error occurred. Please include this ErrorId if you contact support: 1716762391-743375 (1633993601)'
+        errorCode: UNKNOWN_EXCEPTION
+    Output1:
+      title: Output1
+      required:
+      - error
+      - results
+      type: object
+      properties:
+        error:
+          type: string
+          example: example_value
+        results:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+      examples:
+      - error: Looks like there isn’t any output for the specified input parameters in the lookup table.
+        results: []
     Input1:
       title: Input1
       required:
@@ -1581,6 +1559,28 @@ components:
       - input:
         - name: myColumnInput
           value: One
+    LookupTableRequest:
+      title: LookupTableRequest
+      required:
+      - inputs
+      - options
+      type: object
+      properties:
+        inputs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Input1'
+          description: ''
+          example: []
+        options:
+          type: object
+          example: example_value
+      examples:
+      - inputs:
+        - input:
+          - name: myColumnInput
+            value: One
+        options: {}
   securitySchemes:
     oauth2:
       type: oauth2
