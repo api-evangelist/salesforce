@@ -301,32 +301,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    Contacts:
-      title: Contacts
-      required:
-      - records
-      type: object
-      properties:
-        records:
-          type: array
-          items:
-            $ref: '#/components/schemas/Record3'
-          description: ''
-          example: []
-      examples:
-      - records:
-        - attributes:
-            type: Contact
-            referenceId: ref2
-          lastname: Smith
-          Title: President
-          email: sample@salesforce.com
-        - attributes:
-            type: Contact
-            referenceId: ref3
-          lastname: Evans
-          title: Vice President
-          email: sample@salesforce.com
     Record2:
       title: Record2
       required:
@@ -383,95 +357,6 @@ components:
             lastname: Evans
             title: Vice President
             email: sample@salesforce.com
-    SuccessfulSObjectTree:
-      title: SuccessfulSObjectTree
-      required:
-      - hasErrors
-      - results
-      type: object
-      properties:
-        hasErrors:
-          type: boolean
-          example: true
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Result'
-          description: ''
-          example: []
-      examples:
-      - hasErrors: false
-        results:
-        - referenceId: ref1
-          id: 001...
-        - referenceId: ref4
-          id: 001...
-        - referenceId: ref2
-          id: 003..
-        - referenceId: ref3
-          id: 003...
-        - referenceId: ref5
-          id: 001...
-        - referenceId: ref6
-          id: 003...
-    Record3:
-      title: Record3
-      required:
-      - attributes
-      - lastname
-      - email
-      type: object
-      properties:
-        attributes:
-          $ref: '#/components/schemas/Attributes'
-        lastname:
-          type: string
-          example: example_value
-        Title:
-          type: string
-          example: Example Title
-        email:
-          type: string
-          example: user@example.com
-      examples:
-      - attributes:
-          type: Contact
-          referenceId: ref2
-        lastname: Smith
-        Title: President
-        email: sample@salesforce.com
-    Attributes:
-      title: Attributes
-      required:
-      - type
-      - referenceId
-      type: object
-      properties:
-        type:
-          type: string
-          example: example_value
-        referenceId:
-          type: string
-          example: '500123'
-      examples:
-      - type: Account
-        referenceId: ref1
-    Result:
-      title: Result
-      required:
-      - referenceId
-      - id
-      type: object
-      properties:
-        referenceId:
-          type: string
-          example: '500123'
-        id:
-          type: string
-          example: abc123
-      examples:
-      - referenceId: ref1
-        id: 001...
     ChildAccounts:
       title: ChildAccounts
       required:
@@ -494,6 +379,43 @@ components:
           website: www.salesforce.com
           numberOfEmployees: '100'
           industry: Banking
+    Record4:
+      title: Record4
+      required:
+      - attributes
+      - name
+      - phone
+      - website
+      - numberOfEmployees
+      - industry
+      type: object
+      properties:
+        attributes:
+          $ref: '#/components/schemas/Attributes'
+        name:
+          type: string
+          example: Example Title
+        phone:
+          type: string
+          example: example_value
+        website:
+          type: string
+          example: example_value
+        numberOfEmployees:
+          type: string
+          example: example_value
+        industry:
+          type: string
+          example: example_value
+      examples:
+      - attributes:
+          type: Account
+          referenceId: ref5
+        name: SampleChildAccount1
+        phone: '1234567890'
+        website: www.salesforce.com
+        numberOfEmployees: '100'
+        industry: Banking
     SObjectTreeRequest:
       title: SObjectTreeRequest
       required:
@@ -556,43 +478,121 @@ components:
               lastname: Jones
               title: President
               email: sample@salesforce.com
-    Record4:
-      title: Record4
+    Result:
+      title: Result
+      required:
+      - referenceId
+      - id
+      type: object
+      properties:
+        referenceId:
+          type: string
+          example: '500123'
+        id:
+          type: string
+          example: abc123
+      examples:
+      - referenceId: ref1
+        id: 001...
+    Contacts:
+      title: Contacts
+      required:
+      - records
+      type: object
+      properties:
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/Record3'
+          description: ''
+          example: []
+      examples:
+      - records:
+        - attributes:
+            type: Contact
+            referenceId: ref2
+          lastname: Smith
+          Title: President
+          email: sample@salesforce.com
+        - attributes:
+            type: Contact
+            referenceId: ref3
+          lastname: Evans
+          title: Vice President
+          email: sample@salesforce.com
+    Record3:
+      title: Record3
       required:
       - attributes
-      - name
-      - phone
-      - website
-      - numberOfEmployees
-      - industry
+      - lastname
+      - email
       type: object
       properties:
         attributes:
           $ref: '#/components/schemas/Attributes'
-        name:
+        lastname:
+          type: string
+          example: example_value
+        Title:
           type: string
           example: Example Title
-        phone:
+        email:
           type: string
-          example: example_value
-        website:
-          type: string
-          example: example_value
-        numberOfEmployees:
-          type: string
-          example: example_value
-        industry:
-          type: string
-          example: example_value
+          example: user@example.com
       examples:
       - attributes:
-          type: Account
-          referenceId: ref5
-        name: SampleChildAccount1
-        phone: '1234567890'
-        website: www.salesforce.com
-        numberOfEmployees: '100'
-        industry: Banking
+          type: Contact
+          referenceId: ref2
+        lastname: Smith
+        Title: President
+        email: sample@salesforce.com
+    SuccessfulSObjectTree:
+      title: SuccessfulSObjectTree
+      required:
+      - hasErrors
+      - results
+      type: object
+      properties:
+        hasErrors:
+          type: boolean
+          example: true
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Result'
+          description: ''
+          example: []
+      examples:
+      - hasErrors: false
+        results:
+        - referenceId: ref1
+          id: 001...
+        - referenceId: ref4
+          id: 001...
+        - referenceId: ref2
+          id: 003..
+        - referenceId: ref3
+          id: 003...
+        - referenceId: ref5
+          id: 001...
+        - referenceId: ref6
+          id: 003...
+    Attributes:
+      title: Attributes
+      required:
+      - type
+      - referenceId
+      type: object
+      properties:
+        type:
+          type: string
+          example: example_value
+        referenceId:
+          type: string
+          example: '500123'
+      examples:
+      - type: Account
+        referenceId: ref1
   securitySchemes:
     oauth2:
       type: oauth2

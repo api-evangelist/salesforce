@@ -100,82 +100,25 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    Body16:
-      title: Body16
+    SessionHeader:
+      title: SessionHeader
       required:
-      - create
+      - sessionId
       type: object
       properties:
-        create:
-          allOf:
-          - $ref: '#/components/schemas/create'
-          - xml:
-              name: create
-              namespace: urn:partner.soap.sforce.com
-              prefix: ns2
-              attribute: false
-              wrapped: false
-          example: example_value
-      xml:
-        name: Body
-        namespace: http://schemas.xmlsoap.org/soap/envelope/
-        prefix: SOAP-ENV
-        attribute: false
-        wrapped: false
-    create:
-      title: create
-      required:
-      - sObjects
-      type: object
-      properties:
-        sObjects:
-          type: array
-          items:
-            $ref: '#/components/schemas/sObjects'
-          description: ''
+        sessionId:
+          type: string
           xml:
+            name: sessionId
             namespace: urn:partner.soap.sforce.com
             prefix: ns2
             attribute: false
             wrapped: false
-          example: []
+          example: '500123'
       xml:
-        name: create
+        name: SessionHeader
         namespace: urn:partner.soap.sforce.com
         prefix: ns2
-        attribute: false
-        wrapped: false
-    Envelope:
-      title: Envelope
-      required:
-      - Header
-      - Body
-      type: object
-      properties:
-        Header:
-          allOf:
-          - $ref: '#/components/schemas/Header4'
-          - xml:
-              name: Header
-              namespace: http://schemas.xmlsoap.org/soap/envelope/
-              prefix: SOAP-ENV
-              attribute: false
-              wrapped: false
-          example: example_value
-        Body:
-          allOf:
-          - $ref: '#/components/schemas/Body16'
-          - xml:
-              name: Body
-              namespace: http://schemas.xmlsoap.org/soap/envelope/
-              prefix: SOAP-ENV
-              attribute: false
-              wrapped: false
-          example: example_value
-      xml:
-        name: Envelope
-        namespace: http://schemas.xmlsoap.org/soap/envelope/
-        prefix: SOAP-ENV
         attribute: false
         wrapped: false
     sObjects:
@@ -228,25 +171,59 @@ components:
         prefix: ns2
         attribute: false
         wrapped: false
-    SessionHeader:
-      title: SessionHeader
+    Envelope:
+      title: Envelope
       required:
-      - sessionId
+      - Header
+      - Body
       type: object
       properties:
-        sessionId:
-          type: string
-          xml:
-            name: sessionId
-            namespace: urn:partner.soap.sforce.com
-            prefix: ns2
-            attribute: false
-            wrapped: false
-          example: '500123'
+        Header:
+          allOf:
+          - $ref: '#/components/schemas/Header4'
+          - xml:
+              name: Header
+              namespace: http://schemas.xmlsoap.org/soap/envelope/
+              prefix: SOAP-ENV
+              attribute: false
+              wrapped: false
+          example: example_value
+        Body:
+          allOf:
+          - $ref: '#/components/schemas/Body16'
+          - xml:
+              name: Body
+              namespace: http://schemas.xmlsoap.org/soap/envelope/
+              prefix: SOAP-ENV
+              attribute: false
+              wrapped: false
+          example: example_value
       xml:
-        name: SessionHeader
-        namespace: urn:partner.soap.sforce.com
-        prefix: ns2
+        name: Envelope
+        namespace: http://schemas.xmlsoap.org/soap/envelope/
+        prefix: SOAP-ENV
+        attribute: false
+        wrapped: false
+    Body16:
+      title: Body16
+      required:
+      - create
+      type: object
+      properties:
+        create:
+          allOf:
+          - $ref: '#/components/schemas/create'
+          - xml:
+              name: create
+              namespace: urn:partner.soap.sforce.com
+              prefix: ns2
+              attribute: false
+              wrapped: false
+          example: example_value
+      xml:
+        name: Body
+        namespace: http://schemas.xmlsoap.org/soap/envelope/
+        prefix: SOAP-ENV
         attribute: false
         wrapped: false
     Header4:
@@ -269,6 +246,29 @@ components:
         name: Header
         namespace: http://schemas.xmlsoap.org/soap/envelope/
         prefix: SOAP-ENV
+        attribute: false
+        wrapped: false
+    create:
+      title: create
+      required:
+      - sObjects
+      type: object
+      properties:
+        sObjects:
+          type: array
+          items:
+            $ref: '#/components/schemas/sObjects'
+          description: ''
+          xml:
+            namespace: urn:partner.soap.sforce.com
+            prefix: ns2
+            attribute: false
+            wrapped: false
+          example: []
+      xml:
+        name: create
+        namespace: urn:partner.soap.sforce.com
+        prefix: ns2
         attribute: false
         wrapped: false
   securitySchemes:

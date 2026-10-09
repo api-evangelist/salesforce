@@ -547,6 +547,25 @@ components:
           - string
           - 'null'
           example: example_value
+    Type1:
+      title: Type1
+      type: object
+      properties:
+        type:
+          type: string
+          example: example_value
+        name:
+          type: string
+          example: Example Title
+        doc:
+          type: string
+          example: example_value
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/Field4'
+          description: ''
+          example: []
     Errors7:
       title: Errors7
       required:
@@ -571,22 +590,54 @@ components:
       - statusCode: OPERATION_ENQUEUED
         message: 234995b6-53b6-4887-93fc-ecd0fac8b36c
         fields: []
-    UpdatemanagedeventsubscriptionRequest:
-      title: UpdatemanagedeventsubscriptionRequest
+    PlatformEventSchemabyEventName:
+      title: PlatformEventSchemabyEventName
       required:
-      - FullName
-      - Metadata
+      - name
+      - namespace
+      - type
+      - fields
       type: object
       properties:
-        FullName:
+        name:
+          type: string
+          example: Example Title
+        namespace:
           type: string
           example: example_value
-        Metadata:
-          $ref: '#/components/schemas/Metadata13'
-      examples:
-      - FullName: Managed_Sub_OpportunityChangeEvent
-        Metadata:
-          state: STOP
+        type:
+          type: string
+          example: example_value
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/Field2'
+          description: ''
+          example: []
+    Type11:
+      title: Type11
+      required:
+      - type
+      - name
+      - doc
+      - fields
+      type: object
+      properties:
+        type:
+          type: string
+          example: example_value
+        name:
+          type: string
+          example: Example Title
+        doc:
+          type: string
+          example: example_value
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/Field5'
+          description: ''
+          example: []
     Field2:
       title: Field2
       required:
@@ -602,40 +653,6 @@ components:
           - $ref: '#/components/schemas/Type'
           - type: string
           example: example_value
-    Field3:
-      title: Field3
-      required:
-      - name
-      - type
-      type: object
-      properties:
-        name:
-          type: string
-          example: Example Title
-        type:
-          oneOf:
-          - $ref: '#/components/schemas/Type1'
-          - $ref: '#/components/schemas/Type11'
-          example: example_value
-    Type1:
-      title: Type1
-      type: object
-      properties:
-        type:
-          type: string
-          example: example_value
-        name:
-          type: string
-          example: Example Title
-        doc:
-          type: string
-          example: example_value
-        fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/Field4'
-          description: ''
-          example: []
     Metadata13:
       title: Metadata13
       required:
@@ -647,6 +664,33 @@ components:
           example: example_value
       examples:
       - state: RUN
+    Publishsingleevent:
+      title: Publishsingleevent
+      required:
+      - id
+      - success
+      - errors
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+        success:
+          type: boolean
+          example: true
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Errors7'
+          description: ''
+          example: []
+      examples:
+      - id: e00xx0000000001AAA
+        success: true
+        errors:
+        - statusCode: OPERATION_ENQUEUED
+          message: 234995b6-53b6-4887-93fc-ecd0fac8b36c
+          fields: []
     PublishsingleeventRequest:
       title: PublishsingleeventRequest
       required:
@@ -698,6 +742,37 @@ components:
           - string
           - 'null'
           example: example_value
+    UpdatemanagedeventsubscriptionRequest:
+      title: UpdatemanagedeventsubscriptionRequest
+      required:
+      - FullName
+      - Metadata
+      type: object
+      properties:
+        FullName:
+          type: string
+          example: example_value
+        Metadata:
+          $ref: '#/components/schemas/Metadata13'
+      examples:
+      - FullName: Managed_Sub_OpportunityChangeEvent
+        Metadata:
+          state: STOP
+    Field3:
+      title: Field3
+      required:
+      - name
+      - type
+      type: object
+      properties:
+        name:
+          type: string
+          example: Example Title
+        type:
+          oneOf:
+          - $ref: '#/components/schemas/Type1'
+          - $ref: '#/components/schemas/Type11'
+          example: example_value
     Type:
       title: Type
       type: object
@@ -715,81 +790,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Field3'
-          description: ''
-          example: []
-    Type11:
-      title: Type11
-      required:
-      - type
-      - name
-      - doc
-      - fields
-      type: object
-      properties:
-        type:
-          type: string
-          example: example_value
-        name:
-          type: string
-          example: Example Title
-        doc:
-          type: string
-          example: example_value
-        fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/Field5'
-          description: ''
-          example: []
-    Publishsingleevent:
-      title: Publishsingleevent
-      required:
-      - id
-      - success
-      - errors
-      type: object
-      properties:
-        id:
-          type: string
-          example: abc123
-        success:
-          type: boolean
-          example: true
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Errors7'
-          description: ''
-          example: []
-      examples:
-      - id: e00xx0000000001AAA
-        success: true
-        errors:
-        - statusCode: OPERATION_ENQUEUED
-          message: 234995b6-53b6-4887-93fc-ecd0fac8b36c
-          fields: []
-    PlatformEventSchemabyEventName:
-      title: PlatformEventSchemabyEventName
-      required:
-      - name
-      - namespace
-      - type
-      - fields
-      type: object
-      properties:
-        name:
-          type: string
-          example: Example Title
-        namespace:
-          type: string
-          example: example_value
-        type:
-          type: string
-          example: example_value
-        fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/Field2'
           description: ''
           example: []
   securitySchemes:

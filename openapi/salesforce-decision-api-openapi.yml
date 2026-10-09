@@ -343,27 +343,21 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    Error:
-      title: Error
+    DecisionModelNotationExportRequest:
+      title: DecisionModelNotationExportRequest
       required:
-      - errorCode
-      - errorMessage
-      - recordId
+      - decisionModelEntityIds
       type: object
       properties:
-        errorCode:
-          type: string
-          example: example_value
-        errorMessage:
-          type: string
-          example: example_value
-        recordId:
-          type: string
-          example: '500123'
+        decisionModelEntityIds:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
       examples:
-      - errorCode: BAD_REQUEST
-        errorMessage: We couldn’t find this record. Specify a valid ID for decisionModelEntityIds parameter.
-        recordId: 0lNRO00000004f72AA
+      - decisionModelEntityIds:
+        - 0lNHo000000LEvfMAG
     Status500-EmptyBody1:
       title: Status500-EmptyBody1
       required:
@@ -410,21 +404,27 @@ components:
           recordId: 0lNRO000000rfn27AA
         message: OK
         success: true
-    DecisionModelNotationExportRequest:
-      title: DecisionModelNotationExportRequest
+    Error:
+      title: Error
       required:
-      - decisionModelEntityIds
+      - errorCode
+      - errorMessage
+      - recordId
       type: object
       properties:
-        decisionModelEntityIds:
-          type: array
-          items:
-            type: string
-          description: ''
-          example: []
+        errorCode:
+          type: string
+          example: example_value
+        errorMessage:
+          type: string
+          example: example_value
+        recordId:
+          type: string
+          example: '500123'
       examples:
-      - decisionModelEntityIds:
-        - 0lNHo000000LEvfMAG
+      - errorCode: BAD_REQUEST
+        errorMessage: We couldn’t find this record. Specify a valid ID for decisionModelEntityIds parameter.
+        recordId: 0lNRO00000004f72AA
   securitySchemes:
     oauth2:
       type: oauth2

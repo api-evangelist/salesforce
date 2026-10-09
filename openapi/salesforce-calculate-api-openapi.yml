@@ -146,64 +146,6 @@ components:
           attributes:
             type: SalesTransactionShape
           CurrencyIsoCode: USD
-    Graph2:
-      title: Graph2
-      required:
-      - graphId
-      - records
-      type: object
-      properties:
-        graphId:
-          type: string
-          example: '500123'
-        records:
-          type: array
-          items:
-            $ref: '#/components/schemas/Record16'
-          description: ''
-          example: []
-      examples:
-      - graphId: '1'
-        records:
-        - referenceId: ref_sales_txn
-          record:
-            attributes:
-              type: SalesTransactionShape
-            CurrencyIsoCode: USD
-        - referenceId: Item_1_Evergreen
-          record:
-            attributes:
-              type: SalesTransactionItemShape
-            SalesTransactionShapeId: '@{ref_sales_txn.Id}'
-            StartDate: '2023-01-01T00:00:00.000Z'
-            ProductId: '{{SLA_BronzeProduct}}'
-            ProductSellingModelId: '{{EvergreenMonthlyPSM}}'
-            Quantity: 3
-            PricingTransactionType: NewSale
-            CurrencyIsoCode: USD
-        - referenceId: Item_2_Termed
-          record:
-            attributes:
-              type: SalesTransactionItemShape
-            SalesTransactionShapeId: '@{ref_sales_txn.Id}'
-            StartDate: '2023-01-01T00:00:00.000Z'
-            EndDate: '2023-12-31T00:00:00.000Z'
-            ProductId: '{{VirtualRouterProduct}}'
-            ProductSellingModelId: '{{TermMonthlyPSM}}'
-            Quantity: 100
-            PricingTransactionType: NewSale
-            CurrencyIsoCode: USD
-    Attributes3:
-      title: Attributes3
-      required:
-      - type
-      type: object
-      properties:
-        type:
-          type: string
-          example: example_value
-      examples:
-      - type: Account
     CalculatePriceNewSaleRequest:
       title: CalculatePriceNewSaleRequest
       required:
@@ -291,6 +233,64 @@ components:
       - attributes:
           type: SalesTransactionShape
         CurrencyIsoCode: USD
+    Attributes3:
+      title: Attributes3
+      required:
+      - type
+      type: object
+      properties:
+        type:
+          type: string
+          example: example_value
+      examples:
+      - type: Account
+    Graph2:
+      title: Graph2
+      required:
+      - graphId
+      - records
+      type: object
+      properties:
+        graphId:
+          type: string
+          example: '500123'
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/Record16'
+          description: ''
+          example: []
+      examples:
+      - graphId: '1'
+        records:
+        - referenceId: ref_sales_txn
+          record:
+            attributes:
+              type: SalesTransactionShape
+            CurrencyIsoCode: USD
+        - referenceId: Item_1_Evergreen
+          record:
+            attributes:
+              type: SalesTransactionItemShape
+            SalesTransactionShapeId: '@{ref_sales_txn.Id}'
+            StartDate: '2023-01-01T00:00:00.000Z'
+            ProductId: '{{SLA_BronzeProduct}}'
+            ProductSellingModelId: '{{EvergreenMonthlyPSM}}'
+            Quantity: 3
+            PricingTransactionType: NewSale
+            CurrencyIsoCode: USD
+        - referenceId: Item_2_Termed
+          record:
+            attributes:
+              type: SalesTransactionItemShape
+            SalesTransactionShapeId: '@{ref_sales_txn.Id}'
+            StartDate: '2023-01-01T00:00:00.000Z'
+            EndDate: '2023-12-31T00:00:00.000Z'
+            ProductId: '{{VirtualRouterProduct}}'
+            ProductSellingModelId: '{{TermMonthlyPSM}}'
+            Quantity: 100
+            PricingTransactionType: NewSale
+            CurrencyIsoCode: USD
   securitySchemes:
     oauth2:
       type: oauth2

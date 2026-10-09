@@ -98,6 +98,40 @@ paths:
           description: FlowDefinition updated
 components:
   schemas:
+    FlowDefinition:
+      type: object
+      description: Represents the overall Flow definition independent of version. Contains the active version number and developer name.
+      properties:
+        Id:
+          type: string
+        DeveloperName:
+          type: string
+          description: The unique developer name for this flow
+        MasterLabel:
+          type: string
+        Description:
+          type:
+          - string
+          - 'null'
+        ActiveVersionId:
+          type:
+          - string
+          - 'null'
+          description: The ID of the currently active Flow version
+        LatestVersionId:
+          type: string
+          description: The ID of the most recent Flow version
+        Metadata:
+          type: object
+          properties:
+            activeVersionNumber:
+              type:
+              - integer
+              - 'null'
+        NamespacePrefix:
+          type:
+          - string
+          - 'null'
     Flow:
       type: object
       description: A specific version of a Salesforce Flow automation. The Flow object in the Tooling API represents individual flow versions with their metadata, process type, and status.
@@ -179,40 +213,6 @@ components:
           type: string
         LastModifiedById:
           type: string
-    FlowDefinition:
-      type: object
-      description: Represents the overall Flow definition independent of version. Contains the active version number and developer name.
-      properties:
-        Id:
-          type: string
-        DeveloperName:
-          type: string
-          description: The unique developer name for this flow
-        MasterLabel:
-          type: string
-        Description:
-          type:
-          - string
-          - 'null'
-        ActiveVersionId:
-          type:
-          - string
-          - 'null'
-          description: The ID of the currently active Flow version
-        LatestVersionId:
-          type: string
-          description: The ID of the most recent Flow version
-        Metadata:
-          type: object
-          properties:
-            activeVersionNumber:
-              type:
-              - integer
-              - 'null'
-        NamespacePrefix:
-          type:
-          - string
-          - 'null'
   securitySchemes:
     oauth2:
       type: oauth2

@@ -354,6 +354,70 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    Subject:
+      title: Subject
+      required:
+      - entityLabel
+      - id
+      - motif
+      - mySubscription
+      - name
+      - type
+      - url
+      type: object
+      properties:
+        entityLabel:
+          $ref: '#/components/schemas/EntityLabel'
+        id:
+          type: string
+          example: abc123
+        motif:
+          $ref: '#/components/schemas/Motif'
+        mySubscription:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        name:
+          type: string
+          example: Example Title
+        type:
+          type: string
+          example: example_value
+        url:
+          type: string
+          example: https://www.example.com
+      examples:
+      - entityLabel:
+          label: Account
+          labelPlural: Accounts
+        id: 001...
+        motif:
+          color: 5867E8
+          largeIconUrl: /img/icon/accounts64.png
+          mediumIconUrl: /img/icon/accounts32.png
+          smallIconUrl: /img/icon/accounts16.png
+          svgIconUrl: null
+        mySubscription: null
+        name: Exemple de comptes pour les autorisations
+        type: Account
+        url: /services/data/v58.0/chatter/records/001...
+    EntityLabel:
+      title: EntityLabel
+      required:
+      - label
+      - labelPlural
+      type: object
+      properties:
+        label:
+          type: string
+          example: Example Title
+        labelPlural:
+          type: string
+          example: example_value
+      examples:
+      - label: Account
+        labelPlural: Accounts
     Motif:
       title: Motif
       required:
@@ -387,60 +451,6 @@ components:
         mediumIconUrl: /img/content/content32.png
         smallIconUrl: /img/icon/files16.png
         svgIconUrl: null
-    Photo15:
-      title: Photo15
-      required:
-      - fullEmailPhotoUrl
-      - largePhotoUrl
-      - mediumPhotoUrl
-      - photoVersionId
-      - smallPhotoUrl
-      - standardEmailPhotoUrl
-      - url
-      type: object
-      properties:
-        fullEmailPhotoUrl:
-          type: string
-          example: user@example.com
-        largePhotoUrl:
-          type: string
-          example: https://www.example.com
-        mediumPhotoUrl:
-          type: string
-          example: https://www.example.com
-        photoVersionId:
-          type:
-          - string
-          - 'null'
-          example: '500123'
-        smallPhotoUrl:
-          type: string
-          example: https://www.example.com
-        standardEmailPhotoUrl:
-          type: string
-          example: user@example.com
-        url:
-          type: string
-          example: https://www.example.com
-      examples:
-      - fullEmailPhotoUrl: https://<my_domain>/img/userprofile/default_group_profile_200_v2.png?fromEmail=1
-        largePhotoUrl: https://<my_domain>/profilephoto/0F9/F
-        mediumPhotoUrl: https://<my_domain>/profilephoto/0F9/M
-        photoVersionId: null
-        smallPhotoUrl: https://<my_domain>/profilephoto/0F9/T
-        standardEmailPhotoUrl: https://<my_domain>/img/userprofile/default_group_profile_45_v2.png?fromEmail=1
-        url: /services/data/v58.0/chatter/groups/0F9.../photo
-    OutOfOffice:
-      title: OutOfOffice
-      required:
-      - message
-      type: object
-      properties:
-        message:
-          type: string
-          example: example_value
-      examples:
-      - message: ''
     Subscriber:
       title: Subscriber
       required:
@@ -560,22 +570,6 @@ components:
         type: User
         url: /services/data/v58.0/chatter/users/005...
         userType: Internal
-    EntityLabel:
-      title: EntityLabel
-      required:
-      - label
-      - labelPlural
-      type: object
-      properties:
-        label:
-          type: string
-          example: Example Title
-        labelPlural:
-          type: string
-          example: example_value
-      examples:
-      - label: Account
-        labelPlural: Accounts
     SuccessfulFollowing:
       title: SuccessfulFollowing
       required:
@@ -615,54 +609,60 @@ components:
         nextPageUrl: null
         previousPageUrl: null
         total: 0
-    Subject:
-      title: Subject
+    Photo15:
+      title: Photo15
       required:
-      - entityLabel
-      - id
-      - motif
-      - mySubscription
-      - name
-      - type
+      - fullEmailPhotoUrl
+      - largePhotoUrl
+      - mediumPhotoUrl
+      - photoVersionId
+      - smallPhotoUrl
+      - standardEmailPhotoUrl
       - url
       type: object
       properties:
-        entityLabel:
-          $ref: '#/components/schemas/EntityLabel'
-        id:
+        fullEmailPhotoUrl:
           type: string
-          example: abc123
-        motif:
-          $ref: '#/components/schemas/Motif'
-        mySubscription:
+          example: user@example.com
+        largePhotoUrl:
+          type: string
+          example: https://www.example.com
+        mediumPhotoUrl:
+          type: string
+          example: https://www.example.com
+        photoVersionId:
           type:
           - string
           - 'null'
-          example: example_value
-        name:
+          example: '500123'
+        smallPhotoUrl:
           type: string
-          example: Example Title
-        type:
+          example: https://www.example.com
+        standardEmailPhotoUrl:
           type: string
-          example: example_value
+          example: user@example.com
         url:
           type: string
           example: https://www.example.com
       examples:
-      - entityLabel:
-          label: Account
-          labelPlural: Accounts
-        id: 001...
-        motif:
-          color: 5867E8
-          largeIconUrl: /img/icon/accounts64.png
-          mediumIconUrl: /img/icon/accounts32.png
-          smallIconUrl: /img/icon/accounts16.png
-          svgIconUrl: null
-        mySubscription: null
-        name: Exemple de comptes pour les autorisations
-        type: Account
-        url: /services/data/v58.0/chatter/records/001...
+      - fullEmailPhotoUrl: https://<my_domain>/img/userprofile/default_group_profile_200_v2.png?fromEmail=1
+        largePhotoUrl: https://<my_domain>/profilephoto/0F9/F
+        mediumPhotoUrl: https://<my_domain>/profilephoto/0F9/M
+        photoVersionId: null
+        smallPhotoUrl: https://<my_domain>/profilephoto/0F9/T
+        standardEmailPhotoUrl: https://<my_domain>/img/userprofile/default_group_profile_45_v2.png?fromEmail=1
+        url: /services/data/v58.0/chatter/groups/0F9.../photo
+    OutOfOffice:
+      title: OutOfOffice
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+          example: example_value
+      examples:
+      - message: ''
     SuccessfulFollowing-POST:
       title: SuccessfulFollowing-POST
       required:

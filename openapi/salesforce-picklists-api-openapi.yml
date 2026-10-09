@@ -58,6 +58,14 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  parameters:
+    ObjectApiName:
+      name: objectApiName
+      in: path
+      required: true
+      description: The API name of the Salesforce object (e.g., Account, Contact, MyObject__c)
+      schema:
+        type: string
   schemas:
     ErrorResponse:
       type: object
@@ -70,6 +78,24 @@ components:
         message:
           type: string
           description: Human-readable error message
+          example: example_value
+    PicklistValue:
+      type: object
+      description: A single picklist option
+      properties:
+        attributes:
+          nullable: true
+          example: example_value
+        label:
+          type: string
+          example: Example Title
+        validFor:
+          type: array
+          items:
+            type: integer
+          example: []
+        value:
+          type: string
           example: example_value
     PicklistValuesCollection:
       type: object
@@ -93,32 +119,6 @@ components:
                 items:
                   $ref: '#/components/schemas/PicklistValue'
           example: example_value
-    PicklistValue:
-      type: object
-      description: A single picklist option
-      properties:
-        attributes:
-          nullable: true
-          example: example_value
-        label:
-          type: string
-          example: Example Title
-        validFor:
-          type: array
-          items:
-            type: integer
-          example: []
-        value:
-          type: string
-          example: example_value
-  parameters:
-    ObjectApiName:
-      name: objectApiName
-      in: path
-      required: true
-      description: The API name of the Salesforce object (e.g., Account, Contact, MyObject__c)
-      schema:
-        type: string
   responses:
     NotFound:
       description: Not found. The requested resource does not exist.

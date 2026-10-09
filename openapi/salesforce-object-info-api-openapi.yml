@@ -63,7 +63,27 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  parameters:
+    ObjectApiName:
+      name: objectApiName
+      in: path
+      required: true
+      description: The API name of the Salesforce object (e.g., Account, Contact, MyObject__c)
+      schema:
+        type: string
   schemas:
+    ErrorResponse:
+      type: object
+      description: API error response
+      properties:
+        errorCode:
+          type: string
+          description: Machine-readable error code
+          example: example_value
+        message:
+          type: string
+          description: Human-readable error message
+          example: example_value
     FieldRepresentation:
       type: object
       description: Metadata for a single field
@@ -121,18 +141,6 @@ components:
                 items:
                   type: string
           example: []
-    ErrorResponse:
-      type: object
-      description: API error response
-      properties:
-        errorCode:
-          type: string
-          description: Machine-readable error code
-          example: example_value
-        message:
-          type: string
-          description: Human-readable error message
-          example: example_value
     ObjectInfoRepresentation:
       type: object
       description: Metadata about a Salesforce object
@@ -179,14 +187,6 @@ components:
             iconUrl:
               type: string
           example: example_value
-  parameters:
-    ObjectApiName:
-      name: objectApiName
-      in: path
-      required: true
-      description: The API name of the Salesforce object (e.g., Account, Contact, MyObject__c)
-      schema:
-        type: string
   responses:
     NotFound:
       description: Not found. The requested resource does not exist.

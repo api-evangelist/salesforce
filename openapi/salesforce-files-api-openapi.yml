@@ -887,39 +887,41 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    Motif:
-      title: Motif
+    SuccessfulFilesSharesLink:
+      title: SuccessfulFilesSharesLink
       required:
-      - color
-      - largeIconUrl
-      - mediumIconUrl
-      - smallIconUrl
-      - svgIconUrl
+      - expirationDate
+      - fileViewUrl
+      - isPasswordRequired
+      - password
+      - sharingType
       type: object
       properties:
-        color:
-          type: string
-          example: example_value
-        largeIconUrl:
-          type: string
-          example: https://www.example.com
-        mediumIconUrl:
-          type: string
-          example: https://www.example.com
-        smallIconUrl:
-          type: string
-          example: https://www.example.com
-        svgIconUrl:
+        expirationDate:
           type:
           - string
           - 'null'
+          example: example_value
+        fileViewUrl:
+          type: string
           example: https://www.example.com
+        isPasswordRequired:
+          type: boolean
+          example: true
+        password:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        sharingType:
+          type: string
+          example: example_value
       examples:
-      - color: '939393'
-        largeIconUrl: /img/content/content64.png
-        mediumIconUrl: /img/content/content32.png
-        smallIconUrl: /img/icon/files16.png
-        svgIconUrl: null
+      - expirationDate: null
+        fileViewUrl: https://<my_domain>/sfc/p/2o000000i6mB/a/2o00000022S3/y2zsu9pHtEVIa49w6ElaXdjXz_GxBSzRVwe645_Z.dw
+        isPasswordRequired: false
+        password: null
+        sharingType: V
     SuccessfulUsersFilesGeneral:
       title: SuccessfulUsersFilesGeneral
       required:
@@ -1234,17 +1236,39 @@ components:
         type: File
         url: /services/data/v58.0/connect/files/069...?versionNumber=1
         versionNumber: '1'
-    OutOfOffice:
-      title: OutOfOffice
+    Motif:
+      title: Motif
       required:
-      - message
+      - color
+      - largeIconUrl
+      - mediumIconUrl
+      - smallIconUrl
+      - svgIconUrl
       type: object
       properties:
-        message:
+        color:
           type: string
           example: example_value
+        largeIconUrl:
+          type: string
+          example: https://www.example.com
+        mediumIconUrl:
+          type: string
+          example: https://www.example.com
+        smallIconUrl:
+          type: string
+          example: https://www.example.com
+        svgIconUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
       examples:
-      - message: ''
+      - color: '939393'
+        largeIconUrl: /img/content/content64.png
+        mediumIconUrl: /img/content/content32.png
+        smallIconUrl: /img/icon/files16.png
+        svgIconUrl: null
     Photo:
       title: Photo
       required:
@@ -1286,6 +1310,34 @@ components:
         smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
         standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
         url: /services/data/v58.0/connect/user-profiles/005.../photo
+    Topics:
+      title: Topics
+      required:
+      - currentPageUrl
+      - nextPageUrl
+      - topics
+      type: object
+      properties:
+        currentPageUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        nextPageUrl:
+          type:
+          - string
+          - 'null'
+          example: https://www.example.com
+        topics:
+          type: array
+          items:
+            type: string
+          description: ''
+          example: []
+      examples:
+      - currentPageUrl: null
+        nextPageUrl: null
+        topics: []
     SuccessfulFileShares:
       title: SuccessfulFileShares
       required:
@@ -1479,34 +1531,125 @@ components:
         type: User
         url: /services/data/v58.0/chatter/users/005...
         userType: Internal
-    Topics:
-      title: Topics
+    Owner:
+      title: Owner
       required:
-      - currentPageUrl
-      - nextPageUrl
-      - topics
+      - additionalLabel
+      - communityNickname
+      - companyName
+      - displayName
+      - firstName
+      - id
+      - isActive
+      - isInThisCommunity
+      - lastName
+      - motif
+      - mySubscription
+      - name
+      - outOfOffice
+      - photo
+      - reputation
+      - title
+      - type
+      - url
+      - userType
       type: object
       properties:
-        currentPageUrl:
+        additionalLabel:
           type:
           - string
           - 'null'
-          example: https://www.example.com
-        nextPageUrl:
+          example: example_value
+        communityNickname:
+          type: string
+          example: example_value
+        companyName:
+          type: string
+          example: example_value
+        displayName:
+          type: string
+          example: example_value
+        firstName:
+          type: string
+          example: example_value
+        id:
+          type: string
+          example: abc123
+        isActive:
+          type: boolean
+          example: true
+        isInThisCommunity:
+          type: boolean
+          example: true
+        lastName:
+          type: string
+          example: example_value
+        motif:
+          $ref: '#/components/schemas/Motif'
+        mySubscription:
           type:
           - string
           - 'null'
+          example: example_value
+        name:
+          type: string
+          example: Example Title
+        outOfOffice:
+          $ref: '#/components/schemas/OutOfOffice'
+        photo:
+          $ref: '#/components/schemas/Photo'
+        reputation:
+          type:
+          - string
+          - 'null'
+          example: example_value
+        title:
+          type:
+          - string
+          - 'null'
+          example: Example Title
+        type:
+          type: string
+          example: example_value
+        url:
+          type: string
           example: https://www.example.com
-        topics:
-          type: array
-          items:
-            type: string
-          description: ''
-          example: []
+        userType:
+          type: string
+          example: example_value
       examples:
-      - currentPageUrl: null
-        nextPageUrl: null
-        topics: []
+      - additionalLabel: null
+        communityNickname: User1696423780773910041
+        companyName: Salesforce
+        displayName: Name
+        firstName: Firstname
+        id: 005...
+        isActive: true
+        isInThisCommunity: true
+        lastName: Name
+        motif:
+          color: 1B96FF
+          largeIconUrl: /img/icon/profile64.png
+          mediumIconUrl: /img/icon/profile32.png
+          smallIconUrl: /img/icon/profile16.png
+          svgIconUrl: null
+        mySubscription: null
+        name: Name
+        outOfOffice:
+          message: ''
+        photo:
+          fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
+          largePhotoUrl: https://<my_domain>/profilephoto/729.../F
+          mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
+          photoVersionId: 729...
+          smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
+          standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
+          url: /services/data/v58.0/connect/user-profiles/005.../photo
+        reputation: null
+        title: null
+        type: User
+        url: /services/data/v58.0/chatter/users/005...
+        userType: Internal
     Share:
       title: Share
       required:
@@ -1863,160 +2006,17 @@ components:
         type: File
         url: /services/data/v58.0/connect/files/069...?versionNumber=1
         versionNumber: '1'
-    SuccessfulFilesSharesLink:
-      title: SuccessfulFilesSharesLink
+    OutOfOffice:
+      title: OutOfOffice
       required:
-      - expirationDate
-      - fileViewUrl
-      - isPasswordRequired
-      - password
-      - sharingType
+      - message
       type: object
       properties:
-        expirationDate:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        fileViewUrl:
-          type: string
-          example: https://www.example.com
-        isPasswordRequired:
-          type: boolean
-          example: true
-        password:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        sharingType:
+        message:
           type: string
           example: example_value
       examples:
-      - expirationDate: null
-        fileViewUrl: https://<my_domain>/sfc/p/2o000000i6mB/a/2o00000022S3/y2zsu9pHtEVIa49w6ElaXdjXz_GxBSzRVwe645_Z.dw
-        isPasswordRequired: false
-        password: null
-        sharingType: V
-    Owner:
-      title: Owner
-      required:
-      - additionalLabel
-      - communityNickname
-      - companyName
-      - displayName
-      - firstName
-      - id
-      - isActive
-      - isInThisCommunity
-      - lastName
-      - motif
-      - mySubscription
-      - name
-      - outOfOffice
-      - photo
-      - reputation
-      - title
-      - type
-      - url
-      - userType
-      type: object
-      properties:
-        additionalLabel:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        communityNickname:
-          type: string
-          example: example_value
-        companyName:
-          type: string
-          example: example_value
-        displayName:
-          type: string
-          example: example_value
-        firstName:
-          type: string
-          example: example_value
-        id:
-          type: string
-          example: abc123
-        isActive:
-          type: boolean
-          example: true
-        isInThisCommunity:
-          type: boolean
-          example: true
-        lastName:
-          type: string
-          example: example_value
-        motif:
-          $ref: '#/components/schemas/Motif'
-        mySubscription:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        name:
-          type: string
-          example: Example Title
-        outOfOffice:
-          $ref: '#/components/schemas/OutOfOffice'
-        photo:
-          $ref: '#/components/schemas/Photo'
-        reputation:
-          type:
-          - string
-          - 'null'
-          example: example_value
-        title:
-          type:
-          - string
-          - 'null'
-          example: Example Title
-        type:
-          type: string
-          example: example_value
-        url:
-          type: string
-          example: https://www.example.com
-        userType:
-          type: string
-          example: example_value
-      examples:
-      - additionalLabel: null
-        communityNickname: User1696423780773910041
-        companyName: Salesforce
-        displayName: Name
-        firstName: Firstname
-        id: 005...
-        isActive: true
-        isInThisCommunity: true
-        lastName: Name
-        motif:
-          color: 1B96FF
-          largeIconUrl: /img/icon/profile64.png
-          mediumIconUrl: /img/icon/profile32.png
-          smallIconUrl: /img/icon/profile16.png
-          svgIconUrl: null
-        mySubscription: null
-        name: Name
-        outOfOffice:
-          message: ''
-        photo:
-          fullEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0IogXzXAXaYKJnuWCNQmXymRq?fromEmail=1
-          largePhotoUrl: https://<my_domain>/profilephoto/729.../F
-          mediumPhotoUrl: https://<my_domain>/profilephoto/729.../M
-          photoVersionId: 729...
-          smallPhotoUrl: https://<my_domain>/profilephoto/729.../T
-          standardEmailPhotoUrl: https://<my_domain>/ncsphoto/1wsMlOd3tVC7boygqBO8wMT9KzA0D6tqzpbs-Uw0Ioi-dtynkoFWsl46as__TDFU?fromEmail=1
-          url: /services/data/v58.0/connect/user-profiles/005.../photo
-        reputation: null
-        title: null
-        type: User
-        url: /services/data/v58.0/chatter/users/005...
-        userType: Internal
+      - message: ''
   securitySchemes:
     oauth2:
       type: oauth2
