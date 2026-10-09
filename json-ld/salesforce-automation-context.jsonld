@@ -1,0 +1,534 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "sf": "https://developer.salesforce.com/ns/",
+    "sfauto": "https://developer.salesforce.com/ns/automation/",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "bpmn": "http://www.omg.org/spec/BPMN/20100524/MODEL#",
+
+    "Flow": {
+      "@id": "sfauto:Flow",
+      "@type": "@id",
+      "@context": {
+        "Id": {
+          "@id": "sf:id",
+          "@type": "xsd:string"
+        },
+        "DefinitionId": {
+          "@id": "sfauto:definitionId",
+          "@type": "xsd:string"
+        },
+        "DeveloperName": {
+          "@id": "sfauto:developerName",
+          "@type": "xsd:string"
+        },
+        "MasterLabel": {
+          "@id": "rdfs:label",
+          "@type": "xsd:string"
+        },
+        "Description": {
+          "@id": "schema:description",
+          "@type": "xsd:string"
+        },
+        "ProcessType": {
+          "@id": "sfauto:processType",
+          "@type": "xsd:string"
+        },
+        "TriggerType": {
+          "@id": "sfauto:triggerType",
+          "@type": "xsd:string"
+        },
+        "TriggerObject": {
+          "@id": "sfauto:triggerObject",
+          "@type": "xsd:string"
+        },
+        "RecordTriggerType": {
+          "@id": "sfauto:recordTriggerType",
+          "@type": "xsd:string"
+        },
+        "Status": {
+          "@id": "sfauto:flowStatus",
+          "@type": "xsd:string"
+        },
+        "VersionNumber": {
+          "@id": "sfauto:versionNumber",
+          "@type": "xsd:integer"
+        },
+        "ApiVersion": {
+          "@id": "sf:apiVersion",
+          "@type": "xsd:string"
+        },
+        "RunInMode": {
+          "@id": "sfauto:runInMode",
+          "@type": "xsd:string"
+        },
+        "IsTemplate": {
+          "@id": "sfauto:isTemplate",
+          "@type": "xsd:boolean"
+        },
+        "CreatedDate": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "LastModifiedDate": {
+          "@id": "dcterms:modified",
+          "@type": "xsd:dateTime"
+        },
+        "CreatedById": {
+          "@id": "sfauto:createdBy",
+          "@type": "@id"
+        },
+        "LastModifiedById": {
+          "@id": "sfauto:lastModifiedBy",
+          "@type": "@id"
+        }
+      }
+    },
+
+    "FlowDefinition": {
+      "@id": "sfauto:FlowDefinition",
+      "@type": "@id",
+      "@context": {
+        "Id": {
+          "@id": "sf:id",
+          "@type": "xsd:string"
+        },
+        "DeveloperName": {
+          "@id": "sfauto:developerName",
+          "@type": "xsd:string"
+        },
+        "MasterLabel": {
+          "@id": "rdfs:label",
+          "@type": "xsd:string"
+        },
+        "Description": {
+          "@id": "schema:description",
+          "@type": "xsd:string"
+        },
+        "ActiveVersionId": {
+          "@id": "sfauto:activeVersion",
+          "@type": "@id"
+        },
+        "LatestVersionId": {
+          "@id": "sfauto:latestVersion",
+          "@type": "@id"
+        }
+      }
+    },
+
+    "FlowElement": {
+      "@id": "sfauto:FlowElement",
+      "@type": "@id",
+      "@context": {
+        "name": {
+          "@id": "sfauto:elementName",
+          "@type": "xsd:string"
+        },
+        "label": {
+          "@id": "rdfs:label",
+          "@type": "xsd:string"
+        },
+        "description": {
+          "@id": "schema:description",
+          "@type": "xsd:string"
+        },
+        "elementType": {
+          "@id": "sfauto:elementType",
+          "@type": "xsd:string"
+        },
+        "connector": {
+          "@id": "sfauto:connector",
+          "@type": "@id"
+        },
+        "faultConnector": {
+          "@id": "sfauto:faultConnector",
+          "@type": "@id"
+        }
+      }
+    },
+
+    "FlowVariable": {
+      "@id": "sfauto:FlowVariable",
+      "@type": "@id",
+      "@context": {
+        "name": {
+          "@id": "sfauto:variableName",
+          "@type": "xsd:string"
+        },
+        "dataType": {
+          "@id": "sfauto:dataType",
+          "@type": "xsd:string"
+        },
+        "isCollection": {
+          "@id": "sfauto:isCollection",
+          "@type": "xsd:boolean"
+        },
+        "isInput": {
+          "@id": "sfauto:isInput",
+          "@type": "xsd:boolean"
+        },
+        "isOutput": {
+          "@id": "sfauto:isOutput",
+          "@type": "xsd:boolean"
+        },
+        "objectType": {
+          "@id": "sfauto:objectType",
+          "@type": "xsd:string"
+        }
+      }
+    },
+
+    "FlowDecision": {
+      "@id": "sfauto:FlowDecision",
+      "@type": "@id",
+      "@context": {
+        "name": {
+          "@id": "sfauto:elementName",
+          "@type": "xsd:string"
+        },
+        "label": {
+          "@id": "rdfs:label",
+          "@type": "xsd:string"
+        },
+        "rules": {
+          "@id": "sfauto:rules",
+          "@type": "@id"
+        },
+        "defaultConnector": {
+          "@id": "sfauto:defaultConnector",
+          "@type": "@id"
+        }
+      }
+    },
+
+    "FlowActionCall": {
+      "@id": "sfauto:FlowActionCall",
+      "@type": "@id",
+      "@context": {
+        "name": {
+          "@id": "sfauto:elementName",
+          "@type": "xsd:string"
+        },
+        "label": {
+          "@id": "rdfs:label",
+          "@type": "xsd:string"
+        },
+        "actionName": {
+          "@id": "sfauto:actionName",
+          "@type": "xsd:string"
+        },
+        "actionType": {
+          "@id": "sfauto:actionType",
+          "@type": "xsd:string"
+        }
+      }
+    },
+
+    "WorkflowRule": {
+      "@id": "sfauto:WorkflowRule",
+      "@type": "@id",
+      "@context": {
+        "id": {
+          "@id": "sf:id",
+          "@type": "xsd:string"
+        },
+        "name": {
+          "@id": "rdfs:label",
+          "@type": "xsd:string"
+        },
+        "description": {
+          "@id": "schema:description",
+          "@type": "xsd:string"
+        },
+        "object": {
+          "@id": "sfauto:triggerObject",
+          "@type": "xsd:string"
+        },
+        "actions": {
+          "@id": "sfauto:actions",
+          "@type": "@id"
+        }
+      }
+    },
+
+    "ApprovalProcess": {
+      "@id": "sfauto:ApprovalProcess",
+      "@type": "@id",
+      "@context": {
+        "id": {
+          "@id": "sf:id",
+          "@type": "xsd:string"
+        },
+        "name": {
+          "@id": "rdfs:label",
+          "@type": "xsd:string"
+        },
+        "description": {
+          "@id": "schema:description",
+          "@type": "xsd:string"
+        },
+        "object": {
+          "@id": "sfauto:triggerObject",
+          "@type": "xsd:string"
+        },
+        "sortOrder": {
+          "@id": "sfauto:sortOrder",
+          "@type": "xsd:integer"
+        }
+      }
+    },
+
+    "PlatformEvent": {
+      "@id": "sfauto:PlatformEvent",
+      "@type": "@id",
+      "@context": {
+        "name": {
+          "@id": "rdfs:label",
+          "@type": "xsd:string"
+        },
+        "label": {
+          "@id": "schema:name",
+          "@type": "xsd:string"
+        },
+        "description": {
+          "@id": "schema:description",
+          "@type": "xsd:string"
+        },
+        "fields": {
+          "@id": "sfauto:eventFields",
+          "@type": "@id"
+        }
+      }
+    },
+
+    "ChangeDataCaptureEvent": {
+      "@id": "sfauto:ChangeDataCaptureEvent",
+      "@type": "@id",
+      "@context": {
+        "entityName": {
+          "@id": "sfauto:entityName",
+          "@type": "xsd:string"
+        },
+        "changeType": {
+          "@id": "sfauto:changeType",
+          "@type": "xsd:string"
+        },
+        "recordIds": {
+          "@id": "sfauto:recordIds"
+        },
+        "commitTimestamp": {
+          "@id": "sfauto:commitTimestamp",
+          "@type": "xsd:long"
+        },
+        "commitUser": {
+          "@id": "sfauto:commitUser",
+          "@type": "@id"
+        },
+        "changedFields": {
+          "@id": "sfauto:changedFields"
+        },
+        "transactionKey": {
+          "@id": "sfauto:transactionKey",
+          "@type": "xsd:string"
+        }
+      }
+    },
+
+    "BulkJob": {
+      "@id": "sf:BulkJob",
+      "@type": "@id",
+      "@context": {
+        "id": {
+          "@id": "sf:jobId",
+          "@type": "xsd:string"
+        },
+        "operation": {
+          "@id": "sf:operation",
+          "@type": "xsd:string"
+        },
+        "object": {
+          "@id": "sf:sobjectType",
+          "@type": "xsd:string"
+        },
+        "state": {
+          "@id": "sf:jobState",
+          "@type": "xsd:string"
+        },
+        "createdDate": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "systemModstamp": {
+          "@id": "dcterms:modified",
+          "@type": "xsd:dateTime"
+        },
+        "numberRecordsProcessed": {
+          "@id": "sf:numberRecordsProcessed",
+          "@type": "xsd:integer"
+        },
+        "numberRecordsFailed": {
+          "@id": "sf:numberRecordsFailed",
+          "@type": "xsd:integer"
+        },
+        "totalProcessingTime": {
+          "@id": "sf:totalProcessingTime",
+          "@type": "xsd:integer"
+        }
+      }
+    },
+
+    "InvocableAction": {
+      "@id": "sfauto:InvocableAction",
+      "@type": "@id",
+      "@context": {
+        "name": {
+          "@id": "sfauto:actionName",
+          "@type": "xsd:string"
+        },
+        "label": {
+          "@id": "rdfs:label",
+          "@type": "xsd:string"
+        },
+        "type": {
+          "@id": "sfauto:actionType",
+          "@type": "xsd:string"
+        },
+        "description": {
+          "@id": "schema:description",
+          "@type": "xsd:string"
+        },
+        "inputs": {
+          "@id": "sfauto:inputs",
+          "@type": "@id"
+        },
+        "outputs": {
+          "@id": "sfauto:outputs",
+          "@type": "@id"
+        }
+      }
+    },
+
+    "PushTopic": {
+      "@id": "sfauto:PushTopic",
+      "@type": "@id",
+      "@context": {
+        "Name": {
+          "@id": "rdfs:label",
+          "@type": "xsd:string"
+        },
+        "Query": {
+          "@id": "sfauto:pushTopicQuery",
+          "@type": "xsd:string"
+        },
+        "ApiVersion": {
+          "@id": "sf:apiVersion",
+          "@type": "xsd:decimal"
+        },
+        "IsActive": {
+          "@id": "sfauto:isActive",
+          "@type": "xsd:boolean"
+        },
+        "NotifyForFields": {
+          "@id": "sfauto:notifyForFields",
+          "@type": "xsd:string"
+        },
+        "NotifyForOperationCreate": {
+          "@id": "sfauto:notifyOnCreate",
+          "@type": "xsd:boolean"
+        },
+        "NotifyForOperationUpdate": {
+          "@id": "sfauto:notifyOnUpdate",
+          "@type": "xsd:boolean"
+        },
+        "NotifyForOperationDelete": {
+          "@id": "sfauto:notifyOnDelete",
+          "@type": "xsd:boolean"
+        }
+      }
+    },
+
+    "CompositeRequest": {
+      "@id": "sfauto:CompositeRequest",
+      "@type": "@id",
+      "@context": {
+        "allOrNone": {
+          "@id": "sfauto:allOrNone",
+          "@type": "xsd:boolean"
+        },
+        "compositeRequest": {
+          "@id": "sfauto:subrequests",
+          "@type": "@id"
+        }
+      }
+    },
+
+    "AnalyticsDashboard": {
+      "@id": "sfauto:AnalyticsDashboard",
+      "@type": "@id",
+      "@context": {
+        "id": {
+          "@id": "sf:id",
+          "@type": "xsd:string"
+        },
+        "name": {
+          "@id": "sfauto:developerName",
+          "@type": "xsd:string"
+        },
+        "label": {
+          "@id": "rdfs:label",
+          "@type": "xsd:string"
+        },
+        "description": {
+          "@id": "schema:description",
+          "@type": "xsd:string"
+        },
+        "createdDate": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "lastModifiedDate": {
+          "@id": "dcterms:modified",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "AnalyticsDataset": {
+      "@id": "sfauto:AnalyticsDataset",
+      "@type": "@id",
+      "@context": {
+        "id": {
+          "@id": "sf:id",
+          "@type": "xsd:string"
+        },
+        "name": {
+          "@id": "sfauto:developerName",
+          "@type": "xsd:string"
+        },
+        "label": {
+          "@id": "rdfs:label",
+          "@type": "xsd:string"
+        },
+        "description": {
+          "@id": "schema:description",
+          "@type": "xsd:string"
+        },
+        "datasetType": {
+          "@id": "sfauto:datasetType",
+          "@type": "xsd:string"
+        },
+        "createdDate": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "lastModifiedDate": {
+          "@id": "dcterms:modified",
+          "@type": "xsd:dateTime"
+        }
+      }
+    }
+  }
+}
