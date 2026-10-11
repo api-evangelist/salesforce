@@ -12,7 +12,7 @@ capability_model:
   attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
     CC BY 4.0
   notice: NOTICE
-edge_count: 29
+edge_count: 32
 edges:
 - tag: Quote
   spec_file: salesforce-quote-api-openapi.yml
@@ -42,6 +42,15 @@ edges:
   evidence: POST /data/v64.0/loyalty-programs/{loyaltyProgramName}/corporate-member-enrollments  CorporateMemberEnrollments
   reason: Enrols corporate members into a named loyalty programme (schemas CorporateMemberEnrollments,
     TransactionJournal), which is loyalty programme administration.
+- tag: Dashboards
+  spec_file: salesforce-dashboards-api-openapi.yml
+  capability_id: BC-610.50
+  capability_id_l1: BC-610
+  capability_name: Analytics & BI Management
+  confidence: 0.85
+  evidence: GET /dashboards  getDashboards  List dashboards ... CRM Analytics (formerly Tableau CRM /
+    Einstein Analytics)
+  reason: Analytics dashboard metadata management in a BI platform — Analytics & BI Management.
 - tag: Promotions
   spec_file: salesforce-promotions-api-openapi.yml
   capability_id: BC-440.30
@@ -171,6 +180,15 @@ edges:
   reason: Operations manage Salesforce Named/External Credentials — stored authentication principals used
     for outbound callouts. This is credential/identity-and-access administration (BC-620.20 Identity &
     Access Management). Slight ambiguity as it is integration plumbing, hence 0.75.
+- tag: Dataflows
+  spec_file: salesforce-dataflows-api-openapi.yml
+  capability_id: BC-610.50
+  capability_id_l1: BC-610
+  capability_name: Analytics & BI Management
+  confidence: 0.75
+  evidence: GET /dataflows  getDataflows  List dataflows
+  reason: Analytics dataflow definitions within CRM Analytics; sits in the analytics/BI delivery pipeline.
+    Could alternatively be data architecture, so 0.75.
 - tag: Execution
   spec_file: salesforce-execution-api-openapi.yml
   capability_id: BC-420.40
@@ -229,6 +247,16 @@ edges:
   reason: The single operation retrieves a loyalty program member's transaction ledger summary, which
     realises loyalty programme administration; schema TransactionJournal2 confirms loyalty ledger context.
     Thin (one endpoint) so confidence moderate.
+- tag: Lenses
+  spec_file: salesforce-lenses-api-openapi.yml
+  capability_id: BC-610.50
+  capability_id_l1: BC-610
+  capability_name: Analytics & BI Management
+  confidence: 0.72
+  evidence: 'GET /lenses getLenses ''List lenses (explorations)''; description: ''accessing and managing
+    CRM Analytics ... datasets, lenses, dashboards, and dataflows'''
+  reason: Lenses are analytic explorations in CRM Analytics; listing/managing them is delivery of business
+    intelligence content, i.e. Analytics & BI Management. Thin surface keeps confidence below 0.8.
 - tag: Credentials
   spec_file: salesforce-credentials-api-openapi.yml
   capability_id: BC-620.20

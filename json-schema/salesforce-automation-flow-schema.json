@@ -1,0 +1,1216 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/salesforce-automation/refs/heads/main/json-schema/salesforce-automation-flow-schema.json",
+  "title": "Salesforce Automation Flow",
+  "description": "A Salesforce Flow definition representing an automation built with Flow Builder. Flows are the primary declarative automation tool in Salesforce, replacing Workflow Rules and Process Builder. They support screen flows (user-interactive), autolaunched flows (triggered automatically), scheduled flows, record-triggered flows, and platform event-triggered flows. This schema models the Flow metadata as returned by the Tooling API and Metadata API.",
+  "type": "object",
+  "properties": {
+    "Id": {
+      "type": "string",
+      "description": "The 18-character Salesforce record ID for this specific Flow version. Each version of a Flow has a unique ID.",
+      "minLength": 15,
+      "maxLength": 18,
+      "pattern": "^[a-zA-Z0-9]{15,18}$"
+    },
+    "DefinitionId": {
+      "type": "string",
+      "description": "The 18-character ID of the parent FlowDefinition record. All versions of the same flow share this DefinitionId.",
+      "minLength": 15,
+      "maxLength": 18
+    },
+    "DeveloperName": {
+      "type": "string",
+      "description": "The unique developer name (API name) for this flow. Used as the identifier in metadata deployments and API references. Cannot contain spaces or special characters.",
+      "pattern": "^[a-zA-Z][a-zA-Z0-9_]*$"
+    },
+    "MasterLabel": {
+      "type": "string",
+      "description": "The display label shown in the Flow Builder UI and flow list views."
+    },
+    "Description": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "An optional description of the flow's purpose and behavior."
+    },
+    "ProcessType": {
+      "type": "string",
+      "description": "The type of flow, which determines how and when it executes. AutoLaunchedFlow runs without user interaction (triggered by records, schedules, or invocable actions). Flow is a Screen Flow that presents UI screens to users. Workflow represents legacy Process Builder processes. Other types serve specialized purposes.",
+      "enum": [
+        "AutoLaunchedFlow",
+        "Flow",
+        "Workflow",
+        "CustomEvent",
+        "InvocableProcess",
+        "LoginFlow",
+        "ActionPlan",
+        "JourneyBuilderIntegration",
+        "UserProvisioningFlow",
+        "Survey",
+        "SurveyEnrich",
+        "Appointments",
+        "FSCLending",
+        "DigitalForm",
+        "FieldServiceMobile",
+        "OrchestrationFlow",
+        "RoutingFlow",
+        "ServiceProcess",
+        "TransactionSecurityFlow",
+        "ContactRequestFlow",
+        "ActionCadenceFlow",
+        "CheckoutFlow",
+        "CartAsyncFlow",
+        "DecisionTable",
+        "EvaluationFlow",
+        "IndividualObjectLinkingFlow",
+        "PromptFlow",
+        "RecordAlertTemplateFlow",
+        "ScreenFlow",
+        "Orchestrator"
+      ]
+    },
+    "TriggerType": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "For record-triggered flows, specifies when the flow runs relative to the DML operation.",
+      "enum": [
+        "RecordBeforeSave",
+        "RecordAfterSave",
+        "RecordBeforeDelete",
+        "Scheduled",
+        "PlatformEvent",
+        null
+      ]
+    },
+    "TriggerObject": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "For record-triggered flows, the API name of the SObject that triggers the flow (e.g., Account, Contact, Opportunity, CustomObject__c)."
+    },
+    "RecordTriggerType": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "For record-triggered flows, specifies which record operations trigger the flow.",
+      "enum": [
+        "Create",
+        "Update",
+        "CreateAndUpdate",
+        "Delete",
+        null
+      ]
+    },
+    "Status": {
+      "type": "string",
+      "description": "The status of this flow version. Active means this version is the currently running version. Draft is a version under development. Obsolete is a previously active version that has been superseded. InvalidDraft is a draft with validation errors.",
+      "enum": [
+        "Active",
+        "Draft",
+        "Obsolete",
+        "InvalidDraft"
+      ]
+    },
+    "VersionNumber": {
+      "type": "integer",
+      "description": "The version number within the FlowDefinition. Increments with each new version. The active version number is stored on the FlowDefinition record.",
+      "minimum": 1
+    },
+    "ApiVersion": {
+      "type": "string",
+      "description": "The Salesforce API version this flow was created with (e.g., 63.0). Determines which flow features are available.",
+      "pattern": "^\\d+\\.0$"
+    },
+    "RunInMode": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "The context in which the flow runs. SystemModeWithSharing runs with full object/field access but respects sharing rules. SystemModeWithoutSharing runs with full access and no sharing restrictions. DefaultMode runs in the context of the running user.",
+      "enum": [
+        "DefaultMode",
+        "SystemModeWithSharing",
+        "SystemModeWithoutSharing",
+        null
+      ]
+    },
+    "Metadata": {
+      "type": "object",
+      "description": "The full flow metadata containing all elements, connectors, variables, and configuration. This is the complete definition of the flow's logic.",
+      "properties": {
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "interviewLabel": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The label for flow interviews (running instances) shown in Setup"
+        },
+        "label": {
+          "type": "string"
+        },
+        "processType": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "startElementReference": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The API name of the first element in the flow. Execution begins here."
+        },
+        "start": {
+          "$ref": "#/$defs/FlowStart"
+        },
+        "variables": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FlowVariable"
+          },
+          "description": "Variables used to store data during flow execution"
+        },
+        "constants": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FlowConstant"
+          },
+          "description": "Constants that hold fixed values"
+        },
+        "formulas": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FlowFormula"
+          },
+          "description": "Formula expressions calculated during flow execution"
+        },
+        "decisions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FlowDecision"
+          },
+          "description": "Decision elements that branch flow execution based on conditions"
+        },
+        "assignments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FlowAssignment"
+          },
+          "description": "Assignment elements that set variable values"
+        },
+        "recordCreates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FlowRecordCreate"
+          },
+          "description": "Elements that create new Salesforce records"
+        },
+        "recordUpdates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FlowRecordUpdate"
+          },
+          "description": "Elements that update existing Salesforce records"
+        },
+        "recordDeletes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FlowRecordDelete"
+          },
+          "description": "Elements that delete Salesforce records"
+        },
+        "recordLookups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FlowRecordLookup"
+          },
+          "description": "Elements that query Salesforce records"
+        },
+        "loops": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FlowLoop"
+          },
+          "description": "Loop elements that iterate over collections"
+        },
+        "screens": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FlowScreen"
+          },
+          "description": "Screen elements that display UI to users (Screen Flows only)"
+        },
+        "actionCalls": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FlowActionCall"
+          },
+          "description": "Elements that invoke actions (Apex, email alerts, flows, etc.)"
+        },
+        "subflows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FlowSubflow"
+          },
+          "description": "Elements that invoke other flows as subflows"
+        },
+        "waits": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FlowWait"
+          },
+          "description": "Wait elements that pause flow execution until conditions are met"
+        }
+      }
+    },
+    "FullName": {
+      "type": "string",
+      "description": "The fully qualified name including namespace prefix if applicable (e.g., MyNamespace__MyFlow-1)"
+    },
+    "IsTemplate": {
+      "type": "boolean",
+      "description": "Whether this flow is a template that can be used to create new flows"
+    },
+    "IsOverridable": {
+      "type": "boolean",
+      "description": "Whether this flow can be overridden by a flow in a subscriber org"
+    },
+    "CreatedDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time this flow version was created, in ISO 8601 format"
+    },
+    "CreatedById": {
+      "type": "string",
+      "description": "The 18-character ID of the user who created this flow version"
+    },
+    "LastModifiedDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time this flow version was last modified"
+    },
+    "LastModifiedById": {
+      "type": "string",
+      "description": "The 18-character ID of the user who last modified this flow version"
+    }
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "FlowStart": {
+      "type": "object",
+      "title": "Flow Start Element",
+      "description": "The start element configuration for the flow, defining trigger conditions and scheduling.",
+      "properties": {
+        "connector": {
+          "$ref": "#/$defs/FlowConnector"
+        },
+        "doesRequireRecordChangedToMeetCriteria": {
+          "type": "boolean",
+          "description": "For record-triggered flows, whether the record must newly meet the filter criteria (not just continue to meet them)"
+        },
+        "filterLogic": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Custom filter logic (e.g., '1 AND (2 OR 3)') for combining filter conditions"
+        },
+        "filters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FlowRecordFilter"
+          },
+          "description": "Filter conditions that determine which records trigger the flow"
+        },
+        "object": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The SObject type for record-triggered flows"
+        },
+        "recordTriggerType": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": ["Create", "Update", "CreateAndUpdate", "Delete", null]
+        },
+        "triggerType": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": ["RecordBeforeSave", "RecordAfterSave", "RecordBeforeDelete", "Scheduled", "PlatformEvent", null]
+        },
+        "schedule": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "frequency": {
+              "type": "string",
+              "enum": ["Once", "Daily", "Weekly"]
+            },
+            "startDate": {
+              "type": "string",
+              "format": "date"
+            },
+            "startTime": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "FlowVariable": {
+      "type": "object",
+      "title": "Flow Variable",
+      "description": "A variable that stores data during flow execution. Variables can hold single values, collections, or SObject records.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The API name of the variable"
+        },
+        "dataType": {
+          "type": "string",
+          "enum": ["String", "Number", "Currency", "Boolean", "Date", "DateTime", "Picklist", "Multipicklist", "SObject", "Apex"],
+          "description": "The data type of the variable"
+        },
+        "isCollection": {
+          "type": "boolean",
+          "description": "Whether this variable holds a collection (list) of values"
+        },
+        "isInput": {
+          "type": "boolean",
+          "description": "Whether this variable is available as an input parameter when the flow is invoked"
+        },
+        "isOutput": {
+          "type": "boolean",
+          "description": "Whether this variable is available as an output parameter after the flow completes"
+        },
+        "objectType": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "For SObject variables, the API name of the SObject type"
+        },
+        "value": {
+          "$ref": "#/$defs/FlowElementValue",
+          "description": "The default value for this variable"
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": ["name", "dataType"]
+    },
+    "FlowConstant": {
+      "type": "object",
+      "title": "Flow Constant",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "dataType": {
+          "type": "string"
+        },
+        "value": {
+          "$ref": "#/$defs/FlowElementValue"
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "FlowFormula": {
+      "type": "object",
+      "title": "Flow Formula",
+      "description": "A formula expression evaluated at runtime. Uses the same formula syntax as Salesforce formula fields.",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "dataType": {
+          "type": "string"
+        },
+        "expression": {
+          "type": "string",
+          "description": "The formula expression (e.g., 'IF({!Amount} > 1000, \"High\", \"Low\")')"
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "FlowDecision": {
+      "type": "object",
+      "title": "Flow Decision",
+      "description": "A decision element that evaluates conditions and branches to different paths. Similar to an if/else-if/else construct.",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "defaultConnector": {
+          "$ref": "#/$defs/FlowConnector",
+          "description": "The path taken when no rule conditions are met (the 'else' path)"
+        },
+        "defaultConnectorLabel": {
+          "type": "string"
+        },
+        "rules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "conditionLogic": {
+                "type": "string",
+                "description": "How conditions are combined: 'and', 'or', or custom (e.g., '1 AND (2 OR 3)')"
+              },
+              "conditions": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/FlowCondition"
+                }
+              },
+              "connector": {
+                "$ref": "#/$defs/FlowConnector"
+              }
+            }
+          }
+        }
+      }
+    },
+    "FlowAssignment": {
+      "type": "object",
+      "title": "Flow Assignment",
+      "description": "An assignment element that sets the value of one or more variables.",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "assignmentItems": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "assignToReference": {
+                "type": "string",
+                "description": "The variable to assign a value to"
+              },
+              "operator": {
+                "type": "string",
+                "enum": ["Assign", "Add", "Subtract", "AddItem", "RemoveFirst", "RemoveAll", "RemoveAfterFirst", "RemoveUncommon", "AssignCount", "RemovePosition"],
+                "description": "The assignment operator"
+              },
+              "value": {
+                "$ref": "#/$defs/FlowElementValue"
+              }
+            }
+          }
+        },
+        "connector": {
+          "$ref": "#/$defs/FlowConnector"
+        }
+      }
+    },
+    "FlowRecordCreate": {
+      "type": "object",
+      "title": "Flow Record Create",
+      "description": "An element that creates one or more Salesforce records.",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "object": {
+          "type": "string",
+          "description": "The SObject type to create"
+        },
+        "inputAssignments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FlowInputFieldAssignment"
+          }
+        },
+        "inputReference": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Reference to an SObject variable containing the record to create"
+        },
+        "assignRecordIdToReference": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Variable to store the ID of the newly created record"
+        },
+        "connector": {
+          "$ref": "#/$defs/FlowConnector"
+        },
+        "faultConnector": {
+          "$ref": "#/$defs/FlowConnector",
+          "description": "Path taken when the create operation fails"
+        }
+      }
+    },
+    "FlowRecordUpdate": {
+      "type": "object",
+      "title": "Flow Record Update",
+      "description": "An element that updates Salesforce records matching specified criteria.",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "object": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The SObject type to update (when using filter criteria)"
+        },
+        "inputAssignments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FlowInputFieldAssignment"
+          }
+        },
+        "inputReference": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Reference to an SObject variable or collection containing records to update"
+        },
+        "filters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FlowRecordFilter"
+          },
+          "description": "Filter criteria to identify which records to update"
+        },
+        "filterLogic": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "connector": {
+          "$ref": "#/$defs/FlowConnector"
+        },
+        "faultConnector": {
+          "$ref": "#/$defs/FlowConnector"
+        }
+      }
+    },
+    "FlowRecordDelete": {
+      "type": "object",
+      "title": "Flow Record Delete",
+      "description": "An element that deletes Salesforce records matching specified criteria.",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "object": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "inputReference": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "filters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FlowRecordFilter"
+          }
+        },
+        "filterLogic": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "connector": {
+          "$ref": "#/$defs/FlowConnector"
+        },
+        "faultConnector": {
+          "$ref": "#/$defs/FlowConnector"
+        }
+      }
+    },
+    "FlowRecordLookup": {
+      "type": "object",
+      "title": "Flow Record Lookup",
+      "description": "An element that queries Salesforce records and stores the results in variables.",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "object": {
+          "type": "string",
+          "description": "The SObject type to query"
+        },
+        "filters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FlowRecordFilter"
+          }
+        },
+        "filterLogic": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "getFirstRecordOnly": {
+          "type": "boolean",
+          "description": "If true, only the first matching record is returned"
+        },
+        "storeOutputAutomatically": {
+          "type": "boolean",
+          "description": "If true, results are automatically stored in auto-generated variables"
+        },
+        "outputAssignments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "field": {
+                "type": "string"
+              },
+              "assignToReference": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "outputReference": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Variable to store the query results"
+        },
+        "sortField": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "sortOrder": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": ["Asc", "Desc", null]
+        },
+        "queriedFields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Fields to retrieve from matching records"
+        },
+        "connector": {
+          "$ref": "#/$defs/FlowConnector"
+        },
+        "faultConnector": {
+          "$ref": "#/$defs/FlowConnector"
+        }
+      }
+    },
+    "FlowLoop": {
+      "type": "object",
+      "title": "Flow Loop",
+      "description": "A loop element that iterates over a collection variable, executing contained elements for each item.",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "collectionReference": {
+          "type": "string",
+          "description": "The collection variable to iterate over"
+        },
+        "iterationOrder": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": ["Asc", "Desc", null]
+        },
+        "nextValueConnector": {
+          "$ref": "#/$defs/FlowConnector",
+          "description": "Path to the first element inside the loop"
+        },
+        "noMoreValuesConnector": {
+          "$ref": "#/$defs/FlowConnector",
+          "description": "Path taken after all items have been iterated"
+        }
+      }
+    },
+    "FlowScreen": {
+      "type": "object",
+      "title": "Flow Screen",
+      "description": "A screen element that presents a UI to the user in a Screen Flow.",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "showHeader": {
+          "type": "boolean"
+        },
+        "showFooter": {
+          "type": "boolean"
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "fieldType": {
+                "type": "string",
+                "description": "The type of screen component (e.g., InputField, DisplayText, RadioButtons, ComponentInstance)"
+              },
+              "dataType": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "isRequired": {
+                "type": "boolean"
+              },
+              "defaultValue": {
+                "$ref": "#/$defs/FlowElementValue"
+              }
+            }
+          }
+        },
+        "connector": {
+          "$ref": "#/$defs/FlowConnector"
+        }
+      }
+    },
+    "FlowActionCall": {
+      "type": "object",
+      "title": "Flow Action Call",
+      "description": "An element that invokes an action such as an Apex method, email alert, quick action, or external service.",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "actionName": {
+          "type": "string",
+          "description": "The API name of the action to invoke"
+        },
+        "actionType": {
+          "type": "string",
+          "description": "The type of action (e.g., apex, emailAlert, quickAction, flow, externalService, submit, chatterPost)"
+        },
+        "inputParameters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "value": {
+                "$ref": "#/$defs/FlowElementValue"
+              }
+            }
+          }
+        },
+        "outputParameters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "assignToReference": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "connector": {
+          "$ref": "#/$defs/FlowConnector"
+        },
+        "faultConnector": {
+          "$ref": "#/$defs/FlowConnector"
+        }
+      }
+    },
+    "FlowSubflow": {
+      "type": "object",
+      "title": "Flow Subflow",
+      "description": "An element that invokes another flow as a subflow.",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "flowName": {
+          "type": "string",
+          "description": "The developer name of the flow to invoke"
+        },
+        "inputAssignments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FlowInputFieldAssignment"
+          }
+        },
+        "outputAssignments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "assignToReference": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "connector": {
+          "$ref": "#/$defs/FlowConnector"
+        },
+        "faultConnector": {
+          "$ref": "#/$defs/FlowConnector"
+        }
+      }
+    },
+    "FlowWait": {
+      "type": "object",
+      "title": "Flow Wait",
+      "description": "A wait element that pauses flow execution until one or more conditions are met (time-based or platform event).",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "defaultConnector": {
+          "$ref": "#/$defs/FlowConnector"
+        },
+        "defaultConnectorLabel": {
+          "type": "string"
+        },
+        "waitEvents": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "eventType": {
+                "type": "string",
+                "description": "The type of wait condition (e.g., AlarmEvent, PlatformEventMessage)"
+              },
+              "connector": {
+                "$ref": "#/$defs/FlowConnector"
+              },
+              "conditionLogic": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "conditions": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/FlowCondition"
+                }
+              },
+              "inputParameters": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "value": {
+                      "$ref": "#/$defs/FlowElementValue"
+                    }
+                  }
+                }
+              },
+              "outputParameters": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "assignToReference": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "FlowConnector": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "title": "Flow Connector",
+      "description": "A connector that links one flow element to the next, defining the execution path.",
+      "properties": {
+        "targetReference": {
+          "type": "string",
+          "description": "The API name of the target element this connector leads to"
+        }
+      }
+    },
+    "FlowCondition": {
+      "type": "object",
+      "title": "Flow Condition",
+      "description": "A single condition used in decisions, filters, and wait events.",
+      "properties": {
+        "leftValueReference": {
+          "type": "string",
+          "description": "Reference to the left-hand value (e.g., a variable or field reference)"
+        },
+        "operator": {
+          "type": "string",
+          "enum": ["EqualTo", "NotEqualTo", "GreaterThan", "GreaterThanOrEqualTo", "LessThan", "LessThanOrEqualTo", "Contains", "StartsWith", "EndsWith", "IsNull", "IsChanged", "WasSet"],
+          "description": "The comparison operator"
+        },
+        "rightValue": {
+          "$ref": "#/$defs/FlowElementValue",
+          "description": "The right-hand value to compare against"
+        }
+      }
+    },
+    "FlowRecordFilter": {
+      "type": "object",
+      "title": "Flow Record Filter",
+      "description": "A filter condition used in record-triggered flow starts, record lookups, record updates, and record deletes.",
+      "properties": {
+        "field": {
+          "type": "string",
+          "description": "The API name of the field to filter on"
+        },
+        "operator": {
+          "type": "string",
+          "enum": ["EqualTo", "NotEqualTo", "GreaterThan", "GreaterThanOrEqualTo", "LessThan", "LessThanOrEqualTo", "Contains", "StartsWith", "EndsWith", "IsNull", "IsChanged"]
+        },
+        "value": {
+          "$ref": "#/$defs/FlowElementValue"
+        }
+      }
+    },
+    "FlowInputFieldAssignment": {
+      "type": "object",
+      "title": "Flow Input Field Assignment",
+      "description": "Maps a value to a field on a record being created or updated, or to an input parameter.",
+      "properties": {
+        "field": {
+          "type": "string",
+          "description": "The API name of the field to set"
+        },
+        "value": {
+          "$ref": "#/$defs/FlowElementValue"
+        }
+      }
+    },
+    "FlowElementValue": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "title": "Flow Element Value",
+      "description": "A value reference used throughout flow definitions. Can be a literal value, a variable reference, or an element reference.",
+      "properties": {
+        "stringValue": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "numberValue": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "booleanValue": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "dateValue": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "dateTimeValue": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "elementReference": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Reference to a flow variable, formula, or other element"
+        }
+      }
+    }
+  }
+}
