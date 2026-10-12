@@ -1,0 +1,78 @@
+arazzo: 1.0.1
+info:
+  title: Create Google Ads offline conversions for new Salesforce Opportunities
+  summary: Read a Salesforce Opportunity and upload it to Google Ads as a click conversion.
+  description: Read a Salesforce Opportunity and upload it to Google Ads as a click conversion. Recreated from the Zapier template "Create Google Ads offline conversions for new Salesforce opportunities".
+  version: 1.0.0
+sourceDescriptions:
+- name: salesforceRows
+  url: https://raw.githubusercontent.com/api-evangelist/salesforce/refs/heads/main/openapi/salesforce-rows-api-openapi.yml
+  type: openapi
+- name: googleAdsCustomers
+  url: https://raw.githubusercontent.com/api-evangelist/google-ads/refs/heads/main/openapi/google-ads-customers-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: google-ads-opportunity-conversion
+  summary: Create Google Ads offline conversions for new Salesforce Opportunities
+  description: Read a Salesforce Opportunity and upload it to Google Ads as a click conversion.
+  inputs:
+    type: object
+    properties:
+      opportunityId:
+        type: string
+      customerId:
+        type: string
+      conversionAction:
+        type: string
+      gclid:
+        type: string
+  steps:
+  - stepId: get-opportunity
+    description: Fetch the Salesforce Opportunity.
+    operationId: $sourceDescriptions.salesforceRows.SObjectRows
+    parameters:
+    - name: SOBJECT_API_NAME
+      in: path
+      value: Opportunity
+    - name: RECORD_ID
+      in: path
+      value: $inputs.opportunityId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      amount: $response.body#/Amount
+      closeDate: $response.body#/CloseDate
+  - stepId: upload-conversion
+    description: Upload the click conversion to Google Ads.
+    operationId: $sourceDescriptions.googleAdsCustomers.googleads_customers_uploadClickConversions
+    parameters:
+    - name: customersId
+      in: path
+      value: $inputs.customerId
+    requestBody:
+      contentType: application/json
+      payload:
+        conversions:
+        - gclid: $inputs.gclid
+          conversionAction: $inputs.conversionAction
+          conversionValue: $steps.get-opportunity.outputs.amount
+          conversionDateTime: $steps.get-opportunity.outputs.closeDate
+        partialFailure: true
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      results: $response.body#/results
+  outputs:
+    results: $steps.upload-conversion.outputs.results
+x-integration:
+  partner: google-ads
+  template: https://zapier.com/apps/google-ads/integrations/salesforce/88861/create-google-ads-offline-conversions-for-new-salesforce-opportunities
+  edge_evidence: https://zapier.com/apps/google-ads/integrations/salesforce/88861/create-google-ads-offline-conversions-for-new-salesforce-opportunities
+  edge_type: marketplace
+  method: generated
+  generated: '2026-10-12'
+  generator: claude-opus-5.5 enrichment local-v5
+  guessed_steps:
+  - step: get-opportunity
+    cause: provider-contract
+    why: SObjectRows has no Opportunity schema, so /Amount and /CloseDate are not settled by the spec; the GCLID must be stored on a custom field and is passed as an input

@@ -1,0 +1,105 @@
+arazzo: 1.0.1
+info:
+  title: Add new Salesforce Leads to Google Ads customer lists
+  summary: Read a Salesforce Lead and add its hashed email to a Google Ads Customer Match list through an offline user data job.
+  description: Read a Salesforce Lead and add its hashed email to a Google Ads Customer Match list through an offline user data job. Recreated from the Zapier template "Add new Salesforce leads to Google
+    Ads customer lists with emails".
+  version: 1.0.0
+sourceDescriptions:
+- name: salesforceRows
+  url: https://raw.githubusercontent.com/api-evangelist/salesforce/refs/heads/main/openapi/salesforce-rows-api-openapi.yml
+  type: openapi
+- name: googleAdsJobs
+  url: https://raw.githubusercontent.com/api-evangelist/google-ads/refs/heads/main/openapi/google-ads-customers-offlineuserdatajobs-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: google-ads-lead-to-customer-list
+  summary: Add new Salesforce Leads to Google Ads customer lists
+  description: Read a Salesforce Lead and add its hashed email to a Google Ads Customer Match list through an offline user data job.
+  inputs:
+    type: object
+    properties:
+      leadId:
+        type: string
+      customerId:
+        type: string
+      userList:
+        type: string
+      hashedEmail:
+        type: string
+  steps:
+  - stepId: get-lead
+    description: Fetch the Salesforce Lead.
+    operationId: $sourceDescriptions.salesforceRows.SObjectRows
+    parameters:
+    - name: SOBJECT_API_NAME
+      in: path
+      value: Lead
+    - name: RECORD_ID
+      in: path
+      value: $inputs.leadId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      email: $response.body#/Email
+  - stepId: create-job
+    description: Create a Customer Match offline user data job.
+    operationId: $sourceDescriptions.googleAdsJobs.googleads_customers_offlineUserDataJobs_create
+    parameters:
+    - name: customersId
+      in: path
+      value: $inputs.customerId
+    requestBody:
+      contentType: application/json
+      payload:
+        job:
+          type: CUSTOMER_MATCH_USER_LIST
+          customerMatchUserListMetadata:
+            userList: $inputs.userList
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      resourceName: $response.body#/resourceName
+  - stepId: add-operations
+    description: Add the hashed email to the job.
+    operationId: $sourceDescriptions.googleAdsJobs.googleads_customers_offlineUserDataJobs_addOperations
+    parameters:
+    - name: customersId
+      in: path
+      value: $inputs.customerId
+    - name: offlineUserDataJobsId
+      in: path
+      value: $steps.create-job.outputs.resourceName
+    requestBody:
+      contentType: application/json
+      payload:
+        operations:
+        - create:
+            userIdentifiers:
+            - hashedEmail: $inputs.hashedEmail
+    successCriteria:
+    - condition: $statusCode == 200
+  - stepId: run-job
+    description: Run the job.
+    operationId: $sourceDescriptions.googleAdsJobs.googleads_customers_offlineUserDataJobs_run
+    parameters:
+    - name: customersId
+      in: path
+      value: $inputs.customerId
+    - name: offlineUserDataJobsId
+      in: path
+      value: $steps.create-job.outputs.resourceName
+    successCriteria:
+    - condition: $statusCode == 200
+x-integration:
+  partner: google-ads
+  template: https://zapier.com/apps/google-ads/integrations/salesforce/78016/add-new-salesforce-leads-to-google-ads-customer-lists-with-emails
+  edge_evidence: https://zapier.com/apps/google-ads/integrations/salesforce/78016/add-new-salesforce-leads-to-google-ads-customer-lists-with-emails
+  edge_type: marketplace
+  method: generated
+  generated: '2026-10-12'
+  generator: claude-opus-5.5 enrichment local-v5
+  guessed_steps:
+  - step: add-operations
+    cause: partner-contract
+    why: create returns a full resourceName while the path takes only the job id, so extracting the id is not settled by the spec; SHA-256 hashing of the email happens outside the workflow

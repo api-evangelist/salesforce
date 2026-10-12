@@ -2,35 +2,44 @@ generated: '2026-06-20'
 method: searched
 source: developer.salesforce.com REST API developer guide + derived from openapi/*
 docs: https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/
-notes: >-
-  Cross-cutting request/response semantics for the Salesforce REST platform APIs. Combines the
-  documented conventions with what the harvested OpenAPI implies. Cross-links errors/,
-  lifecycle/, authentication/, scopes/, and rate-limits/.
+notes: Cross-cutting request/response semantics for the Salesforce REST platform APIs. Combines the documented conventions with what the harvested
+  OpenAPI implies. Cross-links errors/, lifecycle/, authentication/, scopes/, and rate-limits/.
 authentication:
-  style: "OAuth 2.0 Bearer token (Authorization: Bearer <access_token>)"
+  style: 'OAuth 2.0 Bearer token (Authorization: Bearer <access_token>)'
   ref: authentication/salesforce-authentication.yml
   scopes: scopes/salesforce-scopes.yml
 base_url: https://{instance}.salesforce.com/services/data/v{version}
 versioning:
   style: uri-path integer (v{NN}.0), seasonal
   ref: lifecycle/salesforce-lifecycle.yml
-content_types: [application/json, application/xml, text/csv]
+content_types:
+- application/json
+- application/xml
+- text/csv
 pagination:
   style: cursor
   mechanism: Query results return `done` (bool) and `nextRecordsUrl`; follow nextRecordsUrl until done=true.
-  response_fields: [totalSize, done, nextRecordsUrl, records]
+  response_fields:
+  - totalSize
+  - done
+  - nextRecordsUrl
+  - records
   bulk: Bulk API 2.0 query jobs page results via Sforce-Locator header and maxRecords.
 field_selection:
   soql: Explicit field lists in SOQL SELECT; no sparse-fieldset query params.
   graphql: GraphQL API allows precise field selection over /services/data/vNN/graphql.
 composite:
-  description: Composite, Composite Batch, and sObject Tree resources bundle multiple operations into one request with reference IDs for dependent chaining.
+  description: Composite, Composite Batch, and sObject Tree resources bundle multiple operations into one request with reference IDs for dependent
+    chaining.
   ref: apis.yml salesforce-composite-api
 idempotency:
   header: null
-  mechanism: >-
-    No generic idempotency-key header. Idempotent upserts are achieved via PATCH on an external-Id
-    field (/sobjects/{Object}/{ExternalIdField}/{value}); Platform Event publishes are at-least-once.
+  mechanism: No generic idempotency-key header. Idempotent upserts are achieved via PATCH on an external-Id field (/sobjects/{Object}/{ExternalIdField}/{value});
+    Platform Event publishes are at-least-once.
+  coverage: partial
+  scope:
+  - SObjectCollectionsUpsert
+  scope_note: Replay-safe writes exist only as upserts keyed on an external-Id field; no Idempotency-Key header applies to the mutating surface.
 error_envelope:
   shape: JSON array of {message, errorCode, fields[]}
   ref: errors/salesforce-error-codes.yml
@@ -40,7 +49,21 @@ rate_limiting:
   ref: rate-limits/
   docs: https://developer.salesforce.com/docs/atlas.en-us.salesforce_app_limits_cheatsheet.meta/salesforce_app_limits_cheatsheet/salesforce_app_limits_platform_api.htm
 request_tracing:
-  headers: [X-Request-Id, Sforce-Request-Id]
+  headers:
+  - X-Request-Id
+  - Sforce-Request-Id
   note: Salesforce returns request identifiers on responses for support correlation.
 conditional_requests:
   support: If-Modified-Since / If-Unmodified-Since supported on record GET/PATCH for optimistic concurrency.
+reversibility:
+  grade: documented
+  surfaces:
+  - surface: record delete
+    reversal: undelete
+    operationId: SOAPundelete
+    spec: openapi/salesforce-soap-api-openapi.yml
+    window: null
+    docs: https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/sforce_api_calls_undelete.htm
+    note: The undelete() page says it "Undeletes records from the Recycle Bin" and restores deleted records; it states no retention window, so
+      none is recorded here.
+  checked: '2026-10-12'

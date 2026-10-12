@@ -1,0 +1,74 @@
+arazzo: 1.0.1
+info:
+  title: Add new Salesforce Contacts to Mailchimp
+  summary: Read a Salesforce Contact and add it as a member of a Mailchimp audience.
+  description: Read a Salesforce Contact and add it as a member of a Mailchimp audience. Recreated from the Zapier template "Add new Salesforce contacts to Mailchimp".
+  version: 1.0.0
+sourceDescriptions:
+- name: salesforceRows
+  url: https://raw.githubusercontent.com/api-evangelist/salesforce/refs/heads/main/openapi/salesforce-rows-api-openapi.yml
+  type: openapi
+- name: mailchimpLists
+  url: https://raw.githubusercontent.com/api-evangelist/mailchimp/refs/heads/main/openapi/mailchimp-lists-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: mailchimp-contact-to-member
+  summary: Add new Salesforce Contacts to Mailchimp
+  description: Read a Salesforce Contact and add it as a member of a Mailchimp audience.
+  inputs:
+    type: object
+    properties:
+      contactId:
+        type: string
+      listId:
+        type: string
+  steps:
+  - stepId: get-contact
+    description: Fetch the Salesforce Contact.
+    operationId: $sourceDescriptions.salesforceRows.SObjectRows
+    parameters:
+    - name: SOBJECT_API_NAME
+      in: path
+      value: Contact
+    - name: RECORD_ID
+      in: path
+      value: $inputs.contactId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      email: $response.body#/Email
+      firstName: $response.body#/FirstName
+      lastName: $response.body#/LastName
+  - stepId: add-member
+    description: Add the contact to the Mailchimp audience.
+    operationId: $sourceDescriptions.mailchimpLists.postListsIdMembers
+    parameters:
+    - name: list_id
+      in: path
+      value: $inputs.listId
+    requestBody:
+      contentType: application/json
+      payload:
+        email_address: $steps.get-contact.outputs.email
+        status: subscribed
+        merge_fields:
+          FNAME: $steps.get-contact.outputs.firstName
+          LNAME: $steps.get-contact.outputs.lastName
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      memberId: $response.body#/id
+  outputs:
+    memberId: $steps.add-member.outputs.memberId
+x-integration:
+  partner: mailchimp
+  template: https://zapier.com/apps/mailchimp/integrations/salesforce/2170/add-new-salesforce-contacts-to-mailchimp
+  edge_evidence: https://zapier.com/apps/mailchimp/integrations/salesforce/2170/add-new-salesforce-contacts-to-mailchimp
+  edge_type: marketplace
+  method: generated
+  generated: '2026-10-12'
+  generator: claude-opus-5.5 enrichment local-v5
+  guessed_steps:
+  - step: get-contact
+    cause: provider-contract
+    why: SObjectRows has no Contact schema, so /Email, /FirstName and /LastName are Salesforce standard field names not settled by the spec

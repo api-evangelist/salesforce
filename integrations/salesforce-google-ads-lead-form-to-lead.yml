@@ -1,0 +1,81 @@
+arazzo: 1.0.1
+info:
+  title: Add new Google Ads lead form leads to Salesforce
+  summary: Query Google Ads lead form submissions with GAQL and create a Salesforce Lead.
+  description: Query Google Ads lead form submissions with GAQL and create a Salesforce Lead. Recreated from the Zapier template "Add new Google Ads leads to Salesforce".
+  version: 1.0.0
+sourceDescriptions:
+- name: salesforceCreate
+  url: https://raw.githubusercontent.com/api-evangelist/salesforce/refs/heads/main/openapi/salesforce-create-api-openapi.yml
+  type: openapi
+- name: googleAdsSearch
+  url: https://raw.githubusercontent.com/api-evangelist/google-ads/refs/heads/main/openapi/google-ads-customers-googleads-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: google-ads-lead-form-to-lead
+  summary: Add new Google Ads lead form leads to Salesforce
+  description: Query Google Ads lead form submissions with GAQL and create a Salesforce Lead.
+  inputs:
+    type: object
+    properties:
+      customerId:
+        type: string
+      lastName:
+        type: string
+      company:
+        type: string
+      email:
+        type: string
+      salesforceAuthorization:
+        type: string
+  steps:
+  - stepId: search-lead-submissions
+    description: Query lead form submission data with GAQL.
+    operationId: $sourceDescriptions.googleAdsSearch.googleads_customers_googleAds_search
+    parameters:
+    - name: customersId
+      in: path
+      value: $inputs.customerId
+    requestBody:
+      contentType: application/json
+      payload:
+        query: SELECT lead_form_submission_data.id, lead_form_submission_data.lead_form_submission_fields FROM lead_form_submission_data
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      rows: $response.body#/results
+  - stepId: create-lead
+    description: Create the Lead in Salesforce.
+    operationId: $sourceDescriptions.salesforceCreate.SObjectCreate
+    parameters:
+    - name: SOBJECT_API_NAME
+      in: path
+      value: Lead
+    - name: Authorization
+      in: header
+      value: $inputs.salesforceAuthorization
+    requestBody:
+      contentType: application/json
+      payload:
+        LastName: $inputs.lastName
+        Company: $inputs.company
+        Email: $inputs.email
+        LeadSource: Google Ads
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      recordId: $response.body#/id
+  outputs:
+    recordId: $steps.create-lead.outputs.recordId
+x-integration:
+  partner: google-ads
+  template: https://zapier.com/apps/google-ads/integrations/salesforce/534643/add-new-google-ads-leads-to-salesforce
+  edge_evidence: https://zapier.com/apps/google-ads/integrations/salesforce/534643/add-new-google-ads-leads-to-salesforce
+  edge_type: marketplace
+  method: generated
+  generated: '2026-10-12'
+  generator: claude-opus-5.5 enrichment local-v5
+  guessed_steps:
+  - step: search-lead-submissions
+    cause: partner-contract
+    why: the search operation takes a free-form GAQL string; the lead_form_submission_data resource is not described in the spec

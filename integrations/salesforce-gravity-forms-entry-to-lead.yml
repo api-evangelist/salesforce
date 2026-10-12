@@ -1,0 +1,77 @@
+arazzo: 1.0.1
+info:
+  title: Create Salesforce Leads from new Gravity Forms entries
+  summary: Read a Gravity Forms entry and create a Salesforce Lead from its fields.
+  description: Read a Gravity Forms entry and create a Salesforce Lead from its fields. Recreated from the Zapier template "Create Salesforce leads with new Gravity Forms submissions".
+  version: 1.0.0
+sourceDescriptions:
+- name: salesforceCreate
+  url: https://raw.githubusercontent.com/api-evangelist/salesforce/refs/heads/main/openapi/salesforce-create-api-openapi.yml
+  type: openapi
+- name: gravityFormsEntries
+  url: https://raw.githubusercontent.com/api-evangelist/gravity-forms/refs/heads/main/openapi/gravity-forms-entries-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: gravity-forms-entry-to-lead
+  summary: Create Salesforce Leads from new Gravity Forms entries
+  description: Read a Gravity Forms entry and create a Salesforce Lead from its fields.
+  inputs:
+    type: object
+    properties:
+      entryId:
+        type: string
+      lastName:
+        type: string
+      company:
+        type: string
+      email:
+        type: string
+      salesforceAuthorization:
+        type: string
+  steps:
+  - stepId: get-entry
+    description: Fetch the submitted Gravity Forms entry.
+    operationId: $sourceDescriptions.gravityFormsEntries.getEntry
+    parameters:
+    - name: id
+      in: path
+      value: $inputs.entryId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      entry: $response.body
+  - stepId: create-lead
+    description: Create the Lead in Salesforce.
+    operationId: $sourceDescriptions.salesforceCreate.SObjectCreate
+    parameters:
+    - name: SOBJECT_API_NAME
+      in: path
+      value: Lead
+    - name: Authorization
+      in: header
+      value: $inputs.salesforceAuthorization
+    requestBody:
+      contentType: application/json
+      payload:
+        LastName: $inputs.lastName
+        Company: $inputs.company
+        Email: $inputs.email
+        LeadSource: Web
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      recordId: $response.body#/id
+  outputs:
+    recordId: $steps.create-lead.outputs.recordId
+x-integration:
+  partner: gravity-forms
+  template: https://zapier.com/apps/gravity-forms/integrations/salesforce/146/create-salesforce-leads-with-new-gravity-forms-submissions
+  edge_evidence: https://zapier.com/apps/gravity-forms/integrations/salesforce/146/create-salesforce-leads-with-new-gravity-forms-submissions
+  edge_type: marketplace
+  method: generated
+  generated: '2026-10-12'
+  generator: claude-opus-5.5 enrichment local-v5
+  guessed_steps:
+  - step: create-lead
+    cause: partner-contract
+    why: Gravity Forms entries key field values by numeric field id per form, so which entry key holds last name, company and email is form-specific and is passed as inputs rather than mapped from the entry

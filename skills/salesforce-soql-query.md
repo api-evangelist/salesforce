@@ -9,7 +9,7 @@ base_url: https://{instance}.salesforce.com/services/data/v{version}
 operations:
   - executeQuery
   - QueryAll
-  - listApiVersions
+  - Versions
 ---
 
 # Query Salesforce records with SOQL
@@ -25,13 +25,13 @@ over ~2,000 records see `salesforce-bulk-query`.
   — the `api` scope is the one that gates this surface.
 - `{instance}` is the org's My Domain host, not a fixed Salesforce hostname. It comes back in the
   `instance_url` field of the token response. Do not hardcode `login.salesforce.com`.
-- Pick a version. `listApiVersions` (`GET /services/data/`) is **unauthenticated** and returns the
+- Pick a version. `Versions` (`GET /services/data/` (spec path `/data`)) is **unauthenticated** and returns the
   list of supported `vNN.0` versions. Current is v67.0 (Summer '26). See
   `lifecycle/salesforce-lifecycle.yml`.
 
 ## Steps
 
-1. **Resolve the API version** — call `listApiVersions` (`GET /services/data/`) and take the
+1. **Resolve the API version** — call `Versions` (`GET /services/data/` (spec path `/data`)) and take the
    highest `version` you are prepared to support. Salesforce keeps old versions alive for years,
    so pinning is safe; drifting to "latest" is not.
 

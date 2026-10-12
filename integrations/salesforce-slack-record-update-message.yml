@@ -1,0 +1,77 @@
+arazzo: 1.0.1
+info:
+  title: Send Slack channel messages for updated Salesforce records
+  summary: Read an updated Salesforce record and post its new field values to a Slack channel.
+  description: Read an updated Salesforce record and post its new field values to a Slack channel. Recreated from the Zapier template "Send Slack channel messages for new updated fields on records in Salesforce".
+  version: 1.0.0
+sourceDescriptions:
+- name: salesforceRows
+  url: https://raw.githubusercontent.com/api-evangelist/salesforce/refs/heads/main/openapi/salesforce-rows-api-openapi.yml
+  type: openapi
+- name: slackChat
+  url: https://raw.githubusercontent.com/api-evangelist/slack/refs/heads/main/openapi/slack-chat-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: slack-record-update-message
+  summary: Send Slack channel messages for updated Salesforce records
+  description: Read an updated Salesforce record and post its new field values to a Slack channel.
+  inputs:
+    type: object
+    properties:
+      sobject:
+        type: string
+      recordId:
+        type: string
+      channel:
+        type: string
+      slackToken:
+        type: string
+  steps:
+  - stepId: get-record
+    description: Fetch the Salesforce record.
+    operationId: $sourceDescriptions.salesforceRows.SObjectRows
+    parameters:
+    - name: SOBJECT_API_NAME
+      in: path
+      value: $inputs.sobject
+    - name: RECORD_ID
+      in: path
+      value: $inputs.recordId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      name: $response.body#/Name
+      lastModified: $response.body#/LastModifiedDate
+  - stepId: post-message
+    description: Post the change to the Slack channel.
+    operationId: $sourceDescriptions.slackChat.postChatPostmessage
+    parameters:
+    - name: token
+      in: header
+      value: $inputs.slackToken
+    requestBody:
+      contentType: application/json
+      payload:
+        channel: $inputs.channel
+        text: Salesforce record {$steps.get-record.outputs.name} updated at {$steps.get-record.outputs.lastModified}
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      ts: $response.body#/ts
+  outputs:
+    ts: $steps.post-message.outputs.ts
+x-integration:
+  partner: slack
+  template: https://zapier.com/apps/salesforce/integrations/slack/157511/send-slack-channel-messages-for-new-updated-fields-on-records-in-salesforce
+  edge_evidence: https://zapier.com/apps/salesforce/integrations/slack/157511/send-slack-channel-messages-for-new-updated-fields-on-records-in-salesforce
+  edge_type: marketplace
+  method: generated
+  generated: '2026-10-12'
+  generator: claude-opus-5.5 enrichment local-v5
+  guessed_steps:
+  - step: get-record
+    cause: provider-contract
+    why: SObjectRows returns a generic record with no per-object schema, so /Name and /LastModifiedDate are not settled by the spec
+  - step: get-record
+    cause: provider-contract
+    why: the contract exposes no change trigger (SObjectGetUpdated returns ids in a window); detecting the field change is left to the caller

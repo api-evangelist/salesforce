@@ -1,0 +1,82 @@
+arazzo: 1.0.1
+info:
+  title: Send new Unbounce leads to Salesforce
+  summary: List the leads captured on an Unbounce landing page and create a Salesforce Lead for one of them.
+  description: List the leads captured on an Unbounce landing page and create a Salesforce Lead for one of them. Recreated from the Zapier template "Send new Unbounce leads to Salesforce".
+  version: 1.0.0
+sourceDescriptions:
+- name: salesforceCreate
+  url: https://raw.githubusercontent.com/api-evangelist/salesforce/refs/heads/main/openapi/salesforce-create-api-openapi.yml
+  type: openapi
+- name: unbounceLeads
+  url: https://raw.githubusercontent.com/api-evangelist/unbounce/refs/heads/main/openapi/unbounce-leads-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: unbounce-lead-to-lead
+  summary: Send new Unbounce leads to Salesforce
+  description: List the leads captured on an Unbounce landing page and create a Salesforce Lead for one of them.
+  inputs:
+    type: object
+    properties:
+      pageId:
+        type: string
+      leadId:
+        type: string
+      lastName:
+        type: string
+      company:
+        type: string
+      email:
+        type: string
+      salesforceAuthorization:
+        type: string
+  steps:
+  - stepId: get-page-lead
+    description: Fetch the Unbounce lead captured on the page.
+    operationId: $sourceDescriptions.unbounceLeads.getLeadForPage
+    parameters:
+    - name: page_id
+      in: path
+      value: $inputs.pageId
+    - name: lead_id
+      in: path
+      value: $inputs.leadId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      formData: $response.body#/form_data
+  - stepId: create-lead
+    description: Create the Lead in Salesforce.
+    operationId: $sourceDescriptions.salesforceCreate.SObjectCreate
+    parameters:
+    - name: SOBJECT_API_NAME
+      in: path
+      value: Lead
+    - name: Authorization
+      in: header
+      value: $inputs.salesforceAuthorization
+    requestBody:
+      contentType: application/json
+      payload:
+        LastName: $inputs.lastName
+        Company: $inputs.company
+        Email: $inputs.email
+        LeadSource: Unbounce
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      recordId: $response.body#/id
+  outputs:
+    recordId: $steps.create-lead.outputs.recordId
+x-integration:
+  partner: unbounce
+  template: https://zapier.com/apps/salesforce/integrations/unbounce/94/send-new-unbounce-leads-to-salesforce
+  edge_evidence: https://zapier.com/apps/salesforce/integrations/unbounce/94/send-new-unbounce-leads-to-salesforce
+  edge_type: marketplace
+  method: generated
+  generated: '2026-10-12'
+  generator: claude-opus-5.5 enrichment local-v5
+  guessed_steps:
+  - step: get-page-lead
+    cause: partner-contract
+    why: form_data is a free-form map whose keys are the landing page form field names, so the lead fields are passed as inputs

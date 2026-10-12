@@ -7,7 +7,7 @@ source: openapi/salesforce-versions-api-openapi.yml, openapi/salesforce-describe
 api: Salesforce REST API
 base_url: https://{instance}.salesforce.com/services/data
 operations:
-  - listApiVersions
+  - Versions
   - DescribeGlobal
   - SObjectDescribe
   - SObjectBasicInformation
@@ -22,7 +22,7 @@ user-specific. Run this discovery pass first; do not assume the standard object 
 
 ## Steps
 
-1. **List supported API versions** — `listApiVersions`, `GET /services/data/`.
+1. **List supported API versions** — `Versions`, `GET /services/data/` (spec path `/data`).
    This is **unauthenticated**, which makes it the cheapest reachability check you have. It returns
    `[{label, url, version}]`. Pick a version and pin it. Current is v67.0 (Summer '26); Salesforce
    ships three seasonal releases a year and retires only very old versions. See

@@ -1,0 +1,77 @@
+arazzo: 1.0.1
+info:
+  title: Add new Facebook Lead Ads leads as Salesforce Leads
+  summary: List the leads collected by a Facebook lead form and create a Salesforce Lead.
+  description: List the leads collected by a Facebook lead form and create a Salesforce Lead. Recreated from the Zapier template "Add new Facebook Lead Ads leads as leads in Salesforce".
+  version: 1.0.0
+sourceDescriptions:
+- name: salesforceCreate
+  url: https://raw.githubusercontent.com/api-evangelist/salesforce/refs/heads/main/openapi/salesforce-create-api-openapi.yml
+  type: openapi
+- name: facebookLeads
+  url: https://raw.githubusercontent.com/api-evangelist/facebook-lead-ads/refs/heads/main/openapi/facebook-lead-ads-leads-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: facebook-lead-ads-to-lead
+  summary: Add new Facebook Lead Ads leads as Salesforce Leads
+  description: List the leads collected by a Facebook lead form and create a Salesforce Lead.
+  inputs:
+    type: object
+    properties:
+      formId:
+        type: string
+      lastName:
+        type: string
+      company:
+        type: string
+      email:
+        type: string
+      salesforceAuthorization:
+        type: string
+  steps:
+  - stepId: list-form-leads
+    description: List leads submitted to the Facebook lead form.
+    operationId: $sourceDescriptions.facebookLeads.listLeadsForForm
+    parameters:
+    - name: form-id
+      in: path
+      value: $inputs.formId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      leads: $response.body#/data
+  - stepId: create-lead
+    description: Create the Lead in Salesforce.
+    operationId: $sourceDescriptions.salesforceCreate.SObjectCreate
+    parameters:
+    - name: SOBJECT_API_NAME
+      in: path
+      value: Lead
+    - name: Authorization
+      in: header
+      value: $inputs.salesforceAuthorization
+    requestBody:
+      contentType: application/json
+      payload:
+        LastName: $inputs.lastName
+        Company: $inputs.company
+        Email: $inputs.email
+        LeadSource: Facebook Lead Ads
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      recordId: $response.body#/id
+  outputs:
+    recordId: $steps.create-lead.outputs.recordId
+x-integration:
+  partner: facebook-lead-ads
+  template: https://zapier.com/apps/facebook-lead-ads/integrations/salesforce/10183/add-new-facebook-lead-ads-leads-as-leads-in-salesforce
+  edge_evidence: https://zapier.com/apps/facebook-lead-ads/integrations/salesforce/10183/add-new-facebook-lead-ads-leads-as-leads-in-salesforce
+  edge_type: marketplace
+  method: generated
+  generated: '2026-10-12'
+  generator: claude-opus-5.5 enrichment local-v5
+  guessed_steps:
+  - step: create-lead
+    cause: partner-contract
+    why: each lead carries field_data as a name/values array whose names are set per form, so the fields are passed as inputs
