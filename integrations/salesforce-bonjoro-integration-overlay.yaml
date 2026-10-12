@@ -1,0 +1,19 @@
+# DERIVED by build-integration-preconfigs.py (roadmap#949). Overlay on the PARTNER's contract:
+# where bonjoro's enum names salesforce, and what that value is.
+overlay: 1.0.0
+info:
+  title: salesforce as a processor-connection in bonjoro's contract
+  version: 1.0.0
+extends: https://raw.githubusercontent.com/api-evangelist/bonjoro/refs/heads/main/openapi/bonjoro-integrations-api-openapi.yml
+actions:
+- target: $.components.schemas.integration.allOf[0].properties.provider
+  update:
+    x-apievangelist-integration:
+      values:
+        salesforce:
+          provider: salesforce
+          relationship: processor-connection
+          evidence: https://github.com/api-evangelist/bonjoro/blob/main/openapi/bonjoro-integrations-api-openapi.yml
+      method: derived
+      generated: '2026-10-12'
+      generator: build-integration-preconfigs.py

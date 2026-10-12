@@ -1,0 +1,30 @@
+# DERIVED by build-integration-preconfigs.py (roadmap#949). Overlay on the PARTNER's contract:
+# where cacheflow's enum names salesforce, and what that value is.
+overlay: 1.0.0
+info:
+  title: salesforce as a processor-connection in cacheflow's contract
+  version: 1.0.0
+extends: https://raw.githubusercontent.com/api-evangelist/cacheflow/refs/heads/main/openapi/cacheflow-self-service-api-openapi.yml
+actions:
+- target: $.components.schemas.ExternalSource.properties.sourceType
+  update:
+    x-apievangelist-integration:
+      values:
+        salesforce:
+          provider: salesforce
+          relationship: processor-connection
+          evidence: https://github.com/api-evangelist/cacheflow/blob/main/openapi/cacheflow-self-service-api-openapi.yml
+      method: derived
+      generated: '2026-10-12'
+      generator: build-integration-preconfigs.py
+- target: $.components.schemas.Proposal.properties.source
+  update:
+    x-apievangelist-integration:
+      values:
+        salesforce:
+          provider: salesforce
+          relationship: processor-connection
+          evidence: https://github.com/api-evangelist/cacheflow/blob/main/openapi/cacheflow-self-service-api-openapi.yml
+      method: derived
+      generated: '2026-10-12'
+      generator: build-integration-preconfigs.py
