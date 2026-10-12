@@ -1,0 +1,367 @@
+# DERIVED by derive-integration-map.py (roadmap#949): each integration workflow, step by step,
+# resolved to spec file -> tag -> business capability (Turbo EA, CC BY 4.0) and the operation's
+# phrasing intent. Read from our own files; an unmapped link says why.
+slug: salesforce
+workflows:
+- file: salesforce-facebook-lead-ads-to-lead.yml
+  title: Add new Facebook Lead Ads leads as Salesforce Leads
+  partner: facebook-lead-ads
+  template: https://zapier.com/apps/facebook-lead-ads/integrations/salesforce/10183/add-new-facebook-lead-ads-leads-as-leads-in-salesforce
+  repos:
+  - facebook-lead-ads
+  - salesforce
+  steps:
+  - step: list-form-leads
+    repo: facebook-lead-ads
+    spec_file: facebook-lead-ads-leads-api-openapi.yml
+    operationId: listLeadsForForm
+    tag: Leads
+    capability_id: BC-400.40
+    capability: Demand Generation Management
+    capability_l1: BC-400
+    intent: null
+    effect: null
+    unmapped: null
+  - step: create-lead
+    repo: salesforce
+    spec_file: salesforce-create-api-openapi.yml
+    operationId: SObjectCreate
+    tag: Create
+    capability_id: null
+    capability: null
+    capability_l1: null
+    intent: Insert a record into any object
+    effect: write
+    unmapped: no capability edge for this spec file
+  connects:
+    facebook-lead-ads:
+      capabilities:
+      - BC-400.40
+      tags:
+      - Leads
+    salesforce:
+      capabilities: []
+      tags:
+      - Create
+  intents:
+  - Insert a record into any object
+- file: salesforce-google-ads-lead-form-to-lead.yml
+  title: Add new Google Ads lead form leads to Salesforce
+  partner: google-ads
+  template: https://zapier.com/apps/google-ads/integrations/salesforce/534643/add-new-google-ads-leads-to-salesforce
+  repos:
+  - google-ads
+  - salesforce
+  steps:
+  - step: search-lead-submissions
+    repo: google-ads
+    spec_file: google-ads-customers-googleads-api-openapi.yml
+    operationId: googleads_customers_googleAds_search
+    tag: customers.googleAds
+    capability_id: BC-400.60
+    capability: Digital Marketing Management
+    capability_l1: BC-400
+    intent: Run a paged GAQL report query
+    effect: read
+    unmapped: null
+  - step: create-lead
+    repo: salesforce
+    spec_file: salesforce-create-api-openapi.yml
+    operationId: SObjectCreate
+    tag: Create
+    capability_id: null
+    capability: null
+    capability_l1: null
+    intent: Insert a record into any object
+    effect: write
+    unmapped: no capability edge for this spec file
+  connects:
+    google-ads:
+      capabilities:
+      - BC-400.60
+      tags:
+      - customers.googleAds
+    salesforce:
+      capabilities: []
+      tags:
+      - Create
+  intents:
+  - Run a paged GAQL report query
+  - Insert a record into any object
+- file: salesforce-google-ads-lead-to-customer-list.yml
+  title: Add new Salesforce Leads to Google Ads customer lists
+  partner: google-ads
+  template: https://zapier.com/apps/google-ads/integrations/salesforce/78016/add-new-salesforce-leads-to-google-ads-customer-lists-with-emails
+  repos:
+  - salesforce
+  - google-ads
+  steps:
+  - step: get-lead
+    repo: salesforce
+    spec_file: salesforce-rows-api-openapi.yml
+    operationId: SObjectRows
+    tag: Rows
+    capability_id: null
+    capability: null
+    capability_l1: null
+    intent: Retrieve a record of a given object
+    effect: read
+    unmapped: no capability edge for this spec file
+  - step: create-job
+    repo: google-ads
+    spec_file: google-ads-customers-offlineuserdatajobs-api-openapi.yml
+    operationId: googleads_customers_offlineUserDataJobs_create
+    tag: customers.offlineUserDataJobs
+    capability_id: null
+    capability: null
+    capability_l1: null
+    intent: Create an offline user data job
+    effect: write
+    unmapped: no capability edge for this spec file
+  - step: add-operations
+    repo: google-ads
+    spec_file: google-ads-customers-offlineuserdatajobs-api-openapi.yml
+    operationId: googleads_customers_offlineUserDataJobs_addOperations
+    tag: customers.offlineUserDataJobs
+    capability_id: null
+    capability: null
+    capability_l1: null
+    intent: Add user data to an offline job
+    effect: write
+    unmapped: no capability edge for this spec file
+  - step: run-job
+    repo: google-ads
+    spec_file: google-ads-customers-offlineuserdatajobs-api-openapi.yml
+    operationId: googleads_customers_offlineUserDataJobs_run
+    tag: customers.offlineUserDataJobs
+    capability_id: null
+    capability: null
+    capability_l1: null
+    intent: Run an offline user data job
+    effect: write
+    unmapped: no capability edge for this spec file
+  connects:
+    salesforce:
+      capabilities: []
+      tags:
+      - Rows
+    google-ads:
+      capabilities: []
+      tags:
+      - customers.offlineUserDataJobs
+  intents:
+  - Retrieve a record of a given object
+  - Create an offline user data job
+  - Add user data to an offline job
+  - Run an offline user data job
+- file: salesforce-google-ads-opportunity-conversion.yml
+  title: Create Google Ads offline conversions for new Salesforce Opportunities
+  partner: google-ads
+  template: https://zapier.com/apps/google-ads/integrations/salesforce/88861/create-google-ads-offline-conversions-for-new-salesforce-opportunities
+  repos:
+  - salesforce
+  - google-ads
+  steps:
+  - step: get-opportunity
+    repo: salesforce
+    spec_file: salesforce-rows-api-openapi.yml
+    operationId: SObjectRows
+    tag: Rows
+    capability_id: null
+    capability: null
+    capability_l1: null
+    intent: Retrieve a record of a given object
+    effect: read
+    unmapped: no capability edge for this spec file
+  - step: upload-conversion
+    repo: google-ads
+    spec_file: google-ads-customers-api-openapi.yml
+    operationId: googleads_customers_uploadClickConversions
+    tag: customers
+    capability_id: BC-400.60
+    capability: Digital Marketing Management
+    capability_l1: BC-400
+    intent: Upload offline click conversions
+    effect: write
+    unmapped: null
+  connects:
+    salesforce:
+      capabilities: []
+      tags:
+      - Rows
+    google-ads:
+      capabilities:
+      - BC-400.60
+      tags:
+      - customers
+  intents:
+  - Retrieve a record of a given object
+  - Upload offline click conversions
+- file: salesforce-gravity-forms-entry-to-lead.yml
+  title: Create Salesforce Leads from new Gravity Forms entries
+  partner: gravity-forms
+  template: https://zapier.com/apps/gravity-forms/integrations/salesforce/146/create-salesforce-leads-with-new-gravity-forms-submissions
+  repos:
+  - gravity-forms
+  - salesforce
+  steps:
+  - step: get-entry
+    repo: gravity-forms
+    spec_file: gravity-forms-entries-api-openapi.yml
+    operationId: getEntry
+    tag: Entries
+    capability_id: null
+    capability: null
+    capability_l1: null
+    intent: null
+    effect: null
+    unmapped: no capability edge for this spec file
+  - step: create-lead
+    repo: salesforce
+    spec_file: salesforce-create-api-openapi.yml
+    operationId: SObjectCreate
+    tag: Create
+    capability_id: null
+    capability: null
+    capability_l1: null
+    intent: Insert a record into any object
+    effect: write
+    unmapped: no capability edge for this spec file
+  connects:
+    gravity-forms:
+      capabilities: []
+      tags:
+      - Entries
+    salesforce:
+      capabilities: []
+      tags:
+      - Create
+  intents:
+  - Insert a record into any object
+- file: salesforce-mailchimp-contact-to-member.yml
+  title: Add new Salesforce Contacts to Mailchimp
+  partner: mailchimp
+  template: https://zapier.com/apps/mailchimp/integrations/salesforce/2170/add-new-salesforce-contacts-to-mailchimp
+  repos:
+  - salesforce
+  - mailchimp
+  steps:
+  - step: get-contact
+    repo: salesforce
+    spec_file: salesforce-rows-api-openapi.yml
+    operationId: SObjectRows
+    tag: Rows
+    capability_id: null
+    capability: null
+    capability_l1: null
+    intent: Retrieve a record of a given object
+    effect: read
+    unmapped: no capability edge for this spec file
+  - step: add-member
+    repo: mailchimp
+    spec_file: mailchimp-lists-api-openapi.yml
+    operationId: postListsIdMembers
+    tag: Lists
+    capability_id: null
+    capability: null
+    capability_l1: null
+    intent: Add a new subscriber to an audience
+    effect: write
+    unmapped: no capability edge for this spec file
+  connects:
+    salesforce:
+      capabilities: []
+      tags:
+      - Rows
+    mailchimp:
+      capabilities: []
+      tags:
+      - Lists
+  intents:
+  - Retrieve a record of a given object
+  - Add a new subscriber to an audience
+- file: salesforce-slack-record-update-message.yml
+  title: Send Slack channel messages for updated Salesforce records
+  partner: slack
+  template: https://zapier.com/apps/salesforce/integrations/slack/157511/send-slack-channel-messages-for-new-updated-fields-on-records-in-salesforce
+  repos:
+  - salesforce
+  - slack
+  steps:
+  - step: get-record
+    repo: salesforce
+    spec_file: salesforce-rows-api-openapi.yml
+    operationId: SObjectRows
+    tag: Rows
+    capability_id: null
+    capability: null
+    capability_l1: null
+    intent: Retrieve a record of a given object
+    effect: read
+    unmapped: no capability edge for this spec file
+  - step: post-message
+    repo: slack
+    spec_file: slack-chat-api-openapi.yml
+    operationId: postChatPostmessage
+    tag: Chat
+    capability_id: null
+    capability: null
+    capability_l1: null
+    intent: Send a message to a channel
+    effect: write
+    unmapped: no capability edge for this spec file
+  connects:
+    salesforce:
+      capabilities: []
+      tags:
+      - Rows
+    slack:
+      capabilities: []
+      tags:
+      - Chat
+  intents:
+  - Retrieve a record of a given object
+  - Send a message to a channel
+- file: salesforce-unbounce-lead-to-lead.yml
+  title: Send new Unbounce leads to Salesforce
+  partner: unbounce
+  template: https://zapier.com/apps/salesforce/integrations/unbounce/94/send-new-unbounce-leads-to-salesforce
+  repos:
+  - unbounce
+  - salesforce
+  steps:
+  - step: get-page-lead
+    repo: unbounce
+    spec_file: unbounce-leads-api-openapi.yml
+    operationId: getLeadForPage
+    tag: Leads
+    capability_id: BC-400.40
+    capability: Demand Generation Management
+    capability_l1: BC-400
+    intent: Get one lead from a specific page
+    effect: read
+    unmapped: null
+  - step: create-lead
+    repo: salesforce
+    spec_file: salesforce-create-api-openapi.yml
+    operationId: SObjectCreate
+    tag: Create
+    capability_id: null
+    capability: null
+    capability_l1: null
+    intent: Insert a record into any object
+    effect: write
+    unmapped: no capability edge for this spec file
+  connects:
+    unbounce:
+      capabilities:
+      - BC-400.40
+      tags:
+      - Leads
+    salesforce:
+      capabilities: []
+      tags:
+      - Create
+  intents:
+  - Get one lead from a specific page
+  - Insert a record into any object
