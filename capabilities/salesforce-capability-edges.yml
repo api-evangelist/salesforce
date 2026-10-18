@@ -4,6 +4,7 @@ generated_by: planning/capability-mapping/scripts/classify_capabilities.py
 model: claude-opus-5
 frame:
 - Banking & Capital Markets
+- Pharmaceuticals & Life Sciences
 - Software & Technology
 min_confidence: 0.7
 capability_model:
@@ -14,6 +15,16 @@ capability_model:
   notice: NOTICE
 edge_count: 32
 edges:
+- tag: Member
+  spec_file: salesforce-member-api-openapi.yml
+  capability_id: BC-420.40
+  capability_id_l1: BC-420
+  capability_name: Loyalty & Retention Management
+  confidence: 0.9
+  evidence: 'GET /data/v64.0/loyalty-programs/{loyaltyProgramName}/members  MemberProfile ... schemas:
+    MemberTier, MemberVouchers, MemberCurrency'
+  reason: '''Member'' means loyalty-programme member: profiles, tiers, point currencies and vouchers.
+    This plainly realises Loyalty & Retention Management.'
 - tag: Quote
   spec_file: salesforce-quote-api-openapi.yml
   capability_id: BC-410.40
@@ -80,6 +91,33 @@ edges:
     schemas: TransactionJournal3, AppliedPromotion, Reward'
   reason: Despite the accounting-sounding tag, the operation posts loyalty-program transaction journals
     with applied promotions and rewards — loyalty programme operation, not general ledger.
+- tag: Contacts
+  spec_file: salesforce-contacts-api-openapi.yml
+  capability_id: BC-420.10
+  capability_id_l1: BC-420
+  capability_name: Customer Data Management
+  confidence: 0.8
+  evidence: GET /contacts/v1/contacts  listContacts  List contacts; DELETE /contacts/v1/contacts  deleteContacts
+  reason: Marketing Cloud contact records are managed (list, get by contact key, delete) — customer master/contact
+    data management. Some ambiguity vs. broader CRM lifecycle.
+- tag: History
+  spec_file: salesforce-history-api-openapi.yml
+  capability_id: BC-420.40
+  capability_id_l1: BC-420
+  capability_name: Loyalty & Retention Management
+  confidence: 0.8
+  evidence: POST /data/v64.0/connect/loyalty/programs/{loyaltyProgramName}/transaction-history  TransactionHistory
+  reason: The single operation records/retrieves loyalty programme transaction history, which realises
+    loyalty programme management rather than any generic 'history' log.
+- tag: Individual
+  spec_file: salesforce-individual-api-openapi.yml
+  capability_id: BC-420.40
+  capability_id_l1: BC-420
+  capability_name: Loyalty & Retention Management
+  confidence: 0.8
+  evidence: POST /data/v64.0/loyalty-programs/{loyaltyProgramName}/individual-member-enrollments
+  reason: Enrols an individual as a member of a loyalty programme; schemas include TransactionJournal
+    and AssociatedContactDetails, grounding loyalty programme enrolment rather than generic person records.
 - tag: Sandbox
   spec_file: salesforce-sandbox-api-openapi.yml
   capability_id: BC-4210.20
@@ -121,6 +159,16 @@ edges:
     a journey entry event
   reason: Marketing Cloud journey (interaction) listing and firing of journey entry events is marketing-automation
     orchestration. Sub-capability could arguably be lifecycle/demand generation, hence not higher confidence.
+- tag: Lenses
+  spec_file: salesforce-lenses-api-openapi.yml
+  capability_id: BC-610.50
+  capability_id_l1: BC-610
+  capability_name: Analytics & BI Management
+  confidence: 0.78
+  evidence: GET /lenses  getLenses  List lenses (explorations) ... REST API for accessing and managing
+    CRM Analytics ... datasets, lenses, dashboards, and dataflows
+  reason: Lenses are CRM Analytics explorations; the surface delivers analytics/BI artefacts, mapping
+    to Analytics & BI Management. Single read-only operation keeps confidence below the top band.
 - tag: Oauth
   spec_file: salesforce-oauth-api-openapi.yml
   capability_id: BC-620.20
@@ -159,16 +207,6 @@ edges:
   reason: The operation runs a loyalty programme process to cancel a member voucher, which is loyalty
     programme operation. Confidence moderated because the endpoint is a generic loyalty program-process
     invoker.
-- tag: Contacts
-  spec_file: salesforce-contacts-api-openapi.yml
-  capability_id: BC-420.10
-  capability_id_l1: BC-420
-  capability_name: Customer Data Management
-  confidence: 0.75
-  evidence: GET /contacts/v1/contacts  listContacts  List contacts; GET /contacts/v1/contacts/{contactKey}  getContact  Get
-    a contact by contact key
-  reason: CRUD over contact records keyed by contactKey with a Contact schema — maintenance of the customer/contact
-    master record.
 - tag: Credential
   spec_file: salesforce-credential-api-openapi.yml
   capability_id: BC-620.20
@@ -199,25 +237,6 @@ edges:
     schemas TransactionJournal3, AppliedPromotion, Reward
   reason: The operation executes loyalty program transaction journals with applied promotions and rewards,
     which is loyalty programme operation, not a generic execution utility.
-- tag: History
-  spec_file: salesforce-history-api-openapi.yml
-  capability_id: BC-420.40
-  capability_id_l1: BC-420
-  capability_name: Loyalty & Retention Management
-  confidence: 0.75
-  evidence: POST /data/v64.0/connect/loyalty/programs/{loyaltyProgramName}/transaction-history  TransactionHistory
-  reason: The single operation posts transaction history against a named loyalty program (schemas TransactionHistory,
-    TransactionHistoryRequest), which is loyalty programme operation, not generic audit history.
-- tag: Individual
-  spec_file: salesforce-individual-api-openapi.yml
-  capability_id: BC-420.40
-  capability_id_l1: BC-420
-  capability_name: Loyalty & Retention Management
-  confidence: 0.75
-  evidence: POST /data/v64.0/loyalty-programs/{loyaltyProgramName}/individual-member-enrollments  IndividualMemberEnrollments
-  reason: Despite the generic tag 'Individual', the operation enrolls individual members into a loyalty
-    program (schema IndividualMemberEnrollmentsRequest, TransactionJournal), i.e. loyalty programme membership
-    management.
 - tag: Predict
   spec_file: salesforce-predict-api-openapi.yml
   capability_id: BC-610.60
@@ -247,16 +266,6 @@ edges:
   reason: The single operation retrieves a loyalty program member's transaction ledger summary, which
     realises loyalty programme administration; schema TransactionJournal2 confirms loyalty ledger context.
     Thin (one endpoint) so confidence moderate.
-- tag: Lenses
-  spec_file: salesforce-lenses-api-openapi.yml
-  capability_id: BC-610.50
-  capability_id_l1: BC-610
-  capability_name: Analytics & BI Management
-  confidence: 0.72
-  evidence: 'GET /lenses getLenses ''List lenses (explorations)''; description: ''accessing and managing
-    CRM Analytics ... datasets, lenses, dashboards, and dataflows'''
-  reason: Lenses are analytic explorations in CRM Analytics; listing/managing them is delivery of business
-    intelligence content, i.e. Analytics & BI Management. Thin surface keeps confidence below 0.8.
 - tag: Credentials
   spec_file: salesforce-credentials-api-openapi.yml
   capability_id: BC-620.20
@@ -278,17 +287,6 @@ edges:
   reason: Asset-management actions to renew, cancel and amend quantity on subscribed assets are in-life
     subscription lifecycle transactions. Left at L1 because the operations span renewal, cancellation
     and modification sub-capabilities equally.
-- tag: Member
-  spec_file: salesforce-member-api-openapi.yml
-  capability_id: BC-420.40
-  capability_id_l1: BC-420
-  capability_name: Loyalty & Retention Management
-  confidence: 0.7
-  evidence: POST /data/v64.0/loyalty-programs/{loyaltyProgramName}/individual-member-enrollments  IndividualMemberEnrollments;
-    GET .../member/{memberId}/memberbenefits  MemberBenefits; MemberTier, MemberVouchers
-  reason: Majority of operations enrol members into loyalty programmes and retrieve member benefits, tiers
-    and vouchers — loyalty programme administration. Confidence tempered because the tag also mixes in
-    unrelated PlatformEventChannelMember technical objects.
 - tag: Messaging
   spec_file: salesforce-messaging-api-openapi.yml
   capability_id: BC-400.60
